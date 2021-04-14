@@ -33,12 +33,17 @@ const Navigation = () => {
   const [reveal, setReaveal] = useState(false)
   const [toggle, setToggle] = useState(false)
   const [animation, setAnimation] = useState(false)
+  const [initial, setInitial] = useState(true)
   const panel = useRef(null)
   detectOuside(panel, reveal, () => {setReaveal(false)})
 
   useEffect(() => {
-    if(!animation){
-      setReaveal(!reveal)
+    if(!initial){
+      if(!animation){
+        setReaveal(!reveal)
+      }
+    }else{
+      setInitial(false)
     }
   },[toggle])
 
