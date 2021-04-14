@@ -22,8 +22,10 @@ module.exports = {
         "TUCMC-gray": {
           100: "#f7fafc",
           400: "#CBD5E0",
+          500: "#A0AEC0",
           600: "#718096",
           700: "#4A5568",
+          800: "#2D3748",
           900: "#1A202C"
         },
         "TUCMC-red": {
@@ -33,7 +35,9 @@ module.exports = {
     }
   },
   variants: {
-    extend: {},
+    extend: {
+      backgroundColor: ['hover']
+    },
   },
   plugins: [
     function ({ addBase, addComponents, theme }) {

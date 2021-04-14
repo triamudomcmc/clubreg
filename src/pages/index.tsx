@@ -1,4 +1,4 @@
-import Navigation from "@components/common/Navigation";
+import Navigation from "@components/common/Navigation"
 import IndexSplash from "@vectors/decorations/IndexSplash";
 import {FilledInfo} from "@vectors/icons/Info";
 import {MenuList1} from "@vectors/decorations/IndexMenu";
@@ -69,11 +69,11 @@ const Index = () => {
                 </div>
                 <img className="w-36" src="/assets/images/menu2.png"/>
               </div>
-              <div className="flex flex-row items-center justify-between shadow-lg bg-white rounded-xl px-9 py-5">
+              <div className="flex flex-row items-center justify-between shadow-lg bg-white rounded-xl px-9 pb-4 pt-2">
                 <div>
                   <h1 className="text-TUCMC-pink-400 font-bold tracking-tighter text-5xl">ชมรม</h1>
                 </div>
-                <img className="w-28" src="/assets/images/menu3.png"/>
+                <img className="w-32" src="/assets/images/menu3.png"/>
               </div>
               <div className="flex flex-row items-center justify-between shadow-lg bg-white rounded-xl px-9 py-5">
                 <div>

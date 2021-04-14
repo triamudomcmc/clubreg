@@ -4,16 +4,16 @@ const Path = (props) => (
   <motion.path
     strokeLinecap="round"
     strokeLinejoin="round"
-    strokeWidth={2}
+    strokeWidth={2.5}
     {...props}
   />
 );
 
-const Toggle = ({toggle}) => {
+const NavButton = ({toggle}) => {
 
   return (
     <a className="cursor-pointer" onClick={toggle}>
-      <svg xmlns="http://www.w3.org/2000/svg" className="pt-1 h-6 w-6" fill="none" viewBox="0 0 24 24"
+      <svg xmlns="http://www.w3.org/2000/svg" className="pt-1 h-8 w-8 text-white" fill="none" viewBox="0 0 24 24"
            stroke="currentColor">
         <Path
           variants={{
@@ -40,4 +40,4 @@ const Toggle = ({toggle}) => {
   )
 }
 
-export default Toggle
+export default NavButton

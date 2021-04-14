@@ -30,7 +30,7 @@ const FAQ = ({children, title}) => {
       }
     }),
     closed: {
-      y:-110,
+      y:-155,
       clipPath: "inset(100% -3% -8% -3%)",
       transition: {
         type: "spring",
@@ -45,13 +45,13 @@ const FAQ = ({children, title}) => {
       <div className="relative bg-white shadow-md rounded-lg px-6 py-6 z-20">
         <motion.div animate={reveal ? "open" : "closed"} className="flex flex-row justify-between">
           <span className="pr-4">{title}</span>
-          <Toggle state={reveal} toggle={() => {
+          <Toggle toggle={() => {
             setReveal(!reveal)
           }}/>
         </motion.div>
       </div>
       {display && <motion.div
-          initial={{y: -110,clipPath: "inset(100% -3% -8% -3%)"}}
+          initial={{y: -155,clipPath: "inset(100% -3% -8% -3%)"}}
           className="relative bg-white shadow-md px-6 rounded-b-lg pb-5 z-0"
           animate={reveal ? "open" : "closed"}
           variants={sidebar}
