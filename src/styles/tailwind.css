@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+    .rounded-t-5xl {
+        border-top-left-radius: 2rem;
+        border-top-right-radius: 2rem;
+    }
+    .rounded-5xl {
+        border-radius: 2rem;
+    }
+    .py-3_5 {
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+}
+}
