@@ -20,7 +20,7 @@ const Index = () => {
       <div className="h-full bg-TUCMC-pink-400">
         <div className="flex justify-center">
           <div
-            className="flex flex-col items-center md:flex-row-reverse md:justify-between md:w-full md:max-w-6xl md:py-0 lg:py-14 mx-8 px-8 xl:px-0">
+            className="flex flex-col items-center md:flex-row-reverse md:justify-between md:w-full md:max-w-6xl md:py-0 lg:py-20 mx-8 px-8 xl:px-0">
             <IndexSplash className="mt-10 md:square-450px md:ml-12 md:mt-0 md:max-w-sm lg:max-w-none md:h-420px"/>
             <div
               className="flex flex-col my-8 py-0 md:py-5 lg:py-0 items-center md:items-start md:justify-between md:h-full md:max-h-96">
