@@ -17,10 +17,10 @@ const Footer = () => {
         </div>
         <div className="md:flex md:justify-center md:w-full">
           <div
-            className="flex flex-col items-center space-y-8 md:flex-row-reverse md:justify-between md:space-y-0 md:w-full md:max-w-7xl md:px-6">
-            <div className="flex flex-row space-x-6">
-              <SocialFacebook/>
-              <SocialInstagram/>
+            className="flex flex-col items-center space-y-8 md:flex-row-reverse md:justify-between md:space-y-0 md:w-full md:max-w-6xl md:px-6">
+            <div className="flex flex-row space-x-6 md:space-x-3">
+              <SocialFacebook className="w-10 h-10 md:w-6 md:h-6"/>
+              <SocialInstagram className="w-10 h-10 md:w-6 md:h-6"/>
             </div>
             <div className="hidden md:flex flex-row whitespace-nowrap text-white font-medium space-x-10">
               <a>หน้าแรก</a>

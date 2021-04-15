@@ -16,8 +16,11 @@
     }
     @variants responsive {
         .square-450px {
-            width: 450px;
-            height: 450px;
+            width: 480px;
+            height: 480px;
+        }
+        .h-420px {
+            height: 430px;
         }
         .square-400px {
             width: 350px;

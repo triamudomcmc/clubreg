@@ -70,7 +70,7 @@ const Navigation = () => {
     <>
       <motion.div animate={reveal ? "open" : "closed"}
                   className="sticky z-50 top-0 flex flex-row items-center justify-center bg-TUCMC-gray-900 h-16 px-6">
-        <div className="flex flex-row justify-between items-center w-full max-w-7xl">
+        <div className="flex flex-row justify-between items-center w-full max-w-6xl">
           <WhiteLogo/>
           <div className="flex flex-row">
             <div className="flex-row space-x-10 whitespace-nowrap font-medium hidden md:flex">
