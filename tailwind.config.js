@@ -30,6 +30,9 @@ module.exports = {
         },
         "TUCMC-red": {
           400: "#FC8181"
+        },
+        "TUCMC-blue": {
+          400: "#63B3ED"
         }
       },
     }

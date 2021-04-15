@@ -1,7 +1,7 @@
 import React from "react";
 import {Line} from "@components/index/timeline/Line";
 
-const TimelineTag = ({children, title = "", subTitle = "", date, time = "", last = false}) => {
+const TimelineTag = ({children, title = "", subTitle = "", date, time = "", last = false, color = "bg-TUCMC-red-400", padding = ""}) => {
   const description = React.Children.map(children, child =>
     child.type.displayName === 'Desc' ? child : null
   )
@@ -17,13 +17,13 @@ const TimelineTag = ({children, title = "", subTitle = "", date, time = "", last
   }
 
   return (
-    <div className="flex flex-row space-x-4">
+    <div className={"flex flex-row space-x-4 " + padding}>
       <div className="flex-shrink-0">
         <div className="flex flex-col items-center bg-white mt-2 pt-3">
           <p className="text-sm leading-4">{date}</p>
           <p className="text-xs">{time}</p>
         </div>
-        {!last && <Line length="h-full"/>}
+        {!last && <Line length="h-full" color={color}/>}
       </div>
       <div className={cname}>
         {title !== "" && <h1 className="font-bold tracking-tight pt-4">{title}</h1>}
