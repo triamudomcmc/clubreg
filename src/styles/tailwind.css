@@ -7,6 +7,18 @@
         border-top-left-radius: 2rem;
         border-top-right-radius: 2rem;
     }
+    .border-3\/2 {
+        border-width: 1.5px;
+    }
+    .border-t-3\/2 {
+        border-top-width: 1.5px;
+    }
+    .border-l-3\/2 {
+        border-left-width: 1.5px;
+    }
+    .border-r-3\/2 {
+        border-right-width: 1.5px;
+    }
     .rounded-5xl {
         border-radius: 2rem;
     }

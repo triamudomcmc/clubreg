@@ -12,11 +12,11 @@ import FAQ from "@components/index/FAQ";
 import React from "react";
 import IndexBottom from "@vectors/decorations/IndexBottom";
 import Footer from "@components/common/Footer";
+import PageContainer from "@components/common/PageContainer";
 
 const Index = () => {
   return (
-    <div className="font-display">
-      <Navigation/>
+    <PageContainer>
       <div className="h-full bg-TUCMC-pink-400">
         <div className="flex justify-center">
           <div
@@ -324,8 +324,7 @@ const Index = () => {
           </div>
         </div>
       </div>
-      <Footer/>
-    </div>
+    </PageContainer>
   )
 }
 

@@ -11,6 +11,7 @@ import {Chat} from "@vectors/icons/Chat";
 import {DocumentText} from "@vectors/icons/Document";
 import {Key} from "@vectors/icons/Key";
 import {Login} from "@vectors/icons/Auth";
+import Link from 'next/link'
 
 const detectOuside = (ref, dep, callback) => {
   useEffect(() => {
@@ -74,7 +75,9 @@ const Navigation = () => {
           <WhiteLogo/>
           <div className="flex flex-row">
             <div className="flex-row space-x-10 whitespace-nowrap font-medium hidden md:flex">
-              <h1 className="text-white">หน้าแรก</h1>
+              <Link href="/">
+                <h1 className="cursor-pointer text-white">หน้าแรก</h1>
+              </Link>
               <h1 className="text-white">วิธีใช้</h1>
               <h1 className="text-white">ชมรม</h1>
               <h1 className="text-white">FAQ</h1>
@@ -102,15 +105,19 @@ const Navigation = () => {
           <h1 className="text-TUCMC-gray-900">นายพีรดนย์ สาเงิน</h1>
           <h1 className="text-TUCMC-gray-700 tracking-tight">59574 | ม.5/913</h1>
         </div>
-        <div
-          className="flex flex-row border-l-2 bg-TUCMC-pink-100 text-pink-400 items-center border-TUCMC-pink-400 space-x-4 pl-4 py-3 pr-8">
-          <House className="w-7 h-7"/> <span>หน้าแรก</span>
-        </div>
-        <div
-          className="flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8 hover:bg-TUCMC-gray-100 cursor-pointer">
-          <SortDecending className="text-TUCMC-gray-500 w-7 h-7"/> <span
-          className="text-TUCMC-gray-800">ลงทะเบียนชมรม</span>
-        </div>
+        <Link href="/auth">
+          <div
+            className="flex flex-row border-l-2 bg-TUCMC-pink-100 text-pink-400 items-center border-TUCMC-pink-400 space-x-4 pl-4 py-3 pr-8">
+            <House className="w-7 h-7"/> <span>หน้าแรก</span>
+          </div>
+        </Link>
+        <Link href="/auth">
+          <div
+            className="flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8 hover:bg-TUCMC-gray-100 cursor-pointer">
+            <Login className="text-TUCMC-gray-500 w-7 h-7"/> <span
+            className="text-TUCMC-gray-800">เข้าสู่ระบบ</span>
+          </div>
+        </Link>
         <div
           className="flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8 hover:bg-TUCMC-gray-100 cursor-pointer">
           <ListClipboard className="text-TUCMC-gray-500 w-7 h-7"/> <span
@@ -139,11 +146,6 @@ const Navigation = () => {
           className="flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8 hover:bg-TUCMC-gray-100 cursor-pointer">
           <Key className="text-TUCMC-gray-500 w-7 h-7"/> <span
           className="text-TUCMC-gray-800">นโยบายความเป็นส่วนตัว</span>
-        </div>
-        <div
-          className="flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8 hover:bg-TUCMC-gray-100 cursor-pointer">
-          <Login className="text-TUCMC-gray-500 w-7 h-7"/> <span
-          className="text-TUCMC-gray-800">เข้าสู่ระบบ</span>
         </div>
       </motion.div>
     </>
