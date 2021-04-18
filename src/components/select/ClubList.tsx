@@ -1,10 +1,11 @@
 import {ClipboardCopyIcon, StarIcon} from "@heroicons/react/solid";
+import {Dispatch, SetStateAction} from "react";
 
 interface props {
   title: string,
   audition?: boolean,
   state?: "full" | "open",
-  action: (value: {open: boolean, data: {}}) => {}
+  action: Dispatch<SetStateAction<{ open: boolean, data: {} }>>
 }
 
 const ClubList = ({title, audition = false, state = "open", action}: props) => {
