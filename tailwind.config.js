@@ -33,6 +33,8 @@ module.exports = {
         },
         "TUCMC-blue": {
           400: "#63B3ED"
+        },"TUCMC-green": {
+          400: "#68D391"
         }
       },
     }
@@ -154,6 +156,7 @@ module.exports = {
           },
         },
       ])
-    }
+    },
+    require('@tailwindcss/forms')
   ],
 }

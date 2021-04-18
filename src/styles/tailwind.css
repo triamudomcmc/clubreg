@@ -26,10 +26,17 @@
     padding-top: 0.85rem;
     padding-bottom: 0.85rem;
     }
+    .custom-shadow {
+        box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1), 0px 4px 6px rgba(0, 0, 0, 0.05);
+    }
     @variants responsive {
         .square-450px {
             width: 480px;
             height: 480px;
+        }
+        .s-19x14rem {
+            width: 19rem;
+            height: 14rem;
         }
         .h-420px {
             height: 430px;

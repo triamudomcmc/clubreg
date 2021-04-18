@@ -1,2 +1,2 @@
-Club Registration System UI
+ClubList Registration System UI
 by TUCMC team ♥
