@@ -4,6 +4,10 @@ module.exports = {
   purge: [],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    screens: {
+      "minClubs": "387px",
+      "minClubs2": "366px"
+    },
     fontFamily: {
       sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       display: [
