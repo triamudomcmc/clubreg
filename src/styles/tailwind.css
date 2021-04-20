@@ -31,13 +31,10 @@
     }
     @variants responsive {
         .w-175px{
-            width: 175px !important;
+            width: 175px;
         }
         .w-185px{
-            width: 185px !important;
-        }
-        .w-fullI{
-            width: 100% !important;
+            width: 185px;
         }
         .square-450px {
             width: 480px;

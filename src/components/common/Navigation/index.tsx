@@ -56,14 +56,18 @@ const Navigation = () => {
       <motion.div animate={reveal ? "open" : "closed"}
                   className="sticky z-50 top-0 flex flex-row items-center justify-center bg-TUCMC-gray-900 h-16 px-6">
         <div className="flex flex-row justify-between items-center w-full max-w-6xl">
-          <WhiteLogo/>
+          <Link href="/">
+            <WhiteLogo/>
+          </Link>
           <div className="flex flex-row">
             <div className="flex-row space-x-10 whitespace-nowrap font-medium hidden md:flex">
               <Link href="/">
                 <h1 className="cursor-pointer text-white">หน้าแรก</h1>
               </Link>
               <h1 className="text-white">วิธีใช้</h1>
-              <h1 className="text-white">ชมรม</h1>
+              <Link href="/clubs">
+                <h1 className="text-white">ชมรม</h1>
+              </Link>
               <h1 className="text-white">FAQ</h1>
               <h1 className="text-white">กช.</h1>
               <h1 className="text-white">ติดต่อ</h1>
@@ -83,13 +87,15 @@ const Navigation = () => {
       }} ref={panel} initial={{x: "-100%"}} animate={reveal ? "open" : "close"} variants={variants}
                   className="fixed top-0 bg-white h-full z-50">
         <div className="bg-TUCMC-gray-800 p-4">
-          <WhiteLogo/>
+          <Link href="/">
+            <WhiteLogo/>
+          </Link>
         </div>
         <div className="bg-TUCMC-gray-100 my-4 px-6 py-2">
           <h1 className="text-TUCMC-gray-900">นายพีรดนย์ สาเงิน</h1>
           <h1 className="text-TUCMC-gray-700 tracking-tight">59574 | ม.5/913</h1>
         </div>
-        <Link href="/auth">
+        <Link href="/">
           <div
             className="flex flex-row border-l-2 bg-TUCMC-pink-100 text-pink-400 items-center border-TUCMC-pink-400 space-x-4 pl-4 py-3 pr-8">
             <House className="w-7 h-7"/> <span>หน้าแรก</span>
@@ -102,11 +108,13 @@ const Navigation = () => {
             className="text-TUCMC-gray-800">เข้าสู่ระบบ</span>
           </div>
         </Link>
-        <div
-          className="flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8 hover:bg-TUCMC-gray-100 cursor-pointer">
-          <ListClipboard className="text-TUCMC-gray-500 w-7 h-7"/> <span
-          className="text-TUCMC-gray-800">รายชื่อชมรม</span>
-        </div>
+        <Link href="/clubs">
+          <div
+            className="flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8 hover:bg-TUCMC-gray-100 cursor-pointer">
+            <ListClipboard className="text-TUCMC-gray-500 w-7 h-7"/> <span
+            className="text-TUCMC-gray-800">รายชื่อชมรม</span>
+          </div>
+        </Link>
         <div
           className="flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8 hover:bg-TUCMC-gray-100 cursor-pointer">
           <Calendar className="text-TUCMC-gray-500 w-7 h-7"/> <span

@@ -1,5 +1,6 @@
 import {SocialFacebook, SocialInstagram} from "@vectors/icons/Socials";
 import {WhiteLogo} from "@vectors/Logo";
+import Link from "next/link"
 
 const Footer = () => {
   return (
@@ -7,9 +8,15 @@ const Footer = () => {
       <div
         className="flex flex-col items-center space-y-24 justify-center bg-TUCMC-gray-900 py-14 md:space-y-0 md:py-8">
         <div className="md:hidden flex flex-col items-center text-white text-xl space-y-4">
-          <a>หน้าแรก</a>
-          <a>ลงทะเบียนชมรม</a>
-          <a>ชมรม</a>
+          <Link href="/">
+            <a>หน้าแรก</a>
+          </Link>
+          <Link href="/auth">
+            <a>ลงทะเบียนชมรม</a>
+          </Link>
+          <Link href="/clubs">
+            <a>ชมรม</a>
+          </Link>
           <a>วิธีลงทะเบียน</a>
           <a>คำถามที่พบบ่อย</a>
           <a>ข้อตกลงและเงื่อนไขการใช้งาน</a>
@@ -22,10 +29,15 @@ const Footer = () => {
               <SocialFacebook className="w-10 h-10 md:w-6 md:h-6"/>
               <SocialInstagram className="w-10 h-10 md:w-6 md:h-6"/>
             </div>
-            <div className="hidden md:flex flex-row whitespace-nowrap text-white font-medium space-x-10">
-              <a>หน้าแรก</a>
+            <div
+              className="hidden md:flex flex-row whitespace-nowrap text-white font-medium space-x-10">
+              <Link href="/">
+                <a>หน้าแรก</a>
+              </Link>
               <a>วิธีใช้</a>
-              <a>ชมรม</a>
+              <Link href="/clubs">
+                <a>ชมรม</a>
+              </Link>
               <a>FAQ</a>
               <a>กช.</a>
               <a>ติดต่อ</a>
@@ -34,7 +46,8 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="bg-black hidden md:flex flex-row justify-center text-xs text-white space-x-2 py-5">
+      <div
+        className="bg-black hidden md:flex flex-row justify-center text-xs text-white space-x-2 py-5">
         <a>ข้อตกลงและเงื่อนไขการใช้งาน</a>
         <span>|</span>
         <a>นโยบายความปลอดภัย</a>

@@ -14,9 +14,6 @@ const Modal = ({children, className, TriggerRef, CloseID = ""}) => {
 
   useEffect(() => {
     TriggerRef.current && TriggerRef.current.addEventListener("mousedown", trigger)
-    return () => {
-      TriggerRef.current.removeEventListener("mousedown", trigger);
-    };
   }, [TriggerRef])
 
   const close = () => {
@@ -27,9 +24,6 @@ const Modal = ({children, className, TriggerRef, CloseID = ""}) => {
   useEffect(() => {
     if(CloseID !== ""){
       document.getElementById(CloseID).addEventListener("mousedown", close)
-      return () => {
-        document.getElementById(CloseID).removeEventListener("mousedown", close)
-      };
     }
   }, [])
 

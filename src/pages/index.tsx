@@ -13,6 +13,7 @@ import React from "react";
 import IndexBottom from "@vectors/decorations/IndexBottom";
 import Footer from "@components/common/Footer";
 import PageContainer from "@components/common/PageContainer";
+import Link from "next/link"
 
 const Index = () => {
   return (
@@ -312,12 +313,16 @@ const Index = () => {
                   <h1 className="font-bold tracking-tight text-7xl md:tracking-normal md:text-8xl">ชมรม</h1>
                   <h1 className="font-medium text-2xl md:text-4xl md:ml-1">กว่า 80+ ชมรม</h1>
                   <div className="hidden md:block mt-10 shadow-md text-black font-medium ml-21shadow-lg bg-white rounded-5xl px-11 py-4">
-                    <span className="text-2xl">ดูทั้งหมด</span>
+                    <Link href="/clubs">
+                      <span className="cursor-pointer text-2xl">ดูทั้งหมด</span>
+                    </Link>
                   </div>
                 </div>
                 <IndexBottom className="w-80 md:square-400px mb-16 mt-4"/>
                 <div className="md:hidden relative -bottom-6 shadow-lg bg-white rounded-5xl px-10 py-3_5">
-                  <span className="text-2xl">ดูทั้งหมด</span>
+                  <Link href="/clubs">
+                    <span className="cursor-pointer text-2xl">ดูทั้งหมด</span>
+                  </Link>
                 </div>
               </div>
             </div>
