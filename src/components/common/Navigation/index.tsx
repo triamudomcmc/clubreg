@@ -12,23 +12,7 @@ import {DocumentText} from "@vectors/icons/Document";
 import {Key} from "@vectors/icons/Key";
 import {Login} from "@vectors/icons/Auth";
 import Link from 'next/link'
-
-const detectOuside = (ref, dep, callback) => {
-  useEffect(() => {
-
-    function handleClickOutside(event) {
-      if (ref.current && !ref.current.contains(event.target) && dep) {
-        callback()
-      }
-    }
-
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [ref, dep]);
-}
+import {detectOuside} from "@utilities/document";
 
 const Navigation = () => {
   const [reveal, setReaveal] = useState(false)

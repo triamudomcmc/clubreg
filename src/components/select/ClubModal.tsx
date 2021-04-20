@@ -23,7 +23,7 @@ const ClubModal = ({state, closeAction}) => {
 
   return (
     <div className={classnames("flex flex-col items-center justify-center fixed top-0 z-50 w-full py-10 px-6 min-h-screen max-h-screen", hidden && "hidden")}>
-      <motion.div onAnimationComplete={() => {!state.open && setHidden(true)}} animate={state.open ? "show" : "hide"} variants={variants} ref={ref} className="flex flex-col w-full rounded-xl overflow-y-auto shadow-md">
+      <motion.div onAnimationComplete={() => {!state.open && setHidden(true)}} animate={state.open ? "show" : "hide"} variants={variants} ref={ref} className="flex flex-col w-full max-w-md rounded-xl overflow-y-auto shadow-md">
         <div>
           <div className="flex justify-center text-sm font-medium rounded-t-lg bg-TUCMC-green-400 text-white py-4">
             <span>มีที่นั่งว่าง</span>
