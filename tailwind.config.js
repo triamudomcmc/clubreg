@@ -4,10 +4,6 @@ module.exports = {
   purge: [],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    screens: {
-      "minClubs": "387px",
-      "minClubs2": "366px"
-    },
     fontFamily: {
       sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       display: [
@@ -17,6 +13,10 @@ module.exports = {
       ],
     },
     extend: {
+      screens: {
+        "minClubs": "387px",
+        "minClubs2": "366px"
+      },
       colors: {
         "TUCMC-pink": {
           100: "#FFF5F7",
