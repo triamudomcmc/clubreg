@@ -13,6 +13,8 @@ import {Key} from "@vectors/icons/Key";
 import {Login} from "@vectors/icons/Auth";
 import Link from 'next/link'
 import {detectOuside} from "@utilities/document";
+import Router from "next/router";
+import classnames from "classnames"
 
 const Navigation = () => {
   const [reveal, setReaveal] = useState(false)
@@ -20,6 +22,7 @@ const Navigation = () => {
   const [animation, setAnimation] = useState(false)
   const [initial, setInitial] = useState(true)
   const panel = useRef(null)
+  const [path, setPath] = useState("/")
   detectOuside(panel, reveal, () => {
     setReaveal(false)
   })
@@ -33,6 +36,10 @@ const Navigation = () => {
       setInitial(false)
     }
   }, [toggle])
+
+  useEffect(() => {
+    setPath(Router.pathname)
+  },[])
 
   const variants = {
     open: {
@@ -51,13 +58,38 @@ const Navigation = () => {
       }
     }
   }
+
+  const getClass = (expected: string, part: "font" | "icon" | "bg") => {
+    if(path == expected){
+      switch (part) {
+        case "bg":
+          return "bg-TUCMC-pink-100 border-TUCMC-pink-400 text-pink-400"
+        case "font":
+          return ""
+        case "icon":
+          return ""
+      }
+    }else{
+      switch (part) {
+        case "bg":
+          return "hover:bg-TUCMC-gray-100 cursor-pointer"
+        case "font":
+          return "text-TUCMC-gray-800"
+        case "icon":
+          return "text-TUCMC-gray-500"
+      }
+    }
+  }
+
   return (
     <>
       <motion.div animate={reveal ? "open" : "closed"}
                   className="sticky z-50 top-0 flex flex-row items-center justify-center bg-TUCMC-gray-900 h-16 px-6">
         <div className="flex flex-row justify-between items-center w-full max-w-6xl">
           <Link href="/">
-            <WhiteLogo/>
+            <div>
+              <WhiteLogo/>
+            </div>
           </Link>
           <div className="flex flex-row">
             <div className="flex-row space-x-10 whitespace-nowrap font-medium hidden md:flex">
@@ -88,7 +120,9 @@ const Navigation = () => {
                   className="fixed top-0 bg-white h-full z-50">
         <div className="bg-TUCMC-gray-800 p-4">
           <Link href="/">
-            <WhiteLogo/>
+            <div>
+              <WhiteLogo/>
+            </div>
           </Link>
         </div>
         <div className="bg-TUCMC-gray-100 my-4 px-6 py-2">
@@ -97,47 +131,48 @@ const Navigation = () => {
         </div>
         <Link href="/">
           <div
-            className="flex flex-row border-l-2 bg-TUCMC-pink-100 text-pink-400 items-center border-TUCMC-pink-400 space-x-4 pl-4 py-3 pr-8">
-            <House className="w-7 h-7"/> <span>หน้าแรก</span>
+            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/","bg"))}>
+            <House className={classnames("w-7 h-7", getClass("/","icon"))}/> <span
+            className={getClass("/","font")}>หน้าแรก</span>
           </div>
         </Link>
         <Link href="/auth">
           <div
-            className="flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8 hover:bg-TUCMC-gray-100 cursor-pointer">
-            <Login className="text-TUCMC-gray-500 w-7 h-7"/> <span
-            className="text-TUCMC-gray-800">เข้าสู่ระบบ</span>
+            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/auth","bg"))}>
+            <Login className={classnames("w-7 h-7", getClass("/auth","icon"))}/> <span
+            className={getClass("/auth","font")}>เข้าสู่ระบบ</span>
           </div>
         </Link>
         <Link href="/clubs">
           <div
-            className="flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8 hover:bg-TUCMC-gray-100 cursor-pointer">
-            <ListClipboard className="text-TUCMC-gray-500 w-7 h-7"/> <span
-            className="text-TUCMC-gray-800">รายชื่อชมรม</span>
+            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/clubs","bg"))}>
+            <ListClipboard className={classnames("w-7 h-7", getClass("/clubs","icon"))}/> <span
+            className={getClass("/clubs","font")}>รายชื่อชมรม</span>
           </div>
         </Link>
         <div
-          className="flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8 hover:bg-TUCMC-gray-100 cursor-pointer">
-          <Calendar className="text-TUCMC-gray-500 w-7 h-7"/> <span
-          className="text-TUCMC-gray-800">วิธีลงทะเบียน</span>
+          className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/info","bg"))}>
+          <Calendar className={classnames("w-7 h-7", getClass("/info","icon"))}/> <span
+          className={getClass("/info","font")}>วิธีลงทะเบียน</span>
         </div>
         <div
-          className="flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8 hover:bg-TUCMC-gray-100 cursor-pointer">
-          <Chat className="text-TUCMC-gray-500 w-7 h-7"/> <span
-          className="text-TUCMC-gray-800">คำถามที่พบบ่อย</span>
+          className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/FAQ","bg"))}>
+          <Chat className={classnames("w-7 h-7", getClass("/FAQ","icon"))}/> <span
+          className={getClass("/FAQ","font")}>คำถามที่พบบ่อย</span>
         </div>
         <div
-          className="flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8 hover:bg-TUCMC-gray-100 cursor-pointer">
-          <LogoIcon className="text-TUCMC-gray-500 w-7 h-7"/> <span className="text-TUCMC-gray-800">ทำความรู้จัก กช.</span>
+          className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/TUCMC","bg"))}>
+          <LogoIcon className={classnames("w-7 h-7", getClass("/TUCMC","icon"))}/> <span className={getClass("/TUCMC","font")}>ทำความรู้จัก กช.</span>
         </div>
         <div
-          className="flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8 hover:bg-TUCMC-gray-100 cursor-pointer">
-          <DocumentText className="text-TUCMC-gray-500 w-7 h-7"/> <span
-          className="text-TUCMC-gray-800">ข้อตกลงและเงื่อนไขการใช้งาน</span>
+          className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/tos","bg"))}>
+          <DocumentText className={classnames("w-7 h-7", getClass("/tos","icon"))}/> <span
+          className={getClass("/tos","font")}>ข้อตกลงและเงื่อนไขการใช้งาน</span>
         </div>
         <div
-          className="flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8 hover:bg-TUCMC-gray-100 cursor-pointer">
-          <Key className="text-TUCMC-gray-500 w-7 h-7"/> <span
-          className="text-TUCMC-gray-800">นโยบายความเป็นส่วนตัว</span>
+          className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/policy","bg"))}>
+          <Key className={classnames("w-7 h-7", getClass("/policy","icon"))}/> <span
+          className={getClass("/policy","font")}>นโยบายความเป็นส่วนตัว</span>
         </div>
       </motion.div>
     </>

@@ -93,7 +93,7 @@ const Index = () => {
                 className="mx-6 space-y-8 md:w-full md:max-w-6xl md:flex md:flex-col xl:flex-row xl:items-center xl:space-y-0 xl:space-x-4 md:items-center">
                 <div className="md:flex md:flex-row md:space-x-4 space-y-8 md:space-y-0">
                   <div
-                    className="flex flex-row items-end justify-between shadow-lg bg-white bg-TUCMC-pink-400 md:bg-white rounded-xl md:rounded-lg px-7 pt-4 pb-6">
+                    className="flex flex-row items-end justify-between shadow-lg bg-TUCMC-pink-400 md:bg-white rounded-xl md:rounded-lg px-7 pt-4 pb-6">
                     <div className="md:hidden">
                       <h1
                         className="text-white font-bold tracking-tighter leading-10 text-6xl">กช.</h1>

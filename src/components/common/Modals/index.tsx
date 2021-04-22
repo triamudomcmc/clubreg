@@ -17,7 +17,6 @@ const Modal = ({children, className, TriggerRef, CloseID = ""}) => {
   }, [TriggerRef])
 
   const close = () => {
-    console.log("cllose")
     setModalState({comm: false, hide: false})
   }
 

@@ -1,7 +1,10 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
-  purge: [],
+  mode: 'jit',
+  purge: [
+    './src/**/*.{js,jsx,ts,tsx,vue}'
+  ],
   darkMode: false, // or 'media' or 'class'
   theme: {
     fontFamily: {
@@ -39,6 +42,8 @@ module.exports = {
           400: "#63B3ED"
         },"TUCMC-green": {
           400: "#68D391"
+        },"TUCMC-orange": {
+          400: "#F6AD55"
         }
       },
     }

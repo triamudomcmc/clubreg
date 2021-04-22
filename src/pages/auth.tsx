@@ -47,15 +47,15 @@ const Auth = ({query}) => {
           <div className="px-6 w-full space-y-7 mt-10">
             <div className="flex flex-col w-full">
               <input
-                className="border-t-3/2 border-l-3/2 border-r-3/2 border-gray-300 rounded-t-md px-4 py-2 placeholder-gray-500 text-lg"
+                className="border-t appearance-none webkit-rounded-t-md border-l border-r border-gray-300 px-4 py-2 placeholder-gray-500 text-lg"
                 placeholder="เลขประจำตัวนักเรียน"/>
               <input
-                className="border-3/2 border-gray-300 rounded-b-md px-4 py-2 placeholder-gray-500 text-lg"
+                className="border appearance-none border-gray-300 webkit-rounded-b-md px-4 py-2 placeholder-gray-500 text-lg"
                 placeholder="รหัสผ่าน"/>
             </div>
             <div className="flex flex-row justify-between w-full">
               <div className="flex flex-row">
-                <input className="w-6 h-6 border border-gray-200 ring-0 mr-2" type="checkbox"/>
+                <input className="w-5 h-5 border rounded-md border-gray-200 ring-0 mr-2" type="checkbox"/>
                 <span className="whitespace-nowrap">จดจำฉันไว้ในระบบ</span>
               </div>
               <span className="text-TUCMC-pink-400">
@@ -85,17 +85,17 @@ const Auth = ({query}) => {
                 <div>
                     <span className="text-gray-700 tracking-tight">ชื่อ</span>
                     <input
-                        className="border shadow-sm border-gray-300 rounded-md px-4 py-2 placeholder-gray-500 text-lg w-full"/>
+                        className="appearance-none border shadow-sm border-gray-300 rounded-md px-4 py-2 placeholder-gray-500 text-lg w-full"/>
                 </div>
                 <div>
                     <span className="text-gray-700 tracking-tight">นามสกุล (หากมีชื่อกลาง ให้กรอกในช่องนี้)</span>
                     <input
-                        className="border shadow-sm border-gray-300 rounded-md px-4 py-2 placeholder-gray-500 text-lg w-full"/>
+                        className="appearance-none border shadow-sm border-gray-300 rounded-md px-4 py-2 placeholder-gray-500 text-lg w-full"/>
                 </div>
                 <div className="w-full">
                     <span className="text-gray-700 tracking-tight">เลขประจำตัวนักเรียน</span>
                     <input
-                        className="border shadow-sm border-gray-300 rounded-md px-4 py-2 placeholder-gray-500 text-lg w-full"/>
+                        className="appearance-none border shadow-sm border-gray-300 rounded-md px-4 py-2 placeholder-gray-500 text-lg w-full"/>
                 </div>
                 <div className="w-full">
                     <Listbox value={selected} onChange={setSelected}>
@@ -160,37 +160,37 @@ const Auth = ({query}) => {
                     </Listbox>
                 </div>
                 <div>
-                    <span className="text-gray-700 tracking-tight">ห้งอเรียน</span>
+                    <span className="text-gray-700 tracking-tight">ห้องเรียน</span>
                     <input
-                        className="border shadow-sm border-gray-300 rounded-md px-4 py-2 placeholder-gray-500 text-lg w-full"/>
+                        className="appearance-none border shadow-sm border-gray-300 rounded-md px-4 py-2 placeholder-gray-500 text-lg w-full"/>
                 </div>
                 <div>
                     <span className="text-gray-700 tracking-tight">เลขที่</span>
                     <input
-                        className="border shadow-sm border-gray-300 rounded-md px-4 py-2 placeholder-gray-500 text-lg w-full"/>
+                        className="appearance-none border shadow-sm border-gray-300 rounded-md px-4 py-2 placeholder-gray-500 text-lg w-full"/>
                 </div>
                 <div className="w-full">
                     <span className="text-gray-700 tracking-tight">Email</span>
                     <input
-                        className="border shadow-sm border-gray-300 rounded-md px-4 py-2 placeholder-gray-500 text-lg w-full"/>
+                        className="appearance-none border shadow-sm border-gray-300 rounded-md px-4 py-2 placeholder-gray-500 text-lg w-full"/>
                 </div>
                 <div>
                     <span className="text-gray-700 tracking-tight">เบอร์โทรศัพท์</span>
                     <input
                         type="number"
-                        className="border shadow-sm border-gray-300 rounded-md px-4 py-2 placeholder-gray-500 text-lg w-full"/>
+                        className="appearance-none border shadow-sm border-gray-300 rounded-md px-4 py-2 placeholder-gray-500 text-lg w-full"/>
                 </div>
                 <div>
                     <span className="text-gray-700 tracking-tight">รหัสผ่าน</span>
                     <input
                         type="password"
-                        className="border shadow-sm border-gray-300 rounded-md px-4 py-2 placeholder-gray-500 text-lg w-full"/>
+                        className="appearance-none border shadow-sm border-gray-300 rounded-md px-4 py-2 placeholder-gray-500 text-lg w-full"/>
                 </div>
                 <div className="w-full">
                     <span className="text-gray-700 tracking-tight">ยืนยันรหัสผ่าน</span>
                     <input
                         type="password"
-                        className="border shadow-sm border-gray-300 rounded-md px-4 py-2 placeholder-gray-500 text-lg w-full"/>
+                        className="appearance-none border shadow-sm border-gray-300 rounded-md px-4 py-2 placeholder-gray-500 text-lg w-full"/>
                 </div>
                 <div className="flex justify-end w-full">
                     <div className="cursor-pointer shadow-md bg-TUCMC-pink-400 text-white tracking-tight rounded-md px-5 py-3">
