@@ -34,7 +34,7 @@ const Auth = ({query}) => {
 
   return (
     <PageContainer footer={false}>
-      <div style={{maxWidth: "26rem"}} className="mx-6 my-6 mb-16 md:my-10 md:mb-10 space-y-8 mx-auto min-h-screen">
+      <div style={{maxWidth: "26rem"}} className="mx-6 my-6 mb-16 md:my-10 md:mb-10 space-y-8 md:mx-auto min-h-screen">
         <DefaultCard>
           <p className="font-normal">นักเรียน ม.5 และ ม.6 จะไม่สามารถล็อกอินเข้าสู่ระบบด้วยบัญชีเดิมในปีการศึกษาที่ผ่านมาได้ ต้องยืนยันตัวตนและสร้างบัญชีใหม่ทั้งหมด เนื่องจากมีการออกแบบระบบใหม่</p>
         </DefaultCard>
