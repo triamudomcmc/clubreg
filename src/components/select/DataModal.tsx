@@ -2,7 +2,19 @@ import Modal from "@components/common/Modals";
 import {ExclamationIcon} from "@heroicons/react/outline";
 import {CheckCircleIcon} from "@heroicons/react/solid";
 
-const DataModal = ({TriggerDep, setToast}) => {
+const DataModal = ({TriggerDep, setToast, closeFunc}) => {
+
+  const close = () => {
+    setToast({
+      theme:"modern",
+      icon: "tick",
+      title: "ลงชื่อ Audition แล้ว",
+      text: "ติดตามรายละเอียดการ Audition จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง และไปทำการ Audition ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนด",
+      lifeSpan: 30000
+    })
+    closeFunc()
+  }
+
   return (
     <Modal overlayClassName="fixed top-0 flex flex-col bg-gray-500 bg-opacity-50 items-center justify-center w-full h-full max-h-screen py-10 z-[60]" className="flex flex-col overflow-y-auto mx-6" TriggerDep={TriggerDep} CloseID="dataModalClose">
       <div className="bg-white rounded-lg shadow-md pt-6 max-w-sm">
@@ -57,18 +69,12 @@ const DataModal = ({TriggerDep, setToast}) => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col space-y-3">
-              <div onClick={() => {setToast({
-                theme:"modern",
-                icon: "tick",
-                title: "ลงชื่อ Audition แล้ว",
-                text: "ติดตามรายละเอียดการ Audition จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง และไปทำการ Audition ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนด",
-                lifeSpan: 30000
-              })}} className="flex justify-center cursor-pointer items-center space-x-2 text-lg bg-TUCMC-green-400 text-white py-2 rounded-md">
+            <div className="flex flex-col space-y-3" id="dataModalClose">
+              <div onClick={() => {close()}} className="flex justify-center cursor-pointer items-center space-x-2 text-lg bg-TUCMC-green-400 text-white py-2 rounded-md">
                 <CheckCircleIcon className="w-5 h-5"/>
                 <span>ลงทะเบียน</span>
               </div>
-              <div id="dataModalClose" className="flex justify-center rounded-md cursor-pointer border border-gray-300 bg-white text-gray-700 py-2"><span>ยกเลิก</span></div>
+              <div className="flex justify-center rounded-md cursor-pointer border border-gray-300 bg-white text-gray-700 py-2"><span>ยกเลิก</span></div>
             </div>
           </div>
         </div>

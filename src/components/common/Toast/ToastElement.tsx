@@ -99,7 +99,7 @@ const ToastElement = ({ toastData, index, toastDeleteHandler, ...restProps}) => 
           <CheckCircleIcon className="text-green-400 w-6 h-6 flex-shrink-0"/>
           <div className="pl-3 space-y-1 mt-0.5">
             <p className="text-black text-sm font-medium">{toastData.title}</p>
-            <p className="text-sm leading-[18px] text-gray-500">{toastData.text}</p>
+            <p className="text-[13px] tracking-tight leading-[18px] pr-4 text-gray-500">{toastData.text}</p>
           </div>
           <XIcon onClick={() => {
             deleteToast(index)

@@ -46,7 +46,7 @@ const Select = () => {
       <Toast newToast={toast}/>
       <ConfirmModal onAgree={() => {setDataModal(true)}} clubData={modalState} TriggerDep={{dep: select, revert: () => {setSelect(false)}}}/>
       <ClubModal state={modalState} closeAction={clearState} action={selectClub}/>
-      <DataModal setToast={setToast} TriggerDep={{dep: dataModal, revert: () => {setDataModal(false)}}}/>
+      <DataModal setToast={setToast} closeFunc={clearState} TriggerDep={{dep: dataModal, revert: () => {setDataModal(false)}}}/>
       <div className="flex flex-col md:flex-row md:justify-center md:items-start md:space-x-6 items-center py-14 px-4">
         <div className="md:max-w-xs">
           <div className="flex flex-col items-center">
