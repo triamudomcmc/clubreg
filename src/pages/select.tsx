@@ -14,11 +14,17 @@ import classnames from "classnames"
 import {motion} from "framer-motion"
 import {FilterSearch} from "@components/common/Inputs/Search";
 import Modal from "@components/common/Modals";
+import ConfirmModal from "@components/select/ConfirmModal";
+import DataModal from "@components/select/DataModal";
+import Toast from "@components/common/Toast";
 
 const Select = () => {
 
   const [modalState, setModalState] = useState({open: false, data: {}})
   const [clubState, setClubState] = useState({comm: false, hide: true})
+  const [select, setSelect] = useState(false)
+  const [dataModal, setDataModal] = useState(false)
+  const [toast, setToast] = useState({})
   const auTrigger = useRef(null)
   const auClose = useRef(null)
 
@@ -31,9 +37,16 @@ const Select = () => {
     hide: {opacity: 0}
   }
 
+  const selectClub = () => {
+    setSelect(true)
+  }
+
   return (
     <PageContainer>
-      <ClubModal state={modalState} closeAction={clearState}/>
+      <Toast newToast={toast}/>
+      <ConfirmModal onAgree={() => {setDataModal(true)}} clubData={modalState} TriggerDep={{dep: select, revert: () => {setSelect(false)}}}/>
+      <ClubModal state={modalState} closeAction={clearState} action={selectClub}/>
+      <DataModal setToast={setToast} TriggerDep={{dep: dataModal, revert: () => {setDataModal(false)}}}/>
       <div className="flex flex-col md:flex-row md:justify-center md:items-start md:space-x-6 items-center py-14 px-4">
         <div className="md:max-w-xs">
           <div className="flex flex-col items-center">

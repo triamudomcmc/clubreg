@@ -3,7 +3,10 @@ import classnames from "classnames"
 import {detectOuside} from "@utilities/document";
 import {useEffect, useRef, useState} from "react";
 
-const Modal = ({children, className, TriggerRef, CloseID = ""}) => {
+const Modal = ({
+                 children, overlayClassName = "", className = "", TriggerRef = null, CloseID = "",
+                 TriggerDep = null
+               }) => {
   const [modalState, setModalState] = useState({comm: false, hide: true})
   const [prevent, setPrevent] = useState(true)
   const panel = useRef(null)
@@ -13,15 +16,19 @@ const Modal = ({children, className, TriggerRef, CloseID = ""}) => {
   }
 
   useEffect(() => {
-    TriggerRef.current && TriggerRef.current.addEventListener("mousedown", trigger)
+    TriggerRef !== null && TriggerRef.current && TriggerRef.current.addEventListener("mousedown", trigger)
   }, [TriggerRef])
 
   const close = () => {
     setModalState({comm: false, hide: false})
   }
 
+  const open = () => {
+    setModalState({comm: true, hide: false})
+  }
+
   useEffect(() => {
-    if(CloseID !== ""){
+    if (CloseID !== "") {
       document.getElementById(CloseID).addEventListener("mousedown", close)
     }
   }, [])
@@ -32,25 +39,36 @@ const Modal = ({children, className, TriggerRef, CloseID = ""}) => {
   }
 
   useEffect(() => {
-    if(modalState.comm){
+    if (modalState.comm) {
       setPrevent(false)
-    }else{
+    } else {
       setPrevent(true)
     }
   }, [modalState])
+
+  useEffect(() => {
+    if (TriggerDep !== null) {
+      if (TriggerDep.dep) {
+        open()
+        TriggerDep.revert()
+      }
+    }
+  }, [TriggerDep])
 
   detectOuside(panel, !prevent, () => {
     close()
   })
 
   return (
-    <motion.div ref={panel} variants={variants}
-                animate={modalState.comm ? "open" : "hide"}
-                onAnimationComplete={() => {
-                  !modalState.comm && setModalState({comm: false, hide: true})
-                }} className={classnames(className, modalState.hide && "hidden")}>
-      {children}
-    </motion.div>
+    <div className={classnames(overlayClassName, modalState.hide && "hidden")}>
+      <motion.div ref={panel} variants={variants}
+                  animate={modalState.comm ? "open" : "hide"}
+                  onAnimationComplete={() => {
+                    !modalState.comm && setModalState({comm: false, hide: true})
+                  }} className={className}>
+        {children}
+      </motion.div>
+    </div>
   )
 }
 

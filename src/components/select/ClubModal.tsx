@@ -4,7 +4,7 @@ import {motion} from "framer-motion"
 import classnames from "classnames"
 import {useEffect, useRef, useState} from "react";
 
-const ClubModal = ({state, closeAction}) => {
+const ClubModal = ({state, closeAction, action}) => {
 
   const ref = useRef(null)
   const [hidden, setHidden] = useState(true)
@@ -45,7 +45,7 @@ const ClubModal = ({state, closeAction}) => {
             <DefaultCard>
               <p className="font-normal">ชมรมนี้ไม่มีการ Audition สามารถกดปุ่มลงทะเบียนด้านล่างเพื่อเข้าร่วมชมรมได้ทันที</p>
             </DefaultCard>
-            <div className="flex justify-center items-center space-x-2 text-lg bg-TUCMC-green-400 text-white py-4 rounded-lg">
+            <div onClick={action} className="flex justify-center cursor-pointer items-center space-x-2 text-lg bg-TUCMC-green-400 text-white py-4 rounded-lg">
               <CheckCircleIcon className="w-5 h-5"/>
               <span>ลงทะเบียน</span>
             </div>
