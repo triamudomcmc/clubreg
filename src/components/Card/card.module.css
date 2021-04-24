@@ -1,9 +1,10 @@
 .container {
-    --width: 329px;
+    --width: 400px;
     --ratio: calc(var(--width) / 329);
     width: var(--width);
     height: calc(var(--width) * 570/329);
-    @apply flex flex-col items-center bg-white rounded-md shadow-lg;
+    border-radius: calc(var(--ratio) * 6);
+    @apply flex flex-col items-center bg-white shadow-lg;
 }
 
 .text14 {
@@ -59,4 +60,12 @@
     height: calc(var(--ratio) * 160);
     margin-top: calc(var(--ratio) * 14);
     margin-bottom: calc(var(--ratio) * 23);
+}
+.logo {
+    width: calc(var(--ratio) * 23.38);
+    height: calc(var(--ratio) * 11);
+    @appl text-TUCMC-gray-600;
+}
+.mt2 {
+    margin-top: calc(var(--ratio) * 2);
 }

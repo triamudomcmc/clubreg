@@ -41,6 +41,7 @@ module.exports = {
         "TUCMC-blue": {
           400: "#63B3ED"
         },"TUCMC-green": {
+          100: "#F0FFF4",
           400: "#68D391"
         },"TUCMC-orange": {
           200: "#FEEBC8",

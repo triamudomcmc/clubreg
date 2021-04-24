@@ -2,10 +2,11 @@ import CardSplash from "@vectors/decorations/CardSplash";
 import css from './card.module.css'
 import classnames from "classnames"
 import {CalendarIcon, LocationMarkerIcon, SpeakerphoneIcon} from "@heroicons/react/solid";
+import {LogoDarkIcon, LogoIcon} from "@vectors/Logo";
 
-export const Card = () => {
+export const Card = ({ width }) => {
   return (
-    <div className={css.container}>
+    <div style={{ ['--width' as string]: `${width}px` }} className={css.container}>
       <div className={classnames("text-TUCMC-gray-700 text-center", css.mt18)}>
         <h1 className={css.text14}>นายพีรดนย์ สาเงิน</h1>
         <h1 className={css.text12}>ห้อง 931</h1>
@@ -38,6 +39,9 @@ export const Card = () => {
             <p className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55)}>Facebook.............................</p>
             <p className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55)}>Instagram..................</p>
           </div>
+        </div>
+        <div className={classnames("flex justify-end w-full",css.mt2)}>
+          <LogoDarkIcon className={css.logo}/>
         </div>
       </div>
     </div>
