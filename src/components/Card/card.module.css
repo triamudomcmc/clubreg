@@ -1,0 +1,62 @@
+.container {
+    --width: 329px;
+    --ratio: calc(var(--width) / 329);
+    width: var(--width);
+    height: calc(var(--width) * 570/329);
+    @apply flex flex-col items-center bg-white rounded-md shadow-lg;
+}
+
+.text14 {
+    font-size: calc(var(--ratio) * 14);
+}
+
+.px17 {
+    padding-left: calc(var(--ratio) * 17);
+    padding-right: calc(var(--ratio) * 17);
+}
+.mt18{
+    margin-top: calc(var(--ratio) * 18);
+}
+.mt55{
+    margin-top: calc(var(--ratio) * 5.5);
+}
+
+.text12 {
+    font-size: calc(var(--ratio) * 12);
+}
+
+.text1155{
+    font-size: calc(var(--ratio) * 11.55);
+    line-height: calc(var(--ratio) * 18.33);
+    padding-left: calc(var(--ratio) * 10.59);
+}
+
+.greenbutt {
+    font-size: calc(var(--ratio) * 10);
+    padding: calc(var(--ratio) * 3) calc(var(--ratio) * 13);
+    margin-top: calc(var(--ratio) * 4);
+    margin-bottom: calc(var(--ratio) * 15);
+    @apply bg-TUCMC-green-400 text-white rounded-full tracking-tight;
+}
+
+.icon {
+    width: calc(var(--ratio) * 19.26);
+    height: calc(var(--ratio) * 19.26);
+    @apply text-TUCMC-gray-700 flex-shrink-0;
+}
+
+.subContainer {
+    margin-top: calc(var(--ratio) * 8.67);
+}
+
+.textContainer {
+    padding-top: calc(var(--ratio) * (20.44 - 8.67));
+    padding-left: calc(var(--ratio) * 22);
+    padding-right: calc(var(--ratio) * 15);
+}
+.vector {
+    width: calc(var(--ratio) * 240);
+    height: calc(var(--ratio) * 160);
+    margin-top: calc(var(--ratio) * 14);
+    margin-bottom: calc(var(--ratio) * 23);
+}
