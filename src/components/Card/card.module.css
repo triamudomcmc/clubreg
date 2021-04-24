@@ -11,6 +11,10 @@
     font-size: calc(var(--ratio) * 14);
 }
 
+.text138 {
+    font-size: calc(var(--ratio) * 13.8);
+}
+
 .px17 {
     padding-left: calc(var(--ratio) * 17);
     padding-right: calc(var(--ratio) * 17);
