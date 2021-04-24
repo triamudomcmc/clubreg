@@ -3,7 +3,7 @@ import screenshot from '@utilities/screenshot'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const file = await screenshot(
-    `http://localhost:3000/renderer/card`
+    `http://preview.tucmc.dev/renderer/card`
   )
 
   res.setHeader('Content-Type', `image/png`)
