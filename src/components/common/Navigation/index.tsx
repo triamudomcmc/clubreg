@@ -15,14 +15,22 @@ import Link from 'next/link'
 import {detectOuside} from "@utilities/document";
 import Router from "next/router";
 import classnames from "classnames"
+import {useAuth} from "@client/auth";
 
 const Navigation = () => {
+
+  const { onReady } = useAuth()
+
+  const [name, setName] = useState("")
+  const [extraData, setExtraData] = useState("")
+
   const [reveal, setReaveal] = useState(false)
   const [toggle, setToggle] = useState(false)
   const [animation, setAnimation] = useState(false)
   const [initial, setInitial] = useState(true)
   const panel = useRef(null)
   const [path, setPath] = useState("/")
+
   detectOuside(panel, reveal, () => {
     setReaveal(false)
   })
@@ -125,10 +133,14 @@ const Navigation = () => {
             </div>
           </Link>
         </div>
-        <div className="bg-TUCMC-gray-100 my-4 px-6 py-2">
-          <h1 className="text-TUCMC-gray-900">นายพีรดนย์ สาเงิน</h1>
-          <h1 className="text-TUCMC-gray-700 tracking-tight">59574 | ม.5/913</h1>
-        </div>
+        {onReady((logged, userData) => {
+          if (logged) {
+            return <div className="bg-TUCMC-gray-100 my-4 px-6 py-2">
+              <h1 className="text-TUCMC-gray-900">{`${userData.prefix}${userData.firstname} ${userData.lastname}`}</h1>
+              <h1 className="text-TUCMC-gray-700 tracking-tight">{`${userData.stdID} | ${userData.room} / ${userData.number}`}</h1>
+            </div>
+          }
+        })}
         <Link href="/">
           <div
             className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/","bg"))}>

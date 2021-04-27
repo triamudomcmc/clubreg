@@ -17,8 +17,12 @@ import Modal from "@components/common/Modals";
 import ConfirmModal from "@components/select/ConfirmModal";
 import DataModal from "@components/select/DataModal";
 import Toast from "@components/common/Toast";
+import {useAuth} from "@client/auth";
+import Router from "next/router";
 
 const Select = () => {
+
+  const {onReady} = useAuth()
 
   const [modalState, setModalState] = useState({open: false, data: {}})
   const [clubState, setClubState] = useState({comm: false, hide: true})
@@ -27,6 +31,14 @@ const Select = () => {
   const [toast, setToast] = useState({})
   const auTrigger = useRef(null)
   const auClose = useRef(null)
+
+  onReady((logged, userData)=> {
+    if(!logged) {
+      Router.push("/auth")
+    }else{
+      console.log(userData)
+    }
+  })
 
   const clearState = () => {
     setModalState({open: false, data: {}})

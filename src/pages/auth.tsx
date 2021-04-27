@@ -7,6 +7,9 @@ import {FilledLock} from "@vectors/icons/Key";
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 import Router from "next/router";
+import LoginSection from "@components/auth/LoginSection";
+import {useAuth} from "@client/auth";
+import {log} from "util";
 
 const people = [
   { id: 1, name: 'ม.4' },
@@ -19,8 +22,16 @@ function classNames(...classes) {
 }
 
 const Auth = ({query}) => {
+
+  const {onReady} = useAuth()
   const [action, setAction] = useState(("register" in query) ? "register" : "login")
   const [selected, setSelected] = useState(people[0])
+
+  onReady(logged => {
+    if(logged) {
+      Router.push("/select")
+    }
+  })
 
   const goRegister = () => {
     Router.push({
@@ -34,46 +45,11 @@ const Auth = ({query}) => {
 
   return (
     <PageContainer footer={false}>
-      <div style={{maxWidth: "26rem"}} className="mx-6 my-6 mb-16 md:my-10 md:mb-10 space-y-8 md:mx-auto min-h-screen">
+      <div style={{maxWidth: "26rem"}} className="mx-auto my-6 mb-16 md:my-10 md:mb-10 space-y-8 min-h-screen">
         <DefaultCard>
           <p className="font-normal">นักเรียน ม.5 และ ม.6 จะไม่สามารถล็อกอินเข้าสู่ระบบด้วยบัญชีเดิมในปีการศึกษาที่ผ่านมาได้ ต้องยืนยันตัวตนและสร้างบัญชีใหม่ทั้งหมด เนื่องจากมีการออกแบบระบบใหม่</p>
         </DefaultCard>
-        {action == "login" && <div className="flex flex-col items-center mt-6 pt-8">
-          <h1 className="font-bold text-4xl tracking-tight">เข้าสู่ระบบ</h1>
-          <div className="text-TUCMC-gray-600 text-center mt-2">
-            <p>ระบบลงทะเบียนชมรม</p>
-            <p>โรงเรียนเตรียมอุดมศึกษา ปีการศึกษา 2564</p>
-          </div>
-          <div className="px-6 w-full space-y-7 mt-10">
-            <div className="flex flex-col w-full">
-              <input
-                className="border-t appearance-none webkit-rounded-t-md border-l border-r border-gray-300 px-4 py-2 placeholder-gray-500 text-lg"
-                placeholder="เลขประจำตัวนักเรียน"/>
-              <input
-                className="border appearance-none border-gray-300 webkit-rounded-b-md px-4 py-2 placeholder-gray-500 text-lg"
-                placeholder="รหัสผ่าน"/>
-            </div>
-            <div className="flex flex-row justify-between w-full">
-              <div className="flex flex-row">
-                <input className="w-5 h-5 border rounded-md border-gray-200 ring-0 mr-2" type="checkbox"/>
-                <span className="whitespace-nowrap">จดจำฉันไว้ในระบบ</span>
-              </div>
-              <span className="text-TUCMC-pink-400">
-              ลืมรหัสผ่าน
-            </span>
-            </div>
-            <div className="flex flex-col items-center w-full">
-              <div
-                className="relative flex justify-center items-center bg-TUCMC-pink-400 rounded-md text-white py-2 w-full">
-                <div className="absolute left-4">
-                  <FilledLock/>
-                </div>
-                <span>ล็อกอิน</span>
-              </div>
-              <a onClick={goRegister} className="font-normal cursor-pointer text-gray-600 mt-2 whitespace-nowrap">สร้างบัญชีใหม่</a>
-            </div>
-          </div>
-        </div>}
+        {action == "login" && <LoginSection primaryAction={goRegister}/>}
         {action == "register" && <div className="flex flex-col items-center mt-6 mx-6 sm:mx-0">
             <div className="w-full flex justify-start sm:justify-center">
                 <div className="flex flex-col items-start pl-5 border-l-3/2 border-black">

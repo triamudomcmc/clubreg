@@ -22,7 +22,9 @@
       "@styles/*": ["styles/*"],
       "@components/*": ["components/*"],
       "@vectors/*": ["vectors/*"],
-      "@utilities/*": ["utilities/*"]
+      "@utilities/*": ["utilities/*"],
+      "@client/*": ["handlers/client/*"],
+      "@server/*": ["handlers/server/*"]
     }
   },
   "include": [
