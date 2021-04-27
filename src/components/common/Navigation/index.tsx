@@ -16,13 +16,13 @@ import {detectOuside} from "@utilities/document";
 import Router from "next/router";
 import classnames from "classnames"
 import {useAuth} from "@client/auth";
+import {LogoutIcon} from "@heroicons/react/outline";
 
 const Navigation = () => {
 
   const { onReady } = useAuth()
 
-  const [name, setName] = useState("")
-  const [extraData, setExtraData] = useState("")
+  const [logout, setLogout] = useState(false)
 
   const [reveal, setReaveal] = useState(false)
   const [toggle, setToggle] = useState(false)
@@ -148,13 +148,17 @@ const Navigation = () => {
             className={getClass("/","font")}>หน้าแรก</span>
           </div>
         </Link>
-        <Link href="/auth">
+        {!logout ? <Link href="/auth">
           <div
-            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/auth","bg"))}>
-            <Login className={classnames("w-7 h-7", getClass("/auth","icon"))}/> <span
-            className={getClass("/auth","font")}>เข้าสู่ระบบ</span>
+            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/auth", "bg"))}>
+            <Login className={classnames("w-7 h-7", getClass("/auth", "icon"))}/> <span
+            className={getClass("/auth", "font")}>เข้าสู่ระบบ</span>
           </div>
-        </Link>
+        </Link> : <div
+          className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/auth", "bg"))}>
+          <LogoutIcon className={classnames("w-7 h-7", getClass("/auth", "icon"))}/> <span
+          className={getClass("/auth", "font")}>ออกจากระบบ</span>
+        </div>}
         <Link href="/clubs">
           <div
             className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/clubs","bg"))}>

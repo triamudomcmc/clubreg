@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react'
 import Router from "next/router";
-import {fetchUser} from "@client/fetcher/user";
+import {fetchUser, logout} from "@client/fetcher/user";
 
 interface userData {
   email: string,
@@ -14,7 +14,8 @@ interface userData {
 }
 
 interface IAuthContext {
-  onReady: ((callback: (logged: boolean, userData: userData | null) => any) => {})
+  onReady: ((callback: (logged: boolean, userData: userData | null) => any) => {}),
+  signout: () => void
 }
 
 const AuthContext = React.createContext<IAuthContext | null>(null)
@@ -42,6 +43,15 @@ function useProvideAuth() {
 
   const ready = (userData !== null)
 
+  const singoutAction = async () => {
+    await logout()
+    Router.reload()
+  }
+
+  const signout = () => {
+    singoutAction()
+  }
+
   useEffect(() => {
 
     const getData = async () => {
@@ -54,6 +64,7 @@ function useProvideAuth() {
   }, [])
 
   return {
-    onReady
+    onReady,
+    signout
   }
 }

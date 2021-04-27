@@ -1,5 +1,6 @@
 import {NextApiRequest, NextApiResponse} from "next";
 import {fetchUser} from "@server/fetchUser"
+import {destroySession} from "@server/authentication";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
@@ -12,6 +13,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       switch (req.body.action) {
         case "fetchUser": {
           const output = await fetchUser(req, res, req.body.fp)
+          res.json(output)
+          break
+        }
+        case "logout": {
+          const output = await destroySession(req, res)
           res.json(output)
         }
       }

@@ -23,3 +23,24 @@ export const fetchUser = async (): Promise<{ logged: boolean, userData: {} }> =>
   }
 
 }
+
+export const logout = async (): Promise<{success: boolean}> => {
+
+  const data = await fetch(`/api/user`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({action: "logout"}),
+    credentials: 'include'
+  })
+
+  const res = await data.json()
+
+  if(res.status){
+    return { success: true }
+  }else{
+    return { success: false }
+  }
+
+}

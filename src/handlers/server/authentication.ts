@@ -1,5 +1,5 @@
 import initialisedDB from "@server/firebase-admin"
-import * as argon2 from "argon2";
+import bcrypt from "bcryptjs"
 import Cookies from "cookies"
 import cryptoRandomString from "crypto-random-string";
 
@@ -18,7 +18,7 @@ export const login = async (stdID, password, live, fingerPrint, req, res) => {
       const userDB = await userCollection.where("stdID","==",stdID).get()
       if(userDB.docs.length > 0){
         const userDoc = userDB.docs[0]
-        if (await argon2.verify(userDoc.get("password"), password)) {
+        if (await bcrypt.compare(password, userDoc.get("password"))) {
 
           let sessionID = cryptoRandomString({length: sessionSize})
           let sessionDoc = await sessionsColl.doc(sessionID).get()
