@@ -26,7 +26,7 @@ export const fetchUser = async (): Promise<{ logged: boolean, userData: {} }> =>
 
 export const logout = async (): Promise<{success: boolean}> => {
 
-  const data = await fetch(`/api/user`, {
+  const data = await fetch(`/api/database/user`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

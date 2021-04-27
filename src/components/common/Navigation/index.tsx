@@ -17,12 +17,15 @@ import Router from "next/router";
 import classnames from "classnames"
 import {useAuth} from "@client/auth";
 import {LogoutIcon} from "@heroicons/react/outline";
+import UserData from "../../../interfaces/userData";
 
 const Navigation = () => {
 
-  const { onReady } = useAuth()
+  const { onReady, signout } = useAuth()
 
-  const [logout, setLogout] = useState(false)
+  const { logged, userData } = onReady((logged, userData) => {
+      return {logged, userData}
+  })
 
   const [reveal, setReaveal] = useState(false)
   const [toggle, setToggle] = useState(false)
@@ -133,14 +136,10 @@ const Navigation = () => {
             </div>
           </Link>
         </div>
-        {onReady((logged, userData) => {
-          if (logged) {
-            return <div className="bg-TUCMC-gray-100 my-4 px-6 py-2">
-              <h1 className="text-TUCMC-gray-900">{`${userData.prefix}${userData.firstname} ${userData.lastname}`}</h1>
-              <h1 className="text-TUCMC-gray-700 tracking-tight">{`${userData.stdID} | ${userData.room} / ${userData.number}`}</h1>
-            </div>
-          }
-        })}
+        {logged && <div className="bg-TUCMC-gray-100 my-4 px-6 py-2">
+          <h1 className="text-TUCMC-gray-900">{`${userData.prefix}${userData.firstname} ${userData.lastname}`}</h1>
+          <h1 className="text-TUCMC-gray-700 tracking-tight">{`${userData.stdID} | ${userData.room} / ${userData.number}`}</h1>
+        </div>}
         <Link href="/">
           <div
             className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/","bg"))}>
@@ -148,13 +147,14 @@ const Navigation = () => {
             className={getClass("/","font")}>หน้าแรก</span>
           </div>
         </Link>
-        {!logout ? <Link href="/auth">
+        {!logged ? <Link href="/auth">
           <div
             className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/auth", "bg"))}>
             <Login className={classnames("w-7 h-7", getClass("/auth", "icon"))}/> <span
             className={getClass("/auth", "font")}>เข้าสู่ระบบ</span>
           </div>
         </Link> : <div
+          onClick={signout}
           className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/auth", "bg"))}>
           <LogoutIcon className={classnames("w-7 h-7", getClass("/auth", "icon"))}/> <span
           className={getClass("/auth", "font")}>ออกจากระบบ</span>

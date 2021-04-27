@@ -1,20 +1,10 @@
 import React, {useState, useEffect, useContext} from 'react'
 import Router from "next/router";
 import {fetchUser, logout} from "@client/fetcher/user";
-
-interface userData {
-  email: string,
-  username: string,
-  stdID: string,
-  prefix: string,
-  firstname: string,
-  lastname: string,
-  room: string,
-  number: string,
-}
+import UserData from "../../interfaces/userData";
 
 interface IAuthContext {
-  onReady: ((callback: (logged: boolean, userData: userData | null) => any) => {}),
+  onReady: ((callback: (logged: boolean, userData: UserData | null) => any) => any),
   signout: () => void
 }
 
@@ -33,9 +23,11 @@ export const AuthProvider = ({children}) => {
 
 function useProvideAuth() {
 
-  const onReady = (callback: (logged: boolean, userData: userData | null) => any) => {
+  const onReady = (callback: (logged: boolean, userData: UserData | null) => any) => {
     if (ready) {
       return callback("email" in userData, userData)
+    }else{
+      return {logged: false, userData: null}
     }
   }
 
