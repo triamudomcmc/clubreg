@@ -1,7 +1,5 @@
-import React, {useEffect, useRef, useState} from "react";
-import {motion} from "framer-motion";
+import React, {useEffect, useState} from "react";
 import ToastElement from "./ToastElement";
-import {element} from "prop-types";
 import {useWindowDimensions} from "@utilities/document";
 
 
@@ -18,7 +16,7 @@ interface ToastProps {
 
 const Toast = ({newToast = {}}: ToastProps) => {
 
-  const { height, width } = useWindowDimensions()
+  const { width } = useWindowDimensions()
 
   const maxToasts = width > 640 ? 5 : 1
 

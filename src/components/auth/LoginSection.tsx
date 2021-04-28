@@ -1,7 +1,7 @@
-import {FilledLock} from "@vectors/icons/Key";
 import React, {useState} from "react";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import Router from "next/router";
+import {LockClosedIcon} from "@heroicons/react/solid";
 
 const LoginSection = (primaryAction) => {
 
@@ -84,7 +84,7 @@ const LoginSection = (primaryAction) => {
             <button type="submit"
                     className="relative flex justify-center items-center bg-TUCMC-pink-400 rounded-md text-white py-2 w-full">
               <div className="absolute left-4">
-                <FilledLock/>
+                <LockClosedIcon/>
               </div>
               <span>ล็อกอิน</span>
             </button>

@@ -1,8 +1,6 @@
 import {
   CheckCircleIcon,
-  ClipboardCopyIcon,
   DotsCircleHorizontalIcon,
-  StarIcon,
   XCircleIcon
 } from "@heroicons/react/solid";
 

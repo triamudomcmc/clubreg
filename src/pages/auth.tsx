@@ -1,15 +1,11 @@
-import Navigation from "@components/common/Navigation";
 import PageContainer from "@components/common/PageContainer";
-import {FilledInfo} from "@vectors/icons/Info";
 import React, {Fragment, useState} from "react";
 import {DefaultCard} from "@components/common/Cards";
-import {FilledLock} from "@vectors/icons/Key";
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 import Router from "next/router";
 import LoginSection from "@components/auth/LoginSection";
 import {useAuth} from "@client/auth";
-import {log} from "util";
 
 const people = [
   { id: 1, name: 'ม.4' },

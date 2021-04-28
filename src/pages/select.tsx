@@ -1,17 +1,11 @@
 import PageContainer from "@components/common/PageContainer";
 import SelectSplash from "@vectors/decorations/SelectSplash";
 import {
-  ChevronDownIcon, ClipboardCopyIcon,
-  SearchIcon,
-  SelectorIcon,
-  SortAscendingIcon,
-  UsersIcon, XIcon
+  XIcon
 } from '@heroicons/react/solid'
 import ClubList from "@components/select/ClubList";
 import ClubModal from "@components/select/ClubModal";
-import {useEffect, useRef, useState} from "react";
-import classnames from "classnames"
-import {motion} from "framer-motion"
+import {useRef, useState} from "react";
 import {FilterSearch} from "@components/common/Inputs/Search";
 import Modal from "@components/common/Modals";
 import ConfirmModal from "@components/select/ConfirmModal";
@@ -25,12 +19,10 @@ const Select = () => {
   const {onReady} = useAuth()
 
   const [modalState, setModalState] = useState({open: false, data: {}})
-  const [clubState, setClubState] = useState({comm: false, hide: true})
   const [select, setSelect] = useState(false)
   const [dataModal, setDataModal] = useState(false)
   const [toast, setToast] = useState({})
   const auTrigger = useRef(null)
-  const auClose = useRef(null)
 
   onReady((logged, userData)=> {
     if(!logged) {
@@ -42,11 +34,6 @@ const Select = () => {
 
   const clearState = () => {
     setModalState({open: false, data: {}})
-  }
-
-  const variants = {
-    show: {opacity: 1},
-    hide: {opacity: 0}
   }
 
   const selectClub = () => {

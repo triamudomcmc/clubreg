@@ -1,19 +1,16 @@
-import Navigation from "@components/common/Navigation"
 import IndexSplash from "@vectors/decorations/IndexSplash";
-import {FilledInfo} from "@vectors/icons/Info";
-import {MenuList1} from "@vectors/decorations/IndexMenu";
-import {FilledStar} from "@vectors/icons/Star";
-import {FilledClipboard} from "@vectors/icons/Clipboard";
-import {FilledSingleUser, FilledUsergroup} from "@vectors/icons/Usergroup";
-import {Line} from "@components/index/timeline/Line";
 import TimelineTag from "@components/index/timeline/TimelineTag";
-import {Plus} from "@vectors/buttons/Symbols";
 import FAQ from "@components/index/FAQ";
 import React from "react";
 import IndexBottom from "@vectors/decorations/IndexBottom";
-import Footer from "@components/common/Footer";
 import PageContainer from "@components/common/PageContainer";
 import Link from "next/link"
+import {
+  ClipboardCopyIcon,
+  InformationCircleIcon,
+  StarIcon,
+  UserGroupIcon, UserIcon
+} from "@heroicons/react/solid";
 
 const Index = () => {
   return (
@@ -80,7 +77,7 @@ const Index = () => {
           <div className="md:hidden mx-8 mt-6 mb-14">
             <div
               className="flex flex-row bg-TUCMC-pink-100 space-x-4 text-TUCMC-pink-500 p-4 rounded-lg">
-              <FilledInfo className="w-6 h-6"/>
+              <InformationCircleIcon className="w-6 h-6"/>
               <div className="font-medium">
                 <p>ระบบจะเปิดให้ลงทะเบียนชมรม</p>
                 <p>ในวันที่ 17 พ.ค. 2564 เวลา 11.30 น.</p>
@@ -147,19 +144,19 @@ const Index = () => {
               <div className="flex md:hidden flex-row tracking-tight w-full mt-12">
               <span
                 className="flex items-center justify-center w-1/2 border-b border-TUCMC-red-400 text-TUCMC-red-400">
-                <FilledStar/>
+                <StarIcon/>
                 <span className="pl-1">มีการ Audition</span>
               </span>
                 <span
                   className="flex items-center justify-center w-1/2 border-b border-TUCMC-gray-400 text-TUCMC-gray-400">
-                <FilledClipboard/>
+                <ClipboardCopyIcon/>
                 <span className="pl-1">ไม่มีการ Audition</span>
               </span>
               </div>
               <div className="md:flex md:flex-row md:space-x-16 md:justify-between md:mt-12">
                 <div className="md:max-w-xl">
                   <div className="flex flex-row items-end px-5 space-x-4 my-12">
-                    <FilledUsergroup className="flex-shrink-0 w-14"/>
+                    <UserGroupIcon className="flex-shrink-0 w-14"/>
                     <div className="tracking-tight">
                       <p>สำหรับนักเรียนที่ต้องการเข้าชมรมที่่มีการ Audition</p>
                     </div>
@@ -210,7 +207,7 @@ const Index = () => {
                 </div>
                 <div className="hidden md:flex flex-col md:max-w-xl">
                   <div className="flex flex-row items-end px-5 space-x-4 my-12">
-                    <FilledSingleUser className="flex-shrink-0 w-14"/>
+                    <UserIcon className="flex-shrink-0 w-14"/>
                     <div className="tracking-tight">
                       <p>สำหรับนักเรียนที่ต้องการเข้าชมรมที่่มีการ Audition</p>
                     </div>

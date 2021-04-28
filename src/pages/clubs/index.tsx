@@ -1,7 +1,5 @@
 import PageContainer from "@components/common/PageContainer";
-import IndexBottom from "@vectors/decorations/IndexBottom";
 import ClubSplash from "@vectors/decorations/ClubSplash";
-import SelectSplash from "@vectors/decorations/SelectSplash";
 import {FilterSearch} from "@components/common/Inputs/Search";
 import {ClubCard} from "@components/clubs/ClubCard";
 

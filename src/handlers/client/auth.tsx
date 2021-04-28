@@ -24,16 +24,11 @@ export const AuthProvider = ({children}) => {
 function useProvideAuth() {
 
   const onReady = (callback: (logged: boolean, userData: UserData | null) => any) => {
-    if (ready) {
-      return callback("email" in userData, userData)
-    }else{
-      return {logged: false, userData: null}
-    }
+    if (userData !== null) return callback("email" in userData, userData)
+    return {logged: false, userData: null}
   }
 
   const [userData, setUserData] = useState(null)
-
-  const ready = (userData !== null)
 
   const singoutAction = async () => {
     await logout()

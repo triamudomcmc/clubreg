@@ -1,6 +1,0 @@
-.container {
-    --width: 329;
-    width: var(--width);
-    height: calc(var(--width) * 570/329);
-}
-

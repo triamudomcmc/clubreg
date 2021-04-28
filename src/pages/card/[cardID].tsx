@@ -1,10 +1,8 @@
 import {GetServerSideProps} from "next";
 import PageContainer from "@components/common/PageContainer";
-import CardSplash from "@vectors/decorations/CardSplash";
 import {Card} from "@components/Card";
 import {useWindowDimensions} from "@utilities/document";
-import {FilledInfo} from "@vectors/icons/Info";
-import React, {useEffect, useRef, useState} from "react";
+import React from "react";
 import {ArrowCircleDownIcon, StarIcon} from "@heroicons/react/solid";
 
 export const getServerSideProps: GetServerSideProps = async ({params}) => {

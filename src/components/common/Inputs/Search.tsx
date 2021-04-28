@@ -1,8 +1,5 @@
 import {ChevronDownIcon, SearchIcon, SortAscendingIcon} from "@heroicons/react/solid";
-import {useRef, useState} from "react";
-import {motion} from "framer-motion"
-import classnames from "classnames"
-import {detectOuside} from "@utilities/document";
+import {useRef} from "react";
 import Modal from "@components/common/Modals";
 
 export const FilterSearch = () => {

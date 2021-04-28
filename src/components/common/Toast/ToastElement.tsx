@@ -4,11 +4,11 @@ import {useWindowDimensions} from "@utilities/document";
 import {CheckCircleIcon} from "@heroicons/react/outline";
 import {XIcon} from "@heroicons/react/solid";
 
-const ToastElement = ({ toastData, index, toastDeleteHandler, ...restProps}) => {
+const ToastElement = ({toastData, index, toastDeleteHandler, ...restProps}) => {
 
   const [exit, setExit] = useState(false)
   const [deletable, setDeletable] = useState([])
-  const { height, width } = useWindowDimensions()
+  const {width} = useWindowDimensions()
 
   const deleteToast = (index) => {
     setExit(true)
@@ -16,24 +16,23 @@ const ToastElement = ({ toastData, index, toastDeleteHandler, ...restProps}) => 
   }
 
   useEffect(() => {
-    if("lifeSpan" in toastData){
-      if(toastData.lifeSpan > 0){
+    if ("lifeSpan" in toastData) {
+      if (toastData.lifeSpan > 0) {
         setTimeout(() => {
           deleteToast(index)
-        },toastData.lifeSpan)
+        }, toastData.lifeSpan)
       }
-    }else{
+    } else {
       setTimeout(() => {
         deleteToast(index)
-      },3000)
+      }, 3000)
     }
-  },[])
+  }, [])
 
   const calldelete = (index) => {
     setExit(false)
-    if(deletable.includes(index)){
-      toastDeleteHandler(index)
-    }
+    if (!deletable.includes(index)) return
+    toastDeleteHandler(index)
   }
 
   const icons = "title" in toastData && {
@@ -57,7 +56,7 @@ const ToastElement = ({ toastData, index, toastDeleteHandler, ...restProps}) => 
     </svg>
   }
 
-  if(toastData.theme == "default"){
+  if (toastData.theme == "default") {
     return (
       <motion.div
         key={index}
@@ -65,8 +64,10 @@ const ToastElement = ({ toastData, index, toastDeleteHandler, ...restProps}) => 
           deleteToast(index)
         }}
         initial={{y: 100}}
-        animate={exit? {x: 1000,y: 0}: {y: 0}}
-        onAnimationComplete={() => {exit && calldelete(index)}}
+        animate={exit ? {x: 1000, y: 0} : {y: 0}}
+        onAnimationComplete={() => {
+          exit && calldelete(index)
+        }}
         transition={exit && {duration: 0.3}}
         style={width <= 640 && {width: "100%"}}
         className={`bg-${toastData.color}-50 border-t-4 cursor-pointer border-${toastData.color}-300 rounded-b text-${toastData.color}-600 px-4 py-3 shadow-md`}
@@ -82,13 +83,15 @@ const ToastElement = ({ toastData, index, toastDeleteHandler, ...restProps}) => 
         </div>
       </motion.div>
     )
-  }else{
+  } else {
     return (
       <motion.div
         key={index}
         initial={{y: 100}}
-        animate={exit? {x: 1000,y: 0}: {y: 0}}
-        onAnimationComplete={() => {exit && calldelete(index)}}
+        animate={exit ? {x: 1000, y: 0} : {y: 0}}
+        onAnimationComplete={() => {
+          exit && calldelete(index)
+        }}
         transition={exit && {duration: 0.3}}
         style={width <= 340 && {width: "100%", maxWidth: "unset"}}
         className={`bg-white max-w-xs rounded-lg cursor-pointer px-4 py-4 shadow-lg`}
@@ -99,7 +102,8 @@ const ToastElement = ({ toastData, index, toastDeleteHandler, ...restProps}) => 
           <CheckCircleIcon className="text-green-400 w-6 h-6 flex-shrink-0"/>
           <div className="pl-3 space-y-1 mt-0.5">
             <p className="text-black text-sm font-medium">{toastData.title}</p>
-            <p className="text-[13px] tracking-tight leading-[18px] pr-4 text-gray-500">{toastData.text}</p>
+            <p
+              className="text-[13px] tracking-tight leading-[18px] pr-4 text-gray-500">{toastData.text}</p>
           </div>
           <XIcon onClick={() => {
             deleteToast(index)

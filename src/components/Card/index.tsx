@@ -2,7 +2,7 @@ import CardSplash from "@vectors/decorations/CardSplash";
 import css from './card.module.css'
 import classnames from "classnames"
 import {CalendarIcon, LocationMarkerIcon, SpeakerphoneIcon} from "@heroicons/react/solid";
-import {LogoDarkIcon, LogoIcon} from "@vectors/Logo";
+import {LogoDarkIcon} from "@vectors/Logo";
 
 export const Card = ({ width }) => {
   return (

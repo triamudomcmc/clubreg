@@ -9,7 +9,6 @@ export const detectOuside = (ref, dep, callback) => {
       }
     }
 
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -21,10 +20,7 @@ export function useWindowDimensions() {
 
   function getWindowDimensions() {
     const { innerWidth: width, innerHeight: height } = window;
-    return {
-      width,
-      height
-    };
+    return { width, height };
   }
 
   const [windowDimensions, setWindowDimensions] = useState({width: 0, height: 0});

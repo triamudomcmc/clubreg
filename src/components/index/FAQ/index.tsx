@@ -1,5 +1,3 @@
-import {Plus} from "@vectors/buttons/Symbols";
-import TimelineTag from "@components/index/timeline/TimelineTag";
 import React, {useEffect, useState} from "react";
 import Toggle from "@components/index/FAQ/Toggle";
 import {motion} from "framer-motion";

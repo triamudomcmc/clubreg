@@ -1,23 +1,19 @@
 import {LogoIcon, WhiteLogo} from "@vectors/Logo";
-import {DropdownMenu} from "@vectors/buttons/Menu";
 import NavButton from "@components/common/Navigation/NavButton";
 import React, {useEffect, useRef, useState} from "react";
 import {motion} from "framer-motion";
-import {House} from "@vectors/icons/House";
-import {SortDecending} from "@vectors/icons/Sorts";
-import {ListClipboard} from "@vectors/icons/Clipboard";
-import {Calendar} from "@vectors/icons/Calendar";
-import {Chat} from "@vectors/icons/Chat";
-import {DocumentText} from "@vectors/icons/Document";
-import {Key} from "@vectors/icons/Key";
-import {Login} from "@vectors/icons/Auth";
 import Link from 'next/link'
 import {detectOuside} from "@utilities/document";
 import Router from "next/router";
 import classnames from "classnames"
 import {useAuth} from "@client/auth";
-import {LogoutIcon} from "@heroicons/react/outline";
-import UserData from "../../../interfaces/userData";
+import {
+  CalendarIcon, ChatIcon,
+  ClipboardListIcon, DocumentTextIcon,
+  HomeIcon, KeyIcon,
+  LoginIcon,
+  LogoutIcon
+} from "@heroicons/react/outline";
 
 const Navigation = () => {
 
@@ -143,14 +139,14 @@ const Navigation = () => {
         <Link href="/">
           <div
             className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/","bg"))}>
-            <House className={classnames("w-7 h-7", getClass("/","icon"))}/> <span
+            <HomeIcon className={classnames("w-7 h-7", getClass("/","icon"))}/> <span
             className={getClass("/","font")}>หน้าแรก</span>
           </div>
         </Link>
         {!logged ? <Link href="/auth">
           <div
             className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/auth", "bg"))}>
-            <Login className={classnames("w-7 h-7", getClass("/auth", "icon"))}/> <span
+            <LoginIcon className={classnames("w-7 h-7", getClass("/auth", "icon"))}/> <span
             className={getClass("/auth", "font")}>เข้าสู่ระบบ</span>
           </div>
         </Link> : <div
@@ -162,18 +158,18 @@ const Navigation = () => {
         <Link href="/clubs">
           <div
             className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/clubs","bg"))}>
-            <ListClipboard className={classnames("w-7 h-7", getClass("/clubs","icon"))}/> <span
+            <ClipboardListIcon className={classnames("w-7 h-7", getClass("/clubs","icon"))}/> <span
             className={getClass("/clubs","font")}>รายชื่อชมรม</span>
           </div>
         </Link>
         <div
           className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/info","bg"))}>
-          <Calendar className={classnames("w-7 h-7", getClass("/info","icon"))}/> <span
+          <CalendarIcon className={classnames("w-7 h-7", getClass("/info","icon"))}/> <span
           className={getClass("/info","font")}>วิธีลงทะเบียน</span>
         </div>
         <div
           className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/FAQ","bg"))}>
-          <Chat className={classnames("w-7 h-7", getClass("/FAQ","icon"))}/> <span
+          <ChatIcon className={classnames("w-7 h-7", getClass("/FAQ","icon"))}/> <span
           className={getClass("/FAQ","font")}>คำถามที่พบบ่อย</span>
         </div>
         <div
@@ -182,12 +178,12 @@ const Navigation = () => {
         </div>
         <div
           className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/tos","bg"))}>
-          <DocumentText className={classnames("w-7 h-7", getClass("/tos","icon"))}/> <span
+          <DocumentTextIcon className={classnames("w-7 h-7", getClass("/tos","icon"))}/> <span
           className={getClass("/tos","font")}>ข้อตกลงและเงื่อนไขการใช้งาน</span>
         </div>
         <div
           className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/policy","bg"))}>
-          <Key className={classnames("w-7 h-7", getClass("/policy","icon"))}/> <span
+          <KeyIcon className={classnames("w-7 h-7", getClass("/policy","icon"))}/> <span
           className={getClass("/policy","font")}>นโยบายความเป็นส่วนตัว</span>
         </div>
       </motion.div>

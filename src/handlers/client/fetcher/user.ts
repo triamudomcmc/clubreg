@@ -16,15 +16,12 @@ export const fetchUser = async (): Promise<{ logged: boolean, userData: {} }> =>
 
   const res = await data.json()
 
-  if (res.logged) {
-    return {logged: res.logged, userData: res.userData}
-  } else {
-    return {logged: false, userData: {}}
-  }
+  if (res.logged) return {logged: res.logged, userData: res.userData}
+  return {logged: false, userData: {}}
 
 }
 
-export const logout = async (): Promise<{success: boolean}> => {
+export const logout = async (): Promise<{ success: boolean }> => {
 
   const data = await fetch(`/api/database/user`, {
     method: 'POST',
@@ -37,10 +34,7 @@ export const logout = async (): Promise<{success: boolean}> => {
 
   const res = await data.json()
 
-  if(res.status){
-    return { success: true }
-  }else{
-    return { success: false }
-  }
+  if (res.status) return {success: true}
+  return {success: false}
 
 }
