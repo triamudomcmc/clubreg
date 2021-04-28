@@ -1,6 +1,6 @@
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 
-export const fetchUser = async (): Promise<{ logged: boolean, userData: {} }> => {
+export const fetchUser = async (): Promise<{ userID: string, userData: {} }> => {
 
   const fp = await FingerprintJS.load()
   const fingerPrint = await fp.get();
@@ -16,8 +16,8 @@ export const fetchUser = async (): Promise<{ logged: boolean, userData: {} }> =>
 
   const res = await data.json()
 
-  if (res.logged) return {logged: res.logged, userData: res.userData}
-  return {logged: false, userData: {}}
+  if (res.logged) return {userID: res.userID, userData: res.userData}
+  return {userID: null, userData: {}}
 
 }
 

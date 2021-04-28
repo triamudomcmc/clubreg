@@ -2,10 +2,12 @@ import React, {useState, useEffect, useContext} from 'react'
 import Router from "next/router";
 import {fetchUser, logout} from "@client/fetcher/user";
 import UserData from "../../interfaces/userData";
+import {Tracker} from "@client/tracker/track";
 
 interface IAuthContext {
   onReady: ((callback: (logged: boolean, userData: UserData | null) => any) => any),
-  signout: () => void
+  signout: () => void,
+  tracker: Tracker | null
 }
 
 const AuthContext = React.createContext<IAuthContext | null>(null)
@@ -29,6 +31,7 @@ function useProvideAuth() {
   }
 
   const [userData, setUserData] = useState(null)
+  const [tracker, setTracker] = useState(new Tracker())
 
   const singoutAction = async () => {
     await logout()
@@ -44,6 +47,7 @@ function useProvideAuth() {
     const getData = async () => {
       const data = await fetchUser()
       setUserData(data.userData)
+      setTracker(await new Tracker().setUserID(data.userID).init())
     }
 
     getData()
@@ -52,6 +56,7 @@ function useProvideAuth() {
 
   return {
     onReady,
-    signout
+    signout,
+    tracker
   }
 }

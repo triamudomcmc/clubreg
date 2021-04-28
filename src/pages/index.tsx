@@ -1,7 +1,7 @@
 import IndexSplash from "@vectors/decorations/IndexSplash";
 import TimelineTag from "@components/index/timeline/TimelineTag";
 import FAQ from "@components/index/FAQ";
-import React from "react";
+import React, {useEffect} from "react";
 import IndexBottom from "@vectors/decorations/IndexBottom";
 import PageContainer from "@components/common/PageContainer";
 import Link from "next/link"
@@ -12,8 +12,16 @@ import {
   UserGroupIcon, UserIcon
 } from "@heroicons/react/solid";
 import {Button} from "@components/common/Inputs/Button";
+import {Tracker} from "@client/tracker/track";
 
 const Index = () => {
+
+  const tracker = new Tracker()
+
+  useEffect(() => {
+    tracker.init()
+  },[])
+
   return (
     <PageContainer>
       <div className="h-full bg-TUCMC-pink-400">
@@ -330,7 +338,7 @@ const Index = () => {
                   <h1
                     className="font-bold tracking-tight text-7xl md:tracking-normal md:text-8xl">ชมรม</h1>
                   <h1 className="font-medium text-2xl md:text-4xl md:ml-1">กว่า 80+ ชมรม</h1>
-                  <Button href="/clubs" className="hidden md:block mt-10 text-black font-medium ml-21 shadow-lg bg-white rounded-5xl px-11 py-4">
+                  <Button href="/clubs" onClick={() => {tracker.push("click", "index_clubs_button")}} className="hidden md:block mt-10 text-black font-medium ml-21 shadow-lg bg-white rounded-5xl px-11 py-4">
                     <span className="text-2xl">ดูทั้งหมด</span>
                   </Button>
                 </div>

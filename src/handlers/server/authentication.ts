@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs"
 import Cookies from "cookies"
 import cryptoRandomString from "crypto-random-string";
 import {isASCII, isNumeric} from "@utilities/texts";
+import {update} from "@server/tracker";
 
 export const login = async (stdID, password, live, fingerPrint, req, res) => {
 
@@ -26,7 +27,9 @@ export const login = async (stdID, password, live, fingerPrint, req, res) => {
   const expires = (new Date().getTime()) + live
 
   //append session to db
-  const sess = await sessionsColl.add({userID: userDoc.id,dataRefID: userDoc.get("dataRefID"), clientfp: fingerPrint, expires: expires})
+  const sess = await sessionsColl.add({
+    userID: userDoc.id, dataRefID: userDoc.get("dataRefID"), clientfp: fingerPrint, expires: expires
+  })
 
   //set session cookie
   const cookies = new Cookies(req, res, {keys: [process.env.COOKIE_KEY]})
@@ -36,6 +39,8 @@ export const login = async (stdID, password, live, fingerPrint, req, res) => {
     signed: true,
     expires: new Date(expires)
   })
+
+  await update("system", "login", fingerPrint, userDoc.id)
 
   return {status: true, report: "success"}
 
@@ -55,11 +60,11 @@ class Data {
     return this
   }
 
-  public compareKey(key: string){
+  public compareKey(key: string) {
     return this.request.body[key] == this.doc.get(key)
   }
 
-  public get(key: string){
+  public get(key: string) {
     return this.doc.get(key)
   }
 }
@@ -77,15 +82,21 @@ export const register = async (req) => {
   const ref = initialisedDB.collection("ref")
   const userColl = initialisedDB.collection("users")
 
-  const ousd = await userColl.where("stdID","==",req.body.stdID).get()
+  const ousd = await userColl.where("stdID", "==", req.body.stdID).get()
   if (!ousd.empty) return {status: false, report: "user_exists"}
   const refDB = await ref.where("student_id", "==", req.body.stdID).get()
 
-  if(refDB.empty) return {status: false, report: "invalid_stdID"}
+  if (refDB.empty) return {status: false, report: "invalid_stdID"}
   const data = new Data(refDB.docs[0]).addRefRequest(req)
-  if(!data.compareKey("firstname") || !data.compareKey("lastname")) return {status: false, report: "mismatch_data"}
-  if(!isValidEmail(req.body.email) || !isNumeric(req.body.phone)) return {status: false, report: "invalid_data"}
-  if(!isValidPassword(req.body.password) || req.body.password !== req.body.confirmPassword) return {status: false, report: "invalid_credentials"}
+  if (!data.compareKey("firstname") || !data.compareKey("lastname")) return {
+    status: false, report: "mismatch_data"
+  }
+  if (!isValidEmail(req.body.email) || !isNumeric(req.body.phone)) return {
+    status: false, report: "invalid_data"
+  }
+  if (!isValidPassword(req.body.password) || req.body.password !== req.body.confirmPassword) return {
+    status: false, report: "invalid_credentials"
+  }
   const dataColl = initialisedDB.collection("data")
 
   const dataDoc = await dataColl.add({
@@ -95,7 +106,7 @@ export const register = async (req) => {
       audition: {}
     }
   })
-  await userColl.add({
+  const userDoc = await userColl.add({
     stdID: refDB.docs[0].get("student_id"),
     email: req.body.email,
     phone: req.body.phone,
@@ -103,11 +114,13 @@ export const register = async (req) => {
     password: await bcrypt.hash(req.body.password, 10),
   })
 
+  await update("system", "register", req.body.fingerPrint, userDoc.id)
+
   return {status: true, report: "success"}
 
 }
 
-export const destroySession = async (req, res) => {
+export const destroySession = async (req, res, cause = "") => {
   const cookies = new Cookies(req, res, {keys: [process.env.COOKIE_KEY]})
   const sessionID = cookies.get("sessionID", {signed: true})
 
@@ -115,6 +128,9 @@ export const destroySession = async (req, res) => {
 
   //destroy cookie and remove session from db
   cookies.set("sessionID")
-  await initialisedDB.collection("sessions").doc(sessionID).delete()
+  const doc = initialisedDB.collection("sessions").doc(sessionID)
+  const data = await doc.get()
+  await update("system", cause !== "" ? "logout->" + cause : "logout", data.get("clientfp"), data.get("userID"))
+  await doc.delete()
   return {status: true}
 }

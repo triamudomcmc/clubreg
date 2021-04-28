@@ -16,7 +16,7 @@ import Router from "next/router";
 
 const Select = () => {
 
-  const {onReady} = useAuth()
+  const {onReady, tracker} = useAuth()
 
   const [modalState, setModalState] = useState({open: false, data: {}})
   const [select, setSelect] = useState(false)
@@ -91,7 +91,7 @@ const Select = () => {
                 <h1 className="py-4 px-4 border-t">ชมรมคณิตศาสตร์</h1>
               </div>
             </div>
-            <div className="flex flex-col items-start rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
+            <div onClick={() => {tracker.push("click","testbutton")}} className="flex flex-col items-start rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
               <h1 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h1>
               <p className="text-gray-600 tracking-tight">นักเรียนสามารถใช้โควตายืนยันสิทธิ์ชมรมเดิมได้ทันที (ชมรม...) *โควตามีจำนวนจำกัด</p>
               <a className="bg-TUCMC-green-400 text-white whitespace-nowrap rounded-3xl shadow-md px-5 py-2.5">ยืนยันสิทธิ์ชมรมเดิม</a>
