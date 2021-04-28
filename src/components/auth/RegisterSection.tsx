@@ -16,7 +16,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-const RegisterSection = () => {
+const RegisterSection = ({swapFunction}) => {
   const [selected, setSelected] = useState(people[0])
   const [firstname, setFirstname] = useState("")
   const [lastname, setLastname] = useState("")
@@ -58,6 +58,7 @@ const RegisterSection = () => {
       const result = await res.json()
 
       if (result.status) {
+        swapFunction()
         Router.push({
           pathname: '',
           query: ""

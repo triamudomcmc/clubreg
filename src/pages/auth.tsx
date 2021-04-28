@@ -38,7 +38,7 @@ const Auth = ({query}) => {
           <p className="font-normal">นักเรียน ม.5 และ ม.6 จะไม่สามารถล็อกอินเข้าสู่ระบบด้วยบัญชีเดิมในปีการศึกษาที่ผ่านมาได้ ต้องยืนยันตัวตนและสร้างบัญชีใหม่ทั้งหมด เนื่องจากมีการออกแบบระบบใหม่</p>
         </DefaultCard>
         {action == "login" && <LoginSection primaryAction={goRegister}/>}
-        {action == "register" && <RegisterSection/>}
+        {action == "register" && <RegisterSection swapFunction={() => {setAction("login")}}/>}
       </div>
     </PageContainer>
   )
