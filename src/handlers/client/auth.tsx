@@ -24,7 +24,7 @@ export const AuthProvider = ({children}) => {
 function useProvideAuth() {
 
   const onReady = (callback: (logged: boolean, userData: UserData | null) => any) => {
-    if (userData !== null) return callback("email" in userData, userData)
+    if (userData !== null) return callback("student_id" in userData, userData)
     return {logged: false, userData: null}
   }
 

@@ -2,21 +2,7 @@ import initialisedDB from "@server/firebase-admin"
 import bcrypt from "bcryptjs"
 import Cookies from "cookies"
 import cryptoRandomString from "crypto-random-string";
-
-const sessionSize = 24
-
-const generateSession = async (sessCollection) => {
-  let sessionID = cryptoRandomString({length: sessionSize})
-  let sessionDoc = await sessCollection.doc(sessionID).get()
-
-  //provide unused session id
-  while (sessionDoc.exists) {
-    sessionID = cryptoRandomString({length: sessionSize})
-    sessionDoc = await sessCollection.doc(sessionID).get()
-  }
-
-  return sessionID
-}
+import {isASCII, isNumeric} from "@utilities/texts";
 
 export const login = async (stdID, password, live, fingerPrint, req, res) => {
 
@@ -40,17 +26,81 @@ export const login = async (stdID, password, live, fingerPrint, req, res) => {
   const expires = (new Date().getTime()) + live
 
   //append session to db
-  const sessionID = await generateSession(sessionsColl)
-  await sessionsColl.doc(sessionID)
-                    .create({userID: userDoc.id, clientfp: fingerPrint, expires: expires})
+  const sess = await sessionsColl.add({userID: userDoc.id,dataRefID: userDoc.get("dataRefID"), clientfp: fingerPrint, expires: expires})
 
   //set session cookie
   const cookies = new Cookies(req, res, {keys: [process.env.COOKIE_KEY]})
-  cookies.set('sessionID', sessionID, {
+  cookies.set('sessionID', sess.id, {
     httpOnly: true,
     sameSite: 'lax',
     signed: true,
     expires: new Date(expires)
+  })
+
+  return {status: true, report: "success"}
+
+}
+
+class Data {
+
+  private doc
+  private request
+
+  constructor(document) {
+    this.doc = document
+  }
+
+  public addRefRequest(req) {
+    this.request = req
+    return this
+  }
+
+  public compareKey(key: string){
+    return this.request.body[key] == this.doc.get(key)
+  }
+
+  public get(key: string){
+    return this.doc.get(key)
+  }
+}
+
+const isValidEmail = (email: string) => {
+  return email !== "" && email.includes("@") && email.includes(".")
+}
+
+const isValidPassword = (password: string) => {
+  return password.length >= 10 && isASCII(password)
+}
+
+export const register = async (req) => {
+
+  const ref = initialisedDB.collection("ref")
+  const userColl = initialisedDB.collection("users")
+
+  const ousd = await userColl.where("stdID","==",req.body.stdID).get()
+  if (!ousd.empty) return {status: false, report: "user_exists"}
+  const refDB = await ref.where("student_id", "==", req.body.stdID).get()
+
+  if(refDB.empty) return {status: false, report: "invalid_stdID"}
+  const data = new Data(refDB.docs[0]).addRefRequest(req)
+  if(!data.compareKey("firstname") || !data.compareKey("lastname")) return {status: false, report: "mismatch_data"}
+  if(!isValidEmail(req.body.email) || !isNumeric(req.body.phone)) return {status: false, report: "invalid_data"}
+  if(!isValidPassword(req.body.password) || req.body.password !== req.body.confirmPassword) return {status: false, report: "invalid_credentials"}
+  const dataColl = initialisedDB.collection("data")
+
+  const dataDoc = await dataColl.add({
+    ...refDB.docs[0].data(),
+    ...{
+      club: "",
+      audition: {}
+    }
+  })
+  await userColl.add({
+    stdID: refDB.docs[0].get("student_id"),
+    email: req.body.email,
+    phone: req.body.phone,
+    dataRefID: dataDoc.id,
+    password: await bcrypt.hash(req.body.password, 10),
   })
 
   return {status: true, report: "success"}

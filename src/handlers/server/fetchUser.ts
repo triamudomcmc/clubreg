@@ -15,17 +15,12 @@ export const fetchUser = async (req, res, fingerprint) => {
   if (sessionInfo.get("clientfp") !== fingerprint) return await destroySession(req, res)
   if (sessionInfo.get("expires") <= new Date().getTime()) return await destroySession(req, res)
 
-  const docData = await initialisedDB.collection("users").doc(sessionInfo.get("userID"))
+  const docData = await initialisedDB.collection("data").doc(sessionInfo.get("dataRefID"))
                                      .get()
 
   if (!docData.exists) return {logged: false, userData: {}}
   return {
     logged: true,
-    userData: {
-      email: docData.get("email"), username: docData.get("username"),
-      stdID: docData.get("stdID"), prefix: docData.get("prefix"),
-      firstname: docData.get("firstname"), lastname: docData.get("lastname"),
-      room: docData.get("room"), number: docData.get("number")
-    }
+    userData: docData.data()
   }
 }

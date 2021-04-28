@@ -11,6 +11,7 @@ import {
   StarIcon,
   UserGroupIcon, UserIcon
 } from "@heroicons/react/solid";
+import {Button} from "@components/common/Inputs/Button";
 
 const Index = () => {
   return (
@@ -19,17 +20,21 @@ const Index = () => {
         <div className="flex justify-center">
           <div
             className="flex flex-col items-center md:flex-row-reverse md:justify-between md:w-full md:max-w-6xl md:py-0 lg:py-20 mx-8 px-8 xl:px-0">
-            <IndexSplash className="mt-10 md:square-450px md:ml-12 md:mt-0 md:max-w-sm lg:max-w-none md:h-420px"/>
+            <IndexSplash
+              className="mt-10 md:square-450px md:ml-12 md:mt-0 md:max-w-sm lg:max-w-none md:h-420px"/>
             <div
               className="flex flex-col my-8 py-0 md:py-5 lg:py-0 items-center md:items-start md:justify-between md:h-full md:max-h-96">
-              <div className="md:mt-10 lg:mt-2 flex flex-col items-center md:block">
+              <div className="md:mt-10 lg:mt-2 flex flex-col items-center md:block px-1">
                 <h1
                   className="font-black tracking-tight text-3xl text-white md:tracking-normal whitespace-nowrap md:text-4xl lg:text-6xl">ระบบลงทะเบียนชมรม</h1>
                 <h1
                   className="font-regular tracking-normal text-2xl text-white md:text-3xl md:tracking-tight lg:text-5xl md:pt-2 lg:pt-4">โรงเรียนเตรียมอุดมศึกษา</h1>
-                <p className="tracking-tight text-white mt-2 md:mt-2 lg:mt-4 md:text-xl lg:text-3xl">ปีการศึกษา 2564</p>
+                <p
+                  className="tracking-tight text-white mt-2 md:mt-2 lg:mt-4 md:text-xl lg:text-3xl">ปีการศึกษา
+                  2564</p>
               </div>
-              <div className="hidden md:flex flex-row space-x-2 justify-center text-TUCMC-gray-900">
+              {/*<div
+                className="hidden md:flex flex-row space-x-2 justify-center text-TUCMC-gray-900">
                 <div className="flex flex-col items-center">
                   <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg">53</span>
                   <span className="text-white font-bold text-xs mt-2">DAY</span>
@@ -46,8 +51,13 @@ const Index = () => {
                   <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg">53</span>
                   <span className="text-white font-bold text-xs mt-2">SEC</span>
                 </div>
+              </div>*/}
+              <div className="hidden md:flex flex-col h-full justify-end">
+                <Button href="/auth" className="bg-white text-TUCMC-pink-600 shadow-lg font-bold px-12 lg:px-[4.5rem] rounded-full text-xl lg:text-2xl py-3 lg:py-3.5 mb-4">
+                  <span>เข้าสู่ระบบ</span>
+                </Button>
               </div>
-              <div className="hidden md:block font-medium text-white">
+              <div className="hidden md:block font-medium text-white px-1">
                 <p>ระบบจะเปิดให้ลงทะเบียนชมรม</p>
                 <p>ในวันที่ 17 พ.ค. 2564 เวลา 11.30 น.</p>
               </div>
@@ -55,7 +65,7 @@ const Index = () => {
           </div>
         </div>
         <div className="bg-white h-full rounded-t-5xl mt-8 md:mt-0">
-          <div
+          {/*<div
             className="flex md:hidden flex-row space-x-2 relative -top-6 justify-center text-TUCMC-gray-900">
             <div className="flex flex-col items-center">
               <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg">53</span>
@@ -73,6 +83,12 @@ const Index = () => {
               <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg">53</span>
               <span className="text-gray-500 font-bold text-xs mt-2">SEC</span>
             </div>
+          </div>*/}
+          <div
+            className="flex md:hidden flex-row relative -top-7 justify-center">
+            <Button href="auth" className="bg-white text-TUCMC-pink-600 shadow-lg font-bold px-[4.5rem] rounded-full text-2xl py-3.5 mb-4">
+              <span>เข้าสู่ระบบ</span>
+            </Button>
           </div>
           <div className="md:hidden mx-8 mt-6 mb-14">
             <div
@@ -106,7 +122,8 @@ const Index = () => {
                         ?</h1>
                     </div>
                     <img className="w-32 md:w-28 md:hidden" src="/assets/images/menu1.png"/>
-                    <img className="w-32 md:w-28 hidden md:block ml-4" src="/assets/images/menu1-2.png"/>
+                    <img className="w-32 md:w-28 hidden md:block ml-4"
+                         src="/assets/images/menu1-2.png"/>
                   </div>
                   <div
                     className="flex flex-row items-center justify-between shadow-lg bg-white rounded-xl md:rounded-lg px-7 py-5">
@@ -263,7 +280,8 @@ const Index = () => {
             <div className="md:flex md:justify-center">
               <div className="md:w-full md:max-w-6xl">
                 <h1 className="font-bold text-2xl text-center">คำถามที่พบบ่อย</h1>
-                <div className="mt-14 space-y-6 md:flex md:flex-row md:space-y-0 md:justify-center md:space-x-6">
+                <div
+                  className="mt-14 space-y-6 md:flex md:flex-row md:space-y-0 md:justify-center md:space-x-6">
                   <div className="space-y-6 md:w-1/2">
                     <FAQ title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
                       <FAQ.Answer>
@@ -304,19 +322,21 @@ const Index = () => {
             </div>
           </div>
           <div className="mx-8 pt-16 pb-24 md:mx-0 md:pt-0 md:pb-0">
-            <div className="flex flex-col items-center rounded-3xl mx-auto max-w-md md:mx-0 md:max-w-none md:rounded-none bg-TUCMC-pink-400">
-              <div className="flex flex-col items-center md:flex-row md:w-full md:max-w-5xl md:flex md:items-start md:justify-between md:px-8">
+            <div
+              className="flex flex-col items-center rounded-3xl mx-auto max-w-md md:mx-0 md:max-w-none md:rounded-none bg-TUCMC-pink-400">
+              <div
+                className="flex flex-col items-center md:flex-row md:w-full md:max-w-5xl md:flex md:items-start md:justify-between md:px-8">
                 <div className="md:flex md:flex-col md:items-start text-white my-10 md:mt-20">
-                  <h1 className="font-bold tracking-tight text-7xl md:tracking-normal md:text-8xl">ชมรม</h1>
+                  <h1
+                    className="font-bold tracking-tight text-7xl md:tracking-normal md:text-8xl">ชมรม</h1>
                   <h1 className="font-medium text-2xl md:text-4xl md:ml-1">กว่า 80+ ชมรม</h1>
-                  <div className="hidden md:block mt-10 shadow-md text-black font-medium ml-21shadow-lg bg-white rounded-5xl px-11 py-4">
-                    <Link href="/clubs">
-                      <span className="cursor-pointer text-2xl">ดูทั้งหมด</span>
-                    </Link>
-                  </div>
+                  <Button href="/clubs" className="hidden md:block mt-10 text-black font-medium ml-21 shadow-lg bg-white rounded-5xl px-11 py-4">
+                    <span className="text-2xl">ดูทั้งหมด</span>
+                  </Button>
                 </div>
                 <IndexBottom className="w-80 md:square-400px mb-16 mt-4"/>
-                <div className="md:hidden relative -bottom-6 shadow-lg bg-white rounded-5xl px-10 py-3_5">
+                <div
+                  className="md:hidden relative -bottom-6 shadow-lg bg-white rounded-5xl px-10 py-3_5">
                   <Link href="/clubs">
                     <span className="cursor-pointer text-2xl">ดูทั้งหมด</span>
                   </Link>

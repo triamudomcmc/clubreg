@@ -133,8 +133,8 @@ const Navigation = () => {
           </Link>
         </div>
         {logged && <div className="bg-TUCMC-gray-100 my-4 px-6 py-2">
-          <h1 className="text-TUCMC-gray-900">{`${userData.prefix}${userData.firstname} ${userData.lastname}`}</h1>
-          <h1 className="text-TUCMC-gray-700 tracking-tight">{`${userData.stdID} | ${userData.room} / ${userData.number}`}</h1>
+          <h1 className="text-TUCMC-gray-900">{`${userData.title}${userData.firstname} ${userData.lastname}`}</h1>
+          <h1 className="text-TUCMC-gray-700 tracking-tight">{`${userData.student_id} | ${userData.room} / ${userData.number}`}</h1>
         </div>}
         <Link href="/">
           <div

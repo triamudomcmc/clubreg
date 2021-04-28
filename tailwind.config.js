@@ -24,7 +24,8 @@ module.exports = {
         "TUCMC-pink": {
           100: "#FFF5F7",
           400: "#F687B3",
-          500: "#ED64A6"
+          500: "#ED64A6",
+          600: "#D53F8C"
         },
         "TUCMC-gray": {
           100: "#f7fafc",

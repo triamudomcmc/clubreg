@@ -1,10 +1,11 @@
 export default interface UserData {
-  email: string,
-  username: string,
-  stdID: string,
-  prefix: string,
+  student_id: string,
+  title: string,
   firstname: string,
   lastname: string,
   room: string,
-  number: string
+  number: string,
+  level: string,
+  club: string,
+  audition: {}
 }

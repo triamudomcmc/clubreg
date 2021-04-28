@@ -3,7 +3,7 @@ import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import Router from "next/router";
 import {LockClosedIcon} from "@heroicons/react/solid";
 
-const LoginSection = (primaryAction) => {
+const LoginSection = ({primaryAction}) => {
 
   const [ID, setID] = useState("")
   const [password, setPassword] = useState("")
@@ -54,20 +54,20 @@ const LoginSection = (primaryAction) => {
       </div>
       <form className="w-full" onSubmit={onsubmit}>
         <div className="px-6 w-full space-y-7 mt-10">
-          <div className="flex flex-col w-full">
+          <div className="flex flex-col w-full -space-y-px">
             <input
               onChange={event => {
                 setID(event.target.value)
               }}
-              type="username"
-              className="border-t appearance-none webkit-rounded-t-md border-l border-r border-gray-300 px-4 py-2 placeholder-gray-500 text-lg"
+              type="text"
+              className="appearance-none webkit-rounded-t-md border border-gray-300 px-4 py-2 placeholder-gray-500 text-lg focus:z-10 focus:ring-TUCMC-pink-500 focus:border-TUCMC-pink-500"
               placeholder="เลขประจำตัวนักเรียน"/>
             <input
               onChange={event => {
                 setPassword(event.target.value)
               }}
               type="password"
-              className="border appearance-none border-gray-300 webkit-rounded-b-md px-4 py-2 placeholder-gray-500 text-lg"
+              className="border appearance-none border-gray-300 webkit-rounded-b-md px-4 py-2 placeholder-gray-500 text-lg focus:z-10 focus:ring-TUCMC-pink-500 focus:border-TUCMC-pink-500"
               placeholder="รหัสผ่าน"/>
           </div>
           <div className="flex flex-row justify-between w-full">
@@ -84,7 +84,7 @@ const LoginSection = (primaryAction) => {
             <button type="submit"
                     className="relative flex justify-center items-center bg-TUCMC-pink-400 rounded-md text-white py-2 w-full">
               <div className="absolute left-4">
-                <LockClosedIcon/>
+                <LockClosedIcon className="w-5 h-5"/>
               </div>
               <span>ล็อกอิน</span>
             </button>
