@@ -7,7 +7,7 @@ import {Tracker} from "@client/tracker/track";
 interface IAuthContext {
   onReady: ((callback: (logged: boolean, userData: UserData | null) => any) => any),
   signout: () => void,
-  tracker: Tracker | null
+  tracker: Tracker
 }
 
 const AuthContext = React.createContext<IAuthContext | null>(null)
@@ -36,6 +36,7 @@ function useProvideAuth() {
   const singoutAction = async () => {
     await logout()
     Router.reload()
+    Router.push("/auth")
   }
 
   const signout = () => {

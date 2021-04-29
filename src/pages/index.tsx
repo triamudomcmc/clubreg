@@ -13,14 +13,11 @@ import {
 } from "@heroicons/react/solid";
 import {Button} from "@components/common/Inputs/Button";
 import {Tracker} from "@client/tracker/track";
+import {useAuth} from "@client/auth";
 
 const Index = () => {
 
-  const tracker = new Tracker()
-
-  useEffect(() => {
-    tracker.init()
-  },[])
+  const {tracker} = useAuth()
 
   return (
     <PageContainer>

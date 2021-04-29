@@ -1,5 +1,7 @@
 import {ClipboardCopyIcon, StarIcon} from "@heroicons/react/solid";
 import {Dispatch, SetStateAction} from "react";
+import {Tracker} from "@client/tracker/track";
+import {useAuth} from "@client/auth";
 
 interface props {
   title: string,
@@ -10,8 +12,11 @@ interface props {
 
 const ClubList = ({title, audition = false, state = "open", action}: props) => {
 
+  const { tracker } = useAuth()
+
   const click = () => {
     action({open: true, data: {title: title}})
+    tracker && tracker.push("click","select_display->"+title)
   }
 
   return (

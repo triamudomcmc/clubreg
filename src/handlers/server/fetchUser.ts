@@ -10,7 +10,9 @@ export const fetchUser = async (req, res, fingerprint) => {
 
   //guard clauses
   if (!sessionID) return {logged: false, userData: {}}
+
   const sessionInfo = await initialisedDB.collection("sessions").doc(sessionID).get()
+
   if (!sessionInfo.exists) return cookies.set("sessionID")
   if (sessionInfo.get("clientfp") !== fingerprint) return await destroySession(req, res, "fp_reject")
   if (sessionInfo.get("expires") <= new Date().getTime()) return await destroySession(req, res, "expired")
@@ -21,6 +23,7 @@ export const fetchUser = async (req, res, fingerprint) => {
   if (!docData.exists) return {logged: false, userData: {}}
   return {
     logged: true,
+    expires: sessionInfo.get("expires"),
     userID: sessionInfo.get("userID"),
     userData: docData.data()
   }

@@ -1,4 +1,5 @@
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import Router from "next/router";
 
 export const fetchUser = async (): Promise<{ userID: string, userData: {} }> => {
 
@@ -16,7 +17,14 @@ export const fetchUser = async (): Promise<{ userID: string, userData: {} }> => 
 
   const res = await data.json()
 
-  if (res.logged) return {userID: res.userID, userData: res.userData}
+  if (res.logged) {
+    //auto fetching after expired
+    setTimeout(() => {
+      Router.reload()
+      Router.push("/auth")
+    }, (res.expires - new Date().getTime()) + 1000)
+    return {userID: res.userID, userData: res.userData}
+  }
   return {userID: null, userData: {}}
 
 }

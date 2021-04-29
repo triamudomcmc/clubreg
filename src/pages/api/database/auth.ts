@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.setHeader('Content-Type', `application/json`)
       switch (req.body.action) {
         case "login": {
-          const output = await login(req.body.stdID, req.body.password, 60*60 * 1000, req.body.fingerprint, req, res)
+          const output = await login(req.body.stdID, req.body.password, 60 * 60 * 1000, req.body.fingerprint, req, res)
           res.json(output)
           break
         }

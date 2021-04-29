@@ -4,6 +4,7 @@ import Cookies from "cookies"
 import cryptoRandomString from "crypto-random-string";
 import {isASCII, isNumeric} from "@utilities/texts";
 import {update} from "@server/tracker";
+import LooseTypeObject from "../../interfaces/LooseTypeObject";
 
 export const login = async (stdID, password, live, fingerPrint, req, res) => {
 
@@ -40,63 +41,59 @@ export const login = async (stdID, password, live, fingerPrint, req, res) => {
     expires: new Date(expires)
   })
 
+  //update Tracker
   await update("system", "login", fingerPrint, userDoc.id)
 
   return {status: true, report: "success"}
 
 }
 
-class Data {
+const createDataPair = (ref1: LooseTypeObject<string>, ref2: LooseTypeObject<string>) => {
+  const ref1Keys = Object.keys(ref1), ref2Keys = Object.keys(ref2)
+  let primary = ref1, secondary = ref2
+  if (ref1Keys.length < ref2Keys.length) primary = ref2; secondary = ref1
+  const dataPair = {}
+  Object.keys(primary).map(value => {
+    dataPair[value] = [primary[value], value in secondary ? secondary[value] : ""]
+  })
 
-  private doc
-  private request
-
-  constructor(document) {
-    this.doc = document
-  }
-
-  public addRefRequest(req) {
-    this.request = req
-    return this
-  }
-
-  public compareKey(key: string) {
-    return this.request.body[key] == this.doc.get(key)
-  }
-
-  public get(key: string) {
-    return this.doc.get(key)
-  }
+  return dataPair
 }
 
-const isValidEmail = (email: string) => {
-  return email !== "" && email.includes("@") && email.includes(".")
-}
+const compareDataPair = (dataPair: LooseTypeObject<string>, key: string) => dataPair[key][0] === dataPair[key][1]
 
-const isValidPassword = (password: string) => {
-  return password.length >= 10 && isASCII(password)
-}
+const isValidEmail = (email: string) => email !== "" && email.includes("@") && email.includes(".")
+
+const isValidPassword = (password: string) => password.length >= 10 && isASCII(password)
 
 export const register = async (req) => {
 
+  //initialise collections
   const ref = initialisedDB.collection("ref")
   const userColl = initialisedDB.collection("users")
 
   const ousd = await userColl.where("stdID", "==", req.body.stdID).get()
+
   if (!ousd.empty) return {status: false, report: "user_exists"}
+
   const refDB = await ref.where("student_id", "==", req.body.stdID).get()
 
   if (refDB.empty) return {status: false, report: "invalid_stdID"}
-  const data = new Data(refDB.docs[0]).addRefRequest(req)
-  if (!data.compareKey("firstname") || !data.compareKey("lastname")) return {
+
+  const dataPair = createDataPair(refDB.docs[0].data(), req.body)
+
+  if (!compareDataPair(dataPair, "firstname") || !compareDataPair(dataPair, "lastname")) return {
     status: false, report: "mismatch_data"
   }
+
   if (!isValidEmail(req.body.email) || !isNumeric(req.body.phone)) return {
     status: false, report: "invalid_data"
   }
+
   if (!isValidPassword(req.body.password) || req.body.password !== req.body.confirmPassword) return {
     status: false, report: "invalid_credentials"
   }
+
   const dataColl = initialisedDB.collection("data")
 
   const dataDoc = await dataColl.add({
@@ -114,6 +111,7 @@ export const register = async (req) => {
     password: await bcrypt.hash(req.body.password, 10),
   })
 
+  //update Tracker
   await update("system", "register", req.body.fingerPrint, userDoc.id)
 
   return {status: true, report: "success"}
@@ -130,7 +128,10 @@ export const destroySession = async (req, res, cause = "") => {
   cookies.set("sessionID")
   const doc = initialisedDB.collection("sessions").doc(sessionID)
   const data = await doc.get()
+
+  //update Tracker
   await update("system", cause !== "" ? "logout->" + cause : "logout", data.get("clientfp"), data.get("userID"))
   await doc.delete()
+
   return {status: true}
 }
