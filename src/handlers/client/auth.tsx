@@ -7,7 +7,8 @@ import {Tracker} from "@client/tracker/track";
 interface IAuthContext {
   onReady: ((callback: (logged: boolean, userData: UserData | null) => any) => any),
   signout: () => void,
-  tracker: Tracker
+  tracker: Tracker,
+  reFetch: () => Promise<void>
 }
 
 const AuthContext = React.createContext<IAuthContext | null>(null)
@@ -33,9 +34,16 @@ function useProvideAuth() {
   const [userData, setUserData] = useState(null)
   const [tracker, setTracker] = useState(new Tracker())
 
+  const reFetch = async () => {
+    const data = await fetchUser()
+    setUserData(data.userData)
+    setTracker(await new Tracker().setUserID(data.userID).init())
+  }
+
   const singoutAction = async () => {
     await logout()
-    Router.reload()
+    setUserData(null)
+    setTracker(new Tracker())
     Router.push("/auth")
   }
 
@@ -45,19 +53,14 @@ function useProvideAuth() {
 
   useEffect(() => {
 
-    const getData = async () => {
-      const data = await fetchUser()
-      setUserData(data.userData)
-      setTracker(await new Tracker().setUserID(data.userID).init())
-    }
-
-    getData()
+    reFetch()
 
   }, [])
 
   return {
     onReady,
     signout,
-    tracker
+    tracker,
+    reFetch
   }
 }

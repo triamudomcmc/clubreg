@@ -2,9 +2,11 @@ import React, {useState} from "react";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import Router from "next/router";
 import {LockClosedIcon} from "@heroicons/react/solid";
+import {useAuth} from "@client/auth";
 
 const LoginSection = ({primaryAction}) => {
 
+  const { reFetch } = useAuth()
   const [ID, setID] = useState("")
   const [password, setPassword] = useState("")
 
@@ -34,10 +36,8 @@ const LoginSection = ({primaryAction}) => {
       const result = await res.json()
 
       if (result.status) {
-
-        Router.reload()
+        await reFetch()
         Router.push("/select")
-
       } else {
         console.log(result.report)
       }
