@@ -34,8 +34,10 @@ const LoginSection = ({primaryAction}) => {
       const result = await res.json()
 
       if (result.status) {
-        Router.push("/select")
+
         Router.reload()
+        Router.push("/select")
+
       } else {
         console.log(result.report)
       }
