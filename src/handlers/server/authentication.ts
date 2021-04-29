@@ -42,7 +42,7 @@ export const login = async (stdID, password, live, fingerPrint, req, res) => {
   })
 
   //update Tracker
-  await update("system", "login", fingerPrint, userDoc.id)
+  update("system", "login", fingerPrint, userDoc.id)
 
   return {status: true, report: "success"}
 
@@ -112,7 +112,7 @@ export const register = async (req) => {
   })
 
   //update Tracker
-  await update("system", "register", req.body.fingerPrint, userDoc.id)
+  update("system", "register", req.body.fingerPrint, userDoc.id)
 
   return {status: true, report: "success"}
 
@@ -130,7 +130,7 @@ export const destroySession = async (req, res, cause = "") => {
   const data = await doc.get()
 
   //update Tracker
-  await update("system", cause !== "" ? "logout->" + cause : "logout", data.get("clientfp"), data.get("userID"))
+  update("system", cause !== "" ? "logout->" + cause : "logout", data.get("clientfp"), data.get("userID"))
   await doc.delete()
 
   return {status: true}

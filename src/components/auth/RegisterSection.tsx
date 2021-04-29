@@ -58,11 +58,11 @@ const RegisterSection = ({swapFunction}) => {
       const result = await res.json()
 
       if (result.status) {
-        swapFunction()
         Router.push({
           pathname: '',
           query: ""
         })
+        Router.reload()
       } else {
         console.log(result.report)
       }
