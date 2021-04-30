@@ -4,7 +4,7 @@ import Router from "next/router";
 import {LockClosedIcon} from "@heroicons/react/solid";
 import {useAuth} from "@client/auth";
 
-const LoginSection = ({primaryAction}) => {
+const LoginSection = ({primaryAction, setLoader, setToast}) => {
 
   const { reFetch } = useAuth()
   const [ID, setID] = useState("")
@@ -12,6 +12,10 @@ const LoginSection = ({primaryAction}) => {
 
   const onsubmit = async (event) => {
     event.preventDefault()
+
+    const loaderTimeout = setTimeout(() => {
+      setLoader(true)
+    },500)
 
     const fp = await FingerprintJS.load()
     const fingerPrint = await fp.get();
@@ -37,13 +41,46 @@ const LoginSection = ({primaryAction}) => {
 
       if (result.status) {
         await reFetch()
-        Router.push("/select")
       } else {
-        console.log(result.report)
+        switch (result.report) {
+          case "invalid_credentials":
+            setToast({
+              theme:"modern",
+              icon: "cross",
+              title: "ข้อมูลไม่ถูกต้อง",
+              text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง"
+            })
+            break
+          case "invalid_password":
+            setToast({
+              theme:"modern",
+              icon: "cross",
+              title: "รหัสผ่านไม่ถูกต้อง",
+              text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือ หากลืมรหัสผ่านสามารถติดต่อทาง กช. เพื่อขอเปลี่ยนรหัสผ่านได้"
+            })
+            break
+          case "invalid_user":
+            setToast({
+              theme:"modern",
+              icon: "cross",
+              title: "ไม่พบผู้ใช้งานที่ใช้รหัสนักเรียนนี้",
+              text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือ หากยังไม่ได้สร้างบัญชีให้ดำเนินการสร้างบัญชีผู้ใช้ก่อน"
+            })
+            break
+
+        }
       }
     } catch (error) {
-      console.log(error)
+      setToast({
+        theme:"modern",
+        icon: "cross",
+        title: "พบข้อผิดพลาดที่ไม่ทราบสาเหตุ",
+        text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง หากยังพบข้อผิดพลาดสามารถติดต่อทาง กช."
+      })
     }
+
+    clearTimeout(loaderTimeout)
+    setLoader(false)
 
   }
 
@@ -63,14 +100,14 @@ const LoginSection = ({primaryAction}) => {
               }}
               type="text"
               className="appearance-none webkit-rounded-t-md border border-gray-300 px-4 py-2 placeholder-gray-500 text-lg focus:z-10 focus:ring-TUCMC-pink-500 focus:border-TUCMC-pink-500"
-              placeholder="เลขประจำตัวนักเรียน"/>
+              placeholder="เลขประจำตัวนักเรียน" required/>
             <input
               onChange={event => {
                 setPassword(event.target.value)
               }}
               type="password"
               className="border appearance-none border-gray-300 webkit-rounded-b-md px-4 py-2 placeholder-gray-500 text-lg focus:z-10 focus:ring-TUCMC-pink-500 focus:border-TUCMC-pink-500"
-              placeholder="รหัสผ่าน"/>
+              placeholder="รหัสผ่าน" required/>
           </div>
           <div className="flex flex-row justify-between w-full">
             <div className="flex flex-row">

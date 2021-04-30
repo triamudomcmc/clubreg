@@ -27,8 +27,6 @@ const Select = () => {
   onReady((logged, userData)=> {
     if(!logged) {
       Router.push("/auth")
-    }else{
-      console.log(userData)
     }
   })
 

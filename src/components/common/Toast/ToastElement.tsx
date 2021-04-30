@@ -1,7 +1,7 @@
 import {motion} from "framer-motion";
 import {useEffect, useState} from "react";
 import {useWindowDimensions} from "@utilities/document";
-import {CheckCircleIcon} from "@heroicons/react/outline";
+import {CheckCircleIcon, XCircleIcon} from "@heroicons/react/outline";
 import {XIcon} from "@heroicons/react/solid";
 
 const ToastElement = ({toastData, index, toastDeleteHandler, ...restProps}) => {
@@ -25,7 +25,7 @@ const ToastElement = ({toastData, index, toastDeleteHandler, ...restProps}) => {
     } else {
       setTimeout(() => {
         deleteToast(index)
-      }, 3000)
+      }, 10000)
     }
   }, [])
 
@@ -54,6 +54,17 @@ const ToastElement = ({toastData, index, toastDeleteHandler, ...restProps}) => {
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
             d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
     </svg>
+  }
+
+  const newIcons = "title" in toastData && {
+    tick: <CheckCircleIcon className="text-green-400 w-6 h-6 flex-shrink-0"/>,
+    info: <svg className={`h-8 w-8 text-${toastData.color}-600 mr-4`}
+               xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+               stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+    </svg>,
+    cross: <XCircleIcon className="text-red-400 w-6 h-6 flex-shrink-0"/>
   }
 
   if (toastData.theme == "default") {
@@ -99,7 +110,7 @@ const ToastElement = ({toastData, index, toastDeleteHandler, ...restProps}) => {
         {...restProps}
       >
         <div className="flex">
-          <CheckCircleIcon className="text-green-400 w-6 h-6 flex-shrink-0"/>
+          {newIcons[toastData.icon]}
           <div className="pl-3 space-y-1 mt-0.5">
             <p className="text-black text-sm font-medium">{toastData.title}</p>
             <p

@@ -110,6 +110,7 @@ const Navigation = () => {
               <h1 className="text-white">FAQ</h1>
               <h1 className="text-white">กช.</h1>
               <h1 className="text-white">ติดต่อ</h1>
+              {!logged ? <Link href="/auth"><h1 className="text-white cursor-pointer">เข้าสู่ระบบ</h1></Link> : <h1 onClick={signout} className="text-white cursor-pointer">ออกจากระบบ</h1>}
             </div>
             <div className="md:hidden">
               <NavButton toggle={() => {

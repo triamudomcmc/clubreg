@@ -8,12 +8,16 @@ import LoginSection from "@components/auth/LoginSection";
 import {useAuth} from "@client/auth";
 import {Input} from "@components/auth/Input";
 import RegisterSection from "@components/auth/RegisterSection";
+import {Loader} from "@components/common/Loader"
+import Toast from "@components/common/Toast";
 
 
 const Auth = ({query}) => {
 
   const {onReady} = useAuth()
   const [action, setAction] = useState(("register" in query) ? "register" : "login")
+  const [toast, setToast] = useState({})
+  const [loader, setLoader] = useState(false)
 
   onReady(logged => {
     if(logged) {
@@ -33,12 +37,14 @@ const Auth = ({query}) => {
 
   return (
     <PageContainer footer={false}>
+      {loader && <Loader/>}
+      <Toast newToast={toast}/>
       <div style={{maxWidth: "26rem"}} className="mx-auto my-6 mb-16 md:my-10 md:mb-10 space-y-8 min-h-screen">
         <DefaultCard>
           <p className="font-normal">นักเรียน ม.5 และ ม.6 จะไม่สามารถล็อกอินเข้าสู่ระบบด้วยบัญชีเดิมในปีการศึกษาที่ผ่านมาได้ ต้องยืนยันตัวตนและสร้างบัญชีใหม่ทั้งหมด เนื่องจากมีการออกแบบระบบใหม่</p>
         </DefaultCard>
-        {action == "login" && <LoginSection primaryAction={goRegister}/>}
-        {action == "register" && <RegisterSection swapFunction={() => {setAction("login")}}/>}
+        {action == "login" && <LoginSection primaryAction={goRegister} setLoader={setLoader} setToast={setToast}/>}
+        {action == "register" && <RegisterSection swapFunction={() => {setAction("login")}} setLoader={setLoader} setToast={setToast}/>}
       </div>
     </PageContainer>
   )

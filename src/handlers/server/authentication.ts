@@ -36,7 +36,7 @@ export const login = async (stdID, password, live, fingerPrint, req, res) => {
   const cookies = new Cookies(req, res, {keys: [process.env.COOKIE_KEY]})
   cookies.set('sessionID', sess.id, {
     httpOnly: true,
-    sameSite: 'lax',
+    sameSite: 'Strict',
     signed: true,
     expires: new Date(expires)
   })

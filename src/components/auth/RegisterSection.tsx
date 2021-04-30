@@ -16,7 +16,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-const RegisterSection = ({swapFunction}) => {
+const RegisterSection = ({swapFunction, setLoader, setToast}) => {
   const [selected, setSelected] = useState(people[0])
   const [firstname, setFirstname] = useState("")
   const [lastname, setLastname] = useState("")
@@ -30,6 +30,12 @@ const RegisterSection = ({swapFunction}) => {
 
   const onsubmit = async (event) => {
     event.preventDefault()
+    const loaderTimeout = setTimeout(() => {
+      setLoader(true)
+    },500)
+
+    const fp = await FingerprintJS.load()
+    const fingerPrint = await fp.get();
 
     const data = {
       action: "register",
@@ -42,7 +48,8 @@ const RegisterSection = ({swapFunction}) => {
       firstname: firstname,
       lastname: lastname,
       confirmPassword: conpass,
-      password: password
+      password: password,
+      fingerPrint: fingerPrint.visitorId
     }
 
     try {
@@ -58,18 +65,72 @@ const RegisterSection = ({swapFunction}) => {
       const result = await res.json()
 
       if (result.status) {
-        Router.push({
+        await Router.push({
           pathname: '',
           query: ""
         })
-        Router.reload()
+        setToast({
+          theme:"modern",
+          icon: "tick",
+          title: "ลงทะเบียนเสร็จสมบูรณ์",
+          text: "การลงทะเบียนเสร็จสมบูรณ์ ผู้ใช้งานสามารถเข้าสู่ระบบได้ทันที"
+        })
+        swapFunction("login")
       } else {
-        console.log(result.report)
+        switch (result.report) {
+          case "user_exists":
+            setToast({
+              theme:"modern",
+              icon: "cross",
+              title: "มีบัญชีนี้อยู่แล้วในระบบ",
+              text: "คุณเคยลงทะเบียนแล้ว กรุณาเข้าสู่ระบบที่ส่วนสำหรับการเข้าสู่ระบบ หากคุณไม่เคยลงทะเบียนมาก่อนแล้วพบข้อความนี้กรุณาติดต่อทาง กช."
+            })
+            break
+          case "invalid_stdID":
+            setToast({
+              theme:"modern",
+              icon: "cross",
+              title: "ไม่พบรหัสนักเรียนนี้ในฐานข้อมูล",
+              text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช. เพื่อขอตรวจสอบข้อมูล"
+            })
+            break
+          case "mismatch_data":
+            setToast({
+              theme:"modern",
+              icon: "cross",
+              title: "ข้อมูลที่ระบุไม่ตรงกับข้อมูลบนฐานข้อมูล",
+              text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช. เพื่อขอตรวจสอบข้อมูล"
+            })
+            break
+          case "invalid_data":
+            setToast({
+              theme:"modern",
+              icon: "cross",
+              title: "อีเมล หรือ เบอร์โทรศัพท์ ที่ระบุไม่ถูกต้อง",
+              text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช."
+            })
+            break
+          case "invalid_credentials":
+            setToast({
+              theme:"modern",
+              icon: "cross",
+              title: "ช่องรหัสผ่านและช่องยืนยันรหัสผ่านไม่ตรงกัน",
+              text: "ข้อมูลในช่องรหัสผ่านและช่องยืนยันรหัสผ่านจะต้องเหมือนกัน กรุณาลองใหม่อีกครั้ง"
+            })
+            break
+
+        }
       }
     } catch (error) {
-      console.log(error)
+      setToast({
+        theme:"modern",
+        icon: "cross",
+        title: "พบข้อผิดพลาดที่ไม่ทราบสาเหตุ",
+        text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง หากยังพบข้อผิดพลาดสามารถติดต่อทาง กช."
+      })
     }
-
+    clearTimeout(loaderTimeout)
+    setLoader(false)
   }
 
   return (
@@ -81,9 +142,9 @@ const RegisterSection = ({swapFunction}) => {
         </div>
       </div>
       <form onSubmit={onsubmit} className="w-full mt-8 space-y-6">
-        <Input title="ชื่อ" stateUpdate={setFirstname}/>
-        <Input title="นามสกุล (หากมีชื่อกลาง ให้กรอกในช่องนี้)" stateUpdate={setLastname}/>
-        <Input title="เลขประจำตัวนักเรียน" stateUpdate={setStdID}/>
+        <Input title="ชื่อ" stateUpdate={setFirstname} required={true}/>
+        <Input title="นามสกุล (หากมีชื่อกลาง ให้กรอกในช่องนี้)" stateUpdate={setLastname} required={true}/>
+        <Input title="เลขประจำตัวนักเรียน" stateUpdate={setStdID} required={true}/>
         <div className="w-full">
           <Listbox value={selected} onChange={setSelected}>
             {({open}) => (
@@ -149,9 +210,9 @@ const RegisterSection = ({swapFunction}) => {
             )}
           </Listbox>
         </div>
-        <Input title="ห้องเรียน" stateUpdate={setRoom}/>
-        <Input title="เลขที่" stateUpdate={setNumber}/>
-        <Input title="Email" stateUpdate={setEmail}/>
+        <Input title="ห้องเรียน" stateUpdate={setRoom} required={true}/>
+        <Input title="เลขที่" stateUpdate={setNumber} required={true}/>
+        <Input title="Email" stateUpdate={setEmail} required={true}/>
         <div>
           <span className="text-gray-700 tracking-tight">เบอร์โทรศัพท์</span>
           <div className="mt-1 relative rounded-md shadow-sm">
@@ -176,11 +237,12 @@ const RegisterSection = ({swapFunction}) => {
               id="phone_number"
               className="focus:ring-TUCMC-pink-500 focus:border-TUCMC-pink-500 block w-full pl-16 text-lg border-gray-300 rounded-md"
               placeholder="+66"
+              required={true}
             />
           </div>
         </div>
-        <Input title="รหัสผ่าน" type="password" stateUpdate={setPassword}/>
-        <Input title="ยืนยันรหัสผ่าน" type="password" stateUpdate={setConpass}/>
+        <Input title="รหัสผ่าน" type="password" stateUpdate={setPassword} required={true}/>
+        <Input title="ยืนยันรหัสผ่าน" type="password" stateUpdate={setConpass} required={true}/>
         <div className="flex justify-end w-full">
           <Button type="submit" className="cursor-pointer shadow-md bg-TUCMC-pink-400 text-white tracking-tight rounded-md px-5 py-3">
             <span>ยืนยันตัวตน</span>
