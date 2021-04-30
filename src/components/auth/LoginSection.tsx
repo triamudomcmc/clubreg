@@ -15,7 +15,7 @@ const LoginSection = ({primaryAction, setLoader, setToast}) => {
 
     const loaderTimeout = setTimeout(() => {
       setLoader(true)
-    },500)
+    },1000)
 
     const fp = await FingerprintJS.load()
     const fingerPrint = await fp.get();

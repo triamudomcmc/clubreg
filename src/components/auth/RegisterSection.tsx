@@ -32,7 +32,7 @@ const RegisterSection = ({swapFunction, setLoader, setToast}) => {
     event.preventDefault()
     const loaderTimeout = setTimeout(() => {
       setLoader(true)
-    },500)
+    },1000)
 
     const fp = await FingerprintJS.load()
     const fingerPrint = await fp.get();

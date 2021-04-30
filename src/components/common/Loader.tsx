@@ -2,12 +2,12 @@ import {RefreshIcon} from "@heroicons/react/solid";
 import {motion} from "framer-motion"
 import {useWindowDimensions} from "@utilities/document";
 
-export const Loader = () => {
+export const Loader = ({display}) => {
 
   const {width} = useWindowDimensions()
 
   return(
-    <div style={{zIndex: 9999}} className="flex justify-center items-center min-h-screen w-full fixed top-0 left-0 bg-TUCMC-gray-100 bg-opacity-80">
+    <div style={{zIndex: 9999, display: display ? "flex" : "none"}} className="flex justify-center items-center min-h-screen w-full fixed top-0 left-0 bg-TUCMC-gray-100 bg-opacity-80">
       <div className="absolute top-0 w-full bg-blue-300 h-1.5">
       </div>
       <motion.div initial={{x: -1000}} animate={{x: width}} transition={{

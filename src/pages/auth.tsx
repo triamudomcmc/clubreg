@@ -37,7 +37,7 @@ const Auth = ({query}) => {
 
   return (
     <PageContainer footer={false}>
-      {loader && <Loader/>}
+      <Loader display={loader}/>
       <Toast newToast={toast}/>
       <div style={{maxWidth: "26rem"}} className="mx-auto my-6 mb-16 md:my-10 md:mb-10 space-y-8 min-h-screen">
         <DefaultCard>
