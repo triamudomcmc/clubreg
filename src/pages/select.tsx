@@ -13,8 +13,42 @@ import DataModal from "@components/select/DataModal";
 import Toast from "@components/common/Toast";
 import {useAuth} from "@client/auth";
 import Router from "next/router";
+import {GetStaticProps} from "next";
+import * as fs from "fs";
 
-const Select = () => {
+const slice = (obj, partitions) => {
+  const size = Object.keys(obj).length
+  const partSize = Math.floor(size / partitions)
+  let leftOver = size - (partSize * partitions)
+  let result = []
+  let initialPointer = 0
+  for (let i = 0; i < partitions; i++) {
+    let data = []
+    const partSizeFinal = partSize + (leftOver > 0 ? 1 : 0)
+    Object.keys(obj).slice(initialPointer, initialPointer + partSizeFinal).forEach(val => {
+      data.push({
+        clubID: val,
+        ...obj[val]
+      })
+    })
+    initialPointer += partSizeFinal
+    result.push(data)
+    leftOver -= 1
+  }
+  return result
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const data = fs.readFileSync("./_map/clubs.json").toString()
+  const club = JSON.parse(data)
+  return {
+    props: {
+      clubData: slice(club, 2)
+    }
+  }
+}
+
+const Select = ({clubData}) => {
 
   const {onReady, tracker} = useAuth()
 
@@ -104,32 +138,18 @@ const Select = () => {
           </div>
           <div className="flex flex-col md:flex-row md:space-x-4 mt-6">
             <div className="space-y-2">
-              <ClubList title="ชมรมสีสรรพ์ภาษาต่างประเทศที่ 2 (French Chorus)" state="full" action={setModalState}/>
-              <ClubList title="ชมรมพัฒนาศักยภาพทางวิทยาศาสตร์" state="open" action={setModalState}/>
-              <ClubList title="ชมรมสังคมศึกษา (หลากทัศนะประวัติศาสตร์)" audition={true} action={setModalState}/>
-              <ClubList title="ชมรมสีสรรพ์ภาษาต่างประเทศที่ 2 (French Chorus)" state="full" action={setModalState}/>
-              <ClubList title="ชมรมพัฒนาศักยภาพทางวิทยาศาสตร์" state="open" action={setModalState}/>
-              <ClubList title="ชมรมสังคมศึกษา (หลากทัศนะประวัติศาสตร์)" audition={true} action={setModalState}/>
-              <ClubList title="ชมรมสีสรรพ์ภาษาต่างประเทศที่ 2 (French Chorus)" state="full" action={setModalState}/>
-              <ClubList title="ชมรมพัฒนาศักยภาพทางวิทยาศาสตร์" state="open" action={setModalState}/>
-              <ClubList title="ชมรมสังคมศึกษา (หลากทัศนะประวัติศาสตร์)" audition={true} action={setModalState}/>
-              <ClubList title="ชมรมสีสรรพ์ภาษาต่างประเทศที่ 2 (French Chorus)" state="full" action={setModalState}/>
-              <ClubList title="ชมรมพัฒนาศักยภาพทางวิทยาศาสตร์" state="open" action={setModalState}/>
-              <ClubList title="ชมรมสังคมศึกษา (หลากทัศนะประวัติศาสตร์)" audition={true} action={setModalState}/>
+              {
+                clubData[0].map((val) => {
+                  return <ClubList data={val} state="open" action={setModalState}/>
+                })
+              }
             </div>
             <div className="mt-2 md:mt-0 space-y-2">
-              <ClubList title="ชมรมสีสรรพ์ภาษาต่างประเทศที่ 2 (French Chorus)" state="full" action={setModalState}/>
-              <ClubList title="ชมรมพัฒนาศักยภาพทางวิทยาศาสตร์" state="open" action={setModalState}/>
-              <ClubList title="ชมรมสังคมศึกษา (หลากทัศนะประวัติศาสตร์)" audition={true} action={setModalState}/>
-              <ClubList title="ชมรมสีสรรพ์ภาษาต่างประเทศที่ 2 (French Chorus)" state="full" action={setModalState}/>
-              <ClubList title="ชมรมพัฒนาศักยภาพทางวิทยาศาสตร์" state="open" action={setModalState}/>
-              <ClubList title="ชมรมสังคมศึกษา (หลากทัศนะประวัติศาสตร์)" audition={true} action={setModalState}/>
-              <ClubList title="ชมรมสีสรรพ์ภาษาต่างประเทศที่ 2 (French Chorus)" state="full" action={setModalState}/>
-              <ClubList title="ชมรมพัฒนาศักยภาพทางวิทยาศาสตร์" state="open" action={setModalState}/>
-              <ClubList title="ชมรมสังคมศึกษา (หลากทัศนะประวัติศาสตร์)" audition={true} action={setModalState}/>
-              <ClubList title="ชมรมสีสรรพ์ภาษาต่างประเทศที่ 2 (French Chorus)" state="full" action={setModalState}/>
-              <ClubList title="ชมรมพัฒนาศักยภาพทางวิทยาศาสตร์" state="open" action={setModalState}/>
-              <ClubList title="ชมรมสังคมศึกษา (หลากทัศนะประวัติศาสตร์)" audition={true} action={setModalState}/>
+              {
+                clubData[1].map((val) => {
+                  return <ClubList data={val} state="open" action={setModalState}/>
+                })
+              }
             </div>
           </div>
         </div>
