@@ -39,37 +39,43 @@ const sliceObj = (obj, partitions) => {
   return result
 }
 
-const sortThaiDictionary = (obj: any,objAction: (obj: any) => string, inverted = false) => {
-  return Object.keys(obj).sort((a, b) => objAction(obj[a]).localeCompare(objAction(obj[b]), 'th') * (inverted ? -1 : 1)).map((val) => {
-    return {clubID: val, ...obj[val]}
+const sortThaiDictionary = (arr: any,objAction: (obj: any) => string, inverted = false) => {
+  return arr.sort((a, b) => a.title.localeCompare(b.title, 'th') * (inverted ? -1 : 1)).map((val) => {
+    return val
   })
 }
 
-const sortAudition = (obj: any, inverted = false) => {
+const sortAudition = (arr: any, inverted = false) => {
   let top = [], bottom = []
-  Object.keys(obj).forEach((key) => {
-    if (obj[key].audition === !inverted) return top.push({clubID: key, ...obj[key]})
-    return bottom.push({clubID: key, ...obj[key]})
+  arr.forEach((val) => {
+    if (val.audition === !inverted) return top.push(val)
+    return bottom.push(val)
   })
   return [...top,...bottom]
 }
 
-const searchKeyword = (obj: any, keyword: string) => {
+const searchKeyword = (arr: any, keyword: string) => {
   let top = [], bottom = []
   const keyLength = keyword.length
-  Object.keys(obj).forEach((key) => {
-    if (keyword === obj[key].title.slice(0,keyLength)) return top.push({clubID: key, ...obj[key]})
-    return bottom.push({clubID: key, ...obj[key]})
+  arr.forEach((val) => {
+    if (keyword === val.title.slice(0,keyLength)) return top.push(val)
+    return bottom.push(val)
   })
   if (top.length < 1) {
     top = []
     bottom = []
-    Object.keys(obj).forEach((key) => {
-      if (obj[key].title.includes(keyword)) return top.push({clubID: key, ...obj[key]})
-      return bottom.push({clubID: key, ...obj[key]})
+    arr.forEach((val) => {
+      if (val.title.includes(keyword)) return top.push(val)
+      return bottom.push(val)
     })
   }
   return [...top,...bottom]
+}
+
+const objToArr = (obj: any) => {
+  return Object.keys(obj).map(key => {
+    return {clubID: key, ...obj[key]}
+  })
 }
 
 const sliceArr = (arr: Array<any>, screenWidth) => {
@@ -106,6 +112,7 @@ const Select = ({ clubData }) => {
   const [sortedData, setSortedData] = useState([])
   const [sortMode, setSortMode] = useState("ascending")
   const [searchContext, setSearchContext] = useState("")
+  const [rawSorted, setRawSorted] = useState([])
 
   const auTrigger = useRef(null)
 
@@ -115,37 +122,44 @@ const Select = ({ clubData }) => {
     }
   })
 
-  useEffect(() => {
+  const apply = () => {
+    const dataArr = objToArr(clubData)
     switch (sortMode) {
       case "ascending": {
-        const sorted = sortThaiDictionary(clubData, obj => (obj.title))
-        setSortedData(sliceArr(sorted, width))
+        const sorted = sortThaiDictionary(dataArr, obj => (obj.title))
+        setRawSorted(sorted)
       }
         break
       case "descending": {
-        const sorted = sortThaiDictionary(clubData, obj => (obj.title), true)
-        setSortedData(sliceArr(sorted, width))
+        const sorted = sortThaiDictionary(dataArr, obj => (obj.title), true)
+        setRawSorted(sorted)
       }
         break
       case "hasAudition": {
-        const sorted = sortAudition(clubData)
-        setSortedData(sliceArr(sorted, width))
+        const sorted = sortAudition(dataArr)
+        setRawSorted(sorted)
       }
         break
       case "notHasAudition": {
-        const sorted = sortAudition(clubData, true)
-        setSortedData(sliceArr(sorted, width))
+        const sorted = sortAudition(dataArr, true)
+        setRawSorted(sorted)
       }
     }
+  }
+
+  useEffect(() => {
+    apply()
   },[sortMode])
 
   useEffect(() => {
     const escaped = searchContext.replace("ชมรม","")
     if (escaped !== "") {
-      const searchResult = searchKeyword(clubData, escaped)
+      const searchResult = searchKeyword(rawSorted, escaped)
       setSortedData(sliceArr(searchResult, width))
+    }else{
+      setSortedData(sliceArr(rawSorted, width))
     }
-  }, [searchContext])
+  }, [searchContext, rawSorted])
 
   const clearState = () => {
     setModalState({open: false, data: {}})
@@ -213,7 +227,7 @@ const Select = ({ clubData }) => {
             </div>
           </div>
         </div>
-        <div className="mt-16 md:mt-0">
+        <div style={width > 768 ? {width: width - 376, maxWidth: 952} : {}} className="mt-16 md:mt-0">
           <div className="border-b pb-5 mx-4">
             <div>
               <FilterSearch setSearchContext={setSearchContext} sortMode={sortMode} setSortMode={setSortMode}/>
