@@ -22,7 +22,7 @@ const ClubList = ({data, state = "open", action}: props) => {
   return (
     <div className="rounded-lg custom-shadow cursor-pointer" onClick={click}>
       <div className="flex flex-col tracking-tight py-6 px-6 space-y-1.5">
-        <h1>{data.title}</h1>
+        <h1>ชมรม{data.title}</h1>
         {data.audition ? <div className="flex text-TUCMC-red-400 space-x-1"><StarIcon
           className="w-4 h-4 mt-1"/><span className="leading-6">มีการ Audition</span></div>: <div className="flex text-TUCMC-blue-400 space-x-1"><ClipboardCopyIcon
           className="w-4 h-4 mt-1"/><span className="leading-6">ไม่มีการ Audition</span></div>}

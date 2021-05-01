@@ -1,8 +1,9 @@
 import {ChevronDownIcon, SearchIcon, SortAscendingIcon} from "@heroicons/react/solid";
 import {useRef} from "react";
 import Modal from "@components/common/Modals";
+import classnames from "classnames"
 
-export const FilterSearch = () => {
+export const FilterSearch = ({sortMode, setSortMode, setSearchContext}) => {
 
   const buttonRef = useRef(null)
 
@@ -16,6 +17,7 @@ export const FilterSearch = () => {
           type="text"
           name="email"
           id="email"
+          onChange={event => {setSearchContext(event.target.value)}}
           className="focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-none rounded-l-md pl-10 sm:text-sm border-gray-300"
           placeholder="Search"
         />
@@ -26,11 +28,11 @@ export const FilterSearch = () => {
           <ChevronDownIcon className="h-5 w-5 text-gray-400"/>
         </button>
         <Modal className="flex justify-end w-full" TriggerRef={buttonRef}>
-          <div style={{minWidth: "260px"}} className="absolute bg-white p-4 space-y-4 shadow-md rounded-lg">
-            <h1 className="text-gray-700">มีการ Audition</h1>
-            <h1 className="text-gray-700">ไม่มีการ Audition</h1>
-            <h1 className="text-gray-700">ก-ฮ</h1>
-            <h1 className="text-gray-700">ฮ-ก</h1>
+          <div style={{minWidth: "260px"}} className="absolute bg-white shadow-md rounded-lg py-2 text-gray-700">
+            <h1 onClick={() => {setSortMode("hasAudition")}} className={classnames(sortMode == "hasAudition" ? "bg-TUCMC-pink-100" : "hover:bg-gray-50", "cursor-pointer px-4 py-2")}>มีการ Audition</h1>
+            <h1 onClick={() => {setSortMode("notHasAudition")}} className={classnames(sortMode == "notHasAudition" ? "bg-TUCMC-pink-100" : "hover:bg-gray-50", "cursor-pointer px-4 py-2")}>ไม่มีการ Audition</h1>
+            <h1 onClick={() => {setSortMode("ascending")}} className={classnames(sortMode == "ascending" ? "bg-TUCMC-pink-100" : "hover:bg-gray-50", "cursor-pointer px-4 py-2")}>ก-ฮ</h1>
+            <h1 onClick={() => {setSortMode("descending")}} className={classnames(sortMode == "descending" ? "bg-TUCMC-pink-100" : "hover:bg-gray-50", "cursor-pointer px-4 py-2")}>ฮ-ก</h1>
           </div>
         </Modal>
       </div>

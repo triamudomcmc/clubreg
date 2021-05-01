@@ -5,7 +5,7 @@ import {
 } from '@heroicons/react/solid'
 import ClubList from "@components/select/ClubList";
 import ClubModal from "@components/select/ClubModal";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {FilterSearch} from "@components/common/Inputs/Search";
 import Modal from "@components/common/Modals";
 import ConfirmModal from "@components/select/ConfirmModal";
@@ -15,8 +15,9 @@ import {useAuth} from "@client/auth";
 import Router from "next/router";
 import {GetStaticProps} from "next";
 import * as fs from "fs";
+import {useWindowDimensions} from "@utilities/document";
 
-const slice = (obj, partitions) => {
+const sliceObj = (obj, partitions) => {
   const size = Object.keys(obj).length
   const partSize = Math.floor(size / partitions)
   let leftOver = size - (partSize * partitions)
@@ -38,24 +39,74 @@ const slice = (obj, partitions) => {
   return result
 }
 
+const sortThaiDictionary = (obj: any,objAction: (obj: any) => string, inverted = false) => {
+  return Object.keys(obj).sort((a, b) => objAction(obj[a]).localeCompare(objAction(obj[b]), 'th') * (inverted ? -1 : 1)).map((val) => {
+    return {clubID: val, ...obj[val]}
+  })
+}
+
+const sortAudition = (obj: any, inverted = false) => {
+  let top = [], bottom = []
+  Object.keys(obj).forEach((key) => {
+    if (obj[key].audition === !inverted) return top.push({clubID: key, ...obj[key]})
+    return bottom.push({clubID: key, ...obj[key]})
+  })
+  return [...top,...bottom]
+}
+
+const searchKeyword = (obj: any, keyword: string) => {
+  let top = [], bottom = []
+  const keyLength = keyword.length
+  Object.keys(obj).forEach((key) => {
+    if (keyword === obj[key].title.slice(0,keyLength)) return top.push({clubID: key, ...obj[key]})
+    return bottom.push({clubID: key, ...obj[key]})
+  })
+  if (top.length < 1) {
+    top = []
+    bottom = []
+    Object.keys(obj).forEach((key) => {
+      if (obj[key].title.includes(keyword)) return top.push({clubID: key, ...obj[key]})
+      return bottom.push({clubID: key, ...obj[key]})
+    })
+  }
+  return [...top,...bottom]
+}
+
+const sliceArr = (arr: Array<any>, screenWidth) => {
+  const breakPoint = 768
+  const halfSize = Math.floor(arr.length / 2)
+  let odd = [], even = []
+  arr.forEach((value, index) => {
+    if ((index + 1) % 2 == 0) return even.push(value)
+    return odd.push(value)
+  })
+  if (screenWidth <= breakPoint) return [arr.slice(0, halfSize), arr.slice(halfSize, arr.length)]
+  return [odd, even]
+}
+
 export const getStaticProps: GetStaticProps = async () => {
   const data = fs.readFileSync("./_map/clubs.json").toString()
   const club = JSON.parse(data)
   return {
     props: {
-      clubData: slice(club, 2)
+      clubData: club
     }
   }
 }
 
-const Select = ({clubData}) => {
+const Select = ({ clubData }) => {
 
-  const {onReady, tracker} = useAuth()
+  const { onReady, tracker } = useAuth()
+  const { width } = useWindowDimensions()
 
   const [modalState, setModalState] = useState({open: false, data: {}})
   const [select, setSelect] = useState(false)
   const [dataModal, setDataModal] = useState(false)
   const [toast, setToast] = useState({})
+  const [sortedData, setSortedData] = useState([])
+  const [sortMode, setSortMode] = useState("ascending")
+  const [searchContext, setSearchContext] = useState("")
+
   const auTrigger = useRef(null)
 
   onReady((logged, userData)=> {
@@ -63,6 +114,38 @@ const Select = ({clubData}) => {
       Router.push("/auth")
     }
   })
+
+  useEffect(() => {
+    switch (sortMode) {
+      case "ascending": {
+        const sorted = sortThaiDictionary(clubData, obj => (obj.title))
+        setSortedData(sliceArr(sorted, width))
+      }
+        break
+      case "descending": {
+        const sorted = sortThaiDictionary(clubData, obj => (obj.title), true)
+        setSortedData(sliceArr(sorted, width))
+      }
+        break
+      case "hasAudition": {
+        const sorted = sortAudition(clubData)
+        setSortedData(sliceArr(sorted, width))
+      }
+        break
+      case "notHasAudition": {
+        const sorted = sortAudition(clubData, true)
+        setSortedData(sliceArr(sorted, width))
+      }
+    }
+  },[sortMode])
+
+  useEffect(() => {
+    const escaped = searchContext.replace("ชมรม","")
+    if (escaped !== "") {
+      const searchResult = searchKeyword(clubData, escaped)
+      setSortedData(sliceArr(searchResult, width))
+    }
+  }, [searchContext])
 
   const clearState = () => {
     setModalState({open: false, data: {}})
@@ -133,20 +216,20 @@ const Select = ({clubData}) => {
         <div className="mt-16 md:mt-0">
           <div className="border-b pb-5 mx-4">
             <div>
-              <FilterSearch/>
+              <FilterSearch setSearchContext={setSearchContext} sortMode={sortMode} setSortMode={setSortMode}/>
             </div>
           </div>
           <div className="flex flex-col md:flex-row md:space-x-4 mt-6">
-            <div className="space-y-2">
+            <div className="space-y-2 md:w-1/2">
               {
-                clubData[0].map((val) => {
+                sortedData[0]?.map((val) => {
                   return <ClubList data={val} state="open" action={setModalState}/>
                 })
               }
             </div>
-            <div className="mt-2 md:mt-0 space-y-2">
+            <div className="mt-2 md:mt-0 space-y-2 md:w-1/2">
               {
-                clubData[1].map((val) => {
+                sortedData[1]?.map((val) => {
                   return <ClubList data={val} state="open" action={setModalState}/>
                 })
               }
