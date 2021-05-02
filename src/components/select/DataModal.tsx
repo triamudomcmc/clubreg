@@ -141,6 +141,7 @@ const DataModal = ({state, setLoader, TriggerDep, setToast, closeFunc, refetcher
                     id="phone_number"
                     className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-16 sm:text-sm border-gray-300 rounded-md"
                     placeholder="+66"
+                    value={phone}
                     onChange={(event) => {setPhone(event.target.value)}}
                   />
                 </div>
@@ -151,6 +152,7 @@ const DataModal = ({state, setLoader, TriggerDep, setToast, closeFunc, refetcher
                     type="password"
                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                     placeholder="รหัสผ่าน"
+                    value={password}
                     onChange={(event) => {setPassword(event.target.value)}}
                   />
                 </div>
