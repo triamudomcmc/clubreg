@@ -69,6 +69,8 @@ const LoginSection = ({primaryAction, setLoader, setToast}) => {
             break
 
         }
+        clearTimeout(loaderTimeout)
+        setLoader(false)
       }
     } catch (error) {
       setToast({
@@ -77,10 +79,9 @@ const LoginSection = ({primaryAction, setLoader, setToast}) => {
         title: "พบข้อผิดพลาดที่ไม่ทราบสาเหตุ",
         text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง หากยังพบข้อผิดพลาดสามารถติดต่อทาง กช."
       })
+      clearTimeout(loaderTimeout)
+      setLoader(false)
     }
-
-    clearTimeout(loaderTimeout)
-    setLoader(false)
 
   }
 
