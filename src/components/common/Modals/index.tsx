@@ -5,7 +5,7 @@ import {useEffect, useRef, useState} from "react";
 
 const Modal = ({
                  children, overlayClassName = "", className = "", TriggerRef = null, CloseID = "",
-                 TriggerDep = null
+                 TriggerDep = null, CloseDep = null
                }) => {
   const [modalState, setModalState] = useState({comm: false, hide: true})
   const [prevent, setPrevent] = useState(true)
@@ -32,6 +32,15 @@ const Modal = ({
       document.getElementById(CloseID).addEventListener("mousedown", close)
     }
   }, [])
+
+  useEffect(() => {
+    if (CloseDep !== null) {
+      if (CloseDep.dep) {
+        close()
+        CloseDep.revert()
+      }
+    }
+  }, [CloseDep])
 
   const variants = {
     show: {opacity: 1},

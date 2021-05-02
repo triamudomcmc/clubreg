@@ -4,12 +4,18 @@ import {CheckCircleIcon} from "@heroicons/react/solid";
 import {useState} from "react";
 import {regClub} from "@client/userAction";
 
-const DataModal = ({state, TriggerDep, setToast, closeFunc, refetcher}) => {
+const DataModal = ({state, setLoader, TriggerDep, setToast, closeFunc, refetcher}) => {
 
   const [phone, setPhone] = useState("")
   const [password, setPassword] = useState("")
+  const [closingState, setClosingState] = useState(false)
 
   const submit = async () => {
+
+    const timeoutID = setTimeout(() => {
+      setLoader(true)
+    }, 1000)
+
     try {
       const res = await regClub(phone, password, state.data.clubID)
       if(res.status) {
@@ -21,6 +27,9 @@ const DataModal = ({state, TriggerDep, setToast, closeFunc, refetcher}) => {
           lifeSpan: 30000
         })
         closeFunc()
+        setClosingState(true)
+        setPhone("")
+        setPassword("")
         refetcher()
       }else{
         switch (res.report) {
@@ -84,10 +93,17 @@ const DataModal = ({state, TriggerDep, setToast, closeFunc, refetcher}) => {
       })
     }
 
+    clearTimeout(timeoutID)
+    setLoader(false)
+
   }
 
   return (
-    <Modal overlayClassName="fixed top-0 flex flex-col bg-gray-500 bg-opacity-50 items-center justify-center w-full h-full max-h-screen py-10 z-[60]" className="flex flex-col overflow-y-auto mx-6" TriggerDep={TriggerDep} CloseID="dataModalClose">
+    <Modal overlayClassName="fixed top-0 flex flex-col bg-gray-500 bg-opacity-50 items-center justify-center w-full h-full max-h-screen py-10 z-[60]" className="flex flex-col overflow-y-auto mx-6" TriggerDep={TriggerDep} CloseDep={{
+      dep: closingState, revert: () => {
+        setClosingState(false)
+      }
+    }} CloseID="dataModalClose">
       <div className="bg-white rounded-lg shadow-md pt-6 max-w-sm">
         <div className="mx-auto flex justify-center items-center w-12 h-12 rounded-full bg-TUCMC-orange-200">
           <ExclamationIcon className="text-TUCMC-orange-500 w-6 h-6"/>

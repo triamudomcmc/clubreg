@@ -17,6 +17,8 @@ import {GetServerSideProps, GetStaticProps} from "next";
 import * as fs from "fs";
 import {useWindowDimensions} from "@utilities/document";
 import initialisedDB from "@server/firebase-admin"
+import {fetchClub} from "@client/fetcher/club";
+import {Loader} from "@components/common/Loader";
 
 const sliceObj = (obj, partitions) => {
   const size = Object.keys(obj).length
@@ -47,11 +49,16 @@ const sortThaiDictionary = (arr: any, objAction: (obj: any) => string, inverted 
             })
 }
 
-const blockContent = (dataArr) => {
-  return dataArr.map(val => {
-    if (!val.audition) return {...val, ...{blocked: true}}
-    return val
+const blockContent = (dataObj) => {
+  let newObj = {}
+  Object.keys(dataObj).forEach(val => {
+    if (!dataObj[val].audition) {
+      newObj[val] = {...dataObj[val], blocked: true}
+    } else {
+      newObj[val] = dataObj[val]
+    }
   })
+  return newObj
 }
 
 const sortAudition = (arr: any, inverted = false) => {
@@ -99,21 +106,7 @@ const sliceArr = (arr: Array<any>, screenWidth) => {
   return [odd, even]
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const data = await initialisedDB.collection("clubs").get()
-  let dataobj = {}
-  data.forEach((doc) => {
-    dataobj[doc.id] = doc.data()
-  })
-
-  return {
-    props: {
-      clubData: dataobj
-    }
-  }
-}
-
-const Select = ({clubData}) => {
+const Select = () => {
 
   const {onReady, tracker, reFetch} = useAuth()
   const {width} = useWindowDimensions()
@@ -126,6 +119,9 @@ const Select = ({clubData}) => {
   const [sortMode, setSortMode] = useState("ascending")
   const [searchContext, setSearchContext] = useState("")
   const [rawSorted, setRawSorted] = useState([])
+  const [clubData, setClubData] = useState({})
+  const [auditionList, setAuditionList] = useState(<></>)
+  const [loader, setLoader] = useState(false)
 
   const auTrigger = useRef(null)
 
@@ -162,12 +158,31 @@ const Select = ({clubData}) => {
   }
 
   useEffect(() => {
-    userData && userData.audition !== {} && setRawSorted(blockContent(rawSorted))
-  },[userData, rawSorted])
+    const load = async () => {
+      const value = await fetchClub()
+      setClubData(value)
+    }
+    load()
+  }, [])
+
+  useEffect(() => {
+    userData && userData.audition !== {} && setClubData(blockContent(clubData))
+  }, [userData])
+
+  useEffect(() => {
+
+    (userData && Object.keys(clubData).length > 0) && setAuditionList(<>
+      {
+        Object.keys(userData.audition).map((val) => {
+          return <h1 key={val} className="py-4 px-4 border-t">{clubData[val].title}</h1>
+        })
+      }
+    </>)
+  }, [clubData, userData])
 
   useEffect(() => {
     apply()
-  }, [sortMode])
+  }, [sortMode, clubData, width])
 
   useEffect(() => {
     const escaped = searchContext.replace("ชมรม", "")
@@ -187,8 +202,10 @@ const Select = ({clubData}) => {
     setSelect(true)
   }
 
+
   return (
     <PageContainer>
+      <Loader display={loader}/>
       <Toast newToast={toast}/>
       <ConfirmModal onAgree={() => {
         setDataModal(true)
@@ -198,7 +215,7 @@ const Select = ({clubData}) => {
         }
       }}/>
       <ClubModal state={modalState} closeAction={clearState} action={selectClub}/>
-      <DataModal state={modalState} refetcher={reFetch} setToast={setToast} closeFunc={clearState}
+      <DataModal setLoader={setLoader} state={modalState} refetcher={reFetch} setToast={setToast} closeFunc={clearState}
                  TriggerDep={{
                    dep: dataModal, revert: () => {
                      setDataModal(false)
@@ -215,31 +232,33 @@ const Select = ({clubData}) => {
             <SelectSplash/>
           </div>
           <div className="space-y-6 mt-10 px-2">
-            {(userData && userData.audition !== {}) && <div className="flex flex-col rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
-              <h1 className="text-lg font-medium tracking-tight">คุณได้ลงชื่อ Audition ชมรมไว้</h1>
-              <p className="text-gray-600 tracking-tight">ให้ไปทำการ Audition
-                ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนด โดยติดตามรายละเอียดการ Audition
-                จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง
-                และรอการประกาศผลในวันที่ 25 พ.ค. 2564 เวลา 8.00 น.</p>
-              <div className="md:hidden relative">
-                <a ref={auTrigger} className="text-TUCMC-pink-500 tracking-tight cursor-pointer">ดูรายชื่อชมรมที่ลงชื่อ
-                  Audition ไว้ →</a>
-                <Modal TriggerRef={auTrigger} CloseID="audiClose"
-                       className="shadow-md rounded-lg absolute w-full mt-1 z-20">
-                  <div
-                    className="flex items-start rounded-t-lg text-sm justify-between bg-gray-50 text-gray-500 py-2 px-4">
-                    <h1 className="mt-1">รายชื่อชมรมที่ลงชื่อ Audition ไว้</h1>
-                    <XIcon id="audiClose" className="w-7 h-7 cursor-pointer text-TUCMC-gray-400"/>
-                  </div>
-                  <div className="bg-white rounded-b-lg">
-                    {
-                      Object.keys(userData.audition).map((val) => {
-                        return <h1 className="py-4 px-4 border-t">{clubData[val].title}</h1>
-                      })
-                    }
-                  </div>
-                </Modal>
-              </div>
+            {(userData && userData.audition !== {}) &&
+            <div className="flex flex-col rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
+                <h1 className="text-lg font-medium tracking-tight">คุณได้ลงชื่อ Audition
+                    ชมรมไว้</h1>
+                <p className="text-gray-600 tracking-tight">ให้ไปทำการ Audition
+                    ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนด โดยติดตามรายละเอียดการ Audition
+                    จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง
+                    และรอการประกาศผลในวันที่ 25 พ.ค. 2564 เวลา 8.00 น.</p>
+                <div className="md:hidden relative">
+                    <a ref={auTrigger}
+                       className="text-TUCMC-pink-500 tracking-tight cursor-pointer">ดูรายชื่อชมรมที่ลงชื่อ
+                        Audition ไว้ →</a>
+                    <Modal TriggerRef={auTrigger} CloseID="audiClose"
+                           className="shadow-md rounded-lg absolute w-full mt-1 z-20">
+                        <div
+                            className="flex items-start rounded-t-lg text-sm justify-between bg-gray-50 text-gray-500 py-2 px-4">
+                            <h1 className="mt-1">รายชื่อชมรมที่ลงชื่อ Audition ไว้</h1>
+                            <XIcon id="audiClose"
+                                   className="w-7 h-7 cursor-pointer text-TUCMC-gray-400"/>
+                        </div>
+                        <div className="bg-white rounded-b-lg">
+                          {
+                            auditionList
+                          }
+                        </div>
+                    </Modal>
+                </div>
             </div>}
             {(userData && userData.audition !== {}) &&
             <div className="hidden md:block shadow-md rounded-lg mt-1 z-20">
@@ -249,9 +268,7 @@ const Select = ({clubData}) => {
                 </div>
                 <div className="bg-white rounded-b-lg">
                   {
-                    Object.keys(userData.audition).map((val) => {
-                      return <h1 className="py-4 px-4 border-t">{clubData[val].title}</h1>
-                    })
+                    auditionList
                   }
                 </div>
             </div>}
@@ -280,14 +297,14 @@ const Select = ({clubData}) => {
             <div className="space-y-2 md:w-1/2">
               {
                 sortedData[0]?.map((val) => {
-                  return <ClubList setToast={setToast} data={val} action={setModalState}/>
+                  return <ClubList key={val.clubID} setToast={setToast} data={val} action={setModalState}/>
                 })
               }
             </div>
             <div className="mt-2 md:mt-0 space-y-2 md:w-1/2">
               {
                 sortedData[1]?.map((val) => {
-                  return <ClubList setToast={setToast} data={val} action={setModalState}/>
+                  return <ClubList key={val.clubID} setToast={setToast} data={val} action={setModalState}/>
                 })
               }
             </div>
