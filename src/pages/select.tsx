@@ -19,35 +19,15 @@ import {useWindowDimensions} from "@utilities/document";
 import initialisedDB from "@server/firebase-admin"
 import {fetchClub} from "@client/fetcher/club";
 import {Loader} from "@components/common/Loader";
-
-const sliceObj = (obj, partitions) => {
-  const size = Object.keys(obj).length
-  const partSize = Math.floor(size / partitions)
-  let leftOver = size - (partSize * partitions)
-  let result = []
-  let initialPointer = 0
-  for (let i = 0; i < partitions; i++) {
-    let data = []
-    const partSizeFinal = partSize + (leftOver > 0 ? 1 : 0)
-    Object.keys(obj).slice(initialPointer, initialPointer + partSizeFinal).forEach(val => {
-      data.push({
-        clubID: val,
-        ...obj[val]
-      })
-    })
-    initialPointer += partSizeFinal
-    result.push(data)
-    leftOver -= 1
-  }
-  return result
-}
-
-const sortThaiDictionary = (arr: any, objAction: (obj: any) => string, inverted = false) => {
-  return arr.sort((a, b) => a.title.localeCompare(b.title, 'th') * (inverted ? -1 : 1))
-            .map((val) => {
-              return val
-            })
-}
+import {is} from "@babel/types";
+import {
+  isEmpty,
+  objToArr,
+  searchKeyword,
+  sortAudition,
+  sortThaiDictionary
+} from "@utilities/object";
+import {sliceArr} from "@utilities/array";
 
 const blockContent = (dataObj) => {
   let newObj = {}
@@ -59,51 +39,6 @@ const blockContent = (dataObj) => {
     }
   })
   return newObj
-}
-
-const sortAudition = (arr: any, inverted = false) => {
-  let top = [], bottom = []
-  arr.forEach((val) => {
-    if (val.audition === !inverted) return top.push(val)
-    return bottom.push(val)
-  })
-  return [...top, ...bottom]
-}
-
-const searchKeyword = (arr: any, keyword: string) => {
-  let top = [], bottom = []
-  const keyLength = keyword.length
-  arr.forEach((val) => {
-    if (keyword === val.title.slice(0, keyLength)) return top.push(val)
-    return bottom.push(val)
-  })
-  if (top.length < 1) {
-    top = []
-    bottom = []
-    arr.forEach((val) => {
-      if (val.title.includes(keyword)) return top.push(val)
-      return bottom.push(val)
-    })
-  }
-  return [...top, ...bottom]
-}
-
-const objToArr = (obj: any) => {
-  return Object.keys(obj).map(key => {
-    return {clubID: key, ...obj[key]}
-  })
-}
-
-const sliceArr = (arr: Array<any>, screenWidth) => {
-  const breakPoint = 768
-  const halfSize = Math.floor(arr.length / 2)
-  let odd = [], even = []
-  arr.forEach((value, index) => {
-    if ((index + 1) % 2 == 0) return even.push(value)
-    return odd.push(value)
-  })
-  if (screenWidth <= breakPoint) return [arr.slice(0, halfSize), arr.slice(halfSize, arr.length)]
-  return [odd, even]
 }
 
 const Select = () => {
@@ -128,6 +63,10 @@ const Select = () => {
   const {userData} = onReady((logged, userData) => {
     if (!logged) {
       Router.push("/auth")
+    }else{
+      if (userData.club !== "") {
+        Router.push("/card/yee")
+      }
     }
     return {userData}
   })
@@ -160,18 +99,15 @@ const Select = () => {
   useEffect(() => {
     const load = async () => {
       const value = await fetchClub()
-      setClubData(value)
+      setClubData(Object.keys(userData.audition).length > 0 ? blockContent(value) : value)
     }
-    load()
-  }, [])
 
-  useEffect(() => {
-    userData && userData.audition !== {} && setClubData(blockContent(clubData))
+    userData && Object.keys(userData).length > 2 && load()
   }, [userData])
 
   useEffect(() => {
 
-    (userData && Object.keys(clubData).length > 0) && setAuditionList(<>
+    (userData && "audition" in userData && Object.keys(clubData).length > 0) && setAuditionList(<>
       {
         Object.keys(userData.audition).map((val) => {
           return <h1 key={val} className="py-4 px-4 border-t">{clubData[val].title}</h1>
@@ -232,7 +168,7 @@ const Select = () => {
             <SelectSplash/>
           </div>
           <div className="space-y-6 mt-10 px-2">
-            {(userData && userData.audition !== {}) &&
+            {(userData && !isEmpty(userData.audition)) &&
             <div className="flex flex-col rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
                 <h1 className="text-lg font-medium tracking-tight">คุณได้ลงชื่อ Audition
                     ชมรมไว้</h1>
@@ -260,7 +196,7 @@ const Select = () => {
                     </Modal>
                 </div>
             </div>}
-            {(userData && userData.audition !== {}) &&
+            {(userData && !isEmpty(userData.audition)) &&
             <div className="hidden md:block shadow-md rounded-lg mt-1 z-20">
                 <div
                     className="flex items-start rounded-t-lg text-sm justify-between bg-gray-50 text-gray-500 py-2 px-4">

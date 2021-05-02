@@ -19,8 +19,11 @@ const Auth = ({query}) => {
   const [toast, setToast] = useState({})
   const [loader, setLoader] = useState(false)
 
-  onReady(logged => {
+  onReady((logged, userData) => {
     if(logged) {
+      if (userData.club !== "") {
+        return Router.push("/card/yee")
+      }
       Router.push("/select")
     }
   })

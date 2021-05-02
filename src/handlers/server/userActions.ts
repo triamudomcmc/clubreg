@@ -1,6 +1,7 @@
 import initialisedDB from "@server/firebase-admin"
 import {fetchSession} from "@server/fetchUser";
 import bcrypt from "bcryptjs"
+import {isEmpty} from "@utilities/object";
 
 export const regClub = async (req, res) => {
   const {logged, ID} = await fetchSession(req,res, req.body.fingerPrint)
@@ -16,13 +17,14 @@ export const regClub = async (req, res) => {
     status: false, report: "invalid_password"
   }
 
+
   const clubRef = initialisedDB.collection("clubs").doc(req.body.clubID)
 
   try {
     const isAu = await initialisedDB.runTransaction(async (t) => {
       const doc = await t.get(clubRef);
       const data = doc.data()
-      if (dataDoc.get("audition") !== {} && !data.audition) throw "in_audition"
+      if (!isEmpty(dataDoc.get("audition")) && !data.audition) throw "in_audition"
       if (data.new_count >= data.new_count_limit) throw "club_full"
       const newCount = data.new_count + 1
       t.update(clubRef, {new_count: newCount})
@@ -33,15 +35,17 @@ export const regClub = async (req, res) => {
       const us = await t.get(dataRef);
       const usData = us.data()
       if (isAu) {
+        console.log("call1")
         t.update(dataRef, "audition", {...usData.audition, ...{[req.body.clubID]: "waiting"}})
       }else{
+        console.log("call")
         t.update(dataRef, "club", req.body.clubID)
       }
     })
 
     return {status: true, report: isAu ? "success_audition" : "success_notAudition"}
   }catch (e) {
-    return {status: true, report: e}
+    return {status: false, report: e}
   }
 
 }
