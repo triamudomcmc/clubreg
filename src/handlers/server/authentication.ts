@@ -90,8 +90,12 @@ export const register = async (req) => {
     status: false, report: "invalid_data"
   }
 
-  if (!isValidPassword(req.body.password) || req.body.password !== req.body.confirmPassword) return {
+  if (!isValidPassword(req.body.password)) return {
     status: false, report: "invalid_credentials"
+  }
+
+  if(req.body.password !== req.body.confirmPassword) return {
+    status: false, report: "password_mismatch"
   }
 
   const dataColl = initialisedDB.collection("data")

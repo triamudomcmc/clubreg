@@ -13,9 +13,10 @@ import DataModal from "@components/select/DataModal";
 import Toast from "@components/common/Toast";
 import {useAuth} from "@client/auth";
 import Router from "next/router";
-import {GetStaticProps} from "next";
+import {GetServerSideProps, GetStaticProps} from "next";
 import * as fs from "fs";
 import {useWindowDimensions} from "@utilities/document";
+import initialisedDB from "@server/firebase-admin"
 
 const sliceObj = (obj, partitions) => {
   const size = Object.keys(obj).length
@@ -39,8 +40,16 @@ const sliceObj = (obj, partitions) => {
   return result
 }
 
-const sortThaiDictionary = (arr: any,objAction: (obj: any) => string, inverted = false) => {
-  return arr.sort((a, b) => a.title.localeCompare(b.title, 'th') * (inverted ? -1 : 1)).map((val) => {
+const sortThaiDictionary = (arr: any, objAction: (obj: any) => string, inverted = false) => {
+  return arr.sort((a, b) => a.title.localeCompare(b.title, 'th') * (inverted ? -1 : 1))
+            .map((val) => {
+              return val
+            })
+}
+
+const blockContent = (dataArr) => {
+  return dataArr.map(val => {
+    if (!val.audition) return {...val, ...{blocked: true}}
     return val
   })
 }
@@ -51,14 +60,14 @@ const sortAudition = (arr: any, inverted = false) => {
     if (val.audition === !inverted) return top.push(val)
     return bottom.push(val)
   })
-  return [...top,...bottom]
+  return [...top, ...bottom]
 }
 
 const searchKeyword = (arr: any, keyword: string) => {
   let top = [], bottom = []
   const keyLength = keyword.length
   arr.forEach((val) => {
-    if (keyword === val.title.slice(0,keyLength)) return top.push(val)
+    if (keyword === val.title.slice(0, keyLength)) return top.push(val)
     return bottom.push(val)
   })
   if (top.length < 1) {
@@ -69,7 +78,7 @@ const searchKeyword = (arr: any, keyword: string) => {
       return bottom.push(val)
     })
   }
-  return [...top,...bottom]
+  return [...top, ...bottom]
 }
 
 const objToArr = (obj: any) => {
@@ -90,20 +99,24 @@ const sliceArr = (arr: Array<any>, screenWidth) => {
   return [odd, even]
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  const data = fs.readFileSync("./_map/clubs.json").toString()
-  const club = JSON.parse(data)
+export const getServerSideProps: GetServerSideProps = async () => {
+  const data = await initialisedDB.collection("clubs").get()
+  let dataobj = {}
+  data.forEach((doc) => {
+    dataobj[doc.id] = doc.data()
+  })
+
   return {
     props: {
-      clubData: club
+      clubData: dataobj
     }
   }
 }
 
-const Select = ({ clubData }) => {
+const Select = ({clubData}) => {
 
-  const { onReady, tracker } = useAuth()
-  const { width } = useWindowDimensions()
+  const {onReady, tracker, reFetch} = useAuth()
+  const {width} = useWindowDimensions()
 
   const [modalState, setModalState] = useState({open: false, data: {}})
   const [select, setSelect] = useState(false)
@@ -116,10 +129,11 @@ const Select = ({ clubData }) => {
 
   const auTrigger = useRef(null)
 
-  onReady((logged, userData)=> {
-    if(!logged) {
+  const {userData} = onReady((logged, userData) => {
+    if (!logged) {
       Router.push("/auth")
     }
+    return {userData}
   })
 
   const apply = () => {
@@ -148,15 +162,19 @@ const Select = ({ clubData }) => {
   }
 
   useEffect(() => {
-    apply()
-  },[sortMode])
+    userData && userData.audition !== {} && setRawSorted(blockContent(rawSorted))
+  },[userData, rawSorted])
 
   useEffect(() => {
-    const escaped = searchContext.replace("ชมรม","")
+    apply()
+  }, [sortMode])
+
+  useEffect(() => {
+    const escaped = searchContext.replace("ชมรม", "")
     if (escaped !== "") {
       const searchResult = searchKeyword(rawSorted, escaped)
       setSortedData(sliceArr(searchResult, width))
-    }else{
+    } else {
       setSortedData(sliceArr(rawSorted, width))
     }
   }, [searchContext, rawSorted])
@@ -172,79 +190,104 @@ const Select = ({ clubData }) => {
   return (
     <PageContainer>
       <Toast newToast={toast}/>
-      <ConfirmModal onAgree={() => {setDataModal(true)}} clubData={modalState} TriggerDep={{dep: select, revert: () => {setSelect(false)}}}/>
+      <ConfirmModal onAgree={() => {
+        setDataModal(true)
+      }} clubData={modalState} TriggerDep={{
+        dep: select, revert: () => {
+          setSelect(false)
+        }
+      }}/>
       <ClubModal state={modalState} closeAction={clearState} action={selectClub}/>
-      <DataModal setToast={setToast} closeFunc={clearState} TriggerDep={{dep: dataModal, revert: () => {setDataModal(false)}}}/>
-      <div className="flex flex-col md:flex-row md:justify-center md:items-start md:space-x-6 items-center py-14 px-4">
+      <DataModal state={modalState} refetcher={reFetch} setToast={setToast} closeFunc={clearState}
+                 TriggerDep={{
+                   dep: dataModal, revert: () => {
+                     setDataModal(false)
+                   }
+                 }}/>
+      <div
+        className="flex flex-col md:flex-row md:justify-center md:items-start md:space-x-6 items-center py-14 px-4">
         <div className="md:max-w-xs">
           <div className="flex flex-col items-center">
             <h1 className="font-medium text-4xl">เลือกชมรม</h1>
             <span className="text-sm tracking-tight">ภายในวันที่ 24 พ.ค. 64</span>
           </div>
           <div className="mt-6 w-full px-8">
-            <SelectSplash />
+            <SelectSplash/>
           </div>
           <div className="space-y-6 mt-10 px-2">
-            <div className="flex flex-col rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
+            {(userData && userData.audition !== {}) && <div className="flex flex-col rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
               <h1 className="text-lg font-medium tracking-tight">คุณได้ลงชื่อ Audition ชมรมไว้</h1>
-              <p className="text-gray-600 tracking-tight">ให้ไปทำการ Audition ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนด โดยติดตามรายละเอียดการ Audition จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง
+              <p className="text-gray-600 tracking-tight">ให้ไปทำการ Audition
+                ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนด โดยติดตามรายละเอียดการ Audition
+                จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง
                 และรอการประกาศผลในวันที่ 25 พ.ค. 2564 เวลา 8.00 น.</p>
               <div className="md:hidden relative">
-                <a ref={auTrigger} className="text-TUCMC-pink-500 tracking-tight cursor-pointer">ดูรายชื่อชมรมที่ลงชื่อ Audition ไว้ →</a>
-                <Modal TriggerRef={auTrigger} CloseID="audiClose" className="shadow-md rounded-lg absolute w-full mt-1 z-20">
-                  <div className="flex items-start rounded-t-lg text-sm justify-between bg-gray-50 text-gray-500 py-2 px-4">
+                <a ref={auTrigger} className="text-TUCMC-pink-500 tracking-tight cursor-pointer">ดูรายชื่อชมรมที่ลงชื่อ
+                  Audition ไว้ →</a>
+                <Modal TriggerRef={auTrigger} CloseID="audiClose"
+                       className="shadow-md rounded-lg absolute w-full mt-1 z-20">
+                  <div
+                    className="flex items-start rounded-t-lg text-sm justify-between bg-gray-50 text-gray-500 py-2 px-4">
                     <h1 className="mt-1">รายชื่อชมรมที่ลงชื่อ Audition ไว้</h1>
                     <XIcon id="audiClose" className="w-7 h-7 cursor-pointer text-TUCMC-gray-400"/>
                   </div>
                   <div className="bg-white rounded-b-lg">
-                    <h1 className="py-4 px-4 border-t">ชมรมภาษาอังกฤษ (English Drama)</h1>
-                    <h1 className="py-4 px-4 border-t">ชมรมนิเทศศิลป</h1>
-                    <h1 className="py-4 px-4 border-t">ชมรมวาทศิลป</h1>
-                    <h1 className="py-4 px-4 border-t">ชมรมถ่ายภาพ</h1>
-                    <h1 className="py-4 px-4 border-t">ชมรมโลกทั้งระบบ</h1>
-                    <h1 className="py-4 px-4 border-t">ชมรมคณิตศาสตร์</h1>
+                    {
+                      Object.keys(userData.audition).map((val) => {
+                        return <h1 className="py-4 px-4 border-t">{clubData[val].title}</h1>
+                      })
+                    }
                   </div>
                 </Modal>
               </div>
-            </div>
+            </div>}
+            {(userData && userData.audition !== {}) &&
             <div className="hidden md:block shadow-md rounded-lg mt-1 z-20">
-              <div className="flex items-start rounded-t-lg text-sm justify-between bg-gray-50 text-gray-500 py-2 px-4">
-                <h1 className="mt-1">รายชื่อชมรมที่ลงชื่อ Audition ไว้</h1>
-              </div>
-              <div className="bg-white rounded-b-lg">
-                <h1 className="py-4 px-4 border-t">ชมรมภาษาอังกฤษ (English Drama)</h1>
-                <h1 className="py-4 px-4 border-t">ชมรมนิเทศศิลป</h1>
-                <h1 className="py-4 px-4 border-t">ชมรมวาทศิลป</h1>
-                <h1 className="py-4 px-4 border-t">ชมรมถ่ายภาพ</h1>
-                <h1 className="py-4 px-4 border-t">ชมรมโลกทั้งระบบ</h1>
-                <h1 className="py-4 px-4 border-t">ชมรมคณิตศาสตร์</h1>
-              </div>
-            </div>
-            <div onClick={() => {tracker.push("click","testbutton")}} className="flex flex-col items-start rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
+                <div
+                    className="flex items-start rounded-t-lg text-sm justify-between bg-gray-50 text-gray-500 py-2 px-4">
+                    <h1 className="mt-1">รายชื่อชมรมที่ลงชื่อ Audition ไว้</h1>
+                </div>
+                <div className="bg-white rounded-b-lg">
+                  {
+                    Object.keys(userData.audition).map((val) => {
+                      return <h1 className="py-4 px-4 border-t">{clubData[val].title}</h1>
+                    })
+                  }
+                </div>
+            </div>}
+            <div onClick={() => {
+              tracker.push("click", "testbutton")
+            }}
+                 className="flex flex-col items-start rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
               <h1 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h1>
-              <p className="text-gray-600 tracking-tight">นักเรียนสามารถใช้โควตายืนยันสิทธิ์ชมรมเดิมได้ทันที (ชมรม...) *โควตามีจำนวนจำกัด</p>
-              <a className="bg-TUCMC-green-400 text-white whitespace-nowrap rounded-3xl shadow-md px-5 py-2.5">ยืนยันสิทธิ์ชมรมเดิม</a>
+              <p
+                className="text-gray-600 tracking-tight">นักเรียนสามารถใช้โควตายืนยันสิทธิ์ชมรมเดิมได้ทันที
+                (ชมรม...) *โควตามีจำนวนจำกัด</p>
+              <a
+                className="bg-TUCMC-green-400 text-white whitespace-nowrap rounded-3xl shadow-md px-5 py-2.5">ยืนยันสิทธิ์ชมรมเดิม</a>
             </div>
           </div>
         </div>
-        <div style={width > 768 ? {width: width - 376, maxWidth: 952} : {}} className="mt-16 md:mt-0">
+        <div style={width > 768 ? {width: width - 376, maxWidth: 952} : {}}
+             className="mt-16 md:mt-0">
           <div className="border-b pb-5 mx-4">
             <div>
-              <FilterSearch setSearchContext={setSearchContext} sortMode={sortMode} setSortMode={setSortMode}/>
+              <FilterSearch setSearchContext={setSearchContext} sortMode={sortMode}
+                            setSortMode={setSortMode}/>
             </div>
           </div>
           <div className="flex flex-col md:flex-row md:space-x-4 mt-6">
             <div className="space-y-2 md:w-1/2">
               {
                 sortedData[0]?.map((val) => {
-                  return <ClubList data={val} state="open" action={setModalState}/>
+                  return <ClubList setToast={setToast} data={val} action={setModalState}/>
                 })
               }
             </div>
             <div className="mt-2 md:mt-0 space-y-2 md:w-1/2">
               {
                 sortedData[1]?.map((val) => {
-                  return <ClubList data={val} state="open" action={setModalState}/>
+                  return <ClubList setToast={setToast} data={val} action={setModalState}/>
                 })
               }
             </div>

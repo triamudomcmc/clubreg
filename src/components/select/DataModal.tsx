@@ -1,18 +1,89 @@
 import Modal from "@components/common/Modals";
 import {ExclamationIcon} from "@heroicons/react/outline";
 import {CheckCircleIcon} from "@heroicons/react/solid";
+import {useState} from "react";
+import {regClub} from "@client/userAction";
 
-const DataModal = ({TriggerDep, setToast, closeFunc}) => {
+const DataModal = ({state, TriggerDep, setToast, closeFunc, refetcher}) => {
 
-  const close = () => {
-    setToast({
-      theme:"modern",
-      icon: "tick",
-      title: "ลงชื่อ Audition แล้ว",
-      text: "ติดตามรายละเอียดการ Audition จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง และไปทำการ Audition ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนด",
-      lifeSpan: 30000
-    })
-    closeFunc()
+  const [phone, setPhone] = useState("")
+  const [password, setPassword] = useState("")
+
+  const submit = async () => {
+    try {
+      const res = await regClub(phone, password, state.data.clubID)
+      if(res.status) {
+        setToast({
+          theme:"modern",
+          icon: "tick",
+          title: "ลงชื่อ Audition แล้ว",
+          text: "ติดตามรายละเอียดการ Audition จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง และไปทำการ Audition ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนด",
+          lifeSpan: 30000
+        })
+        closeFunc()
+        refetcher()
+      }else{
+        switch (res.report) {
+          case "sessionError":
+            setToast({
+              theme:"modern",
+              icon: "cross",
+              title: "พบข้อผิดพลาดของเซสชั่น",
+              text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง"
+            })
+            break
+          case "invalid_password":
+            setToast({
+              theme:"modern",
+              icon: "cross",
+              title: "รหัสผ่านไม่ถูกต้อง",
+              text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือ หากลืมรหัสผ่านสามารถติดต่อทาง กช. เพื่อขอเปลี่ยนรหัสผ่านได้"
+            })
+            break
+          case "invalid_phone":
+            setToast({
+              theme:"modern",
+              icon: "cross",
+              title: "เบอร์โทรศัพท์ ที่ระบุไม่ถูกต้อง",
+              text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช."
+            })
+            break
+          case "club_full":
+            setToast({
+              theme:"modern",
+              icon: "cross",
+              title: "ขออภัยในขณะนี้ชมรมที่เลือกเต็มแล้ว",
+              text: "กรุณาเลือกชมรมอื่นที่ยังว่างอยู่ในตอนนี้"
+            })
+            break
+          case "in_club":
+            setToast({
+              theme:"modern",
+              icon: "cross",
+              title: "ขออภัยคุณได้เลือกชมรมนี้ไปแล้ว",
+              text: "กรุณาเลือกชมรมอื่นที่ยังว่างอยู่ในตอนนี้"
+            })
+            break
+          case "in_audition":
+            setToast({
+              theme:"modern",
+              icon: "cross",
+              title: "ขออภัยคุณได้เลือกชมรมที่มีการ Audition ไปแล้ว",
+              text: "กรุณาเลือกชมรมอื่น เนื่องจากหากลง Audition ไปแล้วจะไม่สามารถเลือกชมรมที่ไม่มีการ Audition ได้"
+            })
+            break
+
+        }
+      }
+    } catch (error) {
+      setToast({
+        theme:"modern",
+        icon: "cross",
+        title: "พบข้อผิดพลาดที่ไม่ทราบสาเหตุ",
+        text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง หากยังพบข้อผิดพลาดสามารถติดต่อทาง กช."
+      })
+    }
+
   }
 
   return (
@@ -54,27 +125,27 @@ const DataModal = ({TriggerDep, setToast, closeFunc}) => {
                     id="phone_number"
                     className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-16 sm:text-sm border-gray-300 rounded-md"
                     placeholder="+66"
+                    onChange={(event) => {setPhone(event.target.value)}}
                   />
                 </div>
               </div>
               <div>
                 <div>
                   <input
-                    type="text"
-                    name="email"
-                    id="email"
+                    type="password"
                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                     placeholder="รหัสผ่าน"
+                    onChange={(event) => {setPassword(event.target.value)}}
                   />
                 </div>
               </div>
             </div>
-            <div className="flex flex-col space-y-3" id="dataModalClose">
-              <div onClick={() => {close()}} className="flex justify-center cursor-pointer items-center space-x-2 text-lg bg-TUCMC-green-400 text-white py-2 rounded-md">
+            <div className="flex flex-col space-y-3">
+              <div onClick={() => {submit()}} className="flex justify-center cursor-pointer items-center space-x-2 text-lg bg-TUCMC-green-400 text-white py-2 rounded-md">
                 <CheckCircleIcon className="w-5 h-5"/>
                 <span>ลงทะเบียน</span>
               </div>
-              <div className="flex justify-center rounded-md cursor-pointer border border-gray-300 bg-white text-gray-700 py-2"><span>ยกเลิก</span></div>
+              <div id="dataModalClose" className="flex justify-center rounded-md cursor-pointer border border-gray-300 bg-white text-gray-700 py-2"><span>ยกเลิก</span></div>
             </div>
           </div>
         </div>

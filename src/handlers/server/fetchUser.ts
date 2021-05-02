@@ -28,3 +28,23 @@ export const fetchUser = async (req, res, fingerprint) => {
     userData: docData.data()
   }
 }
+
+export const fetchSession = async (req, res, fingerprint) => {
+
+  const cookies = new Cookies(req, res, {keys: [process.env.COOKIE_KEY]})
+  const sessionID = cookies.get("sessionID", {signed: true})
+
+  //guard clauses
+  if (!sessionID) return {logged: false, ID: {}}
+
+  const sessionInfo = await initialisedDB.collection("sessions").doc(sessionID).get()
+
+  if (!sessionInfo.exists) return cookies.set("sessionID")
+  if (sessionInfo.get("clientfp") !== fingerprint) return await destroySession(req, res, "fp_reject")
+  if (sessionInfo.get("expires") <= new Date().getTime()) return await destroySession(req, res, "expired")
+
+  return {
+    logged: true,
+    ID: {userID: sessionInfo.get("userID"), dataRefID: sessionInfo.get("dataRefID")}
+  }
+}

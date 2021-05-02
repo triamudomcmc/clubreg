@@ -114,6 +114,14 @@ const RegisterSection = ({swapFunction, setLoader, setToast}) => {
             setToast({
               theme:"modern",
               icon: "cross",
+              title: "รหัสผ่านไม่เหมาะสม",
+              text: "รหัสผ่านจะต้องมีความยาวไม่ต่ำกว่า 8 ตัวอักษร กรุณาลองใหม่อีกครั้ง"
+            })
+            break
+          case "password_mismatch":
+            setToast({
+              theme:"modern",
+              icon: "cross",
               title: "ช่องรหัสผ่านและช่องยืนยันรหัสผ่านไม่ตรงกัน",
               text: "ข้อมูลในช่องรหัสผ่านและช่องยืนยันรหัสผ่านจะต้องเหมือนกัน กรุณาลองใหม่อีกครั้ง"
             })

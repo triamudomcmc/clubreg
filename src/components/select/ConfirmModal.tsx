@@ -1,11 +1,12 @@
 import Modal from "@components/common/Modals";
 
 const ConfirmModal = ({TriggerDep, clubData, onAgree}) => {
+  const auditionText = clubData.data.audition ? " Audition" : "เข้า"
   return (
     <Modal CloseID="confirmClose" overlayClassName="fixed top-0 flex bg-gray-500 bg-opacity-50 items-center justify-center w-full h-full z-[60]" TriggerDep={TriggerDep}>
       <div className="bg-white rounded-lg shadow-md mx-10 max-w-sm">
         <div className="pt-6 pb-5 mx-12">
-          <h1 className="text-center">{`ต้องการลงชื่อ Audition ${clubData.data.title} ใช่หรือไม่ ?`}</h1>
+          <h1 className="text-center">{`ต้องการลงชื่อ${auditionText} ชมรม${clubData.data.title} ใช่หรือไม่ ?`}</h1>
         </div>
         <div className="bg-gray-50 rounded-b-lg py-3 px-3">
           <div className="flex space-x-1 font-medium" id="confirmClose">
