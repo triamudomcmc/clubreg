@@ -116,7 +116,7 @@ const Announce = () => {
             <h1 className="font-medium text-TUCMC-gray-700 text-4xl">ประกาศผล</h1>
           </div>
           <div className="mt-10 w-full px-14 minClubs:px-20">
-            <AnnounceSplash/>
+            <AnnounceSplash className="w-full"/>
           </div>
           {
             desc

@@ -107,7 +107,7 @@ export const rejectClub = async (req, res) => {
     const updatedItem = dataDoc.get("audition")
     updatedItem[req.body.clubID] = "rejected"
 
-    await dataRef.update({club: req.body.clubID, audition: updatedItem})
+    await dataRef.update({audition: updatedItem})
 
     return {status: true, report: "success"}
   }catch (e) {
