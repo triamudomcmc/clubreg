@@ -41,7 +41,7 @@ const ClubList = ({data, action, setToast}: props) => {
       {!data.audition && (data.new_count < data.new_count_limit ? <div
         className={classnames("flex justify-center text-sm font-medium rounded-b-lg bg-TUCMC-green-400 text-white py-4", data.blocked && "bg-TUCMC-gray-400")}>
         <span>มีที่นั่งว่าง</span></div> : <div
-        className="flex justify-center text-sm font-medium rounded-b-lg bg-TUCMC-red-400 text-white py-4">
+        className={classnames("flex justify-center text-sm font-medium rounded-b-lg bg-TUCMC-red-400 text-white py-4", data.blocked && "bg-TUCMC-gray-400")}>
         <span>เต็ม</span></div>)}
     </div>
   )

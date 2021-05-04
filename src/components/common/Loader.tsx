@@ -10,7 +10,7 @@ export const Loader = ({display}) => {
     <div style={{zIndex: 9999, display: display ? "flex" : "none"}} className="flex justify-center items-center min-h-screen w-full fixed top-0 left-0 bg-TUCMC-gray-100 bg-opacity-80">
       <div className="absolute top-0 w-full bg-blue-300 h-1.5">
       </div>
-      <motion.div initial={{x: -1000}} animate={{x: width}} transition={display && {
+      <motion.div initial={{x: -1000}} animate={display && {x: width}} transition={{
         repeat: Infinity,
         duration: 2
       }} className="absolute top-0 left-0 w-full bg-blue-500 h-1.5 w-5/12">

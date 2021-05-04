@@ -98,12 +98,12 @@ const ClubModal = ({state, userData, closeAction, action}) => {
             <h1>ดูรายละเอียดชมรม →</h1>
           </div>
           <div className="px-6 py-8 bg-white space-y-4">
-            <DefaultCard>
+            {dataState.new_count < dataState.new_count_limit && <DefaultCard>
               {
                 dataState.audition ? auditionDesc : notAuditionDesc
               }
-            </DefaultCard>
-            {dataState.audition ? auditionActionButt : <div onClick={action}
+            </DefaultCard>}
+            {dataState.audition ? auditionActionButt : dataState.new_count < dataState.new_count_limit && <div onClick={action}
                                                             className="flex justify-center cursor-pointer items-center space-x-2 text-lg bg-TUCMC-green-400 text-white py-4 rounded-lg">
               <CheckCircleIcon className="w-5 h-5"/>
               <span>ลงทะเบียน</span>
