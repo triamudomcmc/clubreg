@@ -22,7 +22,7 @@ const Auth = ({query}) => {
   onReady((logged, userData) => {
     if(logged) {
       if (userData.club !== "") {
-        return Router.push("/card/yee")
+        return Router.push("/card")
       }
       Router.push("/select")
     }

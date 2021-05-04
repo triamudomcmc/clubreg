@@ -2,8 +2,12 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import screenshot from '@utilities/screenshot'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const {
+    query: { userData }
+  } = req
+
   const file = await screenshot(
-    `http://preview.tucmc.dev/renderer/card`
+    `http://localhost:3000/renderer/card?userData=${escape(userData.toString())}`
   )
 
   res.setHeader('Content-Type', `image/png`)

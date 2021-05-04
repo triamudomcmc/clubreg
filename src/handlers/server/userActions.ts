@@ -77,6 +77,7 @@ export const confirmClub = async (req, res) => {
     const newAuditionData = {}
     Object.keys(updatedItem).forEach((key) => {
       if (key === req.body.clubID) return newAuditionData[key] = "confirmed"
+      if (updatedItem[key] === "failed") return newAuditionData[key] = "failed"
       newAuditionData[key] = "rejected"
     })
     await dataRef.update({club: req.body.clubID, audition: newAuditionData})

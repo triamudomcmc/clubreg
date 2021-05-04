@@ -3,17 +3,31 @@ import css from './card.module.css'
 import classnames from "classnames"
 import {CalendarIcon, LocationMarkerIcon, SpeakerphoneIcon} from "@heroicons/react/solid";
 import {LogoDarkIcon} from "@vectors/Logo";
+import {clubMap} from "../../config/clubMap";
+import {useEffect} from "react";
+import QRCode from 'qrcode'
 
-export const Card = ({ width }) => {
+export const Card = ({ width, userData }) => {
+
+  useEffect(() => {
+    if (userData && userData.dataRefID) {
+      const canvas = document.getElementById('qrCode')
+      QRCode.toCanvas(canvas, userData.dataRefID, { errorCorrectionLevel: 'L', margin: 1.2 })
+    }
+  }, [userData])
+
   return (
     <div style={{ ['--width' as string]: `${width}px` }} className={css.container}>
       <div className={classnames("text-TUCMC-gray-700 text-center", css.mt18)}>
-        <h1 className={css.text14}>นายพีรดนย์ สาเงิน</h1>
-        <h1 className={css.text12}>ห้อง 931</h1>
+        <h1 className={css.text14}>{`${userData.title}${userData.firstname} ${userData.lastname}`}</h1>
+        <h1 className={css.text12}>ห้อง {userData.room}</h1>
       </div>
-      <CardSplash className={css.vector}/>
+      <div className="relative">
+        <CardSplash className={css.vector}/>
+        <canvas id="qrCode" className={css.qrCode}></canvas>
+      </div>
       <div className="flex flex-col items-center bg-TUCMC-gray-100 w-full">
-        <h1 className={classnames(css.text138,"text-TUCMC-700 tracking-tight", css.px17, css.mt18)}>ชมรมสีสรรพ์ภาษาต่างประเทศที่ 2 (French Chorus)</h1>
+        <h1 className={classnames(css.text138,"text-TUCMC-700 tracking-tight", css.px17, css.mt18)}>ชมรม{clubMap[userData.club]}</h1>
         <span className={classnames(css.greenbutt)}>ลงทะเบียนสำเร็จ</span>
       </div>
       <div className={classnames("flex flex-col items-start w-full", css.textContainer)}>
