@@ -21,8 +21,8 @@ export const fetchUser = async (): Promise<{ userID: string, userData: {} }> => 
     //auto fetching after expired
     setTimeout(() => {
       Router.reload()
-      Router.push("/auth")
     }, (res.expires - new Date().getTime()) + 1000)
+
     return {userID: res.userID, userData: res.userData}
   }
   return {userID: null, userData: {}}

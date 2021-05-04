@@ -1,5 +1,7 @@
+import {clubMap} from "../config/clubMap";
+
 export const isEmpty = (obj) => {
-  return Object.keys(obj).length == 0
+  return obj && Object.keys(obj).length == 0
 }
 
 export const sliceObj = (obj, partitions) => {
@@ -62,4 +64,8 @@ export const objToArr = (obj: any) => {
   return Object.keys(obj).map(key => {
     return {clubID: key, ...obj[key]}
   })
+}
+
+export const translateClubID = (id: string) => {
+  return id in clubMap && clubMap[id]
 }

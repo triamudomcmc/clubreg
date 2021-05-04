@@ -1,7 +1,7 @@
 import {NextApiRequest, NextApiResponse} from "next";
 import {fetchUser} from "@server/fetchUser"
 import {destroySession} from "@server/authentication";
-import {regClub} from "@server/userActions";
+import {confirmClub, regClub, rejectClub} from "@server/userActions";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
@@ -14,6 +14,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       switch (req.body.action) {
         case "regClub": {
           const output = await regClub(req, res)
+          res.json(output)
+        }
+        break
+        case "confirmClub": {
+          const output = await confirmClub(req, res)
+          res.json(output)
+        }
+        break
+        case "rejectClub": {
+          const output = await rejectClub(req, res)
           res.json(output)
         }
       }

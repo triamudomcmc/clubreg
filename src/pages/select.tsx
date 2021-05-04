@@ -150,7 +150,7 @@ const Select = () => {
           setSelect(false)
         }
       }}/>
-      <ClubModal state={modalState} closeAction={clearState} action={selectClub}/>
+      <ClubModal state={modalState} userData={userData} closeAction={clearState} action={selectClub}/>
       <DataModal setLoader={setLoader} state={modalState} refetcher={reFetch} setToast={setToast} closeFunc={clearState}
                  TriggerDep={{
                    dep: dataModal, revert: () => {
