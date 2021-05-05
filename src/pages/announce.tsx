@@ -32,6 +32,8 @@ const Announce = () => {
 
   useEffect(() => {
     if (userData.audition && !isEmpty(userData.audition)) {
+      setDesc(<></>)
+      setBottomDesc(<></>)
       const values = Object.values(userData.audition)
       if (values.includes("passed")) {
         setDesc(<div className="px-6 mt-12 md:mt-20 text-center">
@@ -57,7 +59,7 @@ const Announce = () => {
         setDesc(prevState => (
           <>
             {prevState}
-            <h1 className="text-center text-TUCMC-gray-700 my-6">หรือ</h1>
+            <h1 className="text-center text-TUCMC-gray-700 mt-6">หรือ</h1>
           </>
         ))
       }
@@ -65,7 +67,7 @@ const Announce = () => {
         setDesc(prevState => (
           <>
             {prevState}
-            <div className="px-6 flex flex-col items-center space-y-2">
+            <div className="px-6 mt-6 flex flex-col items-center space-y-2">
               <p className="text-TUCMC-gray-700">รอลุ้นลำดับสำรอง 2 รอบ</p>
               <div>
                 <div className="flex items-center space-x-1">

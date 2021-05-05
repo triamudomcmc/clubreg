@@ -26,6 +26,7 @@ const Navigation = () => {
   const [reveal, setReaveal] = useState(false)
   const [toggle, setToggle] = useState(false)
   const [animation, setAnimation] = useState(false)
+  const [load, setLoad] = useState(true)
   const [initial, setInitial] = useState(true)
   const panel = useRef(null)
   const [path, setPath] = useState("/")
@@ -35,6 +36,7 @@ const Navigation = () => {
   })
 
   useEffect(() => {
+    setLoad(false)
     if (!initial) {
       if (!animation) {
         setReaveal(!reveal)
@@ -125,7 +127,7 @@ const Navigation = () => {
       }} onAnimationComplete={() => {
         setAnimation(false)
       }} ref={panel} initial={{x: "-100%"}} animate={reveal ? "open" : "close"} variants={variants}
-                  className="fixed top-0 bg-white h-full z-50">
+                  className={classnames("fixed top-0 bg-white h-full z-50", (load) && "hidden")}>
         <div className="bg-TUCMC-gray-800 p-4">
           <Link href="/">
             <div>

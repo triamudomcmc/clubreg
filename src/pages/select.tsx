@@ -29,7 +29,7 @@ import {
 } from "@utilities/object";
 import {sliceArr} from "@utilities/array";
 
-const blockContent = (dataObj) => {
+/*const blockContent = (dataObj) => {
   let newObj = {}
   Object.keys(dataObj).forEach(val => {
     if (!dataObj[val].audition) {
@@ -39,7 +39,7 @@ const blockContent = (dataObj) => {
     }
   })
   return newObj
-}
+}*/
 
 const Select = () => {
 
@@ -65,7 +65,7 @@ const Select = () => {
       Router.push("/auth")
     }else{
       if (userData.club !== "") {
-        Router.push("/card/yee")
+        Router.push("/card")
       }
     }
     return {userData}
@@ -99,7 +99,7 @@ const Select = () => {
   useEffect(() => {
     const load = async () => {
       const value = await fetchClub()
-      setClubData(Object.keys(userData.audition).length > 0 ? blockContent(value) : value)
+      setClubData(value)
     }
 
     userData && Object.keys(userData).length > 2 && load()

@@ -24,7 +24,6 @@ export const regClub = async (req, res) => {
     const isAu = await initialisedDB.runTransaction(async (t) => {
       const doc = await t.get(clubRef);
       const data = doc.data()
-      if (!isEmpty(dataDoc.get("audition")) && !data.audition) throw "in_audition"
       if (data.new_count >= data.new_count_limit) throw "club_full"
       const newCount = data.new_count + 1
       t.update(clubRef, {new_count: newCount})
@@ -34,7 +33,7 @@ export const regClub = async (req, res) => {
     if (isAu) {
       await dataRef.update("audition", {...dataDoc.data().audition, ...{[req.body.clubID]: "waiting"}})
     }else{
-      await dataRef.update("club", req.body.clubID)
+      await dataRef.update({club: req.body.clubID, audition: {}})
     }
 
     return {status: true, report: isAu ? "success_audition" : "success_notAudition"}

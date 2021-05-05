@@ -166,12 +166,12 @@ const Index = () => {
               <div className="flex md:hidden flex-row tracking-tight w-full mt-12">
               <span
                 className="flex items-center justify-center w-1/2 border-b border-TUCMC-red-400 text-TUCMC-red-400">
-                <StarIcon/>
+                <StarIcon className="w-5 h-5"/>
                 <span className="pl-1">มีการ Audition</span>
               </span>
                 <span
                   className="flex items-center justify-center w-1/2 border-b border-TUCMC-gray-400 text-TUCMC-gray-400">
-                <ClipboardCopyIcon/>
+                <ClipboardCopyIcon className="w-5 h-5"/>
                 <span className="pl-1">ไม่มีการ Audition</span>
               </span>
               </div>
