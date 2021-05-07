@@ -45,7 +45,7 @@ import Image from "next/image";
 export const getStaticProps: GetStaticProps = async () => {
   const files = fs.readdirSync("./public/assets/thumbnails/")
   return {
-    props:{
+    props: {
       thumbPaths: files
     }
   }
@@ -73,7 +73,7 @@ const Select = ({thumbPaths}) => {
   const {userData} = onReady((logged, userData) => {
     if (!logged) {
       Router.push("/auth")
-    }else{
+    } else {
       if (userData.club !== "") {
         Router.push("/card")
       }
@@ -167,8 +167,7 @@ const Select = ({thumbPaths}) => {
                      setDataModal(false)
                    }
                  }}/>
-      <div
-        className="flex flex-col md:flex-row md:justify-center md:items-start md:space-x-6 items-center py-14 px-4">
+      <div className="flex flex-col md:flex-row md:justify-center md:items-start md:space-x-6 items-center py-14 px-4">
         <div className="md:max-w-xs">
           <div className="flex flex-col items-center">
             <h1 className="font-medium text-4xl">เลือกชมรม</h1>
@@ -181,15 +180,15 @@ const Select = ({thumbPaths}) => {
             {(userData && !isEmpty(userData.audition)) &&
             <div className="flex flex-col rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
                 <h1 className="text-lg font-medium tracking-tight">คุณได้ลงชื่อ Audition
-                    ชมรมไว้</h1>
+                                                                   ชมรมไว้</h1>
                 <p className="text-gray-600 tracking-tight">ให้ไปทำการ Audition
-                    ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนด โดยติดตามรายละเอียดการ Audition
-                    จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง
-                    และรอการประกาศผลในวันที่ 25 พ.ค. 2564 เวลา 8.00 น.</p>
+                                                            ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนด โดยติดตามรายละเอียดการ Audition
+                                                            จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง
+                                                            และรอการประกาศผลในวันที่ 25 พ.ค. 2564 เวลา 8.00 น.</p>
                 <div className="md:hidden relative">
                     <a ref={auTrigger}
                        className="text-TUCMC-pink-500 tracking-tight cursor-pointer">ดูรายชื่อชมรมที่ลงชื่อ
-                        Audition ไว้ →</a>
+                                                                                     Audition ไว้ →</a>
                     <Modal TriggerRef={auTrigger} CloseID="audiClose"
                            className="shadow-md rounded-lg absolute w-full mt-1 z-20">
                         <div
@@ -225,7 +224,7 @@ const Select = ({thumbPaths}) => {
               <h1 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h1>
               <p
                 className="text-gray-600 tracking-tight">นักเรียนสามารถใช้โควตายืนยันสิทธิ์ชมรมเดิมได้ทันที
-                (ชมรม...) *โควตามีจำนวนจำกัด</p>
+                                                         (ชมรม...) *โควตามีจำนวนจำกัด</p>
               <a
                 className="bg-TUCMC-green-400 text-white whitespace-nowrap rounded-3xl shadow-md px-5 py-2.5">ยืนยันสิทธิ์ชมรมเดิม</a>
             </div>

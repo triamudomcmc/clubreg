@@ -19,7 +19,6 @@ const ClubModal = ({state, userData, closeAction, action, thumbPaths}) => {
   const ref = useRef(null)
   const [hidden, setHidden] = useState(true)
   const [dataState, setDataState] = useState(state.data)
-  const [images, setImages] = useState({})
 
   const userClubData = (userData && userData.audition && !isEmpty(userData.audition)) ? userData.audition : {}
 
@@ -42,11 +41,11 @@ const ClubModal = ({state, userData, closeAction, action, thumbPaths}) => {
   }, [ref, state.open])
 
   const notAuditionDesc = <p className="font-normal">ชมรมนี้ไม่มีการ Audition
-    สามารถกดปุ่มลงทะเบียนด้านล่างเพื่อเข้าร่วมชมรมได้ทันที</p>
+                                                     สามารถกดปุ่มลงทะเบียนด้านล่างเพื่อเข้าร่วมชมรมได้ทันที</p>
 
   let auditionDesc = <p className="font-normal">เมื่อลงชื่อ Audition ชมรมนี้แล้ว
-    ให้ไป Audition ตามวันและเวลา
-    ที่ชมรมนี้กำหนด</p>
+                                                ให้ไป Audition ตามวันและเวลา
+                                                ที่ชมรมนี้กำหนด</p>
 
   let auditionActionButt = <div onClick={action}
                                 className="flex justify-center cursor-pointer items-center space-x-2 text-lg bg-TUCMC-pink-400 text-white py-4 rounded-lg">
@@ -61,14 +60,14 @@ const ClubModal = ({state, userData, closeAction, action, thumbPaths}) => {
       <span>ลงชื่อแล้ว</span>
     </div>
     auditionDesc = <p className="font-normal">หลังจากลงชื่อแล้ว ให้ติดตามรายละเอียดการ Audition จากช่องทางการประชาสัมพันธ์
-      ของชมรมนี้และไปทำการ Audition ตามวันและเวลาที่ชมรมนี้กำหนด</p>
+                                              ของชมรมนี้และไปทำการ Audition ตามวันและเวลาที่ชมรมนี้กำหนด</p>
   }
 
   const imagePath = dataState.clubID && (dataState.clubID.includes("_") ? `${dataState.clubID.split("_")[0]}.jpg` : `${dataState.clubID}.jpg`)
 
   return (
     <div
-      className={classnames("flex flex-col items-center justify-center fixed top-0 z-50 w-full py-10 px-6 min-h-screen max-h-screen", hidden && "hidden")}>
+      className={classnames("flex flex-col items-center justify-center fixed top-0 z-50 bg-gray-500 bg-opacity-50 w-full py-10 px-6 min-h-screen max-h-screen", hidden && "hidden")}>
       <motion.div onAnimationComplete={() => {
         !state.open && setHidden(true)
       }} animate={state.open ? "show" : "hide"} variants={variants} ref={ref}
@@ -85,43 +84,56 @@ const ClubModal = ({state, userData, closeAction, action, thumbPaths}) => {
           }
           <div className="flex flex-col w-full bg-white">
             {
-              thumbPaths.map(val =>{
-                return <div className={classnames(imagePath === val ? "block" : "hidden")}><Image priority={true} className="object-cover w-full" width="448" height="252"
-                                   src={`/assets/thumbnails/${val}`}/></div>
+              //preload thumbnails with Image tag
+              thumbPaths.map(val => {
+                return <div className={classnames(imagePath === val ? "block" : "hidden")}>
+                  <Image priority={true} className="object-cover w-full" width="448" height="252" src={`/assets/thumbnails/${val}`}/>
+                </div>
               })
             }
           </div>
           <div className="px-6 py-6 tracking-tight bg-white space-y-2 text-gray-700">
             <h1 className="text-xl">ชมรม{dataState.title}</h1>
-            {dataState.audition ? <div className="flex text-TUCMC-red-400 space-x-1">
-              <StarIcon className="w-5 h-5 flex-shrink-0"/>
-              <span className="leading-6">มีการ Audition</span>
-            </div> : <div className="flex text-TUCMC-blue-400 space-x-1">
-              <ClipboardCopyIcon className="w-5 h-5 flex-shrink-0"/>
-              <span className="leading-6">ไม่มีการ Audition</span>
-            </div>}
-            <div className="flex text-TUCMC-gray-600 space-x-1 "><GlobeAltIcon
-              className="w-5 h-5 flex-shrink-0"/><span className="leading-6">
-              <p className={classnames(dataState.contact === "" ? "hidden" : "block")}>FB : {dataState.contact}</p>
-              <p className={classnames(dataState.contact2 === "" ? "hidden" : "block")}>IG : @{dataState.contact2}</p>
-              <p className={classnames("contact3" in dataState ? "block" : "hidden")}>{dataState.contact3}</p>
-            </span>
+
+            {dataState.audition ?
+              <div className="flex text-TUCMC-red-400 space-x-1">
+                <StarIcon className="w-5 h-5 flex-shrink-0"/>
+                <span className="leading-6">มีการ Audition</span>
+              </div> : <div className="flex text-TUCMC-blue-400 space-x-1">
+                <ClipboardCopyIcon className="w-5 h-5 flex-shrink-0"/>
+                <span className="leading-6">ไม่มีการ Audition</span>
+              </div>}
+
+            <div className="flex text-TUCMC-gray-600 space-x-1 ">
+              <GlobeAltIcon className="w-5 h-5 flex-shrink-0"/>
+              <span className="leading-6">
+                <p className={classnames(dataState.contact === "" ? "hidden" : "block")}>FB : {dataState.contact}</p>
+                <p className={classnames(dataState.contact2 === "" ? "hidden" : "block")}>IG : @{dataState.contact2}</p>
+                <p className={classnames("contact3" in dataState ? "block" : "hidden")}>{dataState.contact3}</p>
+              </span>
             </div>
           </div>
           <div className="bg-TUCMC-gray-100 text-TUCMC-gray-600 px-6 py-3">
             <h1>ดูรายละเอียดชมรม →</h1>
           </div>
           <div className="px-6 py-8 bg-white space-y-4">
-            {dataState.new_count < dataState.new_count_limit && <DefaultCard>
+
+            {dataState.new_count < dataState.new_count_limit &&
+            <DefaultCard>
               {
                 dataState.audition ? auditionDesc : notAuditionDesc
               }
-            </DefaultCard>}
-            {dataState.audition ? auditionActionButt : dataState.new_count < dataState.new_count_limit && <div onClick={action}
-                                                            className="flex justify-center cursor-pointer items-center space-x-2 text-lg bg-TUCMC-green-400 text-white py-4 rounded-lg">
-              <CheckCircleIcon className="w-5 h-5"/>
-              <span>ลงทะเบียน</span>
-            </div>}
+            </DefaultCard>
+            }
+
+            {dataState.audition ? auditionActionButt : dataState.new_count < dataState.new_count_limit &&
+                <div onClick={action}
+                     className="flex justify-center cursor-pointer items-center space-x-2 text-lg bg-TUCMC-green-400 text-white py-4 rounded-lg">
+                    <CheckCircleIcon className="w-5 h-5"/>
+                    <span>ลงทะเบียน</span>
+                </div>
+            }
+
             <div onClick={closeAction}
                  className="flex cursor-pointer justify-center items-center border-3/2 border-gray-300 space-x-2 text-lg bg-white text-TUCMC-gray-600 py-4 rounded-lg">
               <ReplyIcon className="w-5 h-5"/>
