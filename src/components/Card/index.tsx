@@ -34,7 +34,7 @@ export const Card = ({ width, userData, clubData}) => {
         <canvas id="qrCode" className={css.qrCode}></canvas>
       </div>
       <div className="flex flex-col items-center bg-TUCMC-gray-100 w-full">
-        <h1 className={classnames(css.text138,"text-TUCMC-700 tracking-tight", css.px17, css.mt18)}>ชมรม{clubMap[userData.club]}</h1>
+        <h1 className={classnames(css.text138,"text-TUCMC-700 tracking-tight w-full text-center", css.px17, css.mt18)}>ชมรม{clubMap[userData.club]}</h1>
         <span className={classnames(css.greenbutt)}>ลงทะเบียนสำเร็จ</span>
       </div>
       <div className={classnames("flex flex-col items-start w-full", css.textContainer)}>
