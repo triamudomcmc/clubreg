@@ -4,7 +4,7 @@
     width: var(--width);
     height: calc(var(--width) * 570/329);
     border-radius: calc(var(--ratio) * 6);
-    @apply flex flex-col items-center bg-white shadow-lg;
+    @apply flex flex-col items-center bg-white shadow-lg relative;
 }
 
 .text14 {
@@ -78,5 +78,8 @@
     @apply text-TUCMC-gray-600;
 }
 .mt2 {
-    margin-top: calc(var(--ratio) * 2);
+    position: absolute;
+    bottom: calc(var(--ratio) * 14);
+    padding-right: calc(var(--ratio) * 13);
+
 }

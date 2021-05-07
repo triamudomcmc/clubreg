@@ -21,22 +21,36 @@ export const regClub = async (req, res) => {
   const clubRef = initialisedDB.collection("clubs").doc(req.body.clubID)
 
   try {
-    const isAu = await initialisedDB.runTransaction(async (t) => {
+    const clubData = await initialisedDB.runTransaction(async (t) => {
       const doc = await t.get(clubRef);
       const data = doc.data()
       if (data.new_count >= data.new_count_limit) throw "club_full"
       const newCount = data.new_count + 1
       t.update(clubRef, {new_count: newCount})
-      return data.audition
+      return data
     })
 
-    if (isAu) {
+    if (clubData.audition) {
       await dataRef.update("audition", {...dataDoc.data().audition, ...{[req.body.clubID]: "waiting"}})
     }else{
-      await dataRef.update({club: req.body.clubID, audition: {}})
+      const cardRef = await initialisedDB.collection("cards").add({
+        title: dataDoc.get("title"),
+        firstname: dataDoc.get("firstname"),
+        lastname: dataDoc.get("lastname"),
+        room: dataDoc.get("room"),
+        club: req.body.clubID,
+        place: clubData.place,
+        contact: clubData.contact ? clubData.contact : "",
+        contact2: clubData.contact2 ? clubData.contact2 : "",
+        contact3: clubData.contact3 ? clubData.contact3 : ""
+      })
+
+      await dataRef.update({club: req.body.clubID, audition: {}, cardID: cardRef.id})
     }
 
-    return {status: true, report: isAu ? "success_audition" : "success_notAudition"}
+
+
+    return {status: true, report: clubData.audition ? "success_audition" : "success_notAudition"}
   }catch (e) {
     return {status: false, report: e}
   }
@@ -62,14 +76,14 @@ export const confirmClub = async (req, res) => {
   const clubRef = initialisedDB.collection("clubs").doc(req.body.clubID)
 
   try {
-    await initialisedDB.runTransaction(async (t) => {
+    const clubData = await initialisedDB.runTransaction(async (t) => {
       const doc = await t.get(clubRef);
       const data = doc.data()
       if (!data.audition) throw "invalid_club_type"
       if (data.new_count >= data.new_count_limit) throw "club_full"
       const newCount = data.new_count + 1
       t.update(clubRef, {new_count: newCount})
-      return data.audition
+      return data
     })
 
     const updatedItem = dataDoc.get("audition")
@@ -79,7 +93,21 @@ export const confirmClub = async (req, res) => {
       if (updatedItem[key] === "failed") return newAuditionData[key] = "failed"
       newAuditionData[key] = "rejected"
     })
-    await dataRef.update({club: req.body.clubID, audition: newAuditionData})
+
+    const cardRef = await initialisedDB.collection("cards").add({
+      title: dataDoc.get("title"),
+      firstname: dataDoc.get("firstname"),
+      lastname: dataDoc.get("lastname"),
+      room: dataDoc.get("room"),
+      club: req.body.clubID,
+      place: clubData.place,
+      contact: clubData.contact ? clubData.contact : "",
+      contact2: clubData.contact2 ? clubData.contact2 : "",
+      contact3: clubData.contact3 ? clubData.contact3 : ""
+    })
+
+    await dataRef.update({club: req.body.clubID, audition: newAuditionData, cardID: cardRef.id})
+
 
     return {status: true, report: "success"}
   }catch (e) {

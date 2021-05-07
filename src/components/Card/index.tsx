@@ -4,15 +4,22 @@ import classnames from "classnames"
 import {CalendarIcon, LocationMarkerIcon, SpeakerphoneIcon} from "@heroicons/react/solid";
 import {LogoDarkIcon} from "@vectors/Logo";
 import {clubMap} from "../../config/clubMap";
-import {useEffect} from "react";
+import {Dispatch, SetStateAction, useEffect, useState} from "react";
 import QRCode from 'qrcode'
+import {fetchAClub} from "@client/fetcher/club";
+import CardRender from "../../pages/renderer/card";
 
-export const Card = ({ width, userData }) => {
+const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>) => {
+  const data = await fetchAClub(clubID)
+  setClubData(data)
+}
+
+export const Card = ({ width, userData, clubData}) => {
 
   useEffect(() => {
-    if (userData && userData.dataRefID) {
+    if (userData && userData.cardID) {
       const canvas = document.getElementById('qrCode')
-      QRCode.toCanvas(canvas, `https://preview.tucmc.dev/card/${userData.dataRefID}`, { errorCorrectionLevel: 'L', margin: 1.2 })
+      QRCode.toCanvas(canvas, `https://preview.tucmc.dev/card/${userData.cardID}`, { errorCorrectionLevel: 'L', margin: 1.2 })
     }
   }, [userData])
 
@@ -50,13 +57,14 @@ export const Card = ({ width, userData }) => {
           <SpeakerphoneIcon className={css.icon}/>
           <div className="flex flex-col">
             <span className={classnames(css.text1155, "text-TUCMC-gray-700")}>ช่องทางการติดต่อชมรม</span>
-            <p className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55)}>Facebook.............................</p>
-            <p className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55)}>Instagram..................</p>
+            <p className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55, clubData.contact === "" && "hidden")}>FB {clubData.contact}</p>
+            <p className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55, clubData.contact2 === "" && "hidden")}>IG @{clubData.contact2}</p>
+            <p className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55, (clubData.contact3 === "" || (clubData.contact === "" && clubData.contact2 === "")) && "hidden")}>{clubData.contact3}</p>
           </div>
         </div>
-        <div className={classnames("flex justify-end w-full",css.mt2)}>
-          <LogoDarkIcon className={css.logo}/>
-        </div>
+      </div>
+      <div className={classnames("flex justify-end w-full",css.mt2)}>
+        <LogoDarkIcon className={css.logo}/>
       </div>
     </div>
   )

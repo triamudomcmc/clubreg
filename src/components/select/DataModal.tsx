@@ -1,14 +1,22 @@
 import Modal from "@components/common/Modals";
 import {ExclamationIcon} from "@heroicons/react/outline";
 import {CheckCircleIcon, XCircleIcon} from "@heroicons/react/solid";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {confirmClub, regClub, rejectClub} from "@client/userAction";
+import {isEmpty} from "@utilities/object";
 
 const DataModal = ({state, setLoader, TriggerDep, setToast, closeFunc, refetcher, mode = "default"}) => {
 
   const [phone, setPhone] = useState("")
   const [password, setPassword] = useState("")
   const [closingState, setClosingState] = useState(false)
+  const [data, setData] = useState(state.data)
+
+  useEffect(() => {
+    if (!isEmpty(state.data)) {
+      setData(state.data)
+    }
+  }, [state.data])
 
 
   const submit = async (action: "register" | "confirm" | "reject" = "register") => {
@@ -125,7 +133,7 @@ const DataModal = ({state, setLoader, TriggerDep, setToast, closeFunc, refetcher
 
   let headingText =
     <div className="pt-3 pb-5 mx-10 md:mx-12">
-      <h1 className="text-center text-[20px] font-medium">ลงทะเบียนชมรม...</h1>
+      <h1 className="text-center text-[20px] font-medium">ลงทะเบียนชมรม{data.title}</h1>
       <div className="text-sm mt-2">
         <p className="text-gray-500 text-center">หากลงทะเบียนแล้ว จะถือว่านักเรียนอยู่ชมรมนี้แล้ว จะไม่สามารถขอเปลี่ยนชมรม</p>
         <p className="text-gray-500 text-center">
@@ -139,13 +147,13 @@ const DataModal = ({state, setLoader, TriggerDep, setToast, closeFunc, refetcher
 
   if (mode !== "default") {
     headingText = mode === "confirm" ? <div className="pt-3 pb-5 mx-10 md:mx-12">
-      <h1 className="text-center text-[20px] font-medium">ยืนยันสิทธิ์ชมรม...</h1>
+      <h1 className="text-center text-[20px] font-medium">ยืนยันสิทธิ์ชมรม{data.title}</h1>
       <div className="text-sm mt-2">
         <p className="text-gray-500 text-center">หากยืนยันสิทธิ์ชมรมนี้แล้ว</p>
         <p className="text-gray-500 text-center">จะไม่สามารถเปลี่ยนใจกลับมาขอยืนยันสิทธิ์ได้อีก</p>
       </div>
     </div> : <div className="pt-3 pb-5 mx-10 md:mx-12">
-      <h1 className="text-center text-[20px] font-medium">สละสิทธิ์ชมรม...</h1>
+      <h1 className="text-center text-[20px] font-medium">สละสิทธิ์ชมรม{data.title}</h1>
       <div className="text-sm mt-2">
         <p className="text-gray-500 text-center">หากสละสิทธิ์ชมรมนี้แล้ว</p>
         <p className="text-gray-500 text-center">จะไม่สามารถเปลี่ยนใจกลับมาขอยืนยันสิทธิ์ได้อีก</p>

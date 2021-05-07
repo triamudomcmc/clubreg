@@ -25,7 +25,7 @@ export const fetchUser = async (req, res, fingerprint) => {
     logged: true,
     expires: sessionInfo.get("expires"),
     userID: sessionInfo.get("userID"),
-    userData: {...docData.data(), ...{dataRefID: sessionInfo.get("dataRefID")}}
+    userData: docData.data()
   }
 }
 

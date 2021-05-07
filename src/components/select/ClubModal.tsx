@@ -13,6 +13,7 @@ import {isEmpty} from "@utilities/object";
 import Image from "next/image"
 import {GetStaticProps} from "next";
 import * as fs from "fs";
+import {detectOuside} from "@utilities/document";
 
 const ClubModal = ({state, userData, closeAction, action, thumbPaths}) => {
 
@@ -27,6 +28,15 @@ const ClubModal = ({state, userData, closeAction, action, thumbPaths}) => {
       setDataState(state.data)
     }
   }, [state.data])
+
+  useEffect(() => {
+    document.addEventListener("mousedown", event => {
+      // @ts-ignore
+      if (event.target.id === "lower-overlay") {
+        closeAction()
+      }
+    })
+  }, [])
 
   const variants = {
     show: {opacity: 1},
@@ -67,6 +77,7 @@ const ClubModal = ({state, userData, closeAction, action, thumbPaths}) => {
 
   return (
     <div
+      id="lower-overlay"
       className={classnames("flex flex-col items-center justify-center fixed top-0 z-50 bg-gray-500 bg-opacity-50 w-full py-10 px-6 min-h-screen max-h-screen", hidden && "hidden")}>
       <motion.div onAnimationComplete={() => {
         !state.open && setHidden(true)
@@ -87,7 +98,7 @@ const ClubModal = ({state, userData, closeAction, action, thumbPaths}) => {
               //preload thumbnails with Image tag
               thumbPaths.map(val => {
                 return <div className={classnames(imagePath === val ? "block" : "hidden")}>
-                  <Image priority={true} className="object-cover w-full" width="448" height="252" src={`/assets/thumbnails/${val}`}/>
+                  <Image priority={true} key={val} className="object-cover w-full" width="448" height="252" src={`/assets/thumbnails/${val}`}/>
                 </div>
               })
             }

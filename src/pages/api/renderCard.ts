@@ -3,11 +3,11 @@ import screenshot from '@utilities/screenshot'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
-    query: { userData }
+    query: { userData, clubData }
   } = req
 
   const file = await screenshot(
-    `http://localhost:3000/renderer/card?userData=${escape(userData.toString())}`
+    `http://preview.tucmc.dev/renderer/card?userData=${escape(userData.toString())}&clubData=${escape(clubData.toString())}`
   )
 
   res.setHeader('Content-Type', `image/png`)
