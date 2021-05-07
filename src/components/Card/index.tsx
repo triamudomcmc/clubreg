@@ -12,7 +12,7 @@ export const Card = ({ width, userData }) => {
   useEffect(() => {
     if (userData && userData.dataRefID) {
       const canvas = document.getElementById('qrCode')
-      QRCode.toCanvas(canvas, userData.dataRefID, { errorCorrectionLevel: 'L', margin: 1.2 })
+      QRCode.toCanvas(canvas, `https://preview.tucmc.dev/card/${userData.dataRefID}`, { errorCorrectionLevel: 'L', margin: 1.2 })
     }
   }, [userData])
 

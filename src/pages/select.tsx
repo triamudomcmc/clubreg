@@ -28,6 +28,7 @@ import {
   sortThaiDictionary
 } from "@utilities/object";
 import {sliceArr} from "@utilities/array";
+import Image from "next/image";
 
 /*const blockContent = (dataObj) => {
   let newObj = {}
@@ -41,7 +42,16 @@ import {sliceArr} from "@utilities/array";
   return newObj
 }*/
 
-const Select = () => {
+export const getStaticProps: GetStaticProps = async () => {
+  const files = fs.readdirSync("./public/assets/thumbnails/")
+  return {
+    props:{
+      thumbPaths: files
+    }
+  }
+}
+
+const Select = ({thumbPaths}) => {
 
   const {onReady, tracker, reFetch} = useAuth()
   const {width} = useWindowDimensions()
@@ -150,7 +160,7 @@ const Select = () => {
           setSelect(false)
         }
       }}/>
-      <ClubModal state={modalState} userData={userData} closeAction={clearState} action={selectClub}/>
+      <ClubModal state={modalState} userData={userData} closeAction={clearState} action={selectClub} thumbPaths={thumbPaths}/>
       <DataModal setLoader={setLoader} state={modalState} refetcher={reFetch} setToast={setToast} closeFunc={clearState}
                  TriggerDep={{
                    dep: dataModal, revert: () => {
