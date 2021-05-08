@@ -1,6 +1,18 @@
 import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/solid";
 
-export const ListElement = ({index = 0}) => {
+export const ListElement = ({index = 0, userData, editable}) => {
+
+  let statusBar = <div
+    className="bg-TUCMC-gray-800 text-white rounded-full tracking-tight text-sm px-4 py-0.5">รอการตอบรับ</div>
+  if (userData.status === "confirmed") {
+    statusBar = <div
+      className="bg-TUCMC-green-400 text-white rounded-full tracking-tight text-sm px-4 py-0.5">ยืนยันสิทธิ์แล้ว</div>
+  }
+  if (userData.status === "rejected") {
+    statusBar = <div
+      className="bg-TUCMC-red-400 text-white rounded-full tracking-tight text-sm px-4 py-0.5">สละสิทธิ์แล้ว</div>
+  }
+
   return (
     <div className="flex items-center justify-between pr-4 py-5 md:py-8 border-b border-TUCMC-gray-300">
       <div className="flex items-center">
@@ -8,19 +20,19 @@ export const ListElement = ({index = 0}) => {
           {index}
         </div>}
         <div className="flex flex-col items-start ml-6">
-          <h1>นายพีรดนย์ สาเงิน</h1>
-          <span className="md:hidden text-TUCMC-gray-600">59574  |  ม.4/931</span>
-          <div className="md:hidden bg-TUCMC-gray-800 text-white rounded-full tracking-tight text-sm px-4 py-0.5 -ml-[2px] mt-1">รอการตอบรับ</div>
+          <h1>{userData.title}{userData.firstname} {userData.lastname}</h1>
+          <span className="md:hidden text-TUCMC-gray-600">{userData.student_id}  |  ม.{userData.level}/{userData.room}</span>
+          {!editable && <div className="md:hidden mt-1 -ml-[2px]">{statusBar}</div>}
         </div>
       </div>
       <div className="flex text-TUCMC-gray-600">
         <div className="hidden md:block space-x-16 mr-28">
-          <span>59574</span>
-          <span>ม.4</span>
-          <span>931</span>
+          <span>{userData.student_id}</span>
+          <span>ม.{userData.level}</span>
+          <span>{userData.room}</span>
         </div>
-        {/*<span>เปลี่ยน</span>*/}
-        <div className="md:block hidden bg-TUCMC-gray-800 text-white rounded-full tracking-tight text-sm px-4 py-0.5 -ml-[2px] mt-1">รอการตอบรับ</div>
+        {editable && <span>เปลี่ยน</span>}
+        {!editable && <div className="hidden md:block">{statusBar}</div>}
         {/*<div>
           <div className="border rounded-t-md p-1.5">
             <ChevronUpIcon className="w-4 h-4"/>

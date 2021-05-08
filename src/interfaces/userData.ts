@@ -7,5 +7,6 @@ export default interface UserData {
   number: string,
   level: string,
   club: string,
-  audition: {}
+  audition: {},
+  panelID?: string
 }
