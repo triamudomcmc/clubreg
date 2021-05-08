@@ -18,15 +18,15 @@ export const regClub = async (req, res) => {
   }
 
 
-  const clubRef = initialisedDB.collection("clubs").doc(req.body.clubID)
+  const clubRef = initialisedDB.collection("clubs").doc("mainData")
 
   try {
     const clubData = await initialisedDB.runTransaction(async (t) => {
       const doc = await t.get(clubRef);
-      const data = doc.data()
+      const data = doc.get(req.body.clubID)
       if (data.new_count >= data.new_count_limit) throw "club_full"
       const newCount = data.new_count + 1
-      t.update(clubRef, {new_count: newCount})
+      t.set(clubRef, {[req.body.clubID]: {new_count: newCount}}, {merge:true})
       return data
     })
 
@@ -73,16 +73,16 @@ export const confirmClub = async (req, res) => {
   }
 
 
-  const clubRef = initialisedDB.collection("clubs").doc(req.body.clubID)
+  const clubRef = initialisedDB.collection("clubs").doc("mainData")
 
   try {
     const clubData = await initialisedDB.runTransaction(async (t) => {
       const doc = await t.get(clubRef);
-      const data = doc.data()
+      const data = doc.get(req.body.clubID)
       if (!data.audition) throw "invalid_club_type"
       if (data.new_count >= data.new_count_limit) throw "club_full"
       const newCount = data.new_count + 1
-      t.update(clubRef, {new_count: newCount})
+      t.set(clubRef, {[req.body.clubID]: {new_count: newCount}}, {merge:true})
       return data
     })
 

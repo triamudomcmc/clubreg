@@ -12,21 +12,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.setHeader('Content-Type', `application/json`)
       switch (req.body.action) {
         case "fetchClub": {
-          const data = await initialisedDB.collection("clubs").get()
-          let dataobj = {}
-          data.forEach((doc) => {
-            dataobj[doc.id] = doc.data()
-          })
-          res.json(dataobj)
+          const data = await initialisedDB.collection("clubs").doc("mainData").get()
+          res.json(data.data())
         }
         break
         case "fetchAClub": {
-          const data = await initialisedDB.collection("clubs").doc(req.body.clubID).get()
+          const clubDoc = await initialisedDB.collection("clubs").doc("mainData").get()
+          const data = clubDoc.get(req.body.clubID)
           res.json({
-            place: data.get("place"),
-            contact: data.get("contact"),
-            contact2: data.get("contact2"),
-            contact3: data.get("contact3")
+            place: data.place,
+            contact: data.contact,
+            contact2: data.contact2,
+            contact3: data.contact3
           })
         }
       }

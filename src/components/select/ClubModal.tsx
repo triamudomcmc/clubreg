@@ -77,6 +77,7 @@ const ClubModal = ({state, userData, closeAction, action, thumbPaths}) => {
 
   return (
     <div
+      key="lower-overlay"
       id="lower-overlay"
       className={classnames("flex flex-col items-center justify-center fixed top-0 z-50 bg-gray-500 bg-opacity-50 w-full py-10 px-6 min-h-screen max-h-screen", hidden && "hidden")}>
       <motion.div onAnimationComplete={() => {
@@ -97,7 +98,7 @@ const ClubModal = ({state, userData, closeAction, action, thumbPaths}) => {
             {
               //preload thumbnails with Image tag
               thumbPaths.map(val => {
-                return <div className={classnames(imagePath === val ? "block" : "hidden")}>
+                return <div key={`div${val}`} className={classnames(imagePath === val ? "block" : "hidden")}>
                   <Image priority={true} key={val} className="object-cover w-full" width="448" height="252" src={`/assets/thumbnails/${val}`}/>
                 </div>
               })
