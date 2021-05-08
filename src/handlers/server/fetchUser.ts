@@ -11,12 +11,14 @@ export const fetchUser = async (req, res, fingerprint) => {
   //guard clauses
   if (!sessionID) return {logged: false, userData: {}}
 
+  // 1 read
   const sessionInfo = await initialisedDB.collection("sessions").doc(sessionID).get()
 
   if (!sessionInfo.exists) return cookies.set("sessionID")
   if (sessionInfo.get("clientfp") !== fingerprint) return await destroySession(req, res, "fp_reject")
   if (sessionInfo.get("expires") <= new Date().getTime()) return await destroySession(req, res, "expired")
 
+  // 1 read
   const docData = await initialisedDB.collection("data").doc(sessionInfo.get("dataRefID"))
                                      .get()
 
@@ -37,6 +39,7 @@ export const fetchSession = async (req, res, fingerprint) => {
   //guard clauses
   if (!sessionID) return {logged: false, ID: {}}
 
+  // 1 read
   const sessionInfo = await initialisedDB.collection("sessions").doc(sessionID).get()
 
   if (!sessionInfo.exists) return cookies.set("sessionID")

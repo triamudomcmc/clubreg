@@ -4,12 +4,17 @@ import bcrypt from "bcryptjs"
 import {isEmpty} from "@utilities/object";
 
 export const regClub = async (req, res) => {
+
+  // 1 read
   const {logged, ID} = await fetchSession(req,res, req.body.fingerPrint)
 
   if (!logged) return {status: false, report: "sessionError"}
 
+  // 1 read
   const userData = await initialisedDB.collection("users").doc(ID.userID).get()
   const dataRef = initialisedDB.collection("data").doc(ID.dataRefID)
+
+  // 1 read
   const dataDoc = await dataRef.get()
   if (dataDoc.get("club") !== "" || req.body.clubID in dataDoc.get("audition")) return {status: false, report: "in_club"}
   if (userData.get("phone") !== req.body.phone) return {status: false, report: "invalid_phone"}
@@ -23,16 +28,20 @@ export const regClub = async (req, res) => {
   try {
     const clubData = await initialisedDB.runTransaction(async (t) => {
       const doc = await t.get(clubRef);
+      // 1 read
       const data = doc.get(req.body.clubID)
       if (data.new_count >= data.new_count_limit) throw "club_full"
       const newCount = data.new_count + 1
+      // 1 write
       t.set(clubRef, {[req.body.clubID]: {new_count: newCount}}, {merge:true})
       return data
     })
 
     if (clubData.audition) {
+      // 1 write
       await dataRef.update("audition", {...dataDoc.data().audition, ...{[req.body.clubID]: "waiting"}})
     }else{
+      // 1 write
       const cardRef = await initialisedDB.collection("cards").add({
         title: dataDoc.get("title"),
         firstname: dataDoc.get("firstname"),
@@ -45,6 +54,7 @@ export const regClub = async (req, res) => {
         contact3: clubData.contact3 ? clubData.contact3 : ""
       })
 
+      // 1 write
       await dataRef.update({club: req.body.clubID, audition: {}, cardID: cardRef.id})
     }
 
@@ -58,13 +68,19 @@ export const regClub = async (req, res) => {
 }
 
 export const confirmClub = async (req, res) => {
+
+  // 1 read
   const {logged, ID} = await fetchSession(req,res, req.body.fingerPrint)
 
   if (!logged) return {status: false, report: "sessionError"}
 
+  // 1 read
   const userData = await initialisedDB.collection("users").doc(ID.userID).get()
   const dataRef = initialisedDB.collection("data").doc(ID.dataRefID)
+
+  // 1 read
   const dataDoc = await dataRef.get()
+
   if (!(req.body.clubID in dataDoc.get("audition")) || dataDoc.get("club") !== "") return {status: false, report: "not_audition"}
   if (dataDoc.get("audition")[req.body.clubID] !== "passed") return {status: false, report: "not_pass"}
   if (userData.get("phone") !== req.body.phone) return {status: false, report: "invalid_phone"}
@@ -78,10 +94,13 @@ export const confirmClub = async (req, res) => {
   try {
     const clubData = await initialisedDB.runTransaction(async (t) => {
       const doc = await t.get(clubRef);
+      // 1 read
       const data = doc.get(req.body.clubID)
       if (!data.audition) throw "invalid_club_type"
       if (data.new_count >= data.new_count_limit) throw "club_full"
       const newCount = data.new_count + 1
+
+      // 1 write
       t.set(clubRef, {[req.body.clubID]: {new_count: newCount}}, {merge:true})
       return data
     })
@@ -94,6 +113,7 @@ export const confirmClub = async (req, res) => {
       newAuditionData[key] = "rejected"
     })
 
+    // 1 write
     const cardRef = await initialisedDB.collection("cards").add({
       title: dataDoc.get("title"),
       firstname: dataDoc.get("firstname"),
@@ -106,6 +126,7 @@ export const confirmClub = async (req, res) => {
       contact3: clubData.contact3 ? clubData.contact3 : ""
     })
 
+    // 1 write
     await dataRef.update({club: req.body.clubID, audition: newAuditionData, cardID: cardRef.id})
 
 

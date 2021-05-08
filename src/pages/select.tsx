@@ -75,7 +75,7 @@ const Select = ({thumbPaths}) => {
       Router.push("/auth")
     } else {
       if (userData.club !== "") {
-        Router.push("/card")
+
       }
     }
     return {userData}
