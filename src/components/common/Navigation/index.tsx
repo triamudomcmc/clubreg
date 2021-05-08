@@ -12,7 +12,8 @@ import {
   ClipboardListIcon, DocumentTextIcon,
   HomeIcon, KeyIcon,
   LoginIcon,
-  LogoutIcon
+  LogoutIcon,
+  TerminalIcon
 } from "@heroicons/react/outline";
 import {ChevronDownIcon} from "@heroicons/react/solid";
 import Modal from "@components/common/Modals";
@@ -120,7 +121,7 @@ const Navigation = () => {
                 <h1 ref={accRef} className="flex items-center space-x-1 text-white cursor-pointer">บัญชี <ChevronDownIcon className="w-5 h-5"/></h1>
                 <Modal className="flex justify-center w-full" TriggerRef={accRef}>
                   <div style={{minWidth: "100px"}} className="absolute font-normal bg-white space-y-1 shadow-md rounded-lg py-3 px-5 text-gray-700">
-                    <Link href="/panel"><h1 className="text-black cursor-pointer hover:text-blue-600 hover:underline">แผงควบคุม</h1></Link>
+                    {logged && userData.panelID && <Link href="/panel"><h1 className="text-black cursor-pointer hover:text-blue-600 hover:underline">แผงควบคุม</h1></Link>}
                     {userData && userData.club === "" && <Link href="/select"><h1 className="text-black cursor-pointer hover:text-blue-600 hover:underline">เลือกชมรม</h1></Link>}
                     {!logged ? <Link href="/auth"><h1 className="text-black cursor-pointer hover:text-blue-600 hover:underline">เข้าสู่ระบบ</h1></Link> : <h1 onClick={signout} className="text-black cursor-pointer hover:text-blue-600 hover:underline">ออกจากระบบ</h1>}
                   </div>
@@ -174,6 +175,13 @@ const Navigation = () => {
           <LogoutIcon className={classnames("w-7 h-7", getClass("/auth", "icon"))}/> <span
           className={getClass("/auth", "font")}>ออกจากระบบ</span>
         </div>}
+        {(logged && userData.panelID) && <Link href="/panel">
+            <div
+                className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/panel","bg"))}>
+                <TerminalIcon className={classnames("w-7 h-7", getClass("/panel","icon"))}/> <span
+                className={getClass("/clubs","font")}>แผงควบคุม</span>
+            </div>
+        </Link>}
         <Link href="/clubs">
           <div
             className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/clubs","bg"))}>
