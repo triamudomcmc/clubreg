@@ -14,6 +14,9 @@ import {
   LoginIcon,
   LogoutIcon
 } from "@heroicons/react/outline";
+import {ChevronDownIcon} from "@heroicons/react/solid";
+import Modal from "@components/common/Modals";
+import {isEmpty} from "@utilities/object";
 
 const Navigation = () => {
 
@@ -29,6 +32,7 @@ const Navigation = () => {
   const [load, setLoad] = useState(true)
   const [initial, setInitial] = useState(true)
   const panel = useRef(null)
+  const accRef = useRef(null)
   const [path, setPath] = useState("/")
 
   detectOuside(panel, reveal, () => {
@@ -112,7 +116,19 @@ const Navigation = () => {
               <h1 className="text-white">FAQ</h1>
               <h1 className="text-white">กช.</h1>
               <h1 className="text-white">ติดต่อ</h1>
-              {!logged ? <Link href="/auth"><h1 className="text-white cursor-pointer">เข้าสู่ระบบ</h1></Link> : <h1 onClick={signout} className="text-white cursor-pointer">ออกจากระบบ</h1>}
+              <div className={classnames(isEmpty(userData) && "hidden")}>
+                <h1 ref={accRef} className="flex items-center space-x-1 text-white cursor-pointer">บัญชี <ChevronDownIcon className="w-5 h-5"/></h1>
+                <Modal className="flex justify-center w-full" TriggerRef={accRef}>
+                  <div style={{minWidth: "100px"}} className="absolute font-normal bg-white space-y-1 shadow-md rounded-lg py-3 px-5 text-gray-700">
+                    <Link href="/panel"><h1 className="text-black cursor-pointer hover:text-blue-600 hover:underline">แผงควบคุม</h1></Link>
+                    {userData && userData.club === "" && <Link href="/select"><h1 className="text-black cursor-pointer hover:text-blue-600 hover:underline">เลือกชมรม</h1></Link>}
+                    {!logged ? <Link href="/auth"><h1 className="text-black cursor-pointer hover:text-blue-600 hover:underline">เข้าสู่ระบบ</h1></Link> : <h1 onClick={signout} className="text-black cursor-pointer hover:text-blue-600 hover:underline">ออกจากระบบ</h1>}
+                  </div>
+                </Modal>
+              </div>
+              <div className={classnames(!isEmpty(userData) && "hidden")}>
+                {!logged ? <Link href="/auth"><h1 className="text-white cursor-pointer">เข้าสู่ระบบ</h1></Link> : <h1 onClick={signout} className="text-white cursor-pointer">ออกจากระบบ</h1>}
+              </div>
             </div>
             <div className="md:hidden">
               <NavButton toggle={() => {
