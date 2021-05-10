@@ -30,6 +30,7 @@ export const regClub = async (req, res) => {
       const doc = await t.get(clubRef);
       // 1 read
       const data = doc.get(req.body.clubID)
+      if (data.audition) return data
       if (data.new_count >= data.new_count_limit) throw "club_full"
       const newCount = data.new_count + 1
       // 1 write

@@ -60,16 +60,34 @@ export const updateUser = async (req, res) => {
   const objectRefId = req.body.objectRefID
   const objectDoc = await initialisedDB.collection("data").doc(objectRefId).get()
   if (req.body.task.action === "passed" || req.body.task.action === "failed") {
-    if (objectDoc.get("position") && req.body.panelID in objectDoc.get("position")) {
-      const position = objectDoc.get("position")[req.body.panelID]
-      const shiftTask = await initialisedDB.collection("data").where(`position.${req.body.panelID}`, ">",position).get()
-      const batch = initialisedDB.batch()
-      batch.set(initialisedDB.collection("data").doc(objectRefId), {audition: {[req.body.panelID]: req.body.task.action}, position: {[req.body.panelID]: 0}}, {merge:true})
-      shiftTask.forEach((doc) => {
-        batch.set(initialisedDB.collection("data").doc(doc.id), {position: {[req.body.panelID]:  doc.get("position")[req.body.panelID] - 1}}, {merge:true})
-      })
-      await batch.commit()
+    if (req.body.panelID in objectDoc.get("audition") && objectDoc.get("audition")[req.body.panelID] === "reserved") {
+      if (objectDoc.get("position") && req.body.panelID in objectDoc.get("position")) {
+        const position = objectDoc.get("position")[req.body.panelID]
+        const shiftTask = await initialisedDB.collection("data").where(`position.${req.body.panelID}`, ">", position).get()
+        const batch = initialisedDB.batch()
+        batch.set(initialisedDB.collection("data").doc(objectRefId), {
+          audition: {[req.body.panelID]: req.body.task.action}, position: {[req.body.panelID]: 0}
+        }, {merge: true})
+        shiftTask.forEach((doc) => {
+          batch.set(initialisedDB.collection("data")
+                                 .doc(doc.id), {position: {[req.body.panelID]: doc.get("position")[req.body.panelID] - 1}}, {merge: true})
+        })
+        await batch.commit()
+      }
+    }else{
+      await initialisedDB.collection("data").doc(objectRefId).set({audition: {[req.body.panelID]: req.body.task.action}}, {merge: true})
     }
+  }else{
+    const shiftTask = await initialisedDB.collection("data").where(`position.${req.body.panelID}`, ">=", req.body.task.pos).get()
+    const batch = initialisedDB.batch()
+    shiftTask.forEach((doc) => {
+      batch.set(initialisedDB.collection("data")
+                             .doc(doc.id), {position: {[req.body.panelID]: doc.get("position")[req.body.panelID] + 1}}, {merge: true})
+    })
+    batch.set(initialisedDB.collection("data").doc(objectRefId), {
+      audition: {[req.body.panelID]: req.body.task.action}, position: {[req.body.panelID]: req.body.task.pos}
+    }, {merge: true})
+    await batch.commit()
   }
 
 

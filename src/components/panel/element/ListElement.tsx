@@ -31,7 +31,7 @@ export const ListElement = ({index = 0, userData, editable, editFunc}) => {
           <span>ม.{userData.level}</span>
           <span>{userData.room}</span>
         </div>
-        {editable && <span onClick={() => {editFunc(userData)}}>เปลี่ยน</span>}
+        {editable && <span className="cursor-pointer" onClick={() => {editFunc(userData)}}>เปลี่ยน</span>}
         {!editable && <div className="hidden md:block">{statusBar}</div>}
         {/*<div>
           <div className="border rounded-t-md p-1.5">

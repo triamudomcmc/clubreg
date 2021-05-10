@@ -16,6 +16,7 @@ import {PendingElement} from "@components/panel/element/PendingElement";
 import {isEmpty} from "@utilities/object";
 import {fetchAClub} from "@client/fetcher/club";
 import {Editor} from "@components/panel/element/Editor";
+import Toast from "@components/common/Toast";
 
 const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetStateAction<{}>>, setReservedPos: Dispatch<SetStateAction<{}>>) => {
   const data = await fetchMembers(panelID)
@@ -66,6 +67,7 @@ const Index = () => {
   const [clubData, setClubData] = useState({new_count: 0, new_count_limit: 0})
   const [editing, setEditing] = useState({})
   const [editDep, setEditDep] = useState(false)
+  const [toast, setToast] = useState({})
 
   const editable = true
 
@@ -107,7 +109,8 @@ const Index = () => {
 
   return (
     <PageContainer>
-      <Editor userData={editing} reservedPos={reservedPos} setReservedPos={setReservedPos} refetch={refetch} TriggerDep={{dep: editDep, revert: () => {setEditDep(false)}}}/>
+      <Toast newToast={toast}/>
+      <Editor userData={editing} reservedPos={reservedPos} setReservedPos={setReservedPos} refetch={refetch} setToast={setToast} TriggerDep={{dep: editDep, revert: () => {setEditDep(false)}}}/>
       <div className={classnames("px-2 py-10 mx-auto max-w-6xl min-h-screen", page === "panel" ? "block" : "hidden")}>
         <div
           className={`bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg text-yellow-800 px-4 py-4`}>
@@ -161,12 +164,12 @@ const Index = () => {
           <FailedSection userData={memberData.failed} display={section === "failed"} editable={editable} editFunc={edit}/>
         </div>
       </div>
-      <div className={classnames("flex flex-col items-center py-10 px-4 space-y-10 min-h-screen", page === "pending" ? "block" : "hidden")}>
+      <div className={classnames("flex flex-col items-center py-10 px-4 space-y-10 min-h-screen w-full", page === "pending" ? "block" : "hidden")}>
         <div className="space-y-2">
           <h1 className="text-4xl text-center">รอการตอบรับ</h1>
           <p className="text-TUCMC-gray-700 text-center">สามารถรับสมาชิกใหม่ได้ทั้งหมด {clubData.new_count_limit} คน (เหลืออีก {clubData.new_count_limit - clubData.new_count} คน)</p>
         </div>
-        <div>
+        <div className="w-full max-w-6xl">
           <FilterSearch sortMode={sortMode} setSortMode={setSortMode} setSearchContext={setSearchContext}/>
           <div className="mt-4 space-y-4">
             {

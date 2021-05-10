@@ -93,39 +93,48 @@ export const PendingElement = ({userData, pendingUpdate, setPendingUpdate, reser
   }, [warning])
 
   return (
-    <div className="bg-white p-5 rounded-lg shadow-md">
-      <h1>{userData.title}{userData.firstname} {userData.lastname}</h1>
-      <span className="text-TUCMC-gray-600">{userData.student_id} |  ม.{userData.level}/{userData.room}</span>
-      <div className="flex space-x-2 mt-3">
-        <div onClick={() => {
-          action.action !== "passed" ? clickAction("passed") : reset()
-        }}
-             className={classnames("flex items-center space-x-1 border rounded-md px-6 py-1 cursor-pointer", action.action === "passed" && "bg-TUCMC-green-400 text-white")}>
-          <CheckCircleIcon className={classnames("w-5 h-5", action.action === "passed" ? "text-white" : "text-TUCMC-green-400")}/>
-          <span>รับ</span>
+    <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-white p-5 rounded-lg shadow-md">
+      <div className="flex flex-col md:flex-row md:items-center flex-shrink-0">
+        <h1>{userData.title}{userData.firstname} {userData.lastname}</h1>
+        <span className="text-TUCMC-gray-600 md:hidden">{userData.student_id} | ม.{userData.level}/{userData.room}</span>
+      </div>
+      <div className="flex items-center justify-between text-TUCMC-gray-600 w-[620px] md:ml-10">
+        <div className="justify-between w-[200px] hidden md:flex mr-14 flex-shrink">
+          <span>{userData.student_id}</span>
+          <span>ม.{userData.level}</span>
+          <span>{userData.room}</span>
         </div>
-        <motion.div custom={1}
-                    variants={variants}
-                    animate={controls}
-                    style={getRandomTransformOrigin()}
-                    className={classnames("flex items-center space-x-1 relative border rounded-md px-3 py-1", warning && "border-TUCMC-red-400 text-TUCMC-gray-500")}>
-          <input style={{width: "60px"}} value={pos > 0 ? pos : ""} onChange={event => {setPos(parseInt(event.target.value))}} className={classnames("text-center appearance-none outline-none")} placeholder="สำรอง"/>
-          <Modal className="absolute top-1.5 right-1.5 w-5 h-5" ToggleDep={warning} closeClickOutside={false}>
-            <div className="absolute w-5 h-5 opacity-0 z-10 hover:opacity-100">
-              <div className="absolute -top-10 -left-11">
-                <div className={classnames("bg-white text-xs text-black w-28 shadow-md rounded-md p-2", css.tooltip)}><h1 className="text-center">ลำดับนี้ถูกใช้แล้ว</h1></div>
+        <div className="flex space-x-2 mt-3 md:mt-0 flex-shrink-0">
+          <div onClick={() => {
+            action.action !== "passed" ? clickAction("passed") : reset()
+          }}
+               className={classnames("flex items-center space-x-1 border rounded-md px-6 py-1 cursor-pointer", action.action === "passed" && "bg-TUCMC-green-400 text-white")}>
+            <CheckCircleIcon className={classnames("w-5 h-5", action.action === "passed" ? "text-white" : "text-TUCMC-green-400")}/>
+            <span>รับ</span>
+          </div>
+          <motion.div custom={1}
+                      variants={variants}
+                      animate={controls}
+                      style={getRandomTransformOrigin()}
+                      className={classnames("flex items-center space-x-1 relative border rounded-md px-3 py-1", warning && "border-TUCMC-red-400 text-TUCMC-gray-500")}>
+            <input style={{width: "60px"}} value={pos > 0 ? pos : ""} onChange={event => {setPos(parseInt(event.target.value))}} className={classnames("text-center appearance-none outline-none")} placeholder="สำรอง"/>
+            <Modal className="absolute top-1.5 right-1.5 w-5 h-5" ToggleDep={warning} closeClickOutside={false}>
+              <div className="absolute w-5 h-5 opacity-0 z-10 hover:opacity-100">
+                <div className="absolute -top-10 -left-11">
+                  <div className={classnames("bg-white text-xs text-black w-28 shadow-md rounded-md p-2", css.tooltip)}><h1 className="text-center">ลำดับนี้ถูกใช้แล้ว</h1></div>
+                </div>
+                <ExclamationCircleIcon className="w-5 h-5 text-TUCMC-red-400"/>
               </div>
-              <ExclamationCircleIcon className="w-5 h-5 text-TUCMC-red-400"/>
-            </div>
-            <ExclamationCircleIcon className="absolute w-5 h-5 z-[9] text-TUCMC-red-400"/>
-          </Modal>
-        </motion.div>
-        <div onClick={() => {
-          action.action !== "failed" ? clickAction("failed") : reset()
-        }}
-             className={classnames("flex items-center space-x-1 border rounded-md px-4 py-1 cursor-pointer", action.action === "failed" && "bg-TUCMC-red-400 text-white")}>
-          <XCircleIcon className={classnames("w-5 h-5", action.action === "failed" ? "text-white" : "text-TUCMC-red-400")}/>
-          <span>ไม่รับ</span>
+              <ExclamationCircleIcon className="absolute w-5 h-5 z-[9] text-TUCMC-red-400"/>
+            </Modal>
+          </motion.div>
+          <div onClick={() => {
+            action.action !== "failed" ? clickAction("failed") : reset()
+          }}
+               className={classnames("flex items-center space-x-1 border rounded-md px-4 py-1 cursor-pointer", action.action === "failed" && "bg-TUCMC-red-400 text-white")}>
+            <XCircleIcon className={classnames("w-5 h-5", action.action === "failed" ? "text-white" : "text-TUCMC-red-400")}/>
+            <span>ไม่รับ</span>
+          </div>
         </div>
       </div>
     </div>

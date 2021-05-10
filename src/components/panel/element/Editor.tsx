@@ -1,4 +1,4 @@
-import {CheckCircleIcon, ChevronDownIcon, SortAscendingIcon, XCircleIcon} from "@heroicons/react/solid";
+import {CheckCircleIcon, ChevronDownIcon, ExclamationCircleIcon, SortAscendingIcon, XCircleIcon} from "@heroicons/react/solid";
 import {Button} from "@components/common/Inputs/Button";
 import {useEffect, useState} from "react";
 import classnames from "classnames"
@@ -36,7 +36,7 @@ const variants = {
   }
 };
 
-export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refetch}) => {
+export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refetch, setToast}) => {
 
   const [action, setAction] = useState({action: "", pos: 0})
   const [pos, setPos] = useState(0)
@@ -53,15 +53,21 @@ export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refet
   }, [userData])
 
   useEffect(() => {
+    console.log(reservedPos)
+  }, reservedPos)
+
+  useEffect(() => {
     setWarning(false)
     setReservedPos(prev => {
       delete prev[userData.dataRefID]
       return prev
     })
     if (pos > 0) {
-      if(!Object.values(reservedPos).includes(pos)) {
+      const highest = Number(Object.values(reservedPos).reduce((a, b) => {
+        return Math.max(Number(a), Number(b))
+      }))
+      if (pos <= highest + 1) {
         setAction({action: "reserved", pos: pos})
-        setReservedPos(prev => ({...prev, ...{[userData.dataRefID]: pos}}))
       }else{
         setWarning(true)
       }
@@ -92,23 +98,58 @@ export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refet
 
   const update = async () => {
     if (action.action === "") return
-    const res = await updateUser(adminData.panelID, userData.dataRefID, action)
-    if(res.status) {
-      refetch()
-      setCloseDep(true)
+    try {
+      const res = await updateUser(adminData.panelID, userData.dataRefID, action)
+      if (res.status) {
+        refetch()
+        setToast({
+          theme: "modern",
+          icon: "tick",
+          title: "อัพเดทข้อมูลสำเร็จแล้ว",
+          text: "ข้อมูลที่ถูกส่งไป ได้รับการอัพเดทบนฐานข้อมูลแล้ว"
+        })
+        setCloseDep(true)
+      }else{
+        switch (res.report) {
+          case "sessionError":
+            setToast({
+              theme:"modern",
+              icon: "cross",
+              title: "พบข้อผิดพลาดของเซสชั่น",
+              text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง"
+            })
+            break
+          case "invalidPermission":
+            setToast({
+              theme:"modern",
+              icon: "cross",
+              title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
+              text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช."
+            })
+            break
+
+        }
+      }
+    } catch (e) {
+      setToast({
+        theme:"modern",
+        icon: "cross",
+        title: "พบข้อผิดพลาดที่ไม่ทราบสาเหตุ",
+        text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง หากยังพบข้อผิดพลาดสามารถติดต่อทาง กช."
+      })
     }
   }
 
   return (
     <Modal TriggerDep={TriggerDep} CloseDep={{dep: closeDep, revert: () => {setCloseDep(false)}}} CloseID="closeEdit" className="flex flex-col px-4" overlayClassName="flex justify-center items-center fixed top-0 w-full min-h-screen z-50 bg-gray-500 bg-opacity-50">
-      <div className="bg-white p-5 rounded-t-md shadow-md" style={{minWidth: "340px"}}>
+      <div className="bg-white p-5 rounded-t-md shadow-md" style={{minWidth: "380px"}}>
         <h1>{userData.title}{userData.firstname} {userData.lastname}</h1>
         <span className="text-TUCMC-gray-600">{userData.student_id} |  ม.{userData.level}/{userData.room}</span>
-        <div className="flex space-x-2 mt-3">
+        <div className="flex mt-3">
           <div onClick={() => {
             action.action !== "passed" ? clickAction("passed") : reset()
           }}
-               className={classnames("flex items-center space-x-1 border rounded-md px-6 py-1 cursor-pointer", action.action === "passed" && "bg-TUCMC-green-400 text-white")}>
+               className={classnames("flex items-center space-x-1 border rounded-md px-6 py-1 cursor-pointer mr-2", action.action === "passed" && "bg-TUCMC-green-400 text-white", userData.status === "passed" && "hidden")}>
             <CheckCircleIcon className={classnames("w-5 h-5", action.action === "passed" ? "text-white" : "text-TUCMC-green-400")}/>
             <span>รับ</span>
           </div>
@@ -116,22 +157,22 @@ export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refet
                       variants={variants}
                       animate={controls}
                       style={getRandomTransformOrigin()}
-                      className={classnames("flex items-center space-x-1 relative border rounded-md px-3 py-1", warning && "border-TUCMC-red-400 text-TUCMC-gray-500", userData.status === "reserved" && "hidden")}>
+                      className={classnames("flex items-center space-x-1 relative border rounded-md px-3 py-1 mr-2", warning && "border-TUCMC-red-400 text-TUCMC-gray-500", userData.status === "reserved" && "hidden")}>
             <input style={{width: "60px"}} value={pos > 0 ? pos : ""} onChange={event => {setPos(parseInt(event.target.value))}} className={classnames("text-center appearance-none outline-none")} placeholder="สำรอง"/>
             <Modal className="absolute top-1.5 right-1.5 w-5 h-5" ToggleDep={warning} closeClickOutside={false}>
               <div className="absolute w-5 h-5 opacity-0 z-10 hover:opacity-100">
                 <div className="absolute -top-10 -left-11">
-                  <div className={classnames("bg-white text-xs text-black w-28 shadow-md rounded-md p-2", css.tooltip)}><h1 className="text-center">ลำดับนี้ถูกใช้แล้ว</h1></div>
+                  <div className={classnames("bg-white text-xs text-black w-28 shadow-md rounded-md p-2", css.tooltip)}><h1 className="text-center">ลำดับมากเกินไป</h1></div>
                 </div>
-                <XCircleIcon className="w-5 h-5 text-TUCMC-red-400"/>
+                <ExclamationCircleIcon className="w-5 h-5 text-TUCMC-red-400"/>
               </div>
-              <XCircleIcon className="absolute w-5 h-5 z-[9] text-TUCMC-red-400"/>
+              <ExclamationCircleIcon className="absolute w-5 h-5 z-[9] text-TUCMC-red-400"/>
             </Modal>
           </motion.div>
           <div onClick={() => {
             action.action !== "failed" ? clickAction("failed") : reset()
           }}
-               className={classnames("flex items-center space-x-1 border rounded-md px-4 py-1 cursor-pointer", action.action === "failed" && "bg-TUCMC-red-400 text-white")}>
+               className={classnames("flex items-center space-x-1 border rounded-md px-4 py-1 cursor-pointer", action.action === "failed" && "bg-TUCMC-red-400 text-white", userData.status === "failed" && "hidden")}>
             <XCircleIcon className={classnames("w-5 h-5", action.action === "failed" ? "text-white" : "text-TUCMC-red-400")}/>
             <span>ไม่รับ</span>
           </div>
