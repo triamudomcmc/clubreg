@@ -1,7 +1,7 @@
 import {NextApiRequest, NextApiResponse} from "next";
 import {fetchUser} from "@server/fetchUser"
 import {destroySession} from "@server/authentication";
-import {fetchPanel, submitPending} from "@server/panelControl";
+import {fetchPanel, submitPending, updatePosition} from "@server/panelControl";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
@@ -19,6 +19,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
         case "submitPending": {
           const output = await submitPending(req, res)
+          res.json(output)
+          break
+        }
+        case "updatePosition": {
+          const output = await updatePosition(req, res)
           res.json(output)
           break
         }

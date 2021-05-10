@@ -48,3 +48,21 @@ export const submitPending = async (req, res) => {
 
   return {status: true, report: "success"}
 }
+
+export const updatePosition = async (req, res) => {
+
+  const {logged, ID} = await fetchSession(req,res, req.body.fingerPrint)
+  if (!logged) return {status: false, report: "sessionError"}
+  const userDoc = await initialisedDB.collection("data").doc(ID.dataRefID).get()
+  if (userDoc.get("panelID") !== req.body.panelID) return {status: false, report: "invalidPermission"}
+
+  const tasks = req.body.tasks
+  const batch = initialisedDB.batch()
+  for (let item of tasks) {
+    const ref = initialisedDB.collection("data").doc(item.dataRefID)
+    batch.set(ref, {position: {[req.body.panelID]:  item.position}}, {merge:true})
+  }
+  await batch.commit()
+
+  return {status: true, report: "success"}
+}

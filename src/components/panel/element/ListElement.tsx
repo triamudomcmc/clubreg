@@ -14,7 +14,7 @@ export const ListElement = ({index = 0, userData, editable}) => {
   }
 
   return (
-    <div className="flex items-center justify-between pr-4 py-5 md:py-8 border-b border-TUCMC-gray-300">
+    <div className="flex items-center justify-between pr-4 py-5 md:py-8 border-b border-TUCMC-gray-300 bg-white">
       <div className="flex items-center">
         {index > 0 && <div className="text-center bg-black text-white rounded-full w-6 h-6 -mr-2">
           {index}

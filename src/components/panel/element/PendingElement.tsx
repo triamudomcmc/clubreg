@@ -110,7 +110,7 @@ export const PendingElement = ({userData, pendingUpdate, setPendingUpdate, reser
                     style={getRandomTransformOrigin()}
                     className={classnames("flex items-center space-x-1 relative border rounded-md px-3 py-1", warning && "border-TUCMC-red-400 text-TUCMC-gray-500")}>
           <input style={{width: "60px"}} value={pos > 0 ? pos : ""} onChange={event => {setPos(parseInt(event.target.value))}} className={classnames("text-center appearance-none outline-none")} placeholder="สำรอง"/>
-          <Modal className="relative w-5 h-5" ToggleDep={warning} closeClickOutside={false}>
+          <Modal className="absolute top-1.5 right-1.5 w-5 h-5" ToggleDep={warning} closeClickOutside={false}>
             <div className="absolute w-5 h-5 opacity-0 z-10 hover:opacity-100">
               <div className="absolute -top-10 -left-11">
                 <div className={classnames("bg-white text-xs text-black w-28 shadow-md rounded-md p-2", css.tooltip)}><h1 className="text-center">ลำดับนี้ถูกใช้แล้ว</h1></div>

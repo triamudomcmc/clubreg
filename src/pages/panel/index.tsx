@@ -26,8 +26,10 @@ const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetState
   let reservedPos = {}
 
   if (data.status) {
-    data.data.forEach(item => {
-      if ("position" in item) {
+    data.data.forEach(oitem => {
+      let item = oitem
+      if ("position" in oitem) {
+        item = {...oitem, id: oitem.position}
         reservedPos[item.dataRefID] = (item.position)
       }
       if (item.status === "rejected" || item.status === "confirmed") return obj["passed"].push(item)
@@ -136,11 +138,11 @@ const Index = () => {
           <PassedSection display={section === "passed"} sortMode={sortMode} setSortMode={setSortMode}
                          userData={memberData.passed}
                          setSearchContext={setSearchContext} editable={editable}/>
-          <ReservedSection userData={memberData.reserved} display={section === "reserved"} editable={editable}/>
+          <ReservedSection refetch={refetch} userData={memberData.reserved} display={section === "reserved"} editable={editable}/>
           <FailedSection userData={memberData.failed} display={section === "failed"} editable={editable}/>
         </div>
       </div>
-      <div className={classnames("flex flex-col items-center py-10 space-y-10 min-h-screen", page === "pending" ? "block" : "hidden")}>
+      <div className={classnames("flex flex-col items-center py-10 px-4 space-y-10 min-h-screen", page === "pending" ? "block" : "hidden")}>
         <h1 className="text-4xl">รอการตอบรับ</h1>
         <div>
           <FilterSearch sortMode={sortMode} setSortMode={setSortMode} setSearchContext={setSearchContext}/>
