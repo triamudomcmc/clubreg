@@ -5,7 +5,7 @@ import {useEffect, useRef, useState} from "react";
 
 const Modal = ({
                  children, overlayClassName = "", className = "", TriggerRef = null, CloseID = "",
-                 TriggerDep = null, CloseDep = null
+                 TriggerDep = null, CloseDep = null, closeClickOutside = true, ToggleDep = null
                }) => {
   const [modalState, setModalState] = useState({comm: false, hide: true})
   const [prevent, setPrevent] = useState(true)
@@ -18,6 +18,13 @@ const Modal = ({
   useEffect(() => {
     TriggerRef !== null && TriggerRef.current && TriggerRef.current.addEventListener("mousedown", trigger)
   }, [TriggerRef])
+
+  useEffect(() => {
+    if (ToggleDep !== null) {
+      ToggleDep && open()
+      !ToggleDep && close()
+    }
+  }, [ToggleDep])
 
   const close = () => {
     setModalState({comm: false, hide: false})
@@ -64,7 +71,7 @@ const Modal = ({
     }
   }, [TriggerDep])
 
-  detectOuside(panel, !prevent, () => {
+  closeClickOutside && detectOuside(panel, !prevent, () => {
     close()
   })
 

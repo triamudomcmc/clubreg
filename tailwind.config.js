@@ -60,7 +60,8 @@ module.exports = {
   },
   variants: {
     extend: {
-      backgroundColor: ['hover']
+      backgroundColor: ['hover'],
+      display: ['hover']
     },
   },
   plugins: [
