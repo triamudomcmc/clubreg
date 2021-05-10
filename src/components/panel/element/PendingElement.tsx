@@ -98,7 +98,7 @@ export const PendingElement = ({userData, pendingUpdate, setPendingUpdate, reser
         <h1>{userData.title}{userData.firstname} {userData.lastname}</h1>
         <span className="text-TUCMC-gray-600 md:hidden">{userData.student_id} | ม.{userData.level}/{userData.room}</span>
       </div>
-      <div className="flex items-center justify-between text-TUCMC-gray-600 w-[620px] md:ml-10">
+      <div className="flex items-center justify-between text-TUCMC-gray-600 md:w-[620px] md:ml-10">
         <div className="justify-between w-[200px] hidden md:flex mr-14 flex-shrink">
           <span>{userData.student_id}</span>
           <span>ม.{userData.level}</span>
