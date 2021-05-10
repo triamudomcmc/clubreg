@@ -1,5 +1,5 @@
 import {NextApiRequest, NextApiResponse} from "next";
-import {fetchUser} from "@server/fetchUser"
+import {fetchSession, fetchUser} from "@server/fetchUser"
 import {destroySession} from "@server/authentication";
 import {fetchPanel, submitPending, updatePosition} from "@server/panelControl";
 import initialisedDB from "@server/firebase-admin";
@@ -29,11 +29,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           break
         }
         case "fetchAClub": {
-          const clubDoc = await initialisedDB.collection("clubs").doc("mainData").get()
-          const data = clubDoc.get(req.body.clubID)
-          res.json({
-
-          })
+          const {logged} = await fetchSession(req, res, req.body.fp)
+          if (!logged) {
+            res.json({status: false, report: "sessionError"})
+          } else {
+            const clubDoc = await initialisedDB.collection("clubs").doc("mainData").get()
+            const data = clubDoc.get(req.body.clubID)
+            res.json({
+              new_count: data.new_count,
+              new_count_limit: data.new_count_limit
+            })
+          }
         }
       }
       break

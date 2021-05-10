@@ -31,7 +31,7 @@ const ClubList = ({data, action, setToast}: props) => {
   }
 
   return (
-    <div className={classnames("rounded-lg custom-shadow cursor-pointer", data.blocked && "bg-TUCMC-gray-100")} onClick={click}>
+    <div className={classnames("rounded-lg custom-shadow bg-white cursor-pointer", data.blocked && "bg-TUCMC-gray-100")} onClick={click}>
       <div className="flex flex-col tracking-tight py-6 px-6 space-y-1.5">
         <h1>ชมรม{data.title}</h1>
         {data.audition ? <div className="flex text-TUCMC-red-400 space-x-1"><StarIcon

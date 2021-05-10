@@ -62,3 +62,23 @@ export const updatePosition = async (panelID, tasks): Promise<{status: boolean, 
   return res
 
 }
+
+export const fetchClub = async (clubID: string): Promise<{}> => {
+
+  const fp = await FingerprintJS.load()
+  const fingerPrint = await fp.get();
+
+  const data = await fetch(`/api/database/panel`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({action: "fetchAClub", clubID: clubID, fp: fingerPrint.visitorId}),
+    credentials: 'include'
+  })
+
+  const res = await data.json()
+
+  return res
+
+}

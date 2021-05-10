@@ -55,7 +55,7 @@ export const ReservedSection = ({display, refetch, userData, editable}) => {
   }
 
   return (
-    <div className={classnames(display ? "block" : "hidden")}>
+    <div className={classnames("select-none",display ? "block" : "hidden")}>
       <ItemsContext.Provider value={[items, setItems]}>
         <DragableList />
       </ItemsContext.Provider>

@@ -11,9 +11,10 @@ import Link from "next/link"
 import {Button} from "@components/common/Inputs/Button";
 import {useAuth} from "@client/auth";
 import Router from "next/router";
-import {fetchMembers, submitPending} from "@client/fetcher/panel";
+import {fetchClub, fetchMembers, submitPending} from "@client/fetcher/panel";
 import {PendingElement} from "@components/panel/element/PendingElement";
 import {isEmpty} from "@utilities/object";
+import {fetchAClub} from "@client/fetcher/club";
 
 const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetStateAction<{}>>, setReservedPos: Dispatch<SetStateAction<{}>>) => {
   const data = await fetchMembers(panelID)
@@ -40,6 +41,11 @@ const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetState
   }
 }
 
+const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>) => {
+  const data = await fetchClub(clubID)
+  setClubData(data)
+}
+
 const Index = () => {
 
   const {onReady} = useAuth()
@@ -56,6 +62,7 @@ const Index = () => {
   const [page, setPage] = useState("panel")
   const [pendingUpdate, setPendingUpdate] = useState({})
   const [reservedPos, setReservedPos] = useState({})
+  const [clubData, setClubData] = useState({new_count: 0, new_count_limit: 0})
 
   const editable = false
 
@@ -73,6 +80,7 @@ const Index = () => {
 
   const refetch = () => {
     fetchMemberData(userData.panelID, setMemberData, setReservedPos)
+    fetchClubData(userData.panelID, setClubData)
   }
 
   useEffect(() => {
@@ -143,7 +151,10 @@ const Index = () => {
         </div>
       </div>
       <div className={classnames("flex flex-col items-center py-10 px-4 space-y-10 min-h-screen", page === "pending" ? "block" : "hidden")}>
-        <h1 className="text-4xl">รอการตอบรับ</h1>
+        <div className="space-y-2">
+          <h1 className="text-4xl text-center">รอการตอบรับ</h1>
+          <p className="text-TUCMC-gray-700 text-center">สามารถรับสมาชิกใหม่ได้ทั้งหมด {clubData.new_count_limit} คน (เหลืออีก {clubData.new_count_limit - clubData.new_count} คน)</p>
+        </div>
         <div>
           <FilterSearch sortMode={sortMode} setSortMode={setSortMode} setSearchContext={setSearchContext}/>
           <div className="mt-4 space-y-4">
