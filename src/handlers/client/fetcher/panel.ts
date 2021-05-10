@@ -41,6 +41,26 @@ export const submitPending = async (panelID, tasks): Promise<{status: boolean, r
 
 }
 
+export const updateUser = async (panelID, objectRefID, action): Promise<{status: boolean, report: string}> => {
+
+  const fp = await FingerprintJS.load()
+  const fingerPrint = await fp.get();
+
+  const data = await fetch(`/api/database/panel`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({action: "updateUser",panelID: panelID,objectRefID: objectRefID,task: action, fingerPrint: fingerPrint.visitorId}),
+    credentials: 'include'
+  })
+
+  const res = await data.json()
+
+  return res
+
+}
+
 export const updatePosition = async (panelID, tasks): Promise<{status: boolean, report: string}> => {
 
   const fp = await FingerprintJS.load()

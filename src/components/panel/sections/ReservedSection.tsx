@@ -13,7 +13,7 @@ const ItemsContext = createContext<
   [LooseTypeObject<any>[], (setItems: LooseTypeObject<any>) => void]
   >([[], (_) => null]);
 
-export const ReservedSection = ({display, refetch, userData, editable}) => {
+export const ReservedSection = ({display, refetch, userData, editable, editFunc}) => {
 
   const [items, setItems] = useState<LooseTypeObject<any>[]>([]);
   const [updateEvent, setUpdateEvent] = useState(setTimeout(() => {}, 1000))
@@ -57,7 +57,7 @@ export const ReservedSection = ({display, refetch, userData, editable}) => {
   return (
     <div className={classnames("select-none",display ? "block" : "hidden")}>
       <ItemsContext.Provider value={[items, setItems]}>
-        <DragableList />
+        <DragableList editable={editable} editFunc={editFunc}/>
       </ItemsContext.Provider>
     </div>
   )

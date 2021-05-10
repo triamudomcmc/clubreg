@@ -1,6 +1,6 @@
 import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/solid";
 
-export const ListElement = ({index = 0, userData, editable}) => {
+export const ListElement = ({index = 0, userData, editable, editFunc}) => {
 
   let statusBar = <div
     className="bg-TUCMC-gray-800 text-white rounded-full tracking-tight text-sm px-4 py-0.5">รอการตอบรับ</div>
@@ -31,7 +31,7 @@ export const ListElement = ({index = 0, userData, editable}) => {
           <span>ม.{userData.level}</span>
           <span>{userData.room}</span>
         </div>
-        {editable && <span>เปลี่ยน</span>}
+        {editable && <span onClick={() => {editFunc(userData)}}>เปลี่ยน</span>}
         {!editable && <div className="hidden md:block">{statusBar}</div>}
         {/*<div>
           <div className="border rounded-t-md p-1.5">

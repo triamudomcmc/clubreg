@@ -1,4 +1,4 @@
-import {CheckCircleIcon, ChevronDownIcon, SortAscendingIcon, XCircleIcon} from "@heroicons/react/solid";
+import {CheckCircleIcon, ChevronDownIcon, ExclamationCircleIcon, SortAscendingIcon, XCircleIcon} from "@heroicons/react/solid";
 import {Button} from "@components/common/Inputs/Button";
 import {useEffect, useState} from "react";
 import classnames from "classnames"
@@ -115,9 +115,9 @@ export const PendingElement = ({userData, pendingUpdate, setPendingUpdate, reser
               <div className="absolute -top-10 -left-11">
                 <div className={classnames("bg-white text-xs text-black w-28 shadow-md rounded-md p-2", css.tooltip)}><h1 className="text-center">ลำดับนี้ถูกใช้แล้ว</h1></div>
               </div>
-              <XCircleIcon className="w-5 h-5 text-TUCMC-red-400"/>
+              <ExclamationCircleIcon className="w-5 h-5 text-TUCMC-red-400"/>
             </div>
-            <XCircleIcon className="absolute w-5 h-5 z-[9] text-TUCMC-red-400"/>
+            <ExclamationCircleIcon className="absolute w-5 h-5 z-[9] text-TUCMC-red-400"/>
           </Modal>
         </motion.div>
         <div onClick={() => {

@@ -15,6 +15,7 @@ import {fetchClub, fetchMembers, submitPending} from "@client/fetcher/panel";
 import {PendingElement} from "@components/panel/element/PendingElement";
 import {isEmpty} from "@utilities/object";
 import {fetchAClub} from "@client/fetcher/club";
+import {Editor} from "@components/panel/element/Editor";
 
 const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetStateAction<{}>>, setReservedPos: Dispatch<SetStateAction<{}>>) => {
   const data = await fetchMembers(panelID)
@@ -63,8 +64,10 @@ const Index = () => {
   const [pendingUpdate, setPendingUpdate] = useState({})
   const [reservedPos, setReservedPos] = useState({})
   const [clubData, setClubData] = useState({new_count: 0, new_count_limit: 0})
+  const [editing, setEditing] = useState({})
+  const [editDep, setEditDep] = useState(false)
 
-  const editable = false
+  const editable = true
 
   const userData = onReady((logged, userData) => {
     if (!logged) {
@@ -97,8 +100,14 @@ const Index = () => {
     }
   }
 
+  const edit = (data) => {
+    setEditing(data)
+    setEditDep(true)
+  }
+
   return (
     <PageContainer>
+      <Editor userData={editing} reservedPos={reservedPos} setReservedPos={setReservedPos} refetch={refetch} TriggerDep={{dep: editDep, revert: () => {setEditDep(false)}}}/>
       <div className={classnames("px-2 py-10 mx-auto max-w-6xl min-h-screen", page === "panel" ? "block" : "hidden")}>
         <div
           className={`bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg text-yellow-800 px-4 py-4`}>
@@ -143,11 +152,13 @@ const Index = () => {
                  className={classnames("border-b w-1/3 py-2 border-TUCMC-gray-400 cursor-pointer text-center", section === "failed" && "bg-TUCMC-red-100 text-TUCMC-red-500 border-TUCMC-red-500")}>ไม่ผ่าน
             </div>
           </div>
-          <PassedSection display={section === "passed"} sortMode={sortMode} setSortMode={setSortMode}
-                         userData={memberData.passed}
-                         setSearchContext={setSearchContext} editable={editable}/>
-          <ReservedSection refetch={refetch} userData={memberData.reserved} display={section === "reserved"} editable={editable}/>
-          <FailedSection userData={memberData.failed} display={section === "failed"} editable={editable}/>
+          <div className="mt-8 mb-4">
+            <FilterSearch sortMode={sortMode} setSortMode={setSortMode} setSearchContext={setSearchContext}/>
+          </div>
+          <PassedSection display={section === "passed"} editFunc={edit}
+                         userData={memberData.passed} editable={editable}/>
+          <ReservedSection refetch={refetch} userData={memberData.reserved} display={section === "reserved"} editable={editable} editFunc={edit}/>
+          <FailedSection userData={memberData.failed} display={section === "failed"} editable={editable} editFunc={edit}/>
         </div>
       </div>
       <div className={classnames("flex flex-col items-center py-10 px-4 space-y-10 min-h-screen", page === "pending" ? "block" : "hidden")}>

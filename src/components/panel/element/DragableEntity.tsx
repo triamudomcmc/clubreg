@@ -122,12 +122,14 @@ export function useFixedListItem(
 type FixedSizeItemProps = {
   index: number;
   data: LooseTypeObject<any>,
+  editable: boolean,
+  editFunc: () => {},
   itemProps: FixedListItemProps;
 };
 
 function DragableEntity({
-                         index, data,
-                         itemProps
+                         index, data,editable,
+                         itemProps,editFunc
                        }: FixedSizeItemProps) {
   const [dragState, eventHandlers] = useFixedListItem(index, itemProps);
 
@@ -140,19 +142,15 @@ function DragableEntity({
         initial={false}
         drag="y"
         style={{padding: 0}}
-        whileTap={{
-          scale: 1.12,
-          boxShadow: "0px 5px 5px rgba(0,0,0,0.1)"
-        }}
         {...eventHandlers}
       >
-        <ListElement index={data.position} userData={data} editable={false}/>
+        <ListElement index={data.position} userData={data} editable={editable} editFunc={editFunc}/>
       </motion.div>
     </li>
   );
 }
 
-export function DragableList() {
+export function DragableList({editable, editFunc}) {
   const [items, setItems] = useItems();
   const onPositionUpdate = useCallback(
     (startIndex: number, endIndex: number) => {
@@ -174,6 +172,8 @@ export function DragableList() {
           key={item.id}
           data={item}
           index={i}
+          editFunc={editFunc}
+          editable={editable}
           itemProps={props}
         />
       ))}
