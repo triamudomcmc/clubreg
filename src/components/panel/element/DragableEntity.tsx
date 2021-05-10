@@ -139,10 +139,7 @@ function DragableEntity({
         layout
         initial={false}
         drag="y"
-        whileHover={{
-          scale: 1.03,
-          boxShadow: "0px 3px 3px rgba(0,0,0,0.15)"
-        }}
+        style={{padding: 0}}
         whileTap={{
           scale: 1.12,
           boxShadow: "0px 5px 5px rgba(0,0,0,0.1)"

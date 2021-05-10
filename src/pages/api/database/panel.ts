@@ -2,6 +2,7 @@ import {NextApiRequest, NextApiResponse} from "next";
 import {fetchUser} from "@server/fetchUser"
 import {destroySession} from "@server/authentication";
 import {fetchPanel, submitPending, updatePosition} from "@server/panelControl";
+import initialisedDB from "@server/firebase-admin";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
@@ -26,6 +27,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           const output = await updatePosition(req, res)
           res.json(output)
           break
+        }
+        case "fetchAClub": {
+          const clubDoc = await initialisedDB.collection("clubs").doc("mainData").get()
+          const data = clubDoc.get(req.body.clubID)
+          res.json({
+
+          })
         }
       }
       break

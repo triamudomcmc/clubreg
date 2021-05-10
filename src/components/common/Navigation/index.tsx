@@ -119,11 +119,18 @@ const Navigation = () => {
               <h1 className="text-white">ติดต่อ</h1>
               <div className={classnames(isEmpty(userData) && "hidden")}>
                 <h1 ref={accRef} className="flex items-center space-x-1 text-white cursor-pointer">บัญชี <ChevronDownIcon className="w-5 h-5"/></h1>
-                <Modal className="flex justify-center w-full" TriggerRef={accRef}>
-                  <div style={{minWidth: "100px"}} className="absolute font-normal bg-white space-y-1 shadow-md rounded-lg py-3 px-5 text-gray-700">
-                    {logged && userData.panelID && <Link href="/panel"><h1 className="text-black cursor-pointer hover:text-blue-600 hover:underline">แผงควบคุม</h1></Link>}
-                    {userData && userData.club === "" && <Link href="/select"><h1 className="text-black cursor-pointer hover:text-blue-600 hover:underline">เลือกชมรม</h1></Link>}
-                    {!logged ? <Link href="/auth"><h1 className="text-black cursor-pointer hover:text-blue-600 hover:underline">เข้าสู่ระบบ</h1></Link> : <h1 onClick={signout} className="text-black cursor-pointer hover:text-blue-600 hover:underline">ออกจากระบบ</h1>}
+                <Modal className="flex justify-end w-full" TriggerRef={accRef}>
+                  <div className="absolute mt-2">
+                    {logged && <div className="bg-TUCMC-gray-100 px-7 py-2 font-normal rounded-t-lg">
+                      <h1 className="text-TUCMC-gray-900">{`${userData.title}${userData.firstname} ${userData.lastname}`}</h1>
+                      <h1
+                        className="text-TUCMC-gray-700 tracking-tight text-sm">{`${userData.student_id} | ${userData.room} / ${userData.number}`}</h1>
+                    </div>}
+                    <div style={{minWidth: "100px"}} className="font-normal bg-white space-y-2.5 shadow-md rounded-b-lg py-3 px-5 text-gray-700">
+                      {logged && userData.panelID && <Link href="/panel"><h1 className="text-black cursor-pointer hover:text-blue-600 hover:underline">แผงควบคุม</h1></Link>}
+                      {userData && userData.club === "" && <Link href="/select"><h1 className="text-black cursor-pointer hover:text-blue-600 hover:underline">เลือกชมรม</h1></Link>}
+                      {!logged ? <Link href="/auth"><h1 className="text-black cursor-pointer hover:text-blue-600 hover:underline">เข้าสู่ระบบ</h1></Link> : <h1 onClick={signout} className="text-black cursor-pointer hover:text-blue-600 hover:underline">ออกจากระบบ</h1>}
+                    </div>
                   </div>
                 </Modal>
               </div>

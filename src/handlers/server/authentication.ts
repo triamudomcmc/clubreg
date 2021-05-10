@@ -64,7 +64,7 @@ const compareDataPair = (dataPair: LooseTypeObject<string>, key: string) => data
 
 const isValidEmail = (email: string) => email !== "" && email.includes("@") && email.includes(".")
 
-const isValidPassword = (password: string) => password.length >= 10 && isASCII(password)
+const isValidPassword = (password: string) => password.length >= 8 && isASCII(password)
 
 export const register = async (req) => {
 
