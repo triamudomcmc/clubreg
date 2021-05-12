@@ -4,13 +4,15 @@ import {CheckCircleIcon, XCircleIcon} from "@heroicons/react/solid";
 import {useEffect, useState} from "react";
 import {confirmClub, regClub, rejectClub} from "@client/userAction";
 import {isEmpty} from "@utilities/object";
+import {useToast} from "@components/common/Toast/ToastContext";
 
-const DataModal = ({state, setLoader, TriggerDep, setToast, closeFunc, refetcher, mode = "default"}) => {
+const DataModal = ({state, setLoader, TriggerDep, closeFunc, refetcher, mode = "default"}) => {
 
   const [phone, setPhone] = useState("")
   const [password, setPassword] = useState("")
   const [closingState, setClosingState] = useState(false)
   const [data, setData] = useState(state.data)
+  const {addToast} = useToast()
 
   useEffect(() => {
     if (!isEmpty(state.data)) {
@@ -33,7 +35,7 @@ const DataModal = ({state, setLoader, TriggerDep, setToast, closeFunc, refetcher
 
       if(res.status) {
         if (action === "register") {
-          setToast({
+          addToast({
             theme:"modern",
             icon: "tick",
             title: "ลงชื่อ Audition แล้ว",
@@ -42,7 +44,7 @@ const DataModal = ({state, setLoader, TriggerDep, setToast, closeFunc, refetcher
           })
         }
         if (action === "confirm") {
-          setToast({
+          addToast({
             theme:"modern",
             icon: "tick",
             title: "ยืนยันสิทธิ์ชมรมแล้ว",
@@ -51,7 +53,7 @@ const DataModal = ({state, setLoader, TriggerDep, setToast, closeFunc, refetcher
           })
         }
         if (action === "reject") {
-          setToast({
+          addToast({
             theme:"modern",
             icon: "tick",
             title: "สละสิทธิ์ชมรมแล้ว",
@@ -67,16 +69,17 @@ const DataModal = ({state, setLoader, TriggerDep, setToast, closeFunc, refetcher
       }else{
         switch (res.report) {
           case "sessionError":
-            setToast({
+            addToast({
               theme:"modern",
               icon: "cross",
               title: "พบข้อผิดพลาดของเซสชั่น",
-              text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง"
+              text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
+              crossPage: true
             })
-            refetcher("sessionError")
+            refetcher()
             break
           case "invalid_password":
-            setToast({
+            addToast({
               theme:"modern",
               icon: "cross",
               title: "รหัสผ่านไม่ถูกต้อง",
@@ -84,7 +87,7 @@ const DataModal = ({state, setLoader, TriggerDep, setToast, closeFunc, refetcher
             })
             break
           case "invalid_phone":
-            setToast({
+            addToast({
               theme:"modern",
               icon: "cross",
               title: "เบอร์โทรศัพท์ ที่ระบุไม่ถูกต้อง",
@@ -92,7 +95,7 @@ const DataModal = ({state, setLoader, TriggerDep, setToast, closeFunc, refetcher
             })
             break
           case "club_full":
-            setToast({
+            addToast({
               theme:"modern",
               icon: "cross",
               title: "ขออภัยในขณะนี้ชมรมที่เลือกเต็มแล้ว",
@@ -100,7 +103,7 @@ const DataModal = ({state, setLoader, TriggerDep, setToast, closeFunc, refetcher
             })
             break
           case "in_club":
-            setToast({
+            addToast({
               theme:"modern",
               icon: "cross",
               title: "ขออภัยคุณได้เลือกชมรมนี้ไปแล้ว",
@@ -108,7 +111,7 @@ const DataModal = ({state, setLoader, TriggerDep, setToast, closeFunc, refetcher
             })
             break
           case "in_audition":
-            setToast({
+            addToast({
               theme:"modern",
               icon: "cross",
               title: "ขออภัยคุณได้เลือกชมรมที่มีการ Audition ไปแล้ว",
@@ -119,7 +122,7 @@ const DataModal = ({state, setLoader, TriggerDep, setToast, closeFunc, refetcher
         }
       }
     } catch (error) {
-      setToast({
+      addToast({
         theme:"modern",
         icon: "cross",
         title: "พบข้อผิดพลาดที่ไม่ทราบสาเหตุ",

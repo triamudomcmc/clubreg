@@ -20,6 +20,12 @@ export const login = async (stdID, password, live, fingerPrint, req, res) => {
 
   const userDoc = userDB.docs[0]
 
+  if (userDoc.get("safeMode") === true) {
+    const auData = userDoc.data()
+    if (!("authorised" in auData)) return {status: false, report: "notAuthorised"}
+    const authorisedField: LooseTypeObject<{fingerPrint: string}> = auData.authorised
+    if(!(Object.values(authorisedField).some(val => (val.fingerPrint === fingerPrint)))) return {status: false, report: "notAuthorised"}
+  }
   //password checking guard clause
   if (!(await bcrypt.compare(password, userDoc.get("password")))) return {
     status: false, report: "invalid_password"
@@ -119,6 +125,8 @@ export const register = async (req) => {
     phone: req.body.phone,
     dataRefID: dataDoc.id,
     password: await bcrypt.hash(req.body.password, 10),
+    safeMode: false,
+    authorised: {}
   })
 
   //update Tracker

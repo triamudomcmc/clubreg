@@ -43,6 +43,26 @@ export const fetchUser = async (req, res, fingerprint) => {
   }
 }
 
+export const fetchUserCredentials = async (req, res) => {
+  const {logged, ID} = await fetchSession(req,res, req.body.fingerPrint)
+
+  if (!logged) return {status: false, report: "sessionError"}
+
+  const userData = await initialisedDB.collection("users").doc(ID.userID).get()
+
+  const rawData = userData.get("authorised")
+  const authorisedArr = rawData ? Object.keys(rawData).map(key => {
+    return {...{id: key, browser: rawData[key].browser, os: rawData[key].os, device: rawData[key].device, cpu: rawData[key].cpu, ip: rawData[key].ip}, self: req.body.fingerPrint === key}
+  }): []
+
+  return {status: true, report: "success", data: {
+    phone: userData.get("phone"),
+      email: userData.get("email"),
+      authorised: authorisedArr,
+      safeMode: userData.get("safeMode")
+    }}
+}
+
 export const fetchSession = async (req, res, fingerprint) => {
 
   const cookies = new Cookies(req, res, {keys: [process.env.COOKIE_KEY]})

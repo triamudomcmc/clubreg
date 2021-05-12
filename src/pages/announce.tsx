@@ -10,6 +10,7 @@ import ClubModal from "@components/select/ClubModal";
 import DataModal from "@components/select/DataModal";
 import {Loader} from "@components/common/Loader";
 import Toast from "@components/common/Toast";
+import {useToast} from "@components/common/Toast/ToastContext";
 
 const Announce = () => {
   const {onReady, reFetch} = useAuth()
@@ -19,7 +20,6 @@ const Announce = () => {
   const [modalState, setModalState] = useState({open: false, data: {}})
   const [select, setSelect] = useState({state: false, mode: "confirm"})
   const [dataModal, setDataModal] = useState(false)
-  const [toast, setToast] = useState({})
   const [loader, setLoader] = useState(false)
 
   const userData = onReady((logged, userData) => {
@@ -98,7 +98,6 @@ const Announce = () => {
   return (
     <PageContainer>
       <Loader display={loader}/>
-      <Toast newToast={toast}/>
       <ConfirmModal onAgree={() => {
         setDataModal(true)
       }} clubData={modalState} TriggerDep={{
@@ -106,7 +105,7 @@ const Announce = () => {
           setSelect(prev => ({state: false, mode: prev.mode}))
         }
       }} mode={select.mode}/>
-      <DataModal setLoader={setLoader} state={modalState} refetcher={reFetch} setToast={setToast} closeFunc={clearState}
+      <DataModal setLoader={setLoader} state={modalState} refetcher={reFetch} closeFunc={clearState}
                  TriggerDep={{
                    dep: dataModal, revert: () => {
                      setDataModal(false)

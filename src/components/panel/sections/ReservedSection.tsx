@@ -11,9 +11,7 @@ import {useAuth} from "@client/auth";
 import {motion, useAnimation} from "framer-motion"
 import {detectOuside} from "@utilities/document";
 
-const ItemsContext = createContext<
-  [LooseTypeObject<any>[], (setItems: LooseTypeObject<any>) => void]
-  >([[], (_) => null]);
+const ItemsContext = createContext<[LooseTypeObject<any>[], (setItems: LooseTypeObject<any>) => void]>([[], (_) => null]);
 
 export const ReservedSection = ({display, refetch, userData, editable, editFunc}) => {
 

@@ -3,6 +3,7 @@ import {AppProps} from 'next/app'
 import "@styles/tailwind.css"
 import Head from "next/head";
 import {AuthProvider} from "@client/auth";
+import {ToastProvider} from "@components/common/Toast/ToastContext";
 
 const App = ({Component, pageProps}: AppProps) => {
 
@@ -12,7 +13,9 @@ const App = ({Component, pageProps}: AppProps) => {
       <title>TUCMC Club Registeration System</title>
     </Head>
     <AuthProvider>
-      <Component {...pageProps} />
+      <ToastProvider>
+        <Component {...pageProps} />
+      </ToastProvider>
     </AuthProvider>
   </div>)
 

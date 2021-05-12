@@ -29,6 +29,7 @@ import {
 } from "@utilities/object";
 import {sliceArr} from "@utilities/array";
 import Image from "next/image";
+import {useToast} from "@components/common/Toast/ToastContext";
 
 /*const blockContent = (dataObj) => {
   let newObj = {}
@@ -59,7 +60,6 @@ const Select = ({thumbPaths}) => {
   const [modalState, setModalState] = useState({open: false, data: {}})
   const [select, setSelect] = useState(false)
   const [dataModal, setDataModal] = useState(false)
-  const [toast, setToast] = useState({})
   const [sortedData, setSortedData] = useState([])
   const [sortMode, setSortMode] = useState("ascending")
   const [searchContext, setSearchContext] = useState("")
@@ -152,7 +152,6 @@ const Select = ({thumbPaths}) => {
   return (
     <PageContainer>
       <Loader display={loader}/>
-      <Toast newToast={toast}/>
       <ConfirmModal onAgree={() => {
         setDataModal(true)
       }} clubData={modalState} TriggerDep={{
@@ -161,7 +160,7 @@ const Select = ({thumbPaths}) => {
         }
       }}/>
       <ClubModal state={modalState} userData={userData} closeAction={clearState} action={selectClub} thumbPaths={thumbPaths}/>
-      <DataModal setLoader={setLoader} state={modalState} refetcher={reFetch} setToast={setToast} closeFunc={clearState}
+      <DataModal setLoader={setLoader} state={modalState} refetcher={reFetch} closeFunc={clearState}
                  TriggerDep={{
                    dep: dataModal, revert: () => {
                      setDataModal(false)
@@ -242,14 +241,14 @@ const Select = ({thumbPaths}) => {
             <div className="space-y-2 md:w-1/2">
               {
                 sortedData[0]?.map((val) => {
-                  return <ClubList key={val.clubID} setToast={setToast} data={val} action={setModalState}/>
+                  return <ClubList key={val.clubID} data={val} action={setModalState}/>
                 })
               }
             </div>
             <div className="mt-2 md:mt-0 space-y-2 md:w-1/2">
               {
                 sortedData[1]?.map((val) => {
-                  return <ClubList key={val.clubID} setToast={setToast} data={val} action={setModalState}/>
+                  return <ClubList key={val.clubID} data={val} action={setModalState}/>
                 })
               }
             </div>

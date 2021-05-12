@@ -17,6 +17,7 @@ import {isEmpty} from "@utilities/object";
 import {fetchAClub} from "@client/fetcher/club";
 import {Editor} from "@components/panel/element/Editor";
 import Toast from "@components/common/Toast";
+import {useToast} from "@components/common/Toast/ToastContext";
 
 const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetStateAction<{}>>, setReservedPos: Dispatch<SetStateAction<{}>>, setToast, reFetch) => {
   const data = await fetchMembers(panelID)
@@ -47,9 +48,10 @@ const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetState
           theme:"modern",
           icon: "cross",
           title: "พบข้อผิดพลาดของเซสชั่น",
-          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง"
+          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
+          crossPage: true
         })
-        reFetch("sessionError")
+        reFetch()
         break
       case "invalidPermission":
         setToast({
@@ -72,6 +74,8 @@ const Index = () => {
 
   const {onReady, reFetch} = useAuth()
 
+  const {addToast} = useToast()
+
   const [sortMode, setSortMode] = useState("")
   const [searchContext, setSearchContext] = useState("")
   const [section, setSection] = useState("passed")
@@ -87,7 +91,6 @@ const Index = () => {
   const [clubData, setClubData] = useState({new_count: 0, new_count_limit: 0})
   const [editing, setEditing] = useState({})
   const [editDep, setEditDep] = useState(false)
-  const [toast, setToast] = useState({})
 
   const editable = true
 
@@ -104,7 +107,7 @@ const Index = () => {
   })
 
   const refetch = () => {
-    fetchMemberData(userData.panelID, setMemberData, setReservedPos, setToast, reFetch)
+    fetchMemberData(userData.panelID, setMemberData, setReservedPos, addToast, reFetch)
     fetchClubData(userData.panelID, setClubData)
   }
 
@@ -122,16 +125,17 @@ const Index = () => {
     }else{
       switch (res.report) {
         case "sessionError":
-          setToast({
+          addToast({
             theme:"modern",
             icon: "cross",
             title: "พบข้อผิดพลาดของเซสชั่น",
-            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง"
+            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
+            crossPage: true
           })
-          reFetch("sessionError")
+          reFetch()
           break
         case "invalidPermission":
-          setToast({
+          addToast({
             theme:"modern",
             icon: "cross",
             title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
@@ -149,8 +153,7 @@ const Index = () => {
 
   return (
     <PageContainer>
-      <Toast newToast={toast}/>
-      <Editor userData={editing} reservedPos={reservedPos} setReservedPos={setReservedPos} refetch={refetch} setToast={setToast} TriggerDep={{dep: editDep, revert: () => {setEditDep(false)}}}/>
+      <Editor userData={editing} reservedPos={reservedPos} setReservedPos={setReservedPos} refetch={refetch} TriggerDep={{dep: editDep, revert: () => {setEditDep(false)}}}/>
       <div className={classnames("px-2 py-10 mx-auto max-w-6xl min-h-screen", page === "panel" ? "block" : "hidden")}>
         <div
           className={`bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg text-yellow-800 px-4 py-4`}>

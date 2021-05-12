@@ -3,12 +3,14 @@ import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import Router from "next/router";
 import {LockClosedIcon} from "@heroicons/react/solid";
 import {useAuth} from "@client/auth";
+import {useToast} from "@components/common/Toast/ToastContext";
 
-const LoginSection = ({primaryAction, setLoader, setToast}) => {
+const LoginSection = ({primaryAction, setLoader}) => {
 
   const { reFetch } = useAuth()
   const [ID, setID] = useState("")
   const [password, setPassword] = useState("")
+  const {addToast} = useToast()
 
   const onsubmit = async (event) => {
     event.preventDefault()
@@ -44,7 +46,7 @@ const LoginSection = ({primaryAction, setLoader, setToast}) => {
       } else {
         switch (result.report) {
           case "invalid_credentials":
-            setToast({
+            addToast({
               theme:"modern",
               icon: "cross",
               title: "ข้อมูลไม่ถูกต้อง",
@@ -52,15 +54,23 @@ const LoginSection = ({primaryAction, setLoader, setToast}) => {
             })
             break
           case "invalid_password":
-            setToast({
+            addToast({
               theme:"modern",
               icon: "cross",
               title: "รหัสผ่านไม่ถูกต้อง",
               text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือ หากลืมรหัสผ่านสามารถติดต่อทาง กช. เพื่อขอเปลี่ยนรหัสผ่านได้"
             })
             break
+          case "notAuthorised":
+            addToast({
+              theme:"modern",
+              icon: "cross",
+              title: "บัญชี้นี้ไม่ได้อนุญาตให้ใช้เบราว์เซอร์นี้เข้าสู่ระบบ",
+              text: "กรุณาลองใช้เบราว์เซอร์หรืออุปกรณ์อื่น หากยังไม่สามารถเข้าได้กรุณาติดต่อทาง กช. เพื่อขอปิดโหมดความปลอดภัยสูง"
+            })
+            break
           case "invalid_user":
-            setToast({
+            addToast({
               theme:"modern",
               icon: "cross",
               title: "ไม่พบผู้ใช้งานที่ใช้รหัสนักเรียนนี้",
@@ -73,7 +83,7 @@ const LoginSection = ({primaryAction, setLoader, setToast}) => {
         setLoader(false)
       }
     } catch (error) {
-      setToast({
+      addToast({
         theme:"modern",
         icon: "cross",
         title: "พบข้อผิดพลาดที่ไม่ทราบสาเหตุ",

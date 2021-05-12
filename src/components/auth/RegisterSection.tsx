@@ -5,6 +5,7 @@ import React, {Fragment, useState} from "react";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import Router from "next/router";
 import {Button} from "@components/common/Inputs/Button";
+import {useToast} from "@components/common/Toast/ToastContext";
 
 const people = [
   {id: 1, name: 'ม.4'},
@@ -16,7 +17,10 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-const RegisterSection = ({swapFunction, setLoader, setToast}) => {
+const RegisterSection = ({swapFunction, setLoader}) => {
+
+  const {addToast} = useToast()
+
   const [selected, setSelected] = useState(people[0])
   const [firstname, setFirstname] = useState("")
   const [lastname, setLastname] = useState("")
@@ -69,7 +73,7 @@ const RegisterSection = ({swapFunction, setLoader, setToast}) => {
           pathname: '',
           query: ""
         })
-        setToast({
+        addToast({
           theme:"modern",
           icon: "tick",
           title: "ลงทะเบียนเสร็จสมบูรณ์",
@@ -79,7 +83,7 @@ const RegisterSection = ({swapFunction, setLoader, setToast}) => {
       } else {
         switch (result.report) {
           case "user_exists":
-            setToast({
+            addToast({
               theme:"modern",
               icon: "cross",
               title: "มีบัญชีนี้อยู่แล้วในระบบ",
@@ -87,7 +91,7 @@ const RegisterSection = ({swapFunction, setLoader, setToast}) => {
             })
             break
           case "invalid_stdID":
-            setToast({
+            addToast({
               theme:"modern",
               icon: "cross",
               title: "ไม่พบรหัสนักเรียนนี้ในฐานข้อมูล",
@@ -95,7 +99,7 @@ const RegisterSection = ({swapFunction, setLoader, setToast}) => {
             })
             break
           case "mismatch_data":
-            setToast({
+            addToast({
               theme:"modern",
               icon: "cross",
               title: "ข้อมูลที่ระบุไม่ตรงกับข้อมูลบนฐานข้อมูล",
@@ -103,7 +107,7 @@ const RegisterSection = ({swapFunction, setLoader, setToast}) => {
             })
             break
           case "invalid_data":
-            setToast({
+            addToast({
               theme:"modern",
               icon: "cross",
               title: "อีเมล หรือ เบอร์โทรศัพท์ ที่ระบุไม่ถูกต้อง",
@@ -111,7 +115,7 @@ const RegisterSection = ({swapFunction, setLoader, setToast}) => {
             })
             break
           case "invalid_credentials":
-            setToast({
+            addToast({
               theme:"modern",
               icon: "cross",
               title: "รหัสผ่านไม่เหมาะสม",
@@ -119,7 +123,7 @@ const RegisterSection = ({swapFunction, setLoader, setToast}) => {
             })
             break
           case "password_mismatch":
-            setToast({
+            addToast({
               theme:"modern",
               icon: "cross",
               title: "ช่องรหัสผ่านและช่องยืนยันรหัสผ่านไม่ตรงกัน",
@@ -130,7 +134,7 @@ const RegisterSection = ({swapFunction, setLoader, setToast}) => {
         }
       }
     } catch (error) {
-      setToast({
+      addToast({
         theme:"modern",
         icon: "cross",
         title: "พบข้อผิดพลาดที่ไม่ทราบสาเหตุ",

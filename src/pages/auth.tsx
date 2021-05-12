@@ -10,13 +10,14 @@ import {Input} from "@components/auth/Input";
 import RegisterSection from "@components/auth/RegisterSection";
 import {Loader} from "@components/common/Loader"
 import Toast from "@components/common/Toast";
+import {useToast} from "@components/common/Toast/ToastContext";
 
 
 const Auth = ({query}) => {
 
   const {onReady} = useAuth()
+  const {addToast} = useToast()
   const [action, setAction] = useState(("register" in query) ? "register" : "login")
-  const [toast, setToast] = useState({})
   const [loader, setLoader] = useState(false)
 
   onReady((logged, userData) => {
@@ -45,7 +46,7 @@ const Auth = ({query}) => {
 
     switch (cause) {
       case "sessionError" :
-        setToast({
+        addToast({
           theme:"modern",
           icon: "cross",
           title: "พบข้อผิดพลาดของเซสชั่น",
@@ -53,7 +54,7 @@ const Auth = ({query}) => {
         })
         break
       case "sessionRejected" :
-        setToast({
+        addToast({
           theme:"modern",
           icon: "cross",
           title: "เซสชั่นของเบราว์เซอร์นี้ถูกปฏิเสธ",
@@ -61,7 +62,7 @@ const Auth = ({query}) => {
         })
         break
       case "sessionExpired" :
-        setToast({
+        addToast({
           theme:"modern",
           icon: "info",
           title: "เซสชั่นก่อนหน้าได้หมดอายุไปแล้ว",
@@ -69,7 +70,7 @@ const Auth = ({query}) => {
         })
         break
       case "missingCookie" :
-        setToast({
+        addToast({
           theme:"modern",
           icon: "info",
           title: "ไม่พบข้อมูลเซสชั่นบนเบราว์เซอร์",
@@ -77,7 +78,7 @@ const Auth = ({query}) => {
         })
         break
       case "userNotFound" :
-        setToast({
+        addToast({
           theme:"modern",
           icon: "cross",
           title: "ไม่พบข้อมูลผู้ใช้งานนี้บนฐานข้อมูล",
@@ -91,13 +92,12 @@ const Auth = ({query}) => {
   return (
     <PageContainer footer={false}>
       <Loader display={loader}/>
-      <Toast newToast={toast}/>
       <div style={{maxWidth: "26rem"}} className="mx-auto my-6 mb-16 md:my-10 md:mb-10 space-y-8 min-h-screen">
         <DefaultCard>
           <p className="font-normal">นักเรียน ม.5 และ ม.6 จะไม่สามารถล็อกอินเข้าสู่ระบบด้วยบัญชีเดิมในปีการศึกษาที่ผ่านมาได้ ต้องยืนยันตัวตนและสร้างบัญชีใหม่ทั้งหมด เนื่องจากมีการออกแบบระบบใหม่</p>
         </DefaultCard>
-        {action == "login" && <LoginSection primaryAction={goRegister} setLoader={setLoader} setToast={setToast}/>}
-        {action == "register" && <RegisterSection swapFunction={() => {setAction("login")}} setLoader={setLoader} setToast={setToast}/>}
+        {action == "login" && <LoginSection primaryAction={goRegister} setLoader={setLoader}/>}
+        {action == "register" && <RegisterSection swapFunction={() => {setAction("login")}} setLoader={setLoader}/>}
       </div>
     </PageContainer>
   )

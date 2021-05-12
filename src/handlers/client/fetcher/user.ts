@@ -31,6 +31,26 @@ export const fetchUser = async (): Promise<{ userID: string, userData: {} }> => 
 
 }
 
+export const fetchUserCred = async (): Promise<{ status: boolean, report: string, data?: {} }> => {
+
+  const fp = await FingerprintJS.load()
+  const fingerPrint = await fp.get();
+
+  const data = await fetch(`/api/database/account`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({action: "fetchUserCredentials", fingerPrint: fingerPrint.visitorId}),
+    credentials: 'include'
+  })
+
+  const res = await data.json()
+
+  return res
+
+}
+
 export const logout = async (): Promise<{ success: boolean }> => {
 
   const data = await fetch(`/api/database/user`, {

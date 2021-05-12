@@ -1,20 +1,13 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import ToastElement from "./ToastElement";
 import {useWindowDimensions} from "@utilities/document";
+import {useToast} from "@components/common/Toast/ToastContext";
+import {useRouter} from "next/router";
 
+const Toast = () => {
 
-interface ToastProps {
-  newToast: {
-    theme: "default" | "modern"
-    icon: "info" | "cross" | "tick",
-    title: string,
-    text: string,
-    color?: "green" | "yellow" | "red" | "blue",
-    lifeSpan?: number
-  } | {}
-}
-
-const Toast = ({newToast = {}}: ToastProps) => {
+  const {toastData} = useToast()
+  const router = useRouter()
 
   const { width } = useWindowDimensions()
 
@@ -39,10 +32,17 @@ const Toast = ({newToast = {}}: ToastProps) => {
   }
 
   useEffect(() => {
-    if ("title" in newToast) {
+    Object.keys(toast).forEach((val) => {
+      if ("crossPage" in toast[val] && toast[val].crossPage == true) return
+      deleteToast(val)
+    })
+  },[router.pathname])
+
+  useEffect(() => {
+    if ("title" in toastData) {
       setToast(Object.assign(toast,
         {
-          [toastCount]: <ToastElement key={toastCount} toastData={newToast} index={toastCount} toastDeleteHandler={deleteToast}/>
+          [toastCount]: <ToastElement key={toastCount} toastData={toastData} index={toastCount} toastDeleteHandler={deleteToast}/>
         }
       ))
       setToastCount(toastCount + 1)
@@ -52,10 +52,10 @@ const Toast = ({newToast = {}}: ToastProps) => {
       }
       renderToast()
     }
-  }, [newToast])
+  }, [toastData])
 
   return (
-    <div className="fixed z-[100] sm:w-max top-0 right-0">
+    <div className="fixed z-[100] sm:w-max top-0 right-0 font-display">
       {toastElement}
     </div>
   )

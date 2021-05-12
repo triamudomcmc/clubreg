@@ -8,6 +8,7 @@ import css from "./bubble.module.css"
 import {motion, useAnimation} from "framer-motion"
 import {submitPending, updateUser} from "@client/fetcher/panel";
 import {useAuth} from "@client/auth";
+import {useToast} from "@components/common/Toast/ToastContext";
 
 const getRandomTransformOrigin = () => {
   const value = (16 + 40 * Math.random()) / 100;
@@ -36,7 +37,7 @@ const variants = {
   }
 };
 
-export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refetch, setToast}) => {
+export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refetch}) => {
 
   const [action, setAction] = useState({action: "", pos: 0})
   const [pos, setPos] = useState(0)
@@ -45,6 +46,7 @@ export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refet
   const controls = useAnimation();
 
   const {onReady, reFetch} = useAuth()
+  const {addToast} = useToast()
 
   const adminData = onReady((logged, userData) => (userData))
 
@@ -98,7 +100,7 @@ export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refet
       const res = await updateUser(adminData.panelID, userData.dataRefID, action)
       if (res.status) {
         refetch()
-        setToast({
+        addToast({
           theme: "modern",
           icon: "tick",
           title: "อัพเดทข้อมูลสำเร็จแล้ว",
@@ -108,7 +110,7 @@ export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refet
       }else{
         switch (res.report) {
           case "sessionError":
-            setToast({
+            addToast({
               theme:"modern",
               icon: "cross",
               title: "พบข้อผิดพลาดของเซสชั่น",
@@ -117,7 +119,7 @@ export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refet
             reFetch("sessionError")
             break
           case "invalidPermission":
-            setToast({
+            addToast({
               theme:"modern",
               icon: "cross",
               title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
@@ -128,7 +130,7 @@ export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refet
         }
       }
     } catch (e) {
-      setToast({
+      addToast({
         theme:"modern",
         icon: "cross",
         title: "พบข้อผิดพลาดที่ไม่ทราบสาเหตุ",

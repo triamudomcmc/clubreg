@@ -5,24 +5,26 @@ import {useAuth} from "@client/auth";
 import LooseTypeObject from "../../interfaces/LooseTypeObject";
 import classnames from "classnames"
 import {Full, Vacant} from "@vectors/texts/ClubStates";
+import {useToast} from "@components/common/Toast/ToastContext";
 
 interface props {
   data: LooseTypeObject<string>,
-  action: Dispatch<SetStateAction<{ open: boolean, data: {} }>>,
-  setToast: Dispatch<SetStateAction<{}>>
+  action: Dispatch<SetStateAction<{ open: boolean, data: {} }>>
 
 }
 
-const ClubList = ({data, action, setToast}: props) => {
+const ClubList = ({data, action}: props) => {
 
   const { tracker } = useAuth()
+
+  const { addToast } = useToast()
 
   const click = () => {
     if (!data.blocked) {
       action({open: true, data: data})
       tracker && tracker.push("click","select_d>"+data.clubID)
     }else{
-      setToast({
+      addToast({
         theme:"modern",
         icon: "cross",
         title: "ขออภัยคุณได้เลือกชมรมที่มีการ Audition ไปแล้ว",
