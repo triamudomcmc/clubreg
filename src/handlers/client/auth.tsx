@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react'
-import Router from "next/router";
+import Router, {useRouter} from "next/router";
 import {fetchUser, logout} from "@client/fetcher/user";
 import UserData from "../../interfaces/userData";
 import {Tracker} from "@client/tracker/track";
@@ -33,6 +33,13 @@ function useProvideAuth() {
 
   const [userData, setUserData] = useState(null)
   const [tracker, setTracker] = useState(new Tracker())
+  const router = useRouter()
+
+  useEffect(() => {
+    if (userData !== null && router.pathname !== "/auth") {
+      localStorage.setItem("lastVisited", router.pathname)
+    }
+  },[router.pathname])
 
   const reFetch = async (cause: string = "") => {
     const data = await fetchUser()

@@ -53,10 +53,6 @@ export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refet
   }, [userData])
 
   useEffect(() => {
-    console.log(reservedPos)
-  }, reservedPos)
-
-  useEffect(() => {
     setWarning(false)
     setReservedPos(prev => {
       delete prev[userData.dataRefID]
@@ -118,7 +114,7 @@ export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refet
               title: "พบข้อผิดพลาดของเซสชั่น",
               text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง"
             })
-            reFetch()
+            reFetch("sessionError")
             break
           case "invalidPermission":
             setToast({
@@ -143,7 +139,7 @@ export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refet
 
   return (
     <Modal TriggerDep={TriggerDep} CloseDep={{dep: closeDep, revert: () => {setCloseDep(false)}}} CloseID="closeEdit" className="flex flex-col w-full px-4" overlayClassName="flex justify-center items-center fixed top-0 w-full min-h-screen z-50 bg-gray-500 bg-opacity-50">
-      <div className="max-w-[390px] md:max-w-none md:min-w-[380px] mx-auto">
+      <div className="max-w-[390px] md:max-w-none xs:min-w-[380px] min-w-full mx-auto">
         <div className="bg-white p-5 rounded-t-md shadow-md md:min-w-[380px]">
           <h1>{userData.title}{userData.firstname} {userData.lastname}</h1>
           <span className="text-TUCMC-gray-600">{userData.student_id} |  ม.{userData.level}/{userData.room}</span>

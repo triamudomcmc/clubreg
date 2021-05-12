@@ -17,15 +17,16 @@ export const fetchUser = async (): Promise<{ userID: string, userData: {} }> => 
 
   const res = await data.json()
 
-  if (res.logged) {
+  if (!res.status) { localStorage.setItem("beforeExit", res.report); return {userID: null, userData: {}} }
+  if (res.data.logged) {
     //auto fetching after expired
     setTimeout(() => {
       Router.reload()
-    }, (res.expires - new Date().getTime()) + 1000)
+    }, (res.data.expires - new Date().getTime()) + 1000)
 
-    return {userID: res.userID, userData: res.userData}
+    return {userID: res.data.userID, userData: res.data.userData}
   }
-  localStorage.setItem("beforeExit","sessionError")
+
   return {userID: null, userData: {}}
 
 }

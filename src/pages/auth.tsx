@@ -24,6 +24,8 @@ const Auth = ({query}) => {
       if (userData.club !== "") {
         return Router.push("/card")
       }
+      const lastVisited = localStorage.getItem("lastVisited")
+      if (lastVisited !== "" && lastVisited !== "/auth" && lastVisited !== "/") return Router.push(lastVisited)
       Router.push("/select")
     }
   })
@@ -40,6 +42,7 @@ const Auth = ({query}) => {
 
   useEffect(() => {
     const cause = localStorage.getItem("beforeExit")
+
     switch (cause) {
       case "sessionError" :
         setToast({
@@ -47,6 +50,38 @@ const Auth = ({query}) => {
           icon: "cross",
           title: "พบข้อผิดพลาดของเซสชั่น",
           text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง"
+        })
+        break
+      case "sessionRejected" :
+        setToast({
+          theme:"modern",
+          icon: "cross",
+          title: "เซสชั่นของเบราว์เซอร์นี้ถูกปฏิเสธ",
+          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง หากยังไม่สามารถเข้าสู่ระบบได้กรุณาติดต่อทาง กช. โดยเร็ว"
+        })
+        break
+      case "sessionExpired" :
+        setToast({
+          theme:"modern",
+          icon: "info",
+          title: "เซสชั่นก่อนหน้าได้หมดอายุไปแล้ว",
+          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง"
+        })
+        break
+      case "missingCookie" :
+        setToast({
+          theme:"modern",
+          icon: "info",
+          title: "ไม่พบข้อมูลเซสชั่นบนเบราว์เซอร์",
+          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง"
+        })
+        break
+      case "userNotFound" :
+        setToast({
+          theme:"modern",
+          icon: "cross",
+          title: "ไม่พบข้อมูลผู้ใช้งานนี้บนฐานข้อมูล",
+          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง หากยังไม่สามารถเข้าสู่ระบบได้กรุณาติดต่อทาง กช. โดยเร็ว"
         })
         break
     }

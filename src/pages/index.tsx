@@ -110,7 +110,7 @@ const Index = () => {
               <div
                 className="mx-6 space-y-8 md:w-full md:max-w-6xl md:flex md:flex-col xl:flex-row xl:items-center xl:space-y-0 xl:space-x-4 md:items-center">
                 <div className="md:flex md:flex-row md:space-x-4 space-y-8 md:space-y-0">
-                  <div
+                  <Button
                     className="flex flex-row items-end justify-between shadow-lg bg-TUCMC-pink-400 md:bg-white rounded-xl md:rounded-lg px-7 pt-4 pb-6">
                     <div className="md:hidden">
                       <h1
@@ -129,33 +129,33 @@ const Index = () => {
                     <img className="w-32 md:w-28 md:hidden" src="/assets/images/menu1.png"/>
                     <img className="w-32 md:w-28 hidden md:block ml-4"
                          src="/assets/images/menu1-2.png"/>
-                  </div>
-                  <div
+                  </Button>
+                  <Button
+                    href="/instruction"
                     className="flex flex-row items-center justify-between shadow-lg bg-white rounded-xl md:rounded-lg px-7 py-5">
                     <div className="flex-shrink-0 w-1/2">
                       <h1
                         className="text-TUCMC-pink-400 font-bold tracking-tighter text-5xl">วิธีใช้</h1>
                     </div>
                     <img className="w-36 md:w-32" src="/assets/images/menu2.png"/>
-                  </div>
+                  </Button>
                 </div>
                 <div className="md:flex md:flex-row md:space-x-4 space-y-8 md:space-y-0">
-                  <div
-                    className="flex flex-row items-center justify-between shadow-lg bg-white rounded-xl md:rounded-lg px-7 pb-4 pt-2">
+                  <Button href="/clubs" className="flex flex-row items-center justify-between shadow-lg bg-white rounded-xl md:rounded-lg px-7 pb-4 pt-2">
                     <div>
                       <h1
                         className="text-TUCMC-pink-400 font-bold tracking-tighter text-5xl">ชมรม</h1>
                     </div>
                     <img className="w-32 md:w-28 md:pl-2" src="/assets/images/menu3.png"/>
-                  </div>
-                  <div
+                  </Button>
+                  <Button
                     className="flex flex-row items-center justify-between shadow-lg bg-white rounded-xl md:rounded-lg px-7 py-5">
                     <div>
                       <h1
                         className="text-TUCMC-pink-400 font-bold tracking-tighter text-5xl">FAQ</h1>
                     </div>
                     <img className="w-36 md:w-32" src="/assets/images/menu4.png"/>
-                  </div>
+                  </Button>
                 </div>
               </div>
             </div>
