@@ -17,7 +17,7 @@ export const fetchUser = async (): Promise<{ userID: string, userData: {} }> => 
 
   const res = await data.json()
 
-  if (!res.status) { localStorage.setItem("beforeExit", res.report); return {userID: null, userData: {}} }
+  if (!res.status) { (res.report !== "missingCookie" && localStorage.setItem("beforeExit", res.report)); return {userID: null, userData: {}} }
   if (res.data.logged) {
     //auto fetching after expired
     setTimeout(() => {
