@@ -20,6 +20,8 @@
     "dotenv": "^8.2.0",
     "firebase-admin": "^9.6.0",
     "framer-motion": "^4.1.3",
+    "is-mobile": "^3.0.0",
+    "mobile-detect": "^1.4.5",
     "modern-react-qr-reader": "^1.0.12",
     "next": "10.1.3",
     "puppeteer-core": "^9.0.0",
@@ -27,7 +29,8 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-qr-reader": "^2.2.1",
-    "react-scroll-into-view": "^1.8.2"
+    "react-scroll-into-view": "^1.8.2",
+    "use-long-press": "^1.0.5"
   },
   "devDependencies": {
     "@heroicons/react": "^1.0.1",

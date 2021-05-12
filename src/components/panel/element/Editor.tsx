@@ -44,7 +44,7 @@ export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refet
   const [closeDep, setCloseDep] = useState(false)
   const controls = useAnimation();
 
-  const {onReady} = useAuth()
+  const {onReady, reFetch} = useAuth()
 
   const adminData = onReady((logged, userData) => (userData))
 
@@ -118,6 +118,7 @@ export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refet
               title: "พบข้อผิดพลาดของเซสชั่น",
               text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง"
             })
+            reFetch()
             break
           case "invalidPermission":
             setToast({
@@ -141,47 +142,49 @@ export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refet
   }
 
   return (
-    <Modal TriggerDep={TriggerDep} CloseDep={{dep: closeDep, revert: () => {setCloseDep(false)}}} CloseID="closeEdit" className="flex flex-col px-4" overlayClassName="flex justify-center items-center fixed top-0 w-full min-h-screen z-50 bg-gray-500 bg-opacity-50">
-      <div className="bg-white p-5 rounded-t-md shadow-md" style={{minWidth: "380px"}}>
-        <h1>{userData.title}{userData.firstname} {userData.lastname}</h1>
-        <span className="text-TUCMC-gray-600">{userData.student_id} |  ม.{userData.level}/{userData.room}</span>
-        <div className="flex mt-3">
-          <div onClick={() => {
-            action.action !== "passed" ? clickAction("passed") : reset()
-          }}
-               className={classnames("flex items-center space-x-1 border rounded-md px-6 py-1 cursor-pointer mr-2", action.action === "passed" && "bg-TUCMC-green-400 text-white", userData.status === "passed" && "hidden")}>
-            <CheckCircleIcon className={classnames("w-5 h-5", action.action === "passed" ? "text-white" : "text-TUCMC-green-400")}/>
-            <span>รับ</span>
-          </div>
-          <motion.div custom={1}
-                      variants={variants}
-                      animate={controls}
-                      style={getRandomTransformOrigin()}
-                      className={classnames("flex items-center space-x-1 relative border rounded-md px-3 py-1 mr-2", warning && "border-TUCMC-red-400 text-TUCMC-gray-500", userData.status === "reserved" && "hidden")}>
-            <input style={{width: "60px"}} value={pos > 0 ? pos : ""} onChange={event => {setPos(parseInt(event.target.value))}} className={classnames("text-center appearance-none outline-none")} placeholder="สำรอง"/>
-            <Modal className="absolute top-1.5 right-1.5 w-5 h-5" ToggleDep={warning} closeClickOutside={false}>
-              <div className="absolute w-5 h-5 opacity-0 z-10 hover:opacity-100">
-                <div className="absolute -top-10 -left-11">
-                  <div className={classnames("bg-white text-xs text-black w-28 shadow-md rounded-md p-2", css.tooltip)}><h1 className="text-center">ลำดับมากเกินไป</h1></div>
+    <Modal TriggerDep={TriggerDep} CloseDep={{dep: closeDep, revert: () => {setCloseDep(false)}}} CloseID="closeEdit" className="flex flex-col w-full px-4" overlayClassName="flex justify-center items-center fixed top-0 w-full min-h-screen z-50 bg-gray-500 bg-opacity-50">
+      <div className="max-w-[390px] md:max-w-none md:min-w-[380px] mx-auto">
+        <div className="bg-white p-5 rounded-t-md shadow-md md:min-w-[380px]">
+          <h1>{userData.title}{userData.firstname} {userData.lastname}</h1>
+          <span className="text-TUCMC-gray-600">{userData.student_id} |  ม.{userData.level}/{userData.room}</span>
+          <div className="flex mt-3">
+            <div onClick={() => {
+              action.action !== "passed" ? clickAction("passed") : reset()
+            }}
+                 className={classnames("flex items-center space-x-1 border rounded-md px-6 py-1 cursor-pointer mr-2", action.action === "passed" && "bg-TUCMC-green-400 text-white", userData.status === "passed" && "hidden")}>
+              <CheckCircleIcon className={classnames("w-5 h-5", action.action === "passed" ? "text-white" : "text-TUCMC-green-400")}/>
+              <span>รับ</span>
+            </div>
+            <motion.div custom={1}
+                        variants={variants}
+                        animate={controls}
+                        style={getRandomTransformOrigin()}
+                        className={classnames("flex items-center space-x-1 relative border rounded-md px-3 py-1 mr-2", warning && "border-TUCMC-red-400 text-TUCMC-gray-500", userData.status === "reserved" && "hidden")}>
+              <input style={{width: "60px"}} value={pos > 0 ? pos : ""} onChange={event => {setPos(parseInt(event.target.value))}} className={classnames("text-center appearance-none outline-none")} placeholder="สำรอง"/>
+              <Modal className="absolute top-1.5 right-1.5 w-5 h-5" ToggleDep={warning} closeClickOutside={false}>
+                <div className="absolute w-5 h-5 opacity-0 z-10 hover:opacity-100">
+                  <div className="absolute -top-10 -left-11">
+                    <div className={classnames("bg-white text-xs text-black w-28 shadow-md rounded-md p-2", css.tooltip)}><h1 className="text-center">ลำดับมากเกินไป</h1></div>
+                  </div>
+                  <ExclamationCircleIcon className="w-5 h-5 text-TUCMC-red-400"/>
                 </div>
-                <ExclamationCircleIcon className="w-5 h-5 text-TUCMC-red-400"/>
-              </div>
-              <ExclamationCircleIcon className="absolute w-5 h-5 z-[9] text-TUCMC-red-400"/>
-            </Modal>
-          </motion.div>
-          <div onClick={() => {
-            action.action !== "failed" ? clickAction("failed") : reset()
-          }}
-               className={classnames("flex items-center space-x-1 border rounded-md px-4 py-1 cursor-pointer", action.action === "failed" && "bg-TUCMC-red-400 text-white", userData.status === "failed" && "hidden")}>
-            <XCircleIcon className={classnames("w-5 h-5", action.action === "failed" ? "text-white" : "text-TUCMC-red-400")}/>
-            <span>ไม่รับ</span>
+                <ExclamationCircleIcon className="absolute w-5 h-5 z-[9] text-TUCMC-red-400"/>
+              </Modal>
+            </motion.div>
+            <div onClick={() => {
+              action.action !== "failed" ? clickAction("failed") : reset()
+            }}
+                 className={classnames("flex items-center space-x-1 border rounded-md px-4 py-1 cursor-pointer", action.action === "failed" && "bg-TUCMC-red-400 text-white", userData.status === "failed" && "hidden")}>
+              <XCircleIcon className={classnames("w-5 h-5", action.action === "failed" ? "text-white" : "text-TUCMC-red-400")}/>
+              <span>ไม่รับ</span>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="bg-gray-50 rounded-b-lg py-3 px-3">
-        <div className="flex space-x-1 font-medium">
-          <div onClick={update} className={classnames("flex justify-center rounded-lg cursor-pointer text-white w-1/2 py-2", action.action === "" ? "bg-TUCMC-gray-300" : "bg-TUCMC-green-400")}><span className={classnames(action.action === "" && "text-gray-500")}>ยืนยัน</span></div>
-          <div id="closeEdit" className="flex justify-center rounded-lg cursor-pointer border border-gray-300 bg-white text-gray-700 w-1/2 py-2"><span>ยกเลิก</span></div>
+        <div className="bg-gray-50 rounded-b-lg py-3 px-3">
+          <div className="flex space-x-1 font-medium">
+            <div onClick={update} className={classnames("flex justify-center rounded-lg cursor-pointer text-white w-1/2 py-2", action.action === "" ? "bg-TUCMC-gray-300" : "bg-TUCMC-green-400")}><span className={classnames(action.action === "" && "text-gray-500")}>ยืนยัน</span></div>
+            <div id="closeEdit" className="flex justify-center rounded-lg cursor-pointer border border-gray-300 bg-white text-gray-700 w-1/2 py-2"><span>ยกเลิก</span></div>
+          </div>
         </div>
       </div>
     </Modal>

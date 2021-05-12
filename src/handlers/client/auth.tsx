@@ -8,7 +8,7 @@ interface IAuthContext {
   onReady: ((callback: (logged: boolean, userData: UserData | null) => any) => any),
   signout: () => void,
   tracker: Tracker,
-  reFetch: () => Promise<void>
+  reFetch: (cause?: string) => Promise<void>
 }
 
 const AuthContext = React.createContext<IAuthContext | null>(null)
@@ -34,8 +34,9 @@ function useProvideAuth() {
   const [userData, setUserData] = useState(null)
   const [tracker, setTracker] = useState(new Tracker())
 
-  const reFetch = async () => {
+  const reFetch = async (cause: string = "") => {
     const data = await fetchUser()
+    cause !== "" && localStorage.setItem("beforeExit", cause)
     setUserData(data.userData)
     setTracker(await new Tracker().setUserID(data.userID).init())
   }

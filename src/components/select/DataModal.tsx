@@ -73,6 +73,7 @@ const DataModal = ({state, setLoader, TriggerDep, setToast, closeFunc, refetcher
               title: "พบข้อผิดพลาดของเซสชั่น",
               text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง"
             })
+            refetcher("sessionError")
             break
           case "invalid_password":
             setToast({

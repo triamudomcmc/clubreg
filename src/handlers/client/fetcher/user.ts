@@ -25,6 +25,7 @@ export const fetchUser = async (): Promise<{ userID: string, userData: {} }> => 
 
     return {userID: res.userID, userData: res.userData}
   }
+  localStorage.setItem("beforeExit","sessionError")
   return {userID: null, userData: {}}
 
 }

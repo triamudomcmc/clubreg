@@ -27,6 +27,12 @@ export const login = async (stdID, password, live, fingerPrint, req, res) => {
 
   const expires = (new Date().getTime()) + live
 
+  // destroy all active session
+  const activeSessions = await sessionsColl.where("userID","==",userDoc.id).get()
+  activeSessions.forEach(doc => {
+    doc.ref.delete()
+  })
+
   //append session to db
   const sess = await sessionsColl.add({
     userID: userDoc.id, dataRefID: userDoc.get("dataRefID"), clientfp: fingerPrint, expires: expires

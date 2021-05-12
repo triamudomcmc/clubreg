@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <>
       <div
-        className="flex flex-col items-center space-y-24 justify-center bg-TUCMC-gray-900 py-14 md:space-y-0 md:py-8">
+        className="flex flex-col items-center space-y-24 justify-center bg-TUCMC-gray-900 py-14 md:space-y-0 md:py-8 select-none">
         <div className="md:hidden flex flex-col items-center text-white text-xl space-y-4">
           <Link href="/">
             <a>หน้าแรก</a>

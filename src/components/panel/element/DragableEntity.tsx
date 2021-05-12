@@ -1,9 +1,13 @@
-import { useState, useCallback } from "react";
-import { PanInfo, AxisBox2D, BoxDelta, motion} from "framer-motion";
+import {useState, useCallback, useEffect} from "react";
+import {PanInfo, AxisBox2D, BoxDelta, motion, useAnimation, useDragControls} from "framer-motion";
 import {useItems} from "@components/panel/sections/ReservedSection";
 import {getDragStateZIndex, moveArray} from "@utilities/animationHelper";
 import LooseTypeObject from "../../../interfaces/LooseTypeObject";
 import {ListElement} from "@components/panel/element/ListElement";
+import {useLongPress} from "use-long-press";
+import classnames from "classnames"
+import {useWindowDimensions} from "@utilities/document";
+import isMobile from "is-mobile";
 
 export type FixedListProps<T> = {
   items: T[];
@@ -94,7 +98,7 @@ type FixedListItemResult = [
 
 export function useFixedListItem(
   index: number,
-  { handleChange, handleDragStart, handleDragEnd }: FixedListItemProps
+  {handleChange, handleDragStart, handleDragEnd}: FixedListItemProps
 ): FixedListItemResult {
   const [state, setState] = useState<DragState>("idle");
 
@@ -124,34 +128,92 @@ type FixedSizeItemProps = {
   data: LooseTypeObject<any>,
   editable: boolean,
   editFunc: () => {},
+  dragable: boolean,
   itemProps: FixedListItemProps;
 };
 
+const tapVariants = {
+  tap: {
+    opacity: 0.1
+  },
+  idle: {
+    opacity: 0
+  }
+}
+
 function DragableEntity({
-                         index, data,editable,
-                         itemProps,editFunc
-                       }: FixedSizeItemProps) {
+                          index, data, editable,
+                          itemProps, editFunc, dragable
+                        }: FixedSizeItemProps) {
   const [dragState, eventHandlers] = useFixedListItem(index, itemProps);
+
+  const dragControls = useDragControls()
+
+  function startDrag(event) {
+    dragControls.start(event, { snapToCursor: true })
+  }
 
   return (
     <li
-      className="hover:z-10 relative cursor-pointer"
+      className="relative cursor-pointer"
     >
       <motion.div
         layout
         initial={false}
-        drag="y"
+        drag={dragable ? "y" : false}
+        onPointerDown={startDrag}
+        dragControls={dragControls}
         style={{padding: 0}}
         {...eventHandlers}
       >
+        <motion.div className="bg-TUCMC-gray-700 absolute h-full w-full" initial="idle" whileTap="tap" variants={tapVariants}/>
         <ListElement index={data.position} userData={data} editable={editable} editFunc={editFunc}/>
       </motion.div>
     </li>
   );
 }
 
-export function DragableList({editable, editFunc}) {
+const getRandomTransformOrigin = () => {
+  const value = (16 + 40 * Math.random()) / 100;
+  const value2 = (15 + 36 * Math.random()) / 100;
+  return {
+    originX: value,
+    originY: value2
+  };
+};
+
+const getRandomDelay = () => -(Math.random() * 0.7 + 0.05);
+
+const randomDuration = () => Math.random() * 0.07 + 0.23;
+
+const checkOffset = (pram1: number, pram2: number, offset: number) => {
+  return Math.abs(pram1 - pram2) <= offset
+}
+
+export function DragableList({editable, editFunc, dragable, setDragMode}) {
   const [items, setItems] = useItems();
+  const [TapnHold, setTapnHold] = useState(setTimeout(() => {}, 1000))
+  const [initialPos, setInitialPos] = useState([0,0])
+  const [prevent, setPrevent] = useState(false)
+
+  const {width} = useWindowDimensions()
+
+  const scale = 0.2 * (1 / (width / 1000))
+
+  const variants = {
+    start: (i) => ({
+      rotate: i % 2 === 0 ? [-1 * scale, 1.3 * scale, 0 * scale] : [1 * scale, -1.4 * scale, 0 * scale],
+      transition: {
+        delay: getRandomDelay(),
+        repeat: Infinity,
+        duration: randomDuration()
+      }
+    }),
+    reset: {
+      rotate: 0
+    }
+  };
+
   const onPositionUpdate = useCallback(
     (startIndex: number, endIndex: number) => {
       setItems(moveArray(items, startIndex, endIndex));
@@ -159,23 +221,64 @@ export function DragableList({editable, editFunc}) {
     [items, setItems]
   );
 
+  const bind = useLongPress(() => {
+    setDragMode(true)
+  });
+
+  const controls = useAnimation();
+  const offset = 10
+
   const props = useFixedList({
     items,
     swapDistance: 60,
     onPositionUpdate
   });
 
+  useEffect(() => {
+    if (dragable) {
+      controls.start("start");
+    } else {
+      controls.stop();
+      controls.set("reset");
+    }
+  }, [dragable])
+
   return (
     <ul>
       {items.map((item, i) => (
-        <DragableEntity
-          key={item.id}
-          data={item}
-          index={i}
-          editFunc={editFunc}
-          editable={editable}
-          itemProps={props}
-        />
+        <motion.div
+          custom={i}
+          className="relative hover:z-30"
+          variants={variants}
+          animate={controls}
+          style={getRandomTransformOrigin()}
+          whileTap={dragable ? {scale: 1.03} : {scale: 1}}
+          onTapStart={(event) => {
+            // @ts-ignore
+            setInitialPos([event.clientX, event.clientY])
+            setTapnHold(setTimeout(() => {
+              setDragMode(true)
+            }, 1000))
+          }}
+
+          onPointerMove={(event) => {
+            if (checkOffset(event.clientX, initialPos[0], offset) && checkOffset(event.clientY, initialPos[1], offset)) return
+            return isMobile() && clearTimeout(TapnHold)
+          }}
+
+          onPointerUp={() => {clearTimeout(TapnHold)}}
+          key={`shakeWrapper${item.id}`}
+        >
+            <DragableEntity
+              key={item.id}
+              data={item}
+              index={i}
+              dragable={dragable}
+              editFunc={editFunc}
+              editable={editable}
+              itemProps={props}
+            />
+        </motion.div>
       ))}
     </ul>
   );

@@ -4,6 +4,7 @@ import {Tracker} from "@client/tracker/track";
 import {useAuth} from "@client/auth";
 import LooseTypeObject from "../../interfaces/LooseTypeObject";
 import classnames from "classnames"
+import {Full, Vacant} from "@vectors/texts/ClubStates";
 
 interface props {
   data: LooseTypeObject<string>,
@@ -31,18 +32,18 @@ const ClubList = ({data, action, setToast}: props) => {
   }
 
   return (
-    <div className={classnames("rounded-lg custom-shadow bg-white cursor-pointer", data.blocked && "bg-TUCMC-gray-100")} onClick={click}>
+    <div className={classnames("flex rounded-lg custom-shadow bg-white cursor-pointer", data.blocked && "bg-TUCMC-gray-100")} onClick={click}>
+      {!data.audition && (data.new_count < data.new_count_limit ? <div
+        className={classnames("flex items-center font-medium rounded-l-lg bg-TUCMC-green-400 text-white w-3 pl-[1px]", data.blocked && "bg-TUCMC-gray-400")}>
+        <Vacant/></div> : <div
+        className={classnames("flex items-center font-medium rounded-l-lg bg-TUCMC-red-400 text-white w-3 pl-[3px]", data.blocked && "bg-TUCMC-gray-400")}>
+        <Full/></div>)}
       <div className="flex flex-col tracking-tight py-6 px-6 space-y-1.5">
         <h1>ชมรม{data.title}</h1>
-        {data.audition ? <div className="flex text-TUCMC-red-400 space-x-1"><StarIcon
+        {data.audition ? <div className="flex text-TUCMC-pink-400 space-x-1"><StarIcon
           className="w-4 h-4 mt-1"/><span className="leading-6">มีการ Audition</span></div>: <div className="flex text-TUCMC-blue-400 space-x-1"><ClipboardCopyIcon
           className="w-4 h-4 mt-1"/><span className="leading-6">ไม่มีการ Audition</span></div>}
       </div>
-      {!data.audition && (data.new_count < data.new_count_limit ? <div
-        className={classnames("flex justify-center text-sm font-medium rounded-b-lg bg-TUCMC-green-400 text-white py-4", data.blocked && "bg-TUCMC-gray-400")}>
-        <span>มีที่นั่งว่าง</span></div> : <div
-        className={classnames("flex justify-center text-sm font-medium rounded-b-lg bg-TUCMC-red-400 text-white py-4", data.blocked && "bg-TUCMC-gray-400")}>
-        <span>เต็ม</span></div>)}
     </div>
   )
 }

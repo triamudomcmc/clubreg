@@ -8,6 +8,8 @@ import LooseTypeObject from "../../../interfaces/LooseTypeObject";
 import {isEmpty} from "@utilities/object";
 import {submitPending, updatePosition} from "@client/fetcher/panel";
 import {useAuth} from "@client/auth";
+import {motion, useAnimation} from "framer-motion"
+import {detectOuside} from "@utilities/document";
 
 const ItemsContext = createContext<
   [LooseTypeObject<any>[], (setItems: LooseTypeObject<any>) => void]
@@ -18,6 +20,9 @@ export const ReservedSection = ({display, refetch, userData, editable, editFunc}
   const [items, setItems] = useState<LooseTypeObject<any>[]>([]);
   const [updateEvent, setUpdateEvent] = useState(setTimeout(() => {}, 1000))
   const [blockRerender, setBRrender] = useState(false)
+  const [dragMode, setDragMode] = useState(false)
+
+  const innerItemRef = useRef(null)
 
   const {onReady} = useAuth()
 
@@ -54,10 +59,15 @@ export const ReservedSection = ({display, refetch, userData, editable, editFunc}
     }
   }
 
+  detectOuside(innerItemRef, dragMode, () => {
+    setDragMode(false)
+  })
+
   return (
-    <div className={classnames("select-none",display ? "block" : "hidden")}>
+    <div ref={innerItemRef} className={classnames("select-none", display ? "block" : "hidden")}>
+      <motion.div onClick={() => {setDragMode(false)}} className="fixed top-20 px-4 py-1 rounded-full right-6 bg-TUCMC-gray-700 bg-opacity-50 text-white text-sm z-[90] cursor-pointer" animate={dragMode ? {opacity: 1} : {opacity: 0}}>เสร็จสิ้น</motion.div>
       <ItemsContext.Provider value={[items, setItems]}>
-        <DragableList editable={editable} editFunc={editFunc}/>
+          <DragableList editable={editable} editFunc={editFunc} dragable={dragMode} setDragMode={setDragMode}/>
       </ItemsContext.Provider>
     </div>
   )

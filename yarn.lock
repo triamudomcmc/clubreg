@@ -1960,6 +1960,11 @@ is-glob@^4.0.1, is-glob@~4.0.1:
   dependencies:
     is-extglob "^2.1.1"
 
+is-mobile@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/is-mobile/-/is-mobile-3.0.0.tgz#683005f3a40adbc0ca5867e1d5e75d7bbf66d764"
+  integrity sha512-UruBjgykgDJ5zRpJ8Zgh9ZUe4jQaHD8klX9FlkOt0oPyu3FpwJpxHvKg4+lhJOWGxSrMKsRuPFk60xeltvyliQ==
+
 is-nan@^1.2.1:
   version "1.3.2"
   resolved "https://registry.npmjs.org/is-nan/-/is-nan-1.3.2.tgz"
@@ -2363,6 +2368,11 @@ mkdirp-classic@^0.5.2:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/mkdirp-classic/-/mkdirp-classic-0.5.3.tgz"
   integrity sha512-gKLcREMhtuZRwRAfqP3RFW+TK4JqApVBtOIftVgjuABpAtpxhPGaDcfvbhNvD0B8iD1oUr/txX35NjcaY6Ns/A==
+
+mobile-detect@^1.4.5:
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/mobile-detect/-/mobile-detect-1.4.5.tgz#da393c3c413ca1a9bcdd9ced653c38281c0fb6ad"
+  integrity sha512-yc0LhH6tItlvfLBugVUEtgawwFU2sIe+cSdmRJJCTMZ5GEJyLxNyC/NIOAOGk67Fa8GNpOttO3Xz/1bHpXFD/g==
 
 modern-normalize@^1.0.0:
   version "1.0.0"
@@ -3651,6 +3661,11 @@ url@^0.11.0:
   dependencies:
     punycode "1.3.2"
     querystring "0.2.0"
+
+use-long-press@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/use-long-press/-/use-long-press-1.0.5.tgz#b5e3ac557342421ff60313d41b0c3c1c2ae55ca0"
+  integrity sha512-8KxGqU0m0BeTbmk3LLNUUA3okO0v59D6mwAlxByViT94vIvW3/CASOM8ZFQLfHvizF2Zr94LEg7kzo8Coi6Qjw==
 
 use-subscription@1.5.1:
   version "1.5.1"

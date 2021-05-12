@@ -43,21 +43,14 @@ export const sortAudition = (arr: any, inverted = false) => {
 }
 
 export const searchKeyword = (arr: any, keyword: string) => {
-  let top = [], bottom = []
+  let topPrimary = [],topSecondary = [], bottom = []
   const keyLength = keyword.length
   arr.forEach((val) => {
-    if (keyword === val.title.slice(0, keyLength)) return top.push(val)
+    if (keyword === val.title.slice(0, keyLength)) return topPrimary.push(val)
+    if (val.title.includes(keyword)) return topSecondary.push(val)
     return bottom.push(val)
   })
-  if (top.length < 1) {
-    top = []
-    bottom = []
-    arr.forEach((val) => {
-      if (val.title.includes(keyword)) return top.push(val)
-      return bottom.push(val)
-    })
-  }
-  return [...top, ...bottom]
+  return [...topPrimary, ...topSecondary, ...bottom]
 }
 
 export const objToArr = (obj: any) => {

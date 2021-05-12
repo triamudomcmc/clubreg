@@ -18,7 +18,7 @@ import {fetchAClub} from "@client/fetcher/club";
 import {Editor} from "@components/panel/element/Editor";
 import Toast from "@components/common/Toast";
 
-const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetStateAction<{}>>, setReservedPos: Dispatch<SetStateAction<{}>>) => {
+const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetStateAction<{}>>, setReservedPos: Dispatch<SetStateAction<{}>>, setToast, reFetch) => {
   const data = await fetchMembers(panelID)
   const obj = {
     waiting: [],
@@ -40,6 +40,26 @@ const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetState
     })
     setMemberData(obj)
     setReservedPos(reservedPos)
+  }else{
+    switch (data.report) {
+      case "sessionError":
+        setToast({
+          theme:"modern",
+          icon: "cross",
+          title: "พบข้อผิดพลาดของเซสชั่น",
+          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง"
+        })
+        reFetch("sessionError")
+        break
+      case "invalidPermission":
+        setToast({
+          theme:"modern",
+          icon: "cross",
+          title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
+          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช."
+        })
+        break
+    }
   }
 }
 
@@ -50,7 +70,7 @@ const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateActio
 
 const Index = () => {
 
-  const {onReady} = useAuth()
+  const {onReady, reFetch} = useAuth()
 
   const [sortMode, setSortMode] = useState("")
   const [searchContext, setSearchContext] = useState("")
@@ -84,7 +104,7 @@ const Index = () => {
   })
 
   const refetch = () => {
-    fetchMemberData(userData.panelID, setMemberData, setReservedPos)
+    fetchMemberData(userData.panelID, setMemberData, setReservedPos, setToast, reFetch)
     fetchClubData(userData.panelID, setClubData)
   }
 
@@ -99,6 +119,26 @@ const Index = () => {
     const res = await submitPending(userData.panelID, pendingUpdate)
     if (res.status) {
       refetch()
+    }else{
+      switch (res.report) {
+        case "sessionError":
+          setToast({
+            theme:"modern",
+            icon: "cross",
+            title: "พบข้อผิดพลาดของเซสชั่น",
+            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง"
+          })
+          reFetch("sessionError")
+          break
+        case "invalidPermission":
+          setToast({
+            theme:"modern",
+            icon: "cross",
+            title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
+            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช."
+          })
+          break
+      }
     }
   }
 

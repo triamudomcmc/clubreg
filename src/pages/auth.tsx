@@ -1,5 +1,5 @@
 import PageContainer from "@components/common/PageContainer";
-import React, {Fragment, useState} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import {DefaultCard} from "@components/common/Cards";
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
@@ -37,6 +37,21 @@ const Auth = ({query}) => {
     )
     setAction("register")
   }
+
+  useEffect(() => {
+    const cause = localStorage.getItem("beforeExit")
+    switch (cause) {
+      case "sessionError" :
+        setToast({
+          theme:"modern",
+          icon: "cross",
+          title: "พบข้อผิดพลาดของเซสชั่น",
+          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง"
+        })
+        break
+    }
+    localStorage.setItem("beforeExit","")
+  }, [])
 
   return (
     <PageContainer footer={false}>
