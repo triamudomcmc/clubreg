@@ -25,8 +25,7 @@ const Auth = ({query}) => {
         return Router.push("/card")
       }
       const lastVisited = localStorage.getItem("lastVisited")
-      console.log(lastVisited)
-      if (lastVisited !== "") return Router.push(lastVisited)
+      if (lastVisited && lastVisited !== "") return Router.push(lastVisited)
       Router.push("/select")
     }
   })
