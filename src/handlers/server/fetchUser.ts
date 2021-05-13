@@ -52,7 +52,7 @@ export const fetchUserCredentials = async (req, res) => {
 
   const rawData = userData.get("authorised")
   const authorisedArr = rawData ? Object.keys(rawData).map(key => {
-    return {...{id: key, browser: rawData[key].browser, os: rawData[key].os, device: rawData[key].device, cpu: rawData[key].cpu, ip: rawData[key].ip}, self: req.body.fingerPrint === key}
+    return {...{id: key, browser: rawData[key].browser, os: rawData[key].os, device: rawData[key].device, cpu: rawData[key].cpu, ip: rawData[key].ip}, self: req.body.fingerPrint === rawData[key].fingerPrint}
   }): []
 
   return {status: true, report: "success", data: {
