@@ -12,7 +12,6 @@ import {Switch} from '@headlessui/react'
 import css from "@components/panel/element/bubble.module.css";
 import Modal from "@components/common/Modals";
 import {addBrowser, removeBrowser, toggleSafeMode} from "@client/accManagement";
-import {isEmpty} from "@utilities/object";
 import {clubMap} from "../config/clubMap";
 
 const fetchCred = async (setUserCred, errHandler) => {
