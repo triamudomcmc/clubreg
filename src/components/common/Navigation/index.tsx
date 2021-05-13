@@ -9,7 +9,7 @@ import classnames from "classnames"
 import {useAuth} from "@client/auth";
 import {
   CalendarIcon, ChatIcon,
-  ClipboardListIcon, DocumentTextIcon,
+  ClipboardListIcon, CogIcon, DocumentTextIcon,
   HomeIcon, KeyIcon,
   LoginIcon,
   LogoutIcon,
@@ -137,6 +137,8 @@ const Navigation = () => {
                       {userData && userData.club === "" &&
                       <Link href="/select"><h1 className="text-black cursor-pointer hover:text-blue-600 hover:underline">เลือกชมรม</h1>
                       </Link>}
+                      <Link href="/account"><h1 className="text-black cursor-pointer hover:text-blue-600 hover:underline">จัดการบัญชี</h1>
+                      </Link>
                       {!logged ? <Link href="/auth"><h1
                           className="text-black cursor-pointer hover:text-blue-600 hover:underline">เข้าสู่ระบบ</h1></Link> :
                         <h1 onClick={signout}
@@ -198,7 +200,14 @@ const Navigation = () => {
             <div
                 className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/panel", "bg"))}>
                 <TerminalIcon className={classnames("w-7 h-7", getClass("/panel", "icon"))}/> <span
-                className={getClass("/clubs", "font")}>แผงควบคุม</span>
+                className={getClass("/panel", "font")}>แผงควบคุม</span>
+            </div>
+        </Link>}
+        {(logged) && <Link href="/account">
+            <div
+                className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/account", "bg"))}>
+                <CogIcon className={classnames("w-7 h-7", getClass("/account", "icon"))}/> <span
+                className={getClass("/account", "font")}>จัดการบัญชี</span>
             </div>
         </Link>}
         <Link href="/clubs">
