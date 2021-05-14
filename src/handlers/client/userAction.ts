@@ -1,6 +1,6 @@
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 
-export const regClub = async (phone: string, password: string, clubID: string) => {
+export const regClub = async (phone: string, password: string, clubID: string, oldClubConfirm: boolean) => {
 
   const fp = await FingerprintJS.load()
   const fingerPrint = await fp.get();
@@ -10,6 +10,7 @@ export const regClub = async (phone: string, password: string, clubID: string) =
     clubID: clubID,
     phone: phone,
     password: password,
+    oldClubConfirm: oldClubConfirm,
     fingerPrint: fingerPrint.visitorId
   }
 

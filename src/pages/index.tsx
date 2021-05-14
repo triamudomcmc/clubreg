@@ -64,7 +64,7 @@ const Index = () => {
               </div>
               <div className="hidden md:block font-medium text-white px-1">
                 <p>ระบบจะเปิดให้ลงทะเบียนชมรม</p>
-                <p>ในวันที่ 17 พ.ค. 2564 เวลา 11.30 น.</p>
+                <p>ในวันที่ 1 มิ.ย. 2564 เวลา 11.30 น.</p>
               </div>
             </div>
           </div>
@@ -101,7 +101,7 @@ const Index = () => {
               <InformationCircleIcon className="w-6 h-6"/>
               <div className="font-medium">
                 <p>ระบบจะเปิดให้ลงทะเบียนชมรม</p>
-                <p>ในวันที่ 17 พ.ค. 2564 เวลา 11.30 น.</p>
+                <p>ในวันที่ 1 มิ.ย. 2564 เวลา 11.30 น.</p>
               </div>
             </div>
           </div>
@@ -111,6 +111,7 @@ const Index = () => {
                 className="mx-6 space-y-8 md:w-full md:max-w-6xl md:flex md:flex-col xl:flex-row xl:items-center xl:space-y-0 xl:space-x-4 md:items-center">
                 <div className="md:flex md:flex-row md:space-x-4 space-y-8 md:space-y-0">
                   <Button
+                    type="div"
                     className="flex flex-row items-end justify-between shadow-lg bg-TUCMC-pink-400 md:bg-white rounded-xl md:rounded-lg px-7 pt-4 pb-6">
                     <div className="md:hidden">
                       <h1
@@ -131,6 +132,7 @@ const Index = () => {
                          src="/assets/images/menu1-2.png"/>
                   </Button>
                   <Button
+                    type="div"
                     href="/instruction"
                     className="flex flex-row items-center justify-between shadow-lg bg-white rounded-xl md:rounded-lg px-7 py-5">
                     <div className="flex-shrink-0 w-1/2">
@@ -141,7 +143,7 @@ const Index = () => {
                   </Button>
                 </div>
                 <div className="md:flex md:flex-row md:space-x-4 space-y-8 md:space-y-0">
-                  <Button href="/clubs" className="flex flex-row items-center justify-between shadow-lg bg-white rounded-xl md:rounded-lg px-7 pb-4 pt-2">
+                  <Button type="div" href="/clubs" className="flex flex-row items-center justify-between shadow-lg bg-white rounded-xl md:rounded-lg px-7 pb-4 pt-2">
                     <div>
                       <h1
                         className="text-TUCMC-pink-400 font-bold tracking-tighter text-5xl">ชมรม</h1>
@@ -149,6 +151,7 @@ const Index = () => {
                     <img className="w-32 md:w-28 md:pl-2" src="/assets/images/menu3.png"/>
                   </Button>
                   <Button
+                    type="div"
                     className="flex flex-row items-center justify-between shadow-lg bg-white rounded-xl md:rounded-lg px-7 py-5">
                     <div>
                       <h1
