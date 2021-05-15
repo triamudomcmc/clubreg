@@ -1,15 +1,29 @@
 import {ClipboardCopyIcon, StarIcon} from "@heroicons/react/solid";
+import Image from "next/image"
+import LinesEllipsis from 'react-lines-ellipsis'
+import {motion} from "framer-motion"
+import Link from "next/link"
 
-export const ClubCard = ({audition = false}) => {
+export const ClubCard = ({ data }) => {
   return(
-    <div className="flex flex-col rounded-lg minClubs2:mx-1 my-1 mx-10 shadow-md w-full minClubs2:w-175px minClubs:w-185px">
-      <img className="object-cover rounded-t-lg w-full" width="185" height="102" src="/assets/images/placeholder/thumb1.png"/>
-      <div className="px-2 bg-white rounded-b-lg py-2 space-y-2.5">
-        <h1 className="text-sm tracking-tight">ชมรมสีสรรพ์ภาษาต่างประเทศที่ 2 (French Chorus)</h1>
-        {audition ? <div className="flex text-xs text-TUCMC-red-400 space-x-1"><StarIcon
-          className="w-4 h-4 mt-1"/><span className="leading-6">มีการ Audition</span></div>:<div className="flex text-xs text-TUCMC-blue-400 space-x-1"><ClipboardCopyIcon
-          className="w-4 h-4 mt-1"/><span className="leading-6">ไม่มีการ Audition</span></div>}
-      </div>
-    </div>
+    <Link href={`/clubs/${data.clubID}`}>
+      <motion.div whileHover={{scale: 1.03}} className="flex flex-col rounded-lg minClubs2:mx-1 my-1 mx-10 shadow-md w-full minClubs2:w-175px minClubs:w-185px cursor-pointer">
+        <Image className="object-cover rounded-t-lg w-full" width="185" height="102" src={`/assets/thumbnails/${data.clubID}.jpg`}/>
+        <div className="px-2 bg-white rounded-b-lg py-2 space-y-2.5">
+          <div className="h-[40px]">
+            <LinesEllipsis text={`ชมรม${data.name}`}
+                           maxLine='2'
+                           ellipsis='...'
+                           trimRight
+                           className="text-sm tracking-tight"
+                           basedOn='letters'
+            />
+          </div>
+          {data.audition ? <div className="flex text-xs text-TUCMC-pink-400 space-x-1"><StarIcon
+            className="w-4 h-4 mt-1"/><span className="leading-6">มีการ Audition</span></div>:<div className="flex text-xs text-TUCMC-blue-400 space-x-1"><ClipboardCopyIcon
+            className="w-4 h-4 mt-1"/><span className="leading-6">ไม่มีการ Audition</span></div>}
+        </div>
+      </motion.div>
+    </Link>
   )
 }

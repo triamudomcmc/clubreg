@@ -1,314 +1,302 @@
-{
-  "ก30920-8": {
-    "title": "นันทนาการกีฬา (ผู้นําเชียร์โรงเรียน)",
-    "audition": true
-  },
-  "ก30905-11": {
-    "title": "ภาษาอังกฤษ (Quiz)",
-    "audition": false
-  },
-  "ก30905-9": {
-    "title": "ภาษาอังกฤษ (นักเรียนแลกเปลี่ยน)",
-    "audition": false
-  },
-  "ก30903-5": {
-    "title": "สังคมศึกษา (พระพุทธศาสนา)",
-    "audition": false
-  },
-  "ก30943": {
-    "title": "พัฒนาศักยภาพทางวิทยาศาสตร์",
-    "audition": true
-  },
-  "ก30921": {
-    "title": "หมากกระดาน",
-    "audition": true
-  },
-  "ก30932": {
-    "title": "ขับร้องประสานเสียง",
-    "audition": true
-  },
-  "ก30905-2_2": {
-    "title": "ภาษาอังกฤษ (English Drama) ฝ่าย Stage Crew",
-    "audition": true
-  },
-  "ก30941_3": {
-    "title": "การ์ตูน ฝ่ายฟิคชัน",
-    "audition": true
-  },
-  "ก30905-2_7": {
-    "title": "ภาษาอังกฤษ (English Drama) ฝ่าย Editor",
-    "audition": true
-  },
-  "ก30951": {
-    "title": "โลกศาสตร์",
-    "audition": false
-  },
-  "ก30910": {
-    "title": "ศาสนาและวัฒนธรรมไทย",
-    "audition": false
-  },
-  "ก30947": {
-    "title": "เศรษฐศาสตร์",
-    "audition": false
-  },
-  "ก30905-6": {
-    "title": "ภาษาอังกฤษ (English Skills M.5)",
-    "audition": false
-  },
-  "ก30916": {
-    "title": "ศิลปศึกษา",
-    "audition": true
-  },
-  "ก30941_2": {
-    "title": "การ์ตูน ฝ่ายร้องเพลง",
-    "audition": true
-  },
-  "ก30941_1": {
-    "title": "การ์ตูน ฝ่ายศิลป์",
-    "audition": true
-  },
-  "ก30915_3": {
-    "title": "ดนตรีสากล ฝ่าย Technician",
-    "audition": true
-  },
-  "ก30905-7": {
-    "title": "ภาษาอังกฤษ (English Skills M.4)",
-    "audition": false
-  },
-  "ก30901-3": {
-    "title": "คณิตศาสตร์ (หมากล้อม)",
-    "audition": false
-  },
-  "ก30950": {
-    "title": "สันทนากร",
-    "audition": true
-  },
-  "ก30911": {
-    "title": "นาฏศิลป์",
-    "audition": false
-  },
-  "ก30941_4": {
-    "title": "การ์ตูน ฝ่ายคอสเพลย์",
-    "audition": true
-  },
-  "ก30953": {
-    "title": "เพื่อนที่ปรึกษา",
-    "audition": true
-  },
-  "ก30952-3": {
-    "title": "สีสรรพ์ภาษาต่างประเทศที่ 2 (ญี่ปุ่น)",
-    "audition": true
-  },
-  "ก30915_2": {
-    "title": "ดนตรีสากล ฝ่าย Chamber",
-    "audition": true
-  },
-  "ก30952-1": {
-    "title": "สีสรรพ์ภาษาต่างประเทศที่ 2 (French Chorus)",
-    "audition": true
-  },
-  "ก30942_1": {
-    "title": "ชมรมนิเทศศิลป ฝ่ายนิตยสาร",
-    "audition": true
-  },
-  "ก30942_4": {
-    "title": "ชมรมนิเทศศิลป ฝ่ายออกแบบ",
-    "audition": true
-  },
-  "ก30902": {
-    "title": "วิทยาศาสตร์",
-    "audition": false
-  },
-  "ก30934": {
-    "title": "กฎหมายน่ารู้",
-    "audition": true
-  },
-  "ก30927": {
-    "title": "คอมพิวเตอร์",
-    "audition": false
-  },
-  "ก30918": {
-    "title": "ดุริยางค์",
-    "audition": false
-  },
-  "ก30905-2_6": {
-    "title": "ภาษาอังกฤษ (English Drama) ฝ่าย PR Staff",
-    "audition": true
-  },
-  "ก30905-2_1": {
-    "title": "ภาษาอังกฤษ (English Drama) ฝ่าย Actor",
-    "audition": true
-  },
-  "ก30909": {
-    "title": "ห้องสมุด",
-    "audition": false
-  },
-  "ก30923": {
-    "title": "ผู้นําเยาวชนสาธารณสุขฯ",
-    "audition": false
-  },
-  "ก30925": {
-    "title": "เพาะพันธุ์ไม้",
-    "audition": true
-  },
-  "ก30905-2_3": {
-    "title": "ภาษาอังกฤษ (English Drama) ฝ่าย Costume Designer",
-    "audition": true
-  },
-  "ก30905-10": {
-    "title": "ภาษาอังกฤษ (Public Speaking)",
-    "audition": false
-  },
-  "ก30924": {
-    "title": "อนุรักษ์ธรรมชาติฯ",
-    "audition": false
-  },
-  "ก30952-7": {
-    "title": "สีสรรพ์ภาษาต่างประเทศที่ 2 (เยอรมัน)",
-    "audition": false
-  },
-  "ก30905-3": {
-    "title": "ภาษาอังกฤษ (Debate)",
-    "audition": true
-  },
-  "ก30904": {
-    "title": "ภาษาไทย",
-    "audition": false
-  },
-  "ก30905-13": {
-    "title": "ภาษาอังกฤษ (Oracle)",
-    "audition": false
-  },
-  "ก30915_1": {
-    "title": "ดนตรีสากล ฝ่าย Band",
-    "audition": true
-  },
-  "ก30903-3": {
-    "title": "สังคมศึกษา (หนังสังคม)",
-    "audition": true
-  },
-  "ก30905-2_5": {
-    "title": "ภาษาอังกฤษ (English Drama) ฝ่าย Hair Stylist",
-    "audition": true
-  },
-  "ก30905-14": {
-    "title": "ภาษาอังกฤษ (Language and Intercultural Communication)",
-    "audition": false
-  },
-  "ก30946_4": {
-    "title": "ภาพยนตร์สั้นและสื่อโทรทัศน์ ฝ่ายกำกับ",
-    "audition": true
-  },
-  "ก30946_1": {
-    "title": "ภาพยนตร์สั้นและสื่อโทรทัศน์ ฝ่ายกล้อง",
-    "audition": true
-  },
-  "ก30922": {
-    "title": "ผู้บําเพ็ญประโยชน์",
-    "audition": false
-  },
-  "ก30952-2": {
-    "title": "สีสรรพ์ภาษาต่างประเทศที่ 2 (ฝรั่งเศส)",
-    "audition": true
-  },
-  "ก30946_2": {
-    "title": "ภาพยนตร์สั้นและสื่อโทรทัศน์ ฝ่ายเขียนบท",
-    "audition": true
-  },
-  "ก30945": {
-    "title": "หุ่นยนต์",
-    "audition": true
-  },
-  "ก30952-6": {
-    "title": "สีสรรพ์ภาษาต่างประเทศที่ 2 (เกาหลี)",
-    "audition": false
-  },
-  "ก30905-2_4": {
-    "title": "ภาษาอังกฤษ (English Drama) ฝ่าย Makeup Artist",
-    "audition": true
-  },
-  "ก30903-4": {
-    "title": "สังคมศึกษา (TU activist)",
-    "audition": true
-  },
-  "ก30905-2_8": {
-    "title": "ภาษาอังกฤษ (English Drama) ฝ่าย Music Director",
-    "audition": true
-  },
-  "ก30905-1": {
-    "title": "ภาษาอังกฤษ (MUN)",
-    "audition": true
-  },
-  "ก30901": {
-    "title": "คณิตศาสตร์",
-    "audition": false
-  },
-  "ก30946_3": {
-    "title": "ภาพยนตร์สั้นและสื่อโทรทัศน์ ฝ่ายตัดต่อ",
-    "audition": true
-  },
-  "ก30912": {
-    "title": "วาทศิลป์",
-    "audition": true
-  },
-  "ก30913": {
-    "title": "วรรณศิลป์ต.อ.",
-    "audition": false
-  },
-  "ก30905-4": {
-    "title": "ภาษาอังกฤษ (Crossword)",
-    "audition": true
-  },
-  "ก30905-8": {
-    "title": "English Skills (Vocabulary) M.4",
-    "audition": false
-  },
-  "ก30901-2": {
-    "title": "คณิตศาสตร์ (E-Sport)",
-    "audition": true
-  },
-  "ก30937": {
-    "title": "สร้างสรรค์หนังสือ",
-    "audition": false
-  },
-  "ก30942_3": {
-    "title": "ชมรมนิเทศศิลป ฝ่ายละครเวที",
-    "audition": true
-  },
-  "ก30952-5": {
-    "title": "สีสรรพ์ภาษาต่างประเทศที่ 2 (สเปน)",
-    "audition": false
-  },
-  "ก30903-1": {
-    "title": "สังคมศึกษา (ภาคีสังคมศึกษา)",
-    "audition": true
-  },
-  "ก30952-4": {
-    "title": "สีสรรพ์ภาษาต่างประเทศที่ 2 (จีน)",
-    "audition": false
-  },
-  "ก30909-1": {
-    "title": "ห้องสมุด (บอร์ดเกม)",
-    "audition": true
-  },
-  "ก30903-2": {
-    "title": "สังคมศึกษา (หลากทัศนะประวัติศาสตร์)",
-    "audition": true
-  },
-  "ก30942_2": {
-    "title": "ชมรมนิเทศศิลป ฝ่ายแฟชั่น",
-    "audition": true
-  },
-  "ก30948": {
-    "title": "วิทยาศาสตร์โลกทั้งระบบ",
-    "audition": false
-  },
-  "ก30901-1": {
-    "title": "คณิตศาสตร์ (A-Math)",
-    "audition": true
-  },
-  "ก30914": {
-    "title": "ดนตรีไทย",
-    "audition": false
+[
+  {
+    "name": "ผู้นําเยาวชนสาธารณสุขฯ",
+    "audition": false,
+    "clubID": "ก30923"
+  },
+  {
+    "name": "คณิตศาสตร์ (A-Math)",
+    "audition": true,
+    "clubID": "ก30901-1"
+  },
+  {
+    "name": "ดุริยางค์",
+    "audition": false,
+    "clubID": "ก30918"
+  },
+  {
+    "name": "เศรษฐศาสตร์",
+    "audition": false,
+    "clubID": "ก30947"
+  },
+  {
+    "name": "ดนตรีไทย",
+    "audition": false,
+    "clubID": "ก30914"
+  },
+  {
+    "name": "วาทศิลป์",
+    "audition": true,
+    "clubID": "ก30912"
+  },
+  {
+    "name": "ชมรมนิเทศศิลป",
+    "audition": true,
+    "clubID": "ก30942"
+  },
+  {
+    "name": "ศาสนาและวัฒนธรรมไทย",
+    "audition": false,
+    "clubID": "ก30910"
+  },
+  {
+    "name": "สีสรรพ์ภาษาต่างประเทศที่ 2 (ญี่ปุ่น)",
+    "audition": true,
+    "clubID": "ก30952-3"
+  },
+  {
+    "name": "ภาพยนตร์สั้นและสื่อโทรทัศน์",
+    "audition": true,
+    "clubID": "ก30946"
+  },
+  {
+    "name": "ดนตรีสากล",
+    "audition": true,
+    "clubID": "ก30915"
+  },
+  {
+    "name": "ห้องสมุด",
+    "audition": false,
+    "clubID": "ก30909"
+  },
+  {
+    "name": "ห้องสมุด (บอร์ดเกม)",
+    "audition": true,
+    "clubID": "ก30909-1"
+  },
+  {
+    "name": "นันทนาการกีฬา (ผู้นําเชียร์โรงเรียน)",
+    "audition": true,
+    "clubID": "ก30920-8"
+  },
+  {
+    "name": "คณิตศาสตร์ (หมากล้อม)",
+    "audition": false,
+    "clubID": "ก30901-3"
+  },
+  {
+    "name": "กฎหมายน่ารู้",
+    "audition": true,
+    "clubID": "ก30934"
+  },
+  {
+    "name": "สีสรรพ์ภาษาต่างประเทศที่ 2 (สเปน)",
+    "audition": false,
+    "clubID": "ก30952-5"
+  },
+  {
+    "name": "การ์ตูน",
+    "audition": true,
+    "clubID": "ก30941"
+  },
+  {
+    "name": "เพาะพันธุ์ไม้",
+    "audition": true,
+    "clubID": "ก30925"
+  },
+  {
+    "name": "คณิตศาสตร์ (E-Sport)",
+    "audition": true,
+    "clubID": "ก30901-2"
+  },
+  {
+    "name": "วิทยาศาสตร์",
+    "audition": false,
+    "clubID": "ก30902"
+  },
+  {
+    "name": "นันทนาการกีฬา",
+    "audition": true,
+    "clubID": "ก30920"
+  },
+  {
+    "name": "หุ่นยนต์",
+    "audition": true,
+    "clubID": "ก30945"
+  },
+  {
+    "name": "เพื่อนที่ปรึกษา",
+    "audition": true,
+    "clubID": "ก30953"
+  },
+  {
+    "name": "อนุรักษ์ธรรมชาติฯ",
+    "audition": false,
+    "clubID": "ก30924"
+  },
+  {
+    "name": "สีสรรพ์ภาษาต่างประเทศที่ 2 (ฝรั่งเศส)",
+    "audition": true,
+    "clubID": "ก30952-2"
+  },
+  {
+    "name": "ภาษาอังกฤษ (English Skills M.5)",
+    "audition": false,
+    "clubID": "ก30905-6"
+  },
+  {
+    "name": "ภาษาอังกฤษ (English Skills M.4)",
+    "audition": false,
+    "clubID": "ก30905-7"
+  },
+  {
+    "name": "สีสรรพ์ภาษาต่างประเทศที่ 2 (เยอรมัน)",
+    "audition": false,
+    "clubID": "ก30952-7"
+  },
+  {
+    "name": "พัฒนาศักยภาพทางวิทยาศาสตร์",
+    "audition": true,
+    "clubID": "ก30943"
+  },
+  {
+    "name": "ภาษาอังกฤษ (Language and Intercultural Communication)",
+    "audition": false,
+    "clubID": "ก30905-14"
+  },
+  {
+    "name": "ภาษาอังกฤษ (Quiz)",
+    "audition": false,
+    "clubID": "ก30905-11"
+  },
+  {
+    "name": "นาฏศิลป์",
+    "audition": false,
+    "clubID": "ก30911"
+  },
+  {
+    "name": "ภาษาอังกฤษ (Oracle)",
+    "audition": false,
+    "clubID": "ก30905-13"
+  },
+  {
+    "name": "English Skills (Vocabulary) M.4",
+    "audition": false,
+    "clubID": "ก30905-8"
+  },
+  {
+    "name": "ภาษาอังกฤษ (นักเรียนแลกเปลี่ยน)",
+    "audition": false,
+    "clubID": "ก30905-9"
+  },
+  {
+    "name": "สร้างสรรค์หนังสือ",
+    "audition": false,
+    "clubID": "ก30937"
+  },
+  {
+    "name": "สังคมศึกษา (TU activist)",
+    "audition": true,
+    "clubID": "ก30903-4"
+  },
+  {
+    "name": "ภาษาอังกฤษ (Public Speaking)",
+    "audition": false,
+    "clubID": "ก30905-10"
+  },
+  {
+    "name": "ขับร้องประสานเสียง",
+    "audition": true,
+    "clubID": "ก30932"
+  },
+  {
+    "name": "สีสรรพ์ภาษาต่างประเทศที่ 2 (จีน)",
+    "audition": false,
+    "clubID": "ก30952-4"
+  },
+  {
+    "name": "หมากกระดาน",
+    "audition": true,
+    "clubID": "ก30921"
+  },
+  {
+    "name": "วิทยาศาสตร์โลกทั้งระบบ",
+    "audition": false,
+    "clubID": "ก30948"
+  },
+  {
+    "name": "ภาษาไทย",
+    "audition": false,
+    "clubID": "ก30904"
+  },
+  {
+    "name": "สีสรรพ์ภาษาต่างประเทศที่ 2 (เกาหลี)",
+    "audition": false,
+    "clubID": "ก30952-6"
+  },
+  {
+    "name": "ภาษาอังกฤษ (MUN)",
+    "audition": true,
+    "clubID": "ก30905-1"
+  },
+  {
+    "name": "ภาษาอังกฤษ (Debate)",
+    "audition": true,
+    "clubID": "ก30905-3"
+  },
+  {
+    "name": "ภาษาอังกฤษ (Crossword)",
+    "audition": true,
+    "clubID": "ก30905-4"
+  },
+  {
+    "name": "สีสรรพ์ภาษาต่างประเทศที่ 2 (French Chorus)",
+    "audition": true,
+    "clubID": "ก30952-1"
+  },
+  {
+    "name": "ผู้บําเพ็ญประโยชน์",
+    "audition": false,
+    "clubID": "ก30922"
+  },
+  {
+    "name": "สันทนากร",
+    "audition": true,
+    "clubID": "ก30950"
+  },
+  {
+    "name": "ภาษาอังกฤษ (English Drama)",
+    "audition": true,
+    "clubID": "ก30905-2"
+  },
+  {
+    "name": "โลกศาสตร์",
+    "audition": false,
+    "clubID": "ก30951"
+  },
+  {
+    "name": "คณิตศาสตร์",
+    "audition": false,
+    "clubID": "ก30901"
+  },
+  {
+    "name": "สังคมศึกษา (หนังสังคม)",
+    "audition": true,
+    "clubID": "ก30903-3"
+  },
+  {
+    "name": "สังคมศึกษา (หลากทัศนะประวัติศาสตร์)",
+    "audition": true,
+    "clubID": "ก30903-2"
+  },
+  {
+    "name": "ศิลปศึกษา",
+    "audition": true,
+    "clubID": "ก30916"
+  },
+  {
+    "name": "วรรณศิลป์ต.อ.",
+    "audition": false,
+    "clubID": "ก30913"
+  },
+  {
+    "name": "คอมพิวเตอร์",
+    "audition": false,
+    "clubID": "ก30927"
+  },
+  {
+    "name": "สังคมศึกษา (ภาคีสังคมศึกษา)",
+    "audition": true,
+    "clubID": "ก30903-1"
   }
-}
+]

@@ -3,8 +3,21 @@ import ClubSplash from "@vectors/decorations/ClubSplash";
 import {FilterSearch} from "@components/common/Inputs/Search";
 import {ClubCard} from "@components/clubs/ClubCard";
 import {useState} from "react";
+import {GetStaticProps} from "next";
+import * as fs from "fs";
 
-const Clubs = () => {
+export const getStaticProps: GetStaticProps = async () => {
+  const data = fs.readFileSync("./_map/clubs.json")
+  const clubs = JSON.parse(data.toString())
+
+  return {
+    props: {
+      clubs: clubs
+    }
+  }
+}
+
+const Clubs = ({ clubs }) => {
   const [sortMode, setSortMode] = useState("ascending")
   const [searchContext, setSearchContext] = useState("")
 
@@ -21,26 +34,9 @@ const Clubs = () => {
           <FilterSearch setSearchContext={setSearchContext} setSortMode={setSortMode} sortMode={sortMode}/>
         </div>
         <div className="flex flex-wrap w-full justify-center max-w-5xl mt-5 md:mt-14">
-          <ClubCard audition={true}/>
-          <ClubCard/>
-          <ClubCard/>
-          <ClubCard/>
-          <ClubCard/>
-          <ClubCard audition={true}/>
-          <ClubCard audition={true}/>
-          <ClubCard/>
-          <ClubCard/>
-          <ClubCard/>
-          <ClubCard audition={true}/>
-          <ClubCard/>
-          <ClubCard/>
-          <ClubCard audition={true}/>
-          <ClubCard audition={true}/>
-          <ClubCard/>
-          <ClubCard/>
-          <ClubCard audition={true}/>
-          <ClubCard/>
-          <ClubCard/>
+          {clubs.map(item => {
+            return <ClubCard data={item}/>
+          })}
         </div>
       </div>
     </PageContainer>
