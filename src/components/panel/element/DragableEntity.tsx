@@ -1,7 +1,7 @@
 import {useState, useCallback, useEffect} from "react";
 import {PanInfo, AxisBox2D, BoxDelta, motion, useAnimation, useDragControls} from "framer-motion";
 import {useItems} from "@components/panel/sections/ReservedSection";
-import {getDragStateZIndex, moveArray} from "@utilities/animationHelper";
+import {moveArray} from "@utilities/animationHelper";
 import LooseTypeObject from "../../../interfaces/LooseTypeObject";
 import {ListElement} from "@components/panel/element/ListElement";
 import {useLongPress} from "use-long-press";

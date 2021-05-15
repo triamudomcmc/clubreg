@@ -1,6 +1,5 @@
 import {NextApiRequest, NextApiResponse} from "next";
 import {fetchUser, fetchUserCredentials} from "@server/fetchUser"
-import {destroySession} from "@server/authentication";
 import {addBrowser, removeBrowser, toggleSafeMode} from "@server/accActions";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

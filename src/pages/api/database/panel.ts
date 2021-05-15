@@ -1,6 +1,5 @@
 import {NextApiRequest, NextApiResponse} from "next";
 import {fetchSession, fetchUser} from "@server/fetchUser"
-import {destroySession} from "@server/authentication";
 import {fetchPanel, submitPending, updatePosition, updateUser} from "@server/panelControl";
 import initialisedDB from "@server/firebase-admin";
 

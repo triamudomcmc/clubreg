@@ -24,7 +24,8 @@
       "@vectors/*": ["vectors/*"],
       "@utilities/*": ["utilities/*"],
       "@client/*": ["handlers/client/*"],
-      "@server/*": ["handlers/server/*"]
+      "@server/*": ["handlers/server/*"],
+      "@interfaces/*": ["interfaces/*"]
     }
   },
   "include": [

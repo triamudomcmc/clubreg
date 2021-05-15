@@ -1,6 +1,6 @@
 import {NextApiRequest, NextApiResponse} from "next";
 import {fetchUser} from "@server/fetchUser"
-import {destroySession} from "@server/authentication";
+import {destroySession} from "@server/authentication/process";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 

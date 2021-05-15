@@ -1,7 +1,7 @@
 import {GetStaticPaths, GetStaticProps} from "next";
 import * as fs from "fs";
 import path from "path";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {ClipboardCopyIcon, StarIcon} from "@heroicons/react/solid";
 import {ClubCard} from "@components/clubs/ClubCard";
 import PageContainer from "@components/common/PageContainer";
@@ -9,6 +9,8 @@ import Image from "next/image"
 import {GlobeAltIcon, UserIcon} from "@heroicons/react/outline";
 import {isEmpty} from "@utilities/object";
 import {useWindowDimensions} from "@utilities/document";
+import {useRouter} from "next/router";
+import classnames from "classnames"
 
 const parseText = (text) => {
   return '<p>' + text.replace(/\n{2,}/g, '</p><p>').replace(/\n/g, '<br>')
@@ -37,19 +39,6 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   const clubIndex = fs.readFileSync("./_map/clubs.json")
   const clubList = JSON.parse(clubIndex.toString())
 
-  const max = clubList.length
-  let rand = []
-  let suggestion = []
-
-  //create suggestion
-  while (rand.length <= 9) {
-    const num = Math.floor(Math.random() * max)
-    if (!rand.includes(num)) {
-      rand.push(num);
-      suggestion.push(clubList[num])
-    }
-  }
-
   return {
     props: {
       data: {...clubData, description: parseText(clubData.description), reviews: clubData.reviews.map(rev => {
@@ -57,16 +46,35 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
         })},
       clubID: params.clubID,
       images: images,
-      suggestion: suggestion
+      clubList: clubList
     }
   }
 }
 
-const Page = ({data, clubID, images, suggestion}) => {
+const Page = ({data, clubID, images, clubList}) => {
 
+  const [suggestion, setSuggestion] = useState([])
   const [allowedSugg, setAllowedSugg] = useState(suggestion)
+  const router = useRouter()
 
   const {width} = useWindowDimensions()
+
+  useEffect(() => {
+    const max = clubList.length
+    let rand = []
+    let sugg = []
+
+    //create suggestion
+    while (rand.length <= 9) {
+      const num = Math.floor(Math.random() * max)
+      if (!rand.includes(num) && clubList[num].clubID !== clubID) {
+        rand.push(num);
+        sugg.push(clubList[num])
+      }
+    }
+
+    setSuggestion(sugg)
+  }, [router.query])
 
   useEffect(() => {
     if (width < 963 && width > 10) {
@@ -87,15 +95,15 @@ const Page = ({data, clubID, images, suggestion}) => {
     }
 
 
-  },[width])
+  },[width, suggestion])
 
   return (
     <PageContainer>
       <div className="max-w-[1100px] mx-auto">
         <div className="md:flex md:my-20 md:bg-white md:shadow-md md:rounded-2xl md:space-x-8 md:mx-6">
             <div>
-              <div className="mb-[-7px] md:max-w-[512px]">
-                <Image src={`/assets/thumbnails/${clubID}.jpg`} width="768" height="432" className="md:rounded-l-2xl object-cover"/>
+              <div className="relative mb-[-7px] md:max-w-[512px]">
+                <Image src={`/assets/thumbnails/${clubID}.jpg`} width="768" height="432" className={classnames("md:rounded-l-2xl object-cover")}/>
               </div>
             </div>
           <div className="pl-6 pr-14 pb-10 md:pb-0">
@@ -131,7 +139,7 @@ const Page = ({data, clubID, images, suggestion}) => {
         <div className="md:hidden w-full border-b border-TUCMC-gray-300"></div>
         <div className="px-6 space-y-16 md:space-y-24 pb-24 pt-10 md:pt-6">
           <div>
-            <article dangerouslySetInnerHTML={{__html: `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${data.description}`}} className="prose text-TUCMC-gray-700 space-y-4 text-[1.05rem]">
+            <article dangerouslySetInnerHTML={{__html: `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${data.description}`}} style={{textIndent: "40px"}} className="prose text-TUCMC-gray-700 space-y-4 text-[1.05rem]">
 
             </article>
           </div>
@@ -175,7 +183,7 @@ const Page = ({data, clubID, images, suggestion}) => {
                         <div className="h-8 pt-2 text-6xl text-center text-gray-300 md:hidden">
                           <span className="absolute">“</span>
                         </div>
-                        <article dangerouslySetInnerHTML={{__html: `&nbsp;&nbsp;&nbsp;&nbsp;${revContent.context}`}} className="prose text-gray-500 text-medium">
+                        <article dangerouslySetInnerHTML={{__html: `&nbsp;&nbsp;&nbsp;&nbsp;${revContent.context}`}} style={{textIndent: "40px"}} className="prose text-gray-500 text-medium">
                         </article>
                         <h1 className="w-full text-6xl text-center text-gray-300 md:hidden mt-4 h-14">
                           ”

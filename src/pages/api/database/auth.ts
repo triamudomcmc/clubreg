@@ -1,5 +1,5 @@
 import {NextApiRequest, NextApiResponse} from "next";
-import {login, register} from "@server/authentication";
+import {login, register} from "@server/authentication/process";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 

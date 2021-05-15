@@ -1,6 +1,6 @@
 import Cookies from "cookies"
 import initialisedDB from "@server/firebase-admin"
-import {destroySession} from "@server/authentication";
+import {destroySession} from "@server/authentication/process";
 
 
 export const fetchUser = async (req, res, fingerprint) => {

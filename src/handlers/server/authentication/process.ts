@@ -1,10 +1,10 @@
 import initialisedDB from "@server/firebase-admin"
 import bcrypt from "bcryptjs"
 import Cookies from "cookies"
-import cryptoRandomString from "crypto-random-string";
 import {isASCII, isNumeric} from "@utilities/texts";
 import {update} from "@server/tracker";
-import LooseTypeObject from "../../interfaces/LooseTypeObject";
+import LooseTypeObject from "@interfaces/LooseTypeObject";
+import {compareDataPair, createDataPair, isValidEmail, isValidPassword} from "@server/authentication/dataChecking";
 
 export const login = async (stdID, password, live, fingerPrint, req, res) => {
 
@@ -60,24 +60,6 @@ export const login = async (stdID, password, live, fingerPrint, req, res) => {
 
 }
 
-const createDataPair = (ref1: LooseTypeObject<string>, ref2: LooseTypeObject<string>) => {
-  const ref1Keys = Object.keys(ref1), ref2Keys = Object.keys(ref2)
-  let primary = ref1, secondary = ref2
-  if (ref1Keys.length < ref2Keys.length) primary = ref2; secondary = ref1
-  const dataPair = {}
-  Object.keys(primary).map(value => {
-    dataPair[value] = [primary[value], value in secondary ? secondary[value] : ""]
-  })
-
-  return dataPair
-}
-
-const compareDataPair = (dataPair: LooseTypeObject<string>, key: string) => dataPair[key][0] === dataPair[key][1]
-
-const isValidEmail = (email: string) => email !== "" && email.includes("@") && email.includes(".")
-
-const isValidPassword = (password: string) => password.length >= 8 && isASCII(password)
-
 export const register = async (req) => {
 
   //initialise collections
@@ -119,6 +101,7 @@ export const register = async (req) => {
       audition: {}
     }
   })
+
   const userDoc = await userColl.add({
     stdID: refDB.docs[0].get("student_id"),
     email: req.body.email,

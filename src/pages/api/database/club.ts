@@ -1,6 +1,5 @@
 import {NextApiRequest, NextApiResponse} from "next";
 import {fetchUser} from "@server/fetchUser"
-import {destroySession} from "@server/authentication";
 import {confirmClub, regClub, rejectClub} from "@server/userActions";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
