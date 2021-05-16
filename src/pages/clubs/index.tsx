@@ -59,7 +59,7 @@ const Clubs = ({ clubs }) => {
   }, [sortMode, clubs])
 
   useEffect(() => {
-    setLoadingCount(clubs.length - 1)
+    setLoadingCount(clubs.length)
     setTimeout(() => {
       setLoadingCount(0)
     }, 10000)
@@ -94,7 +94,7 @@ const Clubs = ({ clubs }) => {
         <div className="flex flex-wrap w-full justify-center max-w-5xl mt-5 md:mt-14">
           {sortedData.map((item, index) => {
             if (index !== 60) return <ClubCard key={`club-${index}`} data={item} imageLoadAction={loaded}/>
-            return <div className="flex flex-wrap justify-center">
+            return <div key={`clubWrapper`} className="flex flex-wrap justify-center">
               <ClubCard key={`club-${index}`} data={item} imageLoadAction={loaded}/>
               <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
               </div>

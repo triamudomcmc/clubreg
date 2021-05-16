@@ -21,7 +21,7 @@ const ClubIndexSkeleton = ({clubs, className}) => {
         </div>
         <div className="flex flex-wrap w-full justify-center max-w-5xl mt-5 md:mt-14">
           {clubs.map((item, index) => {
-            if (index !== 60) return <div key={index} className="flex flex-col rounded-lg minClubs2:mx-1 my-1 mx-10 shadow-md w-full minClubs2:w-175px minClubs:w-185px">
+            if (index !== 60) return <div key={`skel-${index}`} className="flex flex-col rounded-lg minClubs2:mx-1 my-1 mx-10 shadow-md w-full minClubs2:w-175px minClubs:w-185px">
               <div className="bg-TUCMC-gray-300 rounded-t-lg minClubs2:w-[175px] minClubs:w-[185px] minClubs2:h-[96px] minClubs:h-[102px] animate-pulse"></div>
               <div className="px-2 bg-white rounded-b-lg py-2 space-y-2.5">
                 <div className="h-[40px]">
@@ -31,8 +31,8 @@ const ClubIndexSkeleton = ({clubs, className}) => {
                 <div className="bg-white h-4 w-[50px]"> </div>
               </div>
             </div>
-            return <div className="flex flex-wrap justify-center">
-              <div key={index} className="flex flex-col rounded-lg minClubs2:mx-1 my-1 mx-10 shadow-md w-full minClubs2:w-175px minClubs:w-185px">
+            return <div  key={`skelWrapper-${index}`} className="flex flex-wrap justify-center">
+              <div  key={`skel-${index}`} className="flex flex-col rounded-lg minClubs2:mx-1 my-1 mx-10 shadow-md w-full minClubs2:w-175px minClubs:w-185px">
                 <div className="bg-TUCMC-gray-300 rounded-t-lg minClubs2:w-[175px] minClubs:w-[185px] minClubs2:h-[96px] minClubs:h-[102px] animate-pulse"></div>
                 <div className="px-2 bg-white rounded-b-lg py-2 space-y-2.5">
                   <div className="h-[40px]">
