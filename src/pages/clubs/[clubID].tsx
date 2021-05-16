@@ -178,7 +178,7 @@ const Page = ({data, clubID, images, clubList}) => {
             </div>
           </div>
           <div className="md:hidden w-full border-b border-TUCMC-gray-300"></div>
-          <div className="px-6 space-y-16 md:space-y-16 pb-24 pt-11 md:pt-10">
+          <div className="px-6 space-y-12 md:space-y-16 pb-24 pt-11 md:pt-12">
             <div>
               <article dangerouslySetInnerHTML={{__html: `${data.description}`}}
                        style={{textIndent: "40px"}} className="font-texts prose text-TUCMC-gray-700 space-y-4 text-[1.05rem]">
