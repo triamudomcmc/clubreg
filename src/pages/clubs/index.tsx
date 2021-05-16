@@ -93,7 +93,18 @@ const Clubs = ({ clubs }) => {
         </div>
         <div className="flex flex-wrap w-full justify-center max-w-5xl mt-5 md:mt-14">
           {sortedData.map((item, index) => {
-            return <ClubCard key={`club-${index}`} data={item} imageLoadAction={loaded}/>
+            if (index !== 60) return <ClubCard key={`club-${index}`} data={item} imageLoadAction={loaded}/>
+            return <div className="flex flex-wrap justify-center">
+              <ClubCard key={`club-${index}`} data={item} imageLoadAction={loaded}/>
+              <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
+              </div>
+              <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
+              </div>
+              <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
+              </div>
+              <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
+              </div>
+            </div>
           })}
         </div>
       </div>

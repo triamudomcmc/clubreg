@@ -21,7 +21,7 @@ const ClubIndexSkeleton = ({clubs, className}) => {
         </div>
         <div className="flex flex-wrap w-full justify-center max-w-5xl mt-5 md:mt-14">
           {clubs.map((item, index) => {
-            return <div key={index} className="flex flex-col rounded-lg minClubs2:mx-1 my-1 mx-10 shadow-md w-full minClubs2:w-175px minClubs:w-185px">
+            if (index !== 60) return <div key={index} className="flex flex-col rounded-lg minClubs2:mx-1 my-1 mx-10 shadow-md w-full minClubs2:w-175px minClubs:w-185px">
               <div className="bg-TUCMC-gray-300 rounded-t-lg minClubs2:w-[175px] minClubs:w-[185px] minClubs2:h-[96px] minClubs:h-[102px] animate-pulse"></div>
               <div className="px-2 bg-white rounded-b-lg py-2 space-y-2.5">
                 <div className="h-[40px]">
@@ -29,6 +29,26 @@ const ClubIndexSkeleton = ({clubs, className}) => {
                   <div className="bg-TUCMC-gray-300 h-2.5 w-10/12 animate-pulse mt-2"> </div>
                 </div>
                 <div className="bg-white h-4 w-[50px]"> </div>
+              </div>
+            </div>
+            return <div className="flex flex-wrap justify-center">
+              <div key={index} className="flex flex-col rounded-lg minClubs2:mx-1 my-1 mx-10 shadow-md w-full minClubs2:w-175px minClubs:w-185px">
+                <div className="bg-TUCMC-gray-300 rounded-t-lg minClubs2:w-[175px] minClubs:w-[185px] minClubs2:h-[96px] minClubs:h-[102px] animate-pulse"></div>
+                <div className="px-2 bg-white rounded-b-lg py-2 space-y-2.5">
+                  <div className="h-[40px]">
+                    <div className="bg-TUCMC-gray-300 h-2.5 w-full animate-pulse"> </div>
+                    <div className="bg-TUCMC-gray-300 h-2.5 w-10/12 animate-pulse mt-2"> </div>
+                  </div>
+                  <div className="bg-white h-4 w-[50px]"> </div>
+                </div>
+              </div>
+              <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
+              </div>
+              <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
+              </div>
+              <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
+              </div>
+              <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
               </div>
             </div>
           })}

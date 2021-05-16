@@ -170,7 +170,7 @@
     "clubID": "ก30905-13"
   },
   {
-    "name": "English Skills (Vocabulary) M.4",
+    "name": " English Skills (Vocabulary) M.4",
     "audition": false,
     "clubID": "ก30905-8"
   },
@@ -298,5 +298,10 @@
     "name": "สังคมศึกษา (ภาคีสังคมศึกษา)",
     "audition": true,
     "clubID": "ก30903-1"
+  },
+  {
+    "name": "ถ่ายภาพ",
+    "audition": true,
+    "clubID": "ก30928"
   }
 ]
