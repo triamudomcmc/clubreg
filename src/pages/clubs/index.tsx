@@ -60,7 +60,7 @@ const Clubs = ({ clubs }) => {
   }, [sortMode, clubs])
 
   useEffect(() => {
-    setLoadingCount(clubs.length)
+    setLoadingCount(20)
     setTimeout(() => {
       setLoadingCount(0)
     }, 10000)

@@ -132,49 +132,52 @@ const Page = ({data, clubID, images, clubList}) => {
                        className={classnames("md:rounded-l-2xl object-cover")}/>
               </div>
             </div>
-            <div className="pl-6 pr-12">
-              <div className="w-full h-6 md:h-[2vw]"></div>
-              <div className="space-y-5">
-                <div>
-                  <h1 className="text-xl">ชมรม{data.nameTH}</h1>
-                  <h1 className="text-TUCMC-gray-600">{data.nameEN}</h1>
-                </div>
-                <div className="space-y-1">
-                  {data.audition ? <div className="flex space-x-2 text-TUCMC-pink-400">
-                    <StarIcon className="w-6 h-6"/>
-                    <span>มีการ Audition</span>
-                  </div> : <div className="flex space-x-2 text-TUCMC-blue-400">
-                    <ClipboardCopyIcon className="w-6 h-6"/>
-                    <span>ไม่มีการ Audition</span>
-                  </div>}
-                  <div className="flex space-x-2 text-TUCMC-gray-600">
-                    <UserIcon className="w-6 h-6"/>
-                    <span>สมาชิก {data.count} คน</span>
+            <div className="flex">
+              <div className="hidden md:block w-6 h-2"></div>
+              <div className="pr-12">
+                <div className="w-full h-6 md:h-[1.8vw]"></div>
+                <div className="space-y-5">
+                  <div>
+                    <h1 className="text-xl min-w-[150px]">ชมรม{data.nameTH}</h1>
+                    <h1 className="text-TUCMC-gray-600">{data.nameEN}</h1>
                   </div>
-                  <div className="flex space-x-2 text-TUCMC-gray-600">
-                    <GlobeAltIcon className="w-6 h-6"/>
-                    <div className="hidden md:block lg:hidden">
-                      <a ref={contactRef} className="flex items-center space-x-2 cursor-pointer">
-                        <h1 className="whitespace-nowrap">ช่องทางการติดตาม</h1>
-                        <ChevronDownIcon className="w-5 h-5"/>
-                      </a>
-                      <Modal TriggerRef={contactRef} overlayClassName="flex justify-end" className="shadow-md rounded-lg absolute bg-white w-[300px] mt-1 px-4 py-3 z-20">
-                        <div className="flex flex-col">
-                          {!isEmpty(data.contact) && <h1>{data.contact.type} : {data.contact.context}</h1>}
-                          {!isEmpty(data.contact2) && <h1>{data.contact2.type} : {data.contact2.context}</h1>}
-                          {!isEmpty(data.contact3) && <h1>{data.contact3.type} : {data.contact3.context}</h1>}
-                        </div>
-                      </Modal>
+                  <div className="space-y-1">
+                    {data.audition ? <div className="flex space-x-2 text-TUCMC-pink-400">
+                      <StarIcon className="w-6 h-6"/>
+                      <span>มีการ Audition</span>
+                    </div> : <div className="flex space-x-2 text-TUCMC-blue-400">
+                      <ClipboardCopyIcon className="w-6 h-6"/>
+                      <span>ไม่มีการ Audition</span>
+                    </div>}
+                    <div className="flex space-x-2 text-TUCMC-gray-600">
+                      <UserIcon className="w-6 h-6"/>
+                      <span>สมาชิก {data.count} คน</span>
                     </div>
-                    <div className="md:hidden lg:block flex flex-col">
-                      {!isEmpty(data.contact) && <h1>{data.contact.type} : {data.contact.context}</h1>}
-                      {!isEmpty(data.contact2) && <h1>{data.contact2.type} : {data.contact2.context}</h1>}
-                      {!isEmpty(data.contact3) && <h1>{data.contact3.type} : {data.contact3.context}</h1>}
+                    <div className="flex space-x-2 text-TUCMC-gray-600">
+                      <GlobeAltIcon className="w-6 h-6"/>
+                      <div className="hidden md:block lg:hidden">
+                        <a ref={contactRef} className="flex items-center space-x-2 cursor-pointer">
+                          <h1 className="whitespace-nowrap">ช่องทางการติดตาม</h1>
+                          <ChevronDownIcon className="w-5 h-5"/>
+                        </a>
+                        <Modal TriggerRef={contactRef} overlayClassName="flex justify-end" className="shadow-md rounded-lg absolute bg-white w-[300px] mt-1 px-4 py-3 z-20">
+                          <div className="flex flex-col">
+                            {!isEmpty(data.contact) && <h1>{data.contact.type} : {data.contact.context}</h1>}
+                            {!isEmpty(data.contact2) && <h1>{data.contact2.type} : {data.contact2.context}</h1>}
+                            {!isEmpty(data.contact3) && <h1>{data.contact3.type} : {data.contact3.context}</h1>}
+                          </div>
+                        </Modal>
+                      </div>
+                      <div className="md:hidden lg:block flex flex-col">
+                        {!isEmpty(data.contact) && <h1>{data.contact.type} : {data.contact.context}</h1>}
+                        {!isEmpty(data.contact2) && <h1>{data.contact2.type} : {data.contact2.context}</h1>}
+                        {!isEmpty(data.contact3) && <h1>{data.contact3.type} : {data.contact3.context}</h1>}
+                      </div>
                     </div>
                   </div>
                 </div>
+                <div className="w-full h-10 md:h-[2vw]"></div>
               </div>
-              <div className="w-full h-10 md:h-[2vw]"></div>
             </div>
           </div>
           <div className="md:hidden w-full border-b border-TUCMC-gray-300"></div>
