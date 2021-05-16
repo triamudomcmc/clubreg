@@ -2,7 +2,7 @@ import {GetStaticPaths, GetStaticProps} from "next";
 import * as fs from "fs";
 import path from "path";
 import {useEffect, useRef, useState} from "react";
-import {ClipboardCopyIcon, StarIcon} from "@heroicons/react/solid";
+import {ChevronDownIcon, ClipboardCopyIcon, StarIcon} from "@heroicons/react/solid";
 import {ClubCard} from "@components/clubs/ClubCard";
 import PageContainer from "@components/common/PageContainer";
 import Image from "next/image"
@@ -12,6 +12,7 @@ import {useWindowDimensions} from "@utilities/document";
 import {useRouter} from "next/router";
 import classnames from "classnames"
 import ClubSkeleton from "@components/clubs/ClubSkeleton";
+import Modal from "@components/common/Modals";
 
 const parseText = (text) => {
   return '<p>' + text.replace(/\n{2,}/g, '</p><p>').replace(/\n/g, '<br>')
@@ -76,6 +77,8 @@ const Page = ({data, clubID, images, clubList}) => {
   const [loadingCount, setLoadingCount] = useState(1)
   const router = useRouter()
 
+  const contactRef = useRef(null)
+
   const {width} = useWindowDimensions()
 
   useEffect(() => {
@@ -124,13 +127,14 @@ const Page = ({data, clubID, images, clubList}) => {
         <div className="max-w-[1100px] mx-auto">
           <div className="md:flex md:mt-20 md:mb-2 md:bg-white md:shadow-md md:rounded-2xl md:space-x-8 md:mx-6">
             <div>
-              <div className="relative mb-[-7px] md:max-w-[512px]">
+              <div className="relative mb-[-6px] md:max-w-[512px]">
                 <Image priority={true} onLoad={loaded} src={`/assets/thumbnails/${clubID}.jpg`} width="768" height="432"
                        className={classnames("md:rounded-l-2xl object-cover")}/>
               </div>
             </div>
-            <div className="pl-6 pr-14 pb-10 md:pb-0">
-              <div className="space-y-5 pt-6">
+            <div className="pl-6 pr-12">
+              <div className="w-full h-6 md:h-[2vw]"></div>
+              <div className="space-y-5">
                 <div>
                   <h1 className="text-xl">ชมรม{data.nameTH}</h1>
                   <h1 className="text-TUCMC-gray-600">{data.nameEN}</h1>
@@ -149,21 +153,35 @@ const Page = ({data, clubID, images, clubList}) => {
                   </div>
                   <div className="flex space-x-2 text-TUCMC-gray-600">
                     <GlobeAltIcon className="w-6 h-6"/>
-                    <div className="flex flex-col">
+                    <div className="hidden md:block lg:hidden">
+                      <a ref={contactRef} className="flex items-center space-x-2 cursor-pointer">
+                        <h1 className="whitespace-nowrap">ช่องทางการติดตาม</h1>
+                        <ChevronDownIcon className="w-5 h-5"/>
+                      </a>
+                      <Modal TriggerRef={contactRef} overlayClassName="flex justify-end" className="shadow-md rounded-lg absolute bg-white w-[300px] mt-1 px-4 py-3 z-20">
+                        <div className="flex flex-col">
+                          {data.contact && <h1>FB : {data.contact}</h1>}
+                          {data.contact2 && <h1>IG : {data.contact2}</h1>}
+                          {!isEmpty(data.contact3) && <h1>{data.contact3.type} : {data.contact3.context}</h1>}
+                        </div>
+                      </Modal>
+                    </div>
+                    <div className="md:hidden lg:block flex flex-col">
                       {data.contact && <h1>FB : {data.contact}</h1>}
                       {data.contact2 && <h1>IG : {data.contact2}</h1>}
-                      {!isEmpty(data.contact3) && <h1>{data.contact3.title} : {data.contact3.context}</h1>}
+                      {!isEmpty(data.contact3) && <h1>{data.contact3.type} : {data.contact3.context}</h1>}
                     </div>
                   </div>
                 </div>
               </div>
+              <div className="w-full h-10 md:h-[2vw]"></div>
             </div>
           </div>
           <div className="md:hidden w-full border-b border-TUCMC-gray-300"></div>
           <div className="px-6 space-y-16 md:space-y-16 pb-24 pt-8 md:pt-6">
             <div>
-              <article dangerouslySetInnerHTML={{__html: `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${data.description}`}}
-                       style={{textIndent: "40px"}} className="prose text-TUCMC-gray-700 space-y-4 text-[1.05rem]">
+              <article dangerouslySetInnerHTML={{__html: `${data.description}`}}
+                       style={{textIndent: "40px"}} className="font-texts prose text-TUCMC-gray-700 space-y-4 text-[1.05rem]">
 
               </article>
             </div>
@@ -210,8 +228,8 @@ const Page = ({data, clubID, images, clubList}) => {
                           <div className="h-8 pt-2 text-6xl text-center text-gray-300 md:hidden">
                             <span className="absolute">“</span>
                           </div>
-                          <article dangerouslySetInnerHTML={{__html: `&nbsp;&nbsp;&nbsp;&nbsp;${revContent.context}`}}
-                                   style={{textIndent: "40px"}} className="prose text-gray-500 text-medium">
+                          <article dangerouslySetInnerHTML={{__html: `${revContent.context}`}}
+                                   style={{textIndent: "40px"}} className="font-texts prose text-gray-500 text-[1.05rem]">
                           </article>
                           <h1 className="w-full text-6xl text-center text-gray-300 md:hidden mt-4 h-14">
                             ”

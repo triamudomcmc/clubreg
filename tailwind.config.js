@@ -14,6 +14,9 @@ module.exports = {
         'IBM Plex Sans Thai',
         ...defaultTheme.fontFamily.sans,
       ],
+      texts: [
+          'Bai Jamjuree'
+      ]
     },
     extend: {
       screens: {
@@ -165,8 +168,7 @@ module.exports = {
             fontStyle: 'normal',
             fontWeight: '300',
             fontDisplay: 'swap',
-            src:
-                'local("IBM Plex Sans Thai Light"), local("IBMPlexSansThai-Light"), url("/assets/fonts/IBMPlexSansThai-Light.woff2") format("woff2")',
+            src: 'local("IBM Plex Sans Thai Light"), local("IBMPlexSansThai-Light"), url("/assets/fonts/IBMPlexSansThai-Light.woff2") format("woff2")',
           },
         },
         {
@@ -175,6 +177,15 @@ module.exports = {
             fontDisplay: 'swap',
             src: "local('Sukhumvit Set')",
             unicodeRange: 'U+0E01-0E5B, U+200C-200D, U+25CC',
+          },
+        },
+        {
+          '@font-face': {
+            fontFamily: 'Bai Jamjuree',
+            fontStyle: 'normal',
+            fontWeight: '400',
+            fontDisplay: 'swap',
+            src: 'local("Bai Jamjuree"), local("BaiJamjuree"), url("/assets/fonts/BaiJamjuree-Regular.woff2") format("woff2")',
           },
         },
       ])

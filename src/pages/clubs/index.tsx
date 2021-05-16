@@ -24,6 +24,7 @@ export const getStaticProps: GetStaticProps = async () => {
 const Clubs = ({ clubs }) => {
   const [sortMode, setSortMode] = useState("ascending")
   const [searchContext, setSearchContext] = useState("")
+  const [query, setQuery] = useState(setTimeout(() => {}, 10))
   const [rawSorted, setRawSorted] = useState([])
   const [sortedData, setSortedData] = useState([])
   const [loadingCount, setLoadingCount] = useState(1)
@@ -70,13 +71,17 @@ const Clubs = ({ clubs }) => {
   }
 
   useEffect(() => {
-    const escaped = searchContext.replace("ชมรม", "")
-    if (escaped !== "") {
-      const searchResult = searchKeyword(rawSorted, escaped, (obj) => (obj.name))
-      setSortedData(searchResult)
-    } else {
-      setSortedData(rawSorted)
-    }
+    clearTimeout(query)
+
+    setQuery(setTimeout(() => {
+      const escaped = searchContext.replace("ชมรม", "")
+      if (escaped !== "") {
+        const searchResult = searchKeyword(rawSorted, escaped, (obj) => (obj.name))
+        setSortedData(searchResult)
+      } else {
+        setSortedData(rawSorted)
+      }
+    }, 900))
   }, [searchContext, rawSorted])
 
   return (
