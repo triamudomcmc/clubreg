@@ -1,5 +1,4 @@
 import IndexSplash from "@vectors/decorations/IndexSplash";
-import TimelineTag from "@components/index/Timeline/TimelineTag";
 import React, {useEffect} from "react";
 import IndexBottom from "@vectors/decorations/IndexBottom";
 import PageContainer from "@components/common/PageContainer";

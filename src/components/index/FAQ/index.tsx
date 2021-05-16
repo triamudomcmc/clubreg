@@ -1,70 +1,54 @@
-import React, {useEffect, useState} from "react";
-import Toggle from "@components/index/FAQ/Toggle";
-import {motion} from "framer-motion";
+import React from "react";
+import FAQElement from "@components/index/FAQ/Element";
 
-const FAQ = ({children, title}) => {
-
-  const [reveal, setReveal] = useState(false)
-  const [display, setDisplay] = useState(false)
-  const answer = React.Children.map(children, child =>
-    child.type.displayName === 'Answer' ? child : null
-  )
-
-  useEffect(() => {
-      if (reveal) {
-        setDisplay(true)
-      }
-    }
-    , [reveal])
-
-  const sidebar = {
-    open: (height = 1000) => ({
-      y: 0,
-      clipPath: "inset(0% -3% -8% -3%)",
-      transition: {
-        type: "spring",
-        stiffness: 40,
-        restDelta: 2
-      }
-    }),
-    closed: {
-      y:-155,
-      clipPath: "inset(100% -3% -8% -3%)",
-      transition: {
-        type: "spring",
-        stiffness: 40,
-        restDelta: 2
-      }
-    }
-  };
-
+const FAQ = () => {
   return (
-    <div>
-      <div className="relative bg-white shadow-md rounded-lg px-6 py-6 z-20">
-        <motion.div animate={reveal ? "open" : "closed"} className="flex flex-row justify-between">
-          <span className="pr-4">{title}</span>
-          <Toggle toggle={() => {
-            setReveal(!reveal)
-          }}/>
-        </motion.div>
+    <div className="bg-TUCMC-gray-100 py-14 md:py-32 px-8">
+      <div className="md:flex md:justify-center">
+        <div className="md:w-full md:max-w-6xl">
+          <h1 className="font-bold text-2xl text-center">คำถามที่พบบ่อย</h1>
+          <div
+            className="mt-14 space-y-6 md:flex md:flex-row md:space-y-0 md:justify-center md:space-x-6">
+            <div className="space-y-6 md:w-1/2">
+              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
+                <FAQElement.Answer>
+                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
+                </FAQElement.Answer>
+              </FAQElement>
+              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
+                <FAQElement.Answer>
+                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
+                </FAQElement.Answer>
+              </FAQElement>
+              <FAQElement title="หากต้องการเข้าชมรมที่มีการ Audition ต้องทำอย่างไร ?">
+                <FAQElement.Answer>
+                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
+                </FAQElement.Answer>
+              </FAQElement>
+            </div>
+            <div className="space-y-6 md:w-1/2">
+              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
+                <FAQElement.Answer>
+                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
+                </FAQElement.Answer>
+              </FAQElement>
+              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
+                <FAQElement.Answer>
+                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
+                </FAQElement.Answer>
+              </FAQElement>
+              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
+                <FAQElement.Answer>
+                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
+                </FAQElement.Answer>
+              </FAQElement>
+            </div>
+          </div>
+          <h1 className="underline text-center pt-14 md:pt-28">ดูคำถามทั้งหมด</h1>
+        </div>
       </div>
-      {display && <motion.div
-          initial={{y: -155,clipPath: "inset(100% -3% -8% -3%)"}}
-          className="relative bg-white shadow-md px-6 rounded-b-lg pb-5 z-0"
-          animate={reveal ? "open" : "closed"}
-          variants={sidebar}
-          onAnimationComplete={() => {
-            setDisplay(reveal)
-          }}
-      >
-          <p className="pt-4 mr-12 text-TUCMC-gray-600">{answer}</p>
-      </motion.div>}
     </div>
   )
 }
-
-const Answer = ({children}) => children
-Answer.displayName = 'Answer'
-FAQ.Answer = Answer
 
 export default FAQ
