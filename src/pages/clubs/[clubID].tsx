@@ -127,7 +127,7 @@ const Page = ({data, clubID, images, clubList}) => {
         <div className="max-w-[1100px] mx-auto">
           <div className="md:flex md:mt-20 md:mb-2 md:bg-white md:shadow-md md:rounded-2xl md:space-x-8 md:mx-6">
             <div>
-              <div className="relative mb-[-6px] md:max-w-[512px]">
+              <div className="relative mb-[-6.5px] md:max-w-[512px]">
                 <Image priority={true} onLoad={loaded} src={`/assets/thumbnails/${clubID}.jpg`} width="768" height="432"
                        className={classnames("md:rounded-l-2xl object-cover")}/>
               </div>
@@ -178,7 +178,7 @@ const Page = ({data, clubID, images, clubList}) => {
             </div>
           </div>
           <div className="md:hidden w-full border-b border-TUCMC-gray-300"></div>
-          <div className="px-6 space-y-16 md:space-y-16 pb-24 pt-8 md:pt-6">
+          <div className="px-6 space-y-16 md:space-y-16 pb-24 pt-11 md:pt-10">
             <div>
               <article dangerouslySetInnerHTML={{__html: `${data.description}`}}
                        style={{textIndent: "40px"}} className="font-texts prose text-TUCMC-gray-700 space-y-4 text-[1.05rem]">
@@ -197,7 +197,7 @@ const Page = ({data, clubID, images, clubList}) => {
             </div>
             <div className="space-y-10 md:space-y-16">
               <h1 className="text-2xl text-TUCMC-gray-700">รีวิวจากรุ่นพี่</h1>
-              <div className="space-y-20 md:space-y-24">
+              <div className="space-y-16 md:space-y-24">
                 {data.reviews.map((revContent, index) => {
                   return <div key={`review-${index}`}>
                     <div className="flex flex-wrap-reverse md:flex-nowrap md:flex-row">
@@ -225,7 +225,7 @@ const Page = ({data, clubID, images, clubList}) => {
                 </span>
                         </div>
                         <div className="px-6 shadow-lg bg-whtie rounded-xl md:pt-12 md:pb-16 md:px-16">
-                          <div className="h-8 pt-2 text-6xl text-center text-gray-300 md:hidden">
+                          <div className="h-12 pt-2 text-6xl text-center text-gray-300 md:hidden">
                             <span className="absolute">“</span>
                           </div>
                           <article dangerouslySetInnerHTML={{__html: `${revContent.context}`}}

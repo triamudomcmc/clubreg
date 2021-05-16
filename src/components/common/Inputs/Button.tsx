@@ -17,17 +17,17 @@ const defaultAttributes = "cursor-pointer appearance-none focus:outline-none"
 export const Button = ({children, className = "", type = "button", href = "", onClick = null}: props) => {
 
   return (
-    type === "div" ? href == "" ?<motion.div onClick={onClick} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}}>
+    type === "div" ? href == "" ?<motion.div onClick={onClick} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}} whileTap={{scale: 0.95}}>
       {children}
-    </motion.div>: <Link href={href}><motion.div onClick={onClick} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}}>
+    </motion.div>: <Link href={href}><motion.div onClick={onClick} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}} whileTap={{scale: 0.95}}>
       {children}
     </motion.div></Link> : onClick === null && type === "button" ? <Link href={href}>
-    <motion.button type={type} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}}>
+    <motion.button type={type} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}} whileTap={{scale: 0.95}}>
       {children}
     </motion.button>
-  </Link>: href == "" ? <motion.button onClick={onClick} type={type} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}}>
+  </Link>: href == "" ? <motion.button onClick={onClick} type={type} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}} whileTap={{scale: 0.95}}>
     {children}
-  </motion.button> : <motion.button onClick={() => {onClick();Router.push(href)}} type={type} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}}>
+  </motion.button> : <motion.button onClick={() => {onClick();Router.push(href)}} type={type} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}} whileTap={{scale: 0.95}}>
     {children}
   </motion.button>
   )
