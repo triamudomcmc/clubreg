@@ -7,59 +7,76 @@
         border-top-left-radius: 2rem;
         border-top-right-radius: 2rem;
     }
+
     .border-3\/2 {
         border-width: 1.5px;
     }
+
     .border-t-3\/2 {
         border-top-width: 1.5px;
     }
+
     .border-l-3\/2 {
         border-left-width: 1.5px;
     }
+
     .border-r-3\/2 {
         border-right-width: 1.5px;
     }
+
     .webkit-rounded-t-md {
         -webkit-border-radius: 0.375rem 0.375rem 0 0;
     }
+
     .webkit-rounded-b-md {
         -webkit-border-radius: 0 0 0.375rem 0.375rem;
     }
+
     .rounded-5xl {
         border-radius: 2rem;
     }
+
     .py-3_5 {
-    padding-top: 0.85rem;
-    padding-bottom: 0.85rem;
+        padding-top: 0.85rem;
+        padding-bottom: 0.85rem;
     }
+
     .custom-shadow {
         box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.06), 0px 1px 3px rgba(0, 0, 0, 0.1);
     }
+
     .z-60 {
         z-index: 60;
     }
+
     @variants responsive {
-        .w-175px{
+        .w-175px {
             width: 175px;
         }
-        .w-185px{
+
+        .w-185px {
             width: 185px;
         }
+
         .square-450px {
             width: 480px;
             height: 480px;
         }
+
         .s-19x14rem {
             width: 19rem;
             height: 14rem;
         }
+
         .h-420px {
             height: 430px;
         }
+
         .square-400px {
             width: 350px;
             height: 350px;
         }
+
         .h-34rem {
             height: 34rem;
         }

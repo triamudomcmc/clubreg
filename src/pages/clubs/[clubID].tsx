@@ -11,6 +11,7 @@ import {isEmpty} from "@utilities/object";
 import {useWindowDimensions} from "@utilities/document";
 import {useRouter} from "next/router";
 import classnames from "classnames"
+import ClubSkeleton from "@components/clubs/ClubSkeleton";
 
 const parseText = (text) => {
   return '<p>' + text.replace(/\n{2,}/g, '</p><p>').replace(/\n/g, '<br>')
@@ -51,29 +52,43 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   }
 }
 
+const createSuggestion = (clubList, clubID, setSuggestion) => {
+  const max = clubList.length
+  let rand = []
+  let sugg = []
+
+  //create suggestion
+  while (rand.length <= 9) {
+    const num = Math.floor(Math.random() * max)
+    if (!rand.includes(num) && clubList[num].clubID !== clubID) {
+      rand.push(num);
+      sugg.push(clubList[num])
+    }
+  }
+
+  setSuggestion(sugg)
+}
+
 const Page = ({data, clubID, images, clubList}) => {
 
   const [suggestion, setSuggestion] = useState([])
   const [allowedSugg, setAllowedSugg] = useState(suggestion)
+  const [loadingCount, setLoadingCount] = useState(1)
   const router = useRouter()
 
   const {width} = useWindowDimensions()
 
   useEffect(() => {
-    const max = clubList.length
-    let rand = []
-    let sugg = []
+    // generate suggestions
+    createSuggestion(clubList, clubID, setSuggestion)
 
-    //create suggestion
-    while (rand.length <= 9) {
-      const num = Math.floor(Math.random() * max)
-      if (!rand.includes(num) && clubList[num].clubID !== clubID) {
-        rand.push(num);
-        sugg.push(clubList[num])
-      }
-    }
+    // get count of every Image element
+    setLoadingCount(images.length + 1)
 
-    setSuggestion(sugg)
+    setTimeout(() => {
+      setLoadingCount(0)
+    }, 10000)
+
   }, [router.query])
 
   useEffect(() => {
@@ -97,121 +112,136 @@ const Page = ({data, clubID, images, clubList}) => {
 
   },[width, suggestion])
 
+  const loaded = () => {
+    setTimeout(() => {
+      setLoadingCount(prevState => (prevState - 1))
+    }, 100)
+  }
+
   return (
     <PageContainer>
-      <div className="max-w-[1100px] mx-auto">
-        <div className="md:flex md:my-20 md:bg-white md:shadow-md md:rounded-2xl md:space-x-8 md:mx-6">
+      <div className={classnames(loadingCount > 0 && "absolute opacity-0")}>
+        <div className="max-w-[1100px] mx-auto">
+          <div className="md:flex md:mt-20 md:mb-2 md:bg-white md:shadow-md md:rounded-2xl md:space-x-8 md:mx-6">
             <div>
               <div className="relative mb-[-7px] md:max-w-[512px]">
-                <Image priority={true} src={`/assets/thumbnails/${clubID}.jpg`} width="768" height="432" className={classnames("md:rounded-l-2xl object-cover")}/>
+                <Image priority={true} onLoad={loaded} src={`/assets/thumbnails/${clubID}.jpg`} width="768" height="432"
+                       className={classnames("md:rounded-l-2xl object-cover")}/>
               </div>
             </div>
-          <div className="pl-6 pr-14 pb-10 md:pb-0">
-            <div className="space-y-5 pt-6">
-              <div>
-                <h1 className="text-xl">ชมรม{data.nameTH}</h1>
-                <h1 className="text-TUCMC-gray-600">{data.nameEN}</h1>
-              </div>
-              <div className="space-y-1">
-                {data.audition ? <div className="flex space-x-2 text-TUCMC-pink-400">
-                  <StarIcon className="w-6 h-6"/>
-                  <span>มีการ Audition</span>
-                </div> : <div className="flex space-x-2 text-TUCMC-blue-400">
-                  <ClipboardCopyIcon className="w-6 h-6"/>
-                  <span>ไม่มีการ Audition</span>
-                </div>}
-                <div className="flex space-x-2 text-TUCMC-gray-600">
-                  <UserIcon className="w-6 h-6"/>
-                  <span>สมาชิก {data.count} คน</span>
+            <div className="pl-6 pr-14 pb-10 md:pb-0">
+              <div className="space-y-5 pt-6">
+                <div>
+                  <h1 className="text-xl">ชมรม{data.nameTH}</h1>
+                  <h1 className="text-TUCMC-gray-600">{data.nameEN}</h1>
                 </div>
-                <div className="flex space-x-2 text-TUCMC-gray-600">
-                  <GlobeAltIcon className="w-6 h-6"/>
-                  <div className="flex flex-col">
-                    {data.contact && <h1>FB : {data.contact}</h1>}
-                    {data.contact2 && <h1>IG : {data.contact2}</h1>}
-                    {!isEmpty(data.contact3) && <h1>{data.contact3.title} : {data.contact3.context}</h1>}
+                <div className="space-y-1">
+                  {data.audition ? <div className="flex space-x-2 text-TUCMC-pink-400">
+                    <StarIcon className="w-6 h-6"/>
+                    <span>มีการ Audition</span>
+                  </div> : <div className="flex space-x-2 text-TUCMC-blue-400">
+                    <ClipboardCopyIcon className="w-6 h-6"/>
+                    <span>ไม่มีการ Audition</span>
+                  </div>}
+                  <div className="flex space-x-2 text-TUCMC-gray-600">
+                    <UserIcon className="w-6 h-6"/>
+                    <span>สมาชิก {data.count} คน</span>
+                  </div>
+                  <div className="flex space-x-2 text-TUCMC-gray-600">
+                    <GlobeAltIcon className="w-6 h-6"/>
+                    <div className="flex flex-col">
+                      {data.contact && <h1>FB : {data.contact}</h1>}
+                      {data.contact2 && <h1>IG : {data.contact2}</h1>}
+                      {!isEmpty(data.contact3) && <h1>{data.contact3.title} : {data.contact3.context}</h1>}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="md:hidden w-full border-b border-TUCMC-gray-300"></div>
-        <div className="px-6 space-y-16 md:space-y-24 pb-24 pt-10 md:pt-6">
-          <div>
-            <article dangerouslySetInnerHTML={{__html: `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${data.description}`}} style={{textIndent: "40px"}} className="prose text-TUCMC-gray-700 space-y-4 text-[1.05rem]">
+          <div className="md:hidden w-full border-b border-TUCMC-gray-300"></div>
+          <div className="px-6 space-y-16 md:space-y-16 pb-24 pt-10 md:pt-6">
+            <div>
+              <article dangerouslySetInnerHTML={{__html: `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${data.description}`}}
+                       style={{textIndent: "40px"}} className="prose text-TUCMC-gray-700 space-y-4 text-[1.05rem]">
 
-            </article>
-          </div>
-          <div className="space-y-8 md:space-y-0 md:flex md:space-x-4 md:justify-center">
-            {
-              images.map((name,index)=> {
-                if (name.includes("picture")) return <div key={`picture-${index}`}>
-                  <Image className="rounded-lg object-cover" src={`/assets/images/clubs/${clubID}/${name}`} width="768" height="432" />
-                </div>
-              })
-            }
-          </div>
-          <div className="space-y-10 md:space-y-16">
-            <h1 className="text-2xl text-TUCMC-gray-700">รีวิวจากรุ่นพี่</h1>
-            <div className="space-y-24">
-              {data.reviews.map((revContent, index) => {
-                return <div key={`review-${index}`}>
-                  <div className="flex flex-wrap-reverse md:flex-nowrap md:flex-row">
-                    <div className="flex flex-row mt-6 md:flex-col md:mt-0 ml-4">
-                      <div className="w-20 h-20 md:w-24 md:h-24">
-                        <Image
-                          src={`/assets/images/clubs/${clubID}/profile-${index + 1}.jpg`}
-                          width="128"
-                          height="128"
-                          className="rounded-lg object-cover"
-                        />
+              </article>
+            </div>
+            <div className="space-y-8 md:space-y-0 md:flex md:space-x-4 md:justify-center">
+              {
+                images.map((name, index) => {
+                  if (name.includes("picture")) return <div key={`picture-${index}`}>
+                    <Image priority={true} onLoad={loaded} className="rounded-lg object-cover" src={`/assets/images/clubs/${clubID}/${name}`} width="768"
+                           height="432"/>
+                  </div>
+                })
+              }
+            </div>
+            <div className="space-y-10 md:space-y-16">
+              <h1 className="text-2xl text-TUCMC-gray-700">รีวิวจากรุ่นพี่</h1>
+              <div className="space-y-24">
+                {data.reviews.map((revContent, index) => {
+                  return <div key={`review-${index}`}>
+                    <div className="flex flex-wrap-reverse md:flex-nowrap md:flex-row">
+                      <div className="flex flex-row mt-6 md:flex-col md:mt-0 ml-4">
+                        <div className="w-20 h-20 md:w-24 md:h-24">
+                          <Image
+                            priority={true}
+                            onLoad={loaded}
+                            src={`/assets/images/clubs/${clubID}/profile-${index + 1}.jpg`}
+                            width="128"
+                            height="128"
+                            className="rounded-lg object-cover"
+                          />
+                        </div>
+                        <div className="flex flex-col pl-2 mt-1 text-gray-500 md:pl-0 md:mt-3">
+                          <h1 className="text-xl font-black md:text-2xl">{revContent.name}</h1>
+                          <span className="text-xs w-max">{revContent.contact}</span>
+                          <span className="text-xs">เตรียมอุดม {revContent.year}</span>
+                        </div>
                       </div>
-                      <div className="flex flex-col pl-2 mt-1 text-gray-500 md:pl-0 md:mt-3">
-                        <h1 className="text-xl font-black md:text-2xl">{revContent.name}</h1>
-                        <span className="text-xs w-max">{revContent.contact}</span>
-                        <span className="text-xs">เตรียมอุดม {revContent.year}</span>
-                      </div>
-                    </div>
-                    <div className="flex flex-col md:ml-8">
-                      <div className="relative hidden md:block">
+                      <div className="flex flex-col md:ml-8">
+                        <div className="relative hidden md:block">
                 <span className="absolute text-gray-300 text-7xl left-10 top-6">
                   “
                 </span>
-                      </div>
-                      <div className="px-6 shadow-lg bg-whtie rounded-xl md:pt-12 md:pb-16 md:px-16">
-                        <div className="h-8 pt-2 text-6xl text-center text-gray-300 md:hidden">
-                          <span className="absolute">“</span>
                         </div>
-                        <article dangerouslySetInnerHTML={{__html: `&nbsp;&nbsp;&nbsp;&nbsp;${revContent.context}`}} style={{textIndent: "40px"}} className="prose text-gray-500 text-medium">
-                        </article>
-                        <h1 className="w-full text-6xl text-center text-gray-300 md:hidden mt-4 h-14">
-                          ”
-                        </h1>
-                      </div>
-                      <div className="relative hidden md:block">
+                        <div className="px-6 shadow-lg bg-whtie rounded-xl md:pt-12 md:pb-16 md:px-16">
+                          <div className="h-8 pt-2 text-6xl text-center text-gray-300 md:hidden">
+                            <span className="absolute">“</span>
+                          </div>
+                          <article dangerouslySetInnerHTML={{__html: `&nbsp;&nbsp;&nbsp;&nbsp;${revContent.context}`}}
+                                   style={{textIndent: "40px"}} className="prose text-gray-500 text-medium">
+                          </article>
+                          <h1 className="w-full text-6xl text-center text-gray-300 md:hidden mt-4 h-14">
+                            ”
+                          </h1>
+                        </div>
+                        <div className="relative hidden md:block">
                 <span className="absolute text-gray-300 text-7xl right-16 -top-16">
                   ”
                 </span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              })}
+                })}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="bg-TUCMC-gray-100 py-16 space-y-14">
-        <h1 className="text-2xl text-center">ชมรมอื่น ๆ</h1>
-        <div className="flex flex-wrap w-full justify-center max-w-5xl mt-5 md:mt-14 pb-20 max-w-[1100px] mx-auto">
-          {
-            allowedSugg.map((item, index) => {
-              return <ClubCard key={`suggestion-${index}`} data={item}/>
-            })
-          }
+        <div className="bg-TUCMC-gray-100 py-16 space-y-14">
+          <h1 className="text-2xl text-center">ชมรมอื่น ๆ</h1>
+          <div className="flex flex-wrap w-full justify-center max-w-5xl mt-5 md:mt-14 pb-20 max-w-[1100px] mx-auto">
+            {
+              allowedSugg.map((item, index) => {
+                return <ClubCard key={`suggestion-${index}`} data={item}/>
+              })
+            }
+          </div>
         </div>
       </div>
+      <ClubSkeleton className={classnames(loadingCount <= 0 && "hidden")}/>
     </PageContainer>
   )
 }

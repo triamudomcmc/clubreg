@@ -7,6 +7,8 @@ import {GetStaticProps} from "next";
 import * as fs from "fs";
 import {objToArr, searchKeyword, sortAudition, sortThaiDictionary} from "@utilities/object";
 import {sliceArr} from "@utilities/array";
+import classnames from "classnames"
+import ClubIndexSkeleton from "@components/clubs/ClubIndexSkeleton";
 
 export const getStaticProps: GetStaticProps = async () => {
   const data = fs.readFileSync("./_map/clubs.json")
@@ -24,6 +26,7 @@ const Clubs = ({ clubs }) => {
   const [searchContext, setSearchContext] = useState("")
   const [rawSorted, setRawSorted] = useState([])
   const [sortedData, setSortedData] = useState([])
+  const [loadingCount, setLoadingCount] = useState(1)
 
   const apply = () => {
     const dataArr = [...clubs]
@@ -56,6 +59,17 @@ const Clubs = ({ clubs }) => {
   }, [sortMode, clubs])
 
   useEffect(() => {
+    setLoadingCount(clubs.length - 1)
+    setTimeout(() => {
+      setLoadingCount(0)
+    }, 10000)
+  },[])
+
+  const loaded = () => {
+    setLoadingCount(prevState => (prevState - 1))
+  }
+
+  useEffect(() => {
     const escaped = searchContext.replace("ชมรม", "")
     if (escaped !== "") {
       const searchResult = searchKeyword(rawSorted, escaped, (obj) => (obj.name))
@@ -67,7 +81,7 @@ const Clubs = ({ clubs }) => {
 
   return (
     <PageContainer>
-      <div className="flex flex-col items-center w-full py-12 md:py-20">
+      <div className={classnames("flex flex-col items-center w-full py-12 md:py-20", loadingCount > 0 && "absolute opacity-0")}>
         <div className="flex flex-col items-center w-full max-w-md">
           <h1 className="text-2xl font-bold">ชมรม</h1>
           <div className="mt-8 md:mt-12 w-full px-14">
@@ -79,10 +93,11 @@ const Clubs = ({ clubs }) => {
         </div>
         <div className="flex flex-wrap w-full justify-center max-w-5xl mt-5 md:mt-14">
           {sortedData.map((item, index) => {
-            return <ClubCard key={`club-${index}`} data={item}/>
+            return <ClubCard key={`club-${index}`} data={item} imageLoadAction={loaded}/>
           })}
         </div>
       </div>
+      <ClubIndexSkeleton clubs={clubs} className={classnames(loadingCount <= 0 && "hidden")}/>
     </PageContainer>
   )
 }
