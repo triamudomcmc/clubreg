@@ -134,7 +134,7 @@ const Page = ({data, clubID, images, clubList}) => {
             </div>
             <div className="flex">
               <div className="hidden md:block w-6 h-2"></div>
-              <div className="pr-12">
+              <div className="pl-6 md:pl-0 pr-12">
                 <div className="w-full h-6 md:h-[1.8vw]"></div>
                 <div className="space-y-5">
                   <div>
