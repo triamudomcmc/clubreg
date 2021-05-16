@@ -160,15 +160,15 @@ const Page = ({data, clubID, images, clubList}) => {
                       </a>
                       <Modal TriggerRef={contactRef} overlayClassName="flex justify-end" className="shadow-md rounded-lg absolute bg-white w-[300px] mt-1 px-4 py-3 z-20">
                         <div className="flex flex-col">
-                          {data.contact && <h1>FB : {data.contact}</h1>}
-                          {data.contact2 && <h1>IG : {data.contact2}</h1>}
+                          {!isEmpty(data.contact) && <h1>{data.contact.type} : {data.contact.context}</h1>}
+                          {!isEmpty(data.contact2) && <h1>{data.contact2.type} : {data.contact2.context}</h1>}
                           {!isEmpty(data.contact3) && <h1>{data.contact3.type} : {data.contact3.context}</h1>}
                         </div>
                       </Modal>
                     </div>
                     <div className="md:hidden lg:block flex flex-col">
-                      {data.contact && <h1>FB : {data.contact}</h1>}
-                      {data.contact2 && <h1>IG : {data.contact2}</h1>}
+                      {!isEmpty(data.contact) && <h1>{data.contact.type} : {data.contact.context}</h1>}
+                      {!isEmpty(data.contact2) && <h1>{data.contact2.type} : {data.contact2.context}</h1>}
                       {!isEmpty(data.contact3) && <h1>{data.contact3.type} : {data.contact3.context}</h1>}
                     </div>
                   </div>
@@ -180,8 +180,7 @@ const Page = ({data, clubID, images, clubList}) => {
           <div className="md:hidden w-full border-b border-TUCMC-gray-300"></div>
           <div className="px-6 space-y-12 md:space-y-16 pb-24 pt-11 md:pt-12">
             <div>
-              <article dangerouslySetInnerHTML={{__html: `${data.description}`}}
-                       style={{textIndent: "40px"}} className="font-texts prose text-TUCMC-gray-700 space-y-4 text-[1.05rem]">
+              <article dangerouslySetInnerHTML={{__html: `${data.description}`}} className="font-texts prose text-TUCMC-gray-700 space-y-4 text-[1.05rem]">
 
               </article>
             </div>
@@ -228,8 +227,7 @@ const Page = ({data, clubID, images, clubList}) => {
                           <div className="h-12 pt-2 text-6xl text-center text-gray-300 md:hidden">
                             <span className="absolute">“</span>
                           </div>
-                          <article dangerouslySetInnerHTML={{__html: `${revContent.context}`}}
-                                   style={{textIndent: "40px"}} className="font-texts prose text-gray-500 text-[1.05rem]">
+                          <article dangerouslySetInnerHTML={{__html: `${revContent.context}`}} className="font-texts prose text-gray-500 text-[1.05rem]">
                           </article>
                           <h1 className="w-full text-6xl text-center text-gray-300 md:hidden mt-4 h-14">
                             ”
