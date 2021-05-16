@@ -8,7 +8,7 @@ export const ClubCard = ({ data }) => {
   return(
     <Link href={`/clubs/${data.clubID}`}>
       <motion.div whileHover={{scale: 1.03}} className="flex flex-col rounded-lg minClubs2:mx-1 my-1 mx-10 shadow-md w-full minClubs2:w-175px minClubs:w-185px cursor-pointer">
-        <Image className="object-cover rounded-t-lg w-full" width="185" height="102" src={`/assets/thumbnails/${data.clubID}.jpg`}/>
+        <Image priority={true} className="object-cover rounded-t-lg w-full" width="185" height="102" src={`/assets/thumbnails/${data.clubID}.jpg`}/>
         <div className="px-2 bg-white rounded-b-lg py-2 space-y-2.5">
           <div className="h-[40px]">
             <LinesEllipsis text={`ชมรม${data.name}`}

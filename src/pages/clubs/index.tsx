@@ -78,8 +78,8 @@ const Clubs = ({ clubs }) => {
           <FilterSearch setSearchContext={setSearchContext} setSortMode={setSortMode} sortMode={sortMode}/>
         </div>
         <div className="flex flex-wrap w-full justify-center max-w-5xl mt-5 md:mt-14">
-          {sortedData.map(item => {
-            return <ClubCard data={item}/>
+          {sortedData.map((item, index) => {
+            return <ClubCard key={`club-${index}`} data={item}/>
           })}
         </div>
       </div>

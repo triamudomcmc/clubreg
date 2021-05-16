@@ -103,7 +103,7 @@ const Page = ({data, clubID, images, clubList}) => {
         <div className="md:flex md:my-20 md:bg-white md:shadow-md md:rounded-2xl md:space-x-8 md:mx-6">
             <div>
               <div className="relative mb-[-7px] md:max-w-[512px]">
-                <Image src={`/assets/thumbnails/${clubID}.jpg`} width="768" height="432" className={classnames("md:rounded-l-2xl object-cover")}/>
+                <Image priority={true} src={`/assets/thumbnails/${clubID}.jpg`} width="768" height="432" className={classnames("md:rounded-l-2xl object-cover")}/>
               </div>
             </div>
           <div className="pl-6 pr-14 pb-10 md:pb-0">
@@ -145,8 +145,8 @@ const Page = ({data, clubID, images, clubList}) => {
           </div>
           <div className="space-y-8 md:space-y-0 md:flex md:space-x-4 md:justify-center">
             {
-              images.map(name => {
-                if (name.includes("picture")) return <div>
+              images.map((name,index)=> {
+                if (name.includes("picture")) return <div key={`picture-${index}`}>
                   <Image className="rounded-lg object-cover" src={`/assets/images/clubs/${clubID}/${name}`} width="768" height="432" />
                 </div>
               })
@@ -156,7 +156,7 @@ const Page = ({data, clubID, images, clubList}) => {
             <h1 className="text-2xl text-TUCMC-gray-700">รีวิวจากรุ่นพี่</h1>
             <div className="space-y-24">
               {data.reviews.map((revContent, index) => {
-                return <div>
+                return <div key={`review-${index}`}>
                   <div className="flex flex-wrap-reverse md:flex-nowrap md:flex-row">
                     <div className="flex flex-row mt-6 md:flex-col md:mt-0 ml-4">
                       <div className="w-20 h-20 md:w-24 md:h-24">
@@ -206,8 +206,8 @@ const Page = ({data, clubID, images, clubList}) => {
         <h1 className="text-2xl text-center">ชมรมอื่น ๆ</h1>
         <div className="flex flex-wrap w-full justify-center max-w-5xl mt-5 md:mt-14 pb-20 max-w-[1100px] mx-auto">
           {
-            allowedSugg.map(item => {
-              return <ClubCard data={item}/>
+            allowedSugg.map((item, index) => {
+              return <ClubCard key={`suggestion-${index}`} data={item}/>
             })
           }
         </div>

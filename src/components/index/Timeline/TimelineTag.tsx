@@ -1,5 +1,5 @@
 import React from "react";
-import {Line} from "@components/index/timeline/Line";
+import {Line} from "@components/index/Timeline/Line";
 
 const TimelineTag = ({children, title = "", subTitle = "", date, time = "", last = false, color = "bg-TUCMC-red-400", padding = ""}) => {
   const description = React.Children.map(children, child =>
