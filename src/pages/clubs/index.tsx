@@ -2,9 +2,11 @@ import PageContainer from "@components/common/PageContainer";
 import ClubSplash from "@vectors/decorations/ClubSplash";
 import {FilterSearch} from "@components/common/Inputs/Search";
 import {ClubCard} from "@components/clubs/ClubCard";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {GetStaticProps} from "next";
 import * as fs from "fs";
+import {objToArr, searchKeyword, sortAudition, sortThaiDictionary} from "@utilities/object";
+import {sliceArr} from "@utilities/array";
 
 export const getStaticProps: GetStaticProps = async () => {
   const data = fs.readFileSync("./_map/clubs.json")
@@ -20,6 +22,48 @@ export const getStaticProps: GetStaticProps = async () => {
 const Clubs = ({ clubs }) => {
   const [sortMode, setSortMode] = useState("ascending")
   const [searchContext, setSearchContext] = useState("")
+  const [rawSorted, setRawSorted] = useState([])
+  const [sortedData, setSortedData] = useState([])
+
+  const apply = () => {
+    const dataArr = [...clubs]
+
+    switch (sortMode) {
+      case "ascending": {
+        const sorted = sortThaiDictionary(dataArr, obj => (obj.name))
+        setRawSorted(sorted)
+      }
+        break
+      case "descending": {
+        const sorted = sortThaiDictionary(dataArr, obj => (obj.name), true)
+        setRawSorted(sorted)
+      }
+        break
+      case "hasAudition": {
+        const sorted = sortAudition(dataArr)
+        setRawSorted(sorted)
+      }
+        break
+      case "notHasAudition": {
+        const sorted = sortAudition(dataArr, true)
+        setRawSorted(sorted)
+      }
+    }
+  }
+
+  useEffect(() => {
+    apply()
+  }, [sortMode, clubs])
+
+  useEffect(() => {
+    const escaped = searchContext.replace("ชมรม", "")
+    if (escaped !== "") {
+      const searchResult = searchKeyword(rawSorted, escaped, (obj) => (obj.name))
+      setSortedData(searchResult)
+    } else {
+      setSortedData(rawSorted)
+    }
+  }, [searchContext, rawSorted])
 
   return (
     <PageContainer>
@@ -34,7 +78,7 @@ const Clubs = ({ clubs }) => {
           <FilterSearch setSearchContext={setSearchContext} setSortMode={setSortMode} sortMode={sortMode}/>
         </div>
         <div className="flex flex-wrap w-full justify-center max-w-5xl mt-5 md:mt-14">
-          {clubs.map(item => {
+          {sortedData.map(item => {
             return <ClubCard data={item}/>
           })}
         </div>

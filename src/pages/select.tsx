@@ -134,7 +134,7 @@ const Select = ({thumbPaths}) => {
   useEffect(() => {
     const escaped = searchContext.replace("ชมรม", "")
     if (escaped !== "") {
-      const searchResult = searchKeyword(rawSorted, escaped)
+      const searchResult = searchKeyword(rawSorted, escaped, (obj) => (obj.title))
       setSortedData(sliceArr(searchResult, width))
     } else {
       setSortedData(sliceArr(rawSorted, width))

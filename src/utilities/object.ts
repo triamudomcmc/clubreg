@@ -27,7 +27,7 @@ export const sliceObj = (obj, partitions) => {
 }
 
 export const sortThaiDictionary = (arr: any, objAction: (obj: any) => string, inverted = false) => {
-  return arr.sort((a, b) => a.title.localeCompare(b.title, 'th') * (inverted ? -1 : 1))
+  return arr.sort((a, b) => objAction(a).localeCompare(objAction(b), 'th') * (inverted ? -1 : 1))
             .map((val) => {
               return val
             })
@@ -42,12 +42,12 @@ export const sortAudition = (arr: any, inverted = false) => {
   return [...top, ...bottom]
 }
 
-export const searchKeyword = (arr: any, keyword: string) => {
+export const searchKeyword = (arr: any, keyword: string, keySelector: (obj: any) => string) => {
   let topPrimary = [],topSecondary = [], bottom = []
   const keyLength = keyword.length
   arr.forEach((val) => {
-    if (keyword === val.title.slice(0, keyLength)) return topPrimary.push(val)
-    if (val.title.includes(keyword)) return topSecondary.push(val)
+    if (keyword === keySelector(val).slice(0, keyLength)) return topPrimary.push(val)
+    if (keySelector(val).includes(keyword)) return topSecondary.push(val)
     return bottom.push(val)
   })
   return [...topPrimary, ...topSecondary, ...bottom]
