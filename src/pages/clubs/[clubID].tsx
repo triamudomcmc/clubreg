@@ -160,7 +160,7 @@ const Page = ({data, clubID, images, clubList}) => {
             </div>
           </div>
           <div className="md:hidden w-full border-b border-TUCMC-gray-300"></div>
-          <div className="px-6 space-y-16 md:space-y-16 pb-24 pt-10 md:pt-6">
+          <div className="px-6 space-y-16 md:space-y-16 pb-24 pt-8 md:pt-6">
             <div>
               <article dangerouslySetInnerHTML={{__html: `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${data.description}`}}
                        style={{textIndent: "40px"}} className="prose text-TUCMC-gray-700 space-y-4 text-[1.05rem]">
@@ -179,7 +179,7 @@ const Page = ({data, clubID, images, clubList}) => {
             </div>
             <div className="space-y-10 md:space-y-16">
               <h1 className="text-2xl text-TUCMC-gray-700">รีวิวจากรุ่นพี่</h1>
-              <div className="space-y-24">
+              <div className="space-y-20 md:space-y-24">
                 {data.reviews.map((revContent, index) => {
                   return <div key={`review-${index}`}>
                     <div className="flex flex-wrap-reverse md:flex-nowrap md:flex-row">
