@@ -18,10 +18,15 @@ export const TrackerProvider = ({children}) => {
 
 const trackerAction = () => {
 
-  const tracker = new Tracker()
+  const rawTracker = new Tracker()
+  const [tracker, setTracker] = useState(rawTracker)
 
   useEffect(() => {
-    tracker.init()
+    const init = async () => {
+      setTracker(await rawTracker.init())
+    }
+
+    init()
   },[])
 
   return {
