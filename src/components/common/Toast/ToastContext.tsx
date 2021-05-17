@@ -13,7 +13,7 @@ interface ToastType {
 
 interface ToastContext {
   toastData: ToastType | {},
-  addToast: (toastData: ToastType) => void
+  addToast: (toastData: ToastType | {}) => void
 }
 
 export const useToast = () => {

@@ -6,7 +6,7 @@ import {useRouter} from "next/router";
 
 const Toast = () => {
 
-  const {toastData} = useToast()
+  const {toastData, addToast} = useToast()
   const router = useRouter()
 
   const { width } = useWindowDimensions()
@@ -51,6 +51,7 @@ const Toast = () => {
         deleteToast(activeToasts[0])
       }
       renderToast()
+      addToast({})
     }
   }, [toastData])
 

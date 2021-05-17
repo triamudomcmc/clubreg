@@ -9,7 +9,7 @@ const App = ({Component, pageProps}: AppProps) => {
   return (
     <div className="antialiased">
       <Head>
-        <title>TUCMC Club Registeration System</title>
+        <title>TUCMC Club Registeration System (สำหรับตรวจสอบข้อมูลเท่านั้น ห้ามเผยแพร่)</title>
       </Head>
       <ToastProvider>
         <Component {...pageProps} />
