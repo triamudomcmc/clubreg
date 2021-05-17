@@ -9,6 +9,7 @@ import {objToArr, searchKeyword, sortAudition, sortThaiDictionary} from "@utilit
 import {sliceArr} from "@utilities/array";
 import classnames from "classnames"
 import ClubIndexSkeleton from "@components/clubs/ClubIndexSkeleton";
+import {TrackerProvider} from "@client/tracker/context";
 
 export const getStaticProps: GetStaticProps = async () => {
   const data = fs.readFileSync("./_map/clubs.json")
@@ -21,10 +22,11 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
-const Clubs = ({ clubs }) => {
+const Clubs = ({clubs}) => {
   const [sortMode, setSortMode] = useState("ascending")
   const [searchContext, setSearchContext] = useState("")
-  const [query, setQuery] = useState(setTimeout(() => {}, 10))
+  const [query, setQuery] = useState(setTimeout(() => {
+  }, 10))
   const [rawSorted, setRawSorted] = useState([])
   const [sortedData, setSortedData] = useState([])
   const [loadingCount, setLoadingCount] = useState(1)
@@ -60,14 +62,16 @@ const Clubs = ({ clubs }) => {
   }, [sortMode, clubs])
 
   useEffect(() => {
-    setLoadingCount(20)
+    setLoadingCount(10)
     setTimeout(() => {
       setLoadingCount(0)
     }, 10000)
-  },[])
+  }, [])
 
   const loaded = () => {
-    setLoadingCount(prevState => (prevState - 1))
+    setTimeout(() => {
+      setLoadingCount(prevState => (prevState - 1))
+    }, 100)
   }
 
   useEffect(() => {
@@ -85,36 +89,38 @@ const Clubs = ({ clubs }) => {
   }, [searchContext, rawSorted])
 
   return (
-    <PageContainer>
-      <div className={classnames("flex flex-col items-center w-full py-12 md:py-20", loadingCount > 0 && "absolute opacity-0")}>
-        <div className="flex flex-col items-center w-full max-w-md">
-          <h1 className="text-2xl font-bold">ชมรม</h1>
-          <div className="mt-8 md:mt-12 w-full px-14">
-            <ClubSplash />
+    <TrackerProvider>
+      <PageContainer>
+        <div className={classnames("flex flex-col items-center w-full py-12 md:py-20", loadingCount > 0 && "absolute opacity-0")}>
+          <div className="flex flex-col items-center w-full max-w-md">
+            <h1 className="text-2xl font-bold">ชมรม</h1>
+            <div className="mt-8 md:mt-12 w-full px-14">
+              <ClubSplash/>
+            </div>
+          </div>
+          <div className="mt-8 md:mt-12 pb-4 border-b mx-8 md:mx-0 md:border-none md:px-8 md:w-full max-w-xl">
+            <FilterSearch setSearchContext={setSearchContext} setSortMode={setSortMode} sortMode={sortMode}/>
+          </div>
+          <div className="flex flex-wrap w-full justify-center max-w-5xl mt-5 md:mt-14">
+            {sortedData.map((item, index) => {
+              if (index !== 60) return <ClubCard key={`club-${index}`} data={item} imageLoadAction={loaded} index={index}/>
+              return <div key={`clubWrapper`} className="flex flex-wrap justify-center">
+                <ClubCard key={`club-${index}`} data={item} imageLoadAction={loaded} index={index}/>
+                <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
+                </div>
+                <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
+                </div>
+                <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
+                </div>
+                <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
+                </div>
+              </div>
+            })}
           </div>
         </div>
-        <div className="mt-8 md:mt-12 pb-4 border-b mx-8 md:mx-0 md:border-none md:px-8 md:w-full max-w-xl">
-          <FilterSearch setSearchContext={setSearchContext} setSortMode={setSortMode} sortMode={sortMode}/>
-        </div>
-        <div className="flex flex-wrap w-full justify-center max-w-5xl mt-5 md:mt-14">
-          {sortedData.map((item, index) => {
-            if (index !== 60) return <ClubCard key={`club-${index}`} data={item} imageLoadAction={loaded}/>
-            return <div key={`clubWrapper`} className="flex flex-wrap justify-center">
-              <ClubCard key={`club-${index}`} data={item} imageLoadAction={loaded}/>
-              <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
-              </div>
-              <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
-              </div>
-              <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
-              </div>
-              <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
-              </div>
-            </div>
-          })}
-        </div>
-      </div>
-      <ClubIndexSkeleton clubs={clubs} className={classnames(loadingCount <= 0 && "hidden")}/>
-    </PageContainer>
+        <ClubIndexSkeleton clubs={clubs} className={classnames(loadingCount <= 0 && "hidden")}/>
+      </PageContainer>
+    </TrackerProvider>
   )
 }
 
