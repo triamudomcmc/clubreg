@@ -8,7 +8,7 @@ const Index = () => {
     Router.push("/clubs")
   }, [])
   return (
-    <Error statusCode={404}/>
+    <Error statusCode={302}/>
   )
 }
 
