@@ -4,7 +4,6 @@
     width: var(--width);
     height: calc(var(--width) * 570/329);
     border-radius: calc(var(--ratio) * 6);
-    @apply flex flex-col items-center bg-white shadow-lg relative;
 }
 
 .text14 {
@@ -41,13 +40,11 @@
     padding: calc(var(--ratio) * 3) calc(var(--ratio) * 13);
     margin-top: calc(var(--ratio) * 4);
     margin-bottom: calc(var(--ratio) * 15);
-    @apply bg-TUCMC-green-400 text-white rounded-full tracking-tight;
 }
 
 .icon {
     width: calc(var(--ratio) * 19.26);
     height: calc(var(--ratio) * 19.26);
-    @apply text-TUCMC-gray-700 flex-shrink-0;
 }
 
 .subContainer {
@@ -75,7 +72,6 @@
 .logo {
     width: calc(var(--ratio) * 23.38);
     height: calc(var(--ratio) * 11);
-    @apply text-TUCMC-gray-600;
 }
 .mt2 {
     position: absolute;

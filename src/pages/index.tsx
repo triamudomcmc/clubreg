@@ -30,7 +30,7 @@ const Index = () => {
               className="flex flex-col my-8 py-0 md:py-5 lg:py-0 items-center md:items-start md:justify-between md:h-full md:max-h-96">
               <div className="md:mt-10 lg:mt-2 flex flex-col items-center md:block px-1">
                 <h1
-                  className="font-black tracking-tight text-3xl text-white md:tracking-normal whitespace-nowrap md:text-4xl lg:text-6xl">ระบบลงทะเบียนชมรม</h1>
+                  className="font-bold tracking-tight text-3xl text-white md:tracking-normal whitespace-nowrap md:text-4xl lg:text-6xl">ระบบลงทะเบียนชมรม</h1>
                 <h1
                   className="font-regular tracking-normal text-2xl text-white md:text-3xl md:tracking-tight lg:text-5xl md:pt-2 lg:pt-4">โรงเรียนเตรียมอุดมศึกษา</h1>
                 <p

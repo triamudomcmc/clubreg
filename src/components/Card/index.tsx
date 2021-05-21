@@ -24,7 +24,7 @@ export const Card = ({ width, userData, clubData}) => {
   }, [userData])
 
   return (
-    <div style={{ ['--width' as string]: `${width}px` }} className={css.container}>
+    <div style={{ ['--width' as string]: `${width}px` }} className={classnames(css.container,"flex flex-col items-center bg-white shadow-lg relative")}>
       <div className={classnames("text-TUCMC-gray-700 text-center", css.mt18)}>
         <h1 className={css.text14}>{`${userData.title}${userData.firstname} ${userData.lastname}`}</h1>
         <h1 className={css.text12}>ห้อง {userData.room}</h1>
@@ -35,26 +35,26 @@ export const Card = ({ width, userData, clubData}) => {
       </div>
       <div className="flex flex-col items-center bg-TUCMC-gray-100 w-full">
         <h1 className={classnames(css.text138,"text-TUCMC-700 tracking-tight w-full text-center", css.px17, css.mt18)}>ชมรม{clubMap[userData.club]}</h1>
-        <span className={classnames(css.greenbutt)}>ลงทะเบียนสำเร็จ</span>
+        <span className={classnames(css.greenbutt, "bg-TUCMC-green-400 text-white rounded-full tracking-tight")}>ลงทะเบียนสำเร็จ</span>
       </div>
       <div className={classnames("flex flex-col items-start w-full", css.textContainer)}>
         <div className={classnames("flex items-start", css.subContainer)}>
-          <CalendarIcon className={css.icon}/>
+          <CalendarIcon className={classnames(css.icon,"text-TUCMC-gray-700 flex-shrink-0")}/>
           <span className={classnames(css.text1155, "text-TUCMC-gray-700")}>เริ่มเรียนชมรมคาบแรกวันจันทร์ที่ 31 พ.ค. 64</span>
         </div>
         <div className={classnames("flex items-start", css.subContainer)}>
-          <LocationMarkerIcon className={css.icon}/>
+          <LocationMarkerIcon className={classnames(css.icon,"text-TUCMC-gray-700 flex-shrink-0")}/>
           <span className={classnames(css.text1155, "text-TUCMC-gray-700")}>สถานที่เรียนชมรม</span>
         </div>
         <div className={classnames("flex items-start", css.subContainer)}>
-          <SpeakerphoneIcon className={css.icon}/>
+          <SpeakerphoneIcon className={classnames(css.icon,"text-TUCMC-gray-700 flex-shrink-0")}/>
           <div className="flex flex-col">
             <span className={classnames(css.text1155, "text-TUCMC-gray-700")}>ข้อความจากชมรม</span>
             <p className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55)}>“ยินดีต้อนรับเข้าสู่ชมรม...งับ เก่งมาก ๆ เลย เรียนชมรมวันแรกมาเจอกันที่ห้อง 112 นะ แล้วเจอกัน</p>
           </div>
         </div>
         <div className={classnames("flex items-start", css.subContainer)}>
-          <SpeakerphoneIcon className={css.icon}/>
+          <SpeakerphoneIcon className={classnames(css.icon,"text-TUCMC-gray-700 flex-shrink-0")}/>
           <div className="flex flex-col">
             <span className={classnames(css.text1155, "text-TUCMC-gray-700")}>ช่องทางการติดต่อชมรม</span>
             <p className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55, clubData.contact === "" && "hidden")}>FB {clubData.contact}</p>
@@ -64,7 +64,7 @@ export const Card = ({ width, userData, clubData}) => {
         </div>
       </div>
       <div className={classnames("flex justify-end w-full",css.mt2)}>
-        <LogoDarkIcon className={css.logo}/>
+        <LogoDarkIcon className={classnames(css.logo,"text-TUCMC-gray-600")}/>
       </div>
     </div>
   )

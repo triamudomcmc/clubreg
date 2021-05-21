@@ -7,11 +7,21 @@ module.exports = {
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    textColor: {
+      white: "rgb(var(--text-white))",
+      black: "rgb(var(--text-black))",
+      "TUCMC-pink": {
+        100: "rgba(var(--text-pink-100), var(--tw-bg-opacity, 1))",
+        400: "rgba(var(--text-pink-400), var(--tw-bg-opacity, 1))",
+        500: "rgba(var(--text-pink-500), var(--tw-bg-opacity, 1))",
+        600: "rgba(var(--text-pink-600), var(--tw-bg-opacity, 1))"
+      }
+    },
     fontFamily: {
       sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       display: [
         'Inter var',
-        'IBM Plex Sans Thai',
+        'Noto Sans Thai',
         ...defaultTheme.fontFamily.sans,
       ],
       texts: [
@@ -25,40 +35,42 @@ module.exports = {
         "xs": "441px"
       },
       colors: {
+        white: "rgb(var(--white))",
+        black: "rgb(var(--black))",
         "TUCMC-pink": {
-          100: "#FFF5F7",
-          400: "#F687B3",
-          500: "#ED64A6",
-          600: "#D53F8C"
+          100: "rgba(var(--pink-100), var(--tw-bg-opacity, 1))",
+          400: "rgba(var(--pink-400), var(--tw-bg-opacity, 1))",
+          500: "rgba(var(--pink-500), var(--tw-bg-opacity, 1))",
+          600: "rgba(var(--pink-600), var(--tw-bg-opacity, 1))"
         },
         "TUCMC-gray": {
-          100: "#f7fafc",
-          200: "#EDF2F7",
-          300: "#E2E8F0",
-          400: "#CBD5E0",
-          500: "#A0AEC0",
-          600: "#718096",
-          700: "#4A5568",
-          800: "#2D3748",
-          900: "#1A202C"
+          100: "rgba(var(--gray-100), var(--tw-bg-opacity, 1))",
+          200: "rgba(var(--gray-200), var(--tw-bg-opacity, 1))",
+          300: "rgba(var(--gray-300), var(--tw-bg-opacity, 1))",
+          400: "rgba(var(--gray-400), var(--tw-bg-opacity, 1))",
+          500: "rgba(var(--gray-500), var(--tw-bg-opacity, 1))",
+          600: "rgba(var(--gray-600), var(--tw-bg-opacity, 1))",
+          700: "rgba(var(--gray-700), var(--tw-bg-opacity, 1))",
+          800: "rgba(var(--gray-800), var(--tw-bg-opacity, 1))",
+          900: "rgba(var(--gray-900), var(--tw-bg-opacity, 1))"
         },
         "TUCMC-red": {
-          100: "#FFF5F5",
-          400: "#FC8181",
-          500: "#F56565",
-          600: "#E53E3E"
+          100: "rgba(var(--red-100), var(--tw-bg-opacity, 1))",
+          400: "rgba(var(--red-400), var(--tw-bg-opacity, 1))",
+          500: "rgba(var(--red-500), var(--tw-bg-opacity, 1))",
+          600: "rgba(var(--red-600), var(--tw-bg-opacity, 1))"
         },
         "TUCMC-blue": {
-          400: "#63B3ED"
+          400: "rgba(var(--blue-400), var(--tw-bg-opacity, 1))"
         },"TUCMC-green": {
-          100: "#F0FFF4",
-          400: "#68D391",
-          500: "#48BB78"
+          100: "rgba(var(--green-100), var(--tw-bg-opacity, 1))",
+          400: "rgba(var(--green-400), var(--tw-bg-opacity, 1))",
+          500: "rgba(var(--green-500), var(--tw-bg-opacity, 1))"
         },"TUCMC-orange": {
-          100: "#FFFAF0",
-          200: "#FEEBC8",
-          400: "#F6AD55",
-          500: "#ED8936"
+          100: "rgba(var(--orange-100), var(--tw-bg-opacity, 1))",
+          200: "rgba(var(--orange-200), var(--tw-bg-opacity, 1))",
+          400: "rgba(var(--orange-400), var(--tw-bg-opacity, 1))",
+          500: "rgba(var(--orange-500), var(--tw-bg-opacity, 1))"
         }
       },
     }
@@ -70,7 +82,7 @@ module.exports = {
     },
   },
   plugins: [
-    function ({ addBase, addComponents, theme }) {
+    function ({ addBase, addComponents, theme, variants, addUtilities}) {
       addBase([
         {
           '@font-face': {
@@ -94,81 +106,91 @@ module.exports = {
         },
         {
           '@font-face': {
-            fontFamily: 'IBM Plex Sans Thai',
+            fontFamily: 'Noto Sans Thai',
             fontStyle: 'normal',
             fontWeight: '400',
             fontDisplay: 'swap',
             src:
-                'local("IBM Plex Sans Thai"), local("IBMPlexSansThai"), url("/assets/fonts/IBMPlexSansThai-Regular.woff2") format("woff2")',
+                'local("Noto Sans Thai"), local("NotoSansThai"), url("/assets/fonts/NotoSansThai-Regular.woff2") format("woff2")',
           },
         },
         {
           '@font-face': {
-            fontFamily: 'IBM Plex Sans Thai',
+            fontFamily: 'Noto Sans Thai',
             fontStyle: 'normal',
-            fontWeight: '450',
+            fontWeight: '900',
             fontDisplay: 'swap',
             src:
-                'local("IBM Plex Sans Thai Text"), local("IBMPlexSansThai-Text"), url("/assets/fonts/IBMPlexSansThai-Text.woff2") format("woff2")',
+                'local("Noto Sans Thai Black"), local("NotoSansThai-Black"), url("/assets/fonts/NotoSansThai-Black.woff2") format("woff2")',
           },
         },
         {
           '@font-face': {
-            fontFamily: 'IBM Plex Sans Thai',
+            fontFamily: 'Noto Sans Thai',
             fontStyle: 'normal',
             fontWeight: '500',
             fontDisplay: 'swap',
             src:
-                'local("IBM Plex Sans Thai Medium"), local("IBMPlexSansThai-Medium"), url("/assets/fonts/IBMPlexSansThai-Medium.woff2") format("woff2")',
+                'local("Noto Sans Thai Medium"), local("NotoSansThai-Medium"), url("/assets/fonts/NotoSansThai-Medium.woff2") format("woff2")',
           },
         },
         {
           '@font-face': {
-            fontFamily: 'IBM Plex Sans Thai',
+            fontFamily: 'Noto Sans Thai',
             fontStyle: 'normal',
             fontWeight: '600',
             fontDisplay: 'swap',
             src:
-                'local("IBM Plex Sans Thai SemiBold"), local("IBMPlexSansThai-SemiBold"), url("/assets/fonts/IBMPlexSansThai-SemiBold.woff2") format("woff2")',
+                'local("Noto Sans Thai SemiBold"), local("NotoSansThai-SemiBold"), url("/assets/fonts/NotoSansThai-SemiBold.woff2") format("woff2")',
           },
         },
         {
           '@font-face': {
-            fontFamily: 'IBM Plex Sans Thai',
+            fontFamily: 'Noto Sans Thai',
             fontStyle: 'normal',
             fontWeight: '700',
             fontDisplay: 'swap',
             src:
-                'local("IBM Plex Sans Thai Bold"), local("IBMPlexSansThai-Bold"), url("/assets/fonts/IBMPlexSansThai-Bold.woff2") format("woff2")',
+                'local("Noto Sans Thai Bold"), local("NotoSansThai-Bold"), url("/assets/fonts/NotoSansThai-Bold.woff2") format("woff2")',
           },
         },
         {
           '@font-face': {
-            fontFamily: 'IBM Plex Sans Thai',
+            fontFamily: 'Noto Sans Thai',
+            fontStyle: 'normal',
+            fontWeight: '800',
+            fontDisplay: 'swap',
+            src:
+                'local("Noto Sans Thai ExtraBold"), local("NotoSansThai-ExtraBold"), url("/assets/fonts/NotoSansThai-ExtraBold.woff2") format("woff2")',
+          },
+        },
+        {
+          '@font-face': {
+            fontFamily: 'Noto Sans Thai',
             fontStyle: 'normal',
             fontWeight: '100',
             fontDisplay: 'swap',
             src:
-                'local("IBM Plex Sans Thai Thin"), local("IBMPlexSansThai-Thin"), url("/assets/fonts/IBMPlexSansThai-Thin.woff2") format("woff2")',
+                'local("Noto Sans Thai Thin"), local("NotoSansThai-Thin"), url("/assets/fonts/NotoSansThai-Thin.woff2") format("woff2")',
           },
         },
         {
           '@font-face': {
-            fontFamily: 'IBM Plex Sans Thai',
+            fontFamily: 'Noto Sans Thai',
             fontStyle: 'normal',
             fontWeight: '200',
             fontDisplay: 'swap',
             src:
-                'local("IBM Plex Sans Thai ExtraLight"), local("IBMPlexSansThai-ExtraLight"), url("/assets/fonts/IBMPlexSansThai-ExtraLight.woff2") format("woff2")',
+                'local("Noto Sans Thai ExtraLight"), local("NotoSansThai-ExtraLight"), url("/assets/fonts/NotoSansThai-ExtraLight.woff2") format("woff2")',
           },
         },
         {
           '@font-face': {
-            fontFamily: 'IBM Plex Sans Thai',
+            fontFamily: 'Noto Sans Thai',
             fontStyle: 'normal',
             fontWeight: '300',
             fontDisplay: 'swap',
-            src: 'local("IBM Plex Sans Thai Light"), local("IBMPlexSansThai-Light"), url("/assets/fonts/IBMPlexSansThai-Light.woff2") format("woff2")',
+            src: 'local("Noto Sans Thai Light"), local("NotoSansThai-Light"), url("/assets/fonts/NotoSansThai-Light.woff2") format("woff2")',
           },
         },
         {

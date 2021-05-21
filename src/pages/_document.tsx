@@ -33,56 +33,63 @@ export default class Document extends NextDocument {
           />
           <link
             rel="preload"
-            href="/assets/fonts/IBMPlexSansThai-Bold.woff2"
+            href="/assets/fonts/NotoSansThai-Black.woff2"
             as="font"
             type="font/woff2"
             crossOrigin="anonymous"
           />
           <link
             rel="preload"
-            href="/assets/fonts/IBMPlexSansThai-ExtraLight.woff2"
+            href="/assets/fonts/NotoSansThai-Bold.woff2"
             as="font"
             type="font/woff2"
             crossOrigin="anonymous"
           />
           <link
             rel="preload"
-            href="/assets/fonts/IBMPlexSansThai-Light.woff2"
+            href="/assets/fonts/NotoSansThai-ExtraLight.woff2"
             as="font"
             type="font/woff2"
             crossOrigin="anonymous"
           />
           <link
             rel="preload"
-            href="/assets/fonts/IBMPlexSansThai-Medium.woff2"
+            href="/assets/fonts/NotoSansThai-Light.woff2"
             as="font"
             type="font/woff2"
             crossOrigin="anonymous"
           />
           <link
             rel="preload"
-            href="/assets/fonts/IBMPlexSansThai-Regular.woff2"
+            href="/assets/fonts/NotoSansThai-Medium.woff2"
             as="font"
             type="font/woff2"
             crossOrigin="anonymous"
           />
           <link
             rel="preload"
-            href="/assets/fonts/IBMPlexSansThai-SemiBold.woff2"
+            href="/assets/fonts/NotoSansThai-Regular.woff2"
             as="font"
             type="font/woff2"
             crossOrigin="anonymous"
           />
           <link
             rel="preload"
-            href="/assets/fonts/IBMPlexSansThai-Text.woff2"
+            href="/assets/fonts/NotoSansThai-SemiBold.woff2"
             as="font"
             type="font/woff2"
             crossOrigin="anonymous"
           />
           <link
             rel="preload"
-            href="/assets/fonts/IBMPlexSansThai-Thin.woff2"
+            href="/assets/fonts/NotoSansThai-ExtraBold.woff2"
+            as="font"
+            type="font/woff2"
+            crossOrigin="anonymous"
+          />
+          <link
+            rel="preload"
+            href="/assets/fonts/NotoSansThai-Thin.woff2"
             as="font"
             type="font/woff2"
             crossOrigin="anonymous"
