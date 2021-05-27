@@ -1,14 +1,21 @@
 import Navigation from "@components/common/Navigation";
 import Footer from "@components/common/Footer";
-import {AnimatePresence, motion} from "framer-motion";
+import {motion} from "framer-motion";
 import {useRouter} from "next/router";
+import {useEffect, useState} from "react";
 
 const PageContainer = ({children, footer = true}) => {
 
   const router = useRouter()
 
+  const [init, setInit] = useState(true)
+
+  useEffect(() => {
+    setInit(false)
+  },[])
+
   const variants = {
-    initial: {y: -20, opacity: 0},
+    initial: !init ? {y: -20, opacity: 0} : {},
     animate: {
       y: 0,
       opacity: 1,
@@ -22,14 +29,12 @@ const PageContainer = ({children, footer = true}) => {
   return (
     <div className="font-display">
       <Navigation/>
-      <AnimatePresence initial={false}>
-        <motion.div initial="initial"
-                    animate="animate"
-                    variants={variants}
-                    key={router.pathname}>
-          {children}
-        </motion.div>
-      </AnimatePresence>
+      <motion.div initial="initial"
+                  animate="animate"
+                  variants={variants}
+                  key={router.pathname}>
+        {children}
+      </motion.div>
       {footer && <Footer/>}
     </div>
   )
