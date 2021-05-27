@@ -13,7 +13,7 @@ import {detectOuside} from "@utilities/document";
 
 const ItemsContext = createContext<[LooseTypeObject<any>[], (setItems: LooseTypeObject<any>) => void]>([[], (_) => null]);
 
-export const ReservedSection = ({display, refetch, userData, editable, editFunc}) => {
+export const ReservedSection = ({display, refetch, userData, editable, editFunc, setIsDrag}) => {
 
   const [items, setItems] = useState<LooseTypeObject<any>[]>([]);
   const [updateEvent, setUpdateEvent] = useState(setTimeout(() => {}, 1000))
@@ -23,6 +23,10 @@ export const ReservedSection = ({display, refetch, userData, editable, editFunc}
   const innerItemRef = useRef(null)
 
   const {onReady} = useAuth()
+
+  useEffect(() => {
+    setIsDrag(dragMode)
+  }, [dragMode])
 
   const adminData = onReady((logged, userData) => (userData))
 
@@ -62,7 +66,7 @@ export const ReservedSection = ({display, refetch, userData, editable, editFunc}
   })
 
   return (
-    <div ref={innerItemRef} className={classnames("select-none", display ? "block" : "hidden")}>
+    <div ref={innerItemRef} className={classnames(display ? "block" : "hidden")}>
       <motion.div onClick={() => {setDragMode(false)}} className="fixed top-20 px-4 py-1 rounded-full right-6 bg-TUCMC-gray-700 bg-opacity-50 text-white text-sm z-[90] cursor-pointer" animate={dragMode ? {opacity: 1} : {opacity: 0}}>เสร็จสิ้น</motion.div>
       <ItemsContext.Provider value={[items, setItems]}>
           <DragableList editable={editable} editFunc={editFunc} dragable={dragMode} setDragMode={setDragMode}/>
