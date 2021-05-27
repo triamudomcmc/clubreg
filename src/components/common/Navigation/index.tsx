@@ -111,7 +111,7 @@ const Navigation = () => {
                 <h1 className="cursor-pointer text-white">หน้าแรก</h1>
               </Link>
               <Link href="/instruction">
-                <h1 className="text-white">วิธีใช้</h1>
+                <h1 className="text-white cursor-pointer">วิธีใช้</h1>
               </Link>
               <Link href="/clubs">
                 <h1 className="text-white cursor-pointer">ชมรม</h1>
@@ -219,8 +219,8 @@ const Navigation = () => {
         </Link>
         <Link href="/instruction">
           <div
-            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/info", "bg"))}>
-            <CalendarIcon className={classnames("w-7 h-7", getClass("/info", "icon"))}/> <span
+            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/instruction", "bg"))}>
+            <CalendarIcon className={classnames("w-7 h-7", getClass("/instruction", "icon"))}/> <span
             className={getClass("/info", "font")}>วิธีลงทะเบียน</span>
           </div>
         </Link>
