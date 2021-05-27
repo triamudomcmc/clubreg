@@ -1,7 +1,8 @@
 import {clubMap} from "../config/clubMap";
 
 export const isEmpty = (obj) => {
-  return obj && Object.keys(obj).length == 0
+  if (!obj) return false
+  return Object.keys(obj).length == 0
 }
 
 export const sliceObj = (obj, partitions) => {
