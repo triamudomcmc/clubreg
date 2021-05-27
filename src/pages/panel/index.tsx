@@ -78,8 +78,6 @@ const Index = () => {
 
   const [sortMode, setSortMode] = useState("")
   const [searchContext, setSearchContext] = useState("")
-  const [isDrag, setIsDrag] = useState(false)
-
   const [section, setSection] = useState("passed")
   const [memberData, setMemberData] = useState({
     waiting: [],
@@ -205,11 +203,11 @@ const Index = () => {
           </div>
           <PassedSection display={section === "passed"} editFunc={edit}
                          userData={memberData.passed} editable={editable}/>
-          <ReservedSection refetch={refetch} userData={memberData.reserved} display={section === "reserved"} editable={editable} editFunc={edit} setIsDrag={setIsDrag}/>
+          <ReservedSection refetch={refetch} userData={memberData.reserved} display={section === "reserved"} editable={editable} editFunc={edit}/>
           <FailedSection userData={memberData.failed} display={section === "failed"} editable={editable} editFunc={edit}/>
         </div>
       </div>
-      <div className={classnames("flex flex-col items-center py-10 px-4 space-y-10 min-h-screen w-full", page === "pending" ? "block" : "hidden", isDrag && "select-none")}>
+      <div className={classnames("flex flex-col items-center py-10 px-4 space-y-10 min-h-screen w-full", page === "pending" ? "block" : "hidden")}>
         <div className="space-y-2">
           <h1 className="text-4xl text-center">รอการตอบรับ</h1>
           <p className="text-TUCMC-gray-700 text-center">สามารถรับสมาชิกใหม่ได้ทั้งหมด {clubData.new_count_limit} คน (เหลืออีก {clubData.new_count_limit - clubData.new_count} คน)</p>
