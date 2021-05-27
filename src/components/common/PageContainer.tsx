@@ -22,13 +22,14 @@ const PageContainer = ({children, footer = true}) => {
   return (
     <div className="font-display">
       <Navigation/>
-      <motion.div initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  variants={variants}
-                  key={router.pathname}>
-        {children}
-      </motion.div>
+      <AnimatePresence initial={false}>
+        <motion.div initial="initial"
+                    animate="animate"
+                    variants={variants}
+                    key={router.pathname}>
+          {children}
+        </motion.div>
+      </AnimatePresence>
       {footer && <Footer/>}
     </div>
   )
