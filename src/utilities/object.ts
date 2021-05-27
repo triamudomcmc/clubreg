@@ -1,6 +1,7 @@
 import {clubMap} from "../config/clubMap";
+import LooseTypeObject from "@interfaces/LooseTypeObject";
 
-export const isEmpty = (obj) => {
+export const isEmpty = (obj: LooseTypeObject<any> | undefined | null) => {
   if (!obj) return false
   return Object.keys(obj).length == 0
 }
