@@ -3,19 +3,15 @@ import Footer from "@components/common/Footer";
 import {motion} from "framer-motion";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
+import {useAuth} from "@client/auth";
 
 const PageContainer = ({children, footer = true}) => {
 
   const router = useRouter()
-
-  const [init, setInit] = useState(true)
-
-  useEffect(() => {
-    setInit(false)
-  },[])
+  const {isInit} = useAuth()
 
   const variants = {
-    initial: !init ? {y: -20, opacity: 0} : {},
+    initial: !isInit ? {y: -20, opacity: 0} : {},
     animate: {
       y: 0,
       opacity: 1,

@@ -8,7 +8,8 @@ interface IAuthContext {
   onReady: ((callback: (logged: boolean, userData: UserData | null) => any) => any),
   signout: () => void,
   tracker: Tracker,
-  reFetch: (cause?: string) => Promise<void>
+  reFetch: (cause?: string) => Promise<void>,
+  isInit: boolean
 }
 
 const AuthContext = React.createContext<IAuthContext | null>(null)
@@ -33,6 +34,7 @@ function useProvideAuth() {
 
   const [userData, setUserData] = useState(null)
   const [tracker, setTracker] = useState(new Tracker())
+  const [isInit, setInit] = useState(true)
   const router = useRouter()
 
   useEffect(() => {
@@ -63,12 +65,14 @@ function useProvideAuth() {
 
     reFetch()
 
+    setInit(false)
   }, [])
 
   return {
     onReady,
     signout,
     tracker,
-    reFetch
+    reFetch,
+    isInit
   }
 }

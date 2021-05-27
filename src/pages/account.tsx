@@ -13,6 +13,7 @@ import css from "@components/panel/element/bubble.module.css";
 import Modal from "@components/common/Modals";
 import {addBrowser, removeBrowser, toggleSafeMode} from "@client/accManagement";
 import {clubMap} from "../config/clubMap";
+import {isEmpty} from "@utilities/object";
 
 const fetchCred = async (setUserCred, errHandler) => {
   const res = await fetchUserCred()
@@ -139,7 +140,7 @@ const Account = () => {
                        className="w-7 h-7 cursor-pointer text-TUCMC-gray-400"/>
               </div>
               <div className="bg-white rounded-b-lg">
-                {userData ? <h1
+                {isEmpty(userData) ? <h1
                   className="py-4 text-center text-sm text-TUCMC-gray-500">ยังไม่มีชมรมที่ออดิชั่น</h1> : Object.keys(userData.audition)
                                                                                                                 .map((val) => {
                                                                                                                   return <h1 key={val}
