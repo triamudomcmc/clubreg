@@ -2,7 +2,7 @@ import {clubMap} from "../config/clubMap";
 import LooseTypeObject from "@interfaces/LooseTypeObject";
 
 export const isEmpty = (obj: LooseTypeObject<any> | undefined | null) => {
-  return obj && Object.keys(obj).length == 0
+  return !obj || Object.keys(obj).length == 0
 }
 
 export const sliceObj = (obj, partitions) => {

@@ -140,7 +140,7 @@ const Account = () => {
                        className="w-7 h-7 cursor-pointer text-TUCMC-gray-400"/>
               </div>
               <div className="bg-white rounded-b-lg">
-                {isEmpty(userData?.audition) ? <h1
+                {isEmpty(userData?.audition || {}) ? <h1
                   className="py-4 text-center text-sm text-TUCMC-gray-500">ยังไม่มีชมรมที่ออดิชั่น</h1> : Object.keys(userData.audition)
                                                                                                                 .map((val) => {
                                                                                                                   return <h1 key={val}
