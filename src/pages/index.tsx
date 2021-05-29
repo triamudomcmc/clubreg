@@ -105,7 +105,7 @@ const Index = () => {
                 <InformationCircleIcon className="w-6 h-6"/>
                 <div className="font-medium">
                   <p>ระบบจะเปิดให้ลงทะเบียนชมรม</p>
-                  <p>ในวันที่ 1 มิ.ย. 2564 เวลา 11.30 น.</p>
+                  <p>ในวันที่ 7 มิ.ย. 2564 เวลา 11.30 น.</p>
                 </div>
               </div>
             </div>

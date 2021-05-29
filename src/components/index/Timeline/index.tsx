@@ -8,7 +8,7 @@ import {useWindowDimensions} from "@utilities/document";
 
 const Timeline = () => {
 
-  const [section, setSection] = useState("au")
+  const [section, setSection] = useState("notAu")
   const [isReverse, setReverse] = useState(false)
   const [conHeight, setConHeight] = useState(500)
 
