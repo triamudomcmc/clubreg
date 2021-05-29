@@ -23,12 +23,10 @@ const Clubs = () => {
             </Button>
           </div>
           <IndexBottom className="w-80 md:square-400px mb-16 mt-4"/>
-          <div
+          <Button href="/clubs"
             className="md:hidden relative -bottom-6 shadow-lg bg-white rounded-5xl px-10 py-3_5">
-            <Link href="/clubs">
               <span className="cursor-pointer text-2xl">ดูทั้งหมด</span>
-            </Link>
-          </div>
+          </Button>
         </div>
       </div>
     </div>

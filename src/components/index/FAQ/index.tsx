@@ -1,5 +1,6 @@
 import React from "react";
 import FAQElement from "@components/index/FAQ/Element";
+import {AnimatePresence, AnimateSharedLayout, motion} from "framer-motion";
 
 const FAQ = () => {
   return (
@@ -7,44 +8,44 @@ const FAQ = () => {
       <div className="md:flex md:justify-center">
         <div className="md:w-full md:max-w-6xl">
           <h1 className="font-bold text-2xl text-center">คำถามที่พบบ่อย</h1>
-          <div
-            className="mt-14 space-y-6 md:flex md:flex-row md:space-y-0 md:justify-center md:space-x-6">
-            <div className="space-y-6 md:w-1/2">
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากต้องการเข้าชมรมที่มีการ Audition ต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
+            <div
+              className="mt-14 space-y-6 md:flex md:flex-row md:space-y-0 md:justify-center md:space-x-6">
+              <div className="space-y-6 md:w-1/2">
+                <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
+                  <FAQElement.Answer>
+                    คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
+                  </FAQElement.Answer>
+                </FAQElement>
+                <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
+                  <FAQElement.Answer>
+                    คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
+                  </FAQElement.Answer>
+                </FAQElement>
+                <FAQElement title="หากต้องการเข้าชมรมที่มีการ Audition ต้องทำอย่างไร ?">
+                  <FAQElement.Answer>
+                    คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
+                  </FAQElement.Answer>
+                </FAQElement>
+              </div>
+              <div className="space-y-6 md:w-1/2">
+                <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
+                  <FAQElement.Answer>
+                    คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
+                  </FAQElement.Answer>
+                </FAQElement>
+                <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
+                  <FAQElement.Answer>
+                    คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
+                  </FAQElement.Answer>
+                </FAQElement>
+                <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
+                  <FAQElement.Answer>
+                    คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
+                  </FAQElement.Answer>
+                </FAQElement>
+              </div>
             </div>
-            <div className="space-y-6 md:w-1/2">
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-            </div>
-          </div>
-          <h1 className="underline text-center pt-14 md:pt-28">ดูคำถามทั้งหมด</h1>
+            <motion.h1 layout="position" className="underline text-center pt-14 md:pt-28">ดูคำถามทั้งหมด</motion.h1>
         </div>
       </div>
     </div>

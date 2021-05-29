@@ -38,8 +38,16 @@ const FAQElement = ({children, title}) => {
     }
   };
 
+  useEffect(() => {
+    if (reveal) return
+
+    setTimeout(() => {
+      setDisplay(false)
+    },200)
+  },[reveal])
+
   return (
-    <div>
+    <motion.div layout="position">
       <div className="relative bg-white shadow-md rounded-lg px-6 py-6 z-20">
         <motion.div animate={reveal ? "open" : "closed"} className="flex flex-row justify-between">
           <span className="pr-4">{title}</span>
@@ -53,13 +61,10 @@ const FAQElement = ({children, title}) => {
           className="relative bg-white shadow-md px-6 rounded-b-lg pb-5 z-0"
           animate={reveal ? "open" : "closed"}
           variants={sidebar}
-          onAnimationComplete={() => {
-            setDisplay(reveal)
-          }}
       >
           <p className="pt-4 mr-12 text-TUCMC-gray-600">{answer}</p>
       </motion.div>}
-    </div>
+    </motion.div>
   )
 }
 
