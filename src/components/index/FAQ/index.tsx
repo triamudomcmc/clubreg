@@ -1,6 +1,7 @@
 import React from "react";
 import FAQElement from "@components/index/FAQ/Element";
 import {AnimatePresence, AnimateSharedLayout, motion} from "framer-motion";
+import Router from "next/router";
 
 const FAQ = () => {
   return (
@@ -45,7 +46,7 @@ const FAQ = () => {
                 </FAQElement>
               </div>
             </div>
-            <motion.h1 layout="position" className="underline text-center pt-14 md:pt-28">ดูคำถามทั้งหมด</motion.h1>
+            <motion.h1 onClick={() => {Router.push("/FAQ")}} layout="position" className="underline text-center pt-14 md:pt-28 cursor-pointer">ดูคำถามทั้งหมด</motion.h1>
         </div>
       </div>
     </div>

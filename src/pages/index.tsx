@@ -1,5 +1,5 @@
 import IndexSplash from "@vectors/decorations/IndexSplash";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import PageContainer from "@components/common/PageContainer";
 import {
   InformationCircleIcon
@@ -11,7 +11,27 @@ import Clubs from "@components/index/Clubs";
 import Footer from "@components/common/Footer";
 import {AnimateSharedLayout, motion} from "framer-motion";
 
+const addZero = (num) => {
+  return ('0' + num).slice(-2)
+}
+
 const Index = () => {
+
+  const countTo = 1623024000000
+  const [time, setTime] = useState({day: "00", hour: "00", min: "00", sec: "00"})
+
+  useEffect(() => {
+    setInterval(() => {
+      const ts = countTo - new Date().getTime()
+      const t = new Date(ts)
+      setTime({
+        day: addZero(t.getDate()),
+        hour: addZero(t.getHours()),
+        min: addZero(t.getMinutes()),
+        sec: addZero(t.getSeconds())
+      })
+    }, 1000)
+  },[])
 
   return (
     <PageContainer footer={false}>
@@ -33,31 +53,31 @@ const Index = () => {
                     className="tracking-tight text-white mt-2 md:mt-2 lg:mt-4 md:text-xl lg:text-3xl">ปีการศึกษา
                                                                                                       2564</p>
                 </div>
-                {/*<div
+                <div
                 className="hidden md:flex flex-row space-x-2 justify-center text-TUCMC-gray-900">
                 <div className="flex flex-col items-center">
-                  <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg">53</span>
+                  <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{time.day}</span>
                   <span className="text-white font-bold text-xs mt-2">DAY</span>
                 </div>
                 <div className="flex flex-col items-center">
-                  <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg">53</span>
+                  <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{time.hour}</span>
                   <span className="text-white font-bold text-xs mt-2">HOUR</span>
                 </div>
                 <div className="flex flex-col items-center">
-                  <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg">53</span>
+                  <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{time.min}</span>
                   <span className="text-white font-bold text-xs mt-2">MIN</span>
                 </div>
                 <div className="flex flex-col items-center">
-                  <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg">53</span>
+                  <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{time.sec}</span>
                   <span className="text-white font-bold text-xs mt-2">SEC</span>
                 </div>
-              </div>*/}
-                <div className="hidden md:flex flex-col h-full justify-end">
+              </div>
+                {/*<div className="hidden md:flex flex-col h-full justify-end">
                   <Button href="/auth"
                           className="bg-white text-TUCMC-pink-600 shadow-lg font-bold px-12 lg:px-[4.5rem] rounded-full text-xl lg:text-2xl py-3 lg:py-3.5 mb-4">
                     <span>เข้าสู่ระบบ</span>
                   </Button>
-                </div>
+                </div>*/}
                 <div className="hidden md:block font-medium text-white px-1">
                   <p>ระบบจะเปิดให้ลงทะเบียนชมรม</p>
                   <p>ในวันที่ 7 มิ.ย. 2564 เวลา 11.30 น.</p>
@@ -66,32 +86,32 @@ const Index = () => {
             </div>
           </div>
           <div className="bg-white h-full rounded-t-5xl mt-8 md:mt-0">
-            {/*<div
+            <div
             className="flex md:hidden flex-row space-x-2 relative -top-6 justify-center text-TUCMC-gray-900">
             <div className="flex flex-col items-center">
-              <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg">53</span>
+              <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{time.day}</span>
               <span className="text-gray-500 font-bold text-xs mt-2">DAY</span>
             </div>
             <div className="flex flex-col items-center">
-              <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg">53</span>
+              <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{time.hour}</span>
               <span className="text-gray-500 font-bold text-xs mt-2">HOUR</span>
             </div>
             <div className="flex flex-col items-center">
-              <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg">53</span>
+              <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{time.min}</span>
               <span className="text-gray-500 font-bold text-xs mt-2">MIN</span>
             </div>
             <div className="flex flex-col items-center">
-              <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg">53</span>
+              <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{time.sec}</span>
               <span className="text-gray-500 font-bold text-xs mt-2">SEC</span>
             </div>
-          </div>*/}
-            <div
+          </div>
+            {/*<div
               className="flex md:hidden flex-row relative -top-7 justify-center">
               <Button href="auth"
                       className="bg-white text-TUCMC-pink-600 shadow-lg font-bold px-[4.5rem] rounded-full text-2xl py-3.5 mb-4">
                 <span>เข้าสู่ระบบ</span>
               </Button>
-            </div>
+            </div>*/}
             <div className="md:hidden mx-8 mt-6 mb-14">
               <div
                 className="flex flex-row bg-TUCMC-pink-100 space-x-4 text-TUCMC-pink-500 p-4 rounded-lg">
@@ -109,6 +129,7 @@ const Index = () => {
                   <div className="md:flex md:flex-row md:space-x-4 space-y-8 md:space-y-0">
                     <Button
                       type="div"
+                      href="/TUCMC"
                       className="flex flex-row items-end justify-between shadow-lg bg-TUCMC-pink-400 md:bg-white rounded-xl md:rounded-lg px-7 pt-4 pb-6">
                       <div className="md:hidden">
                         <h1

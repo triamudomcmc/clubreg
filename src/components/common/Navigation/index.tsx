@@ -120,7 +120,7 @@ const Navigation = () => {
                 <h1 className="text-white cursor-pointer">FAQ</h1>
               </Link>
               <Link href="/TUCMC">
-                <h1 className="text-white">กช.</h1>
+                <h1 className="text-white cursor-pointer">กช.</h1>
               </Link>
               <Link href="/contact">
                 <h1 className="text-white cursor-pointer">ติดต่อ</h1>
