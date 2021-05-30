@@ -22,7 +22,8 @@ module.exports = {
             screens: {
                 "minClubs2": "366px",
                 "minClubs": "387px",
-                "xs": "441px"
+                "xs": "441px",
+                "pic": "448px"
             },
             colors: {
                 "TUCMC-pink": {
