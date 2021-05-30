@@ -54,6 +54,14 @@
         z-index: 60;
     }
 
+    .circle-clip {
+        clip-path: circle(50% at 50% 50%);
+        transform: translate(0%, -50%);
+    }
+
+    .swiper-progess {
+        bottom: 20px
+    }
     @variants responsive {
         .w-175px {
             width: 175px;

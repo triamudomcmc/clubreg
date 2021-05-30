@@ -23,16 +23,16 @@ const FAQElement = ({children, title}) => {
       clipPath: "inset(0% -3% -8% -3%)",
       transition: {
         type: "spring",
-        stiffness: 40,
+        stiffness: 50,
         restDelta: 2
       }
     }),
     closed: {
-      y:-155,
+      y:"-100%",
       clipPath: "inset(100% -3% -8% -3%)",
       transition: {
         type: "spring",
-        stiffness: 40,
+        stiffness: 50,
         restDelta: 2
       }
     }
@@ -43,7 +43,7 @@ const FAQElement = ({children, title}) => {
 
     setTimeout(() => {
       setDisplay(false)
-    },200)
+    },450)
   },[reveal])
 
   return (
@@ -57,7 +57,7 @@ const FAQElement = ({children, title}) => {
         </motion.div>
       </div>
       {display && <motion.div
-          initial={{y: -155,clipPath: "inset(100% -3% -8% -3%)"}}
+          initial="closed"
           className="relative bg-white shadow-md px-6 rounded-b-lg pb-5 z-0"
           animate={reveal ? "open" : "closed"}
           variants={sidebar}

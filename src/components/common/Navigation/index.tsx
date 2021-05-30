@@ -116,9 +116,15 @@ const Navigation = () => {
               <Link href="/clubs">
                 <h1 className="text-white cursor-pointer">ชมรม</h1>
               </Link>
-              <h1 className="text-white">FAQ</h1>
-              <h1 className="text-white">กช.</h1>
-              <h1 className="text-white">ติดต่อ</h1>
+              <Link href="/FAQ">
+                <h1 className="text-white cursor-pointer">FAQ</h1>
+              </Link>
+              <Link href="/TUCMC">
+                <h1 className="text-white">กช.</h1>
+              </Link>
+              <Link href="/contact">
+                <h1 className="text-white cursor-pointer">ติดต่อ</h1>
+              </Link>
               <div className={classnames(isEmpty(userData) && "hidden")}>
                 <h1 ref={accRef} className="flex items-center space-x-1 text-white cursor-pointer">บัญชี <ChevronDownIcon
                   className="w-5 h-5"/></h1>
@@ -137,7 +143,8 @@ const Navigation = () => {
                       {userData && userData.club === "" &&
                       <Link href="/select"><h1 className="text-black cursor-pointer hover:text-blue-600 hover:underline">เลือกชมรม</h1>
                       </Link>}
-                      <Link href="/account"><h1 className="text-black cursor-pointer hover:text-blue-600 hover:underline">จัดการบัญชี</h1>
+                      <Link href="/account"><h1
+                        className="text-black cursor-pointer hover:text-blue-600 hover:underline">จัดการบัญชี</h1>
                       </Link>
                       {!logged ? <Link href="/auth"><h1
                           className="text-black cursor-pointer hover:text-blue-600 hover:underline">เข้าสู่ระบบ</h1></Link> :
@@ -224,15 +231,19 @@ const Navigation = () => {
             className={getClass("/info", "font")}>วิธีลงทะเบียน</span>
           </div>
         </Link>
-        <div
-          className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/FAQ", "bg"))}>
-          <ChatIcon className={classnames("w-7 h-7", getClass("/FAQ", "icon"))}/> <span
-          className={getClass("/FAQ", "font")}>คำถามที่พบบ่อย</span>
-        </div>
-        <div
-          className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/TUCMC", "bg"))}>
-          <LogoIcon className={classnames("w-7 h-7", getClass("/TUCMC", "icon"))}/> <span className={getClass("/TUCMC", "font")}>ทำความรู้จัก กช.</span>
-        </div>
+        <Link href="/FAQ">
+          <div
+            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/FAQ", "bg"))}>
+            <ChatIcon className={classnames("w-7 h-7", getClass("/FAQ", "icon"))}/> <span
+            className={getClass("/FAQ", "font")}>คำถามที่พบบ่อย</span>
+          </div>
+        </Link>
+        <Link href="/TUCMC">
+          <div
+            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/TUCMC", "bg"))}>
+            <LogoIcon className={classnames("w-7 h-7", getClass("/TUCMC", "icon"))}/> <span className={getClass("/TUCMC", "font")}>ทำความรู้จัก กช.</span>
+          </div>
+        </Link>
         <div
           className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/tos", "bg"))}>
           <DocumentTextIcon className={classnames("w-7 h-7", getClass("/tos", "icon"))}/> <span

@@ -1,17 +1,10 @@
 import IndexSplash from "@vectors/decorations/IndexSplash";
-import React, {useEffect} from "react";
-import IndexBottom from "@vectors/decorations/IndexBottom";
+import React from "react";
 import PageContainer from "@components/common/PageContainer";
-import Link from "next/link"
 import {
-  ClipboardCopyIcon,
-  InformationCircleIcon,
-  StarIcon,
-  UserGroupIcon, UserIcon
+  InformationCircleIcon
 } from "@heroicons/react/solid";
 import {Button} from "@components/common/Inputs/Button";
-import {Tracker} from "@client/tracker/track";
-import {useAuth} from "@client/auth";
 import Timeline from "@components/index/Timeline";
 import FAQ from "@components/index/FAQ";
 import Clubs from "@components/index/Clubs";
@@ -157,6 +150,7 @@ const Index = () => {
                     </Button>
                     <Button
                       type="div"
+                      href="/FAQ"
                       className="flex flex-row items-center justify-between shadow-lg bg-white rounded-xl md:rounded-lg px-7 py-5">
                       <div>
                         <h1
