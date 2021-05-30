@@ -149,14 +149,14 @@ const Timeline = () => {
               </div>
             </div>
             <div className="flex flex-col justify-between h-[600px] md:h-full">
-              <TimelineTag date="7 พ.ค. 64" time="11.30 น." title="เลือกชมรมที่ต้องการ" color="bg-TUCMC-blue-400" className="h-full"
+              <TimelineTag date="7 มิ.ย. 64" time="11.30 น." title="เลือกชมรมที่ต้องการ" color="bg-TUCMC-blue-400" className="h-full"
                            padding="items-start h-2/5 md:h-3/5">
                 <TimelineTag.Desc>
                   สร้างบัญชีและลงทะเบียน
                   ชมรมที่ไม่มีการ audition
                 </TimelineTag.Desc>
                 <TimelineTag.ExtraDescription>
-                  ภายในวันที่ 24 พ.ค. 64 เวลา 23.59 น.
+                  ภายในวันที่ 8 มิ.ย. 64 เวลา 23.59 น.
                 </TimelineTag.ExtraDescription>
               </TimelineTag>
               <TimelineTag date="15 มิ.ย. 64" time="23.59 น." title="สิ้นสุดการลงทะเบียน" color="bg-TUCMC-blue-400"
@@ -168,7 +168,7 @@ const Timeline = () => {
                   เลย จะถูกสุ่มชมรมให้อัตโนมัติ
                 </TimelineTag.Desc>
               </TimelineTag>
-              <TimelineTag date="21 พ.ค. 64" last={true} title="เริ่มเรียนชมรมคาบแรก">
+              <TimelineTag date="21 มิ.ย. 64" last={true} title="เริ่มเรียนชมรมคาบแรก">
               </TimelineTag>
             </div>
           </motion.div>
