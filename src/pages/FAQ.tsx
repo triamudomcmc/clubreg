@@ -4,9 +4,31 @@ import {DropDown} from "@components/FAQ/DropDown";
 import Footer from "@components/common/Footer";
 import {AnimateSharedLayout, motion} from "framer-motion";
 import FAQElement from "@components/index/FAQ/Element";
-import React from "react";
+import React, {useState} from "react";
+import {GetStaticProps} from "next";
+import * as fs from "fs";
+import {sliceArrN} from "@utilities/array";
 
-const FAQ = () => {
+const objToArr = (obj: any) => {
+  return Object.keys(obj).map(key => {
+    return {group: key, ...{data: obj[key]}}
+  })
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const raw = fs.readFileSync("./_map/faq.json").toString()
+  const parsed = JSON.parse(raw)
+
+  return {
+    props: {
+      data: parsed
+    }
+  }
+}
+
+const FAQ = ({ data }) => {
+
+  const [dataArr, setDataArr] = useState(sliceArrN(objToArr(data), 2))
 
   return (
     <PageContainer footer={false}>
@@ -18,228 +40,38 @@ const FAQ = () => {
         </div>
         <div className="flex flex-col md:flex-row md:justify-center md:space-x-6">
           <div className="space-y-2 md:w-1/2">
-            <DropDown title="เกี่ยวกับชมรม">
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-            </DropDown>
-            <DropDown title="เกี่ยวกับฝ่ายในชมรม">
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-            </DropDown>
-            <DropDown title="ระบบลงทะเบียนชมรม">
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-            </DropDown>
-            <DropDown title="Audition">
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-            </DropDown>
-            <DropDown title="การประกาศผล">
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-            </DropDown>
+            {
+              dataArr[0].map(item => {
+                return <DropDown title={item.group}>
+                  {
+                    Object.keys(item.data).map(e => {
+                      return <FAQElement title={e}>
+                        <FAQElement.Answer>
+                          {item.data[e]}
+                        </FAQElement.Answer>
+                      </FAQElement>
+                    })
+                  }
+                </DropDown>
+              })
+            }
           </div>
           <div className="space-y-2 md:w-1/2">
-            <DropDown title="โควตายืนยันสิทธิ์ชมรมเดิม">
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-            </DropDown>
-            <DropDown title="ความเป็นส่วนตัว">
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-            </DropDown>
-            <DropDown title="เกี่ยวกับ กช.">
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-            </DropDown>
-            <DropDown title="อื่น ๆ Miscellaneous">
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-            </DropDown>
-            <DropDown title="สำหรับประธานชมรม">
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-              <FAQElement title="หากเปิดระบบแล้ว ฉันต้องทำอย่างไร ?">
-                <FAQElement.Answer>
-                  คำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบคำตอบ
-                </FAQElement.Answer>
-              </FAQElement>
-            </DropDown>
+            {
+              dataArr[1].map(item => {
+                return <DropDown title={item.group}>
+                  {
+                    Object.keys(item.data).map(e => {
+                      return <FAQElement title={e}>
+                        <FAQElement.Answer>
+                          {item.data[e]}
+                        </FAQElement.Answer>
+                      </FAQElement>
+                    })
+                  }
+                </DropDown>
+              })
+            }
           </div>
         </div>
       </div>
