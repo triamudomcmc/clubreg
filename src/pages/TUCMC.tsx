@@ -554,7 +554,7 @@ const TUCMC = () => {
                   <svg width="16" height="7.38" viewBox="0 0 13 6" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect x="1" y="1" width="10" height="4" rx="1" fill="#111827"/>
 <path d="M13 3.5C13 3.77614 12.7761 4 12.5 4L12 4L12 2L12.5 2C12.7761 2 13 2.22386 13 2.5L13 3.5Z" fill="#111827"/>
-<rect x="0.1" y="0.1" width="11.8" height="5.8" rx="0.9" stroke="#111827" stroke-width="0.2"/>
+<rect x="0.1" y="0.1" width="11.8" height="5.8" rx="0.9" stroke="#111827" strokeWidth="0.2"/>
 </svg>
 
                 </span>

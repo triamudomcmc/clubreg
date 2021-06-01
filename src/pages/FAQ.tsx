@@ -61,15 +61,15 @@ const FAQ = ({ data }) => {
           <div className="flex flex-col md:flex-row md:justify-center md:space-x-6">
             <div className="space-y-2 md:w-1/2">
               {
-                dataArr[0].map(item => {
-                  return <DropDown title={item.group} item={item} triggerDep={doOpen && item.group === "โควตายืนยันสิทธิ์ชมรมเดิม"}/>
+                dataArr[0].map((item, index) => {
+                  return <DropDown key={`row1-${index}`} title={item.group} item={item} triggerDep={doOpen && item.group === "โควตายืนยันสิทธิ์ชมรมเดิม"}/>
                 })
               }
             </div>
             <div className="space-y-2 md:w-1/2">
               {
-                dataArr[1].map(item => {
-                  return <DropDown title={item.group} item={item} triggerDep={doOpen && item.group === "โควตายืนยันสิทธิ์ชมรมเดิม"}/>
+                dataArr[1].map((item, index) => {
+                  return <DropDown key={`row2-${index}`} title={item.group} item={item} triggerDep={doOpen && item.group === "โควตายืนยันสิทธิ์ชมรมเดิม"}/>
                 })
               }
             </div>
