@@ -81,6 +81,7 @@ const Clubs = ({ clubs }) => {
       } else {
         setSortedData(rawSorted)
       }
+
     }, 900))
   }, [searchContext, rawSorted])
 
@@ -98,19 +99,18 @@ const Clubs = ({ clubs }) => {
         </div>
         <div className="flex flex-wrap w-full justify-center max-w-5xl mt-5 md:mt-14">
           {sortedData.map((item, index) => {
-            if (index !== 60) return <ClubCard key={`club-${index}`} data={item} imageLoadAction={loaded}/>
-            return <div key={`clubWrapper`} className="flex flex-wrap justify-center">
-              <ClubCard key={`club-${index}`} data={item} imageLoadAction={loaded}/>
-              <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
-              </div>
-              <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
-              </div>
-              <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
-              </div>
-              <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
-              </div>
-            </div>
+            if (index < 60) return <ClubCard key={`club-${index}`} data={item} imageLoadAction={loaded}/>
           })}
+          {sortedData[60] && sortedData[61] && <div key={`clubWrapper`} className="flex flex-wrap justify-center">
+            <ClubCard key={`club-60`} data={sortedData[60]} imageLoadAction={loaded}/>
+            <ClubCard key={`club-61`} data={sortedData[61]} imageLoadAction={loaded}/>
+            <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
+            </div>
+            <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
+            </div>
+            <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
+            </div>
+          </div>}
         </div>
       </div>
       <ClubIndexSkeleton clubs={clubs} className={classnames(loadingCount <= 0 && "hidden")}/>
