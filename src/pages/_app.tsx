@@ -11,7 +11,7 @@ const App = ({Component, pageProps}: AppProps) => {
   return (
     <div className="antialiased">
       <Head>
-        <title>TUCMC Club Registration System</title>
+        <title>ระบบลงทะเบียนชมรม โรงเรียนเตรียมอุดมศึกษา</title>
       </Head>
       <ToastProvider>
         <TrackerProvider>
