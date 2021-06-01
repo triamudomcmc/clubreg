@@ -244,16 +244,20 @@ const Navigation = () => {
             <LogoIcon className={classnames("w-7 h-7", getClass("/TUCMC", "icon"))}/> <span className={getClass("/TUCMC", "font")}>ทำความรู้จัก กช.</span>
           </div>
         </Link>
-        <div
-          className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/tos", "bg"))}>
-          <DocumentTextIcon className={classnames("w-7 h-7", getClass("/tos", "icon"))}/> <span
-          className={getClass("/tos", "font")}>ข้อตกลงและเงื่อนไขการใช้งาน</span>
-        </div>
-        <div
-          className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/policy", "bg"))}>
-          <KeyIcon className={classnames("w-7 h-7", getClass("/policy", "icon"))}/> <span
-          className={getClass("/policy", "font")}>นโยบายความเป็นส่วนตัว</span>
-        </div>
+        <Link href="/terms-of-service">
+          <div
+            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/terms-of-service", "bg"))}>
+            <DocumentTextIcon className={classnames("w-7 h-7", getClass("/terms-of-service", "icon"))}/> <span
+            className={getClass("/terms-of-service", "font")}>ข้อตกลงและเงื่อนไขการใช้งาน</span>
+          </div>
+        </Link>
+        <Link href="/privacy-policy">
+          <div
+            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/privacy-policy", "bg"))}>
+            <KeyIcon className={classnames("w-7 h-7", getClass("/privacy-policy", "icon"))}/> <span
+            className={getClass("/privacy-policy", "font")}>นโยบายความเป็นส่วนตัว</span>
+          </div>
+        </Link>
       </motion.div>
     </>
   )

@@ -67,9 +67,13 @@ const Footer = () => {
       </div>
       <div
         className="flex-row justify-center hidden py-5 space-x-2 text-xs text-white bg-black md:flex">
-        <a>ข้อตกลงและเงื่อนไขการใช้งาน</a>
+        <Link href="/terms-of-service">
+          <a>ข้อตกลงและเงื่อนไขการใช้งาน</a>
+        </Link>
         <span>|</span>
-        <a>นโยบายความปลอดภัย</a>
+        <Link href="/privacy-policy">
+          <a>นโยบายความปลอดภัย</a>
+        </Link>
       </div>
     </>
   )
