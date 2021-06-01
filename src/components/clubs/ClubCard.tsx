@@ -8,7 +8,7 @@ export const ClubCard = ({ data, imageLoadAction = null }) => {
   return(
     <Link href={`/clubs/${data.clubID}`}>
       <motion.div whileHover={{scale: 1.03}} whileTap={{scale: 0.97}} className="flex flex-col rounded-lg mx-1 marg:mx-[0.35rem] my-[0.35rem] mx-10 shadow-lg w-full max-w-[260px] minClubs2:w-175px minClubs:w-185px cursor-pointer">
-        {imageLoadAction ? <Image priority={true} onLoad={imageLoadAction} className="object-cover rounded-t-lg w-full" width="260" height="143" src={`/assets/thumbnails/${data.clubID}.jpg`}/>: <Image className="object-cover rounded-t-lg w-full" width="185" height="102" src={`/assets/thumbnails/${data.clubID}.jpg`}/>}
+        {imageLoadAction ? <Image priority={false} onLoad={imageLoadAction} className="object-cover rounded-t-lg w-full" width="260" height="143" src={`/assets/thumbnails/${data.clubID}.jpg`}/>: <Image className="object-cover rounded-t-lg w-full" width="185" height="102" src={`/assets/thumbnails/${data.clubID}.jpg`}/>}
         <div className="px-2 bg-white rounded-b-lg py-2 space-y-2.5">
           <div className="h-[40px]">
             <LinesEllipsis text={`ชมรม${data.name}`}

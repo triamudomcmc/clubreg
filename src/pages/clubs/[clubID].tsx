@@ -199,7 +199,7 @@ const Page = ({data, clubID, images, clubList}) => {
               }
             </div>
             <div className="space-y-10 md:space-y-16">
-              <h1 className="text-2xl text-TUCMC-gray-700">รีวิวจากรุ่นพี่</h1>
+              {data.reviews.length > 0 && <h1 className="text-2xl text-TUCMC-gray-700">รีวิวจากรุ่นพี่</h1>}
               <div className="space-y-16 md:space-y-24">
                 {data.reviews.map((revContent, index) => {
                   return <div key={`review-${index}`}>
