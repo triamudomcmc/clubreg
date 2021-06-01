@@ -21,7 +21,7 @@ const ClubIndexSkeleton = ({clubs, className}) => {
         </div>
         <div className="flex flex-wrap w-full justify-center max-w-5xl mt-5 px-0 marg:px-[0.35rem] md:mt-14">
           {clubs.map((item, index) => {
-            if (index < 60) return <div key={`skel-${index}`} className="flex flex-col rounded-lg mx-1 marg:mx-[0.35rem] my-[0.35rem] mx-10 shadow-lg w-full max-w-[260px] minClubs2:w-175px minClubs:w-185px">
+            if (index < 60) return <div key={`skel-${index}`} className="flex flex-col rounded-lg mx-1 marg:mx-[0.35rem] my-[0.35rem] shadow-lg w-full max-w-[260px] minClubs2:w-175px minClubs:w-185px">
               <div className="bg-TUCMC-gray-300 rounded-t-lg w-[260px] h-[143px] minClubs2:w-[175px] minClubs:w-[185px] minClubs2:h-[96px] minClubs:h-[102px] animate-pulse"></div>
               <div className="px-2 bg-white rounded-b-lg py-2 space-y-2.5">
                 <div className="h-[40px]">
@@ -33,7 +33,7 @@ const ClubIndexSkeleton = ({clubs, className}) => {
             </div>
           })}
           <div  key={`skelWrapper-2`} className="flex flex-wrap justify-center">
-            <div  key={`skel-60`} className="flex flex-col rounded-lg mx-1 marg:mx-[0.35rem] my-[0.35rem] mx-10 shadow-lg w-full max-w-[260px] minClubs2:w-175px minClubs:w-185px">
+            <div  key={`skel-60`} className="flex flex-col rounded-lg mx-1 marg:mx-[0.35rem] my-[0.35rem] shadow-lg w-full max-w-[260px] minClubs2:w-175px minClubs:w-185px">
               <div className="bg-TUCMC-gray-300 rounded-t-lg w-[260px] h-[143px] minClubs2:w-[175px] minClubs:w-[185px] minClubs2:h-[96px] minClubs:h-[102px] animate-pulse"></div>
               <div className="px-2 bg-white rounded-b-lg py-2 space-y-2.5">
                 <div className="h-[40px]">
@@ -43,7 +43,7 @@ const ClubIndexSkeleton = ({clubs, className}) => {
                 <div className="bg-white h-4 w-[50px]"> </div>
               </div>
             </div>
-            <div  key={`skel-61`} className="flex flex-col rounded-lg mx-1 marg:mx-[0.35rem] my-[0.35rem] mx-10 shadow-lg w-full max-w-[260px] minClubs2:w-175px minClubs:w-185px">
+            <div  key={`skel-61`} className="flex flex-col rounded-lg mx-1 marg:mx-[0.35rem] my-[0.35rem] shadow-lg w-full max-w-[260px] minClubs2:w-175px minClubs:w-185px">
               <div className="bg-TUCMC-gray-300 rounded-t-lg w-[260px] h-[143px] minClubs2:w-[175px] minClubs:w-[185px] minClubs2:h-[96px] minClubs:h-[102px] animate-pulse"></div>
               <div className="px-2 bg-white rounded-b-lg py-2 space-y-2.5">
                 <div className="h-[40px]">

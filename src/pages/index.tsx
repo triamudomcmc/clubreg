@@ -10,6 +10,7 @@ import FAQ from "@components/index/FAQ";
 import Clubs from "@components/index/Clubs";
 import Footer from "@components/common/Footer";
 import {AnimateSharedLayout, motion} from "framer-motion";
+import {useTracker} from "@client/tracker/context";
 
 const addZero = (num) => {
   return ('0' + num).slice(-2)

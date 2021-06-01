@@ -11,21 +11,18 @@ import {
   CalendarIcon, ChatIcon,
   ClipboardListIcon, CogIcon, DocumentTextIcon,
   HomeIcon, KeyIcon,
-  LoginIcon,MailIcon,
+  LoginIcon, MailIcon,
   LogoutIcon,
   TerminalIcon
 } from "@heroicons/react/outline";
 import {ChevronDownIcon} from "@heroicons/react/solid";
 import Modal from "@components/common/Modals";
 import {isEmpty} from "@utilities/object";
+import {useTracker} from "@client/tracker/context";
 
 const Navigation = () => {
 
-  const {onReady, signout} = useAuth()
-
-  const {logged, userData} = onReady((logged, userData) => {
-    return {logged, userData}
-  })
+  const {tracker} = useTracker()
 
   const [reveal, setReaveal] = useState(false)
   const [toggle, setToggle] = useState(false)
@@ -54,6 +51,11 @@ const Navigation = () => {
   useEffect(() => {
     setPath(Router.pathname)
   }, [])
+
+  const trackedRedirect = (href, mode) => {
+    tracker.push("click", `Navigation-${mode}->${href}`)
+    Router.push(href)
+  }
 
   const variants = {
     open: {
@@ -107,57 +109,24 @@ const Navigation = () => {
           </Link>
           <div className="flex flex-row">
             <div className="flex-row space-x-10 whitespace-nowrap font-medium hidden md:flex">
-              <Link href="/">
-                <h1 className="cursor-pointer text-white">หน้าแรก</h1>
-              </Link>
-              <Link href="/instruction">
-                <h1 className="text-white cursor-pointer">วิธีใช้</h1>
-              </Link>
-              <Link href="/clubs">
-                <h1 className="text-white cursor-pointer">ชมรม</h1>
-              </Link>
-              <Link href="/FAQ">
-                <h1 className="text-white cursor-pointer">FAQ</h1>
-              </Link>
-              <Link href="/TUCMC">
-                <h1 className="text-white cursor-pointer">กช.</h1>
-              </Link>
-              <Link href="/contact">
-                <h1 className="text-white cursor-pointer">ติดต่อ</h1>
-              </Link>
-              <div className={classnames(isEmpty(userData) && "hidden")}>
-                <h1 ref={accRef} className="flex items-center space-x-1 text-white cursor-pointer">บัญชี <ChevronDownIcon
-                  className="w-5 h-5"/></h1>
-                <Modal className="flex justify-end w-full" TriggerRef={accRef}>
-                  <div className="absolute mt-2">
-                    {logged && <div className="bg-TUCMC-gray-100 px-7 py-2 font-normal rounded-t-lg">
-                        <h1 className="text-TUCMC-gray-900">{`${userData.title}${userData.firstname} ${userData.lastname}`}</h1>
-                        <h1
-                            className="text-TUCMC-gray-700 tracking-tight text-sm">{`${userData.student_id} | ${userData.room} / ${userData.number}`}</h1>
-                    </div>}
-                    <div style={{minWidth: "100px"}}
-                         className="font-normal bg-white space-y-2.5 shadow-md rounded-b-lg py-3 px-5 text-gray-700">
-                      {logged && userData.panelID &&
-                      <Link href="/panel"><h1 className="text-black cursor-pointer hover:text-blue-600 hover:underline">แผงควบคุม</h1>
-                      </Link>}
-                      {userData && userData.club === "" &&
-                      <Link href="/select"><h1 className="text-black cursor-pointer hover:text-blue-600 hover:underline">เลือกชมรม</h1>
-                      </Link>}
-                      <Link href="/account"><h1
-                        className="text-black cursor-pointer hover:text-blue-600 hover:underline">จัดการบัญชี</h1>
-                      </Link>
-                      {!logged ? <Link href="/auth"><h1
-                          className="text-black cursor-pointer hover:text-blue-600 hover:underline">เข้าสู่ระบบ</h1></Link> :
-                        <h1 onClick={signout}
-                            className="text-black cursor-pointer hover:text-blue-600 hover:underline">ออกจากระบบ</h1>}
-                    </div>
-                  </div>
-                </Modal>
-              </div>
-              <div className={classnames(!isEmpty(userData) && "hidden")}>
-                {!logged ? <Link href="/auth"><h1 className="text-white cursor-pointer">เข้าสู่ระบบ</h1></Link> :
-                  <h1 onClick={signout} className="text-white cursor-pointer">ออกจากระบบ</h1>}
-              </div>
+              <h1 onClick={() => {
+                trackedRedirect("/", "desktop")
+              }} className="cursor-pointer text-white">หน้าแรก</h1>
+              <h1 onClick={() => {
+                trackedRedirect("/instruction", "desktop")
+              }} className="text-white cursor-pointer">วิธีใช้</h1>
+              <h1 onClick={() => {
+                trackedRedirect("/clubs", "desktop")
+              }} className="text-white cursor-pointer">ชมรม</h1>
+              <h1 onClick={() => {
+                trackedRedirect("/FAQ", "desktop")
+              }} className="text-white cursor-pointer">FAQ</h1>
+              <h1 onClick={() => {
+                trackedRedirect("/TUCMC", "desktop")
+              }} className="text-white cursor-pointer">กช.</h1>
+              <h1 onClick={() => {
+                trackedRedirect("/contact", "desktop")
+              }} className="text-white cursor-pointer">ติดต่อ</h1>
             </div>
             <div className="md:hidden">
               <NavButton toggle={() => {
@@ -174,96 +143,73 @@ const Navigation = () => {
       }} ref={panel} initial={{x: "-100%"}} animate={reveal ? "open" : "close"} variants={variants}
                   className={classnames("fixed top-0 bg-white h-full z-50", (load) && "hidden")}>
         <div className="bg-TUCMC-gray-800 p-4">
-          <Link href="/">
-            <div>
-              <WhiteLogo/>
-            </div>
-          </Link>
+          <div>
+            <WhiteLogo/>
+          </div>
         </div>
-        {logged && <div className="bg-TUCMC-gray-100 my-4 px-6 py-2">
-            <h1 className="text-TUCMC-gray-900">{`${userData.title}${userData.firstname} ${userData.lastname}`}</h1>
-            <h1 className="text-TUCMC-gray-700 tracking-tight">{`${userData.student_id} | ${userData.room} / ${userData.number}`}</h1>
-        </div>}
-        <Link href="/">
-          <div
-            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/", "bg"))}>
-            <HomeIcon className={classnames("w-7 h-7", getClass("/", "icon"))}/> <span
-            className={getClass("/", "font")}>หน้าแรก</span>
-          </div>
-        </Link>
-        {!logged ? <Link href="/auth">
-          <div
-            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/auth", "bg"))}>
-            <LoginIcon className={classnames("w-7 h-7", getClass("/auth", "icon"))}/> <span
-            className={getClass("/auth", "font")}>เข้าสู่ระบบ</span>
-          </div>
-        </Link> : <div
-          onClick={signout}
-          className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/auth", "bg"))}>
-          <LogoutIcon className={classnames("w-7 h-7", getClass("/auth", "icon"))}/> <span
-          className={getClass("/auth", "font")}>ออกจากระบบ</span>
-        </div>}
-        {(logged && userData.panelID) && <Link href="/panel">
-            <div
-                className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/panel", "bg"))}>
-                <TerminalIcon className={classnames("w-7 h-7", getClass("/panel", "icon"))}/> <span
-                className={getClass("/panel", "font")}>แผงควบคุม</span>
-            </div>
-        </Link>}
-        {(logged) && <Link href="/account">
-            <div
-                className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/account", "bg"))}>
-                <CogIcon className={classnames("w-7 h-7", getClass("/account", "icon"))}/> <span
-                className={getClass("/account", "font")}>จัดการบัญชี</span>
-            </div>
-        </Link>}
-        <Link href="/clubs">
-          <div
-            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8 cursor-pointer", getClass("/clubs", "bg"))}>
-            <ClipboardListIcon className={classnames("w-7 h-7", getClass("/clubs", "icon"))}/> <span
-            className={getClass("/clubs", "font")}>รายชื่อชมรม</span>
-          </div>
-        </Link>
-        <Link href="/instruction">
-          <div
-            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/instruction", "bg"))}>
-            <CalendarIcon className={classnames("w-7 h-7", getClass("/instruction", "icon"))}/> <span
-            className={getClass("/info", "font")}>วิธีลงทะเบียน</span>
-          </div>
-        </Link>
-        <Link href="/FAQ">
-          <div
-            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/FAQ", "bg"))}>
-            <ChatIcon className={classnames("w-7 h-7", getClass("/FAQ", "icon"))}/> <span
-            className={getClass("/FAQ", "font")}>คำถามที่พบบ่อย</span>
-          </div>
-        </Link>
-        <Link href="/TUCMC">
-          <div
-            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/TUCMC", "bg"))}>
-            <LogoIcon className={classnames("w-7 h-7", getClass("/TUCMC", "icon"))}/> <span className={getClass("/TUCMC", "font")}>ทำความรู้จัก กช.</span>
-          </div>
-        </Link>
-        <Link href="/contact">
-          <div
-            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/contact", "bg"))}>
-            <MailIcon className={classnames("w-7 h-7", getClass("/contact", "icon"))}/> <span className={getClass("/contact", "font")}>ติดต่อ</span>
-          </div>
-        </Link>
-        <Link href="/terms-of-service">
-          <div
-            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/terms-of-service", "bg"))}>
-            <DocumentTextIcon className={classnames("w-7 h-7", getClass("/terms-of-service", "icon"))}/> <span
-            className={getClass("/terms-of-service", "font")}>ข้อตกลงและเงื่อนไขการใช้งาน</span>
-          </div>
-        </Link>
-        <Link href="/privacy-policy">
-          <div
-            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/privacy-policy", "bg"))}>
-            <KeyIcon className={classnames("w-7 h-7", getClass("/privacy-policy", "icon"))}/> <span
-            className={getClass("/privacy-policy", "font")}>นโยบายความเป็นส่วนตัว</span>
-          </div>
-        </Link>
+        <div
+          onClick={() => {
+            trackedRedirect("/", "mobile")
+          }}
+          className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/", "bg"))}>
+          <HomeIcon className={classnames("w-7 h-7", getClass("/", "icon"))}/> <span
+          className={getClass("/", "font")}>หน้าแรก</span>
+        </div>
+        <div
+          onClick={() => {
+            trackedRedirect("/clubs", "mobile")
+          }}
+          className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8 cursor-pointer", getClass("/clubs", "bg"))}>
+          <ClipboardListIcon className={classnames("w-7 h-7", getClass("/clubs", "icon"))}/> <span
+          className={getClass("/clubs", "font")}>รายชื่อชมรม</span>
+        </div>
+        <div
+          onClick={() => {
+            trackedRedirect("/instruction", "mobile")
+          }}
+          className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/instruction", "bg"))}>
+          <CalendarIcon className={classnames("w-7 h-7", getClass("/instruction", "icon"))}/> <span
+          className={getClass("/info", "font")}>วิธีลงทะเบียน</span>
+        </div>
+        <div
+          onClick={() => {
+            trackedRedirect("/FAQ", "mobile")
+          }}
+          className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/FAQ", "bg"))}>
+          <ChatIcon className={classnames("w-7 h-7", getClass("/FAQ", "icon"))}/> <span
+          className={getClass("/FAQ", "font")}>คำถามที่พบบ่อย</span>
+        </div>
+        <div
+          onClick={() => {
+            trackedRedirect("/TUCMC", "mobile")
+          }}
+          className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/TUCMC", "bg"))}>
+          <LogoIcon className={classnames("w-7 h-7", getClass("/TUCMC", "icon"))}/> <span className={getClass("/TUCMC", "font")}>ทำความรู้จัก กช.</span>
+        </div>
+        <div
+          onClick={() => {
+            trackedRedirect("/contact", "mobile")
+          }}
+          className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/contact", "bg"))}>
+          <MailIcon className={classnames("w-7 h-7", getClass("/contact", "icon"))}/> <span
+          className={getClass("/contact", "font")}>ติดต่อ</span>
+        </div>
+        <div
+          onClick={() => {
+            trackedRedirect("/terms-of-service", "mobile")
+          }}
+          className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/terms-of-service", "bg"))}>
+          <DocumentTextIcon className={classnames("w-7 h-7", getClass("/terms-of-service", "icon"))}/> <span
+          className={getClass("/terms-of-service", "font")}>ข้อตกลงและเงื่อนไขการใช้งาน</span>
+        </div>
+        <div
+          onClick={() => {
+            trackedRedirect("/privacy-policy", "mobile")
+          }}
+          className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/privacy-policy", "bg"))}>
+          <KeyIcon className={classnames("w-7 h-7", getClass("/privacy-policy", "icon"))}/> <span
+          className={getClass("/privacy-policy", "font")}>นโยบายความเป็นส่วนตัว</span>
+        </div>
       </motion.div>
     </>
   )

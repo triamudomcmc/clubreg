@@ -2,11 +2,8 @@ import {Button} from "@components/common/Inputs/Button";
 import IndexBottom from "@vectors/decorations/IndexBottom";
 import Link from "next/link";
 import React from "react";
-import {useAuth} from "@client/auth";
 
 const Clubs = () => {
-
-  const {tracker} = useAuth()
 
   return (
     <div className="mx-8 pt-16 pb-24 md:mx-0 md:pt-0 md:pb-0">
@@ -18,7 +15,7 @@ const Clubs = () => {
             <h1
               className="font-bold tracking-tight text-7xl md:tracking-normal md:text-8xl">ชมรม</h1>
             <h1 className="font-medium text-2xl md:text-4xl md:ml-1 opacity-0">กว่า 80+ ชมรม</h1>
-            <Button href="/clubs" onClick={() => {tracker.push("click", "index_clubs_button")}} className="hidden md:block mt-10 text-black font-medium ml-21 shadow-lg bg-white rounded-5xl px-11 py-4">
+            <Button href="/clubs" className="hidden md:block mt-10 text-black font-medium ml-21 shadow-lg bg-white rounded-5xl px-11 py-4">
               <span className="text-2xl">ดูทั้งหมด</span>
             </Button>
           </div>

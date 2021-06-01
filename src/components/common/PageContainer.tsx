@@ -3,12 +3,12 @@ import Footer from "@components/common/Footer";
 import {motion} from "framer-motion";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
-import {useAuth} from "@client/auth";
+import {useTracker} from "@client/tracker/context";
 
 const PageContainer = ({children, footer = true}) => {
 
   const router = useRouter()
-  const {isInit} = useAuth()
+  const {isInit} = useTracker()
 
   const variants = {
     initial: !isInit ? {y: -20, opacity: 0} : {},

@@ -1,14 +1,16 @@
 import React, {useEffect, useState} from "react";
 import Toggle from "@components/index/FAQ/Toggle";
 import {motion} from "framer-motion";
+import {useTracker} from "@client/tracker/context";
 
-const FAQElement = ({children, title, revealed = true}) => {
+const FAQElement = ({children, title, revealed = true, indexFAQ = false}) => {
 
   const [reveal, setReveal] = useState(false)
   const [display, setDisplay] = useState(false)
   const answer = React.Children.map(children, child =>
     child.type.displayName === 'Answer' ? child : null
   )
+  const {tracker} = useTracker()
 
   useEffect(() => {
       if (reveal) {
@@ -52,6 +54,7 @@ const FAQElement = ({children, title, revealed = true}) => {
         <motion.div animate={reveal ? "open" : "closed"} className="flex flex-row justify-between">
           <span className="pr-4">{title}</span>
           <Toggle toggle={() => {
+            reveal && tracker.push("click",`${indexFAQ ? "index" : "regular"}FAQ->${title}`)
             setReveal(!reveal)
           }}/>
         </motion.div>

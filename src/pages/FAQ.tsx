@@ -8,10 +8,8 @@ import React, {useEffect, useState} from "react";
 import {GetStaticProps} from "next";
 import * as fs from "fs";
 import {sliceArrN} from "@utilities/array";
-import {Card} from "@components/Card";
 import {DefaultCard} from "@components/common/Cards";
 import Link from "next/link";
-import Auth from "./auth";
 import Router, {useRouter} from "next/router";
 
 const objToArr = (obj: any) => {

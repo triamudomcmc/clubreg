@@ -1,8 +1,9 @@
 import {motion} from "framer-motion"
 import {ReactNode} from "react";
 import Link from "next/link"
-import Router from "next/router";
+import Router, {useRouter} from "next/router";
 import classnames from "classnames"
+import {useTracker} from "@client/tracker/context";
 
 interface props {
   children: ReactNode,
@@ -16,18 +17,26 @@ const defaultAttributes = "cursor-pointer appearance-none focus:outline-none"
 
 export const Button = ({children, className = "", type = "button", href = "", onClick = null}: props) => {
 
+  const {tracker} = useTracker()
+  const router = useRouter()
+
+  const trackedClick = () => {
+    onClick()
+    tracker.push("click",`Button@${router.pathname}->${href}`)
+  }
+
   return (
-    type === "div" ? href == "" ?<motion.div onClick={onClick} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}} whileTap={{scale: 0.95}}>
+    type === "div" ? href == "" ?<motion.div onClick={trackedClick} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}} whileTap={{scale: 0.95}}>
       {children}
-    </motion.div>: <Link href={href}><motion.div onClick={onClick} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}} whileTap={{scale: 0.95}}>
+    </motion.div>: <Link href={href}><motion.div onClick={trackedClick} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}} whileTap={{scale: 0.95}}>
       {children}
     </motion.div></Link> : onClick === null && type === "button" ? <Link href={href}>
     <motion.button type={type} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}} whileTap={{scale: 0.95}}>
       {children}
     </motion.button>
-  </Link>: href == "" ? <motion.button onClick={onClick} type={type} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}} whileTap={{scale: 0.95}}>
+  </Link>: href == "" ? <motion.button onClick={trackedClick} type={type} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}} whileTap={{scale: 0.95}}>
     {children}
-  </motion.button> : <motion.button onClick={() => {onClick();Router.push(href)}} type={type} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}} whileTap={{scale: 0.95}}>
+  </motion.button> : <motion.button onClick={() => {trackedClick();Router.push(href)}} type={type} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}} whileTap={{scale: 0.95}}>
     {children}
   </motion.button>
   )
