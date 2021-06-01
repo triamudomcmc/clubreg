@@ -8,6 +8,9 @@ import React, {useState} from "react";
 import {GetStaticProps} from "next";
 import * as fs from "fs";
 import {sliceArrN} from "@utilities/array";
+import {Card} from "@components/Card";
+import {DefaultCard} from "@components/common/Cards";
+import Link from "next/link";
 
 const objToArr = (obj: any) => {
   return Object.keys(obj).map(key => {
@@ -34,10 +37,10 @@ const FAQ = ({ data }) => {
     <PageContainer footer={false}>
       <AnimateSharedLayout>
       <div className="py-10 md:py-16 md:pb-24 px-6 space-y-6 md:space-y-16 max-w-6xl mx-auto">
-        <div className="flex flex-col items-center space-y-8">
+        <motion.div layout="position" className="flex flex-col items-center space-y-8">
           <h1 className="font-semibold text-2xl text-center">คำถามที่พบบ่อย</h1>
           <FAQSplash className="w-[280px]"/>
-        </div>
+        </motion.div>
         <div className="flex flex-col md:flex-row md:justify-center md:space-x-6">
           <div className="space-y-2 md:w-1/2">
             {
@@ -54,8 +57,13 @@ const FAQ = ({ data }) => {
             }
           </div>
         </div>
+        <motion.div layout="position">
+          <DefaultCard>
+            <p className="font-normal">หากมีข้อสงสัยเพิ่มเติม กรุณาติดต่องานกิจกรรมพัฒนาผู้เรียน (กช.) <Link href="/contact"><a className="underline">ติดต่อเรา</a></Link></p>
+          </DefaultCard>
+        </motion.div>
       </div>
-      <motion.div layout="position">
+      <motion.div layout="position" transition={{delay: 0.05, duration: 0.2}}>
         <Footer/>
       </motion.div>
       </AnimateSharedLayout>

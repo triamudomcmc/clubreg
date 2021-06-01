@@ -10,7 +10,7 @@ const Contact = () => {
         <div className="flex flex-col items-center px-6">
           <h1 className="mt-8 text-xl font-bold md:mt-16">ติดต่อ</h1>
           <div className="flex flex-col items-center md:flex-row">
-            <div className="flex flex-col items-start px-8 mx-8 mt-3 md:w-full md:max-w-6xl md:py-10 xl:px-0">
+            <div className="flex flex-col items-start px-8 mx-8 mt-6 md:w-full md:max-w-6xl md:py-10 xl:px-0">
               <ContactSplash className="w-[250px] md:w-[300px] md:mr-12 md:mt-0 md:max-w-sm lg:max-w-none" />
             </div>
             <div className="flex flex-col items-start py-0 my-8 font-medium md:py-5 lg:py-0 md:items-start md:h-full md:max-h-96 md:w-full">

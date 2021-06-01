@@ -19,8 +19,12 @@ module.exports = {
             ]
         },
         extend: {
+            cursor: {
+                magnify: "zoom-in"
+            },
             screens: {
                 "minClubs2": "366px",
+                "marg": "405px",
                 "minClubs": "387px",
                 "xs": "441px",
                 "pic": "448px"

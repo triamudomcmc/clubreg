@@ -5,68 +5,71 @@ import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 
 import "swiper/swiper-bundle.css"
 import {ChevronLeftIcon, ChevronRightIcon} from "@heroicons/react/solid";
+import {Zoomable} from "@components/common/Zoomable";
+import {useRef, useState} from "react";
 
 // install Swiper modules
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
 const Index = () => {
 
+  const [zoomOverlay ,setZoomOverlay] = useState(<></>)
+
   return (
     <PageContainer>
+      {zoomOverlay}
       <div className="max-w-6xl mx-auto pt-8 pb-16">
         <h1 className="mb-6 text-2xl font-bold md:my-12 text-center">วิธีลงทะเบียน</h1>
         <div className="flex flex-col items-center px-8 text-TUCMC-gray-700 space-y-8">
           <div className="flex justify-center w-[100vw] max-w-[400px] md:w-full md:max-w-[unset] md:space-x-6">
-            <div className="flex items-center">
-              <ChevronLeftIcon className="w-10 h-10 swipe-button-prev hover:text-TUCMC-pink-400"/>
-            </div>
             <Swiper
               slidesPerView={1}
               navigation={{
                 nextEl: '.swipe-button-next',
                 prevEl: '.swipe-button-prev',
               }}
-              className="w-[70vw] max-w-[320px] md:w-[400px] md:max-w-[400px]"
+              className="w-[78vw] max-w-[400px] md:w-[400px] md:max-w-[400px]"
               pagination={{ clickable: true, bulletActiveClass: "swiper-pink"}}
               onSwiper={(swiper) => console.log(swiper)}
               onSlideChange={() => console.log('slide change')}
             >
               <SwiperSlide>
-                <div className="w-[70vw] max-w-[320px] md:w-[400px] md:max-w-[400px]">
-                  <Image
-                    width="400" height="500"
+                <div className="w-[78vw] max-w-[400px] md:w-[400px] md:max-w-[400px]">
+                  <Zoomable
+                    updateOverlay={setZoomOverlay}
+                    width={400} height={500}
                     src="/assets/images/instruction/instruction_1.jpg"
                   />
                 </div>
               </SwiperSlide>
               <SwiperSlide>
-                <div className="w-[70vw] max-w-[320px] md:w-[400px] md:max-w-[400px]">
-                  <Image
-                    width="400" height="500"
+                <div className="w-[78vw] max-w-[400px] md:w-[400px] md:max-w-[400px]">
+                  <Zoomable
+                    updateOverlay={setZoomOverlay}
+                    width={400} height={500}
                     src="/assets/images/instruction/instruction_2.jpg"
                   />
                 </div>
               </SwiperSlide>
               <SwiperSlide>
-                <div className="w-[70vw] max-w-[320px] md:w-[400px] md:max-w-[400px]">
-                  <Image
-                    width="400" height="500"
+                <div className="w-[78vw] max-w-[400px] md:w-[400px] md:max-w-[400px]">
+                  <Zoomable
+                    updateOverlay={setZoomOverlay}
+                    width={400} height={500}
                     src="/assets/images/instruction/instruction_3.jpg"
                   />
                 </div>
               </SwiperSlide>
               <SwiperSlide>
-                <div className="w-[70vw] max-w-[320px] md:w-[400px] md:max-w-[400px]">
-                  <Image
-                    width="400" height="500"
+                <div className="w-[78vw] max-w-[400px] md:w-[400px] md:max-w-[400px]">
+                  <Zoomable
+                    updateOverlay={setZoomOverlay}
+                    width={400} height={500}
                     src="/assets/images/instruction/instruction_4.jpg"
                   />
                 </div>
               </SwiperSlide>
             </Swiper>
-            <div className="flex items-center">
-              <ChevronRightIcon className="w-10 h-10 swipe-button-next hover:text-TUCMC-pink-400"/>
-            </div>
           </div>
           <div className="flex flex-col space-y-10">
             <div className="flex space-x-4">
@@ -111,17 +114,17 @@ const Index = () => {
             </div>
             <div className="flex space-x-4">
               <h1>3.</h1>
-              <p>สำหรับนักเรียนที่ลงชื่อ Audition เอาไว้ ให้ไป Audition ตามวันเเละเวลาที่แต่ละชมรมกำหนด และรอติดตามประกาศผลการ Audition ในวันที่ 15 มิ.ย. 2564 เวลา 7.30 น.
+              <div>สำหรับนักเรียนที่ลงชื่อ Audition เอาไว้ ให้ไป Audition ตามวันเเละเวลาที่แต่ละชมรมกำหนด และรอติดตามประกาศผลการ Audition ในวันที่ 15 มิ.ย. 2564 เวลา 7.30 น.
                  <p>
                    *ถ้าไม่ลงชื่อ Audition บนหน้าเว็บระบบลงทะเบียนชมรม จะไม่สามารถเป็นสมาชิกของชมรมได้ ถึงแม้จะผ่านการ Audition เนื่องจากไม่มีชื่ออยู่ในระบบ
                  </p>
-              </p>
+              </div>
             </div>
             <div className="flex space-x-4">
               <h1>4.</h1>
-              <p>ทุกชมรมประกาศผลการ Audition พร้อมกันบนเว็บไซต์ในวันที่ 15 มิ.ย. 2564 เวลา 7.30 น.
+              <div>ทุกชมรมประกาศผลการ Audition พร้อมกันบนเว็บไซต์ในวันที่ 15 มิ.ย. 2564 เวลา 7.30 น.
                 <p className="text-TUCMC-green-500">โดยนักเรียนสามารถตรวจสอบผลได้หลังจากเข้าสู่ระบบแล้ว</p>
-              </p>
+              </div>
             </div>
             <div className="flex mx-auto">
               <div className="max-w-[300px]">

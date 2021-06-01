@@ -13,6 +13,7 @@ import {useRouter} from "next/router";
 import classnames from "classnames"
 import ClubSkeleton from "@components/clubs/ClubSkeleton";
 import Modal from "@components/common/Modals";
+import {Zoomable} from "@components/common/Zoomable";
 
 const parseText = (text) => {
   return '<p>' + text.replace(/\n{2,}/g, '</p><p>').replace(/\n/g, '<br>')
@@ -183,7 +184,7 @@ const Page = ({data, clubID, images, clubList}) => {
           <div className="md:hidden w-full border-b border-TUCMC-gray-300"></div>
           <div className="px-6 space-y-12 md:space-y-16 pb-24 pt-11 md:pt-12">
             <div>
-              <article dangerouslySetInnerHTML={{__html: `${data.description}`}} className="font-texts prose text-TUCMC-gray-700 space-y-4 text-[1.05rem]">
+              <article dangerouslySetInnerHTML={{__html: `${data.description}`}} className="font-texts text-TUCMC-gray-700 space-y-4 text-[1.05rem]">
 
               </article>
             </div>
@@ -191,8 +192,8 @@ const Page = ({data, clubID, images, clubList}) => {
               {
                 images.map((name, index) => {
                   if (name.includes("picture")) return <div key={`picture-${index}`}>
-                    <Image priority={true} onLoad={loaded} className="rounded-lg object-cover" src={`/assets/images/clubs/${clubID}/${name}`} width="768"
-                           height="432"/>
+                    <Zoomable priority={true} onLoad={loaded} className="rounded-lg object-cover" src={`/assets/images/clubs/${clubID}/${name}`} width={768}
+                           height={432}/>
                   </div>
                 })
               }
@@ -230,7 +231,7 @@ const Page = ({data, clubID, images, clubList}) => {
                           <div className="h-12 pt-2 text-6xl text-center text-gray-300 md:hidden">
                             <span className="absolute">“</span>
                           </div>
-                          <article dangerouslySetInnerHTML={{__html: `${revContent.context}`}} className="font-texts prose text-gray-500 text-[1.05rem]">
+                          <article dangerouslySetInnerHTML={{__html: `${revContent.context}`}} className="font-texts text-gray-500 text-[1.05rem]">
                           </article>
                           <h1 className="w-full text-6xl text-center text-gray-300 md:hidden mt-4 h-14">
                             ”

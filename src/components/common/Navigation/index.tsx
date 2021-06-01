@@ -11,7 +11,7 @@ import {
   CalendarIcon, ChatIcon,
   ClipboardListIcon, CogIcon, DocumentTextIcon,
   HomeIcon, KeyIcon,
-  LoginIcon,
+  LoginIcon,MailIcon,
   LogoutIcon,
   TerminalIcon
 } from "@heroicons/react/outline";
@@ -242,6 +242,12 @@ const Navigation = () => {
           <div
             className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/TUCMC", "bg"))}>
             <LogoIcon className={classnames("w-7 h-7", getClass("/TUCMC", "icon"))}/> <span className={getClass("/TUCMC", "font")}>ทำความรู้จัก กช.</span>
+          </div>
+        </Link>
+        <Link href="/contact">
+          <div
+            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/contact", "bg"))}>
+            <MailIcon className={classnames("w-7 h-7", getClass("/contact", "icon"))}/> <span className={getClass("/contact", "font")}>ติดต่อ</span>
           </div>
         </Link>
         <Link href="/terms-of-service">

@@ -97,7 +97,7 @@ const Clubs = ({ clubs }) => {
         <div className="mt-8 md:mt-12 pb-4 border-b mx-8 md:mx-0 md:border-none md:px-8 md:w-full max-w-xl">
           <FilterSearch setSearchContext={setSearchContext} setSortMode={setSortMode} sortMode={sortMode}/>
         </div>
-        <div className="flex flex-wrap w-full justify-center max-w-5xl mt-5 md:mt-14">
+        <div className="flex flex-wrap w-full justify-center max-w-5xl mt-5 px-0 marg:px-[0.35rem] md:mt-14">
           {sortedData.map((item, index) => {
             if (index < 60) return <ClubCard key={`club-${index}`} data={item} imageLoadAction={loaded}/>
           })}

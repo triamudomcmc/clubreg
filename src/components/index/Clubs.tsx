@@ -17,7 +17,7 @@ const Clubs = () => {
           <div className="md:flex md:flex-col md:items-start text-white my-10 md:mt-20">
             <h1
               className="font-bold tracking-tight text-7xl md:tracking-normal md:text-8xl">ชมรม</h1>
-            <h1 className="font-medium text-2xl md:text-4xl md:ml-1">กว่า 80+ ชมรม</h1>
+            <h1 className="font-medium text-2xl md:text-4xl md:ml-1 opacity-0">กว่า 80+ ชมรม</h1>
             <Button href="/clubs" onClick={() => {tracker.push("click", "index_clubs_button")}} className="hidden md:block mt-10 text-black font-medium ml-21 shadow-lg bg-white rounded-5xl px-11 py-4">
               <span className="text-2xl">ดูทั้งหมด</span>
             </Button>
