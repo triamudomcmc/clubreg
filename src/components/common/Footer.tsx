@@ -2,32 +2,37 @@ import {SocialFacebook, SocialInstagram} from "@vectors/icons/Socials";
 import {WhiteLogo} from "@vectors/Logo";
 import Link from "next/link"
 import {Button} from "@components/common/Inputs/Button";
+import {useTracker} from "@client/tracker/context";
+import Router from "next/router";
 
 const Footer = () => {
+  const {tracker} = useTracker()
+
+  const trackedRedirect = (href,mode) => {
+    tracker.push("click", `Footer-${mode}->${href}`)
+    Router.push(href)
+  }
+
   return (
     <>
       <div
         className="flex flex-col items-center justify-center space-y-24 select-none bg-TUCMC-gray-900 py-14 md:space-y-0 md:py-8">
         <div className="flex flex-col items-center space-y-4 text-xl text-white md:hidden">
-          <Link href="/">
-            <a>หน้าแรก</a>
-          </Link>
-          <Link href="/auth">
-            <a>ลงทะเบียนชมรม</a>
-          </Link>
-          <Link href="/clubs">
-            <a>ชมรม</a>
-          </Link>
-          <Link href="/instruction">
-            <a>วิธีลงทะเบียน</a>
-          </Link>
-          <Link href="/FAQ">
-            <a>คำถามที่พบบ่อย</a>
-          </Link>
-          <a>ข้อตกลงและเงื่อนไขการใช้งาน</a>
-          <Link href="/TUCMC">
-            <a>ทำความรู้จัก กช.</a>
-          </Link>
+          <a onClick={() => {
+            trackedRedirect("/", "mobile")
+          }}>หน้าแรก</a>
+          <a onClick={() => {
+            trackedRedirect("/clubs", "mobile")
+          }}>ชมรม</a>
+          <a onClick={() => {
+            trackedRedirect("/instruction", "mobile")
+          }}>วิธีลงทะเบียน</a>
+          <a onClick={() => {
+            trackedRedirect("/FAQ", "mobile")
+          }}>คำถามที่พบบ่อย</a>
+          <a onClick={() => {
+            trackedRedirect("/TUCMC", "mobile")
+          }}>ทำความรู้จัก กช.</a>
         </div>
         <div className="md:flex md:justify-center md:w-full">
           <div
@@ -42,24 +47,21 @@ const Footer = () => {
             </div>
             <div
               className="flex-row hidden space-x-10 font-medium text-white md:flex whitespace-nowrap">
-              <Link href="/">
-                <a>หน้าแรก</a>
-              </Link>
-              <Link href="/instruction">
-                <a>วิธีใช้</a>
-              </Link>
-              <Link href="/clubs">
-                <a>ชมรม</a>
-              </Link>
-              <Link href="/FAQ">
-                <a>FAQ</a>
-              </Link>
-              <Link href="/TUCMC">
-                <a>กช.</a>
-              </Link>
-              <Link href="/contact">
-                <a>ติดต่อ</a>
-              </Link>
+              <a onClick={() => {
+                trackedRedirect("/", "desktop")
+              }}>หน้าแรก</a>
+              <a onClick={() => {
+                trackedRedirect("/clubs", "desktop")
+              }}>ชมรม</a>
+              <a onClick={() => {
+                trackedRedirect("/instruction", "desktop")
+              }}>วิธีลงทะเบียน</a>
+              <a onClick={() => {
+                trackedRedirect("/FAQ", "desktop")
+              }}>คำถามที่พบบ่อย</a>
+              <a onClick={() => {
+                trackedRedirect("/TUCMC", "desktop")
+              }}>ทำความรู้จัก กช.</a>
             </div>
             <WhiteLogo/>
           </div>
@@ -67,13 +69,13 @@ const Footer = () => {
       </div>
       <div
         className="flex-row justify-center hidden py-5 space-x-2 text-xs text-white bg-black md:flex">
-        <Link href="/terms-of-service">
-          <a>ข้อตกลงและเงื่อนไขการใช้งาน</a>
-        </Link>
+          <a onClick={() => {
+            trackedRedirect("/terms-of-service", "null")
+          }}>ข้อตกลงและเงื่อนไขการใช้งาน</a>
         <span>|</span>
-        <Link href="/privacy-policy">
-          <a>นโยบายความปลอดภัย</a>
-        </Link>
+          <a onClick={() => {
+            trackedRedirect("/privacy-policy", "null")
+          }}>นโยบายความปลอดภัย</a>
       </div>
     </>
   )
