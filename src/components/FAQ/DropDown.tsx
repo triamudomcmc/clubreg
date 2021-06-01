@@ -5,7 +5,7 @@ import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/solid";
 import FAQElement from "@components/index/FAQ/Element";
 import classnames from "classnames";
 
-export const DropDown = ({title, item}) => {
+export const DropDown = ({title, item, triggerDep}) => {
 
   const [reveal, setReveal] = useState(false)
   const [display, setDisplay] = useState(false)
@@ -36,6 +36,12 @@ export const DropDown = ({title, item}) => {
   };
 
   useEffect(() => {
+    if(triggerDep) {
+      setReveal(true)
+    }
+  },[triggerDep])
+
+  useEffect(() => {
       if (reveal) {
         setDisplay(true)
       }
@@ -56,7 +62,7 @@ export const DropDown = ({title, item}) => {
       <div className="relative border-b bg-white border-gray-300 py-4 z-20">
         <motion.div animate={reveal ? "open" : "closed"} className="flex flex-row justify-between text-TUCMC-gray-800">
           <span className="text-lg pr-4">{title}</span>
-          <motion.div className="cursor-pointer" variants={rotate} animate={reveal ? "up" : "down"} whileTap={reveal ? "up" : "down"} whileHover={{x: [1,-1,1,-1,0]}} onClick={() => {setReveal(!reveal)}}>
+          <motion.div id="re" className="cursor-pointer" variants={rotate} animate={reveal ? "up" : "down"} whileTap={reveal ? "up" : "down"} whileHover={{x: [1,-1,1,-1,0]}} onClick={() => {setReveal(!reveal)}}>
             <ChevronDownIcon className="w-6 h-6"/>
           </motion.div>
         </motion.div>

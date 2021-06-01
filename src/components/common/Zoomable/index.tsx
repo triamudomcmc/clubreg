@@ -33,7 +33,7 @@ export const Zoomable = ({src, width, height, onLoad = () => {}, priority = fals
     }
 
     setZW(w * (height > 800 ? 0.6 : 1))
-  }, [dimension.width, dimension.height])
+  }, [dimension.width, dimension.height, zoom])
 
   useEffect(() => {
     if (!squeezed.current) return

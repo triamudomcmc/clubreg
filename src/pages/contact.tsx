@@ -5,8 +5,8 @@ import { SocialFacebook, SocialInstagram } from "@vectors/icons/Socials";
 
 const Contact = () => {
   return (
-    <PageContainer footer={false}>
-      <div className="max-w-6xl pb-10 mx-auto md:min-h-screen">
+    <PageContainer>
+      <div className="max-w-6xl pb-10 mx-auto min-h-screen">
         <div className="flex flex-col items-center px-6">
           <h1 className="mt-8 text-xl font-bold md:mt-16">ติดต่อ</h1>
           <div className="flex flex-col items-center md:flex-row">

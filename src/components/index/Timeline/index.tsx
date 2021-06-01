@@ -159,7 +159,7 @@ const Timeline = () => {
                   ภายในวันที่ 14 มิ.ย. 64 เวลา 23.59 น.
                 </TimelineTag.ExtraDescription>
               </TimelineTag>
-              <TimelineTag date="15 มิ.ย. 64" time="23.59 น." title="สิ้นสุดการลงทะเบียน" color="bg-TUCMC-blue-400"
+              <TimelineTag date="14 มิ.ย. 64" time="23.59 น." title="สิ้นสุดการลงทะเบียน" color="bg-TUCMC-blue-400"
                            className="h-full"
                            padding="items-start h-2/5 md:h-1/4">
                 <TimelineTag.Desc>

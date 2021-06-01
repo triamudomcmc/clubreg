@@ -20,7 +20,7 @@ const Index = () => {
       {zoomOverlay}
       <div className="max-w-6xl mx-auto pt-8 pb-16">
         <h1 className="mb-6 text-2xl font-bold md:my-12 text-center">วิธีลงทะเบียน</h1>
-        <div className="flex flex-col items-center px-8 text-TUCMC-gray-700 space-y-8">
+        <div className="flex flex-col items-center px-8 text-TUCMC-gray-700 space-y-8 font-texts">
           <div className="flex justify-center w-[100vw] max-w-[400px] md:w-full md:max-w-[unset] md:space-x-6">
             <Swiper
               slidesPerView={1}
@@ -30,8 +30,6 @@ const Index = () => {
               }}
               className="w-[78vw] max-w-[400px] md:w-[400px] md:max-w-[400px]"
               pagination={{ clickable: true, bulletActiveClass: "swiper-pink"}}
-              onSwiper={(swiper) => console.log(swiper)}
-              onSlideChange={() => console.log('slide change')}
             >
               <SwiperSlide>
                 <div className="w-[78vw] max-w-[400px] md:w-[400px] md:max-w-[400px]">
@@ -84,11 +82,11 @@ const Index = () => {
                 เมื่อเข้าสู่ระบบแล้ว จะเจอหน้าเลือกชมรม
               </p>
             </div>
-            <div className="flex mx-auto">
-              <div className="max-w-[300px]">
+            <div className="flex mx-auto space-x-1">
+              <div className="max-w-[300px] shadow-md">
                 <Image src="/assets/images/instruction/screen1.jpg" width="1080" height="3498"/>
               </div>
-              <div className="max-w-[300px]">
+              <div className="max-w-[300px] shadow-md">
                 <Image src="/assets/images/instruction/screen2.jpg" width="1080" height="3498"/>
               </div>
             </div>
@@ -108,7 +106,7 @@ const Index = () => {
                   *สามารถลงชื่อ Audition กี่ชมรมก็ได้
                 </p>
                 <p className="text-TUCMC-red-500">*นักเรียน ม.5 และ ม.6 สามารถเลือกใช้โควตายืนยันสิทธิ์ชมรมเดิมได้ภายในวันที่  14 มิ.ย. 2564 เท่านั้น</p>
-                <p className="text-TUCMC-red-500">*สามารถเลือกชมรมที่สนใจได้จนถึงวันที่ 14 มิ.ย.. 2564 เวลา 23.59 น. เท่านั้น นักเรียนที่ไม่ลงชื่อ Audition หรือลงทะเบียนเข้าชมรมใดเลย ระบบจะทำการสุ่มชมรมให้อัตโนมัติ ในวันที่ 19 มิ.ย. 2564 โดยจะสุ่มเป็นชมรมที่ไม่มีการ Audition และยังมีที่นั่งว่างอยู่เท่านั้น</p>
+                <p className="text-TUCMC-red-500">*สามารถเลือกชมรมที่สนใจได้จนถึงวันที่ 14 มิ.ย. 2564 เวลา 23.59 น. เท่านั้น นักเรียนที่ไม่ลงชื่อ Audition หรือลงทะเบียนเข้าชมรมใดเลย ระบบจะทำการสุ่มชมรมให้อัตโนมัติ ในวันที่ 19 มิ.ย. 2564 โดยจะสุ่มเป็นชมรมที่ไม่มีการ Audition และยังมีที่นั่งว่างอยู่เท่านั้น</p>
                 <p className="text-TUCMC-red-500">*เมื่อใช้โควตายืนยันสิทธิ์ชมรมเดิมหรือลงทะเบียนชมรมที่ไม่มีการ Audition ไปแล้ว จะถือว่าเสร็จสิ้นการลงทะเบียนชมรม จะไม่สามารถเลือกชมรมอื่น หรือไป Audition ชมรมใดได้อีก</p>
               </div>
             </div>
@@ -127,7 +125,7 @@ const Index = () => {
               </div>
             </div>
             <div className="flex mx-auto">
-              <div className="max-w-[300px]">
+              <div className="max-w-[300px] shadow-md">
                 <Image src="/assets/images/instruction/screen3.jpg" width="1080" height="3581"/>
               </div>
             </div>
@@ -158,7 +156,7 @@ const Index = () => {
               </p>
             </div>
             <div className="flex mx-auto">
-              <div className="max-w-[300px]">
+              <div className="max-w-[300px] shadow-md">
                 <Image src="/assets/images/instruction/screen4.jpg" width="1080" height="3500"/>
               </div>
             </div>
@@ -193,8 +191,8 @@ const Index = () => {
               <p>สำหรับนักเรียนที่ไม่ผ่านการ Audition ชมรมใดเลย หรือสละสิทธิ์ทุกชมรมที่ผ่านการ Audition  ให้เลือกเข้าชมรมที่ไม่มีการ Audition และยังมีที่ว่างเหลืออยู่ </p>
             </div>
             <div className="flex mx-auto">
-              <div className="max-w-[300px]">
-                <Image src="/assets/images/instruction/screen2.jpg" width="1080" height="3581"/>
+              <div className="max-w-[300px] shadow-md">
+                <Image src="/assets/images/instruction/screen6.jpg" width="1080" height="2818"/>
               </div>
             </div>
             <div className="flex space-x-4">
@@ -218,7 +216,7 @@ const Index = () => {
               </p>
             </div>
             <div className="flex mx-auto">
-              <div className="max-w-[300px]">
+              <div className="max-w-[300px] shadow-md">
                 <Image src="/assets/images/instruction/screen5.jpg" width="1080" height="2641"/>
               </div>
             </div>
