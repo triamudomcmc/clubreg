@@ -104,7 +104,7 @@ const Timeline = () => {
                   ของชมรมนั้นโดยตรง
                 </TimelineTag.Desc>
                 <TimelineTag.ExtraDescription>
-                  ภายในวันที่ 8 มิ.ย. 64 เวลา 23.59 น.
+                  ภายในวันที่ 14 มิ.ย. 64 เวลา 23.59 น.
                 </TimelineTag.ExtraDescription>
               </TimelineTag>
               <TimelineTag date="14 มิ.ย. 64" time="23.59 น."
@@ -156,7 +156,7 @@ const Timeline = () => {
                   ชมรมที่ไม่มีการ audition
                 </TimelineTag.Desc>
                 <TimelineTag.ExtraDescription>
-                  ภายในวันที่ 8 มิ.ย. 64 เวลา 23.59 น.
+                  ภายในวันที่ 14 มิ.ย. 64 เวลา 23.59 น.
                 </TimelineTag.ExtraDescription>
               </TimelineTag>
               <TimelineTag date="15 มิ.ย. 64" time="23.59 น." title="สิ้นสุดการลงทะเบียน" color="bg-TUCMC-blue-400"

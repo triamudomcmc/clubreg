@@ -62,7 +62,7 @@ const FAQElement = ({children, title}) => {
           animate={reveal ? "open" : "closed"}
           variants={sidebar}
       >
-          <p className="pt-4 mr-12 text-TUCMC-gray-600">{answer}</p>
+          <p dangerouslySetInnerHTML={{__html: answer[0].props.children}} className="pt-4 mr-12 text-TUCMC-gray-600"></p>
       </motion.div>}
     </motion.div>
   )
