@@ -5,10 +5,12 @@ import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/solid";
 import FAQElement from "@components/index/FAQ/Element";
 import classnames from "classnames";
 
-export const DropDown = ({children, title}) => {
+export const DropDown = ({title, item}) => {
 
   const [reveal, setReveal] = useState(false)
   const [display, setDisplay] = useState(false)
+
+  const [revealed, setRevealed] = useState(false)
 
   const container = useRef(null)
 
@@ -18,7 +20,7 @@ export const DropDown = ({children, title}) => {
       clipPath: "inset(0% -3% -8% -3%)",
       transition: {
         type: "spring",
-        stiffness: 40,
+        stiffness: 30,
         restDelta: 2
       }
     },
@@ -27,7 +29,7 @@ export const DropDown = ({children, title}) => {
       clipPath: "inset(100% -3% -8% -3%)",
       transition: {
         type: "spring",
-        stiffness: 40,
+        stiffness: 30,
         restDelta: 2
       }
     }
@@ -66,10 +68,19 @@ export const DropDown = ({children, title}) => {
           variants={slide}
           onAnimationComplete={() => {
             setDisplay(reveal)
+            reveal ? setRevealed(true) : setRevealed(false)
           }}
       >
           <div ref={container} className="space-y-4 mt-4">
-            {children}
+            {
+              Object.keys(item.data).map(e => {
+                return <FAQElement title={e} revealed={revealed}>
+                  <FAQElement.Answer>
+                    {item.data[e]}
+                  </FAQElement.Answer>
+                </FAQElement>
+              })
+            }
           </div>
       </motion.div>}
     </motion.div>

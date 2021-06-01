@@ -42,34 +42,14 @@ const FAQ = ({ data }) => {
           <div className="space-y-2 md:w-1/2">
             {
               dataArr[0].map(item => {
-                return <DropDown title={item.group}>
-                  {
-                    Object.keys(item.data).map(e => {
-                      return <FAQElement title={e}>
-                        <FAQElement.Answer>
-                          {item.data[e]}
-                        </FAQElement.Answer>
-                      </FAQElement>
-                    })
-                  }
-                </DropDown>
+                return <DropDown title={item.group} item={item}/>
               })
             }
           </div>
           <div className="space-y-2 md:w-1/2">
             {
               dataArr[1].map(item => {
-                return <DropDown title={item.group}>
-                  {
-                    Object.keys(item.data).map(e => {
-                      return <FAQElement title={e}>
-                        <FAQElement.Answer>
-                          {item.data[e]}
-                        </FAQElement.Answer>
-                      </FAQElement>
-                    })
-                  }
-                </DropDown>
+                return <DropDown title={item.group} item={item}/>
               })
             }
           </div>

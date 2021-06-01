@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import Toggle from "@components/index/FAQ/Toggle";
 import {motion} from "framer-motion";
 
-const FAQElement = ({children, title}) => {
+const FAQElement = ({children, title, revealed = true}) => {
 
   const [reveal, setReveal] = useState(false)
   const [display, setDisplay] = useState(false)
@@ -47,7 +47,7 @@ const FAQElement = ({children, title}) => {
   },[reveal])
 
   return (
-    <motion.div layout="position">
+    <motion.div layout={revealed ? "position" : false}>
       <div className="relative bg-white shadow-md rounded-lg px-6 py-6 z-20">
         <motion.div animate={reveal ? "open" : "closed"} className="flex flex-row justify-between">
           <span className="pr-4">{title}</span>
