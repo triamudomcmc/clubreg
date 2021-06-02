@@ -18,19 +18,19 @@ const Footer = () => {
       <div
         className="flex flex-col items-center justify-center space-y-24 select-none bg-TUCMC-gray-900 py-14 md:space-y-0 md:py-8">
         <div className="flex flex-col items-center space-y-4 text-xl text-white md:hidden">
-          <a onClick={() => {
+          <a className="cursor-pointer" onClick={() => {
             trackedRedirect("/", "mobile")
           }}>หน้าแรก</a>
-          <a onClick={() => {
+          <a className="cursor-pointer" onClick={() => {
             trackedRedirect("/clubs", "mobile")
           }}>ชมรม</a>
-          <a onClick={() => {
+          <a className="cursor-pointer" onClick={() => {
             trackedRedirect("/instruction", "mobile")
           }}>วิธีลงทะเบียน</a>
-          <a onClick={() => {
+          <a className="cursor-pointer" onClick={() => {
             trackedRedirect("/FAQ", "mobile")
           }}>คำถามที่พบบ่อย</a>
-          <a onClick={() => {
+          <a className="cursor-pointer" onClick={() => {
             trackedRedirect("/TUCMC", "mobile")
           }}>ทำความรู้จัก กช.</a>
         </div>
@@ -47,19 +47,19 @@ const Footer = () => {
             </div>
             <div
               className="flex-row hidden space-x-10 font-medium text-white md:flex whitespace-nowrap">
-              <a onClick={() => {
+              <a className="cursor-pointer" onClick={() => {
                 trackedRedirect("/", "desktop")
               }}>หน้าแรก</a>
-              <a onClick={() => {
+              <a className="cursor-pointer" onClick={() => {
                 trackedRedirect("/clubs", "desktop")
               }}>ชมรม</a>
-              <a onClick={() => {
+              <a className="cursor-pointer" onClick={() => {
                 trackedRedirect("/instruction", "desktop")
               }}>วิธีลงทะเบียน</a>
-              <a onClick={() => {
+              <a className="cursor-pointer" onClick={() => {
                 trackedRedirect("/FAQ", "desktop")
               }}>คำถามที่พบบ่อย</a>
-              <a onClick={() => {
+              <a className="cursor-pointer" onClick={() => {
                 trackedRedirect("/TUCMC", "desktop")
               }}>ทำความรู้จัก กช.</a>
             </div>
@@ -69,11 +69,11 @@ const Footer = () => {
       </div>
       <div
         className="flex-row justify-center hidden py-5 space-x-2 text-xs text-white bg-black md:flex">
-          <a onClick={() => {
+          <a className="cursor-pointer" onClick={() => {
             trackedRedirect("/terms-of-service", "null")
           }}>ข้อตกลงและเงื่อนไขการใช้งาน</a>
         <span>|</span>
-          <a onClick={() => {
+          <a className="cursor-pointer" onClick={() => {
             trackedRedirect("/privacy-policy", "null")
           }}>นโยบายความปลอดภัย</a>
       </div>
