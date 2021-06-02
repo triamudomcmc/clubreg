@@ -75,7 +75,7 @@ const Footer = () => {
         <span>|</span>
           <a className="cursor-pointer" onClick={() => {
             trackedRedirect("/privacy-policy", "null")
-          }}>นโยบายความปลอดภัย</a>
+          }}>นโยบายความเป็นส่วนตัว</a>
       </div>
     </>
   )

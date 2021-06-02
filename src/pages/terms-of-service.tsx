@@ -17,6 +17,7 @@ export async function getStaticProps() {
 }
 
 const tos = ({content}) => {
+
   return (
     <PageContainer>
       <div className="py-14 mx-6">
