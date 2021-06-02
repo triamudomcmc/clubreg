@@ -145,7 +145,7 @@ const Timeline = () => {
             <div className="flex flex-row items-end px-5 space-x-4 my-12">
               <UserIcon className="flex-shrink-0 w-14"/>
               <div className="tracking-tight">
-                <p>สำหรับนักเรียนที่ต้องการเข้าชมรมที่มีการ Audition</p>
+                <p>สำหรับนักเรียนที่ต้องการเข้าชมรมที่ไม่มีการ Audition</p>
               </div>
             </div>
             <div className="flex flex-col justify-between h-[600px] md:h-full">
