@@ -70,11 +70,11 @@ const Footer = () => {
       <div
         className="flex-row justify-center hidden py-5 space-x-2 text-xs text-white bg-black md:flex">
           <a className="cursor-pointer" onClick={() => {
-            trackedRedirect("/terms-of-service", "null")
+            trackedRedirect("/terms-of-service", "footer")
           }}>ข้อตกลงและเงื่อนไขการใช้งาน</a>
         <span>|</span>
           <a className="cursor-pointer" onClick={() => {
-            trackedRedirect("/privacy-policy", "null")
+            trackedRedirect("/privacy-policy", "footer")
           }}>นโยบายความเป็นส่วนตัว</a>
       </div>
     </>
