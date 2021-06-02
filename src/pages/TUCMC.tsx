@@ -206,7 +206,7 @@ const TUCMC = () => {
                     <Zoomable
                       width={456} height={302}
                       updateOverlay={setZoomOverlay}
-                      src="/assets/images/TUCMC/CharityActivities/IMG_7260.JPG"
+                      src="/assets/images/TUCMC/CharityActivities/IMG_7260.png"
                       className="object-cover"
                     />
                   </div>
@@ -226,7 +226,7 @@ const TUCMC = () => {
                     <Zoomable
                       width={456} height={302}
                       updateOverlay={setZoomOverlay}
-                      src="/assets/images/TUCMC/CharityActivities/IMG_7261.JPG"
+                      src="/assets/images/TUCMC/CharityActivities/IMG_7261.png"
                       className="object-cover"
                     />
                   </div>
@@ -256,7 +256,7 @@ const TUCMC = () => {
                     <Zoomable
                       width={456} height={302}
                       updateOverlay={setZoomOverlay}
-                      src="/assets/images/TUCMC/CharityActivities/IMG_7302.JPG"
+                      src="/assets/images/TUCMC/CharityActivities/IMG_7302.png"
                       className="object-cover"
                     />
                   </div>
@@ -289,7 +289,7 @@ const TUCMC = () => {
                     <Zoomable
                       width={456} height={302}
                       updateOverlay={setZoomOverlay}
-                      src="/assets/images/TUCMC/OpenHouse/IMG_7263.JPG"
+                      src="/assets/images/TUCMC/OpenHouse/IMG_7263.png"
                       className="object-cover"
                     />
                   </div>
@@ -319,7 +319,7 @@ const TUCMC = () => {
                     <Zoomable
                       width={456} height={302}
                       updateOverlay={setZoomOverlay}
-                      src="/assets/images/TUCMC/OpenHouse/IMG_7266.JPG"
+                      src="/assets/images/TUCMC/OpenHouse/IMG_7266.png"
                       className="object-cover"
                     />
                   </div>
