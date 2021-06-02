@@ -101,6 +101,19 @@ export default class Document extends NextDocument {
             type="font/woff2"
             crossOrigin="anonymous"
           />
+          <script async src="https://www.googletagmanager.com/gtag/js?id=G-D40C14KM60"></script>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-D40C14KM60', {
+              page_path: window.location.pathname,
+            });
+          `,
+            }}
+          />
           <meta charSet="utf-8"/>
         </Head>
         <body>
