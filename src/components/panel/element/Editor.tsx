@@ -95,7 +95,7 @@ export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refet
   const update = async () => {
     if (action.action === "") return
     try {
-      const res = await updateUser(adminData.panelID, userData.dataRefID, action)
+      const res = await updateUser(localStorage.getItem("currentPanel"), userData.dataRefID, action)
       if (res.status) {
         refetch()
         addToast({

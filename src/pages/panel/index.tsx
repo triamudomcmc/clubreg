@@ -1,235 +1,203 @@
 import PageContainer from "@components/common/PageContainer";
-import {ArrowLeftIcon, DocumentTextIcon, ExclamationIcon} from "@heroicons/react/solid";
-import {FilterSearch} from "@components/common/Inputs/Search";
-import {Dispatch, SetStateAction, useEffect, useState} from "react";
-import {PassedSection} from "@components/panel/sections/PassedSection";
-import classnames from "classnames"
-import {ReservedSection} from "@components/panel/sections/ReservedSection";
-import {FailedSection} from "@components/panel/sections/FailedSection";
-import {Button} from "@components/common/Inputs/Button";
 import {useAuth} from "@client/auth";
 import Router from "next/router";
-import {fetchClub, fetchMembers, submitPending} from "@client/fetcher/panel";
-import {PendingElement} from "@components/panel/element/PendingElement";
-import {isEmpty} from "@utilities/object";
-import {Editor} from "@components/panel/element/Editor";
+import {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
+import {fetchUserCred} from "@client/fetcher/user";
 import {useToast} from "@components/common/Toast/ToastContext";
-
-const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetStateAction<{}>>, setReservedPos: Dispatch<SetStateAction<{}>>, setToast, reFetch) => {
-  const data = await fetchMembers(panelID)
-  const obj = {
-    waiting: [],
-    passed: [],
-    failed: [],
-    reserved: []
-  }
-  let reservedPos = {}
-
-  if (data.status) {
-    console.log(data)
-    data.data.forEach(oitem => {
-      let item = oitem
-      if ("position" in oitem) {
-        item = {...oitem, id: oitem.position}
-        reservedPos[item.dataRefID] = (item.position)
-      }
-      if (item.status === "rejected" || item.status === "confirmed") return obj["passed"].push(item)
-      obj[item.status].push(item)
-    })
-    setMemberData(obj)
-    setReservedPos(reservedPos)
-  }else{
-    switch (data.report) {
-      case "sessionError":
-        setToast({
-          theme:"modern",
-          icon: "cross",
-          title: "พบข้อผิดพลาดของเซสชั่น",
-          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
-          crossPage: true
-        })
-        reFetch()
-        break
-      case "invalidPermission":
-        setToast({
-          theme:"modern",
-          icon: "cross",
-          title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
-          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช."
-        })
-        break
-    }
-  }
-}
+import {
+  ChevronDownIcon, ChevronUpIcon,
+  ClipboardCheckIcon,
+  ExclamationCircleIcon,
+  LockClosedIcon,
+  LockOpenIcon,
+  PencilIcon, UserGroupIcon,
+  XIcon
+} from "@heroicons/react/solid";
+import {Input} from "@components/auth/Input";
+import {Button} from "@components/common/Inputs/Button";
+import classnames from "classnames"
+import {Switch} from '@headlessui/react'
+import css from "@components/panel/element/bubble.module.css";
+import Modal from "@components/common/Modals";
+import {addBrowser, removeBrowser, toggleSafeMode} from "@client/accManagement";
+import {clubMap} from "@config/clubMap";
+import {isEmpty} from "@utilities/object";
+import {fetchClub} from "@client/fetcher/panel";
+import {useWindowDimensions} from "@utilities/document";
 
 const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>) => {
   const data = await fetchClub(clubID)
   setClubData(data)
 }
 
-const Index = () => {
+
+const Account = () => {
 
   const {onReady, reFetch} = useAuth()
+  const [userCred, setUserCred] = useState({email: "", phone: "", authorised: [], safeMode: false})
+  const [oldPass, setOldPass] = useState("")
+  const [whitelistMode, setWhitelistMode] = useState(false)
+  const [clubData, setClubData] = useState({new_count: 0, new_count_limit: 0, place: "", audition: false})
+  const [boxSize, setBoxSize] = useState(0)
+  const auTrigger = useRef(null)
+  const [adArr, setAdArr] = useState([])
+  const clubsTrigger = useRef(null)
+  const box = useRef(null)
+
+  const {width} = useWindowDimensions()
 
   const {addToast} = useToast()
 
-  const [sortMode, setSortMode] = useState("")
-  const [searchContext, setSearchContext] = useState("")
-  const [section, setSection] = useState("passed")
-  const [memberData, setMemberData] = useState({
-    waiting: [],
-    passed: [],
-    failed: [],
-    reserved: []
-  })
-  const [page, setPage] = useState("panel")
-  const [pendingUpdate, setPendingUpdate] = useState({})
-  const [reservedPos, setReservedPos] = useState({})
-  const [clubData, setClubData] = useState({new_count: 0, new_count_limit: 0})
-  const [editing, setEditing] = useState({})
-  const [editDep, setEditDep] = useState(false)
-
-  const editable = true
-
   const userData = onReady((logged, userData) => {
-    if (!logged) {
-      Router.push("/auth");
-      return userData
-    }
-    if (!("panelID" in userData) || userData.panelID === "") {
+    if (!logged) Router.push("/auth")
+
+    if (!("panelID" in userData) || userData.panelID.length <= 0) {
       Router.push("/select");
-      return userData
     }
+
     return userData
   })
 
-  const refetch = () => {
-    fetchMemberData(userData.panelID, setMemberData, setReservedPos, addToast, reFetch)
-    fetchClubData(userData.panelID, setClubData)
+  const reFetchCred = () => {
+    let currPanel = localStorage.getItem("currentPanel")
+
+    if (!currPanel || currPanel === "") {
+      currPanel = userData.panelID[0]
+      localStorage.setItem("currentPanel", currPanel)
+    }
+
+    fetchClubData(currPanel, setClubData)
   }
 
   useEffect(() => {
-    if (userData && userData.panelID) {
-      refetch()
-    }
-  }, [userData])
+    reFetchCred()
+  }, [])
 
-  const submitPendingSection = async () => {
-    if (isEmpty(pendingUpdate)) return
-    const res = await submitPending(userData.panelID, pendingUpdate)
-    if (res.status) {
-      refetch()
-    }else{
-      switch (res.report) {
-        case "sessionError":
-          addToast({
-            theme:"modern",
-            icon: "cross",
-            title: "พบข้อผิดพลาดของเซสชั่น",
-            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
-            crossPage: true
-          })
-          reFetch()
-          break
-        case "invalidPermission":
-          addToast({
-            theme:"modern",
-            icon: "cross",
-            title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
-            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช."
-          })
-          break
+  useEffect(() => {
+    if (box.current) {
+      setBoxSize(box.current?.clientWidth)
+    }
+  },[box, width])
+
+  useEffect(() => {
+    if ("panelID" in userData) {
+      const i = [...userData.panelID]
+      const index = userData.panelID.indexOf(localStorage.getItem("currentPanel"))
+      if (index > -1) {
+        i.splice(index , 1)
       }
+      setAdArr(i)
     }
-  }
+  }, [clubData, userData])
 
-  const edit = (data) => {
-    setEditing(data)
-    setEditDep(true)
+  const setCurrentPanel = (id) => {
+    localStorage.setItem("currentPanel", id)
+    reFetchCred()
+    clubsTrigger.current.click()
   }
 
   return (
     <PageContainer>
-      <Editor userData={editing} reservedPos={reservedPos} setReservedPos={setReservedPos} refetch={refetch} TriggerDep={{dep: editDep, revert: () => {setEditDep(false)}}}/>
-      <div className={classnames("px-2 py-10 mx-auto max-w-6xl min-h-screen", page === "panel" ? "block" : "hidden")}>
-        <div
-          className={`bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg text-yellow-800 px-4 py-4`}>
-          <div className="flex space-x-3">
-            <ExclamationIcon className="flex-shrink-0 w-6 h-6 text-yellow-400"/>
-            <div>
-              <p className="text-[15px]">การประกาศผล Audition ก่อนชมรมอื่น
-                                         และการกดดันให้นักเรียนเลือกยืนยันสิทธิ์ชมรม ถือเป็นการละเมิด<span
-                  className="underline whitespace-nowrap cursor-pointer">ข้อกำหนด</span></p>
+      <div className="relative pt-10 pb-14 bg-TUCMC-gray-100">
+        <h1 className="text-2xl text-center font-medium">แผงควบคุม</h1>
+        <div className="absolute w-full px-4 -bottom-5">
+          <div ref={box} className="relative max-w-xl mx-auto rounded-lg bg-white shadow-sm border border-gray-300 flex justify-center">
+            <div className="flex justify-end w-full h-full">
+              <div className="flex justify-center w-full py-[0.54rem] overflow-clip overflow-hidden">
+                <span className="text-TUCMC-gray-600 whitespace-nowrap">{userData && ("panelID" in userData && clubMap[localStorage.getItem("currentPanel")])}</span>
+              </div>
+              <div ref={clubsTrigger} className="flex justify-center items-center border-l border-gray-300 w-12 cursor-pointer">
+                <ChevronDownIcon className="w-6 h-6 text-gray-500"/>
+              </div>
             </div>
+            <Modal TriggerRef={clubsTrigger}
+                   CloseID="clubsClose"
+                   className="shadow-md rounded-lg absolute mx-auto mt-1 z-10 left-[-1px] top-[-5px] border border-gray-300">
+              <div
+                className="flex justify-end rounded-t-lg bg-white h-full">
+                <div className="flex justify-center w-full py-[0.54rem] overflow-clip overflow-hidden">
+                  <span className="text-TUCMC-gray-600 whitespace-nowrap">{userData && ("panelID" in userData && clubMap[localStorage.getItem("currentPanel")])}</span>
+                </div>
+                <div id="clubsClose" className="flex justify-center items-center border-l border-gray-300 w-12 cursor-pointer">
+                  <ChevronUpIcon className="w-6 h-6 text-gray-500"/>
+                </div>
+              </div>
+              <div style={{width: `${boxSize}px`}} className="bg-white w-full rounded-b-lg pb-1">
+                {
+                  adArr && adArr
+                       .map((val) => {
+                         return <h1 key={val}
+                                    onClick={() => {setCurrentPanel(val)}}
+                                    className="py-[0.54rem] text-center text-TUCMC-gray-600 hover:bg-gray-100 cursor-pointer whitespace-nowrap border-t truncate px-4">{clubMap[val]}</h1>
+                       })
+                }
+              </div>
+            </Modal>
           </div>
-        </div>
-        <div className="flex flex-col items-center text-TUCMC-gray-700 my-10">
-          <h1 className="text-4xl tracking-tight">ผลการ Audition</h1>
-          <div className="tracking-tight text-center mt-6 mb-8">
-            <p>สรุปผลการ Audition ให้เสร็จสิ้น </p>
-            <p>ภายในวันที่ 24 พ.ค. 64 เวลา 23.59 น. </p>
-            <p>(เหลืออีก 12 ชั่วโมง 27 นาที)</p>
-          </div>
-          <div onClick={() => {
-            setPage("pending")
-          }} className="flex items-center space-x-1 bg-TUCMC-pink-400 cursor-pointer text-white shadow-md px-14 py-3.5 rounded-full">
-            <DocumentTextIcon className="w-5 h-5"/>
-            <span>รอการตอบรับ</span>
-          </div>
-        </div>
-        <div className="flex flex-col px-3 mt-14">
-          <div className="flex w-full text-TUCMC-gray-400 font-medium px-3">
-            <div onClick={() => {
-              setSection("passed")
-            }}
-                 className={classnames("border-b w-1/3 py-2 border-TUCMC-gray-400 cursor-pointer text-center", section === "passed" && "bg-TUCMC-green-100 text-TUCMC-green-500 border-TUCMC-green-500")}>ผ่าน
-            </div>
-            <div onClick={() => {
-              setSection("reserved")
-            }}
-                 className={classnames("border-b w-1/3 py-2 border-TUCMC-gray-400 cursor-pointer text-center", section === "reserved" && "bg-TUCMC-orange-100 text-TUCMC-orange-500 border-TUCMC-orange-500")}>สำรอง
-            </div>
-            <div onClick={() => {
-              setSection("failed")
-            }}
-                 className={classnames("border-b w-1/3 py-2 border-TUCMC-gray-400 cursor-pointer text-center", section === "failed" && "bg-TUCMC-red-100 text-TUCMC-red-500 border-TUCMC-red-500")}>ไม่ผ่าน
-            </div>
-          </div>
-          <div className="mt-8 mb-4">
-            <FilterSearch sortMode={sortMode} setSortMode={setSortMode} setSearchContext={setSearchContext}/>
-          </div>
-          <PassedSection display={section === "passed"} editFunc={edit}
-                         userData={memberData.passed} editable={editable}/>
-          <ReservedSection refetch={refetch} userData={memberData.reserved} display={section === "reserved"} editable={editable} editFunc={edit}/>
-          <FailedSection userData={memberData.failed} display={section === "failed"} editable={editable} editFunc={edit}/>
         </div>
       </div>
-      <div className={classnames("flex flex-col items-center py-10 px-4 space-y-10 min-h-screen w-full", page === "pending" ? "block" : "hidden")}>
-        <div className="space-y-2">
-          <h1 className="text-4xl text-center">รอการตอบรับ</h1>
-          <p className="text-TUCMC-gray-700 text-center">สามารถรับสมาชิกใหม่ได้ทั้งหมด {clubData.new_count_limit} คน (เหลืออีก {clubData.new_count_limit - clubData.new_count} คน)</p>
-        </div>
-        <div className="w-full max-w-6xl">
-          <FilterSearch sortMode={sortMode} setSortMode={setSortMode} setSearchContext={setSearchContext}/>
-          <div className="mt-4 space-y-4">
-            {
-              !isEmpty(memberData) && !isEmpty(memberData.waiting) ? memberData.waiting.map((item, index) => {
-                return <PendingElement key={`pending-${index}`} userData={item} pendingUpdate={pendingUpdate}
-                                       setPendingUpdate={setPendingUpdate} reservedPos={reservedPos} setReservedPos={setReservedPos}/>
-              }) : <h1 className="text-center mt-20 mb-20 text-TUCMC-gray-600">ขณะนี้ไม่มีรายชื่อที่รอคำตอบรับ</h1>
-            }
-          </div>
-          <div className="flex items-center justify-between mt-10">
-            <div onClick={() => {
-              setPage("panel");
-              setPendingUpdate({})
-            }} className="flex cursor-pointer items-center space-x-1">
-              <ArrowLeftIcon className="w-4 h-4"/>
-              <h1>ย้อนกลับ</h1>
-            </div>
-            <Button onClick={submitPendingSection} className="bg-TUCMC-pink-400 px-10 py-3 text-white rounded-full">
-              <span>ยืนยัน</span>
+      <div className="pt-8 pb-20 px-4 max-w-6xl mx-auto">
+        <div className="flex space-x-1 max-w-xl mx-auto">
+          <div className="relative w-1/2">
+            <Button type="div" href="/panel/audition" className="flex items-center justify-center bg-TUCMC-pink-400 rounded-lg shadow-sm px-4 py-3.5 text-white space-x-2">
+              <ClipboardCheckIcon className="w-5 h-5"/><span>ผลการ Audition</span>
             </Button>
+          </div>
+          <div
+            className="flex items-center justify-center bg-TUCMC-white rounded-lg shadow-sm px-4 py-3.5 w-1/2 text-TUCMC-gray-600 space-x-2 shadow-md cursor-not-allowed">
+            <UserGroupIcon className="w-6 h-6"/><span>รายชื่อสมาชิก</span></div>
+        </div>
+        <div className="flex flex-col mt-20 space-y-14 px-2 md:px-4">
+          <div>
+            <h1 className="text-xl border-b border-gray-200 pb-4">ข้อมูลชมรม</h1>
+            <div className="border-b border-gray-200 py-4 md:py-6 space-y-1 md:flex md:items-center md:space-y-0 md:space-x-52">
+              <h1 className="text-TUCMC-gray-500">ประธานครูที่ปรึกษา</h1>
+              <h1>eqwrkjweqrnl</h1>
+            </div>
+            <div className="border-b border-gray-200 py-4 md:py-6 space-y-1 md:flex md:items-center md:space-y-0 md:space-x-52">
+              <h1 className="text-TUCMC-gray-500">ประธานชมรม</h1>
+              <h1>eqwrkjweqrnl</h1>
+            </div>
+            <div className="border-b border-gray-200 py-4 md:py-6 space-y-1 md:flex md:items-center md:space-y-0 md:space-x-52">
+              <h1 className="text-TUCMC-gray-500">ประเภทการรับสมัคร</h1>
+              <h1>{clubData.audition ? "" : "ไม่"} Audition</h1>
+            </div>
+            <div className="border-b border-gray-200 py-4 space-y-1 md:flex md:space-y-0 md:py-6 md:space-x-[11.5rem]">
+              <h1 className="text-TUCMC-gray-500 flex-shrink-0">คำอธิบายชมรม</h1>
+              <div className="flex justify-between w-full space-x-2">
+                <div>
+                  <p>คำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรม..........</p>
+                </div>
+                <PencilIcon className="flex-shrink-0 w-5 h-5"/>
+              </div>
+            </div>
+            <div className="border-b border-gray-200 py-4 space-y-1 md:flex md:space-y-0 md:py-6 md:space-x-[11.5rem]">
+              <h1 className="text-TUCMC-gray-500 flex-shrink-0">ข้อความถึงสมาชิกชมรม</h1>
+              <div className="flex justify-between w-full space-x-2">
+                <div>
+                  <p>คำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรม..........</p>
+                </div>
+                <PencilIcon className="flex-shrink-0 w-5 h-5"/>
+              </div>
+            </div>
+            <div className="border-b border-gray-200 py-4 space-y-1 md:flex md:space-y-0 md:py-6 md:space-x-[11.5rem]">
+              <h1 className="text-TUCMC-gray-500 flex-shrink-0">ช่องทางการติดต่อชมรม</h1>
+              <div className="flex justify-between w-full space-x-2">
+                <div>
+                  <p>คำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรมคำอธิบายชมรม..........</p>
+                </div>
+                <PencilIcon className="flex-shrink-0 w-5 h-5"/>
+              </div>
+            </div>
+            <div className="border-b border-gray-200 py-4 space-y-1 md:flex md:space-y-0 md:py-6 md:space-x-[11.5rem]">
+              <h1 className="text-TUCMC-gray-500 flex-shrink-0">สถานที่ทำการเรียนการสอน</h1>
+              <div className="flex justify-between w-full space-x-2">
+                <div>
+                  <p>{clubData.place}</p>
+                </div>
+                <PencilIcon className="flex-shrink-0 w-5 h-5"/>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -237,4 +205,4 @@ const Index = () => {
   )
 }
 
-export default Index
+export default Account

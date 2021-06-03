@@ -43,10 +43,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           } else {
             const clubDoc = await initialisedDB.collection("clubs").doc("mainData").get()
             const data = clubDoc.get(req.body.clubID)
-            res.json({
-              new_count: data.new_count,
-              new_count_limit: data.new_count_limit
-            })
+            res.json(data)
           }
 
         }

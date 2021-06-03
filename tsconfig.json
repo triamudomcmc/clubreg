@@ -25,7 +25,8 @@
       "@utilities/*": ["utilities/*"],
       "@client/*": ["handlers/client/*"],
       "@server/*": ["handlers/server/*"],
-      "@interfaces/*": ["interfaces/*"]
+      "@interfaces/*": ["interfaces/*"],
+      "@config/*": ["config/*"]
     }
   },
   "include": [
