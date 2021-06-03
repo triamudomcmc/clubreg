@@ -44,7 +44,7 @@ export const ReservedSection = ({display, refetch, userData, editable, editFunc}
   },[items])
 
   const updatePos = async (tasks) => {
-    const res = await updatePosition(adminData.panelID, tasks)
+    const res = await updatePosition(localStorage.getItem("currentPanel"), tasks)
     if (res.status) {
       setBRrender(true)
       refetch()
