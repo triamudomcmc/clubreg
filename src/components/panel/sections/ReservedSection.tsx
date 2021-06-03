@@ -1,11 +1,7 @@
-import {FilterSearch} from "@components/common/Inputs/Search";
-import {ListElement} from "@components/panel/element/ListElement";
 import classnames from "classnames"
 import {DragableList} from "@components/panel/element/DragableEntity";
 import {createContext, useContext, useEffect, useRef, useState} from "react";
-import move from "array-move"
 import LooseTypeObject from "../../../interfaces/LooseTypeObject";
-import {isEmpty} from "@utilities/object";
 import {submitPending, updatePosition} from "@client/fetcher/panel";
 import {useAuth} from "@client/auth";
 import {motion, useAnimation} from "framer-motion"

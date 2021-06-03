@@ -11,9 +11,6 @@ import classnames from "classnames"
 import {useEffect, useRef, useState} from "react";
 import {isEmpty} from "@utilities/object";
 import Image from "next/image"
-import {GetStaticProps} from "next";
-import * as fs from "fs";
-import {detectOuside} from "@utilities/document";
 
 const ClubModal = ({state, userData, closeAction, action, thumbPaths}) => {
 

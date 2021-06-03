@@ -1,6 +1,5 @@
 import {Button} from "@components/common/Inputs/Button";
 import IndexBottom from "@vectors/decorations/IndexBottom";
-import Link from "next/link";
 import React from "react";
 import {useAuth} from "@client/auth";
 

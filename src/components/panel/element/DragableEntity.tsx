@@ -5,7 +5,6 @@ import {moveArray} from "@utilities/animationHelper";
 import LooseTypeObject from "../../../interfaces/LooseTypeObject";
 import {ListElement} from "@components/panel/element/ListElement";
 import {useLongPress} from "use-long-press";
-import classnames from "classnames"
 import {useWindowDimensions} from "@utilities/document";
 import isMobile from "is-mobile";
 

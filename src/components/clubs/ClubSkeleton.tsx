@@ -1,11 +1,5 @@
-import Image from "next/image";
-import {ClipboardCopyIcon, StarIcon} from "@heroicons/react/solid";
-import {GlobeAltIcon, UserIcon} from "@heroicons/react/outline";
-import {isEmpty} from "@utilities/object";
-import {ClubCard} from "@components/clubs/ClubCard";
 import {useWindowDimensions} from "@utilities/document";
 import classnames from "classnames"
-import {motion} from "framer-motion";
 
 const ClubSkeleton = ({...restProps}) => {
 

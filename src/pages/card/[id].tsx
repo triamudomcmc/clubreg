@@ -1,7 +1,6 @@
 import {GetServerSideProps} from "next";
 import initialisedDB from "@server/firebase-admin";
 import {Card} from "@components/Card";
-import {ArrowCircleDownIcon, StarIcon} from "@heroicons/react/solid";
 import React, {useState} from "react";
 import {useWindowDimensions} from "@utilities/document";
 import Error from "next/error";

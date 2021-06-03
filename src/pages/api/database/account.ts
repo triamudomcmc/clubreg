@@ -1,6 +1,8 @@
 import {NextApiRequest, NextApiResponse} from "next";
-import {fetchUser, fetchUserCredentials} from "@server/fetchUser"
-import {addBrowser, removeBrowser, toggleSafeMode} from "@server/accActions";
+import {fetchUserCredentials} from "@server/fetchers/userCredentials";
+import {addBrowser} from "@server/account/addBrowser";
+import {toggleSafeMode} from "@server/account/toggleSafeMode";
+import {removeBrowser} from "@server/account/removeBrowser";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 

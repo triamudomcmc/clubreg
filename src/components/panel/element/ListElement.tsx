@@ -1,5 +1,3 @@
-import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/solid";
-
 export const ListElement = ({index = 0, userData, editable, editFunc}) => {
 
   let statusBar = <div

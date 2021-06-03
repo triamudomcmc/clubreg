@@ -10,16 +10,13 @@ import {FilterSearch} from "@components/common/Inputs/Search";
 import Modal from "@components/common/Modals";
 import ConfirmModal from "@components/select/ConfirmModal";
 import DataModal from "@components/select/DataModal";
-import Toast from "@components/common/Toast";
 import {useAuth} from "@client/auth";
 import Router from "next/router";
 import {GetServerSideProps, GetStaticProps} from "next";
 import * as fs from "fs";
 import {useWindowDimensions} from "@utilities/document";
-import initialisedDB from "@server/firebase-admin"
 import {fetchClub} from "@client/fetcher/club";
 import {Loader} from "@components/common/Loader";
-import {is} from "@babel/types";
 import {
   isEmpty,
   objToArr,
@@ -28,8 +25,6 @@ import {
   sortThaiDictionary
 } from "@utilities/object";
 import {sliceArr} from "@utilities/array";
-import Image from "next/image";
-import {useToast} from "@components/common/Toast/ToastContext";
 import {clubMap} from "../config/clubMap";
 
 /*const blockContent = (dataObj) => {

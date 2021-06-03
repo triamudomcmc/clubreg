@@ -1,5 +1,4 @@
 import {motion} from "framer-motion";
-import Toggle from "@components/index/FAQ/Toggle";
 import React, {useEffect, useRef, useState} from "react";
 import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/solid";
 import FAQElement from "@components/index/FAQ/Element";

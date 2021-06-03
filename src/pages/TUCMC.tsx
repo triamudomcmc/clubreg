@@ -4,7 +4,6 @@ import {Swiper, SwiperSlide} from 'swiper/react';
 import SwiperCore, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
 
 import "swiper/swiper-bundle.css"
-import {useWindowDimensions} from "@utilities/document";
 import {ChartBarIcon, WifiIcon} from "@heroicons/react/solid";
 import {RefreshIcon} from "@heroicons/react/outline";
 import {Zoomable} from "@components/common/Zoomable";

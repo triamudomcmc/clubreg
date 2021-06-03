@@ -2,7 +2,6 @@ import Navigation from "@components/common/Navigation";
 import Footer from "@components/common/Footer";
 import {motion} from "framer-motion";
 import {useRouter} from "next/router";
-import {useEffect, useState} from "react";
 import {useAuth} from "@client/auth";
 
 const PageContainer = ({children, footer = true}) => {

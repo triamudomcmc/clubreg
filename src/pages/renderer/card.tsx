@@ -1,7 +1,4 @@
 import {Card} from "@components/Card";
-import {useAuth} from "@client/auth";
-import {useRouter} from "next/router";
-import Auth from "../auth";
 
 
 const CardRender = ({query}) => {

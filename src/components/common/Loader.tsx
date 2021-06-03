@@ -1,4 +1,3 @@
-import {RefreshIcon} from "@heroicons/react/solid";
 import {motion} from "framer-motion"
 import {useWindowDimensions} from "@utilities/document";
 

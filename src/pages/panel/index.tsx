@@ -1,5 +1,4 @@
 import PageContainer from "@components/common/PageContainer";
-import {motion} from "framer-motion";
 import {ArrowLeftIcon, DocumentTextIcon, ExclamationIcon} from "@heroicons/react/solid";
 import {FilterSearch} from "@components/common/Inputs/Search";
 import {Dispatch, SetStateAction, useEffect, useState} from "react";
@@ -7,16 +6,13 @@ import {PassedSection} from "@components/panel/sections/PassedSection";
 import classnames from "classnames"
 import {ReservedSection} from "@components/panel/sections/ReservedSection";
 import {FailedSection} from "@components/panel/sections/FailedSection";
-import Link from "next/link"
 import {Button} from "@components/common/Inputs/Button";
 import {useAuth} from "@client/auth";
 import Router from "next/router";
 import {fetchClub, fetchMembers, submitPending} from "@client/fetcher/panel";
 import {PendingElement} from "@components/panel/element/PendingElement";
 import {isEmpty} from "@utilities/object";
-import {fetchAClub} from "@client/fetcher/club";
 import {Editor} from "@components/panel/element/Editor";
-import Toast from "@components/common/Toast";
 import {useToast} from "@components/common/Toast/ToastContext";
 
 const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetStateAction<{}>>, setReservedPos: Dispatch<SetStateAction<{}>>, setToast, reFetch) => {
@@ -30,6 +26,7 @@ const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetState
   let reservedPos = {}
 
   if (data.status) {
+    console.log(data)
     data.data.forEach(oitem => {
       let item = oitem
       if ("position" in oitem) {

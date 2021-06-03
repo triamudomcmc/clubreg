@@ -1,7 +1,10 @@
 import {NextApiRequest, NextApiResponse} from "next";
-import {fetchSession, fetchUser} from "@server/fetchUser"
-import {fetchPanel, submitPending, updatePosition, updateUser} from "@server/panelControl";
 import initialisedDB from "@server/firebase-admin";
+import {fetchPanel} from "@server/fetchers/panel";
+import {submitPending} from "@server/panel/submitPending";
+import {updatePosition} from "@server/panel/updatePosition";
+import {updateUser} from "@server/panel/updateUser";
+import {fetchSession} from "@server/fetchers/session";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
@@ -33,7 +36,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           break
         }
         case "fetchAClub": {
-          const {logged} = await fetchSession(req, res, req.body.fp)
+          const {logged} = await fetchSession(req, res)
+
           if (!logged) {
             res.json({status: false, report: "sessionError"})
           } else {
@@ -44,6 +48,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               new_count_limit: data.new_count_limit
             })
           }
+
         }
       }
       break

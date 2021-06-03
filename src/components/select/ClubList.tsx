@@ -1,6 +1,5 @@
 import {ClipboardCopyIcon, StarIcon} from "@heroicons/react/solid";
 import {Dispatch, SetStateAction} from "react";
-import {Tracker} from "@client/tracker/track";
 import {useAuth} from "@client/auth";
 import LooseTypeObject from "../../interfaces/LooseTypeObject";
 import classnames from "classnames"

@@ -1,76 +1,13 @@
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import {request} from "@client/utilities/request";
 
 export const regClub = async (phone: string, password: string, clubID: string, oldClubConfirm: boolean) => {
-
-  const fp = await FingerprintJS.load()
-  const fingerPrint = await fp.get();
-
-  const reqData = {
-    action: "regClub",
-    clubID: clubID,
-    phone: phone,
-    password: password,
-    oldClubConfirm: oldClubConfirm,
-    fingerPrint: fingerPrint.visitorId
-  }
-
-  const data = await fetch(`/api/database/club`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(reqData),
-    credentials: 'include'
-  })
-
-  return await data.json()
+  return await request("database/club", "regClub", {clubID: clubID, phone: phone, password: password, oldClubConfirm: oldClubConfirm})
 }
 
 export const confirmClub = async (phone: string, password: string, clubID: string) => {
-
-  const fp = await FingerprintJS.load()
-  const fingerPrint = await fp.get();
-
-  const reqData = {
-    action: "confirmClub",
-    clubID: clubID,
-    phone: phone,
-    password: password,
-    fingerPrint: fingerPrint.visitorId
-  }
-
-  const data = await fetch(`/api/database/club`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(reqData),
-    credentials: 'include'
-  })
-
-  return await data.json()
+  return await request("database/club", "confirmClub", {clubID: clubID, phone: phone, password: password,})
 }
 
 export const rejectClub = async (password: string, clubID: string) => {
-
-  const fp = await FingerprintJS.load()
-  const fingerPrint = await fp.get();
-
-  const reqData = {
-    action: "rejectClub",
-    clubID: clubID,
-    password: password,
-    fingerPrint: fingerPrint.visitorId
-  }
-
-  const data = await fetch(`/api/database/club`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(reqData),
-    credentials: 'include'
-  })
-
-  return await data.json()
+  return await request("database/club", "rejectClub", {action: "rejectClub", clubID: clubID, password: password,})
 }

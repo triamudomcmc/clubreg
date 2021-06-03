@@ -1,6 +1,5 @@
 import ClubSplash from "@vectors/decorations/ClubSplash";
 import {FilterSearch} from "@components/common/Inputs/Search";
-import {ClubCard} from "@components/clubs/ClubCard";
 import {useState} from "react";
 
 const ClubIndexSkeleton = ({clubs, className}) => {

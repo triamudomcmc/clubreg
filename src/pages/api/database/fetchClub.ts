@@ -1,5 +1,4 @@
 import {NextApiRequest, NextApiResponse} from "next";
-import {regClub} from "@server/userActions";
 import initialisedDB from "@server/firebase-admin";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

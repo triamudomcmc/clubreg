@@ -1,6 +1,7 @@
 import {NextApiRequest, NextApiResponse} from "next";
-import {fetchUser} from "@server/fetchUser"
-import {confirmClub, regClub, rejectClub} from "@server/userActions";
+import {regClub} from "@server/userActions/regClub";
+import {confirmClub} from "@server/userActions/confirmClub";
+import {rejectClub} from "@server/userActions/rejectClub";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 

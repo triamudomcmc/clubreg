@@ -1,4 +1,3 @@
-import {GetServerSideProps} from "next";
 import PageContainer from "@components/common/PageContainer";
 import {Card} from "@components/Card";
 import {useWindowDimensions} from "@utilities/document";

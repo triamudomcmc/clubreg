@@ -1,7 +1,6 @@
 import Image from "next/image";
 import {useEffect, useRef, useState} from "react";
 import {detectOuside, useWindowDimensions} from "@utilities/document";
-import {XCircleIcon} from "@heroicons/react/outline";
 import {XIcon} from "@heroicons/react/solid";
 import classnames from "classnames";
 

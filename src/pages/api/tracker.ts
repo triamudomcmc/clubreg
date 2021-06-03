@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.setHeader('Content-Type', `application/json`)
       switch (req.body.action) {
         case "push": {
-          const output = await update(req.body.type, req.body.context, req.body.fingerPrint, req.body.userID)
+          const output = await update(req.body.type, req.body.context, req.body.fp, req.body.userID)
           res.json(output)
         }
       }

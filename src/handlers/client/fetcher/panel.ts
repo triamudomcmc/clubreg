@@ -1,104 +1,22 @@
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import LooseTypeObject from "../../../interfaces/LooseTypeObject";
+import {request} from "@client/utilities/request";
 
 export const fetchMembers = async (panelID): Promise<{status: boolean, report: string, data: Array<LooseTypeObject<any>>}> => {
-
-  const fp = await FingerprintJS.load()
-  const fingerPrint = await fp.get();
-
-  const data = await fetch(`/api/database/panel`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({action: "fetchMembers",panelID: panelID, fingerPrint: fingerPrint.visitorId}),
-    credentials: 'include'
-  })
-
-  const res = await data.json()
-
-  return res
-
+  return await request("database/panel", "fetchMembers", {panelID: panelID})
 }
 
 export const submitPending = async (panelID, tasks): Promise<{status: boolean, report: string}> => {
-
-  const fp = await FingerprintJS.load()
-  const fingerPrint = await fp.get();
-
-  const data = await fetch(`/api/database/panel`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({action: "submitPending",panelID: panelID,tasks: tasks, fingerPrint: fingerPrint.visitorId}),
-    credentials: 'include'
-  })
-
-  const res = await data.json()
-
-  return res
-
+  return await request("database/panel", "submitPending", {panelID: panelID,tasks: tasks})
 }
 
 export const updateUser = async (panelID, objectRefID, action): Promise<{status: boolean, report: string}> => {
-
-  const fp = await FingerprintJS.load()
-  const fingerPrint = await fp.get();
-
-  const data = await fetch(`/api/database/panel`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({action: "updateUser",panelID: panelID,objectRefID: objectRefID,task: action, fingerPrint: fingerPrint.visitorId}),
-    credentials: 'include'
-  })
-
-  const res = await data.json()
-
-  return res
-
+  return await request("database/panel", "updateUser",{panelID: panelID,objectRefID: objectRefID,task: action})
 }
 
 export const updatePosition = async (panelID, tasks): Promise<{status: boolean, report: string}> => {
-
-  const fp = await FingerprintJS.load()
-  const fingerPrint = await fp.get();
-
-  console.log(panelID)
-
-  const data = await fetch(`/api/database/panel`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({action: "updatePosition",panelID: panelID,tasks: tasks, fingerPrint: fingerPrint.visitorId}),
-    credentials: 'include'
-  })
-
-  const res = await data.json()
-
-  return res
-
+  return await request("database/panel", "updatePosition", {panelID: panelID,tasks: tasks})
 }
 
 export const fetchClub = async (clubID: string): Promise<{}> => {
-
-  const fp = await FingerprintJS.load()
-  const fingerPrint = await fp.get();
-
-  const data = await fetch(`/api/database/panel`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({action: "fetchAClub", clubID: clubID, fp: fingerPrint.visitorId}),
-    credentials: 'include'
-  })
-
-  const res = await data.json()
-
-  return res
-
+  return await request("database/panel", "fetchAClub", {clubID: clubID})
 }

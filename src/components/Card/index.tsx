@@ -7,7 +7,6 @@ import {clubMap} from "../../config/clubMap";
 import {Dispatch, SetStateAction, useEffect, useState} from "react";
 import QRCode from 'qrcode'
 import {fetchAClub} from "@client/fetcher/club";
-import CardRender from "../../pages/renderer/card";
 
 const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>) => {
   const data = await fetchAClub(clubID)

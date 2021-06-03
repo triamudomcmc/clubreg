@@ -1,9 +1,7 @@
 import {CheckCircleIcon, ChevronDownIcon, ExclamationCircleIcon, SortAscendingIcon, XCircleIcon} from "@heroicons/react/solid";
-import {Button} from "@components/common/Inputs/Button";
 import {useEffect, useState} from "react";
 import classnames from "classnames"
 import Modal from "@components/common/Modals";
-import {Input} from "@components/auth/Input";
 import css from "./bubble.module.css"
 import {motion, useAnimation} from "framer-motion"
 

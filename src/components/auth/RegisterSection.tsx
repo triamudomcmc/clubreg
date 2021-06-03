@@ -2,10 +2,10 @@ import {Input} from "@components/auth/Input";
 import {Listbox, Transition} from "@headlessui/react";
 import {CheckIcon, SelectorIcon} from "@heroicons/react/solid";
 import React, {Fragment, useState} from "react";
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import Router from "next/router";
 import {Button} from "@components/common/Inputs/Button";
 import {useToast} from "@components/common/Toast/ToastContext";
+import {request} from "@client/utilities/request";
 
 const people = [
   {id: 1, name: 'ม.4'},
@@ -36,13 +36,9 @@ const RegisterSection = ({swapFunction, setLoader}) => {
     event.preventDefault()
     const loaderTimeout = setTimeout(() => {
       setLoader(true)
-    },1000)
-
-    const fp = await FingerprintJS.load()
-    const fingerPrint = await fp.get();
+    }, 1000)
 
     const data = {
-      action: "register",
       stdID: stdID,
       email: email,
       phone: phone,
@@ -53,94 +49,82 @@ const RegisterSection = ({swapFunction, setLoader}) => {
       lastname: lastname,
       confirmPassword: conpass,
       password: password,
-      fingerPrint: fingerPrint.visitorId
     }
 
-    try {
-      const res = await fetch(`/api/database/auth`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-        credentials: 'include'
+    const result = await request("database/auth", "register", data)
+
+    if (result.status) {
+      await Router.push({
+        pathname: '',
+        query: ""
       })
-
-      const result = await res.json()
-
-      if (result.status) {
-        await Router.push({
-          pathname: '',
-          query: ""
-        })
-        addToast({
-          theme:"modern",
-          icon: "tick",
-          title: "ลงทะเบียนเสร็จสมบูรณ์",
-          text: "การลงทะเบียนเสร็จสมบูรณ์ ผู้ใช้งานสามารถเข้าสู่ระบบได้ทันที"
-        })
-        swapFunction("login")
-      } else {
-        switch (result.report) {
-          case "user_exists":
-            addToast({
-              theme:"modern",
-              icon: "cross",
-              title: "มีบัญชีนี้อยู่แล้วในระบบ",
-              text: "คุณเคยลงทะเบียนแล้ว กรุณาเข้าสู่ระบบที่ส่วนสำหรับการเข้าสู่ระบบ หากคุณไม่เคยลงทะเบียนมาก่อนแล้วพบข้อความนี้กรุณาติดต่อทาง กช."
-            })
-            break
-          case "invalid_stdID":
-            addToast({
-              theme:"modern",
-              icon: "cross",
-              title: "ไม่พบรหัสนักเรียนนี้ในฐานข้อมูล",
-              text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช. เพื่อขอตรวจสอบข้อมูล"
-            })
-            break
-          case "mismatch_data":
-            addToast({
-              theme:"modern",
-              icon: "cross",
-              title: "ข้อมูลที่ระบุไม่ตรงกับข้อมูลบนฐานข้อมูล",
-              text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช. เพื่อขอตรวจสอบข้อมูล"
-            })
-            break
-          case "invalid_data":
-            addToast({
-              theme:"modern",
-              icon: "cross",
-              title: "อีเมล หรือ เบอร์โทรศัพท์ ที่ระบุไม่ถูกต้อง",
-              text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช."
-            })
-            break
-          case "invalid_credentials":
-            addToast({
-              theme:"modern",
-              icon: "cross",
-              title: "รหัสผ่านไม่เหมาะสม",
-              text: "รหัสผ่านจะต้องมีความยาวไม่ต่ำกว่า 8 ตัวอักษร กรุณาลองใหม่อีกครั้ง"
-            })
-            break
-          case "password_mismatch":
-            addToast({
-              theme:"modern",
-              icon: "cross",
-              title: "ช่องรหัสผ่านและช่องยืนยันรหัสผ่านไม่ตรงกัน",
-              text: "ข้อมูลในช่องรหัสผ่านและช่องยืนยันรหัสผ่านจะต้องเหมือนกัน กรุณาลองใหม่อีกครั้ง"
-            })
-            break
-
-        }
-      }
-    } catch (error) {
       addToast({
-        theme:"modern",
-        icon: "cross",
-        title: "พบข้อผิดพลาดที่ไม่ทราบสาเหตุ",
-        text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง หากยังพบข้อผิดพลาดสามารถติดต่อทาง กช."
+        theme: "modern",
+        icon: "tick",
+        title: "ลงทะเบียนเสร็จสมบูรณ์",
+        text: "การลงทะเบียนเสร็จสมบูรณ์ ผู้ใช้งานสามารถเข้าสู่ระบบได้ทันที"
       })
+      swapFunction("login")
+    } else {
+      switch (result.report) {
+        case "user_exists":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "มีบัญชีนี้อยู่แล้วในระบบ",
+            text: "คุณเคยลงทะเบียนแล้ว กรุณาเข้าสู่ระบบที่ส่วนสำหรับการเข้าสู่ระบบ หากคุณไม่เคยลงทะเบียนมาก่อนแล้วพบข้อความนี้กรุณาติดต่อทาง กช."
+          })
+          break
+        case "invalid_stdID":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "ไม่พบรหัสนักเรียนนี้ในฐานข้อมูล",
+            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช. เพื่อขอตรวจสอบข้อมูล"
+          })
+          break
+        case "mismatch_data":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "ข้อมูลที่ระบุไม่ตรงกับข้อมูลบนฐานข้อมูล",
+            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช. เพื่อขอตรวจสอบข้อมูล"
+          })
+          break
+        case "invalid_data":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "อีเมล หรือ เบอร์โทรศัพท์ ที่ระบุไม่ถูกต้อง",
+            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช."
+          })
+          break
+        case "invalid_credentials":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "รหัสผ่านไม่เหมาะสม",
+            text: "รหัสผ่านจะต้องมีความยาวไม่ต่ำกว่า 8 ตัวอักษร กรุณาลองใหม่อีกครั้ง"
+          })
+          break
+        case "password_mismatch":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "ช่องรหัสผ่านและช่องยืนยันรหัสผ่านไม่ตรงกัน",
+            text: "ข้อมูลในช่องรหัสผ่านและช่องยืนยันรหัสผ่านจะต้องเหมือนกัน กรุณาลองใหม่อีกครั้ง"
+          })
+          break
+        default:
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "พบข้อผิดพลาดที่ไม่ทราบสาเหตุ",
+            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง หากยังพบข้อผิดพลาดสามารถติดต่อทาง กช."
+          })
+      }
     }
+
     clearTimeout(loaderTimeout)
     setLoader(false)
   }
@@ -243,7 +227,9 @@ const RegisterSection = ({swapFunction, setLoader}) => {
               </select>
             </div>
             <input
-              onChange={(event) => {setPhone(event.target.value)}}
+              onChange={(event) => {
+                setPhone(event.target.value)
+              }}
               type="text"
               name="phone_number"
               id="phone_number"

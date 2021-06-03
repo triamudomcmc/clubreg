@@ -6,7 +6,6 @@ import {useEffect, useState} from "react";
 import {GetStaticProps} from "next";
 import * as fs from "fs";
 import {objToArr, searchKeyword, sortAudition, sortThaiDictionary} from "@utilities/object";
-import {sliceArr} from "@utilities/array";
 import classnames from "classnames"
 import ClubIndexSkeleton from "@components/clubs/ClubIndexSkeleton";
 

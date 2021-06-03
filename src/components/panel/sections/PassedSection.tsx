@@ -1,4 +1,3 @@
-import {FilterSearch} from "@components/common/Inputs/Search";
 import {ListElement} from "@components/panel/element/ListElement";
 import classnames from "classnames"
 

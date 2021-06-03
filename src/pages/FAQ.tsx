@@ -3,15 +3,12 @@ import {FAQSplash} from "@vectors/decorations/FAQSplash";
 import {DropDown} from "@components/FAQ/DropDown";
 import Footer from "@components/common/Footer";
 import {AnimateSharedLayout, motion} from "framer-motion";
-import FAQElement from "@components/index/FAQ/Element";
 import React, {useEffect, useState} from "react";
 import {GetStaticProps} from "next";
 import * as fs from "fs";
 import {sliceArrN} from "@utilities/array";
-import {Card} from "@components/Card";
 import {DefaultCard} from "@components/common/Cards";
 import Link from "next/link";
-import Auth from "./auth";
 import Router, {useRouter} from "next/router";
 
 const objToArr = (obj: any) => {

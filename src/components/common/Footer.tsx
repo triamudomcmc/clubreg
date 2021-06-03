@@ -1,7 +1,6 @@
 import {SocialFacebook, SocialInstagram} from "@vectors/icons/Socials";
 import {WhiteLogo} from "@vectors/Logo";
 import Link from "next/link"
-import {Button} from "@components/common/Inputs/Button";
 
 const Footer = () => {
   return (

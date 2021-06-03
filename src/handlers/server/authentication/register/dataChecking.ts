@@ -1,4 +1,4 @@
-import LooseTypeObject from "../../../interfaces/LooseTypeObject";
+import LooseTypeObject from "@interfaces/LooseTypeObject";
 import {isASCII} from "@utilities/texts";
 
 export const createDataPair = (ref1: LooseTypeObject<string>, ref2: LooseTypeObject<string>) => {

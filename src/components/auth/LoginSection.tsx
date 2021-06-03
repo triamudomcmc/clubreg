@@ -1,13 +1,12 @@
 import React, {useState} from "react";
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
-import Router from "next/router";
 import {LockClosedIcon} from "@heroicons/react/solid";
 import {useAuth} from "@client/auth";
 import {useToast} from "@components/common/Toast/ToastContext";
+import {request} from "@client/utilities/request";
 
 const LoginSection = ({primaryAction, setLoader}) => {
 
-  const { reFetch } = useAuth()
+  const {reFetch} = useAuth()
   const [ID, setID] = useState("")
   const [password, setPassword] = useState("")
   const {addToast} = useToast()
@@ -17,81 +16,59 @@ const LoginSection = ({primaryAction, setLoader}) => {
 
     const loaderTimeout = setTimeout(() => {
       setLoader(true)
-    },1000)
+    }, 1000)
 
-    const fp = await FingerprintJS.load()
-    const fingerPrint = await fp.get();
+    const result = await request("database/auth", "login", {stdID: ID, password: password,})
 
-    const data = {
-      action: "login",
-      stdID: ID,
-      password: password,
-      fingerprint: fingerPrint.visitorId
-    }
-
-    try {
-      const res = await fetch(`/api/database/auth`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-        credentials: 'include'
-      })
-
-      const result = await res.json()
-
-      if (result.status) {
-        await reFetch()
-      } else {
-        switch (result.report) {
-          case "invalid_credentials":
-            addToast({
-              theme:"modern",
-              icon: "cross",
-              title: "ข้อมูลไม่ถูกต้อง",
-              text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง"
-            })
-            break
-          case "invalid_password":
-            addToast({
-              theme:"modern",
-              icon: "cross",
-              title: "รหัสผ่านไม่ถูกต้อง",
-              text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือ หากลืมรหัสผ่านสามารถติดต่อทาง กช. เพื่อขอเปลี่ยนรหัสผ่านได้"
-            })
-            break
-          case "notAuthorised":
-            addToast({
-              theme:"modern",
-              icon: "cross",
-              title: "บัญชี้นี้ไม่ได้อนุญาตให้ใช้เบราว์เซอร์นี้เข้าสู่ระบบ",
-              text: "กรุณาลองใช้เบราว์เซอร์หรืออุปกรณ์อื่น หากยังไม่สามารถเข้าได้กรุณาติดต่อทาง กช. เพื่อขอปิดโหมดความปลอดภัยสูง"
-            })
-            break
-          case "invalid_user":
-            addToast({
-              theme:"modern",
-              icon: "cross",
-              title: "ไม่พบผู้ใช้งานที่ใช้รหัสนักเรียนนี้",
-              text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือ หากยังไม่ได้สร้างบัญชีให้ดำเนินการสร้างบัญชีผู้ใช้ก่อน"
-            })
-            break
-
-        }
-        clearTimeout(loaderTimeout)
-        setLoader(false)
+    if (result.status) {
+      await reFetch()
+    } else {
+      switch (result.report) {
+        case "invalid_credentials":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "ข้อมูลไม่ถูกต้อง",
+            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง"
+          })
+          break
+        case "invalid_password":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "รหัสผ่านไม่ถูกต้อง",
+            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือ หากลืมรหัสผ่านสามารถติดต่อทาง กช. เพื่อขอเปลี่ยนรหัสผ่านได้"
+          })
+          break
+        case "notAuthorised":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "บัญชี้นี้ไม่ได้อนุญาตให้ใช้เบราว์เซอร์นี้เข้าสู่ระบบ",
+            text: "กรุณาลองใช้เบราว์เซอร์หรืออุปกรณ์อื่น หากยังไม่สามารถเข้าได้กรุณาติดต่อทาง กช. เพื่อขอปิดโหมดความปลอดภัยสูง"
+          })
+          break
+        case "invalid_user":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "ไม่พบผู้ใช้งานที่ใช้รหัสนักเรียนนี้",
+            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือ หากยังไม่ได้สร้างบัญชีให้ดำเนินการสร้างบัญชีผู้ใช้ก่อน"
+          })
+          break
+        default:
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "พบข้อผิดพลาดที่ไม่ทราบสาเหตุ",
+            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง หากยังพบข้อผิดพลาดสามารถติดต่อทาง กช."
+          })
       }
-    } catch (error) {
-      addToast({
-        theme:"modern",
-        icon: "cross",
-        title: "พบข้อผิดพลาดที่ไม่ทราบสาเหตุ",
-        text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง หากยังพบข้อผิดพลาดสามารถติดต่อทาง กช."
-      })
-      clearTimeout(loaderTimeout)
-      setLoader(false)
     }
+
+    clearTimeout(loaderTimeout)
+    setLoader(false)
+
 
   }
 

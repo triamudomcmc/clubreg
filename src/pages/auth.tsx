@@ -1,15 +1,11 @@
 import PageContainer from "@components/common/PageContainer";
 import React, {Fragment, useEffect, useState} from "react";
 import {DefaultCard} from "@components/common/Cards";
-import { Listbox, Transition } from '@headlessui/react'
-import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 import Router from "next/router";
 import LoginSection from "@components/auth/LoginSection";
 import {useAuth} from "@client/auth";
-import {Input} from "@components/auth/Input";
 import RegisterSection from "@components/auth/RegisterSection";
 import {Loader} from "@components/common/Loader"
-import Toast from "@components/common/Toast";
 import {useToast} from "@components/common/Toast/ToastContext";
 
 
