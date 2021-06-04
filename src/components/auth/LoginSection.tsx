@@ -1,8 +1,9 @@
 import React, {useState} from "react";
-import {LockClosedIcon} from "@heroicons/react/solid";
+import {ArrowUpIcon, LockClosedIcon} from "@heroicons/react/solid";
 import {useAuth} from "@client/auth";
 import {useToast} from "@components/common/Toast/ToastContext";
 import {request} from "@client/utilities/request";
+import { motion } from "framer-motion";
 
 const LoginSection = ({primaryAction, setLoader}) => {
 
@@ -81,21 +82,9 @@ const LoginSection = ({primaryAction, setLoader}) => {
       </div>
       <form className="w-full" onSubmit={onsubmit}>
         <div className="px-6 w-full space-y-7 mt-10">
-          <div className="flex flex-col w-full -space-y-px">
-            <input
-              onChange={event => {
-                setID(event.target.value)
-              }}
-              type="text"
-              className="appearance-none webkit-rounded-t-md border border-gray-300 px-4 py-2 placeholder-gray-500 text-lg focus:z-10 focus:ring-TUCMC-pink-500 focus:border-TUCMC-pink-500"
-              placeholder="เลขประจำตัวนักเรียน" required/>
-            <input
-              onChange={event => {
-                setPassword(event.target.value)
-              }}
-              type="password"
-              className="border appearance-none border-gray-300 webkit-rounded-b-md px-4 py-2 placeholder-gray-500 text-lg focus:z-10 focus:ring-TUCMC-pink-500 focus:border-TUCMC-pink-500"
-              placeholder="รหัสผ่าน" required/>
+          <div className="flex flex-col bg-white shadow-md rounded-lg py-6 px-8 space-y-4 w-full">
+            <h1 className="text-center font-medium text-xl text-TUCMC-red-500">ยังไม่เปิดให้เข้าสู่ระบบ</h1>
+            <p className="text-TUCMC-gray-600">หากลงทะเบียนสำเร็จแล้วจะมี<span className="underline">การแจ้งเตือนที่มุมขวาบนของหน้าจอว่า ลงทะเบียนสำเร็จแล้ว</span> แต่ถ้าหากยังไม่ได้ดำเนินการลงทะเบียนให้กด สร้างบัญชีใหม่ ด้านล่างกล่องข้อความนี้</p>
           </div>
           <div className="flex flex-row justify-between w-full">
             <div className="flex flex-row">
@@ -108,8 +97,8 @@ const LoginSection = ({primaryAction, setLoader}) => {
             </span>
           </div>
           <div className="flex flex-col items-center w-full">
-            <button type="submit"
-                    className="relative flex justify-center items-center bg-TUCMC-pink-400 rounded-md text-white py-2 w-full">
+            <button type="button"
+                    className="relative flex justify-center items-center bg-TUCMC-gray-400 rounded-md text-white py-2 w-full">
               <div className="absolute left-4">
                 <LockClosedIcon className="w-5 h-5"/>
               </div>
@@ -117,6 +106,9 @@ const LoginSection = ({primaryAction, setLoader}) => {
             </button>
             <a onClick={primaryAction}
                className="font-normal cursor-pointer text-gray-600 mt-2 whitespace-nowrap">สร้างบัญชีใหม่</a>
+            <motion.div animate={{y: [20, 0]}} transition={{repeat: Infinity, repeatType: "reverse", duration: 1}}>
+              <ArrowUpIcon className="w-10 h-10 text-TUCMC-gray-500 opacity-50"/>
+            </motion.div>
           </div>
         </div>
       </form>

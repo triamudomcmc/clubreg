@@ -31,12 +31,25 @@ const RegisterSection = ({swapFunction, setLoader}) => {
   const [phone, setPhone] = useState("")
   const [password, setPassword] = useState("")
   const [conpass, setConpass] = useState("")
+  const [conEmail, setConEmail] = useState("")
 
   const onsubmit = async (event) => {
     event.preventDefault()
     const loaderTimeout = setTimeout(() => {
       setLoader(true)
     }, 1000)
+
+    if (email !== conEmail) {
+      addToast({
+        theme: "modern",
+        icon: "cross",
+        title: "ช่อง Email ไม่ตรงกับช่องยืนยัน Email",
+        text: "ข้อมูลในช่อง Email และช่องยืนยัน Email จะต้องเหมือนกัน กรุณาลองใหม่อีกครั้ง"
+      })
+      clearTimeout(loaderTimeout)
+      setLoader(false)
+      return
+    }
 
     const data = {
       stdID: stdID,
@@ -62,7 +75,8 @@ const RegisterSection = ({swapFunction, setLoader}) => {
         theme: "modern",
         icon: "tick",
         title: "ลงทะเบียนเสร็จสมบูรณ์",
-        text: "การลงทะเบียนเสร็จสมบูรณ์ ผู้ใช้งานสามารถเข้าสู่ระบบได้ทันที"
+        text: "การลงทะเบียนเสร็จสมบูรณ์ ผู้ใช้งานสามารถเข้าสู่ระบบได้ทันที",
+        lifeSpan: 0
       })
       swapFunction("login")
     } else {
@@ -209,6 +223,7 @@ const RegisterSection = ({swapFunction, setLoader}) => {
         <Input title="ห้องเรียน" stateUpdate={setRoom} required={true}/>
         <Input title="เลขที่" stateUpdate={setNumber} required={true}/>
         <Input title="Email" stateUpdate={setEmail} required={true}/>
+        <Input title="ยืนยัน Email" stateUpdate={setConEmail} required={true}/>
         <div>
           <span className="text-gray-700 tracking-tight">เบอร์โทรศัพท์</span>
           <div className="mt-1 relative rounded-md shadow-sm">
@@ -222,8 +237,6 @@ const RegisterSection = ({swapFunction, setLoader}) => {
                 className="focus:ring-TUCMC-pink-500 focus:border-TUCMC-pink-500 h-full py-0 pl-3 pr-7 border-transparent bg-transparent text-gray-500 text-md rounded-md"
               >
                 <option>TH</option>
-                <option>TH</option>
-                <option>DE</option>
               </select>
             </div>
             <input
@@ -234,7 +247,7 @@ const RegisterSection = ({swapFunction, setLoader}) => {
               name="phone_number"
               id="phone_number"
               className="focus:ring-TUCMC-pink-500 focus:border-TUCMC-pink-500 block w-full pl-16 text-lg border-gray-300 rounded-md"
-              placeholder="+66"
+              placeholder="0925353535"
               required={true}
             />
           </div>

@@ -1,5 +1,5 @@
 import {compareDataPair, createDataPair, isValidEmail, isValidPassword} from "@server/authentication/register/dataChecking";
-import {isNumeric} from "@utilities/texts";
+import {fixGrammar, isNumeric} from "@utilities/texts";
 import bcrypt from "bcryptjs"
 
 export const checkCredentials = async (userColl, req, ref) => {
@@ -36,17 +36,17 @@ export const appendData = async (dataColl, refDB) => {
   return await dataColl.add({
     ...refDB.docs[0].data(),
     ...{
-      club: "",
       audition: {}
-    }
+    },
+    ...!("club" in refDB.docs[0].data()) && {club: ""}
   })
 }
 
 export const appendUser = async (userColl, req, refDB, dataDoc) => {
   return await userColl.add({
     stdID: refDB.docs[0].get("student_id"),
-    email: req.body.email,
-    phone: req.body.phone,
+    email: fixGrammar(req.body.email),
+    phone: fixGrammar(req.body.phone),
     dataRefID: dataDoc.id,
     password: await bcrypt.hash(req.body.password, 10),
     safeMode: false,
