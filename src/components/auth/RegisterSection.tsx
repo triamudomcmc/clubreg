@@ -56,7 +56,7 @@ const RegisterSection = ({swapFunction, setLoader}) => {
       email: email,
       phone: phone,
       room: room,
-      level: selected,
+      level: selected.name,
       number: number,
       firstname: firstname,
       lastname: lastname,
