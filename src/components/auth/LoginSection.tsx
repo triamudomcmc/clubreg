@@ -89,16 +89,16 @@ const LoginSection = ({primaryAction, setLoader}) => {
           <div className="flex flex-row justify-between w-full">
             <div className="flex flex-row">
               <input className="w-5 h-5 border rounded-md border-gray-200 ring-0 mr-2"
-                     type="checkbox"/>
-              <span className="whitespace-nowrap">จดจำฉันไว้ในระบบ</span>
+                     type="checkbox" disabled/>
+              <span className="whitespace-nowrap text-TUCMC-gray-500">จดจำฉันไว้ในระบบ</span>
             </div>
-            <span className="text-TUCMC-pink-400">
+            <span className="text-TUCMC-gray-500">
               ลืมรหัสผ่าน
             </span>
           </div>
           <div className="flex flex-col items-center w-full">
             <button type="button"
-                    className="relative flex justify-center items-center bg-TUCMC-gray-400 rounded-md text-white py-2 w-full">
+                    className="relative flex cursor-default justify-center items-center bg-TUCMC-gray-400 rounded-md text-white py-2 w-full">
               <div className="absolute left-4">
                 <LockClosedIcon className="w-5 h-5"/>
               </div>
