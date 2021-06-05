@@ -17,7 +17,7 @@ export const generateCard = async (dataDoc, clubData, req) => {
 
 export const initData = async (userID, dataRefID, clubData = true) => {
 
-  const collections = initCollections([{coll: "users", doc: userID}, {coll: "data", doc: dataRefID}, clubData && {coll: "clubs", doc: "mainData"}])
+  const collections = initCollections(clubData ? [{coll: "users", doc: userID}, {coll: "data", doc: dataRefID}, {coll: "clubs", doc: "mainData"}] : [{coll: "users", doc: userID}, {coll: "data", doc: dataRefID}])
   const userData = await collections[0].get(), dataRef = await collections[1], clubRef = clubData ? collections[2] : null
   const dataDoc = await dataRef.get()
 

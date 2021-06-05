@@ -22,6 +22,10 @@ const Announce = () => {
   const userData = onReady((logged, userData) => {
     if (!logged) {
       Router.push("/auth")
+    }else{
+      if (userData.club !== "") {
+        Router.push("/card")
+      }
     }
     return userData
   })

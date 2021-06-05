@@ -48,7 +48,7 @@ const DataModal = ({state, setLoader, TriggerDep, closeFunc, refetcher, mode = "
             theme:"modern",
             icon: "tick",
             title: "ยืนยันสิทธิ์ชมรมแล้ว",
-            text: "ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้",
+            text: "ขอให้มีความสุขกับกิจกรรมชมรม",
             lifeSpan: 30000
           })
         }
@@ -57,7 +57,7 @@ const DataModal = ({state, setLoader, TriggerDep, closeFunc, refetcher, mode = "
             theme:"modern",
             icon: "tick",
             title: "สละสิทธิ์ชมรมแล้ว",
-            text: "ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้ไม่รุ้",
+            text: "การสละสิทธิ์เสร็จสมบูรณ์",
             lifeSpan: 30000
           })
         }
@@ -168,7 +168,7 @@ const DataModal = ({state, setLoader, TriggerDep, closeFunc, refetcher, mode = "
       <h1 className="text-center text-[20px] font-medium">ยืนยันสิทธิ์ชมรม{data.title}</h1>
       <div className="text-sm mt-2">
         <p className="text-gray-500 text-center">หากยืนยันสิทธิ์ชมรมนี้แล้ว</p>
-        <p className="text-gray-500 text-center">จะไม่สามารถเปลี่ยนใจกลับมาขอยืนยันสิทธิ์ได้อีก</p>
+        <p className="text-gray-500 text-center">จะไม่สามารถเปลี่ยนชมรมได้อีกจนกว่าจะหมดปีการศึกษา</p>
       </div>
     </div> : <div className="pt-3 pb-5 mx-10 md:mx-12">
       <h1 className="text-center text-[20px] font-medium">สละสิทธิ์ชมรม{data.title}</h1>

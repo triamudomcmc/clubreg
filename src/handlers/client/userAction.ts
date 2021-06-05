@@ -9,5 +9,5 @@ export const confirmClub = async (phone: string, password: string, clubID: strin
 }
 
 export const rejectClub = async (password: string, clubID: string) => {
-  return await request("database/club", "rejectClub", {action: "rejectClub", clubID: clubID, password: password,})
+  return await request("database/club", "rejectClub", {action: "rejectClub", clubID: clubID, password: password})
 }
