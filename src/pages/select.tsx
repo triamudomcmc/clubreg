@@ -210,7 +210,7 @@ const Select = ({thumbPaths}) => {
                 </div>
             </div>}
 
-            {!isEmpty(clubData) && userData && "old_club" in userData && userData.old_club !== "" && clubData[userData.old_club].old_count < clubData[userData.old_club].old_count_limit &&
+            {!isEmpty(clubData) && userData && "old_club" in userData && userData.old_club !== "" && clubData[userData.old_club].old_count < clubData[userData.old_club].old_count_limit ?
             <div className="flex flex-col items-start rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
                 <h1 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h1>
                 <p
@@ -224,7 +224,17 @@ const Select = ({thumbPaths}) => {
                       setSelect(true)
                     }}
                     className="bg-TUCMC-green-400 text-white whitespace-nowrap rounded-3xl shadow-md px-5 py-2.5 cursor-pointer">ยืนยันสิทธิ์ชมรมเดิม</a>
-            </div>}
+            </div> :
+              <div className="flex flex-col rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
+                <h1 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h1>
+                <p className="text-gray-600 tracking-tight">นักเรียนไม่สามารถยืนยันสิทธิ์ได้ (ชมรม{clubMap[userData.old_club]}) เนื่องจากชมรมไม่อนุญาตให้ยืนยันสิทธิ์ชมรมเดิม
+                                                            หากต้องการอยู่ชมรมเดิม ให้กดลงทะเบียนเข้าชมรมเดิมในฐานะสมาชิกใหม่</p>
+                <div className="md:hidden relative">
+                  <a href="/FAQ" target="_blank"
+                     className="text-TUCMC-gray-700 tracking-tight cursor-pointer">ดูรายละเอียดเพิ่มเติม →</a>
+                </div>
+              </div>
+            }
           </div>
         </div>
         <div style={width > 768 ? {width: width - 376, maxWidth: 952} : {}}
