@@ -25,7 +25,7 @@ const ConfirmModal = ({TriggerDep, clubData, onAgree, mode = "default", refetche
       setLoader(true)
     }, 1000)
 
-    if (!clubData.data.oldClubConfirm && data.audition) {
+    if (!clubData.data.oldClubConfirm && data.audition && mode == "default") {
       const res = await regClub("", "", data.clubID, !!data.oldClubConfirm)
       if (res.status) {
         addToast({

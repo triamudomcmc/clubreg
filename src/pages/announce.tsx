@@ -101,7 +101,7 @@ const Announce = () => {
         dep: select.state, revert: () => {
           setSelect(prev => ({state: false, mode: prev.mode}))
         }
-      }} mode={select.mode}/>
+      }} mode={select.mode} setLoader={setLoader}/>
       <DataModal setLoader={setLoader} state={modalState} refetcher={reFetch} closeFunc={clearState}
                  TriggerDep={{
                    dep: dataModal, revert: () => {
