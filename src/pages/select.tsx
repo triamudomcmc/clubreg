@@ -155,7 +155,7 @@ const Select = ({thumbPaths}) => {
         dep: select, revert: () => {
           setSelect(false)
         }
-      }} closeFunc={clearState} refetcher={reFetch} setLoader={setLoader}
+      }} refetcher={reFetch} setLoader={setLoader}
       />
       <ClubModal state={modalState} userData={userData} closeAction={clearState} action={selectClub} thumbPaths={thumbPaths}/>
       <DataModal setLoader={setLoader} state={modalState} refetcher={reFetch} closeFunc={clearState}
@@ -215,17 +215,20 @@ const Select = ({thumbPaths}) => {
                 </div>
             </div>}
 
-            {!isEmpty(clubData) && userData && "old_club" in userData && userData.old_club !== "" && clubData[userData.old_club].old_count < clubData[userData.old_club].old_count_limit && <div className="flex flex-col items-start rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
-              <h1 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h1>
-              <p
-                className="text-gray-600 tracking-tight">นักเรียนสามารถใช้โควตายืนยันสิทธิ์ชมรมเดิมได้ทันที
-                                                         [ชมรม{clubMap[userData.old_club]}] *โควตามีจำนวนจำกัด</p>
-              <a
-                  onClick={() => {
-                    setModalState({open: false, data: {...clubData[userData.old_club], clubID: userData.old_club,oldClubConfirm: true}})
-                    setSelect(true)
-                  }}
-                className="bg-TUCMC-green-400 text-white whitespace-nowrap rounded-3xl shadow-md px-5 py-2.5 cursor-pointer">ยืนยันสิทธิ์ชมรมเดิม</a>
+            {!isEmpty(clubData) && userData && "old_club" in userData && userData.old_club !== "" && clubData[userData.old_club].old_count < clubData[userData.old_club].old_count_limit &&
+            <div className="flex flex-col items-start rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
+                <h1 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h1>
+                <p
+                    className="text-gray-600 tracking-tight">นักเรียนสามารถใช้โควตายืนยันสิทธิ์ชมรมเดิมได้ทันที
+                                                             [ชมรม{clubMap[userData.old_club]}] *โควตามีจำนวนจำกัด</p>
+                <a
+                    onClick={() => {
+                      setModalState({
+                        open: false, data: {...clubData[userData.old_club], clubID: userData.old_club, oldClubConfirm: true}
+                      })
+                      setSelect(true)
+                    }}
+                    className="bg-TUCMC-green-400 text-white whitespace-nowrap rounded-3xl shadow-md px-5 py-2.5 cursor-pointer">ยืนยันสิทธิ์ชมรมเดิม</a>
             </div>}
           </div>
         </div>

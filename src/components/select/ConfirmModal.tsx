@@ -4,7 +4,7 @@ import {isEmpty} from "@utilities/object";
 import {regClub} from "@client/userAction";
 import {useToast} from "@components/common/Toast/ToastContext";
 
-const ConfirmModal = ({TriggerDep, clubData, onAgree, mode = "default",closeFunc, refetcher, setLoader}) => {
+const ConfirmModal = ({TriggerDep, clubData, onAgree, mode = "default", refetcher, setLoader}) => {
 
   const [data, setData] = useState(clubData.data)
   const {addToast} = useToast()
