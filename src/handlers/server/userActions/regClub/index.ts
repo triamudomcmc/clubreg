@@ -14,9 +14,8 @@ export const regClub = async (req, res) => {
   const {userData, dataRef, clubRef, dataDoc} = await initData(ID.userID, ID.dataRefID)
 
   // check inputs
-  const checkInputResult = await checkInputs(dataDoc, userData, req)
+  const checkInputResult = await checkInputs(dataDoc, userData, req, clubRef)
   if (!checkInputResult.status) return {status: false, report: checkInputResult.report}
-
 
   try {
     const clubData = await updateClub(clubRef, req)

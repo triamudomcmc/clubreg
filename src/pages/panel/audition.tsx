@@ -26,14 +26,16 @@ const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetState
   let reservedPos = {}
 
   if (data.status) {
-    console.log(data)
+
     data.data.forEach(oitem => {
       let item = oitem
       if ("position" in oitem) {
         item = {...oitem, id: oitem.position}
         reservedPos[item.dataRefID] = (item.position)
       }
-      if (item.status === "rejected" || item.status === "confirmed") return obj["passed"].push(item)
+      if (item.status === "confirmed") return obj["passed"].push(item)
+      if (item.status === "rejected") return obj["failed"].push(item)
+
       obj[item.status].push(item)
     })
     setMemberData(obj)

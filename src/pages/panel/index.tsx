@@ -43,6 +43,7 @@ const Account = () => {
   const [adArr, setAdArr] = useState([])
   const clubsTrigger = useRef(null)
   const box = useRef(null)
+  const [closeBox, setCloseBox] = useState(false)
 
   const {width} = useWindowDimensions()
 
@@ -61,7 +62,7 @@ const Account = () => {
   const reFetchCred = () => {
     let currPanel = localStorage.getItem("currentPanel")
 
-    if (!currPanel || currPanel === "") {
+    if (userData.panelID && (!currPanel || currPanel === "")) {
       currPanel = userData.panelID[0]
       localStorage.setItem("currentPanel", currPanel)
     }
@@ -71,7 +72,7 @@ const Account = () => {
 
   useEffect(() => {
     reFetchCred()
-  }, [])
+  }, [userData])
 
   useEffect(() => {
     if (box.current) {
@@ -93,7 +94,7 @@ const Account = () => {
   const setCurrentPanel = (id) => {
     localStorage.setItem("currentPanel", id)
     reFetchCred()
-    clubsTrigger.current.click()
+    setCloseBox(true)
   }
 
   return (
@@ -106,12 +107,12 @@ const Account = () => {
               <div className="flex justify-center w-full py-[0.54rem] overflow-clip overflow-hidden">
                 <span className="text-TUCMC-gray-600 whitespace-nowrap">{userData && ("panelID" in userData && clubMap[localStorage.getItem("currentPanel")])}</span>
               </div>
-              <div ref={clubsTrigger} className="flex justify-center items-center border-l border-gray-300 w-12 cursor-pointer">
+              <div ref={clubsTrigger} className={classnames("flex justify-center items-center border-l border-gray-300 w-12 cursor-pointer", !(userData.panelID && userData.panelID.length > 1) && "hidden")}>
                 <ChevronDownIcon className="w-6 h-6 text-gray-500"/>
               </div>
             </div>
             <Modal TriggerRef={clubsTrigger}
-                   CloseID="clubsClose"
+                   CloseDep={{dep: closeBox, revert: () => {setCloseBox(false)}}}
                    className="shadow-md rounded-lg absolute mx-auto mt-1 z-10 left-[-1px] top-[-5px] border border-gray-300">
               <div
                 className="flex justify-end rounded-t-lg bg-white h-full">
@@ -137,16 +138,22 @@ const Account = () => {
         </div>
       </div>
       <div className="pt-8 pb-20 px-4 max-w-6xl mx-auto">
-        <div className="flex space-x-1 max-w-xl mx-auto">
+        {clubData.audition ? <div className="flex space-x-1 max-w-xl mx-auto">
           <div className="relative w-1/2">
-            <Button type="div" href="/panel/audition" className="flex items-center justify-center bg-TUCMC-pink-400 rounded-lg shadow-sm px-4 py-3.5 text-white space-x-2">
+            <Button type="div" href="/panel/audition"
+                    className="flex items-center justify-center bg-TUCMC-pink-400 rounded-lg shadow-sm px-4 py-3.5 text-white space-x-2">
               <ClipboardCheckIcon className="w-5 h-5"/><span>ผลการ Audition</span>
             </Button>
           </div>
           <div
             className="flex items-center justify-center bg-TUCMC-white rounded-lg shadow-sm px-4 py-3.5 w-1/2 text-TUCMC-gray-600 space-x-2 shadow-md cursor-not-allowed">
             <UserGroupIcon className="w-6 h-6"/><span>รายชื่อสมาชิก</span></div>
+        </div> : <div className="max-w-xl mx-auto">
+          <div
+            className="flex items-center justify-center bg-TUCMC-white rounded-lg shadow-sm px-4 py-3.5 text-TUCMC-gray-600 space-x-2 shadow-md cursor-not-allowed">
+            <UserGroupIcon className="w-6 h-6"/><span>รายชื่อสมาชิก</span></div>
         </div>
+        }
         <div className="flex flex-col mt-20 space-y-14 px-2 md:px-4">
           <div>
             <h1 className="text-xl border-b border-gray-200 pb-4">ข้อมูลชมรม</h1>

@@ -26,6 +26,7 @@ import {
 } from "@utilities/object";
 import {sliceArr} from "@utilities/array";
 import {clubMap} from "../config/clubMap";
+import {regClub} from "@client/userAction";
 
 /*const blockContent = (dataObj) => {
   let newObj = {}
@@ -154,7 +155,8 @@ const Select = ({thumbPaths}) => {
         dep: select, revert: () => {
           setSelect(false)
         }
-      }}/>
+      }} closeFunc={clearState} refetcher={reFetch} setLoader={setLoader}
+      />
       <ClubModal state={modalState} userData={userData} closeAction={clearState} action={selectClub} thumbPaths={thumbPaths}/>
       <DataModal setLoader={setLoader} state={modalState} refetcher={reFetch} closeFunc={clearState}
                  TriggerDep={{
