@@ -95,12 +95,25 @@ const DataModal = ({state, setLoader, TriggerDep, closeFunc, refetcher, mode = "
             })
             break
           case "club_full":
-            addToast({
-              theme:"modern",
-              icon: "cross",
-              title: "ขออภัยในขณะนี้ชมรมที่เลือกเต็มแล้ว",
-              text: "กรุณาเลือกชมรมอื่นที่ยังว่างอยู่ในตอนนี้"
-            })
+            if (!!state.data.oldClubConfirm) {
+              addToast({
+                theme:"modern",
+                icon: "cross",
+                title: "ขออภัยในขณะนี้โควต้านักเรียนเก่าของชมรมนี้เต็มแล้ว",
+                text: "กรุณาลองเลือกชมรมนี้ในฐานะนักเรียนใหม่หรือเลือกชมรมอื่นที่ยังว่างอยู่ในตอนนี้"
+              })
+            }else{
+              addToast({
+                theme:"modern",
+                icon: "cross",
+                title: "ขออภัยในขณะนี้ชมรมที่เลือกเต็มแล้ว",
+                text: "กรุณาเลือกชมรมอื่นที่ยังว่างอยู่ในตอนนี้"
+              })
+            }
+            closeFunc()
+            setClosingState(true)
+            setPhone("")
+            setPassword("")
             refetcher()
             break
           case "in_club":

@@ -119,41 +119,14 @@ const Account = () => {
   return (
     <PageContainer>
       <div className="relative pt-10 pb-14 bg-TUCMC-gray-100">
-        <h1 className="text-2xl text-center font-medium">ข้อมูลบัญชีผู้ใช้</h1>
+        <h1 className="text-2xl text-center font-medium">จัดการบัญชีผู้ใช้</h1>
         <div className="absolute w-full px-4 -bottom-5">
           <div className="max-w-xl mx-auto bg-white rounded-lg shadow-sm p-[0.54rem] border border-gray-300 flex justify-center"><span
             className="text-TUCMC-gray-600">{userData && (userData.club !== "" ? clubMap[userData.club] : "ยังไม่มีชมรม")}</span></div>
         </div>
       </div>
       <div className="pt-8 pb-20 px-4 max-w-6xl mx-auto">
-        <div className="flex space-x-1 max-w-xl mx-auto">
-          <div className="relative w-1/2">
-            <div ref={auTrigger}
-                 className="flex items-center justify-center bg-TUCMC-pink-400 rounded-lg shadow-sm px-4 py-3.5 text-white space-x-2">
-              <ClipboardCheckIcon className="w-5 h-5"/><span>ชมรมที่ Audition</span></div>
-            <Modal TriggerRef={auTrigger} CloseID="audiClose"
-                   className="shadow-md rounded-lg absolute w-full mt-1 z-20">
-              <div
-                className="flex items-start rounded-t-lg text-sm justify-between bg-gray-50 text-gray-500 py-2 px-4">
-                <h1 className="mt-1">รายชื่อชมรมที่ลงชื่อ Audition ไว้</h1>
-                <XIcon id="audiClose"
-                       className="w-7 h-7 cursor-pointer text-TUCMC-gray-400"/>
-              </div>
-              <div className="bg-white rounded-b-lg">
-                {isEmpty(userData?.audition || {}) ? <h1
-                  className="py-4 text-center text-sm text-TUCMC-gray-500">ยังไม่มีชมรมที่ออดิชั่น</h1> : Object.keys(userData.audition)
-                                                                                                                .map((val) => {
-                                                                                                                  return <h1 key={val}
-                                                                                                                             className="py-4 px-4 border-t">{clubMap[val]}</h1>
-                                                                                                                })}
-              </div>
-            </Modal>
-          </div>
-          <div
-            className="flex items-center justify-center bg-TUCMC-white rounded-lg shadow-sm px-4 py-3.5 w-1/2 text-TUCMC-gray-600 space-x-2 border border-TUCMC-gray-400 cursor-not-allowed">
-            <ClipboardCheckIcon className="w-5 h-5"/><span>ผลการ Audition</span></div>
-        </div>
-        <div className="flex flex-col mt-20 space-y-14 px-2 md:px-4">
+        <div className="flex flex-col mt-14 space-y-14 px-2 md:px-4">
           <div>
             <h1 className="text-xl border-b border-gray-200 pb-4">ข้อมูลผู้ใช้งาน</h1>
             <div className="border-b border-gray-200 py-4 md:py-6 space-y-1 md:flex md:items-center md:space-y-0 md:space-x-52">
