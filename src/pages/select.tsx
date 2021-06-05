@@ -228,7 +228,7 @@ const Select = ({thumbPaths}) => {
             </div> :
               <div className="flex flex-col rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
                 <h1 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h1>
-                <p className="text-gray-600 tracking-tight">นักเรียนไม่สามารถยืนยันสิทธิ์ได้ (ชมรม{userData && clubMap[userData.old_club]}) เนื่องจากชมรมไม่อนุญาตให้ยืนยันสิทธิ์ชมรมเดิม
+                <p className="text-gray-600 tracking-tight">นักเรียนไม่สามารถยืนยันสิทธิ์ได้ (ชมรม{userData && clubMap[userData.old_club]}) เนื่องจากชมรม{userData && clubData[userData.old_club]?.old_count_limit === 0 ? "ไม่อนุญาตให้ยืนยันสิทธิ์ชมรมเดิม" : "ไม่มีโควตาสมาชิกเก่าเหลือแล้ว"}
                                                             หากต้องการอยู่ชมรมเดิม ให้กดลงทะเบียนเข้าชมรมเดิมในฐานะสมาชิกใหม่</p>
                 <div className="md:hidden relative">
                   <a href="/FAQ" target="_blank"
