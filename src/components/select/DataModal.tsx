@@ -101,6 +101,7 @@ const DataModal = ({state, setLoader, TriggerDep, closeFunc, refetcher, mode = "
               title: "ขออภัยในขณะนี้ชมรมที่เลือกเต็มแล้ว",
               text: "กรุณาเลือกชมรมอื่นที่ยังว่างอยู่ในตอนนี้"
             })
+            refetcher()
             break
           case "in_club":
             addToast({

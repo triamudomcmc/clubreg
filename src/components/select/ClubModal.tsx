@@ -76,7 +76,7 @@ const ClubModal = ({state, userData, closeAction, action, thumbPaths, confirmOld
     <span>ลงทะเบียน</span>
   </div>
 
-  if (userData && userData.old_club === dataState.clubID) {
+  if (userData && userData.old_club === dataState.clubID && dataState.old_count < dataState.old_count_limit) {
     notAuButt = <div
       onClick={confirmOldClub}
       className="flex justify-center cursor-pointer items-center space-x-2 text-lg bg-TUCMC-green-400 text-white py-4 rounded-lg">
