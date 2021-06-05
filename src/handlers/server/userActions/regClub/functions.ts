@@ -3,7 +3,7 @@ import initialisedDB from "@server/firebase-admin";
 import {firestore} from "firebase-admin/lib/firestore";
 
 export const checkInputs = async (dataDoc, userData, req, clubRef) => {
-  if (dataDoc.get("club") !== "" || req.body.clubID in dataDoc.get("audition")) return {status: false, report: "in_club"}
+  if ((dataDoc.get("club") !== "" || req.body.clubID in dataDoc.get("audition")) && !req.body.oldClubConfirm) return {status: false, report: "in_club"}
 
   const clubData = await clubRef.get()
 
@@ -25,7 +25,7 @@ export const updateClub = async (clubRef: firestore.DocumentReference, req) => {
 
     if (!req.body.oldClubConfirm) {
 
-      // confirm old club
+      // register new club
       if (data.audition) return data
       if (data.new_count >= data.new_count_limit) throw "club_full"
       const newCount = data.new_count + 1
@@ -34,7 +34,7 @@ export const updateClub = async (clubRef: firestore.DocumentReference, req) => {
 
     } else {
 
-      // register new club
+      // confirm old club
       if (data.old_count >= data.old_count_limit) throw "club_full"
       const newOCount = data.old_count + 1
       t.set(clubRef, {[req.body.clubID]: {old_count: newOCount}}, {merge:true})

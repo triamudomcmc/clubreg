@@ -12,7 +12,7 @@ import {useEffect, useRef, useState} from "react";
 import {isEmpty} from "@utilities/object";
 import Image from "next/image"
 
-const ClubModal = ({state, userData, closeAction, action, thumbPaths}) => {
+const ClubModal = ({state, userData, closeAction, action, thumbPaths, confirmOldClub}) => {
 
   const ref = useRef(null)
   const [hidden, setHidden] = useState(true)
@@ -70,6 +70,21 @@ const ClubModal = ({state, userData, closeAction, action, thumbPaths}) => {
                                               ของชมรมนี้และไปทำการ Audition ตามวันและเวลาที่ชมรมนี้กำหนด</p>
   }
 
+  let notAuButt = <div onClick={action}
+                       className="flex justify-center cursor-pointer items-center space-x-2 text-lg bg-TUCMC-green-400 text-white py-4 rounded-lg">
+    <CheckCircleIcon className="w-5 h-5"/>
+    <span>ลงทะเบียน</span>
+  </div>
+
+  if (userData && userData.old_club === dataState.clubID) {
+    notAuButt = <div
+      onClick={confirmOldClub}
+      className="flex justify-center cursor-pointer items-center space-x-2 text-lg bg-TUCMC-green-400 text-white py-4 rounded-lg">
+      <CheckCircleIcon className="w-5 h-5"/>
+      <span>ยืนยันสิทธิ์ชมรมเดิม</span>
+    </div>
+  }
+
   const imagePath = dataState.clubID && (dataState.clubID.includes("_") ? `${dataState.clubID.split("_")[0]}.jpg` : `${dataState.clubID}.jpg`)
 
   return (
@@ -105,7 +120,7 @@ const ClubModal = ({state, userData, closeAction, action, thumbPaths}) => {
             <h1 className="text-xl">ชมรม{dataState.title}</h1>
 
             {dataState.audition ?
-              <div className="flex text-TUCMC-red-400 space-x-1">
+              <div className="flex text-TUCMC-pink-400 space-x-1">
                 <StarIcon className="w-5 h-5 flex-shrink-0"/>
                 <span className="leading-6">มีการ Audition</span>
               </div> : <div className="flex text-TUCMC-blue-400 space-x-1">
@@ -135,12 +150,7 @@ const ClubModal = ({state, userData, closeAction, action, thumbPaths}) => {
             </DefaultCard>
             }
 
-            {dataState.audition ? auditionActionButt : dataState.new_count < dataState.new_count_limit &&
-                <div onClick={action}
-                     className="flex justify-center cursor-pointer items-center space-x-2 text-lg bg-TUCMC-green-400 text-white py-4 rounded-lg">
-                    <CheckCircleIcon className="w-5 h-5"/>
-                    <span>ลงทะเบียน</span>
-                </div>
+            {dataState.audition ? auditionActionButt : dataState.new_count < dataState.new_count_limit && notAuButt
             }
 
             <div onClick={closeAction}

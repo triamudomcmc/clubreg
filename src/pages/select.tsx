@@ -145,6 +145,12 @@ const Select = ({thumbPaths}) => {
     setSelect(true)
   }
 
+  const confirmOld = () => {
+    setModalState({
+      open: false, data: {...clubData[userData.old_club], clubID: userData.old_club, oldClubConfirm: true}
+    })
+    setSelect(true)
+  }
 
   return (
     <PageContainer>
@@ -152,7 +158,7 @@ const Select = ({thumbPaths}) => {
       <ConfirmModal onAgree={() => {setDataModal(true)}} clubData={modalState}
                     TriggerDep={{dep: select, revert: () => {setSelect(false)}}}
                     refetcher={reFetch} setLoader={setLoader}/>
-      <ClubModal state={modalState} userData={userData} closeAction={clearState} action={selectClub} thumbPaths={thumbPaths}/>
+      <ClubModal state={modalState} userData={userData} closeAction={clearState} action={selectClub} thumbPaths={thumbPaths} confirmOldClub={confirmOld}/>
       <DataModal setLoader={setLoader} state={modalState} refetcher={reFetch} closeFunc={clearState}
                  TriggerDep={{
                    dep: dataModal, revert: () => {
@@ -217,12 +223,7 @@ const Select = ({thumbPaths}) => {
                     className="text-gray-600 tracking-tight">นักเรียนสามารถใช้โควตายืนยันสิทธิ์ชมรมเดิมได้ทันที
                                                              [ชมรม{clubMap[userData.old_club]}] *โควตามีจำนวนจำกัด</p>
                 <a
-                    onClick={() => {
-                      setModalState({
-                        open: false, data: {...clubData[userData.old_club], clubID: userData.old_club, oldClubConfirm: true}
-                      })
-                      setSelect(true)
-                    }}
+                    onClick={confirmOld}
                     className="bg-TUCMC-green-400 text-white whitespace-nowrap rounded-3xl shadow-md px-5 py-2.5 cursor-pointer">ยืนยันสิทธิ์ชมรมเดิม</a>
             </div> :
               <div className="flex flex-col rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
