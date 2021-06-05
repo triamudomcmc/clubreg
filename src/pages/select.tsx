@@ -149,14 +149,9 @@ const Select = ({thumbPaths}) => {
   return (
     <PageContainer>
       <Loader display={loader}/>
-      <ConfirmModal onAgree={() => {
-        setDataModal(true)
-      }} clubData={modalState} TriggerDep={{
-        dep: select, revert: () => {
-          setSelect(false)
-        }
-      }} refetcher={reFetch} setLoader={setLoader}
-      />
+      <ConfirmModal onAgree={() => {setDataModal(true)}} clubData={modalState}
+                    TriggerDep={{dep: select, revert: () => {setSelect(false)}}}
+                    refetcher={reFetch} setLoader={setLoader}/>
       <ClubModal state={modalState} userData={userData} closeAction={clearState} action={selectClub} thumbPaths={thumbPaths}/>
       <DataModal setLoader={setLoader} state={modalState} refetcher={reFetch} closeFunc={clearState}
                  TriggerDep={{

@@ -4,7 +4,7 @@ import {isEmpty} from "@utilities/object";
 import {regClub} from "@client/userAction";
 import {useToast} from "@components/common/Toast/ToastContext";
 
-const ConfirmModal = ({TriggerDep, clubData, onAgree, mode = "default", refetcher, setLoader}) => {
+const ConfirmModal = ({TriggerDep, clubData, onAgree, mode = "default", refetcher = () => {}, setLoader = null}) => {
 
   const [data, setData] = useState(clubData.data)
   const {addToast} = useToast()
@@ -20,6 +20,7 @@ const ConfirmModal = ({TriggerDep, clubData, onAgree, mode = "default", refetche
   const confirmText = mode === "confirm" || clubData.data.oldClubConfirm ? "ยืนยันสิทธิ์" : "สละสิทธิ์"
 
   const confirm = async () => {
+
     const timeoutID = setTimeout(() => {
       setLoader(true)
     }, 1000)
