@@ -15,7 +15,7 @@ export const register = async (req) => {
 
   const {refDB} = checkCredResult
 
-  const userDoc = await appendUser(userColl,req, refDB, await appendData(dataColl, refDB))
+  const userDoc = await appendUser(userColl,req, refDB, await appendData(dataColl, refDB, req))
 
   //update Tracker
   update("system", "register", req.body.fp, userDoc.id)

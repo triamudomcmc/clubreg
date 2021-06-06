@@ -90,7 +90,7 @@ const Auth = ({query}) => {
       <Loader display={loader}/>
       <div style={{maxWidth: "26rem"}} className="mx-auto my-6 mb-16 md:my-10 md:mb-10 space-y-8 min-h-screen">
         <DefaultCard>
-          <p className="font-normal">ในรอบนี้เป็นการสร้างบัญชีสำหรับกรรมการชมรมและผู้ควบคุมแผงควบคุมเท่านั้น หากมีข้อผิดพลาดหรือไม่สามารถสร้างบัญชีได้กรุณาติดต่อ กช.</p>
+          <p className="font-normal">ในรอบนี้เป็นการสร้างบัญชีสำหรับครูที่ปรึกษาชมรมเท่านั้น หากมีข้อผิดพลาดหรือไม่สามารถสร้างบัญชีได้กรุณาติดต่อ กช.</p>
         </DefaultCard>
         {action == "login" && <LoginSection primaryAction={goRegister} setLoader={setLoader}/>}
         {action == "register" && <RegisterSection swapFunction={() => {setAction("login")}} setLoader={setLoader}/>}
