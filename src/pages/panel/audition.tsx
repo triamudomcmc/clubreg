@@ -1,5 +1,5 @@
 import PageContainer from "@components/common/PageContainer";
-import {ArrowLeftIcon, DocumentTextIcon, ExclamationIcon} from "@heroicons/react/solid";
+import {ArrowLeftIcon, DocumentTextIcon, ExclamationIcon, UserGroupIcon} from "@heroicons/react/solid";
 import {FilterSearch} from "@components/common/Inputs/Search";
 import {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {PassedSection} from "@components/panel/sections/PassedSection";
@@ -33,8 +33,7 @@ const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetState
         item = {...oitem, id: oitem.position}
         reservedPos[item.dataRefID] = (item.position)
       }
-      if (item.status === "confirmed") return obj["passed"].push(item)
-      if (item.status === "rejected") return obj["failed"].push(item)
+      if (item.status === "confirmed" || item.status === "rejected") return obj["passed"].push(item)
 
       obj[item.status].push(item)
     })
@@ -87,7 +86,7 @@ const Audition = () => {
   const [page, setPage] = useState("panel")
   const [pendingUpdate, setPendingUpdate] = useState({})
   const [reservedPos, setReservedPos] = useState({})
-  const [clubData, setClubData] = useState({new_count: 0, new_count_limit: 0})
+  const [clubData, setClubData] = useState({new_count: 0, new_count_limit: 0, call_count: 0})
   const [editing, setEditing] = useState({})
   const [editDep, setEditDep] = useState(false)
 
@@ -153,14 +152,52 @@ const Audition = () => {
     setEditDep(true)
   }
 
+  let heading = <h1 className="text-4xl tracking-tight">ผลการ Audition</h1>,
+    description = <div className="tracking-tight text-center mt-6 mb-8">
+      <p>สรุปผลการ Audition ให้เสร็จสิ้น </p>
+      <p>ภายในวันที่ 24 พ.ค. 64 เวลา 23.59 น. </p>
+      <p>(เหลืออีก 12 ชั่วโมง 27 นาที)</p>
+    </div>,
+    button = <div onClick={() => {
+      setPage("pending")
+    }} className="flex items-center space-x-1 bg-TUCMC-pink-400 cursor-pointer text-white shadow-md px-14 py-3.5 rounded-full">
+      <DocumentTextIcon className="w-5 h-5"/>
+      <span>รอการตอบรับ</span>
+    </div>
+
+  if (!editable) {
+    heading = <div className="flex flex-col items-center">
+      <h1 className="text-2xl">ประกาศผลการ Audition</h1>
+      <h1 className="text-lg">รอการตอบรับจากนักเรียน</h1>
+    </div>
+
+    description = <div className="text-center mt-6 mb-8">
+      <p>ระบบได้ประกาศผลให้ตามรายชื่อที่เลือกไว้แล้ว</p>
+      <p>หากนักเรียนไม่เลือกยืนยันสิทธิ์หรือสละสิทธิ์ภายในวันน</p>
+      <p>ระบบจะสละสิทธิ์ให้อัตโนมัติ</p>
+    </div>
+
+    button = <div className="flex border border-TUCMC-gray-600 border-opacity-90 space-x-4 rounded-md px-6 py-4 items-center">
+      <UserGroupIcon className="w-9 h-9"/>
+      <div>
+        <p>
+          สามารถรับสมาชิกใหม่ได้ทั้งหมด {clubData.new_count_limit} คน
+        </p>
+        <p>
+          (ยืนยันสิทธิ์แล้ว {clubData.new_count} คน เหลืออีก {clubData.new_count_limit - clubData.new_count} คน)
+        </p>
+      </div>
+    </div>
+  }
+
   return (
     <PageContainer>
       <Editor userData={editing} reservedPos={reservedPos} setReservedPos={setReservedPos} refetch={refetch} TriggerDep={{dep: editDep, revert: () => {setEditDep(false)}}}/>
       <div className={classnames("px-2 py-10 mx-auto max-w-6xl min-h-screen", page === "panel" ? "block" : "hidden")}>
         <div
-          className={`bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg text-yellow-800 px-4 py-4`}>
+          className={`bg-TUCMC-red-100 border-l-4 border-TUCMC-red-600 rounded-r-lg text-TUCMC-red-600 px-4 py-4`}>
           <div className="flex space-x-3">
-            <ExclamationIcon className="flex-shrink-0 w-6 h-6 text-yellow-400"/>
+            <ExclamationIcon className="flex-shrink-0 w-6 h-6 text-TUCMC-red-600"/>
             <div>
               <p className="text-[15px]">การประกาศผล Audition ก่อนชมรมอื่น
                                          และการกดดันให้นักเรียนเลือกยืนยันสิทธิ์ชมรม ถือเป็นการละเมิด<span
@@ -169,18 +206,9 @@ const Audition = () => {
           </div>
         </div>
         <div className="flex flex-col items-center text-TUCMC-gray-700 my-10">
-          <h1 className="text-4xl tracking-tight">ผลการ Audition</h1>
-          <div className="tracking-tight text-center mt-6 mb-8">
-            <p>สรุปผลการ Audition ให้เสร็จสิ้น </p>
-            <p>ภายในวันที่ 24 พ.ค. 64 เวลา 23.59 น. </p>
-            <p>(เหลืออีก 12 ชั่วโมง 27 นาที)</p>
-          </div>
-          <div onClick={() => {
-            setPage("pending")
-          }} className="flex items-center space-x-1 bg-TUCMC-pink-400 cursor-pointer text-white shadow-md px-14 py-3.5 rounded-full">
-            <DocumentTextIcon className="w-5 h-5"/>
-            <span>รอการตอบรับ</span>
-          </div>
+          {heading}
+          {description}
+          {button}
         </div>
         <div className="flex flex-col px-3 mt-14">
           <div className="flex w-full text-TUCMC-gray-400 font-medium px-3">
@@ -205,7 +233,7 @@ const Audition = () => {
           </div>
           <PassedSection display={section === "passed"} editFunc={edit}
                          userData={memberData.passed} editable={editable}/>
-          <ReservedSection refetch={refetch} userData={memberData.reserved} display={section === "reserved"} editable={editable} editFunc={edit}/>
+          <ReservedSection refetch={refetch} userData={memberData.reserved} display={section === "reserved"} editable={editable} editFunc={edit} callCount={clubData.call_count}/>
           <FailedSection userData={memberData.failed} display={section === "failed"} editable={editable} editFunc={edit}/>
         </div>
       </div>

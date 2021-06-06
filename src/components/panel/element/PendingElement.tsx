@@ -32,6 +32,12 @@ const variants = {
   }
 };
 
+function arrayMax(arr) {
+  return arr.reduce(function (p, v) {
+    return ( p > v ? p : v );
+  });
+}
+
 export const PendingElement = ({userData, pendingUpdate, setPendingUpdate, reservedPos, setReservedPos}) => {
 
   const [action, setAction] = useState(userData.dataRefID in pendingUpdate ? pendingUpdate[userData.dataRefID] : {action: "", pos: 0})
@@ -46,7 +52,7 @@ export const PendingElement = ({userData, pendingUpdate, setPendingUpdate, reser
       return prev
     })
     if (pos > 0) {
-      if(!Object.values(reservedPos).includes(pos)) {
+      if(!Object.values(reservedPos).includes(pos) && arrayMax(Object.values(reservedPos)) + 1 >= pos) {
         setAction({action: "reserved", pos: pos})
         setReservedPos(prev => ({...prev, ...{[userData.dataRefID]: pos}}))
       }else{

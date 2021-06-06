@@ -1,7 +1,8 @@
-export const ListElement = ({index = 0, userData, editable, editFunc}) => {
+export const ListElement = ({index = 0, userData, editable, editFunc, callCount}) => {
 
   let statusBar = <div
     className="bg-TUCMC-gray-800 text-white rounded-full tracking-tight text-sm px-4 py-0.5">รอการตอบรับ</div>
+
   if (userData.status === "confirmed") {
     statusBar = <div
       className="bg-TUCMC-green-400 text-white rounded-full tracking-tight text-sm px-4 py-0.5">ยืนยันสิทธิ์แล้ว</div>
@@ -9,6 +10,15 @@ export const ListElement = ({index = 0, userData, editable, editFunc}) => {
   if (userData.status === "rejected") {
     statusBar = <div
       className="bg-TUCMC-red-400 text-white rounded-full tracking-tight text-sm px-4 py-0.5">สละสิทธิ์แล้ว</div>
+  }
+
+  if (userData.status === "reserved") {
+    statusBar = <div
+      className="bg-TUCMC-gray-800 text-white rounded-full tracking-tight text-sm px-4 py-0.5 opacity-0 md:block hidden">จะถูกเรียกสำรอง</div>
+    if (index <= callCount) {
+      statusBar = <div
+        className="bg-TUCMC-gray-800 text-white rounded-full tracking-tight text-sm px-4 py-0.5">จะถูกเรียกสำรอง</div>
+    }
   }
 
   return (

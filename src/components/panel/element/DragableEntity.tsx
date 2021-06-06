@@ -128,6 +128,7 @@ type FixedSizeItemProps = {
   editable: boolean,
   editFunc: () => {},
   dragable: boolean,
+  callCount: number,
   itemProps: FixedListItemProps;
 };
 
@@ -142,7 +143,7 @@ const tapVariants = {
 
 function DragableEntity({
                           index, data, editable,
-                          itemProps, editFunc, dragable
+                          itemProps, editFunc, dragable, callCount
                         }: FixedSizeItemProps) {
   const [dragState, eventHandlers] = useFixedListItem(index, itemProps);
 
@@ -166,7 +167,7 @@ function DragableEntity({
         {...eventHandlers}
       >
         <motion.div className="bg-TUCMC-gray-700 absolute h-full w-full" initial="idle" whileTap="tap" variants={tapVariants}/>
-        <ListElement index={data.position} userData={data} editable={editable} editFunc={editFunc}/>
+        <ListElement index={data.position} userData={data} editable={editable} editFunc={editFunc} callCount={callCount}/>
       </motion.div>
     </li>
   );
@@ -189,7 +190,7 @@ const checkOffset = (pram1: number, pram2: number, offset: number) => {
   return Math.abs(pram1 - pram2) <= offset
 }
 
-export function DragableList({editable, editFunc, dragable, setDragMode}) {
+export function DragableList({editable, editFunc, dragable, setDragMode, callCount}) {
   const [items, setItems] = useItems();
   const [TapnHold, setTapnHold] = useState(setTimeout(() => {}, 1000))
   const [initialPos, setInitialPos] = useState([0,0])
@@ -276,6 +277,7 @@ export function DragableList({editable, editFunc, dragable, setDragMode}) {
               editFunc={editFunc}
               editable={editable}
               itemProps={props}
+              callCount={callCount}
             />
         </motion.div>
       ))}

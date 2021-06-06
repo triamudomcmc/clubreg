@@ -87,6 +87,8 @@ const ClubModal = ({state, userData, closeAction, action, thumbPaths, confirmOld
 
   const imagePath = dataState.clubID && (dataState.clubID.includes("_") ? `${dataState.clubID.split("_")[0]}.jpg` : `${dataState.clubID}.jpg`)
 
+  const dataURL = dataState.clubID && (!dataState.clubID.includes("ก30920") && dataState.clubID !== "ก30920-8" ? dataState.clubID.split("_")[0] : "ก30920")
+
   return (
     <div
       key="lower-overlay"
@@ -131,14 +133,16 @@ const ClubModal = ({state, userData, closeAction, action, thumbPaths, confirmOld
             <div className="flex text-TUCMC-gray-600 space-x-1 ">
               <GlobeAltIcon className="w-5 h-5 flex-shrink-0"/>
               <span className="leading-6">
-                <p className={classnames(dataState.contact === "" ? "hidden" : "block")}>FB : {dataState.contact}</p>
-                <p className={classnames(dataState.contact2 === "" ? "hidden" : "block")}>IG : @{dataState.contact2}</p>
-                <p className={classnames("contact3" in dataState ? "block" : "hidden")}>{dataState.contact3}</p>
+                <p className={classnames(isEmpty(dataState.contact) ? "hidden" : "block")}>{dataState.contact?.type} : {dataState.contact?.context}</p>
+                <p className={classnames(isEmpty(dataState.contact2) ? "hidden" : "block")}>{dataState.contact2?.type} : {dataState.contact2?.context}</p>
+                <p className={classnames(isEmpty(dataState.contact3) ? "hidden" : "block")}>{dataState.contact3?.type} : {dataState.contact3?.context}</p>
               </span>
             </div>
           </div>
           <div className="bg-TUCMC-gray-100 text-TUCMC-gray-600 px-6 py-3">
-            <h1>ดูรายละเอียดชมรม →</h1>
+            <a target="_blank" href={`/clubs/${dataURL}`}>
+              <h1>ดูรายละเอียดชมรม →</h1>
+            </a>
           </div>
           <div className="px-6 py-8 bg-white space-y-4">
 
