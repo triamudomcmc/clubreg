@@ -1,4 +1,4 @@
-export const ListElement = ({index = 0, userData, editable, editFunc, callCount}) => {
+export const ListElement = ({index = 0, userData, editable, editFunc, callCount = 0}) => {
 
   let statusBar = <div
     className="bg-TUCMC-gray-800 text-white rounded-full tracking-tight text-sm px-4 py-0.5">รอการตอบรับ</div>
