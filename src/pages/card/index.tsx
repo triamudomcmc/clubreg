@@ -52,17 +52,17 @@ const Page = () => {
   return (
     <PageContainer>
       <div>
-        <div className="py-10 flex justify-center">
+        <div className="flex justify-center py-10">
           <Card width={cardWidth} userData={userData} clubData={clubData}/>
         </div>
-        <div className="flex flex-col px-7 space-y-3 mb-10 max-w-md mx-auto">
-          <div className="flex flex-row bg-TUCMC-green-100 space-x-3 text-TUCMC-gray-700 p-4 rounded-md">
+        <div className="flex flex-col max-w-md mx-auto mb-10 space-y-3 px-7">
+          <div className="flex flex-row p-4 space-x-3 rounded-md bg-TUCMC-green-100 text-TUCMC-gray-700">
             <StarIcon className="flex-shrink-0 w-5 h-5"/>
             <div className="text-sm">
               <p>กรุณาดาวน์โหลดรูปภาพหรือถ่ายภาพหน้าจอเก็บไว้เป็นหลักฐาน</p>
             </div>
           </div>
-          <div onClick={download} className="flex justify-center cursor-pointer items-center space-x-2 bg-white rounded-md border border-gray-300 p-5 text-TUCMC-gray-700">
+          <div onClick={download} className="flex items-center justify-center p-5 space-x-2 bg-white border border-gray-300 rounded-md cursor-pointer text-TUCMC-gray-700">
             <ArrowCircleDownIcon className="w-5 h-5"/>
             <span>ดาวน์โหลด</span>
           </div>
