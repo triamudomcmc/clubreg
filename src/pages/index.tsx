@@ -15,20 +15,35 @@ const addZero = (num) => {
   return ('0' + num).slice(-2)
 }
 
+function convertMiliseconds(miliseconds) {
+  let days, hours, minutes, seconds, total_hours, total_minutes, total_seconds;
+
+  total_seconds = Math.floor(miliseconds / 1000);
+  total_minutes = Math.floor(total_seconds / 60);
+  total_hours = Math.floor(total_minutes / 60);
+  days = Math.floor(total_hours / 24).toFixed(0);
+
+  seconds = (total_seconds % 60).toFixed(0);
+  minutes = (total_minutes % 60).toFixed(0);
+  hours = (total_hours % 24).toFixed(0)
+
+  return { d: days, h: hours, m: minutes, s: seconds }
+}
+
 const Index = () => {
 
-  const countTo = 1623024000000
+  const countTo = 1623040200000
   const [time, setTime] = useState({day: "00", hour: "00", min: "00", sec: "00"})
 
   useEffect(() => {
     setInterval(() => {
       const ts = countTo - new Date().getTime()
-      const t = new Date(ts)
+      const t = convertMiliseconds(ts)
       setTime({
-        day: addZero(t.getDate()),
-        hour: addZero(t.getHours()),
-        min: addZero(t.getMinutes()),
-        sec: addZero(t.getSeconds())
+        day: addZero(t.d),
+        hour: addZero(t.h),
+        min: addZero(t.m),
+        sec: addZero(t.s)
       })
     }, 1000)
   },[])

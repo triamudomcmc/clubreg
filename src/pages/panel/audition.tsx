@@ -91,7 +91,7 @@ const Audition = () => {
   const [editing, setEditing] = useState({})
   const [editDep, setEditDep] = useState(false)
 
-  const editable = true
+  const editable = false
 
   const userData = onReady((logged, userData) => {
     if (!logged) {

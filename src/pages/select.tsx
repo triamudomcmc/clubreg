@@ -66,6 +66,7 @@ const Select = ({thumbPaths}) => {
   const [loader, setLoader] = useState(false)
 
   const auTrigger = useRef(null)
+  const noAu = false
 
   const {userData} = onReady((logged, userData) => {
     if (!logged) {
@@ -79,7 +80,11 @@ const Select = ({thumbPaths}) => {
   })
 
   const apply = () => {
-    const dataArr = objToArr(clubData)
+    const dataArr = objToArr(clubData, (val) => {
+      if (!noAu) return val
+      return val.audition ? null : val
+    })
+    console.log(dataArr)
     switch (sortMode) {
       case "ascending": {
         const sorted = sortThaiDictionary(dataArr, obj => (obj.title))

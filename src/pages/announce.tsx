@@ -125,7 +125,7 @@ const Announce = () => {
           }
         </div>
         <div className="mt-16 bg-TUCMC-gray-100 w-full pb-20 pt-12">
-          <div className="space-y-2 px-4 max-w-md mx-auto">
+          <div className="space-y-4 px-4 max-w-md mx-auto">
             {
               (userData.audition && !isEmpty(userData.audition)) && Object.keys(userData.audition)
                                                                           .map((key) => {

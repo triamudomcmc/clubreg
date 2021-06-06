@@ -54,10 +54,10 @@ export const searchKeyword = (arr: any, keyword: string, keySelector: (obj: any)
   return [...topPrimary, ...topSecondary, ...bottom]
 }
 
-export const objToArr = (obj: any) => {
+export const objToArr = (obj: any, filter = (val) => val) => {
   return Object.keys(obj).map(key => {
-    return {clubID: key, ...obj[key]}
-  })
+    return filter({clubID: key, ...obj[key]})
+  }).filter(i => (i !== null))
 }
 
 export const translateClubID = (id: string) => {
