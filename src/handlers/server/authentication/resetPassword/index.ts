@@ -12,6 +12,7 @@ export const resetPassword = async (req, res) => {
 
   await initialisedDB.collection("users").doc(doc.get("userID")).update({password: hashedPass})
 
+  await doc.ref.delete()
   update("system", "reset_password", req.body.fp, doc.get("userID"))
 
   return {status: true}

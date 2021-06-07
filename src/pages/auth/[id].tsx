@@ -68,6 +68,7 @@ const Page = ({actionID}) => {
         text: "รหัสผ่านของบัญชีนี้ได้ถูกเปลี่ยนแล้ว กรุณาลองเข้าสู่ระบบด้วยรหัสใหม่",
         crossPage: true
       })
+      Router.push("/auth")
     }else{
       switch (res.report) {
         case "missing_email":
