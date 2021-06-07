@@ -15,6 +15,7 @@ import classnames from "classnames";
 import css from "@components/panel/element/bubble.module.css";
 const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetStateAction<{}>>, setToast, reFetch) => {
   const data = await fetchMembers(panelID, false)
+
   let sorted = {
     m4: [],
     m5: [],

@@ -21,9 +21,6 @@ const Page = () => {
   const userData = onReady((logged, userData) => {
     if (!logged) {Router.push("/auth"); return userData}
     if (userData.club === "") {Router.push("/select"); return userData}
-    if ("panelID" in userData) {
-      Router.push("/panel");
-    }
 
     return userData
   })

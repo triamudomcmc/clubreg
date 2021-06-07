@@ -21,6 +21,7 @@ const LoginSection = ({primaryAction, setLoader, secAction}) => {
     const result = await request("database/auth", "login", {stdID: ID, password: password,})
 
     if (result.status) {
+      localStorage.setItem("currentPanel","")
       await reFetch()
     } else {
       switch (result.report) {
