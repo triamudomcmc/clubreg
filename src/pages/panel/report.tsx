@@ -24,13 +24,13 @@ const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetState
   if (data.status) {
     data.data.forEach((item) => {
       console.log(item)
-      if (item.level === "4") {
+      if (item.level === "ม.4") {
         sorted.m4.push(item)
       }
       if (item.level === "5") {
         sorted.m5.push(item)
       }
-      if (item.level === "6") {
+      if (item.level === "ม.6") {
         sorted.m6.push(item)
       }
     })
