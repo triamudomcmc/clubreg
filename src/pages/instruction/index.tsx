@@ -35,7 +35,7 @@ const Index = () => {
                   <Zoomable
                     updateOverlay={setZoomOverlay}
                     width={400} height={500}
-                    src="/assets/images/instruction/instruction_1.jpg"
+                    src="/assets/images/instruction/instruction1.jpg"
                   />
                 </div>
               </SwiperSlide>
@@ -44,7 +44,7 @@ const Index = () => {
                   <Zoomable
                     updateOverlay={setZoomOverlay}
                     width={400} height={500}
-                    src="/assets/images/instruction/instruction_2.jpg"
+                    src="/assets/images/instruction/instruction2.jpg"
                   />
                 </div>
               </SwiperSlide>
@@ -53,7 +53,7 @@ const Index = () => {
                   <Zoomable
                     updateOverlay={setZoomOverlay}
                     width={400} height={500}
-                    src="/assets/images/instruction/instruction_3.jpg"
+                    src="/assets/images/instruction/instruction3.jpg"
                   />
                 </div>
               </SwiperSlide>
@@ -62,7 +62,7 @@ const Index = () => {
                   <Zoomable
                     updateOverlay={setZoomOverlay}
                     width={400} height={500}
-                    src="/assets/images/instruction/instruction_4.jpg"
+                    src="/assets/images/instruction/instruction4.jpg"
                   />
                 </div>
               </SwiperSlide>
