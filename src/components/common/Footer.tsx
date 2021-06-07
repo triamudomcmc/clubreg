@@ -60,7 +60,11 @@ const Footer = () => {
                 <a>ติดต่อ</a>
               </Link>
             </div>
-            <WhiteLogo/>
+            <Link href="/">
+              <div className="cursor-pointer">
+                <WhiteLogo/>
+              </div>
+            </Link>
           </div>
         </div>
       </div>

@@ -11,11 +11,27 @@ import Clubs from "@components/index/Clubs";
 import Footer from "@components/common/Footer";
 import {AnimateSharedLayout, motion} from "framer-motion";
 import {useTimer} from "@utilities/timers";
+import Router from "next/router";
+import {openTime} from "@config/time";
 
 
 const Index = () => {
 
-  const timer = useTimer(1623040200000)
+  const goal = openTime
+
+  const timer = useTimer(goal)
+
+  const [button, setButton] = useState(new Date().getTime() >= goal)
+
+  useEffect(() => {
+    const currentTime = new Date().getTime()
+
+    if (currentTime < goal){
+      setTimeout(() => {
+        Router.reload()
+      }, goal - currentTime)
+    }
+  }, [])
 
   return (
     <PageContainer footer={false}>
@@ -37,31 +53,34 @@ const Index = () => {
                     className="tracking-tight text-white mt-2 md:mt-2 lg:mt-4 md:text-xl lg:text-3xl">ปีการศึกษา
                                                                                                       2564</p>
                 </div>
-                <div
-                className="hidden md:flex flex-row space-x-2 justify-center text-TUCMC-gray-900">
-                <div className="flex flex-col items-center">
-                  <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.day}</span>
-                  <span className="text-white font-bold text-xs mt-2">DAY</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.hour}</span>
-                  <span className="text-white font-bold text-xs mt-2">HOUR</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.min}</span>
-                  <span className="text-white font-bold text-xs mt-2">MIN</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.sec}</span>
-                  <span className="text-white font-bold text-xs mt-2">SEC</span>
-                </div>
-              </div>
-                {/*<div className="hidden md:flex flex-col h-full justify-end">
+                {!button && <div className="hidden md:flex flex-row space-x-2 justify-center text-TUCMC-gray-900">
+                  <div className="flex flex-col items-center">
+                    <span
+                      className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.day}</span>
+                    <span className="text-white font-bold text-xs mt-2">DAY</span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <span
+                      className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.hour}</span>
+                    <span className="text-white font-bold text-xs mt-2">HOUR</span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <span
+                      className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.min}</span>
+                    <span className="text-white font-bold text-xs mt-2">MIN</span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <span
+                      className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.sec}</span>
+                    <span className="text-white font-bold text-xs mt-2">SEC</span>
+                  </div>
+                </div>}
+                {button && <div className="hidden md:flex flex-col h-full justify-end">
                   <Button href="/auth"
                           className="bg-white text-TUCMC-pink-600 shadow-lg font-bold px-12 lg:px-[4.5rem] rounded-full text-xl lg:text-2xl py-3 lg:py-3.5 mb-4">
                     <span>เข้าสู่ระบบ</span>
                   </Button>
-                </div>*/}
+                </div>}
                 <div className="hidden md:block font-medium text-white px-1">
                   <p>ระบบจะเปิดให้ลงทะเบียนชมรม</p>
                   <p>ในวันที่ 7 มิ.ย. 2564 เวลา 11.30 น.</p>
@@ -70,32 +89,33 @@ const Index = () => {
             </div>
           </div>
           <div className="bg-white h-full rounded-t-5xl mt-8 md:mt-0">
-            <div
-            className="flex md:hidden flex-row space-x-2 relative -top-6 justify-center text-TUCMC-gray-900">
-            <div className="flex flex-col items-center">
-              <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.day}</span>
-              <span className="text-gray-500 font-bold text-xs mt-2">DAY</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.hour}</span>
-              <span className="text-gray-500 font-bold text-xs mt-2">HOUR</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.min}</span>
-              <span className="text-gray-500 font-bold text-xs mt-2">MIN</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.sec}</span>
-              <span className="text-gray-500 font-bold text-xs mt-2">SEC</span>
-            </div>
-          </div>
-            {/*<div
+            {!button && <div
+              className="flex md:hidden flex-row space-x-2 relative -top-6 justify-center text-TUCMC-gray-900">
+              <div className="flex flex-col items-center">
+                <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.day}</span>
+                <span className="text-gray-500 font-bold text-xs mt-2">DAY</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span
+                  className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.hour}</span>
+                <span className="text-gray-500 font-bold text-xs mt-2">HOUR</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.min}</span>
+                <span className="text-gray-500 font-bold text-xs mt-2">MIN</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.sec}</span>
+                <span className="text-gray-500 font-bold text-xs mt-2">SEC</span>
+              </div>
+            </div>}
+            {button && <div
               className="flex md:hidden flex-row relative -top-7 justify-center">
               <Button href="auth"
                       className="bg-white text-TUCMC-pink-600 shadow-lg font-bold px-[4.5rem] rounded-full text-2xl py-3.5 mb-4">
                 <span>เข้าสู่ระบบ</span>
               </Button>
-            </div>*/}
+            </div>}
             <div className="md:hidden mx-8 mt-6 mb-14">
               <div
                 className="flex flex-row bg-TUCMC-pink-100 space-x-4 text-TUCMC-pink-500 p-4 rounded-lg">

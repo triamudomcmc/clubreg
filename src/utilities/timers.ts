@@ -1,6 +1,12 @@
 import {useEffect, useState} from "react";
 
-const addZero = (num) => {
+const addZero = (inum) => {
+  let num = inum
+
+  if (inum < 0) {
+    num = 0
+  }
+
   return ('0' + num).slice(-2)
 }
 

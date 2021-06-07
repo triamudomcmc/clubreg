@@ -29,11 +29,18 @@ export const getUserDataFromSessionData = async (sessionData) => {
 
   if (!docData.exists) return {status: false, data: {userData: {}}, report: "userNotFound"}
 
+  const d = docData.data()
+  let esc = {}
+
+  Object.keys(d.audition).forEach(k => {
+    return esc[k] = "waiting"
+  })
+
   const userData = {
     logged: true,
     expires: sessionData.get("expires"),
     userID: sessionData.get("userID"),
-    userData: docData.data()
+    userData: {...d, ...{audition: esc}}
   }
 
   return {status: true, userData}

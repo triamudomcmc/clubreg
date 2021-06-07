@@ -1,6 +1,6 @@
 import { FilterSearch } from "@components/common/Inputs/Search";
 import PageContainer from "@components/common/PageContainer";
-import { ArrowCircleDownIcon } from "@heroicons/react/solid";
+import {ArrowCircleDownIcon, ExclamationCircleIcon} from "@heroicons/react/solid";
 import {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {fetchClub, fetchMembers} from "@client/fetcher/panel";
 import {useAuth} from "@client/auth";
@@ -10,6 +10,9 @@ import {clubMap} from "@config/clubMap";
 import {ListElement} from "@components/panel/element/ListElement";
 import {searchKeyword, sortNumber, sortThaiDictionary} from "@utilities/object";
 import {isNumeric} from "@utilities/texts";
+import ReactTooltip from "react-tooltip";
+import classnames from "classnames";
+import css from "@components/panel/element/bubble.module.css";
 const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetStateAction<{}>>, setToast, reFetch) => {
   const data = await fetchMembers(panelID, false)
   let sorted = {
@@ -177,7 +180,17 @@ const Report = () => {
           <div className="flex flex-col space-y-4 md:space-y-0 md:justify-center md:space-x-4 md:w-full md:flex-row">
             <div className="flex flex-col items-center justify-center bg-white rounded-lg px-4 py-3.5 text-TUCMC-gray-600 shadow-md text-xl md:w-1/3">
               <div className="flex flex-col items-center justify-center space-y-2">
-                <div>สมาชิกทั้งหมด</div>
+                <div className="flex space-x-2 items-center"><span>สมาชิกทั้งหมด</span> <div className="relative w-5 h-5">
+                  <div className="absolute w-5 h-5 opacity-0 z-30 hover:opacity-100">
+                    <div className="absolute -top-9 left-[-8.13rem]">
+                      <div
+                        className={classnames("bg-white text-xs text-black w-[280px] shadow-md rounded-md p-2", css.tooltip2)}>
+                        <h1 className="text-center">จำนวนนี้ไม่รวมกรรมการชมรม</h1></div>
+                    </div>
+                    <ExclamationCircleIcon className="w-5 h-5 text-TUCMC-gray-600"/>
+                  </div>
+                  <ExclamationCircleIcon className="absolute w-5 h-5 z-[29] text-TUCMC-gray-600"/>
+                </div></div>
                 <div className="flex flex-row items-end">
                   <h1 className="text-3xl font-bold text-TUCMC-gray-900">{clubData.old_count + clubData.new_count}</h1>
                   <h2 className="text-TUCMC-gray-500">/{clubData.old_count_limit + clubData.new_count_limit}</h2>
@@ -188,7 +201,18 @@ const Report = () => {
             <div className="flex flex-row items-center  justify-center bg-white rounded-lg px-4 py-3.5 text-TUCMC-gray-600  shadow-md text-xl md:w-2/3 divide-gray-300 divide-x-2">
               <div className="flex items-center justify-center w-full py-2 ">
                 <div className="flex flex-col items-center justify-center space-y-2">
-                  <div>สมาชิกเก่า</div>
+                  <div className="flex space-x-2 items-center"><span>สมาชิกเก่า</span>
+                    <div className="relative w-5 h-5">
+                      <div className="absolute w-5 h-5 opacity-0 z-30 hover:opacity-100">
+                        <div className="absolute -top-9 left-[-8.13rem]">
+                          <div
+                            className={classnames("bg-white text-xs text-black w-[280px] shadow-md rounded-md p-2", css.tooltip2)}>
+                            <h1 className="text-center">จำนวนนี้ไม่รวมกรรมการชมรม</h1></div>
+                        </div>
+                        <ExclamationCircleIcon className="w-5 h-5 text-TUCMC-gray-600"/>
+                      </div>
+                      <ExclamationCircleIcon className="absolute w-5 h-5 z-[29] text-TUCMC-gray-600"/>
+                    </div></div>
                   <div className="flex flex-row items-end">
                     <h1 className="text-3xl font-bold text-TUCMC-gray-900">
                       {clubData.old_count}

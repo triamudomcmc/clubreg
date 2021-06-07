@@ -214,8 +214,6 @@ const DataModal = ({state, setLoader, TriggerDep, closeFunc, refetcher, mode = "
                       className="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
                     >
                       <option>TH</option>
-                      <option>TH</option>
-                      <option>DE</option>
                     </select>
                   </div>
                   <input
@@ -223,7 +221,7 @@ const DataModal = ({state, setLoader, TriggerDep, closeFunc, refetcher, mode = "
                     name="phone_number"
                     id="phone_number"
                     className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-16 sm:text-sm border-gray-300 rounded-md"
-                    placeholder="+66"
+                    placeholder="0935353535"
                     value={phone}
                     onChange={(event) => {
                       setPhone(event.target.value)

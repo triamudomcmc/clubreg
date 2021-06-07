@@ -28,9 +28,13 @@ const Announce = () => {
       if (userData.club !== "") {
         Router.push("/card")
       }
+      if (new Date().getTime() < 1623690000000) {
+        Router.push("/select")
+      }
     }
     return userData
   })
+
 
   const before = false
 

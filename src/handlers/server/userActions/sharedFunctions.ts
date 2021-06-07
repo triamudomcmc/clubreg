@@ -9,6 +9,7 @@ export const generateCard = async (dataDoc, clubData, req) => {
     room: dataDoc.get("room"),
     club: req.body.clubID,
     place: clubData.place,
+    message: clubData.message,
     contact: clubData.contact ? clubData.contact : "",
     contact2: clubData.contact2 ? clubData.contact2 : "",
     contact3: clubData.contact3 ? clubData.contact3 : ""

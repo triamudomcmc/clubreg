@@ -75,9 +75,23 @@ const Select = ({thumbPaths}) => {
       if (userData.club !== "") {
         Router.push("/card")
       }
+      if (new Date().getTime() >= 1623690000000) {
+        Router.push("/announce")
+      }
     }
     return {userData}
   })
+
+  useEffect(() => {
+    const currentTime = new Date().getTime()
+    const goal = 1623690000000
+
+    if (currentTime < goal){
+      setTimeout(() => {
+        Router.reload()
+      }, 1623690000000 - currentTime)
+    }
+  }, [])
 
   const apply = () => {
     const dataArr = objToArr(clubData, (val) => {
@@ -118,7 +132,6 @@ const Select = ({thumbPaths}) => {
   }, [userData])
 
   useEffect(() => {
-
     (userData && "audition" in userData && Object.keys(clubData).length > 0) && setAuditionList(<>
       {
         Object.keys(userData.audition).map((val) => {
@@ -174,7 +187,7 @@ const Select = ({thumbPaths}) => {
         <div className="md:max-w-xs">
           <div className="flex flex-col items-center">
             <h1 className="font-medium text-4xl">เลือกชมรม</h1>
-            <span className="text-sm tracking-tight">ภายในวันที่ 24 พ.ค. 64</span>
+            <span className="text-sm tracking-tight">ภายในวันที่ 14 มิ.ย. 64</span>
           </div>
           <div className="mt-6 w-full px-8">
             <SelectSplash/>
@@ -187,7 +200,7 @@ const Select = ({thumbPaths}) => {
                 <p className="text-gray-600 tracking-tight">ให้ไปทำการ Audition
                                                             ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนด โดยติดตามรายละเอียดการ Audition
                                                             จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง
-                                                            และรอการประกาศผลในวันที่ 25 พ.ค. 2564 เวลา 8.00 น.</p>
+                                                            และรอการประกาศผลในวันที่ 15 มิ.ย. 2564 เวลา 7.30 น.</p>
                 <div className="md:hidden relative">
                     <a ref={auTrigger}
                        className="text-TUCMC-pink-500 tracking-tight cursor-pointer">ดูรายชื่อชมรมที่ลงชื่อ

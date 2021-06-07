@@ -1,0 +1,1 @@
+export const openTime = 1623040200000

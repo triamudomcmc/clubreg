@@ -17,6 +17,7 @@ import {useToast} from "@components/common/Toast/ToastContext";
 import {sliceArr} from "@utilities/array";
 import {isNumber} from "util";
 import {isNumeric} from "@utilities/texts";
+import {useTimer} from "@utilities/timers";
 
 const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetStateAction<{}>>, setReservedPos: Dispatch<SetStateAction<{}>>, setToast, reFetch) => {
   const data = await fetchMembers(panelID)
@@ -95,7 +96,9 @@ const Audition = () => {
   const [editing, setEditing] = useState({})
   const [editDep, setEditDep] = useState(false)
 
-  const editable = false
+  const editable = true
+
+  const timer = useTimer(1623689940000)
 
   const userData = onReady((logged, userData) => {
     if (!logged) {
@@ -207,8 +210,8 @@ const Audition = () => {
   let heading = <h1 className="text-4xl tracking-tight">ผลการ Audition</h1>,
     description = <div className="tracking-tight text-center mt-6 mb-8">
       <p>สรุปผลการ Audition ให้เสร็จสิ้น </p>
-      <p>ภายในวันที่ 24 พ.ค. 64 เวลา 23.59 น. </p>
-      <p>(เหลืออีก 12 ชั่วโมง 27 นาที)</p>
+      <p>ภายในวันที่ 14 มิ.ย. เวลา 23.59 น. </p>
+      <p>(เหลืออีก {timer.day} วัน {timer.hour} ชั่วโมง {timer.min} นาที)</p>
     </div>,
     button = <div onClick={() => {
       setPage("pending")

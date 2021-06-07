@@ -8,6 +8,7 @@ import RegisterSection from "@components/auth/RegisterSection";
 import {Loader} from "@components/common/Loader"
 import {useToast} from "@components/common/Toast/ToastContext";
 import {ForgotSection} from "@components/auth/ForgotSection";
+import {openTime} from "@config/time";
 
 
 const Auth = ({query}) => {
@@ -17,6 +18,7 @@ const Auth = ({query}) => {
   const [action, setAction] = useState(("register" in query) ? "register" : "login")
   const [loader, setLoader] = useState(false)
 
+
   onReady((logged, userData) => {
     if(logged) {
       if (userData.club !== "") {
@@ -25,6 +27,9 @@ const Auth = ({query}) => {
      if (!userData.club) {
        Router.push("/select")
      }
+    }
+    if (new Date().getTime() < openTime) {
+      Router.push("/")
     }
   })
 

@@ -1,8 +1,12 @@
 import {compareDataPair, createDataPair, isValidEmail, isValidPassword} from "@server/authentication/register/dataChecking";
 import {isNumeric} from "@utilities/texts";
 import bcrypt from "bcryptjs"
+import {openTime} from "@config/time";
 
 export const checkCredentials = async (userColl, req, ref) => {
+
+  if (new Date().getTime() < openTime) return {status: false, report: "not_allowed"}
+
   const ousd = await userColl.where("stdID", "==", req.body.stdID).get()
 
   if (!ousd.empty) return {status: false, report: "user_exists"}
@@ -13,7 +17,7 @@ export const checkCredentials = async (userColl, req, ref) => {
 
   const dataPair = createDataPair(refDB.docs[0].data(), req.body)
 
-  if (!compareDataPair(dataPair, "firstname") || !compareDataPair(dataPair, "lastname")) return {
+  if (!compareDataPair(dataPair, "lastname")) return {
     status: false, report: "mismatch_data"
   }
 

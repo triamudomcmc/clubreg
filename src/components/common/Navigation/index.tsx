@@ -13,7 +13,7 @@ import {
   HomeIcon, KeyIcon,
   LoginIcon,MailIcon,
   LogoutIcon,
-  TerminalIcon
+  TerminalIcon, HeartIcon
 } from "@heroicons/react/outline";
 import {ChevronDownIcon} from "@heroicons/react/solid";
 import Modal from "@components/common/Modals";
@@ -101,7 +101,7 @@ const Navigation = () => {
                   className="sticky z-50 top-0 flex flex-row items-center justify-center bg-TUCMC-gray-900 h-16 px-6">
         <div className="flex flex-row justify-between items-center w-full max-w-6xl">
           <Link href="/">
-            <div>
+            <div className="cursor-pointer">
               <WhiteLogo/>
             </div>
           </Link>
@@ -172,7 +172,7 @@ const Navigation = () => {
       }} onAnimationComplete={() => {
         setAnimation(false)
       }} ref={panel} initial={{x: "-100%"}} animate={reveal ? "open" : "close"} variants={variants}
-                  className={classnames("fixed top-0 bg-white h-full z-50", (load) && "hidden")}>
+                  className={classnames("fixed top-0 bg-white h-full z-50 min-w-[280px]", (load) && "hidden")}>
         <div className="bg-TUCMC-gray-800 p-4">
           <Link href="/">
             <div>
@@ -203,6 +203,13 @@ const Navigation = () => {
           <LogoutIcon className={classnames("w-7 h-7", getClass("/auth", "icon"))}/> <span
           className={getClass("/auth", "font")}>ออกจากระบบ</span>
         </div>}
+        <Link href="/select">
+          <div
+            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/select", "bg"))}>
+            <HeartIcon className={classnames("w-7 h-7", getClass("/select", "icon"))}/> <span
+            className={getClass("/select", "font")}>ลงทะเบียนชมรม</span>
+          </div>
+        </Link>
         {(logged && userData.panelID) && <Link href="/panel">
             <div
                 className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/panel", "bg"))}>
@@ -248,20 +255,6 @@ const Navigation = () => {
           <div
             className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/contact", "bg"))}>
             <MailIcon className={classnames("w-7 h-7", getClass("/contact", "icon"))}/> <span className={getClass("/contact", "font")}>ติดต่อ</span>
-          </div>
-        </Link>
-        <Link href="/terms-of-service">
-          <div
-            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/terms-of-service", "bg"))}>
-            <DocumentTextIcon className={classnames("w-7 h-7", getClass("/terms-of-service", "icon"))}/> <span
-            className={getClass("/terms-of-service", "font")}>ข้อตกลงและเงื่อนไขการใช้งาน</span>
-          </div>
-        </Link>
-        <Link href="/privacy-policy">
-          <div
-            className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/privacy-policy", "bg"))}>
-            <KeyIcon className={classnames("w-7 h-7", getClass("/privacy-policy", "icon"))}/> <span
-            className={getClass("/privacy-policy", "font")}>นโยบายความเป็นส่วนตัว</span>
           </div>
         </Link>
       </motion.div>

@@ -164,8 +164,8 @@ const RegisterSection = ({swapFunction, setLoader}) => {
         </div>
       </div>
       <form onSubmit={onsubmit} className="w-full mt-8 space-y-6">
-        <Input title="ชื่อ" stateUpdate={setFirstname} required={true}/>
-        <Input title="นามสกุล (หากมีชื่อกลาง ให้กรอกในช่องนี้)" stateUpdate={setLastname} required={true}/>
+        <Input title="ชื่อ (หากมีชื่อกลาง ให้กรอกในช่องนี้)" stateUpdate={setFirstname} required={true}/>
+        <Input title="นามสกุล" stateUpdate={setLastname} required={true}/>
         <Input title="เลขประจำตัวนักเรียน" stateUpdate={setStdID} required={true}/>
         <div className="w-full">
           <Listbox value={selected} onChange={setSelected}>
@@ -249,8 +249,6 @@ const RegisterSection = ({swapFunction, setLoader}) => {
                 className="focus:ring-TUCMC-pink-500 focus:border-TUCMC-pink-500 h-full py-0 pl-3 pr-7 border-transparent bg-transparent text-gray-500 text-md rounded-md"
               >
                 <option>TH</option>
-                <option>TH</option>
-                <option>DE</option>
               </select>
             </div>
             <input
@@ -261,7 +259,7 @@ const RegisterSection = ({swapFunction, setLoader}) => {
               name="phone_number"
               id="phone_number"
               className="focus:ring-TUCMC-pink-500 focus:border-TUCMC-pink-500 block w-full pl-16 text-lg border-gray-300 rounded-md"
-              placeholder="+66"
+              placeholder="0935353535"
               required={true}
             />
           </div>
