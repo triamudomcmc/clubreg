@@ -8,12 +8,12 @@ export const checkPermissionFromRefID = async (dataRefID, req) => {
   return {status: true}
 }
 
-export const executeWithPermission = async (req, res, callback: (req, res) => any) => {
+export const executeWithPermission = async (req, res, callback: (req, res, ID) => any) => {
   const {logged, ID} = await fetchSession(req, res)
   if (!logged) return {status: false, report: "sessionError"}
 
   const checkPermResult = await checkPermissionFromRefID(ID.dataRefID, req)
   if (!checkPermResult.status) return checkPermResult
 
-  return await callback(req, res)
+  return await callback(req, res, ID)
 }

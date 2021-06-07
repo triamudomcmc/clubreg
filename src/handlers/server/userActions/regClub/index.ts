@@ -2,6 +2,7 @@
 import {checkInputs, updateClub} from "@server/userActions/regClub/functions";
 import {generateCard, initData} from "@server/userActions/sharedFunctions";
 import {fetchSession} from "@server/fetchers/session";
+import {update} from "@server/tracker";
 
 export const regClub = async (req, res) => {
 
@@ -29,6 +30,7 @@ export const regClub = async (req, res) => {
       await dataRef.update({club: req.body.clubID, audition: {}, cardID: cardRef.id})
     }
 
+    update("system", `regClub-${req.body.oldClubConfirm ? "oc" : "nc"}-${clubData.audition ? "au" : "nu"}-${req.body.clubID}`, req.body.fp, userData.id)
 
     return {status: true, report: clubData.audition ? "success_audition" : "success_notAudition"}
   }catch (e) {

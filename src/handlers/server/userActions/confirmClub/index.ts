@@ -1,6 +1,7 @@
 import {generateCard, initData} from "@server/userActions/sharedFunctions";
 import {createNewAuditionData, updateClub, checkInputs} from "@server/userActions/confirmClub/functions";
 import {fetchSession} from "@server/fetchers/session";
+import {update} from "@server/tracker";
 
 export const confirmClub = async (req, res) => {
 
@@ -25,6 +26,8 @@ export const confirmClub = async (req, res) => {
     const cardRef = await generateCard(dataDoc, clubData, req)
 
     await dataRef.update({club: req.body.clubID, audition: newAuditionData, cardID: cardRef.id})
+
+    update("system", `confirmClub-${req.body.clubID}`, req.body.fp, userData.id)
 
     return {status: true, report: "success"}
 

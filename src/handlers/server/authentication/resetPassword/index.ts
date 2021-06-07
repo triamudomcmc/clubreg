@@ -1,5 +1,6 @@
 import initialisedDB from "@server/firebase-admin";
 import bcrypt from "bcryptjs"
+import {update} from "@server/tracker";
 
 export const resetPassword = async (req, res) => {
 
@@ -10,6 +11,8 @@ export const resetPassword = async (req, res) => {
   const hashedPass = await bcrypt.hash(req.body.password, 10)
 
   await initialisedDB.collection("users").doc(doc.get("userID")).update({password: hashedPass})
+
+  update("system", "reset_password", req.body.fp, doc.get("userID"))
 
   return {status: true}
 }

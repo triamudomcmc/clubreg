@@ -3,8 +3,8 @@ import {performBatchUpdatePositions} from "@server/panel/updatePosition/function
 
 export const updatePosition = async (req, res) => {
 
-  return await executeWithPermission(req, res, async (req, res) => {
-    await performBatchUpdatePositions(req)
+  return await executeWithPermission(req, res, async (req, res, ID) => {
+    await performBatchUpdatePositions(req, ID)
     return {status: true, report: "success"}
   })
 

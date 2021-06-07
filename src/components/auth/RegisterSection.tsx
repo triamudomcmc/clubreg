@@ -234,7 +234,7 @@ const RegisterSection = ({swapFunction, setLoader}) => {
         </div>
         <Input title="ห้องเรียน" stateUpdate={setRoom} required={true}/>
         <Input title="เลขที่" stateUpdate={setNumber} required={true}/>
-        <Input title="Email" stateUpdate={setEmail} required={true}/>
+        <Input title="Email (ไม่เป็นจำเป็นต้องใช้อีเมลโรงเรียน)" stateUpdate={setEmail} required={true}/>
         <Input title="ยืนยัน Email" stateUpdate={setConEmail} required={true}/>
         <div>
           <span className="text-gray-700 tracking-tight">เบอร์โทรศัพท์</span>

@@ -3,6 +3,7 @@ import parser from "ua-parser-js"
 import sgMail from "@sendgrid/mail";
 import path from "path";
 import fs from "fs";
+import {update} from "@server/tracker";
 
 const Reset = (actionID: string): string => {
 
@@ -34,6 +35,8 @@ export const forgot = async (req, res) => {
   }
 
   await sgMail.send(msg)
+
+  update("system", "forgot", req.body.fp, user.docs[0].id)
 
   return {status: true, report: "success"}
 }
