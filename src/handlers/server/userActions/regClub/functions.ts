@@ -3,7 +3,8 @@ import initialisedDB from "@server/firebase-admin";
 import {firestore} from "firebase-admin/lib/firestore";
 
 export const checkInputs = async (dataDoc, userData, req, clubRef) => {
-  if ((dataDoc.get("club") !== "" || req.body.clubID in dataDoc.get("audition")) && !req.body.oldClubConfirm) return {status: false, report: "in_club"}
+
+  if ((dataDoc.get("club") !== "" || (req.body.clubID in dataDoc.get("audition") && !req.body.oldClubConfirm))) return {status: false, report: "in_club"}
 
   const clubData = await clubRef.get()
 
