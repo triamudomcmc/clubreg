@@ -12,7 +12,8 @@ export const getUserCredentialsFromID = async (userID, req) => {
     phone: userData.get("phone"),
     email: userData.get("email"),
     authorised: authorisedArr,
-    safeMode: userData.get("safeMode")
+    safeMode: userData.get("safeMode"),
+    beta: userData.get("beta") || []
   }
 
   return { userCredentials }

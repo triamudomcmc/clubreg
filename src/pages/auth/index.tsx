@@ -51,6 +51,14 @@ const Auth = ({query}) => {
   }
 
   useEffect(() => {
+    if ("verify" in query) {
+      addToast({
+        theme:"modern",
+        icon: "tick",
+        title: "เบราซ์เซอร์นี้ได้รับอนุญาตให้เข้าสู่ระบบชั่วคราวแล้ว",
+        text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง"
+      })
+    }
     const cause = localStorage.getItem("beforeExit")
 
     switch (cause) {
@@ -105,7 +113,7 @@ const Auth = ({query}) => {
         <DefaultCard>
           <p className="font-normal">นักเรียน ม.5 และ ม.6 จะไม่สามารถล็อกอินเข้าสู่ระบบด้วยบัญชีเดิมในปีการศึกษาที่ผ่านมาได้ ต้องยืนยันตัวตนและสร้างบัญชีใหม่ทั้งหมด เนื่องจากมีการออกแบบระบบใหม่</p>
         </DefaultCard>
-        {action == "login" && <LoginSection primaryAction={goRegister} secAction={() => {setAction("forgot")}} setLoader={setLoader}/>}
+        {action == "login" && <LoginSection query={query} primaryAction={goRegister} secAction={() => {setAction("forgot")}} setLoader={setLoader}/>}
         {action == "register" && <RegisterSection swapFunction={() => {setAction("login")}} setLoader={setLoader}/>}
         {action == "forgot" && <ForgotSection swapFunction={() => {setAction("login")}} setLoader={setLoader}/>}
       </div>

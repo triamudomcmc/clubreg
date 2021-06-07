@@ -3,6 +3,7 @@ import {fetchUserCredentials} from "@server/fetchers/userCredentials";
 import {addBrowser} from "@server/account/addBrowser";
 import {toggleSafeMode} from "@server/account/toggleSafeMode";
 import {removeBrowser} from "@server/account/removeBrowser";
+import {toggleBeta} from "@server/account/toggleBeta";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
@@ -25,6 +26,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
         case "toggleSafeMode": {
           const output = await toggleSafeMode(req, res)
+          res.json(output)
+          break
+        }
+        case "toggleBeta": {
+          const output = await toggleBeta(req, res)
           res.json(output)
           break
         }

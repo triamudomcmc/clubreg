@@ -8,6 +8,10 @@ export const addBrowser = async (req, res) => {
 
   const {ua, clientIp, userData} = await getUserData(req, ID.userID)
 
+  if (!userData.beta?.includes("privacyOps")) {
+    return {status: false, report: "betaError"}
+  }
+
   const checkBrowserExistedResult = await checkExistedBrowser(userData, req)
   if (!checkBrowserExistedResult.status) return checkBrowserExistedResult
 

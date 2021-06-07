@@ -9,5 +9,6 @@ export default interface UserData {
   club: string,
   audition: {},
   panelID?: Array<string>,
-  admin?: boolean
+  admin?: boolean,
+  safeMode?: boolean
 }

@@ -4,7 +4,7 @@ import {useAuth} from "@client/auth";
 import {useToast} from "@components/common/Toast/ToastContext";
 import {request} from "@client/utilities/request";
 
-const LoginSection = ({primaryAction, setLoader, secAction}) => {
+const LoginSection = ({primaryAction, setLoader, secAction, query}) => {
 
   const {reFetch} = useAuth()
   const [ID, setID] = useState("")
@@ -18,7 +18,7 @@ const LoginSection = ({primaryAction, setLoader, secAction}) => {
       setLoader(true)
     }, 1000)
 
-    const result = await request("database/auth", "login", {stdID: ID, password: password,})
+    const result = await request("database/auth", "login", {stdID: ID, password: password, verify: query.verify || ""})
 
     if (result.status) {
       localStorage.setItem("currentPanel","")
@@ -46,7 +46,7 @@ const LoginSection = ({primaryAction, setLoader, secAction}) => {
             theme: "modern",
             icon: "cross",
             title: "บัญชี้นี้ไม่ได้อนุญาตให้ใช้เบราว์เซอร์นี้เข้าสู่ระบบ",
-            text: "กรุณาลองใช้เบราว์เซอร์หรืออุปกรณ์อื่น หากยังไม่สามารถเข้าได้กรุณาติดต่อทาง กช. เพื่อขอปิดโหมดความปลอดภัยสูง"
+            text: "กรุณาลองตรวจสอบ Email เพื่ออนุญาตเบราว์เซอร์นี้ให้เข้าสู่ระบบได้ชั่วคราว"
           })
           break
         case "invalid_user":

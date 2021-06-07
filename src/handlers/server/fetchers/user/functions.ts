@@ -38,18 +38,19 @@ export const getUserDataFromSessionData = async (sessionData) => {
   })
 
   const hide = new Date().getTime() < announceTime
-  let isAdmin = false
+  let isAdmin = false, safeMode: false
 
   if (!!sessionData.get("special")) {
     const data = await initialisedDB.collection("users").doc(sessionData.get("userID")).get()
     isAdmin = !!data.get("admin")
+    safeMode = data.get("safeMode")
   }
 
   const userData = {
     logged: true,
     expires: sessionData.get("expires"),
     userID: sessionData.get("userID"),
-    userData: {...d, ...hide && {audition: esc}, ...isAdmin && {admin: isAdmin}}
+    userData: {...d, ...hide && {audition: esc}, ...isAdmin && {admin: isAdmin, safeMode: safeMode}}
   }
 
   return {status: true, userData}
