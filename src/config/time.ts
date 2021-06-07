@@ -1,1 +1,1 @@
-export const openTime = 1623040200000
+export const openTime = 1623042000000
