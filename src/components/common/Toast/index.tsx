@@ -6,7 +6,7 @@ import {useRouter} from "next/router";
 
 const Toast = () => {
 
-  const {toastData} = useToast()
+  const {toastData, addToast} = useToast()
   const router = useRouter()
 
   const { width } = useWindowDimensions()
@@ -33,8 +33,10 @@ const Toast = () => {
 
   useEffect(() => {
     Object.keys(toast).forEach((val) => {
-      if ("crossPage" in toast[val] && toast[val].crossPage == true) return
-      deleteToast(val)
+      console.log(toast[val].crossPage)
+      if (!toast[val].crossPage){
+        deleteToast(val)
+      }
     })
   },[router.pathname])
 
@@ -51,6 +53,7 @@ const Toast = () => {
         deleteToast(activeToasts[0])
       }
       renderToast()
+      addToast({})
     }
   }, [toastData])
 

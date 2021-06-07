@@ -7,6 +7,7 @@ import {useAuth} from "@client/auth";
 import RegisterSection from "@components/auth/RegisterSection";
 import {Loader} from "@components/common/Loader"
 import {useToast} from "@components/common/Toast/ToastContext";
+import {ForgotSection} from "@components/auth/ForgotSection";
 
 
 const Auth = ({query}) => {
@@ -92,8 +93,9 @@ const Auth = ({query}) => {
         <DefaultCard>
           <p className="font-normal">นักเรียน ม.5 และ ม.6 จะไม่สามารถล็อกอินเข้าสู่ระบบด้วยบัญชีเดิมในปีการศึกษาที่ผ่านมาได้ ต้องยืนยันตัวตนและสร้างบัญชีใหม่ทั้งหมด เนื่องจากมีการออกแบบระบบใหม่</p>
         </DefaultCard>
-        {action == "login" && <LoginSection primaryAction={goRegister} setLoader={setLoader}/>}
+        {action == "login" && <LoginSection primaryAction={goRegister} secAction={() => {setAction("forgot")}} setLoader={setLoader}/>}
         {action == "register" && <RegisterSection swapFunction={() => {setAction("login")}} setLoader={setLoader}/>}
+        {action == "forgot" && <ForgotSection swapFunction={() => {setAction("login")}} setLoader={setLoader}/>}
       </div>
     </PageContainer>
   )

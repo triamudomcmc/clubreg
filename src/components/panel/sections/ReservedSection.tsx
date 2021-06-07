@@ -27,18 +27,22 @@ export const ReservedSection = ({display, refetch, userData, editable, editFunc,
     blockRerender && setBRrender(false)
   }, [userData])
 
+  const update = () => {
+    let ulist = []
+    items.forEach(val => {
+      const obj = userData.find(i => i.dataRefID === val.dataRefID)
+      if (obj.position !== val.position) return ulist.push({dataRefID: obj.dataRefID, position: val.position})
+    })
+    if (ulist.length > 0) {
+      updatePos(ulist)
+    }
+  }
+
   useEffect(() => {
     clearTimeout(updateEvent)
     setUpdateEvent(
       setTimeout(() => {
-        let ulist = []
-        items.forEach(val => {
-          const obj = userData.find(i => i.dataRefID === val.dataRefID)
-          if (obj.position !== val.position) return ulist.push({dataRefID: obj.dataRefID, position: val.position})
-        })
-        if (ulist.length > 0) {
-          updatePos(ulist)
-        }
+        update()
       }, 1000)
     )
   },[items])
@@ -59,7 +63,7 @@ export const ReservedSection = ({display, refetch, userData, editable, editFunc,
 
   return (
     <div ref={innerItemRef} className={classnames("select-none", display ? "block" : "hidden")}>
-      <motion.div onClick={() => {setDragMode(false)}} className="fixed top-20 px-4 py-1 rounded-full right-6 bg-TUCMC-gray-700 bg-opacity-50 text-white text-sm z-[90] cursor-pointer" animate={dragMode ? {opacity: 1} : {opacity: 0}}>เสร็จสิ้น</motion.div>
+      <motion.div onClick={() => {setDragMode(false); update()}} className="fixed top-20 px-4 py-1 rounded-full right-6 bg-TUCMC-gray-700 bg-opacity-50 text-white text-sm z-[90] cursor-pointer" animate={dragMode ? {opacity: 1} : {opacity: 0}}>เสร็จสิ้น</motion.div>
       <ItemsContext.Provider value={[items, setItems]}>
           <DragableList editable={editable} editFunc={editFunc} dragable={dragMode} setDragMode={setDragMode} callCount={callCount}/>
       </ItemsContext.Provider>

@@ -90,6 +90,9 @@ const Account = () => {
     if (userCred.safeMode) {
       setWhitelistMode(userCred.safeMode)
     }
+    if (userCred.authorised.length <= 0){
+      setWhitelistMode(false)
+    }
   }, [userCred])
 
   useEffect(() => {
@@ -162,9 +165,8 @@ const Account = () => {
             </div>
             <div className="border-b border-gray-200 py-4 space-y-1 md:flex md:space-y-0 md:py-6 md:space-x-[11.5rem]">
               <h1 className="text-TUCMC-gray-500 flex-shrink-0">Email address</h1>
-              <div className="flex justify-between w-full">
+              <div className="flex justify-start w-full">
                 <h1>{userCred.email}</h1>
-                <PencilIcon className="w-5 h-5"/>
               </div>
             </div>
             <div className="border-b border-gray-200 py-4 md:py-6 space-y-1 md:flex md:space-y-0 md:space-x-[12.2rem]">
@@ -217,14 +219,16 @@ const Account = () => {
                     </div>
                   )) : <h1 className="text-center my-10 text-TUCMC-gray-600">ไม่มีเบราว์เซอร์ที่เชื่อถือได้</h1>}
                 </div>
-                <div className="flex flex-col space-y-4 mt-4">
+                <div className="flex flex-col space-y-4 mt-4 min-w-[384px]">
                   <Switch.Group as="div" className="flex items-center">
                     <Switch
                       checked={whitelistMode}
                       onChange={setWhitelistMode}
+                      disabled={userCred.authorised.length <= 0}
                       className={classnames(
                         whitelistMode ? 'bg-TUCMC-pink-500' : 'bg-gray-200',
-                        'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-TUCMC-pink-500'
+                        'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-TUCMC-pink-500',
+                        userCred.authorised.length > 0 ? "cursor-pointer" : "cursor-not-allowed"
                       )}
                     >
                       <span className="sr-only">Use setting</span>
@@ -240,11 +244,11 @@ const Account = () => {
                       <span className="text-sm font-medium text-gray-900">โหมดความปลอดภัยสูง</span>
                       <div className="relative w-5 h-5">
                         <div className="absolute w-5 h-5 opacity-0 z-30 hover:opacity-100">
-                          <div className="absolute -top-14 left-[-8.13rem]">
+                          <div className="absolute -top-16 left-[-8.13rem]">
                             <div
                               className={classnames("bg-white text-xs text-black w-[280px] shadow-md rounded-md p-2", css.tooltip2)}>
                               <h1 className="text-center">หลังจากเปิดใช้งานโหมดความปลอดภัยสูง
-                                                          บัญชีนี้จะสามารถเข้าสู่ระบบผ่านอุปกรณ์ที่ได้เพิ่มไว้เท่านั้น</h1></div>
+                                                          บัญชีนี้จะสามารถเข้าสู่ระบบผ่านอุปกรณ์ที่ได้เพิ่มไว้เท่านั้น หากยังไม่เพิ่มเบราว์เซอร์จะไม่สามารถเปิดได้</h1></div>
                           </div>
                           <ExclamationCircleIcon className="w-5 h-5 text-TUCMC-red-400"/>
                         </div>

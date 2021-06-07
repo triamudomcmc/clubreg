@@ -11,23 +11,39 @@ export const getUserDataFromRefID = async (dataRefID, req) => {
 const filterMembersData = (members, req) => {
   return members.map(value => {
     const obj = value.data()
-    return {
-      status: obj.audition[req.body.panelID],
-      title: obj.title,
-      firstname: obj.firstname,
-      lastname: obj.lastname,
-      student_id: obj.student_id,
-      level: obj.level,
-      room: obj.room,
-      dataRefID: value.id,
-      ..."position" in obj && {position: obj.position[req.body.panelID]}
+    if (req.body.audition) {
+      return {
+        status: obj.audition[req.body.panelID],
+        title: obj.title,
+        firstname: obj.firstname,
+        lastname: obj.lastname,
+        student_id: obj.student_id,
+        level: obj.level,
+        room: obj.room,
+        dataRefID: value.id,
+        ..."position" in obj && {position: obj.position[req.body.panelID]}
+      }
+    }else{
+      return {
+        title: obj.title,
+        firstname: obj.firstname,
+        lastname: obj.lastname,
+        student_id: obj.student_id,
+        level: obj.level,
+        room: obj.room
+      }
     }
   })
 }
 
 export const getMembers = async (req) => {
 
-  const members = await initialisedDB.collection("data").where(`audition.${req.body.panelID}`, "!=", "").get()
+  let members;
+  if (req.body.audition) {
+    members = await initialisedDB.collection("data").where(`audition.${req.body.panelID}`, "!=", "").get()
+  }else{
+    members = await initialisedDB.collection("data").where(`club`, "==", req.body.panelID).get()
+  }
 
   return filterMembersData(members.docs, req)
 }

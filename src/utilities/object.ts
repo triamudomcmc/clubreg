@@ -1,5 +1,6 @@
 import {clubMap} from "../config/clubMap";
 import LooseTypeObject from "@interfaces/LooseTypeObject";
+import {fixGrammar} from "@utilities/texts";
 
 export const isEmpty = (obj: LooseTypeObject<any> | undefined | null) => {
   return !obj || Object.keys(obj).length == 0
@@ -34,6 +35,13 @@ export const sortThaiDictionary = (arr: any, objAction: (obj: any) => string, in
             })
 }
 
+export const sortNumber = (arr: any, objAction: (obj: any) => string, inverted = false) => {
+  return arr.sort((a, b) => inverted ? parseInt(objAction(a)) > parseInt(objAction(b)) : parseInt(objAction(a)) < parseInt(objAction(b)))
+            .map((val) => {
+              return val
+            })
+}
+
 export const sortAudition = (arr: any, inverted = false) => {
   let top = [], bottom = []
   arr.forEach((val) => {
@@ -47,8 +55,8 @@ export const searchKeyword = (arr: any, keyword: string, keySelector: (obj: any)
   let topPrimary = [],topSecondary = [], bottom = []
   const keyLength = keyword.length
   arr.forEach((val) => {
-    if (keyword === keySelector(val).slice(0, keyLength)) return topPrimary.push(val)
-    if (keySelector(val).includes(keyword)) return topSecondary.push(val)
+    if (fixGrammar(keyword.toLowerCase()) === fixGrammar(keySelector(val).slice(0, keyLength).toLowerCase())) return topPrimary.push(val)
+    if (fixGrammar(keySelector(val).toLowerCase()).includes(fixGrammar(keyword.toLowerCase()))) return topSecondary.push(val)
     return bottom.push(val)
   })
   return [...topPrimary, ...topSecondary, ...bottom]

@@ -1,6 +1,7 @@
 import PageContainer from "@components/common/PageContainer";
 import {useAuth} from "@client/auth";
 import Router from "next/router";
+import Link from "next/link"
 import {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
 import {fetchUserCred} from "@client/fetcher/user";
 import {useToast} from "@components/common/Toast/ToastContext";
@@ -147,14 +148,14 @@ const Account = () => {
                 <ClipboardCheckIcon className="w-5 h-5"/><span>ผลการ Audition</span>
               </Button>
             </div>
-            <div
-              className="flex items-center justify-center bg-TUCMC-white rounded-lg shadow-sm px-4 py-3.5 w-1/2 text-TUCMC-gray-600 space-x-2 shadow-md cursor-not-allowed">
-              <UserGroupIcon className="w-6 h-6"/><span>รายชื่อสมาชิก</span></div>
-          </div> : <div className="max-w-xl mx-auto">
-            <div
-              className="flex items-center justify-center bg-TUCMC-white rounded-lg shadow-sm px-4 py-3.5 text-TUCMC-gray-600 space-x-2 shadow-md cursor-not-allowed">
-              <UserGroupIcon className="w-6 h-6"/><span>รายชื่อสมาชิก</span></div>
-          </div>
+            <Button href="/panel/report" type="div" className="flex items-center justify-center bg-TUCMC-white rounded-lg shadow-sm px-4 py-3.5 w-1/2 text-TUCMC-gray-600 space-x-2 shadow-md cursor-pointer">
+              <UserGroupIcon className="w-6 h-6"/><span>รายชื่อสมาชิก</span></Button>
+          </div> :
+            <Button href="/panel/report" type="div" className="max-w-xl mx-auto">
+              <div
+                className="flex items-center justify-center bg-TUCMC-white rounded-lg shadow-sm px-4 py-3.5 text-TUCMC-gray-600 space-x-2 shadow-md cursor-pointer">
+                <UserGroupIcon className="w-6 h-6"/><span>รายชื่อสมาชิก</span></div>
+            </Button>
           }
           <div className="flex flex-col mt-20 space-y-14 px-2 md:px-4">
             <div>

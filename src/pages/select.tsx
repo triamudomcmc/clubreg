@@ -84,7 +84,7 @@ const Select = ({thumbPaths}) => {
       if (!noAu) return val
       return val.audition ? null : val
     })
-    console.log(dataArr)
+
     switch (sortMode) {
       case "ascending": {
         const sorted = sortThaiDictionary(dataArr, obj => (obj.title))
@@ -180,7 +180,7 @@ const Select = ({thumbPaths}) => {
             <SelectSplash/>
           </div>
           <div className="space-y-6 mt-10 px-2">
-            {(userData && !isEmpty(userData.audition)) &&
+            {!noAu && (userData && !isEmpty(userData.audition)) &&
             <div className="flex flex-col rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
                 <h1 className="text-lg font-medium tracking-tight">คุณได้ลงชื่อ Audition
                                                                    ชมรมไว้</h1>
@@ -208,7 +208,7 @@ const Select = ({thumbPaths}) => {
                     </Modal>
                 </div>
             </div>}
-            {(userData && !isEmpty(userData.audition)) &&
+            {!noAu && (userData && !isEmpty(userData.audition)) &&
             <div className="hidden md:block shadow-md rounded-lg mt-1 z-20">
                 <div
                     className="flex items-start rounded-t-lg text-sm justify-between bg-gray-50 text-gray-500 py-2 px-4">
@@ -221,7 +221,7 @@ const Select = ({thumbPaths}) => {
                 </div>
             </div>}
 
-            {!isEmpty(clubData) && userData && "old_club" in userData && userData.old_club !== "" && clubData[userData.old_club].old_count < clubData[userData.old_club].old_count_limit ?
+            {!noAu && (!isEmpty(clubData) && userData && "old_club" in userData && userData.old_club !== "" && clubData[userData.old_club].old_count < clubData[userData.old_club].old_count_limit ?
             <div className="flex flex-col items-start rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
                 <h1 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h1>
                 <p
@@ -239,7 +239,7 @@ const Select = ({thumbPaths}) => {
                   <a href="/FAQ" target="_blank"
                      className="text-TUCMC-gray-700 tracking-tight cursor-pointer">ดูรายละเอียดเพิ่มเติม →</a>
                 </div>
-              </div>
+              </div>)
             }
           </div>
         </div>

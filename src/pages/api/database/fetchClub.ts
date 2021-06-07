@@ -22,7 +22,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             place: data.place,
             contact: data.contact,
             contact2: data.contact2,
-            contact3: data.contact3
+            contact3: data.contact3,
+            message: data.message
           })
         }
       }

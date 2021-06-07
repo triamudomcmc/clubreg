@@ -11,9 +11,12 @@ import {useAuth} from "@client/auth";
 import Router from "next/router";
 import {fetchClub, fetchMembers, submitPending} from "@client/fetcher/panel";
 import {PendingElement} from "@components/panel/element/PendingElement";
-import {isEmpty} from "@utilities/object";
+import {isEmpty, objToArr, searchKeyword, sortAudition, sortNumber, sortThaiDictionary} from "@utilities/object";
 import {Editor} from "@components/panel/element/Editor";
 import {useToast} from "@components/common/Toast/ToastContext";
+import {sliceArr} from "@utilities/array";
+import {isNumber} from "util";
+import {isNumeric} from "@utilities/texts";
 
 const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetStateAction<{}>>, setReservedPos: Dispatch<SetStateAction<{}>>, setToast, reFetch) => {
   const data = await fetchMembers(panelID)
@@ -74,9 +77,11 @@ const Audition = () => {
 
   const {addToast} = useToast()
 
-  const [sortMode, setSortMode] = useState("")
+  const [sortMode, setSortMode] = useState("ascending")
   const [searchContext, setSearchContext] = useState("")
   const [section, setSection] = useState("passed")
+  const [rawSorted, setRawSorted] = useState([])
+  const [sortedData, setSortedData] = useState([])
   const [memberData, setMemberData] = useState({
     waiting: [],
     passed: [],
@@ -110,6 +115,36 @@ const Audition = () => {
     fetchMemberData(currentID, setMemberData, setReservedPos, addToast, reFetch)
     fetchClubData(currentID, setClubData)
   }
+
+  const applySort = () => {
+    const data = section === "passed" ? memberData.passed : section === "failed" ? memberData.failed : []
+    switch (sortMode) {
+      case "ascending": {
+        const sorted = sortThaiDictionary( data, obj => (obj.firstname))
+        setRawSorted(sorted)
+      }
+        break
+      case "descending": {
+        const sorted = sortThaiDictionary(data, obj => (obj.firstname), true)
+        setRawSorted(sorted)
+      }
+        break
+      case "nascending": {
+        const sorted = sortNumber(data, obj => (obj.student_id))
+        setRawSorted(sorted)
+      }
+        break
+      case "ndescending": {
+        const sorted = sortNumber(data, obj => (obj.student_id), true)
+        setRawSorted(sorted)
+      }
+        break
+    }
+  }
+
+  useEffect(() => {
+    applySort()
+  },[sortMode, memberData, section])
 
   useEffect(() => {
     if (userData && userData.panelID) {
@@ -151,6 +186,23 @@ const Audition = () => {
     setEditing(data)
     setEditDep(true)
   }
+
+  useEffect(() => {
+    const escaped = searchContext.replace(/ /g,"")
+    if (escaped !== "") {
+      let searchResult;
+
+      if(isNumeric(escaped)){
+        searchResult = searchKeyword(rawSorted, escaped, (obj) => (obj.student_id))
+      }else{
+        searchResult = searchKeyword(rawSorted, escaped, (obj) => (obj.firstname + obj.lastname))
+      }
+
+      setSortedData(searchResult)
+    } else {
+      setSortedData(rawSorted)
+    }
+  }, [searchContext, rawSorted])
 
   let heading = <h1 className="text-4xl tracking-tight">ผลการ Audition</h1>,
     description = <div className="tracking-tight text-center mt-6 mb-8">
@@ -200,8 +252,9 @@ const Audition = () => {
             <ExclamationIcon className="flex-shrink-0 w-6 h-6 text-TUCMC-red-600"/>
             <div>
               <p className="text-[15px]">การประกาศผล Audition ก่อนชมรมอื่น
-                                         และการกดดันให้นักเรียนเลือกยืนยันสิทธิ์ชมรม ถือเป็นการละเมิด<span
-                  className="underline whitespace-nowrap cursor-pointer">ข้อกำหนด</span></p>
+                                         และการกดดันให้นักเรียนเลือกยืนยันสิทธิ์ชมรม ถือเป็นการละเมิด<a
+                  href="https://tucm.cc/ข้อกำหนด" target="_blank"
+                  className="underline whitespace-nowrap cursor-pointer">ข้อกำหนด</a></p>
             </div>
           </div>
         </div>
@@ -228,13 +281,13 @@ const Audition = () => {
                  className={classnames("border-b w-1/3 py-2 border-TUCMC-gray-400 cursor-pointer text-center", section === "failed" && "bg-TUCMC-red-100 text-TUCMC-red-500 border-TUCMC-red-500")}>ไม่ผ่าน
             </div>
           </div>
-          <div className="mt-8 mb-4">
-            <FilterSearch sortMode={sortMode} setSortMode={setSortMode} setSearchContext={setSearchContext}/>
-          </div>
+          {section !== "reserved" && <div className="mt-8 mb-4">
+            <FilterSearch sortMode={sortMode} setSortMode={setSortMode} setSearchContext={setSearchContext} normal={false}/>
+          </div>}
           <PassedSection display={section === "passed"} editFunc={edit}
-                         userData={memberData.passed} editable={editable}/>
+                         userData={section === "passed" ? sortedData : []} editable={editable}/>
           <ReservedSection refetch={refetch} userData={memberData.reserved} display={section === "reserved"} editable={editable} editFunc={edit} callCount={clubData.call_count}/>
-          <FailedSection userData={memberData.failed} display={section === "failed"} editable={editable} editFunc={edit}/>
+          <FailedSection userData={section === "failed" ? sortedData : []} display={section === "failed"} editable={editable} editFunc={edit}/>
         </div>
       </div>
       <div className={classnames("flex flex-col items-center py-10 px-4 space-y-10 min-h-screen w-full", page === "pending" ? "block" : "hidden")}>

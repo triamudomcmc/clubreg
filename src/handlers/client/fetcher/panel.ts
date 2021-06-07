@@ -1,8 +1,8 @@
 import LooseTypeObject from "../../../interfaces/LooseTypeObject";
 import {request} from "@client/utilities/request";
 
-export const fetchMembers = async (panelID): Promise<{status: boolean, report: string, data: Array<LooseTypeObject<any>>}> => {
-  return await request("database/panel", "fetchMembers", {panelID: panelID})
+export const fetchMembers = async (panelID, audition = true): Promise<{status: boolean, report: string, data: Array<LooseTypeObject<any>>}> => {
+  return await request("database/panel", "fetchMembers", {panelID: panelID, audition: audition})
 }
 
 export const submitPending = async (panelID, tasks): Promise<{status: boolean, report: string}> => {

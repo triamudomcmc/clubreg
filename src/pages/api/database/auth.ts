@@ -1,6 +1,8 @@
 import {NextApiRequest, NextApiResponse} from "next";
 import {login} from "@server/authentication/login";
 import {register} from "@server/authentication/register";
+import {forgot} from "@server/authentication/forgot";
+import {resetPassword} from "@server/authentication/resetPassword";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
@@ -18,6 +20,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
         case "register": {
           const output = await register(req)
+          res.json(output)
+        }break
+        case "forgot": {
+          const output = await forgot(req, res)
+          res.json(output)
+        }break
+        case "reset": {
+          const output = await resetPassword(req, res)
           res.json(output)
         }
       }

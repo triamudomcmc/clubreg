@@ -4,10 +4,12 @@ import ClubStatus from "@components/announce/ClubStatus";
 import {useAuth} from "@client/auth";
 import Router from "next/router";
 import {isEmpty} from "@utilities/object";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import ConfirmModal from "@components/select/ConfirmModal";
 import DataModal from "@components/select/DataModal";
 import {Loader} from "@components/common/Loader";
+import {useTimer} from "@utilities/timers";
+import classnames from "classnames";
 
 const Announce = () => {
   const {onReady, reFetch} = useAuth()
@@ -30,6 +32,10 @@ const Announce = () => {
     return userData
   })
 
+  const before = false
+
+  const timer = useTimer(1623776400000)
+  const openTimer = useTimer(1623717000000)
 
   useEffect(() => {
     if (userData.audition && !isEmpty(userData.audition)) {
@@ -40,7 +46,7 @@ const Announce = () => {
         setDesc(<div className="px-6 mt-12 md:mt-20 text-center">
           <p className="text-TUCMC-gray-700">
             กดยืนยันสิทธิ์หรือสละสิทธิ์ชมรมที่ผ่านการ
-            คัดเลือกภายในวันนี้ (เหลือเวลาอีก 12 ชั่วโมง 15 นาที)
+            คัดเลือกภายในวันนี้ (เหลือเวลาอีก {timer.hour} ชั่วโมง {timer.min} นาที)
           </p>
           <p className="text-TUCMC-gray-700">
             หากไม่ดำเนินการใด ๆ ภายในเวลาที่กำหนด
@@ -52,7 +58,7 @@ const Announce = () => {
         setBottomDesc(
           <p className="text-TUCMC-gray-700 px-16 text-center mt-20 max-w-md mx-auto">
             กรุณารอเลือกเข้าชมรมที่ไม่มีการ Audition
-            และยังมีที่นั่งว่างอยู่ ในวันที่ 28 พ.ค. 64
+            และยังมีที่นั่งว่างอยู่ ในวันที่ 18 มิ.ย. 64
           </p>
         )
       }
@@ -73,15 +79,15 @@ const Announce = () => {
               <div>
                 <div className="flex items-center space-x-1">
                   <div
-                    className="w-4 h-4 flex items-center justify-center rounded-full bg-TUCMC-gray-500 text-[8px] font-medium text-white">1
+                    className={classnames("w-4 h-4 flex items-center justify-center rounded-full text-[8px] font-medium text-white", new Date().getTime() >= 1623803400000 ? "bg-TUCMC-gray-700" : "bg-TUCMC-gray-500")}>1
                   </div>
-                  <span className="text-TUCMC-gray-500">26 พ.ค. 64 เวลา 8.00 น.</span>
+                  <span className={classnames(new Date().getTime() >= 1623803400000 ? "text-TUCMC-gray-700" : "text-TUCMC-gray-500")}>16 มิ.ย. 64 เวลา 07.30 น.</span>
                 </div>
                 <div className="flex items-center space-x-1">
                   <div
-                    className="w-4 h-4 flex items-center justify-center rounded-full bg-TUCMC-gray-500 text-[8px] font-medium text-white">2
+                    className={classnames("w-4 h-4 flex items-center justify-center rounded-full text-[8px] font-medium text-white", new Date().getTime() >= 1623889800000 ? "bg-TUCMC-gray-700" : "bg-TUCMC-gray-500")}>2
                   </div>
-                  <span className="text-TUCMC-gray-500">27 พ.ค. 64 เวลา 8.00 น.</span>
+                  <span className={classnames(new Date().getTime() >= 1623889800000 ? "text-TUCMC-gray-700" : "text-TUCMC-gray-500")}>17 มิ.ย. 64 เวลา 07.30 น.</span>
                 </div>
               </div>
             </div>
@@ -112,35 +118,55 @@ const Announce = () => {
                      setDataModal(false)
                    }
                  }} mode={select.mode}/>
-      <div className="flex flex-col items-center pt-14 md:pt-20">
+      <div className="flex flex-col items-center pt-14 md:pt-20 min-h-screen">
         <div className="max-w-md px-4">
           <div className="flex flex-col items-center">
-            <h1 className="font-medium text-TUCMC-gray-700 text-4xl">ประกาศผล</h1>
+            {!before && <h1 className="font-medium text-TUCMC-gray-700 text-4xl">ประกาศผล</h1>}
           </div>
           <div className="mt-10 w-full px-14 minClubs:px-20">
             <AnnounceSplash className="w-full"/>
           </div>
           {
-            desc
+            !before ? desc : <div className="mb-20 pt-10 space-y-8">
+              <div className="flex flex-col items-center text-TUCMC-gray-700">
+                <h1 className="text-4xl">รอประกาศผล</h1>
+                <h1 className="text-xl">15 มิ.ย. 2564 เวลา 7.30 น.</h1>
+              </div>
+              <div
+                className="flex flex-row space-x-2 justify-center text-TUCMC-gray-700">
+                <div className="flex flex-col items-center">
+                  <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{openTimer.hour}</span>
+                  <span className="text-white font-bold text-xs mt-2 text-TUCMC-gray-600">HOUR</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{openTimer.min}</span>
+                  <span className="text-white font-bold text-xs mt-2 text-TUCMC-gray-600">MIN</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{openTimer.sec}</span>
+                  <span className="text-white font-bold text-xs mt-2 text-TUCMC-gray-600">SEC</span>
+                </div>
+              </div>
+            </div>
           }
         </div>
-        <div className="mt-16 bg-TUCMC-gray-100 w-full pb-20 pt-12">
+        {!before && <div className="mt-16 bg-TUCMC-gray-100 w-full pb-20 pt-12">
           <div className="space-y-4 px-4 max-w-md mx-auto">
             {
-              (userData.audition && !isEmpty(userData.audition)) && Object.keys(userData.audition)
-                                                                          .map((key) => {
-                                                                            return <ClubStatus
-                                                                              selectTrigger={setSelect}
-                                                                              action={setModalState}
-                                                                              key={key} data={{
-                                                                              clubID: key,
-                                                                              status: userData.audition[key]
-                                                                            }}/>
-                                                                          })
+              (!before && userData.audition && !isEmpty(userData.audition)) && Object.keys(userData.audition)
+                                                                                     .map((key) => {
+                                                                                       return <ClubStatus
+                                                                                         selectTrigger={setSelect}
+                                                                                         action={setModalState}
+                                                                                         key={key} data={{
+                                                                                         clubID: key,
+                                                                                         status: userData.audition[key]
+                                                                                       }}/>
+                                                                                     })
             }
           </div>
-          {bottomDesc}
-        </div>
+          {!before && bottomDesc}
+        </div>}
       </div>
     </PageContainer>
   )

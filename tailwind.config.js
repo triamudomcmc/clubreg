@@ -19,6 +19,7 @@ module.exports = {
             ]
         },
         extend: {
+            backgroundColor: ['checked'],
             cursor: {
                 magnify: "zoom-in"
             },

@@ -10,43 +10,12 @@ import FAQ from "@components/index/FAQ";
 import Clubs from "@components/index/Clubs";
 import Footer from "@components/common/Footer";
 import {AnimateSharedLayout, motion} from "framer-motion";
+import {useTimer} from "@utilities/timers";
 
-const addZero = (num) => {
-  return ('0' + num).slice(-2)
-}
-
-function convertMiliseconds(miliseconds) {
-  let days, hours, minutes, seconds, total_hours, total_minutes, total_seconds;
-
-  total_seconds = Math.floor(miliseconds / 1000);
-  total_minutes = Math.floor(total_seconds / 60);
-  total_hours = Math.floor(total_minutes / 60);
-  days = Math.floor(total_hours / 24).toFixed(0);
-
-  seconds = (total_seconds % 60).toFixed(0);
-  minutes = (total_minutes % 60).toFixed(0);
-  hours = (total_hours % 24).toFixed(0)
-
-  return { d: days, h: hours, m: minutes, s: seconds }
-}
 
 const Index = () => {
 
-  const countTo = 1623040200000
-  const [time, setTime] = useState({day: "00", hour: "00", min: "00", sec: "00"})
-
-  useEffect(() => {
-    setInterval(() => {
-      const ts = countTo - new Date().getTime()
-      const t = convertMiliseconds(ts)
-      setTime({
-        day: addZero(t.d),
-        hour: addZero(t.h),
-        min: addZero(t.m),
-        sec: addZero(t.s)
-      })
-    }, 1000)
-  },[])
+  const timer = useTimer(1623040200000)
 
   return (
     <PageContainer footer={false}>
@@ -71,19 +40,19 @@ const Index = () => {
                 <div
                 className="hidden md:flex flex-row space-x-2 justify-center text-TUCMC-gray-900">
                 <div className="flex flex-col items-center">
-                  <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{time.day}</span>
+                  <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.day}</span>
                   <span className="text-white font-bold text-xs mt-2">DAY</span>
                 </div>
                 <div className="flex flex-col items-center">
-                  <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{time.hour}</span>
+                  <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.hour}</span>
                   <span className="text-white font-bold text-xs mt-2">HOUR</span>
                 </div>
                 <div className="flex flex-col items-center">
-                  <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{time.min}</span>
+                  <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.min}</span>
                   <span className="text-white font-bold text-xs mt-2">MIN</span>
                 </div>
                 <div className="flex flex-col items-center">
-                  <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{time.sec}</span>
+                  <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.sec}</span>
                   <span className="text-white font-bold text-xs mt-2">SEC</span>
                 </div>
               </div>
@@ -104,19 +73,19 @@ const Index = () => {
             <div
             className="flex md:hidden flex-row space-x-2 relative -top-6 justify-center text-TUCMC-gray-900">
             <div className="flex flex-col items-center">
-              <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{time.day}</span>
+              <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.day}</span>
               <span className="text-gray-500 font-bold text-xs mt-2">DAY</span>
             </div>
             <div className="flex flex-col items-center">
-              <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{time.hour}</span>
+              <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.hour}</span>
               <span className="text-gray-500 font-bold text-xs mt-2">HOUR</span>
             </div>
             <div className="flex flex-col items-center">
-              <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{time.min}</span>
+              <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.min}</span>
               <span className="text-gray-500 font-bold text-xs mt-2">MIN</span>
             </div>
             <div className="flex flex-col items-center">
-              <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{time.sec}</span>
+              <span className="bg-white font-bold text-3xl p-2 shadow-md rounded-lg h-[52px] w-[56px] text-center">{timer.sec}</span>
               <span className="text-gray-500 font-bold text-xs mt-2">SEC</span>
             </div>
           </div>

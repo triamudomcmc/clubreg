@@ -1,21 +1,38 @@
 import {Card} from "@components/Card";
+import {GetServerSideProps} from "next";
+import initialisedDB from "@server/firebase-admin";
 
+export const getServerSideProps: GetServerSideProps = async ({query}) => {
 
-const CardRender = ({query}) => {
+  const id = query.id.toString() || null
+  let data = null
 
-  const userData = JSON.parse(unescape(query.userData))
-  const clubData = JSON.parse(unescape(query.clubData))
+  if (id) {
+    data = await initialisedDB.collection("cards").doc(id).get()
+    if (data.exists) {
+      return {
+        props: {
+          cardData: {...data.data(), ...{cardID: id}}
+        }
+      }
+    }
+  }
+
+  return {
+    props: {
+      cardData: null
+    }
+  }
+
+}
+
+const CardRender = ({ cardData }) => {
 
   return(
     <div className="font-display">
-      <Card width={990} userData={userData} clubData={clubData}/>
+      <Card width={990} userData={cardData} clubData={cardData}/>
     </div>
   )
 }
-
-CardRender.getInitialProps = ({query}) => {
-  return {query}
-}
-
 
 export default CardRender

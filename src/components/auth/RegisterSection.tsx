@@ -1,6 +1,6 @@
 import {Input} from "@components/auth/Input";
 import {Listbox, Transition} from "@headlessui/react";
-import {CheckIcon, SelectorIcon} from "@heroicons/react/solid";
+import {ArrowLeftIcon, CheckIcon, SelectorIcon} from "@heroicons/react/solid";
 import React, {Fragment, useState} from "react";
 import Router from "next/router";
 import {Button} from "@components/common/Inputs/Button";
@@ -31,12 +31,38 @@ const RegisterSection = ({swapFunction, setLoader}) => {
   const [phone, setPhone] = useState("")
   const [password, setPassword] = useState("")
   const [conpass, setConpass] = useState("")
+  const [conEmail, setConEmail] = useState("")
+  const [check, setCheck] = useState(false)
 
   const onsubmit = async (event) => {
     event.preventDefault()
     const loaderTimeout = setTimeout(() => {
       setLoader(true)
     }, 1000)
+
+    if (email !== conEmail) {
+      addToast({
+        theme: "modern",
+        icon: "cross",
+        title: "ช่อง Email ไม่ตรงกับช่องยืนยัน Email",
+        text: "ข้อมูลในช่อง Email และช่องยืนยัน Email จะต้องเหมือนกัน กรุณาลองใหม่อีกครั้ง"
+      })
+      clearTimeout(loaderTimeout)
+      setLoader(false)
+      return
+    }
+
+    if (!check) {
+      addToast({
+        theme: "modern",
+        icon: "cross",
+        title: "ยังไม่ยอมรับข้อกำหนดและเงื่อนไขการใช้งาน & นโยบายความเป็นส่วนตัว",
+        text: "กรุณากดยอมรับข้อกำหนดและเงื่อนไขการใช้งาน & นโยบายความเป็นส่วนตัว ก่อนสร้างบัญชี"
+      })
+      clearTimeout(loaderTimeout)
+      setLoader(false)
+      return
+    }
 
     const data = {
       stdID: stdID,
@@ -209,6 +235,7 @@ const RegisterSection = ({swapFunction, setLoader}) => {
         <Input title="ห้องเรียน" stateUpdate={setRoom} required={true}/>
         <Input title="เลขที่" stateUpdate={setNumber} required={true}/>
         <Input title="Email" stateUpdate={setEmail} required={true}/>
+        <Input title="ยืนยัน Email" stateUpdate={setConEmail} required={true}/>
         <div>
           <span className="text-gray-700 tracking-tight">เบอร์โทรศัพท์</span>
           <div className="mt-1 relative rounded-md shadow-sm">
@@ -241,7 +268,17 @@ const RegisterSection = ({swapFunction, setLoader}) => {
         </div>
         <Input title="รหัสผ่าน" type="password" stateUpdate={setPassword} required={true}/>
         <Input title="ยืนยันรหัสผ่าน" type="password" stateUpdate={setConpass} required={true}/>
-        <div className="flex justify-end w-full">
+        <div className="flex flex-row">
+          <input className="w-6 h-6 border rounded-md border-gray-200 ring-0 mr-2"
+                 onChange={(e) => {setCheck(e.target.checked)}}
+                 type="checkbox" required/>
+          <span className="text-gray-700">ฉันยอมรับ<a href="/terms-of-service" className="underline" target="_blank">ข้อกำหนดและเงื่อนไขการใช้งาน</a> & <a href="/privacy-policy" className="underline" target="_blank">นโยบายความเป็นส่วนตัว</a></span>
+        </div>
+        <div className="flex justify-between w-full">
+          <div onClick={swapFunction} className="flex items-center space-x-2 cursor-pointer">
+            <ArrowLeftIcon className="w-5 h-5"/>
+            <h1 className="whitespace-nowrap">ย้อนกลับ</h1>
+          </div>
           <Button type="submit" className="cursor-pointer shadow-md bg-TUCMC-pink-400 text-white tracking-tight rounded-md px-5 py-3">
             <span>ยืนยันตัวตน</span>
           </Button>

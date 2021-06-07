@@ -16,7 +16,7 @@ const Page = () => {
 
   const { width } = useWindowDimensions()
   const { onReady } = useAuth()
-  const [clubData, setClubData] = useState({place: "", contact: "", contact2: "", contact3: ""})
+  const [clubData, setClubData] = useState({place: "", contact: {}, contact2: {}, contact3: {}, message: ""})
 
   const userData = onReady((logged, userData) => {
     if (!logged) {Router.push("/auth"); return userData}
@@ -38,7 +38,7 @@ const Page = () => {
     cardWidth = maxWidth - (2 * padding)
   }
 
-  const imgUrl = `/api/renderCard?userData=${JSON.stringify(userData)}&clubData=${JSON.stringify(clubData)}`
+  const imgUrl = `/api/renderCard?id=${userData.cardID}`
 
   const download = () => {
     const a = document.createElement("a")

@@ -38,27 +38,22 @@ export const Card = ({ width, userData, clubData}) => {
       </div>
       <div className={classnames("flex flex-col items-start w-full", css.textContainer)}>
         <div className={classnames("flex items-start", css.subContainer)}>
-          <CalendarIcon className={classnames(css.icon,"text-TUCMC-gray-700 flex-shrink-0")}/>
-          <span className={classnames(css.text1155, "text-TUCMC-gray-700")}>เริ่มเรียนชมรมคาบแรกวันจันทร์ที่ 31 พ.ค. 64</span>
-        </div>
-        <div className={classnames("flex items-start", css.subContainer)}>
           <LocationMarkerIcon className={classnames(css.icon,"text-TUCMC-gray-700 flex-shrink-0")}/>
-          <span className={classnames(css.text1155, "text-TUCMC-gray-700")}>สถานที่เรียนชมรม</span>
+          <span className={classnames(css.text1155, "text-TUCMC-gray-700")}>สถานที่เรียนชมรม <span className="text-TUCMC-gray-500">{clubData.place}</span></span>
         </div>
         <div className={classnames("flex items-start", css.subContainer)}>
           <SpeakerphoneIcon className={classnames(css.icon,"text-TUCMC-gray-700 flex-shrink-0")}/>
           <div className="flex flex-col">
             <span className={classnames(css.text1155, "text-TUCMC-gray-700")}>ข้อความจากชมรม</span>
-            <p className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55)}>“ยินดีต้อนรับเข้าสู่ชมรม...งับ เก่งมาก ๆ เลย เรียนชมรมวันแรกมาเจอกันที่ห้อง 112 นะ แล้วเจอกัน</p>
+            <p className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55)}>{clubData.message}</p>
           </div>
         </div>
         <div className={classnames("flex items-start", css.subContainer)}>
           <SpeakerphoneIcon className={classnames(css.icon,"text-TUCMC-gray-700 flex-shrink-0")}/>
           <div className="flex flex-col">
             <span className={classnames(css.text1155, "text-TUCMC-gray-700")}>ช่องทางการติดต่อชมรม</span>
-            <p className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55, clubData.contact === "" && "hidden")}>FB {clubData.contact}</p>
-            <p className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55, clubData.contact2 === "" && "hidden")}>IG @{clubData.contact2}</p>
-            <p className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55, (clubData.contact3 === "" || (clubData.contact === "" && clubData.contact2 === "")) && "hidden")}>{clubData.contact3}</p>
+            <p className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55, clubData.contact === {} && "hidden")}>{clubData.contact?.type} : {clubData.contact?.context}</p>
+            <p className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55, clubData.contact2 === {} && "hidden")}>{clubData.contact2?.type} : {clubData.contact2?.context}</p>
           </div>
         </div>
       </div>

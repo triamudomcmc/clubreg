@@ -4,7 +4,7 @@ import {useAuth} from "@client/auth";
 import {useToast} from "@components/common/Toast/ToastContext";
 import {request} from "@client/utilities/request";
 
-const LoginSection = ({primaryAction, setLoader}) => {
+const LoginSection = ({primaryAction, setLoader, secAction}) => {
 
   const {reFetch} = useAuth()
   const [ID, setID] = useState("")
@@ -103,7 +103,7 @@ const LoginSection = ({primaryAction, setLoader}) => {
                      type="checkbox"/>
               <span className="whitespace-nowrap">จดจำฉันไว้ในระบบ</span>
             </div>
-            <span className="text-TUCMC-pink-400">
+            <span onClick={secAction} className="text-TUCMC-pink-400 cursor-pointer">
               ลืมรหัสผ่าน
             </span>
           </div>

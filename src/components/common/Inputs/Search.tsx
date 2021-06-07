@@ -3,7 +3,7 @@ import {useRef} from "react";
 import Modal from "@components/common/Modals";
 import classnames from "classnames"
 
-export const FilterSearch = ({sortMode, setSortMode, setSearchContext}) => {
+export const FilterSearch = ({sortMode, setSortMode, setSearchContext, normal = true}) => {
 
   const buttonRef = useRef(null)
 
@@ -27,12 +27,19 @@ export const FilterSearch = ({sortMode, setSortMode, setSearchContext}) => {
           <SortAscendingIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
           <ChevronDownIcon className="h-5 w-5 text-gray-400"/>
         </button>
-        <Modal className="flex justify-end w-full relative z-30" TriggerRef={buttonRef}>
+        <Modal className="flex justify-end w-full relative z-60" TriggerRef={buttonRef}>
           <div style={{minWidth: "260px"}} className="absolute bg-white shadow-md rounded-lg py-2 text-gray-700">
-            <h1 onClick={() => {setSortMode("hasAudition")}} className={classnames(sortMode == "hasAudition" ? "bg-TUCMC-pink-100" : "hover:bg-gray-50", "cursor-pointer px-4 py-2")}>มีการ Audition</h1>
-            <h1 onClick={() => {setSortMode("notHasAudition")}} className={classnames(sortMode == "notHasAudition" ? "bg-TUCMC-pink-100" : "hover:bg-gray-50", "cursor-pointer px-4 py-2")}>ไม่มีการ Audition</h1>
-            <h1 onClick={() => {setSortMode("ascending")}} className={classnames(sortMode == "ascending" ? "bg-TUCMC-pink-100" : "hover:bg-gray-50", "cursor-pointer px-4 py-2")}>ก-ฮ</h1>
-            <h1 onClick={() => {setSortMode("descending")}} className={classnames(sortMode == "descending" ? "bg-TUCMC-pink-100" : "hover:bg-gray-50", "cursor-pointer px-4 py-2")}>ฮ-ก</h1>
+            {
+              normal ? <>
+                <h1 onClick={() => {setSortMode("hasAudition")}} className={classnames(sortMode == "hasAudition" ? "bg-TUCMC-pink-100" : "hover:bg-gray-50", "cursor-pointer px-4 py-2")}>มีการ Audition</h1>
+                <h1 onClick={() => {setSortMode("notHasAudition")}} className={classnames(sortMode == "notHasAudition" ? "bg-TUCMC-pink-100" : "hover:bg-gray-50", "cursor-pointer px-4 py-2")}>ไม่มีการ Audition</h1>
+              </> : <>
+                <h1 onClick={() => {setSortMode("nascending")}} className={classnames(sortMode == "nascending" ? "bg-TUCMC-pink-100" : "hover:bg-gray-50", "cursor-pointer px-4 py-2")}>เลขประจำตัวน้อยไปมาก</h1>
+                <h1 onClick={() => {setSortMode("ndescending")}} className={classnames(sortMode == "ndescending" ? "bg-TUCMC-pink-100" : "hover:bg-gray-50", "cursor-pointer px-4 py-2")}>เลขประจำตัวมากไปน้อย</h1>
+              </>
+            }
+            <h1 onClick={() => {setSortMode("ascending")}} className={classnames(sortMode == "ascending" ? "bg-TUCMC-pink-100" : "hover:bg-gray-50", "cursor-pointer px-4 py-2")}>{!normal && "ชื่อ"} ก-ฮ</h1>
+            <h1 onClick={() => {setSortMode("descending")}} className={classnames(sortMode == "descending" ? "bg-TUCMC-pink-100" : "hover:bg-gray-50", "cursor-pointer px-4 py-2")}>{!normal && "ชื่อ"} ฮ-ก</h1>
           </div>
         </Modal>
       </div>

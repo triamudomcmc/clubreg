@@ -1,4 +1,4 @@
-export const ListElement = ({index = 0, userData, editable, editFunc, callCount = 0}) => {
+export const ListElement = ({index = 0, userData, editable, editFunc, callCount = 0, noStatus = false}) => {
 
   let statusBar = <div
     className="bg-TUCMC-gray-800 text-white rounded-full tracking-tight text-sm px-4 py-0.5">รอการตอบรับ</div>
@@ -30,7 +30,7 @@ export const ListElement = ({index = 0, userData, editable, editFunc, callCount 
         <div className="flex flex-col items-start ml-6">
           <h1>{userData.title}{userData.firstname} {userData.lastname}</h1>
           <span className="md:hidden text-TUCMC-gray-600">{userData.student_id}  |  ม.{userData.level}/{userData.room}</span>
-          {!editable && <div className="md:hidden mt-1 -ml-[2px]">{statusBar}</div>}
+          {!noStatus && !editable && <div className="md:hidden mt-1 -ml-[2px]">{statusBar}</div>}
         </div>
       </div>
       <div className="flex text-TUCMC-gray-600">
@@ -40,7 +40,7 @@ export const ListElement = ({index = 0, userData, editable, editFunc, callCount 
           <span>{userData.room}</span>
         </div>
         {editable && <span className="cursor-pointer z-40" onClick={() => {editFunc(userData)}}>เปลี่ยน</span>}
-        {!editable && <div className="hidden md:block">{statusBar}</div>}
+        {!noStatus && !editable && <div className="hidden md:block">{statusBar}</div>}
         {/*<div>
           <div className="border rounded-t-md p-1.5">
             <ChevronUpIcon className="w-4 h-4"/>
