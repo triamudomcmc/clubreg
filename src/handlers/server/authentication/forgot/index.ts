@@ -31,7 +31,7 @@ export const forgot = async (req, res) => {
     to: req.body.email,
     from: {email: 'no-reply@triamudom.club', name: 'TUCMC Account'},
     subject: 'การขอเปลี่ยนรหัสผ่าน',
-    html: Reset(action.id),
+    html: `แก้ไขรหัสผ่านได้ที่ https://register.clubs.triamudom.ac.th/auth/reset${action.id}`,
   }
 
   await sgMail.send(msg)
