@@ -18,6 +18,7 @@ import {sliceArr} from "@utilities/array";
 import {isNumber} from "util";
 import {isNumeric} from "@utilities/texts";
 import {useTimer} from "@utilities/timers";
+import PendingSection from "@components/panel/sections/PendingSection";
 
 const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetStateAction<{}>>, setReservedPos: Dispatch<SetStateAction<{}>>, setToast, reFetch) => {
   const data = await fetchMembers(panelID)
@@ -294,33 +295,7 @@ const Audition = () => {
         </div>
       </div>
       <div className={classnames("flex flex-col items-center py-10 px-4 space-y-10 min-h-screen w-full", page === "pending" ? "block" : "hidden")}>
-        <div className="space-y-2">
-          <h1 className="text-4xl text-center">รอการตอบรับ</h1>
-          <p className="text-TUCMC-gray-700 text-center">สามารถรับสมาชิกใหม่ได้ทั้งหมด {clubData.new_count_limit} คน (เหลืออีก {clubData.new_count_limit - clubData.new_count} คน)</p>
-        </div>
-        <div className="w-full max-w-6xl">
-          <FilterSearch sortMode={sortMode} setSortMode={setSortMode} setSearchContext={setSearchContext}/>
-          <div className="mt-4 space-y-4">
-            {
-              !isEmpty(memberData) && !isEmpty(memberData.waiting) ? memberData.waiting.map((item, index) => {
-                return <PendingElement key={`pending-${index}`} userData={item} pendingUpdate={pendingUpdate}
-                                       setPendingUpdate={setPendingUpdate} reservedPos={reservedPos} setReservedPos={setReservedPos}/>
-              }) : <h1 className="text-center mt-20 mb-20 text-TUCMC-gray-600">ขณะนี้ไม่มีรายชื่อที่รอคำตอบรับ</h1>
-            }
-          </div>
-          <div className="flex items-center justify-between mt-10">
-            <div onClick={() => {
-              setPage("panel");
-              setPendingUpdate({})
-            }} className="flex cursor-pointer items-center space-x-1">
-              <ArrowLeftIcon className="w-4 h-4"/>
-              <h1>ย้อนกลับ</h1>
-            </div>
-            <Button onClick={submitPendingSection} className="bg-TUCMC-pink-400 px-10 py-3 text-white rounded-full">
-              <span>ยืนยัน</span>
-            </Button>
-          </div>
-        </div>
+        <PendingSection setPage={setPage} setReservedPos={setReservedPos} setPendingUpdate={setPendingUpdate} submitPendingSection={submitPendingSection} reservedPos={reservedPos} clubData={clubData} memberData={memberData} pendingUpdate={pendingUpdate}/>
       </div>
     </PageContainer>
   )
