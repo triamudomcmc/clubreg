@@ -39,7 +39,8 @@ export const checkCredentials = async (userColl, req, ref) => {
 
 export const appendData = async (dataColl, refDB, req) => {
 
-  const ex = await initialisedDB.collection("data").where("stdID", "==", req.body.stdID).get()
+  const ex = await initialisedDB.collection("data").where("student_id", "==", req.body.stdID).get()
+
   if (ex.empty) {
     return await dataColl.add({
       ...refDB.docs[0].data(),
