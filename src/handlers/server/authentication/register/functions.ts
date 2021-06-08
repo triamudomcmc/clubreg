@@ -2,6 +2,7 @@ import {compareDataPair, createDataPair, isValidEmail, isValidPassword} from "@s
 import {isNumeric} from "@utilities/texts";
 import bcrypt from "bcryptjs"
 import {openTime} from "@config/time";
+import initialisedDB from "@server/firebase-admin";
 
 export const checkCredentials = async (userColl, req, ref) => {
 
@@ -36,14 +37,21 @@ export const checkCredentials = async (userColl, req, ref) => {
   return {status: true, refDB}
 }
 
-export const appendData = async (dataColl, refDB) => {
-  return await dataColl.add({
-    ...refDB.docs[0].data(),
-    ...{
-      club: "",
-      audition: {}
-    }
-  })
+export const appendData = async (dataColl, refDB, req) => {
+
+  const ex = await initialisedDB.collection("data").where("stdID", "==", req.body.stdID).get()
+  if (ex.empty) {
+    return await dataColl.add({
+      ...refDB.docs[0].data(),
+      ...{
+        club: "",
+        audition: {}
+      }
+    })
+  }else{
+    return ex.docs[0].id
+  }
+
 }
 
 export const appendUser = async (userColl, req, refDB, dataDoc) => {
