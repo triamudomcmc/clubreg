@@ -50,7 +50,7 @@ export const appendData = async (dataColl, refDB, req) => {
       }
     })
   }else{
-    return ex.docs[0].id
+    return ex.docs[0]
   }
 
 }
