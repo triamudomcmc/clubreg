@@ -30,7 +30,7 @@ export const regClub = async (req, res) => {
       const cardRef = await generateCard(dataDoc, clubData, req)
       const currentData = await initialisedDB.collection("data").doc(ID.dataRefID).get()
 
-      if (currentData.data().club !== "") { return {status: false, report: "in_club"}}
+      if (currentData.get("club") !== "") { return {status: false, report: "in_club"}}
 
       await dataRef.update({club: req.body.clubID, audition: {}, cardID: cardRef.id})
     }
