@@ -3,6 +3,7 @@ import {checkInputs, updateClub} from "@server/userActions/regClub/functions";
 import {generateCard, initData} from "@server/userActions/sharedFunctions";
 import {fetchSession} from "@server/fetchers/session";
 import {update} from "@server/tracker";
+import initialisedDB from "@server/firebase-admin";
 
 export const regClub = async (req, res) => {
 
@@ -27,6 +28,10 @@ export const regClub = async (req, res) => {
     }else{
       // confirm or not audition
       const cardRef = await generateCard(dataDoc, clubData, req)
+      const currentData = await initialisedDB.collection("data").doc(ID.dataRefID).get()
+
+      if (currentData.data().club !== "") { return {status: false, report: "in_club"}}
+
       await dataRef.update({club: req.body.clubID, audition: {}, cardID: cardRef.id})
     }
 
