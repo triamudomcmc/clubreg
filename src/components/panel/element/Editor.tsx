@@ -98,7 +98,7 @@ export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refet
   const update = async () => {
     if (!pending) {
       setPending(true)
-      if (action.action === "") return
+      if (action.action === "") return setPending(false)
       try {
         const res = await updateUser(localStorage.getItem("currentPanel"), userData.dataRefID, action)
         if (res.status) {
@@ -185,7 +185,7 @@ export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refet
         </div>
         <div className="bg-gray-50 rounded-b-lg py-3 px-3">
           <div className="flex space-x-1 font-medium">
-            <div onClick={update} className={classnames("flex justify-center rounded-lg text-white w-1/2", action.action === "" ? "bg-TUCMC-gray-300" : "bg-TUCMC-green-400", pending ? "py-0 cursor-default" : "py-2 cursor-pointer")}>
+            <div onClick={update} className={classnames("flex justify-center rounded-lg text-white w-1/2", action.action === "" ? "bg-TUCMC-gray-300 cursor-default" : "bg-TUCMC-green-400", pending ? "py-0 cursor-default" : "py-2 cursor-pointer")}>
               <span className={classnames(action.action === "" && "text-gray-500", pending && "hidden")}>ยืนยัน</span>
               <Ellipsis className={classnames("w-[3rem] h-10", !pending && "hidden")}/>
             </div>
