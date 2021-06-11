@@ -19,8 +19,10 @@ import {isNumber} from "util";
 import {isNumeric} from "@utilities/texts";
 import {useTimer} from "@utilities/timers";
 import PendingSection from "@components/panel/sections/PendingSection";
+import {CatLoader} from "@components/common/CatLoader";
+import {motion} from "framer-motion";
 
-const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetStateAction<{}>>, setReservedPos: Dispatch<SetStateAction<{}>>, setToast, reFetch) => {
+const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetStateAction<{}>>, setReservedPos: Dispatch<SetStateAction<{}>>, setToast, reFetch, setInitMem) => {
   const data = await fetchMembers(panelID)
   const obj = {
     waiting: [],
@@ -42,13 +44,15 @@ const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetState
 
       obj[item.status].push(item)
     })
+
     setMemberData(obj)
     setReservedPos(reservedPos)
-  }else{
+    setInitMem(true)
+  } else {
     switch (data.report) {
       case "sessionError":
         setToast({
-          theme:"modern",
+          theme: "modern",
           icon: "cross",
           title: "พบข้อผิดพลาดของเซสชั่น",
           text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
@@ -58,7 +62,7 @@ const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetState
         break
       case "invalidPermission":
         setToast({
-          theme:"modern",
+          theme: "modern",
           icon: "cross",
           title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
           text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช."
@@ -84,6 +88,8 @@ const Audition = () => {
   const [section, setSection] = useState("passed")
   const [rawSorted, setRawSorted] = useState([])
   const [sortedData, setSortedData] = useState([])
+  const [initmember, setInitMember] = useState(false)
+
   const [memberData, setMemberData] = useState({
     waiting: [],
     passed: [],
@@ -116,7 +122,7 @@ const Audition = () => {
   const refetch = () => {
     const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
 
-    fetchMemberData(currentID, setMemberData, setReservedPos, addToast, reFetch)
+    fetchMemberData(currentID, setMemberData, setReservedPos, addToast, reFetch, setInitMember)
     fetchClubData(currentID, setClubData)
   }
 
@@ -124,7 +130,7 @@ const Audition = () => {
     const data = section === "passed" ? memberData.passed : section === "failed" ? memberData.failed : []
     switch (sortMode) {
       case "ascending": {
-        const sorted = sortThaiDictionary( data, obj => (obj.firstname))
+        const sorted = sortThaiDictionary(data, obj => (obj.firstname))
         setRawSorted(sorted)
       }
         break
@@ -148,7 +154,7 @@ const Audition = () => {
 
   useEffect(() => {
     applySort()
-  },[sortMode, memberData, section])
+  }, [sortMode, memberData, section])
 
   useEffect(() => {
     if (userData && userData.panelID) {
@@ -162,11 +168,11 @@ const Audition = () => {
     const res = await submitPending(currentID, pendingUpdate)
     if (res.status) {
       refetch()
-    }else{
+    } else {
       switch (res.report) {
         case "sessionError":
           addToast({
-            theme:"modern",
+            theme: "modern",
             icon: "cross",
             title: "พบข้อผิดพลาดของเซสชั่น",
             text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
@@ -176,7 +182,7 @@ const Audition = () => {
           break
         case "invalidPermission":
           addToast({
-            theme:"modern",
+            theme: "modern",
             icon: "cross",
             title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
             text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช."
@@ -192,13 +198,13 @@ const Audition = () => {
   }
 
   useEffect(() => {
-    const escaped = searchContext.replace(/ /g,"")
+    const escaped = searchContext.replace(/ /g, "")
     if (escaped !== "") {
       let searchResult;
 
-      if(isNumeric(escaped)){
+      if (isNumeric(escaped)) {
         searchResult = searchKeyword(rawSorted, escaped, (obj) => (obj.student_id))
-      }else{
+      } else {
         searchResult = searchKeyword(rawSorted, escaped, (obj) => (obj.firstname + obj.lastname))
       }
 
@@ -247,56 +253,69 @@ const Audition = () => {
   }
 
   return (
-    <PageContainer>
-      <Editor userData={editing} reservedPos={reservedPos} setReservedPos={setReservedPos} refetch={refetch} TriggerDep={{dep: editDep, revert: () => {setEditDep(false)}}}/>
-      <div className={classnames("px-2 py-10 mx-auto max-w-6xl min-h-screen", page === "panel" ? "block" : "hidden")}>
+    <PageContainer hide={!initmember}>
+      <Editor userData={editing} reservedPos={reservedPos} setReservedPos={setReservedPos} refetch={refetch} TriggerDep={{
+        dep: editDep, revert: () => {
+          setEditDep(false)
+        }
+      }}/>
+      {initmember ? <>
+        <div className={classnames("px-2 py-10 mx-auto max-w-6xl min-h-screen", page === "panel" ? "block" : "hidden")}>
+          <div
+            className={`bg-TUCMC-red-100 border-l-4 border-TUCMC-red-600 rounded-r-lg text-TUCMC-red-600 px-4 py-4`}>
+            <div className="flex space-x-3">
+              <ExclamationIcon className="flex-shrink-0 w-6 h-6 text-TUCMC-red-600"/>
+              <div>
+                <p className="text-[15px]">การประกาศผล Audition ก่อนชมรมอื่น
+                                           และการกดดันให้นักเรียนเลือกยืนยันสิทธิ์ชมรม ถือเป็นการละเมิด<a
+                    href="https://tucm.cc/ข้อกำหนด" target="_blank"
+                    className="underline whitespace-nowrap cursor-pointer">ข้อกำหนด</a></p>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col items-center text-TUCMC-gray-700 my-10">
+            {heading}
+            {description}
+            {button}
+          </div>
+          <div className="flex flex-col px-3 mt-14">
+            <div className="flex w-full text-TUCMC-gray-400 font-medium px-3">
+              <div onClick={() => {
+                setSection("passed")
+              }}
+                   className={classnames("border-b w-1/3 py-2 border-TUCMC-gray-400 cursor-pointer text-center", section === "passed" && "bg-TUCMC-green-100 text-TUCMC-green-500 border-TUCMC-green-500")}>ผ่าน
+              </div>
+              <div onClick={() => {
+                setSection("reserved")
+              }}
+                   className={classnames("border-b w-1/3 py-2 border-TUCMC-gray-400 cursor-pointer text-center", section === "reserved" && "bg-TUCMC-orange-100 text-TUCMC-orange-500 border-TUCMC-orange-500")}>สำรอง
+              </div>
+              <div onClick={() => {
+                setSection("failed")
+              }}
+                   className={classnames("border-b w-1/3 py-2 border-TUCMC-gray-400 cursor-pointer text-center", section === "failed" && "bg-TUCMC-red-100 text-TUCMC-red-500 border-TUCMC-red-500")}>ไม่ผ่าน
+              </div>
+            </div>
+            {section !== "reserved" && <div className="mt-8 mb-4">
+                <FilterSearch sortMode={sortMode} setSortMode={setSortMode} setSearchContext={setSearchContext} normal={false}/>
+            </div>}
+            <PassedSection display={section === "passed"} editFunc={edit}
+                           userData={section === "passed" ? sortedData : []} editable={editable}/>
+            <ReservedSection refetch={refetch} userData={memberData.reserved} display={section === "reserved"} editable={editable}
+                             editFunc={edit} callCount={clubData.call_count}/>
+            <FailedSection userData={section === "failed" ? sortedData : []} display={section === "failed"} editable={editable}
+                           editFunc={edit}/>
+          </div>
+        </div>
         <div
-          className={`bg-TUCMC-red-100 border-l-4 border-TUCMC-red-600 rounded-r-lg text-TUCMC-red-600 px-4 py-4`}>
-          <div className="flex space-x-3">
-            <ExclamationIcon className="flex-shrink-0 w-6 h-6 text-TUCMC-red-600"/>
-            <div>
-              <p className="text-[15px]">การประกาศผล Audition ก่อนชมรมอื่น
-                                         และการกดดันให้นักเรียนเลือกยืนยันสิทธิ์ชมรม ถือเป็นการละเมิด<a
-                  href="https://tucm.cc/ข้อกำหนด" target="_blank"
-                  className="underline whitespace-nowrap cursor-pointer">ข้อกำหนด</a></p>
-            </div>
-          </div>
+          className={classnames("flex flex-col items-center py-10 px-4 space-y-10 min-h-screen w-full", page === "pending" ? "block" : "hidden")}>
+          <PendingSection setPage={setPage} setReservedPos={setReservedPos} setPendingUpdate={setPendingUpdate}
+                          submitPendingSection={submitPendingSection} reservedPos={reservedPos} clubData={clubData}
+                          memberData={memberData} pendingUpdate={pendingUpdate}/>
         </div>
-        <div className="flex flex-col items-center text-TUCMC-gray-700 my-10">
-          {heading}
-          {description}
-          {button}
-        </div>
-        <div className="flex flex-col px-3 mt-14">
-          <div className="flex w-full text-TUCMC-gray-400 font-medium px-3">
-            <div onClick={() => {
-              setSection("passed")
-            }}
-                 className={classnames("border-b w-1/3 py-2 border-TUCMC-gray-400 cursor-pointer text-center", section === "passed" && "bg-TUCMC-green-100 text-TUCMC-green-500 border-TUCMC-green-500")}>ผ่าน
-            </div>
-            <div onClick={() => {
-              setSection("reserved")
-            }}
-                 className={classnames("border-b w-1/3 py-2 border-TUCMC-gray-400 cursor-pointer text-center", section === "reserved" && "bg-TUCMC-orange-100 text-TUCMC-orange-500 border-TUCMC-orange-500")}>สำรอง
-            </div>
-            <div onClick={() => {
-              setSection("failed")
-            }}
-                 className={classnames("border-b w-1/3 py-2 border-TUCMC-gray-400 cursor-pointer text-center", section === "failed" && "bg-TUCMC-red-100 text-TUCMC-red-500 border-TUCMC-red-500")}>ไม่ผ่าน
-            </div>
-          </div>
-          {section !== "reserved" && <div className="mt-8 mb-4">
-            <FilterSearch sortMode={sortMode} setSortMode={setSortMode} setSearchContext={setSearchContext} normal={false}/>
-          </div>}
-          <PassedSection display={section === "passed"} editFunc={edit}
-                         userData={section === "passed" ? sortedData : []} editable={editable}/>
-          <ReservedSection refetch={refetch} userData={memberData.reserved} display={section === "reserved"} editable={editable} editFunc={edit} callCount={clubData.call_count}/>
-          <FailedSection userData={section === "failed" ? sortedData : []} display={section === "failed"} editable={editable} editFunc={edit}/>
-        </div>
-      </div>
-      <div className={classnames("flex flex-col items-center py-10 px-4 space-y-10 min-h-screen w-full", page === "pending" ? "block" : "hidden")}>
-        <PendingSection setPage={setPage} setReservedPos={setReservedPos} setPendingUpdate={setPendingUpdate} submitPendingSection={submitPendingSection} reservedPos={reservedPos} clubData={clubData} memberData={memberData} pendingUpdate={pendingUpdate}/>
-      </div>
+      </>: <motion.div key="cat" exit={{scale: 0.5, opacity: 0}} transition={{type: "tween", duration: 0.15}}>
+        <CatLoader/>
+      </motion.div>}
     </PageContainer>
   )
 }

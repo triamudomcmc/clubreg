@@ -15,11 +15,11 @@ export const FilterSearch = ({sortMode, setSortMode, setSearchContext, normal = 
         </div>
         <input
           type="text"
-          name="email"
+          name="search"
           id="email"
           onChange={event => {setSearchContext(event.target.value)}}
           className="focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-none rounded-l-md pl-10 sm:text-sm border-gray-300"
-          placeholder="Search"
+          placeholder={normal ? "ค้นหาชื่อชมรม" : "ค้นหาชื่อ หรือ รหัสนักเรียน"}
         />
       </div>
       <div>

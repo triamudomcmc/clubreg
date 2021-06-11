@@ -27,6 +27,8 @@ import {
 import {sliceArr} from "@utilities/array";
 import {clubMap} from "../config/clubMap";
 import {regClub} from "@client/userAction";
+import {CatLoader} from "@components/common/CatLoader";
+import {motion} from "framer-motion";
 
 /*const blockContent = (dataObj) => {
   let newObj = {}
@@ -64,6 +66,7 @@ const Select = ({thumbPaths}) => {
   const [clubData, setClubData] = useState({})
   const [auditionList, setAuditionList] = useState(<></>)
   const [loader, setLoader] = useState(false)
+  const [initclub, setInitclub] = useState(false)
 
   const auTrigger = useRef(null)
   const noAu = false
@@ -126,6 +129,7 @@ const Select = ({thumbPaths}) => {
     const load = async () => {
       const value = await fetchClub()
       setClubData(value)
+      setInitclub(true)
     }
 
     userData && Object.keys(userData).length > 2 && load()
@@ -171,7 +175,7 @@ const Select = ({thumbPaths}) => {
   }
 
   return (
-    <PageContainer>
+    <PageContainer hide={!initclub}>
       <Loader display={loader}/>
       <ConfirmModal onAgree={() => {setDataModal(true)}} clubData={modalState}
                     TriggerDep={{dep: select, revert: () => {setSelect(false)}}}
@@ -183,7 +187,7 @@ const Select = ({thumbPaths}) => {
                      setDataModal(false)
                    }
                  }}/>
-      <div className="flex flex-col md:flex-row md:justify-center md:items-start md:space-x-6 items-center py-14 px-4">
+      {initclub ? <div className="flex flex-col md:flex-row md:justify-center md:items-start md:space-x-6 items-center py-14 px-4">
         <div className="md:max-w-xs">
           <div className="flex flex-col items-center">
             <h1 className="font-medium text-4xl">เลือกชมรม</h1>
@@ -235,15 +239,15 @@ const Select = ({thumbPaths}) => {
             </div>}
 
             {!noAu && (!isEmpty(clubData) && userData && "old_club" in userData && userData.old_club !== "" && clubData[userData.old_club].old_count < clubData[userData.old_club].old_count_limit ?
-            <div className="flex flex-col items-start rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
+              <div className="flex flex-col items-start rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
                 <h1 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h1>
                 <p
-                    className="text-gray-600 tracking-tight">นักเรียนสามารถใช้โควตายืนยันสิทธิ์ชมรมเดิมได้ทันที
-                                                             [ชมรม{clubMap[userData.old_club]}] *โควตามีจำนวนจำกัด</p>
+                  className="text-gray-600 tracking-tight">นักเรียนสามารถใช้โควตายืนยันสิทธิ์ชมรมเดิมได้ทันที
+                                                           [ชมรม{clubMap[userData.old_club]}] *โควตามีจำนวนจำกัด</p>
                 <a
-                    onClick={confirmOld}
-                    className="bg-TUCMC-green-400 text-white whitespace-nowrap rounded-3xl shadow-md px-5 py-2.5 cursor-pointer">ยืนยันสิทธิ์ชมรมเดิม</a>
-            </div> :
+                  onClick={confirmOld}
+                  className="bg-TUCMC-green-400 text-white whitespace-nowrap rounded-3xl shadow-md px-5 py-2.5 cursor-pointer">ยืนยันสิทธิ์ชมรมเดิม</a>
+              </div> :
               <div className="flex flex-col rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
                 <h1 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h1>
                 <p className="text-gray-600 tracking-tight">นักเรียนไม่สามารถยืนยันสิทธิ์ได้ (ชมรม{userData && clubMap[userData.old_club]}) เนื่องจากชมรม{userData && clubData[userData.old_club]?.old_count_limit === 0 ? "ไม่อนุญาตให้ยืนยันสิทธิ์ชมรมเดิม" : "ไม่มีโควตาสมาชิกเก่าเหลือแล้ว"}
@@ -281,7 +285,10 @@ const Select = ({thumbPaths}) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> :
+        <motion.div key="cat" exit={{scale: 0.5, opacity: 0}} transition={{type: "tween", duration: 0.15}}>
+          <CatLoader/>
+        </motion.div>}
     </PageContainer>
   )
 }

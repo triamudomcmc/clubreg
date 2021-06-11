@@ -3,8 +3,9 @@ import Footer from "@components/common/Footer";
 import {motion} from "framer-motion";
 import {useRouter} from "next/router";
 import {useAuth} from "@client/auth";
+import classnames from "classnames";
 
-const PageContainer = ({children, footer = true}) => {
+const PageContainer = ({children, footer = true, hide = false}) => {
 
   const router = useRouter()
   const {isInit} = useAuth()
@@ -23,14 +24,16 @@ const PageContainer = ({children, footer = true}) => {
 
   return (
     <div className="font-display">
-      <Navigation/>
+      <div className={classnames(hide && "hidden")}>
+        <Navigation/>
+      </div>
       <motion.div initial="initial"
                   animate="animate"
                   variants={variants}
                   key={router.pathname}>
         {children}
       </motion.div>
-      {footer && <Footer/>}
+      {footer && <div className={classnames(hide && "hidden")}><Footer/></div>}
     </div>
   )
 }

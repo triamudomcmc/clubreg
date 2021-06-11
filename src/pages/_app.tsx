@@ -8,7 +8,7 @@ import {ToastProvider} from "@components/common/Toast/ToastContext";
 const App = ({Component, pageProps}: AppProps) => {
 
   return (
-  <div className="antialiased">
+  <div className="antialiased font-display">
     <Head>
       <title>TUCMC Club Registration System</title>
     </Head>
