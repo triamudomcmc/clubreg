@@ -20,7 +20,7 @@ import {isNumeric} from "@utilities/texts";
 import {useTimer} from "@utilities/timers";
 import PendingSection from "@components/panel/sections/PendingSection";
 import {CatLoader} from "@components/common/CatLoader";
-import {motion} from "framer-motion";
+import {AnimatePresence, motion} from "framer-motion";
 
 const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetStateAction<{}>>, setReservedPos: Dispatch<SetStateAction<{}>>, setToast, reFetch, setInitMem) => {
   const data = await fetchMembers(panelID)
@@ -102,6 +102,7 @@ const Audition = () => {
   const [clubData, setClubData] = useState({new_count: 0, new_count_limit: 0, call_count: 0})
   const [editing, setEditing] = useState({})
   const [editDep, setEditDep] = useState(false)
+  const [pending ,setPending] = useState(false)
 
   const editable = true
 
@@ -163,6 +164,7 @@ const Audition = () => {
   }, [userData])
 
   const submitPendingSection = async () => {
+    setPending(true)
     if (isEmpty(pendingUpdate)) return
     const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
     const res = await submitPending(currentID, pendingUpdate)
@@ -190,6 +192,7 @@ const Audition = () => {
           break
       }
     }
+    setPending(false)
   }
 
   const edit = (data) => {
@@ -259,63 +262,63 @@ const Audition = () => {
           setEditDep(false)
         }
       }}/>
-      {initmember ? <>
-        <div className={classnames("px-2 py-10 mx-auto max-w-6xl min-h-screen", page === "panel" ? "block" : "hidden")}>
+      <AnimatePresence>
+        {initmember ? <>
+          <div className={classnames("px-2 py-10 mx-auto max-w-6xl min-h-screen", page === "panel" ? "block" : "hidden")}>
+            <div
+              className={`bg-TUCMC-red-100 border-l-4 border-TUCMC-red-600 rounded-r-lg text-TUCMC-red-600 px-4 py-4`}>
+              <div className="flex space-x-3">
+                <ExclamationIcon className="flex-shrink-0 w-6 h-6 text-TUCMC-red-600"/>
+                <div>
+                  <p className="text-[15px]">การประกาศผล Audition ก่อนชมรมอื่น
+                                             และการกดดันให้นักเรียนเลือกยืนยันสิทธิ์ชมรม ถือเป็นการละเมิด<a
+                      href="https://tucm.cc/ข้อกำหนด" target="_blank"
+                      className="underline whitespace-nowrap cursor-pointer">ข้อกำหนด</a></p>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col items-center text-TUCMC-gray-700 my-10">
+              {heading}
+              {description}
+              {button}
+            </div>
+            <div className="flex flex-col px-3 mt-14">
+              <div className="flex w-full text-TUCMC-gray-400 font-medium px-3">
+                <div onClick={() => {
+                  setSection("passed")
+                }}
+                     className={classnames("border-b w-1/3 py-2 border-TUCMC-gray-400 cursor-pointer text-center", section === "passed" && "bg-TUCMC-green-100 text-TUCMC-green-500 border-TUCMC-green-500")}>ผ่าน
+                </div>
+                <div onClick={() => {
+                  setSection("reserved")
+                }}
+                     className={classnames("border-b w-1/3 py-2 border-TUCMC-gray-400 cursor-pointer text-center", section === "reserved" && "bg-TUCMC-orange-100 text-TUCMC-orange-500 border-TUCMC-orange-500")}>สำรอง
+                </div>
+                <div onClick={() => {
+                  setSection("failed")
+                }}
+                     className={classnames("border-b w-1/3 py-2 border-TUCMC-gray-400 cursor-pointer text-center", section === "failed" && "bg-TUCMC-red-100 text-TUCMC-red-500 border-TUCMC-red-500")}>ไม่ผ่าน
+                </div>
+              </div>
+              {section !== "reserved" && <div className="mt-8 mb-4">
+                  <FilterSearch sortMode={sortMode} setSortMode={setSortMode} setSearchContext={setSearchContext} normal={false}/>
+              </div>}
+              <PassedSection display={section === "passed"} editFunc={edit}
+                             userData={section === "passed" ? sortedData : []} editable={editable}/>
+              <ReservedSection refetch={refetch} userData={memberData.reserved} display={section === "reserved"} editable={editable}
+                               editFunc={edit} callCount={clubData.call_count}/>
+              <FailedSection userData={section === "failed" ? sortedData : []} display={section === "failed"} editable={editable}
+                             editFunc={edit}/>
+            </div>
+          </div>
           <div
-            className={`bg-TUCMC-red-100 border-l-4 border-TUCMC-red-600 rounded-r-lg text-TUCMC-red-600 px-4 py-4`}>
-            <div className="flex space-x-3">
-              <ExclamationIcon className="flex-shrink-0 w-6 h-6 text-TUCMC-red-600"/>
-              <div>
-                <p className="text-[15px]">การประกาศผล Audition ก่อนชมรมอื่น
-                                           และการกดดันให้นักเรียนเลือกยืนยันสิทธิ์ชมรม ถือเป็นการละเมิด<a
-                    href="https://tucm.cc/ข้อกำหนด" target="_blank"
-                    className="underline whitespace-nowrap cursor-pointer">ข้อกำหนด</a></p>
-              </div>
-            </div>
+            className={classnames("flex flex-col items-center py-10 px-4 space-y-10 min-h-screen w-full", page === "pending" ? "block" : "hidden")}>
+            <PendingSection setPage={setPage} setReservedPos={setReservedPos} setPendingUpdate={setPendingUpdate}
+                            submitPendingSection={submitPendingSection} reservedPos={reservedPos} clubData={clubData}
+                            memberData={memberData} pendingUpdate={pendingUpdate} pending={pending}/>
           </div>
-          <div className="flex flex-col items-center text-TUCMC-gray-700 my-10">
-            {heading}
-            {description}
-            {button}
-          </div>
-          <div className="flex flex-col px-3 mt-14">
-            <div className="flex w-full text-TUCMC-gray-400 font-medium px-3">
-              <div onClick={() => {
-                setSection("passed")
-              }}
-                   className={classnames("border-b w-1/3 py-2 border-TUCMC-gray-400 cursor-pointer text-center", section === "passed" && "bg-TUCMC-green-100 text-TUCMC-green-500 border-TUCMC-green-500")}>ผ่าน
-              </div>
-              <div onClick={() => {
-                setSection("reserved")
-              }}
-                   className={classnames("border-b w-1/3 py-2 border-TUCMC-gray-400 cursor-pointer text-center", section === "reserved" && "bg-TUCMC-orange-100 text-TUCMC-orange-500 border-TUCMC-orange-500")}>สำรอง
-              </div>
-              <div onClick={() => {
-                setSection("failed")
-              }}
-                   className={classnames("border-b w-1/3 py-2 border-TUCMC-gray-400 cursor-pointer text-center", section === "failed" && "bg-TUCMC-red-100 text-TUCMC-red-500 border-TUCMC-red-500")}>ไม่ผ่าน
-              </div>
-            </div>
-            {section !== "reserved" && <div className="mt-8 mb-4">
-                <FilterSearch sortMode={sortMode} setSortMode={setSortMode} setSearchContext={setSearchContext} normal={false}/>
-            </div>}
-            <PassedSection display={section === "passed"} editFunc={edit}
-                           userData={section === "passed" ? sortedData : []} editable={editable}/>
-            <ReservedSection refetch={refetch} userData={memberData.reserved} display={section === "reserved"} editable={editable}
-                             editFunc={edit} callCount={clubData.call_count}/>
-            <FailedSection userData={section === "failed" ? sortedData : []} display={section === "failed"} editable={editable}
-                           editFunc={edit}/>
-          </div>
-        </div>
-        <div
-          className={classnames("flex flex-col items-center py-10 px-4 space-y-10 min-h-screen w-full", page === "pending" ? "block" : "hidden")}>
-          <PendingSection setPage={setPage} setReservedPos={setReservedPos} setPendingUpdate={setPendingUpdate}
-                          submitPendingSection={submitPendingSection} reservedPos={reservedPos} clubData={clubData}
-                          memberData={memberData} pendingUpdate={pendingUpdate}/>
-        </div>
-      </>: <motion.div key="cat" exit={{scale: 0.5, opacity: 0}} transition={{type: "tween", duration: 0.15}}>
-        <CatLoader/>
-      </motion.div>}
+        </> : <CatLoader key="cat"/>}
+      </AnimatePresence>
     </PageContainer>
   )
 }

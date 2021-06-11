@@ -1,8 +1,8 @@
 import initialisedDB from "@server/firebase-admin";
 
 const getAffectedUsers = async (objectDoc, req, target = null) => {
-  const position = objectDoc.get("position")[req.body.panelID]
-  const affectedUsers = await initialisedDB.collection("data").where(`position.${req.body.panelID}`, target ? ">=" : ">", target || position).get()
+  const position = target || objectDoc.get("position")[req.body.panelID]
+  const affectedUsers = await initialisedDB.collection("data").where(`position.${req.body.panelID}`, target ? ">=" : ">", position).get()
   return {affectedUsers}
 }
 

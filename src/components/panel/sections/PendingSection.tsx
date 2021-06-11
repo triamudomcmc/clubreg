@@ -12,7 +12,7 @@ import PageContainer from "@components/common/PageContainer";
 import {useEffect, useState} from "react";
 import {isNumeric} from "@utilities/texts";
 
-const PendingSection = ({reservedPos, setReservedPos, clubData,memberData, setPendingUpdate, pendingUpdate, setPage, submitPendingSection}) => {
+const PendingSection = ({reservedPos, setReservedPos, clubData,memberData, setPendingUpdate, pendingUpdate, setPage, submitPendingSection, pending}) => {
 
   const [sortMode, setSortMode] = useState("ascending")
   const [searchContext, setSearchContext] = useState("")
@@ -93,7 +93,7 @@ const PendingSection = ({reservedPos, setReservedPos, clubData,memberData, setPe
             <ArrowLeftIcon className="w-4 h-4"/>
             <h1>ย้อนกลับ</h1>
           </div>
-          <Button onClick={submitPendingSection} className="bg-TUCMC-pink-400 px-10 py-3 text-white rounded-full">
+          <Button disabled={pending} onClick={!pending && submitPendingSection} className={classnames("px-10 py-3 text-white rounded-full", !pending ? "bg-TUCMC-pink-400" : "bg-TUCMC-gray-500 cursor-default")}>
             <span>ยืนยัน</span>
           </Button>
         </div>

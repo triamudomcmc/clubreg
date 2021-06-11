@@ -28,7 +28,7 @@ import {sliceArr} from "@utilities/array";
 import {clubMap} from "../config/clubMap";
 import {regClub} from "@client/userAction";
 import {CatLoader} from "@components/common/CatLoader";
-import {motion} from "framer-motion";
+import {AnimatePresence, motion} from "framer-motion";
 
 /*const blockContent = (dataObj) => {
   let newObj = {}
@@ -89,7 +89,7 @@ const Select = ({thumbPaths}) => {
     const currentTime = new Date().getTime()
     const goal = 1623690000000
 
-    if (currentTime < goal){
+    if (currentTime < goal) {
       setTimeout(() => {
         Router.reload()
       }, 1623690000000 - currentTime)
@@ -177,118 +177,128 @@ const Select = ({thumbPaths}) => {
   return (
     <PageContainer hide={!initclub}>
       <Loader display={loader}/>
-      <ConfirmModal onAgree={() => {setDataModal(true)}} clubData={modalState}
-                    TriggerDep={{dep: select, revert: () => {setSelect(false)}}}
+      <ConfirmModal onAgree={() => {
+        setDataModal(true)
+      }} clubData={modalState}
+                    TriggerDep={{
+                      dep: select, revert: () => {
+                        setSelect(false)
+                      }
+                    }}
                     refetcher={reFetch} setLoader={setLoader}/>
-      <ClubModal state={modalState} userData={userData} closeAction={clearState} action={selectClub} thumbPaths={thumbPaths} confirmOldClub={confirmOld}/>
+      <ClubModal state={modalState} userData={userData} closeAction={clearState} action={selectClub} thumbPaths={thumbPaths}
+                 confirmOldClub={confirmOld}/>
       <DataModal setLoader={setLoader} state={modalState} refetcher={reFetch} closeFunc={clearState}
                  TriggerDep={{
                    dep: dataModal, revert: () => {
                      setDataModal(false)
                    }
                  }}/>
-      {initclub ? <div className="flex flex-col md:flex-row md:justify-center md:items-start md:space-x-6 items-center py-14 px-4">
-        <div className="md:max-w-xs">
-          <div className="flex flex-col items-center">
-            <h1 className="font-medium text-4xl">เลือกชมรม</h1>
-            <span className="text-sm tracking-tight">ภายในวันที่ 14 มิ.ย. 64</span>
-          </div>
-          <div className="mt-6 w-full px-8">
-            <SelectSplash/>
-          </div>
-          <div className="space-y-6 mt-10 px-2">
-            {!noAu && (userData && !isEmpty(userData.audition)) &&
-            <div className="flex flex-col rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
-                <h1 className="text-lg font-medium tracking-tight">คุณได้ลงชื่อ Audition
-                                                                   ชมรมไว้</h1>
-                <p className="text-gray-600 tracking-tight">ให้ไปทำการ Audition
-                                                            ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนด โดยติดตามรายละเอียดการ Audition
-                                                            จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง
-                                                            และรอการประกาศผลในวันที่ 15 มิ.ย. 2564 เวลา 7.30 น.</p>
-                <div className="md:hidden relative">
-                    <a ref={auTrigger}
-                       className="text-TUCMC-pink-500 tracking-tight cursor-pointer">ดูรายชื่อชมรมที่ลงชื่อ
-                                                                                     Audition ไว้ →</a>
-                    <Modal TriggerRef={auTrigger} CloseID="audiClose"
-                           className="shadow-md rounded-lg absolute w-full mt-1 z-20">
-                        <div
-                            className="flex items-start rounded-t-lg text-sm justify-between bg-gray-50 text-gray-500 py-2 px-4">
-                            <h1 className="mt-1">รายชื่อชมรมที่ลงชื่อ Audition ไว้</h1>
-                            <XIcon id="audiClose"
-                                   className="w-7 h-7 cursor-pointer text-TUCMC-gray-400"/>
-                        </div>
-                        <div className="bg-white rounded-b-lg">
-                          {
-                            auditionList
-                          }
-                        </div>
-                    </Modal>
+      <AnimatePresence>
+        {initclub ? <div className="flex flex-col md:flex-row md:justify-center md:items-start md:space-x-6 items-center py-14 px-4">
+            <div className="md:max-w-xs">
+              <div className="flex flex-col items-center">
+                <h1 className="font-medium text-4xl">เลือกชมรม</h1>
+                <span className="text-sm tracking-tight">ภายในวันที่ 14 มิ.ย. 64</span>
+              </div>
+              <div className="mt-6 w-full px-8">
+                <SelectSplash/>
+              </div>
+              <div className="space-y-6 mt-10 px-2">
+                {!noAu && (userData && !isEmpty(userData.audition)) &&
+                <div className="flex flex-col rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
+                    <h1 className="text-lg font-medium tracking-tight">คุณได้ลงชื่อ Audition
+                                                                       ชมรมไว้</h1>
+                    <p className="text-gray-600 tracking-tight">ให้ไปทำการ Audition
+                                                                ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนด โดยติดตามรายละเอียดการ Audition
+                                                                จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง
+                                                                และรอการประกาศผลในวันที่ 15 มิ.ย. 2564 เวลา 7.30 น.</p>
+                    <div className="md:hidden relative">
+                        <a ref={auTrigger}
+                           className="text-TUCMC-pink-500 tracking-tight cursor-pointer">ดูรายชื่อชมรมที่ลงชื่อ
+                                                                                         Audition ไว้ →</a>
+                        <Modal TriggerRef={auTrigger} CloseID="audiClose"
+                               className="shadow-md rounded-lg absolute w-full mt-1 z-20">
+                            <div
+                                className="flex items-start rounded-t-lg text-sm justify-between bg-gray-50 text-gray-500 py-2 px-4">
+                                <h1 className="mt-1">รายชื่อชมรมที่ลงชื่อ Audition ไว้</h1>
+                                <XIcon id="audiClose"
+                                       className="w-7 h-7 cursor-pointer text-TUCMC-gray-400"/>
+                            </div>
+                            <div className="bg-white rounded-b-lg">
+                              {
+                                auditionList
+                              }
+                            </div>
+                        </Modal>
+                    </div>
+                </div>}
+                {!noAu && (userData && !isEmpty(userData.audition)) &&
+                <div className="hidden md:block shadow-md rounded-lg mt-1 z-20">
+                    <div
+                        className="flex items-start rounded-t-lg text-sm justify-between bg-gray-50 text-gray-500 py-2 px-4">
+                        <h1 className="mt-1">รายชื่อชมรมที่ลงชื่อ Audition ไว้</h1>
+                    </div>
+                    <div className="bg-white rounded-b-lg">
+                      {
+                        auditionList
+                      }
+                    </div>
+                </div>}
+
+                {!noAu && (!isEmpty(clubData) && userData && "old_club" in userData && userData.old_club !== "" && clubData[userData.old_club].old_count < clubData[userData.old_club].old_count_limit ?
+                  <div className="flex flex-col items-start rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
+                    <h1 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h1>
+                    <p
+                      className="text-gray-600 tracking-tight">นักเรียนสามารถใช้โควตายืนยันสิทธิ์ชมรมเดิมได้ทันที
+                                                               [ชมรม{clubMap[userData.old_club]}] *โควตามีจำนวนจำกัด</p>
+                    <a
+                      onClick={confirmOld}
+                      className="bg-TUCMC-green-400 text-white whitespace-nowrap rounded-3xl shadow-md px-5 py-2.5 cursor-pointer">ยืนยันสิทธิ์ชมรมเดิม</a>
+                  </div> :
+                  <div className="flex flex-col rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
+                    <h1 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h1>
+                    <p className="text-gray-600 tracking-tight">นักเรียนไม่สามารถยืนยันสิทธิ์ได้
+                                                                (ชมรม{userData && clubMap[userData.old_club]})
+                                                                เนื่องจากชมรม{userData && clubData[userData.old_club]?.old_count_limit === 0 ? "ไม่อนุญาตให้ยืนยันสิทธิ์ชมรมเดิม" : "ไม่มีโควตาสมาชิกเก่าเหลือแล้ว"}
+                                                                หากต้องการอยู่ชมรมเดิม ให้กดลงทะเบียนเข้าชมรมเดิมในฐานะสมาชิกใหม่</p>
+                    <div className="md:hidden relative">
+                      <a href="/FAQ" target="_blank"
+                         className="text-TUCMC-gray-700 tracking-tight cursor-pointer">ดูรายละเอียดเพิ่มเติม →</a>
+                    </div>
+                  </div>)
+                }
+              </div>
+            </div>
+            <div style={width > 768 ? {width: width - 376, maxWidth: 952} : {}}
+                 className="mt-16 md:mt-0">
+              <div className="border-b pb-5 mx-4">
+                <div>
+                  <FilterSearch setSearchContext={setSearchContext} sortMode={sortMode}
+                                setSortMode={setSortMode}/>
                 </div>
-            </div>}
-            {!noAu && (userData && !isEmpty(userData.audition)) &&
-            <div className="hidden md:block shadow-md rounded-lg mt-1 z-20">
-                <div
-                    className="flex items-start rounded-t-lg text-sm justify-between bg-gray-50 text-gray-500 py-2 px-4">
-                    <h1 className="mt-1">รายชื่อชมรมที่ลงชื่อ Audition ไว้</h1>
-                </div>
-                <div className="bg-white rounded-b-lg">
+              </div>
+              <div className="flex flex-col md:flex-row md:space-x-4 mt-6">
+                <div className="space-y-2 md:w-1/2">
                   {
-                    auditionList
+                    sortedData[0]?.map((val) => {
+                      return <ClubList key={val.clubID} data={val} action={setModalState}/>
+                    })
                   }
                 </div>
-            </div>}
-
-            {!noAu && (!isEmpty(clubData) && userData && "old_club" in userData && userData.old_club !== "" && clubData[userData.old_club].old_count < clubData[userData.old_club].old_count_limit ?
-              <div className="flex flex-col items-start rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
-                <h1 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h1>
-                <p
-                  className="text-gray-600 tracking-tight">นักเรียนสามารถใช้โควตายืนยันสิทธิ์ชมรมเดิมได้ทันที
-                                                           [ชมรม{clubMap[userData.old_club]}] *โควตามีจำนวนจำกัด</p>
-                <a
-                  onClick={confirmOld}
-                  className="bg-TUCMC-green-400 text-white whitespace-nowrap rounded-3xl shadow-md px-5 py-2.5 cursor-pointer">ยืนยันสิทธิ์ชมรมเดิม</a>
-              </div> :
-              <div className="flex flex-col rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
-                <h1 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h1>
-                <p className="text-gray-600 tracking-tight">นักเรียนไม่สามารถยืนยันสิทธิ์ได้ (ชมรม{userData && clubMap[userData.old_club]}) เนื่องจากชมรม{userData && clubData[userData.old_club]?.old_count_limit === 0 ? "ไม่อนุญาตให้ยืนยันสิทธิ์ชมรมเดิม" : "ไม่มีโควตาสมาชิกเก่าเหลือแล้ว"}
-                                                            หากต้องการอยู่ชมรมเดิม ให้กดลงทะเบียนเข้าชมรมเดิมในฐานะสมาชิกใหม่</p>
-                <div className="md:hidden relative">
-                  <a href="/FAQ" target="_blank"
-                     className="text-TUCMC-gray-700 tracking-tight cursor-pointer">ดูรายละเอียดเพิ่มเติม →</a>
+                <div className="mt-2 md:mt-0 space-y-2 md:w-1/2">
+                  {
+                    sortedData[1]?.map((val) => {
+                      return <ClubList key={val.clubID} data={val} action={setModalState}/>
+                    })
+                  }
                 </div>
-              </div>)
-            }
-          </div>
-        </div>
-        <div style={width > 768 ? {width: width - 376, maxWidth: 952} : {}}
-             className="mt-16 md:mt-0">
-          <div className="border-b pb-5 mx-4">
-            <div>
-              <FilterSearch setSearchContext={setSearchContext} sortMode={sortMode}
-                            setSortMode={setSortMode}/>
+              </div>
             </div>
-          </div>
-          <div className="flex flex-col md:flex-row md:space-x-4 mt-6">
-            <div className="space-y-2 md:w-1/2">
-              {
-                sortedData[0]?.map((val) => {
-                  return <ClubList key={val.clubID} data={val} action={setModalState}/>
-                })
-              }
-            </div>
-            <div className="mt-2 md:mt-0 space-y-2 md:w-1/2">
-              {
-                sortedData[1]?.map((val) => {
-                  return <ClubList key={val.clubID} data={val} action={setModalState}/>
-                })
-              }
-            </div>
-          </div>
-        </div>
-      </div> :
-        <motion.div key="cat" exit={{scale: 0.5, opacity: 0}} transition={{type: "tween", duration: 0.15}}>
-          <CatLoader/>
-        </motion.div>}
+          </div> :
+            <CatLoader key="cat"/>
+        }
+      </AnimatePresence>
     </PageContainer>
   )
 }

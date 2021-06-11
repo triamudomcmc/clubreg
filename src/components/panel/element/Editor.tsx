@@ -7,6 +7,8 @@ import {motion, useAnimation} from "framer-motion"
 import {submitPending, updateUser} from "@client/fetcher/panel";
 import {useAuth} from "@client/auth";
 import {useToast} from "@components/common/Toast/ToastContext";
+import {isEmpty} from "@utilities/object";
+import {Ellipsis} from "@vectors/Loaders/Ellipsis";
 
 const getRandomTransformOrigin = () => {
   const value = (16 + 40 * Math.random()) / 100;
@@ -41,6 +43,7 @@ export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refet
   const [pos, setPos] = useState(0)
   const [warning, setWarning] = useState(false)
   const [closeDep, setCloseDep] = useState(false)
+  const [pending, setPending] = useState(false)
   const controls = useAnimation();
 
   const {onReady, reFetch} = useAuth()
@@ -59,9 +62,9 @@ export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refet
       return prev
     })
     if (pos > 0) {
-      const highest = Number(Object.values(reservedPos).reduce((a, b) => {
+      const highest = !isEmpty(reservedPos) ? Number(Object.values(reservedPos).reduce((a, b) => {
         return Math.max(Number(a), Number(b))
-      }))
+      })): 0
       if (pos <= highest + 1) {
         setAction({action: "reserved", pos: pos})
       }else{
@@ -93,47 +96,51 @@ export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refet
   }, [warning])
 
   const update = async () => {
-    if (action.action === "") return
-    try {
-      const res = await updateUser(localStorage.getItem("currentPanel"), userData.dataRefID, action)
-      if (res.status) {
-        refetch()
-        addToast({
-          theme: "modern",
-          icon: "tick",
-          title: "อัพเดทข้อมูลสำเร็จแล้ว",
-          text: "ข้อมูลที่ถูกส่งไป ได้รับการอัพเดทบนฐานข้อมูลแล้ว"
-        })
-        setCloseDep(true)
-      }else{
-        switch (res.report) {
-          case "sessionError":
-            addToast({
-              theme:"modern",
-              icon: "cross",
-              title: "พบข้อผิดพลาดของเซสชั่น",
-              text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง"
-            })
-            reFetch("sessionError")
-            break
-          case "invalidPermission":
-            addToast({
-              theme:"modern",
-              icon: "cross",
-              title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
-              text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช."
-            })
-            break
+    if (!pending) {
+      setPending(true)
+      if (action.action === "") return
+      try {
+        const res = await updateUser(localStorage.getItem("currentPanel"), userData.dataRefID, action)
+        if (res.status) {
+          refetch()
+          addToast({
+            theme: "modern",
+            icon: "tick",
+            title: "อัพเดทข้อมูลสำเร็จแล้ว",
+            text: "ข้อมูลที่ถูกส่งไป ได้รับการอัพเดทบนฐานข้อมูลแล้ว"
+          })
+          setCloseDep(true)
+        }else{
+          switch (res.report) {
+            case "sessionError":
+              addToast({
+                theme:"modern",
+                icon: "cross",
+                title: "พบข้อผิดพลาดของเซสชั่น",
+                text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง"
+              })
+              reFetch("sessionError")
+              break
+            case "invalidPermission":
+              addToast({
+                theme:"modern",
+                icon: "cross",
+                title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
+                text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช."
+              })
+              break
 
+          }
         }
+      } catch (e) {
+        addToast({
+          theme:"modern",
+          icon: "cross",
+          title: "พบข้อผิดพลาดที่ไม่ทราบสาเหตุ",
+          text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง หากยังพบข้อผิดพลาดสามารถติดต่อทาง กช."
+        })
       }
-    } catch (e) {
-      addToast({
-        theme:"modern",
-        icon: "cross",
-        title: "พบข้อผิดพลาดที่ไม่ทราบสาเหตุ",
-        text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง หากยังพบข้อผิดพลาดสามารถติดต่อทาง กช."
-      })
+      setTimeout(() => {setPending(false)}, 500)
     }
   }
 
@@ -178,7 +185,10 @@ export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refet
         </div>
         <div className="bg-gray-50 rounded-b-lg py-3 px-3">
           <div className="flex space-x-1 font-medium">
-            <div onClick={update} className={classnames("flex justify-center rounded-lg cursor-pointer text-white w-1/2 py-2", action.action === "" ? "bg-TUCMC-gray-300" : "bg-TUCMC-green-400")}><span className={classnames(action.action === "" && "text-gray-500")}>ยืนยัน</span></div>
+            <div onClick={update} className={classnames("flex justify-center rounded-lg text-white w-1/2", action.action === "" ? "bg-TUCMC-gray-300" : "bg-TUCMC-green-400", pending ? "py-0 cursor-default" : "py-2 cursor-pointer")}>
+              <span className={classnames(action.action === "" && "text-gray-500", pending && "hidden")}>ยืนยัน</span>
+              <Ellipsis className={classnames("w-[3rem] h-10", !pending && "hidden")}/>
+            </div>
             <div id="closeEdit" className="flex justify-center rounded-lg cursor-pointer border border-gray-300 bg-white text-gray-700 w-1/2 py-2"><span>ยกเลิก</span></div>
           </div>
         </div>

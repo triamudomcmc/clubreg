@@ -10,12 +10,13 @@ interface props {
   className?: string,
   type?: "submit" | "reset" | "button" | "div",
   href?: string,
-  onClick?: () => void | null
+  onClick?: () => void | null,
+  disabled?: boolean
 }
 
 const defaultAttributes = "cursor-pointer appearance-none focus:outline-none"
 
-export const Button = ({children, className = "", type = "button", href = "", onClick = null}: props) => {
+export const Button = ({children, className = "", type = "button", href = "", onClick = null, disabled = false}: props) => {
 
   const {tracker} = useAuth()
   const router = useRouter()
@@ -33,7 +34,7 @@ export const Button = ({children, className = "", type = "button", href = "", on
     </motion.div> : onClick === null && type === "button" ?
       <motion.button onClick={() => {trackedClick();Router.push(href)}} type={type} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}} whileTap={{scale: 0.95}}>
         {children}
-      </motion.button> : href == "" ? <motion.button onClick={trackedClick} type={type} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}} whileTap={{scale: 0.95}}>
+      </motion.button> : href == "" ? <motion.button onClick={trackedClick} type={type} className={classnames(className,defaultAttributes)} whileHover={!disabled && {scale: 1.05}} whileTap={!disabled && {scale: 0.95}}>
         {children}
       </motion.button> : <motion.button onClick={() => {trackedClick();Router.push(href)}} type={type} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}} whileTap={{scale: 0.95}}>
         {children}
