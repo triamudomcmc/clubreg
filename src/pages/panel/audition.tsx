@@ -96,6 +96,7 @@ const Audition = () => {
     failed: [],
     reserved: []
   })
+
   const [page, setPage] = useState("panel")
   const [pendingUpdate, setPendingUpdate] = useState({})
   const [reservedPos, setReservedPos] = useState({})
@@ -165,11 +166,26 @@ const Audition = () => {
 
   const submitPendingSection = async () => {
     setPending(true)
-    if (isEmpty(pendingUpdate)) return
+    if (isEmpty(pendingUpdate)) {
+      addToast({
+        theme: "modern",
+        icon: "cross",
+        title: "ไม่มีข้อมูลที่จะอัพเดท",
+        text: "กรุณาเลือกสถานะให้ผู้สมัครก่อนกดส่งข้อมูล"
+      })
+      setPending(false)
+      return
+    }
     const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
     const res = await submitPending(currentID, pendingUpdate)
     if (res.status) {
       refetch()
+      addToast({
+        theme: "modern",
+        icon: "tick",
+        title: "อัพเดทข้อมูลสำเร็จแล้ว",
+        text: "ข้อมูลที่ถูกส่งไป ได้รับการอัพเดทบนฐานข้อมูลแล้ว"
+      })
     } else {
       switch (res.report) {
         case "sessionError":
@@ -188,6 +204,22 @@ const Audition = () => {
             icon: "cross",
             title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
             text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช."
+          })
+          break
+        case "quota_exceeded":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "จำนวนผู้ที่ผ่านการคัดเลือกจะต้องไม่เกินจำนวนที่ได้ขอมา",
+            text: "กรุณาทำให้มีที่ว่างในช่องผู้ผ่านการคัดเลือกก่อน จึงนำสมาชิกคนใหม่ใส่เข้าไป"
+          })
+          break
+        case "invalid_data":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "ไม่มีข้อมูลที่จะอัพเดท",
+            text: "กรุณาเลือกสถานะให้ผู้สมัครก่อนกดส่งข้อมูล"
           })
           break
       }

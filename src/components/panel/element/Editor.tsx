@@ -129,7 +129,14 @@ export const Editor = ({userData, reservedPos, setReservedPos, TriggerDep, refet
                 text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช."
               })
               break
-
+            case "quota_exceeded":
+              addToast({
+                theme: "modern",
+                icon: "cross",
+                title: "จำนวนผู้ที่ผ่านการคัดเลือกจะต้องไม่เกินจำนวนที่ได้ขอมา",
+                text: "กรุณาทำให้มีที่ว่างในช่องผู้ผ่านการคัดเลือกก่อน จึงนำสมาชิกคนใหม่ใส่เข้าไป"
+              })
+              break
           }
         }
       } catch (e) {

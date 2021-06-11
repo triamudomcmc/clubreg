@@ -11,6 +11,7 @@ import {Button} from "@components/common/Inputs/Button";
 import PageContainer from "@components/common/PageContainer";
 import {useEffect, useState} from "react";
 import {isNumeric} from "@utilities/texts";
+import {Ellipsis} from "@vectors/Loaders/Ellipsis";
 
 const PendingSection = ({reservedPos, setReservedPos, clubData,memberData, setPendingUpdate, pendingUpdate, setPage, submitPendingSection, pending}) => {
 
@@ -73,14 +74,14 @@ const PendingSection = ({reservedPos, setReservedPos, clubData,memberData, setPe
     <>
       <div className="space-y-2">
         <h1 className="text-4xl text-center">รอการตอบรับ</h1>
-        <p className="text-TUCMC-gray-700 text-center">สามารถรับสมาชิกใหม่ได้ทั้งหมด {clubData.new_count_limit} คน (เหลืออีก {clubData.new_count_limit - clubData.new_count} คน)</p>
+        <p className="text-TUCMC-gray-700 text-center">สามารถรับสมาชิกใหม่ได้ทั้งหมด {clubData.new_count_limit} คน (เหลืออีก {clubData.new_count_limit - memberData.passed.length} คน)</p>
       </div>
       <div className="w-full max-w-6xl">
         <FilterSearch sortMode={sortMode} setSortMode={setSortMode} setSearchContext={setSearchContext} normal={false}/>
         <div className="mt-4 space-y-4">
           {
             sortedData.length > 0 ? sortedData.map((item, index) => {
-              return <PendingElement key={`pending-${index}`} userData={item} pendingUpdate={pendingUpdate}
+              return <PendingElement key={`pending-${item.student_id}`} userData={item} pendingUpdate={pendingUpdate}
                                      setPendingUpdate={setPendingUpdate} reservedPos={reservedPos} setReservedPos={setReservedPos}/>
             }) : <h1 className="text-center mt-20 mb-20 text-TUCMC-gray-600">ขณะนี้ไม่มีรายชื่อที่รอคำตอบรับ</h1>
           }
@@ -93,8 +94,9 @@ const PendingSection = ({reservedPos, setReservedPos, clubData,memberData, setPe
             <ArrowLeftIcon className="w-4 h-4"/>
             <h1>ย้อนกลับ</h1>
           </div>
-          <Button disabled={pending} onClick={!pending && submitPendingSection} className={classnames("px-10 py-3 text-white rounded-full", !pending ? "bg-TUCMC-pink-400" : "bg-TUCMC-gray-500 cursor-default")}>
-            <span>ยืนยัน</span>
+          <Button disabled={pending} onClick={!pending && submitPendingSection} className={classnames("px-10 text-white rounded-full bg-TUCMC-pink-400", !pending ? "py-3" : "py-[8px] cursor-default")}>
+            <span className={classnames(pending && "hidden")}>ยืนยัน</span>
+            <Ellipsis className={classnames("w-[2.4rem] h-8", !pending && "hidden")}/>
           </Button>
         </div>
       </div>

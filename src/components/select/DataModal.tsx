@@ -5,6 +5,8 @@ import {useEffect, useState} from "react";
 import {confirmClub, regClub, rejectClub} from "@client/userAction";
 import {isEmpty} from "@utilities/object";
 import {useToast} from "@components/common/Toast/ToastContext";
+import classnames from "classnames";
+import {Ellipsis} from "@vectors/Loaders/Ellipsis";
 
 const DataModal = ({state, setLoader, TriggerDep, closeFunc, refetcher, mode = "default"}) => {
 
@@ -12,6 +14,7 @@ const DataModal = ({state, setLoader, TriggerDep, closeFunc, refetcher, mode = "
   const [password, setPassword] = useState("")
   const [closingState, setClosingState] = useState(false)
   const [data, setData] = useState(state.data)
+  const [pending, setPending] = useState(false)
   const {addToast} = useToast()
 
   useEffect(() => {
@@ -22,6 +25,8 @@ const DataModal = ({state, setLoader, TriggerDep, closeFunc, refetcher, mode = "
 
 
   const submit = async (action: "register" | "confirm" | "reject" = "register") => {
+
+    setPending(true)
 
     const timeoutID = setTimeout(() => {
       setLoader(true)
@@ -146,7 +151,7 @@ const DataModal = ({state, setLoader, TriggerDep, closeFunc, refetcher, mode = "
 
     clearTimeout(timeoutID)
     setLoader(false)
-
+    setTimeout(() => {setPending(false)},500)
   }
 
   let headingText =
@@ -158,9 +163,12 @@ const DataModal = ({state, setLoader, TriggerDep, closeFunc, refetcher, mode = "
           หรือไป Audition ชมรมอื่นได้อีก</p>
       </div>
     </div>
-  let actionButt = <div onClick={() => {submit("register")}} className="flex justify-center cursor-pointer items-center space-x-2 text-lg bg-TUCMC-green-400 text-white py-2 rounded-md">
-    <CheckCircleIcon className="w-5 h-5"/>
-    <span>ลงทะเบียน</span>
+  let actionButt = <div onClick={() => {!pending && submit("register")}} className={classnames("flex justify-center items-center space-x-2 text-lg bg-TUCMC-green-400 text-white rounded-md", pending ? "py-[1px] cursor-default" : "py-2 cursor-pointer")}>
+    <div className={classnames(pending && "hidden","flex space-x-2 items-center")}>
+      <CheckCircleIcon className="w-5 h-5"/>
+      <span>ลงทะเบียน</span>
+    </div>
+    <Ellipsis className={classnames("w-[3rem] h-10", !pending && "hidden")}/>
   </div>
 
   if (mode !== "default") {
@@ -178,12 +186,18 @@ const DataModal = ({state, setLoader, TriggerDep, closeFunc, refetcher, mode = "
       </div>
     </div>
 
-    actionButt = mode === "confirm" ? <div onClick={() => {submit("confirm")}} className="flex justify-center cursor-pointer items-center space-x-2 text-lg bg-TUCMC-green-400 text-white py-2 rounded-md">
-      <CheckCircleIcon className="w-5 h-5"/>
-      <span>ยืนยันสิทธิ์</span>
-    </div> : <div onClick={() => {submit("reject")}} className="flex justify-center cursor-pointer items-center space-x-2 text-lg bg-TUCMC-red-400 text-white py-2 rounded-md">
-      <XCircleIcon className="w-5 h-5"/>
-      <span>สละสิทธิ์</span>
+    actionButt = mode === "confirm" ? <div onClick={() => {!pending && submit("confirm")}} className={classnames("flex justify-center cursor-pointer items-center space-x-2 text-lg bg-TUCMC-green-400 text-white rounded-md", pending ? "py-[1px] cursor-default" : "py-2 cursor-pointer")}>
+      <div className={classnames(pending && "hidden","flex space-x-2 items-center")}>
+        <CheckCircleIcon className="w-5 h-5"/>
+        <span>ยืนยันสิทธิ์</span>
+      </div>
+      <Ellipsis className={classnames("w-[3rem] h-10", !pending && "hidden")}/>
+    </div> : <div onClick={() => {!pending && submit("reject")}} className={classnames("flex justify-center cursor-pointer items-center space-x-2 text-lg bg-TUCMC-red-400 text-white rounded-md",  pending ? "py-[1px] cursor-default" : "py-2 cursor-pointer")}>
+      <div className={classnames(pending && "hidden","flex space-x-2 items-center")}>
+        <XCircleIcon className="w-5 h-5"/>
+        <span>สละสิทธิ์</span>
+      </div>
+      <Ellipsis className={classnames("w-[3rem] h-10", !pending && "hidden")}/>
     </div>
 
   }
