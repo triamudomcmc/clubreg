@@ -13,6 +13,7 @@ import {AnimateSharedLayout, motion} from "framer-motion";
 import {useTimer} from "@utilities/timers";
 import Router from "next/router";
 import {openTime} from "@config/time";
+import Image from "next/image";
 
 
 const Index = () => {
@@ -196,6 +197,10 @@ const Index = () => {
           <Footer/>
         </motion.div>
       </AnimateSharedLayout>
+      {/*inject Image for preloading*/}
+      <div className="hidden">
+        <Image priority={true} src="/assets/loaders/cat.gif" width={85} height={69}/>
+      </div>
     </PageContainer>
   )
 }

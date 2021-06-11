@@ -30,9 +30,10 @@ import fs from "fs";
 import {CatLoader} from "@components/common/CatLoader";
 import {AnimatePresence, motion} from "framer-motion";
 
-const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>) => {
+const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>, setInitClub) => {
   const data = await fetchClub(clubID)
   setClubData(data)
+  setInitClub(true)
 }
 
 const Account = () => {
@@ -51,6 +52,7 @@ const Account = () => {
   const clubsTrigger = useRef(null)
   const box = useRef(null)
   const [closeBox, setCloseBox] = useState(false)
+  const [initClub, setInitClub] = useState(false)
 
   const {width} = useWindowDimensions()
 
@@ -74,7 +76,7 @@ const Account = () => {
       localStorage.setItem("currentPanel", currPanel)
     }
 
-    fetchClubData(currPanel, setClubData)
+    fetchClubData(currPanel, setClubData, setInitClub)
   }
 
   useEffect(() => {
@@ -113,9 +115,9 @@ const Account = () => {
   }
 
   return (
-    <PageContainer hide={!("panelID" in userData)}>
+    <PageContainer hide={!initClub}>
       <AnimatePresence>
-      {"panelID" in userData ? <div className="min-h-screen">
+      {initClub ? <div className="min-h-screen">
         <div className="relative pt-10 pb-14 bg-TUCMC-gray-100">
           <h1 className="text-2xl text-center font-medium">แผงควบคุม</h1>
           <div className="absolute w-full px-4 -bottom-5">
