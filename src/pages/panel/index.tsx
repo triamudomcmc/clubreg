@@ -109,7 +109,7 @@ const Account = () => {
   return (
     <PageContainer hide={!initClub}>
       <AnimatePresence>
-      <div className={classnames("min-h-screen", !initClub && "hidden")}>
+      <div className={classnames("min-h-screen", !initClub && "opacity-0")}>
         <div className="relative pt-10 pb-14 bg-TUCMC-gray-100">
           <h1 className="text-2xl text-center font-medium">แผงควบคุม</h1>
           <div className="absolute w-full px-4 -bottom-5">
