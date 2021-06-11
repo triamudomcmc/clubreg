@@ -91,14 +91,6 @@ const Account = () => {
 
   useEffect(() => {
     if ("panelID" in userData) {
-      setTimeout(() => {
-        setBoxSize(box.current?.clientWidth)
-      }, 200)
-    }
-  }, [userData])
-
-  useEffect(() => {
-    if ("panelID" in userData) {
       const i = [...userData.panelID]
       const index = userData.panelID.indexOf(localStorage.getItem("currentPanel"))
       if (index > -1) {
@@ -117,7 +109,7 @@ const Account = () => {
   return (
     <PageContainer hide={!initClub}>
       <AnimatePresence>
-      {initClub ? <div className="min-h-screen">
+      <div className={classnames("min-h-screen", !initClub && "hidden")}>
         <div className="relative pt-10 pb-14 bg-TUCMC-gray-100">
           <h1 className="text-2xl text-center font-medium">แผงควบคุม</h1>
           <div className="absolute w-full px-4 -bottom-5">
@@ -216,7 +208,8 @@ const Account = () => {
             </div>
           </div>
         </div>
-      </div> : <CatLoader key="cat"/>}
+      </div>
+        {!initClub && <CatLoader key="cat"/>}
       </AnimatePresence>
     </PageContainer>
   )
