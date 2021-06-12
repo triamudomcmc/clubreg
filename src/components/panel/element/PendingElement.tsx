@@ -35,7 +35,7 @@ const variants = {
 function arrayMax(arr) {
   return arr.reduce(function (p, v) {
     return ( p > v ? p : v );
-  });
+  },0);
 }
 
 export const PendingElement = ({userData, pendingUpdate, setPendingUpdate, reservedPos, setReservedPos}) => {
