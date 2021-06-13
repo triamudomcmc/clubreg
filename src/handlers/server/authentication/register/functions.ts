@@ -18,7 +18,7 @@ export const checkCredentials = async (userColl, req, ref) => {
 
   const dataPair = createDataPair(refDB.docs[0].data(), req.body)
 
-  if (refDB.docs[0].get("firstname") !== "any" && (!compareDataPair(dataPair, "lastname"))) return {
+  if (refDB.docs[0].get("firstname") === "any" || (!compareDataPair(dataPair, "lastname"))) return {
     status: false, report: "mismatch_data"
   }
 
@@ -41,23 +41,13 @@ export const appendData = async (dataColl, refDB, req) => {
 
   const ex = await initialisedDB.collection("data").where("student_id", "==", req.body.stdID).get()
 
-  let data = refDB.docs[0].data()
-
-  if (refDB.docs[0].get("firstname") === "any") {
-    data = {
-      ...refDB.docs[0].data(),
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
-    }
-  }
-
   if (ex.empty) {
     return await dataColl.add({
       ...{
         club: "",
         audition: {}
       },
-      ...data
+      ...refDB.docs[0].data()
     })
   }else{
     return ex.docs[0]
