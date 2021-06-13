@@ -18,7 +18,7 @@ export const checkCredentials = async (userColl, req, ref) => {
 
   const dataPair = createDataPair(refDB.docs[0].data(), req.body)
 
-  if (!compareDataPair(dataPair, "lastname")) return {
+  if (refDB.docs[0].get("firstname") !== "any" && (!compareDataPair(dataPair, "lastname"))) return {
     status: false, report: "mismatch_data"
   }
 
