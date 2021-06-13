@@ -22,6 +22,9 @@ const Auth = ({query}) => {
   onReady((logged, userData) => {
     if(logged) {
       if (userData.club !== "") {
+        if (userData.student_id.includes("ก")) {
+          return Router.push("/panel")
+        }
         return Router.push("/card")
       }
      if (!userData.club) {
