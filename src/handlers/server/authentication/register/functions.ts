@@ -43,11 +43,11 @@ export const appendData = async (dataColl, refDB, req) => {
 
   if (ex.empty) {
     return await dataColl.add({
-      ...refDB.docs[0].data(),
       ...{
         club: "",
         audition: {}
-      }
+      },
+      ...refDB.docs[0].data()
     })
   }else{
     return ex.docs[0]
