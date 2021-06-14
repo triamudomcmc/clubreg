@@ -7,6 +7,7 @@ import {ListElement} from "@components/panel/element/ListElement";
 import {useLongPress} from "use-long-press";
 import {useWindowDimensions} from "@utilities/document";
 import isMobile from "is-mobile";
+import {editDataTime, positionUpdateTime} from "@config/time";
 
 export type FixedListProps<T> = {
   items: T[];
@@ -234,6 +235,8 @@ export function DragableList({editable, editFunc, dragable, setDragMode, callCou
     onPositionUpdate
   });
 
+  const lock = (new Date().getTime() > positionUpdateTime)
+
   useEffect(() => {
     if (dragable) {
       controls.start("start");
@@ -257,7 +260,7 @@ export function DragableList({editable, editFunc, dragable, setDragMode, callCou
             // @ts-ignore
             setInitialPos([event.clientX, event.clientY])
             setTapnHold(setTimeout(() => {
-              setDragMode(true)
+              !lock && setDragMode(true)
             }, 1000))
           }}
 
