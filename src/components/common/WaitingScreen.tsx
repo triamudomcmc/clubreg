@@ -7,9 +7,11 @@ export const WaitingScreen = ({target = 0}) => {
   return (
     <div className="fixed top-0 left-0 w-full min-h-screen z-50">
     <div className="absolute flex flex-col w-full h-full justify-center items-center text-TUCMC-gray-900">
-      <h1 className="font-bold text-xl">ระบบกำลังจัดการข้อมูล</h1>
-      <h1 className="font-semibold tracking-wide">ผู้ใช้จะสามารถเข้าถึงเว็บไซต์ได้ในอีก</h1>
-      <h1 className="font-semibold">{timer.hour} ชั่วโมง {timer.min} นาที {timer.sec} วินาที</h1>
+      <div className="flex flex-col justify-center items-center">
+        <h1 className="font-bold text-xl">ระบบกำลังจัดการข้อมูล</h1>
+        <h1 className="font-semibold tracking-wide">ผู้ใช้จะสามารถเข้าถึงเว็บไซต์ได้ในอีก</h1>
+        <h1 className="font-semibold">{timer.hour} ชั่วโมง {timer.min} นาที {timer.sec} วินาที</h1>
+      </div>
     </div>
     <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" style={{width: "100vw"}} className="bg-white bg-opacity-100 block md:hidden" preserveAspectRatio="xMidYMid" viewBox="0 0 742 1316">
       <g transform="translate(371,658) scale(1,1) translate(-371,-658)"><path id="path0" d="M 92.58501875818635 1165.8007812255396
