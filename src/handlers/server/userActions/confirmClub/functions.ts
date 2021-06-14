@@ -22,21 +22,30 @@ export const updateClub = async (clubRef: firestore.DocumentReference, req) => {
     const newCount = data.new_count + 1
 
     // 1 write
-    t.set(clubRef, {[req.body.clubID]: {new_count: newCount}}, {merge:true})
+    t.set(clubRef, {[req.body.clubID]: {new_count: newCount}}, {merge: true})
     return data
   })
 }
 
-export const createNewAuditionData = (dataDoc, req) => {
+export const createNewAuditionData = async (dataDoc, req, clubRef) => {
 
   const updatedItem = dataDoc.get("audition")
   const newAuditionData = {}
 
-  Object.keys(updatedItem).forEach((key) => {
-    if (key === req.body.clubID) return newAuditionData[key] = "confirmed"
-    if (updatedItem[key] === "failed") return newAuditionData[key] = "failed"
-    newAuditionData[key] = "rejected"
-  })
+  for (let key of Object.keys(updatedItem)) {
+    if (key === req.body.clubID) {
+      newAuditionData[key] = "confirmed"
+    }else{
+      if (updatedItem[key] === "failed") {newAuditionData[key] = "failed"} else {
+        if (updatedItem[key] === "passed") {
+          const prevCall = await clubRef.get()
+          const prevCount = prevCall.get("call_count") || 0
+          await clubRef.set({[key]: {call_count: prevCount + 1}}, {merge: true})
+        }
+        newAuditionData[key] = "rejected"
+      }
+    }
+  }
 
   return newAuditionData
 }

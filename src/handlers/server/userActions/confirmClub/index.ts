@@ -21,7 +21,7 @@ export const confirmClub = async (req, res) => {
   try {
     const clubData = await updateClub(clubRef, req)
 
-    const newAuditionData = createNewAuditionData(dataDoc, req)
+    const newAuditionData = await createNewAuditionData(dataDoc, req, clubRef)
 
     const cardRef = await generateCard(dataDoc, clubData, req)
 
