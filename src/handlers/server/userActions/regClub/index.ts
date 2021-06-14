@@ -4,8 +4,11 @@ import {generateCard, initData} from "@server/userActions/sharedFunctions";
 import {fetchSession} from "@server/fetchers/session";
 import {update} from "@server/tracker";
 import initialisedDB from "@server/firebase-admin";
+import {endRegClubTime} from "@config/time";
 
 export const regClub = async (req, res) => {
+
+  if (new Date().getTime() >= endRegClubTime) return {status: false, report: "exceeded_time_limit"}
 
   // Procedures
   const {logged, ID} = await fetchSession(req,res)

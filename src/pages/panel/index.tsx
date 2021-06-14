@@ -29,6 +29,7 @@ import {GetStaticProps} from "next";
 import fs from "fs";
 import {CatLoader} from "@components/common/CatLoader";
 import {AnimatePresence, motion} from "framer-motion";
+import {WaitingScreen} from "@components/common/WaitingScreen";
 
 const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>, setInitClub) => {
   const data = await fetchClub(clubID)

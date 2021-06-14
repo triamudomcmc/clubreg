@@ -26,20 +26,22 @@ function convertMiliseconds(miliseconds) {
 }
 
 export const useTimer = (countTo) => {
-  const [timer, setTime] = useState({day: "00", hour: "00", min: "00", sec: "00"})
+  const [timer, setTime] = useState({})
 
   useEffect(() => {
     setInterval(() => {
       const ts = countTo - new Date().getTime()
       const t = convertMiliseconds(ts)
       setTime({
-        day: addZero(t.d),
-        hour: addZero(t.h),
-        min: addZero(t.m),
-        sec: addZero(t.s)
+        [countTo]: {
+          day: addZero(t.d),
+          hour: addZero(t.h),
+          min: addZero(t.m),
+          sec: addZero(t.s)
+        }
       })
     }, 1000)
   },[])
 
-  return timer
+  return timer[countTo] || {day: "00", hour: "00", min: "00", sec: "00"}
 }

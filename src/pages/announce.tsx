@@ -10,6 +10,7 @@ import DataModal from "@components/select/DataModal";
 import {Loader} from "@components/common/Loader";
 import {useTimer} from "@utilities/timers";
 import classnames from "classnames";
+import {announceTime, endRegClubTime} from "@config/time";
 
 const Announce = () => {
   const {onReady, reFetch} = useAuth()
@@ -28,18 +29,29 @@ const Announce = () => {
       if (userData.club !== "") {
         Router.push("/card")
       }
-      if (new Date().getTime() < 1623690000000) {
+      if (new Date().getTime() < endRegClubTime) {
         Router.push("/select")
       }
     }
     return userData
   })
 
+  const before = (new Date().getTime() < announceTime)
 
-  const before = false
+  const limit = (new Date().getTime() < 1623776400000) ? 1623776400000 : (new Date().getTime() < 1623862800000) ? 1623862800000 : 1623949200000
 
-  const timer = useTimer(1623776400000)
-  const openTimer = useTimer(1623717000000)
+  const timer = useTimer(limit)
+  const openTimer = useTimer(announceTime)
+
+  useEffect(() => {
+    const currentTime = new Date().getTime()
+
+    if (currentTime < announceTime) {
+      setTimeout(() => {
+        Router.reload()
+      }, announceTime - currentTime)
+    }
+  }, [])
 
   useEffect(() => {
     if (userData.audition && !isEmpty(userData.audition)) {
@@ -99,7 +111,7 @@ const Announce = () => {
         ))
       }
     }
-  }, [userData])
+  }, [userData, timer])
 
   const clearState = () => {
     setModalState({open: false, data: {}})
@@ -107,7 +119,7 @@ const Announce = () => {
 
 
   return (
-    <PageContainer>
+    (new Date().getTime() > endRegClubTime) && <PageContainer>
       <Loader display={loader}/>
       <ConfirmModal onAgree={() => {
         setDataModal(true)
@@ -157,7 +169,7 @@ const Announce = () => {
         {!before && <div className="mt-16 bg-TUCMC-gray-100 w-full pb-20 pt-12">
           <div className="space-y-4 px-4 max-w-md mx-auto">
             {
-              (!before && userData.audition && !isEmpty(userData.audition)) && Object.keys(userData.audition)
+              (!before && userData.audition && !isEmpty(userData.audition)) ? Object.keys(userData.audition)
                                                                                      .map((key) => {
                                                                                        return <ClubStatus
                                                                                          selectTrigger={setSelect}
@@ -166,7 +178,9 @@ const Announce = () => {
                                                                                          clubID: key,
                                                                                          status: userData.audition[key]
                                                                                        }}/>
-                                                                                     })
+                                                                                     }) : <div className="flex justify-center">
+                <h1 className="text-TUCMC-gray-700 mt-5">ไม่มีชมรมที่ออดิชั่น</h1>
+              </div>
             }
           </div>
           {!before && bottomDesc}

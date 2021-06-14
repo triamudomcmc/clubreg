@@ -2,8 +2,11 @@ import {fetchSession} from "@server/fetchers/session";
 import {batchUpdateTasks} from "@server/panel/submitPending/functions";
 import {update} from "@server/tracker";
 import initialisedDB from "@server/firebase-admin";
+import {editDataTime} from "@config/time";
 
 export const submitPending = async (req, res) => {
+
+  if (new Date().getTime() >= editDataTime) return {status: false, report: "exceeded_time_limit"}
 
   const {logged, ID} = await fetchSession(req, res)
   if (!logged) return {status: false, report: "sessionError"}

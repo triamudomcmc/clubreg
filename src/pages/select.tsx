@@ -29,6 +29,7 @@ import {clubMap} from "../config/clubMap";
 import {regClub} from "@client/userAction";
 import {CatLoader} from "@components/common/CatLoader";
 import {AnimatePresence, motion} from "framer-motion";
+import {endRegClubTime} from "@config/time";
 
 /*const blockContent = (dataObj) => {
   let newObj = {}
@@ -70,6 +71,7 @@ const Select = ({thumbPaths}) => {
 
   const auTrigger = useRef(null)
   const noAu = false
+  const time = endRegClubTime
 
   const {userData} = onReady((logged, userData) => {
     if (!logged) {
@@ -78,7 +80,7 @@ const Select = ({thumbPaths}) => {
       if (userData.club !== "") {
         Router.push("/card")
       }
-      if (new Date().getTime() >= 1623690000000) {
+      if (new Date().getTime() >= time) {
         Router.push("/announce")
       }
     }
@@ -87,12 +89,11 @@ const Select = ({thumbPaths}) => {
 
   useEffect(() => {
     const currentTime = new Date().getTime()
-    const goal = 1623690000000
 
-    if (currentTime < goal) {
+    if (currentTime < time) {
       setTimeout(() => {
         Router.reload()
-      }, 1623690000000 - currentTime)
+      }, time - currentTime)
     }
   }, [])
 
@@ -175,7 +176,7 @@ const Select = ({thumbPaths}) => {
   }
 
   return (
-    <PageContainer hide={!initclub}>
+    (new Date().getTime() < time) && <PageContainer hide={!initclub}>
       <Loader display={loader}/>
       <ConfirmModal onAgree={() => {
         setDataModal(true)

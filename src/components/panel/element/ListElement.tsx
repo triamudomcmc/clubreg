@@ -21,6 +21,11 @@ export const ListElement = ({index = 0, userData, editable, editFunc, callCount 
     }
   }
 
+  if (userData.status === "failed") {
+    statusBar = <div
+      className="bg-TUCMC-red-400 text-white rounded-full tracking-tight text-sm px-4 py-0.5">ไม่ผ่านการคัดเลือก</div>
+  }
+
   return (
     <div className="flex items-center justify-between pr-4 py-5 md:py-8 border-b border-TUCMC-gray-300 bg-white">
       <div className="flex items-center">

@@ -21,6 +21,8 @@ import {useTimer} from "@utilities/timers";
 import PendingSection from "@components/panel/sections/PendingSection";
 import {CatLoader} from "@components/common/CatLoader";
 import {AnimatePresence, motion} from "framer-motion";
+import {WaitingScreen} from "@components/common/WaitingScreen";
+import {announceTime, editDataTime} from "@config/time";
 
 const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetStateAction<{}>>, setReservedPos: Dispatch<SetStateAction<{}>>, setToast, reFetch, setInitMem) => {
   const data = await fetchMembers(panelID)
@@ -105,9 +107,10 @@ const Audition = () => {
   const [editDep, setEditDep] = useState(false)
   const [pending ,setPending] = useState(false)
 
-  const editable = true
+  const upperBound = announceTime, lowerBound = editDataTime
+  const editable = !(new Date().getTime() > upperBound)
 
-  const timer = useTimer(1623689940000)
+  const timer = useTimer(lowerBound)
 
   const userData = onReady((logged, userData) => {
     if (!logged) {
@@ -288,7 +291,7 @@ const Audition = () => {
   }
 
   return (
-    <PageContainer hide={!initmember}>
+    (new Date().getTime() > upperBound || new Date().getTime() < lowerBound) ? <PageContainer hide={!initmember}>
       <Editor userData={editing} reservedPos={reservedPos} setReservedPos={setReservedPos} refetch={refetch} TriggerDep={{
         dep: editDep, revert: () => {
           setEditDep(false)
@@ -351,7 +354,7 @@ const Audition = () => {
           </div>
         </> : <CatLoader key="cat"/>}
       </AnimatePresence>
-    </PageContainer>
+    </PageContainer>: <WaitingScreen target={upperBound}/>
   )
 }
 

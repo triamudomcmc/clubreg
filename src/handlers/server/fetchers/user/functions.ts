@@ -1,5 +1,6 @@
 import initialisedDB from "@server/firebase-admin";
 import {destroySession} from "@server/authentication/destroySession";
+import {announceTime} from "@config/time";
 
 export const getSessionData = async (sessionID, cookies, req, res, fingerprint) => {
 
@@ -36,11 +37,13 @@ export const getUserDataFromSessionData = async (sessionData) => {
     return esc[k] = "waiting"
   })
 
+  const hide = new Date().getTime() < announceTime
+
   const userData = {
     logged: true,
     expires: sessionData.get("expires"),
     userID: sessionData.get("userID"),
-    userData: {...d, ...{audition: esc}}
+    userData: {...d, ...hide && {audition: esc}}
   }
 
   return {status: true, userData}

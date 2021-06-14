@@ -28,7 +28,11 @@ const Auth = ({query}) => {
         return Router.push("/card")
       }
      if (!userData.club) {
-       Router.push("/select")
+       if (new Date().getTime() < 1623690000000) {
+         Router.push("/select")
+       }else{
+         Router.push("/announce")
+       }
      }
     }
     if (new Date().getTime() < openTime) {
