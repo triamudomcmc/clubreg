@@ -23,7 +23,7 @@ export const ReservedSection = ({display, refetch, userData, editable, editFunc,
   const adminData = onReady((logged, userData) => (userData))
 
   useEffect(() => {
-    !blockRerender && setItems(userData.sort((a,b) => (a.position > b.position)))
+    !blockRerender && setItems(userData.sort((a,b) => (a.position - b.position)))
     blockRerender && setBRrender(false)
   }, [userData])
 
