@@ -40,7 +40,7 @@ export const createNewAuditionData = async (dataDoc, req, clubRef) => {
       if (updatedItem[key] === "failed") {newAuditionData[key] = "failed"} else {
         if (updatedItem[key] === "passed") {
           const prevCall = await clubRef.get()
-          const prevCount = prevCall.get("call_count") || 0
+          const prevCount = prevCall.get(key)["call_count"] || 0
           await clubRef.set({[key]: {call_count: prevCount + 1}}, {merge: true})
         }
         newAuditionData[key] = "rejected"

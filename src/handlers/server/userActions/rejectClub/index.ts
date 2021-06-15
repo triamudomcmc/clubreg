@@ -21,7 +21,7 @@ export const rejectClub = async (req, res) => {
 
     await dataRef.update({audition: updatedItem})
     const prevCall = await clubRef.get()
-    const prevCount = prevCall.get("call_count") || 0
+    const prevCount = prevCall.get(req.body.clubID)["call_count"] || 0
     await clubRef.set({[req.body.clubID]: {call_count: prevCount + 1}}, {merge:true})
 
     return {status: true, report: "success"}
