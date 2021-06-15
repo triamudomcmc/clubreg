@@ -168,7 +168,7 @@ function DragableEntity({
         {...eventHandlers}
       >
         <motion.div className="bg-TUCMC-gray-700 absolute h-full w-full" initial="idle" whileTap="tap" variants={tapVariants}/>
-        <ListElement index={data.position} userData={data} editable={editable} editFunc={editFunc} callCount={callCount}/>
+        <ListElement position={index} index={data.position} userData={data} editable={editable} editFunc={editFunc} callCount={callCount}/>
       </motion.div>
     </li>
   );
