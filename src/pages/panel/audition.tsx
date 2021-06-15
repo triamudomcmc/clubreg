@@ -22,7 +22,7 @@ import PendingSection from "@components/panel/sections/PendingSection";
 import {CatLoader} from "@components/common/CatLoader";
 import {AnimatePresence, motion} from "framer-motion";
 import {WaitingScreen} from "@components/common/WaitingScreen";
-import {announceTime, editDataTime} from "@config/time";
+import {announceTime, breakLowerBound, breakUpperBound, editDataTime} from "@config/time";
 
 const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetStateAction<{}>>, setReservedPos: Dispatch<SetStateAction<{}>>, setToast, reFetch, setInitMem) => {
   const data = await fetchMembers(panelID)
@@ -107,8 +107,8 @@ const Audition = () => {
   const [editDep, setEditDep] = useState(false)
   const [pending ,setPending] = useState(false)
 
-  const upperBound = announceTime, lowerBound = editDataTime
-  const editable = !(new Date().getTime() > upperBound)
+  const upperBound = breakUpperBound, lowerBound = breakLowerBound
+  const editable = !(new Date().getTime() > announceTime)
 
   const timer = useTimer(lowerBound)
 

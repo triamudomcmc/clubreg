@@ -10,7 +10,8 @@ import DataModal from "@components/select/DataModal";
 import {Loader} from "@components/common/Loader";
 import {useTimer} from "@utilities/timers";
 import classnames from "classnames";
-import {announceTime, endRegClubTime} from "@config/time";
+import {announceTime, breakLowerBound, breakUpperBound, endRegClubTime} from "@config/time";
+import {WaitingScreen} from "@components/common/WaitingScreen";
 
 const Announce = () => {
   const {onReady, reFetch} = useAuth()
@@ -35,6 +36,8 @@ const Announce = () => {
     }
     return userData
   })
+
+  const upperBound = breakUpperBound, lowerBound = breakLowerBound
 
   const before = (new Date().getTime() < announceTime)
 
@@ -119,7 +122,7 @@ const Announce = () => {
 
 
   return (
-    (new Date().getTime() > endRegClubTime) && <PageContainer>
+    (new Date().getTime() > upperBound || new Date().getTime() < lowerBound) ? <PageContainer>
       <Loader display={loader}/>
       <ConfirmModal onAgree={() => {
         setDataModal(true)
@@ -186,7 +189,7 @@ const Announce = () => {
           {!before && bottomDesc}
         </div>}
       </div>
-    </PageContainer>
+    </PageContainer> : <WaitingScreen target={upperBound}/>
   )
 }
 
