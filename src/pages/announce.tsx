@@ -10,7 +10,7 @@ import DataModal from "@components/select/DataModal";
 import {Loader} from "@components/common/Loader";
 import {useTimer} from "@utilities/timers";
 import classnames from "classnames";
-import {announceTime, breakLowerBound, breakUpperBound, endRegClubTime} from "@config/time";
+import {announceTime, breakLowerBound, breakUpperBound, endLastRound, endRegClubTime, lastround} from "@config/time";
 import {WaitingScreen} from "@components/common/WaitingScreen";
 
 const Announce = () => {
@@ -30,8 +30,15 @@ const Announce = () => {
       if (userData.club !== "") {
         Router.push("/card")
       }
-      if (new Date().getTime() < endRegClubTime) {
+
+      if (new Date().getTime() < lastround){
+        return userData
+      }
+
+      if (new Date().getTime() < endLastRound) {
         Router.push("/select")
+      }else{
+        Router.push("/account")
       }
     }
     return userData
@@ -49,10 +56,10 @@ const Announce = () => {
   useEffect(() => {
     const currentTime = new Date().getTime()
 
-    if (currentTime < announceTime) {
+    if (currentTime < lastround) {
       setTimeout(() => {
-        Router.reload()
-      }, announceTime - currentTime)
+        Router.push("/select")
+      }, lastround - currentTime)
     }
   }, [])
 

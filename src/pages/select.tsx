@@ -29,7 +29,8 @@ import {clubMap} from "../config/clubMap";
 import {regClub} from "@client/userAction";
 import {CatLoader} from "@components/common/CatLoader";
 import {AnimatePresence, motion} from "framer-motion";
-import {endRegClubTime} from "@config/time";
+import {endLastRound, endRegClubTime, lastround} from "@config/time";
+import {useToast} from "@components/common/Toast/ToastContext";
 
 /*const blockContent = (dataObj) => {
   let newObj = {}
@@ -68,20 +69,29 @@ const Select = ({thumbPaths}) => {
   const [auditionList, setAuditionList] = useState(<></>)
   const [loader, setLoader] = useState(false)
   const [initclub, setInitclub] = useState(false)
+  const {addToast} = useToast()
 
   const auTrigger = useRef(null)
-  const noAu = false
-  const time = endRegClubTime
+  const noAu = (new Date().getTime() > lastround)
+  const time = endLastRound
 
   const {userData} = onReady((logged, userData) => {
     if (!logged) {
       Router.push("/auth")
     } else {
+
+      if (new Date().getTime() < lastround) {
+        Router.push("/announce")
+        return {userData}
+      }
+
       if (userData.club !== "") {
         Router.push("/card")
-      }
-      if (new Date().getTime() >= time) {
-        Router.push("/announce")
+      }else{
+        if (Object.keys(userData.audition).length <= 0 || new Date().getTime() > endLastRound) {
+          localStorage.setItem("alert","denied")
+          Router.push("/account")
+        }
       }
     }
     return {userData}
@@ -200,9 +210,9 @@ const Select = ({thumbPaths}) => {
             <div className="md:max-w-xs">
               <div className="flex flex-col items-center">
                 <h1 className="font-medium text-4xl">เลือกชมรม</h1>
-                <span className="text-sm tracking-tight">ภายในวันที่ 14 มิ.ย. 64</span>
+                <span className="text-sm tracking-tight">ภายในวันที่ 18 มิ.ย. 64</span>
               </div>
-              <div className="mt-6 w-full px-8">
+              <div className="mt-6 w-full px-8 min-w-[300px]">
                 <SelectSplash/>
               </div>
               <div className="space-y-6 mt-10 px-2">

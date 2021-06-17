@@ -1,8 +1,12 @@
 import {initData} from "@server/userActions/sharedFunctions";
 import {checkInputs} from "@server/userActions/rejectClub/functions";
 import {fetchSession} from "@server/fetchers/session";
+import {lastround} from "@config/time";
 
 export const rejectClub = async (req, res) => {
+
+  if (new Date().getTime() > lastround) return {status: false, report: "exceeded_time_limit"}
+
   const {logged, ID} = await fetchSession(req,res)
 
   if (!logged) return {status: false, report: "sessionError"}

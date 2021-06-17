@@ -2,8 +2,11 @@ import {generateCard, initData} from "@server/userActions/sharedFunctions";
 import {createNewAuditionData, updateClub, checkInputs} from "@server/userActions/confirmClub/functions";
 import {fetchSession} from "@server/fetchers/session";
 import {update} from "@server/tracker";
+import {endLastRound, lastround} from "@config/time";
 
 export const confirmClub = async (req, res) => {
+
+  if (new Date().getTime() > lastround) return {status: false, report: "exceeded_time_limit"}
 
   // check session
   const {logged, ID} = await fetchSession(req,res)

@@ -8,7 +8,7 @@ import RegisterSection from "@components/auth/RegisterSection";
 import {Loader} from "@components/common/Loader"
 import {useToast} from "@components/common/Toast/ToastContext";
 import {ForgotSection} from "@components/auth/ForgotSection";
-import {openTime} from "@config/time";
+import {endLastRound, lastround, openTime} from "@config/time";
 
 
 const Auth = ({query}) => {
@@ -28,7 +28,7 @@ const Auth = ({query}) => {
         return Router.push("/card")
       }
      if (!userData.club) {
-       if (new Date().getTime() < 1623690000000) {
+       if (new Date().getTime() > lastround && new Date().getTime() < endLastRound) {
          Router.push("/select")
        }else{
          Router.push("/announce")

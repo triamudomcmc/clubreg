@@ -74,6 +74,17 @@ const Account = () => {
 
   useEffect(() => {
     reFetchCred()
+
+    if (localStorage.getItem("alert") === "denied") {
+      addToast({
+        theme:"modern",
+        icon: "cross",
+        title: "คุณไม่มีสิทธิ์ในการเลือกชมรมในรอบนี้",
+        text: "สำหรับผู้ที่ไม่ได้มีการลงชื่อออดิชั่นชมรมมาก่อนหน้าหรือไม่ได้เลือกชมรมใดเลยในรอบแรก จะต้องรอสุ่มชมรมเท่านั้น",
+        lifeSpan: 10000
+      })
+      localStorage.setItem("alert","")
+    }
   }, [])
 
   const addBrow = async () => {
