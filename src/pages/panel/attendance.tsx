@@ -27,6 +27,8 @@ const Attendance = () => {
   const [initClub, setInitClub] = useState(true)
   const [files, setFiles] = useState([])
   const uploader = useRef(null)
+  const [sortMode, setSortMode] = useState("ascending")
+  const [searchContext, setSearchContext] = useState("")
 
   const userData = onReady((logged, userData) => {
     if (!logged) Router.push("/auth")
@@ -155,7 +157,7 @@ const Attendance = () => {
                   <h1 className="text-TUCMC-gray-900">ขาดทั้งหมด</h1>
                 </Button>
               </div>
-              <FilterSearch normal={false}/>
+              <FilterSearch normal={false} sortMode={sortMode} setSortMode={setSortMode} setSearchContext={setSearchContext}/>
             </div>
           </div>
         </div>
