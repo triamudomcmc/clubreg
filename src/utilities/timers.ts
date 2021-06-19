@@ -10,7 +10,7 @@ const addZero = (inum) => {
   return ('0' + num).slice(-2)
 }
 
-function convertMiliseconds(miliseconds) {
+export function convertMiliseconds(miliseconds) {
   let days, hours, minutes, seconds, total_hours, total_minutes, total_seconds;
 
   total_seconds = Math.floor(miliseconds / 1000);
