@@ -27,16 +27,16 @@ export const Button = ({children, className = "", type = "button", href = "", on
   }
 
   return (
-    type === "div" ? href == "" ?<motion.div onClick={trackedClick} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}} whileTap={{scale: 0.95}}>
+    type === "div" ? href == "" ?<motion.div onClick={trackedClick} className={classnames(className,defaultAttributes)} whileHover={!disabled && {scale: 1.05}} whileTap={!disabled && {scale: 0.95}}>
       {children}
-    </motion.div>: <motion.div onClick={() => {trackedClick();Router.push(href)}} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}} whileTap={{scale: 0.95}}>
+    </motion.div>: <motion.div onClick={() => {trackedClick();Router.push(href)}} className={classnames(className,defaultAttributes)} whileHover={!disabled && {scale: 1.05}} whileTap={!disabled && {scale: 0.95}}>
       {children}
     </motion.div> : onClick === null && type === "button" ?
-      <motion.button onClick={() => {trackedClick();Router.push(href)}} type={type} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}} whileTap={{scale: 0.95}}>
+      <motion.button onClick={() => {trackedClick();Router.push(href)}} type={type} className={classnames(className,defaultAttributes)} whileHover={!disabled && {scale: 1.05}} whileTap={!disabled && {scale: 0.95}}>
         {children}
       </motion.button> : href == "" ? <motion.button onClick={trackedClick} type={type} className={classnames(className,defaultAttributes)} whileHover={!disabled && {scale: 1.05}} whileTap={!disabled && {scale: 0.95}}>
         {children}
-      </motion.button> : <motion.button onClick={() => {trackedClick();Router.push(href)}} type={type} className={classnames(className,defaultAttributes)} whileHover={{scale: 1.05}} whileTap={{scale: 0.95}}>
+      </motion.button> : <motion.button onClick={() => {trackedClick();Router.push(href)}} type={type} className={classnames(className,defaultAttributes)} whileHover={!disabled && {scale: 1.05}} whileTap={!disabled && {scale: 0.95}}>
         {children}
       </motion.button>
   )

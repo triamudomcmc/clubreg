@@ -256,7 +256,7 @@ const Attendance = () => {
                   ref={uploader}
                   onChange={uploadPhoto}
                   type="file"
-                  accept="image/png, image/jpeg"
+                  accept="image/png, image/jpeg, image/heif"
                 />
                 <Button onClick={() => {uploader.current.click()}} className="border border-gray-200 flex items-center w-full justify-center space-x-1 py-3 text-TUCMC-gray-600 rounded-md mt-3">
                   <PlusCircleIcon className="w-[1.1rem] h-[1.1rem]"/>
