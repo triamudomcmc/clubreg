@@ -18,7 +18,7 @@ export const Card = ({ width, userData, clubData}) => {
   useEffect(() => {
     if (userData && userData.cardID) {
       const canvas = document.getElementById('qrCode')
-      QRCode.toCanvas(canvas, `https://preview.tucmc.dev/card/${userData.cardID}`, { errorCorrectionLevel: 'L', margin: 1.2 })
+      QRCode.toCanvas(canvas, `https://register.clubs.triamudom.ac.th/card/${userData.cardID}`, { errorCorrectionLevel: 'L', margin: 1.2 })
     }
   }, [userData])
 
