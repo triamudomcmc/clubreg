@@ -7,7 +7,7 @@ import {Button} from "@components/common/Inputs/Button";
 import {isEmpty, searchKeyword, sortNumber, sortThaiDictionary} from "@utilities/object";
 import {CatLoader} from "@components/common/CatLoader";
 import {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
-import {CheckCircleIcon, PaperClipIcon, PlusCircleIcon, XCircleIcon} from "@heroicons/react/solid";
+import {CheckCircleIcon, PaperClipIcon, PlusCircleIcon, RefreshIcon, XCircleIcon} from "@heroicons/react/solid";
 import {FilterSearch} from "@components/common/Inputs/Search";
 import {useAuth} from "@client/auth";
 import Router from "next/router";
@@ -70,6 +70,7 @@ const Attendance = () => {
   const {addToast} = useToast()
   const [rawSorted, setRawSorted] = useState([])
   const [sortedData, setSortedData] = useState([])
+  const [del, setDel] = useState([])
 
   const userData = onReady((logged, userData) => {
     if (!logged) Router.push("/auth")
@@ -177,6 +178,8 @@ const Attendance = () => {
     const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
     const req = await request("database/files","deleteFile",{panelID: currentID, id: id})
 
+    setDel(prevState => ([...prevState, id]))
+
     if (req.status) {
       refetch()
     }
@@ -222,26 +225,26 @@ const Attendance = () => {
                 {files.map((item, index) => {
                   if (index == 0) {
                     return<div className="flex justify-between py-3 px-4">
-                      <div className="flex justify-between space-x-3">
+                      <div className="flex justify-between space-x-3 flex-shrink">
                         <PaperClipIcon className="w-6 h-6 text-gray-400"/>
-                        <h1 className="text-gray-900 text-[16px]">
+                        <h1 className="text-gray-900 text-[16px] truncate w-[70vw] max-w-[770px]">
                           {item.filename}
                         </h1>
                       </div>
-                      <div>
-                        {item.loading ? <span className="text-TUCMC-gray-500 animate-pulse">Uploading</span> : <span onClick={() => {deleteID(item.id)}} className="text-TUCMC-gray-400 cursor-pointer">ลบ</span>}
+                      <div className="flex items-center">
+                        {item.loading ? <span className="text-TUCMC-gray-500 animate-pulse">Uploading</span> : del.includes(item.id) ? <RefreshIcon className="text-TUCMC-gray-400 animate-spin"/> : <span onClick={() => {deleteID(item.id)}} className="text-TUCMC-gray-400 cursor-pointer">ลบ</span>}
                       </div>
                     </div>
                   }else{
                     return <div className="flex justify-between py-3 px-4 border-t border-gray-200">
                       <div className="flex justify-between space-x-3">
                         <PaperClipIcon className="w-6 h-6 text-gray-400"/>
-                        <h1 className="text-gray-900 text-[16px]">
+                        <h1 className="text-gray-900 text-[16px] truncate w-[70vw] max-w-[770px]">
                           {item.filename}
                         </h1>
                       </div>
-                      <div>
-                        {item.loading ? <span className="text-TUCMC-gray-500 animate-pulse">Uploading</span> : <span onClick={() => {deleteID(item.id)}} className="text-TUCMC-gray-400 cursor-pointer">ลบ</span>}
+                      <div className="flex items-center">
+                        {item.loading ? <span className="text-TUCMC-gray-500 animate-pulse">Uploading</span> : del.includes(item.id) ? <RefreshIcon className="text-TUCMC-gray-400 animate-spin"/> : <span onClick={() => {deleteID(item.id)}} className="text-TUCMC-gray-400 cursor-pointer">ลบ</span>}
                       </div>
                     </div>
                   }
