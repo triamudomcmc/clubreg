@@ -7,7 +7,7 @@ export const performUpload = async (req, ID) => {
     projectId: process.env.PROJECT_ID,
     credentials: {
       client_email: process.env.FCERT_CLIENT_EMAIL,
-      private_key: process.env.FCERT_PRIVATE_KEY,
+      private_key: process.env.FCERT_PRIVATE_KEY.replace(/\\n/g, '\n'),
     },
   });
 
@@ -23,7 +23,7 @@ export const performUpload = async (req, ID) => {
   await initialisedDB.collection("files").add({
     timestamp: new Date().getTime(),
     owner: req.body.panelID,
-    filename: req.body.file,
+    filename: decodeURI(req.body.file),
     bucketName: tempFileName
   })
 
