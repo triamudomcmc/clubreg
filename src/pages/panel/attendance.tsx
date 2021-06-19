@@ -7,7 +7,7 @@ import {Button} from "@components/common/Inputs/Button";
 import {isEmpty, searchKeyword, sortNumber, sortThaiDictionary} from "@utilities/object";
 import {CatLoader} from "@components/common/CatLoader";
 import {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
-import {CheckCircleIcon, PaperClipIcon, PlusCircleIcon, RefreshIcon, XCircleIcon} from "@heroicons/react/solid";
+import {CheckCircleIcon, CloudIcon, PaperClipIcon, PlusCircleIcon, RefreshIcon, XCircleIcon} from "@heroicons/react/solid";
 import {FilterSearch} from "@components/common/Inputs/Search";
 import {useAuth} from "@client/auth";
 import Router from "next/router";
@@ -232,7 +232,7 @@ const Attendance = () => {
                         </h1>
                       </div>
                       <div className="flex items-center">
-                        {item.loading ? <span className="text-TUCMC-gray-500 animate-pulse">Uploading</span> : del.includes(item.id) ? <RefreshIcon className="text-TUCMC-gray-400 animate-spin"/> : <span onClick={() => {deleteID(item.id)}} className="text-TUCMC-gray-400 cursor-pointer">ลบ</span>}
+                        {item.loading ? <CloudIcon className="text-TUCMC-gray-500 animate-pulse w-5 h-5"/> : del.includes(item.id) ? <RefreshIcon className="text-TUCMC-gray-400 animate-spin h-5 w-5"/> : <span onClick={() => {deleteID(item.id)}} className="text-TUCMC-gray-400 cursor-pointer">ลบ</span>}
                       </div>
                     </div>
                   }else{
@@ -244,7 +244,7 @@ const Attendance = () => {
                         </h1>
                       </div>
                       <div className="flex items-center">
-                        {item.loading ? <span className="text-TUCMC-gray-500 animate-pulse">Uploading</span> : del.includes(item.id) ? <RefreshIcon className="text-TUCMC-gray-400 animate-spin"/> : <span onClick={() => {deleteID(item.id)}} className="text-TUCMC-gray-400 cursor-pointer">ลบ</span>}
+                        {item.loading ? <CloudIcon className="text-TUCMC-gray-500 animate-pulse w-5 h-5"/> : del.includes(item.id) ? <RefreshIcon className="text-TUCMC-gray-400 animate-spin h-5 w-5"/> : <span onClick={() => {deleteID(item.id)}} className="text-TUCMC-gray-400 cursor-pointer">ลบ</span>}
                       </div>
                     </div>
                   }
