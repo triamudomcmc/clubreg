@@ -1,6 +1,7 @@
 import {NextApiRequest, NextApiResponse} from "next";
 import initialisedDB from "@server/firebase-admin";
 import {fetchFiles} from "@server/attendance/fetchFiles";
+import {deleteFile} from "@server/attendance/deleteFile";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
@@ -13,6 +14,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       switch (req.body.action) {
         case "fetchFiles": {
           const data = await fetchFiles(req, res)
+          res.json(data)
+        }
+          break
+        case "deleteFile": {
+          const data = await deleteFile(req, res)
           res.json(data)
         }
           break

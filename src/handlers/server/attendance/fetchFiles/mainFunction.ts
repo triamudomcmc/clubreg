@@ -7,5 +7,5 @@ export const performFetchFiles = async (req, ID) => {
 
   const res = files.docs.filter(i => (i.get("timestamp") >= prevMon))
 
-  return res.map(snap => (snap.data()))
+  return res.map(snap => ({...snap.data(), id: snap.id}))
 }
