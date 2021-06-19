@@ -8,8 +8,23 @@ import {
   StarIcon,
 } from "@heroicons/react/solid";
 import { useAuth } from "@client/auth";
+import * as fs from "fs";
 import { fetchAClub } from "@client/fetcher/club";
 import Router from "next/router";
+import { Button } from "@components/common/Inputs/Button";
+import { GetStaticProps } from "next";
+import classnames from "classnames";
+
+export const getStaticProps: GetStaticProps = async () => {
+  const data = fs.readFileSync("./_map/links.json");
+  const links = JSON.parse(data.toString());
+
+  return {
+    props: {
+      links: links,
+    },
+  };
+};
 
 const fetchClubData = async (
   clubID: string,
@@ -19,7 +34,7 @@ const fetchClubData = async (
   setClubData(data);
 };
 
-const Page = () => {
+const Page = ({ links }) => {
   const { width } = useWindowDimensions();
   const { onReady } = useAuth();
   const [clubData, setClubData] = useState({
@@ -29,6 +44,8 @@ const Page = () => {
     contact3: {},
     message: "",
   });
+
+  const [link, setLink] = useState("");
 
   const userData = onReady((logged, userData) => {
     if (!logged) {
@@ -46,6 +63,7 @@ const Page = () => {
   useEffect(() => {
     if (userData && userData.club) {
       fetchClubData(userData.club, setClubData);
+      setLink(links[userData.club] || "");
     }
   }, [userData]);
 
@@ -74,10 +92,23 @@ const Page = () => {
     <PageContainer>
       <div>
         <div className="flex flex-col max-w-md mx-auto mt-10 space-y-3 px-7">
-          <div className="flex items-center justify-center p-5 space-x-2 bg-white border rounded-md cursor-pointer border-TUCMC-green-500 text-TUCMC-green-500">
-            <ClipboardCopyIcon className="w-5 h-5" />
-            <span>เข้าเรียนออนไลน์</span>
-          </div>
+          <Button
+            disabled={link === ""}
+            href={link}
+            className={classnames(
+              "flex items-center justify-center p-5 space-x-2 bg-white border rounded-md cursor-pointer ",
+              link === ""
+                ? "border-TUCMC-gray-500 text-TUCMC-gray-500"
+                : "border-TUCMC-green-500 text-TUCMC-green-500"
+            )}
+          >
+            <ClipboardCopyIcon
+              className={classnames("w-5 h-5", link === "" && "hidden")}
+            />
+            <span>
+              {link === "" ? "ไม่พบข้อมูลห้องเรียน" : "เข้าเรียนออนไลน์"}
+            </span>
+          </Button>
         </div>
         <div className="flex justify-center py-10">
           <Card width={cardWidth} userData={userData} clubData={clubData} />
