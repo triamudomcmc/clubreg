@@ -164,7 +164,7 @@ const Report = () => {
   }, [searchContext, rawSorted])
 
   return (
-    (new Date().getTime() > 1624183200000) ? <PageContainer hide={!initmember}>
+    <PageContainer hide={!initmember}>
       <AnimatePresence>
         {initmember ? <>
           <div className="max-w-6xl pt-10 mx-auto pb-14">
@@ -318,7 +318,7 @@ const Report = () => {
           </div>
         </> : <CatLoader key="cat"/>}
       </AnimatePresence>
-    </PageContainer> : <WaitingScreen target={1624183200000}/>
+    </PageContainer>
   );
 };
 
