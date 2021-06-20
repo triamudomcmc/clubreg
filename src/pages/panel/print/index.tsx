@@ -161,7 +161,7 @@ const Page = () => {
         {display}
       </div>
       {memberData.map((chunk, chunckc) => {
-        return <div ref={e => {page.current[chunckc] = e}} className="space-y-6 absolute w-[680px] font-sarabun">
+        return <div ref={e => {page.current[chunckc] = e}} className="space-y-6 fixed w-[680px] font-sarabun">
           <div className="flex flex-col items-center">
             <h1 className="text-center font-semibold text-[20px]">รายชื่อนักเรียนชมรม {current && clubMap[current]}</h1>
             <p className="text-[20px]">รหัสชมรม {current} จำนวน {count} คน</p>
