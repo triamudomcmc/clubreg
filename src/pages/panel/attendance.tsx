@@ -42,7 +42,9 @@ const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetState
 
   if (data.status) {
     setMemberData(data.data.filter(i => (i.level !== "9")))
-    setInitMem(true)
+    setTimeout(() => {
+      setInitMem(true)
+    }, 1000)
   } else {
     switch (data.report) {
       case "sessionError":
@@ -67,10 +69,11 @@ const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetState
   }
 }
 
-const fetchCheckData = async (panelID: string, setCheckData, addToast, reFetch) => {
+const fetchCheckData = async (panelID: string, setCheckData, addToast, reFetch, setInit) => {
   const data = await fetchChecks(panelID)
   if (data.status) {
     setCheckData(data.data)
+    setInit(true)
   } else {
     switch (data.report) {
       case "sessionError":
@@ -98,7 +101,7 @@ const fetchCheckData = async (panelID: string, setCheckData, addToast, reFetch) 
 const Attendance = () => {
 
   const {onReady, reFetch} = useAuth()
-  const [initClub, setInitClub] = useState(true)
+  const [initClub, setInitClub] = useState(false)
   const [files, setFiles] = useState([])
   const uploader = useRef(null)
   const [sortMode, setSortMode] = useState("ascending")
@@ -204,7 +207,7 @@ const Attendance = () => {
   const refetch = () => {
     const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
     fetchFilesData(setFiles, currentID)
-    fetchCheckData(currentID, setCheckData, addToast, reFetch)
+    fetchCheckData(currentID, setCheckData, addToast, reFetch, setInitClub)
   }
 
   useEffect(() => {
