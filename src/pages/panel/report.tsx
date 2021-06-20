@@ -15,6 +15,7 @@ import classnames from "classnames";
 import css from "@components/panel/element/bubble.module.css";
 import {CatLoader} from "@components/common/CatLoader";
 import {AnimatePresence, motion} from "framer-motion";
+import {WaitingScreen} from "@components/common/WaitingScreen";
 
 const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetStateAction<{}>>, setToast, reFetch, setInitMem) => {
   const data = await fetchMembers(panelID, false)
@@ -163,7 +164,7 @@ const Report = () => {
   }, [searchContext, rawSorted])
 
   return (
-    <PageContainer hide={!initmember}>
+    (new Date().getTime() > 1624183200000) ? <PageContainer hide={!initmember}>
       <AnimatePresence>
         {initmember ? <>
           <div className="max-w-6xl pt-10 mx-auto pb-14">
@@ -317,7 +318,7 @@ const Report = () => {
           </div>
         </> : <CatLoader key="cat"/>}
       </AnimatePresence>
-    </PageContainer>
+    </PageContainer> : <WaitingScreen target={1624183200000}/>
   );
 };
 
