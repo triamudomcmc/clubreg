@@ -22,8 +22,8 @@ export const CheckElement = ({userData, pendingUpdate, setPendingUpdate}) => {
   }, [action])
 
   useEffect(() => {
-    if (action !== pendingUpdate[userData.student_id]) {
-      setAction({action: pendingUpdate[userData.student_id]})
+    if (action.action !== pendingUpdate[userData.student_id]?.action) {
+      setAction({action: pendingUpdate[userData.student_id]?.action})
     }
     if (userData.student_id in pendingUpdate) return
     reset()

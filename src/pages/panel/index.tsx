@@ -160,23 +160,17 @@ const Account = () => {
           </div>
         </div>
         <div className="pt-8 pb-20 px-4 max-w-6xl mx-auto">
-          {clubData.audition ? <div className="flex space-x-1 max-w-xl mx-auto">
+          <div className="flex space-x-1 max-w-xl mx-auto">
               <div className="relative w-1/2">
-                <Button type="div" href="/panel/audition"
+                <Button type="div" href="/panel/attendance"
                         className="flex items-center justify-center bg-TUCMC-pink-400 rounded-lg shadow-sm px-4 py-3.5 text-white space-x-2">
-                  <ClipboardCheckIcon className="w-5 h-5"/><span>ผลการ Audition</span>
+                  <ClipboardCheckIcon className="w-5 h-5"/><span>รายงานการเข้าเรียน</span>
                 </Button>
               </div>
               <Button href="/panel/report" type="div"
                       className="flex items-center justify-center bg-TUCMC-white rounded-lg shadow-sm px-4 py-3.5 w-1/2 text-TUCMC-gray-600 space-x-2 shadow-md cursor-pointer">
                 <UserGroupIcon className="w-6 h-6"/><span>รายชื่อสมาชิก</span></Button>
-            </div> :
-            <Button href="/panel/report" type="div" className="max-w-xl mx-auto">
-              <div
-                className="flex items-center justify-center bg-TUCMC-white rounded-lg shadow-sm px-4 py-3.5 text-TUCMC-gray-600 space-x-2 shadow-md cursor-pointer">
-                <UserGroupIcon className="w-6 h-6"/><span>รายชื่อสมาชิก</span></div>
-            </Button>
-          }
+            </div>
           <div className="flex flex-col mt-20 space-y-14 px-2 md:px-4">
             <div>
               <h1 className="text-xl border-b border-gray-200 pb-4">ข้อมูลชมรม</h1>

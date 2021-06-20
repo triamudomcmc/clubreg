@@ -7,7 +7,15 @@ import {Button} from "@components/common/Inputs/Button";
 import {isEmpty, searchKeyword, sortNumber, sortThaiDictionary} from "@utilities/object";
 import {CatLoader} from "@components/common/CatLoader";
 import {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
-import {CheckCircleIcon, CloudIcon, PaperClipIcon, PlusCircleIcon, RefreshIcon, XCircleIcon} from "@heroicons/react/solid";
+import {
+  ArrowLeftIcon,
+  CheckCircleIcon,
+  CloudIcon,
+  PaperClipIcon,
+  PlusCircleIcon,
+  RefreshIcon,
+  XCircleIcon
+} from "@heroicons/react/solid";
 import {FilterSearch} from "@components/common/Inputs/Search";
 import {useAuth} from "@client/auth";
 import Router from "next/router";
@@ -18,6 +26,9 @@ import {useToast} from "@components/common/Toast/ToastContext";
 import {PendingElement} from "@components/panel/element/PendingElement";
 import {CheckElement} from "@components/panel/element/CheckElement";
 import {isNumeric} from "@utilities/texts";
+import {Ellipsis} from "@vectors/Loaders/Ellipsis";
+import {fetchChecks, submitChecks} from "@client/fetcher/checks";
+import {getPrevMonday} from "@config/time";
 
 const fetchFilesData = async (fileUpdate, panelID) => {
   const data = await fetchFiles(panelID)
@@ -56,6 +67,34 @@ const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetState
   }
 }
 
+const fetchCheckData = async (panelID: string, setCheckData, addToast, reFetch) => {
+  const data = await fetchChecks(panelID)
+  if (data.status) {
+    setCheckData(data.data)
+  } else {
+    switch (data.report) {
+      case "sessionError":
+        addToast({
+          theme: "modern",
+          icon: "cross",
+          title: "พบข้อผิดพลาดของเซสชั่น",
+          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
+          crossPage: true
+        })
+        reFetch()
+        break
+      case "invalidPermission":
+        addToast({
+          theme: "modern",
+          icon: "cross",
+          title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
+          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช."
+        })
+        break
+    }
+  }
+}
+
 const Attendance = () => {
 
   const {onReady, reFetch} = useAuth()
@@ -71,6 +110,8 @@ const Attendance = () => {
   const [rawSorted, setRawSorted] = useState([])
   const [sortedData, setSortedData] = useState([])
   const [del, setDel] = useState([])
+  const [pending ,setPending] = useState(false)
+  const [checkData, setCheckData] = useState({})
 
   const userData = onReady((logged, userData) => {
     if (!logged) Router.push("/auth")
@@ -164,6 +205,7 @@ const Attendance = () => {
   const refetch = () => {
     const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
     fetchFilesData(setFiles, currentID)
+    fetchCheckData(currentID, setCheckData, addToast, reFetch)
   }
 
   useEffect(() => {
@@ -188,7 +230,7 @@ const Attendance = () => {
   const allpass = () => {
     let obj = {}
     memberData.forEach(item => {
-      obj[item.student_id] = "passed"
+      obj[item.student_id] = {action: "passed"}
     })
     setPendingUpdate(obj)
   }
@@ -196,9 +238,79 @@ const Attendance = () => {
   const allfailed = () => {
     let obj = {}
     memberData.forEach(item => {
-      obj[item.student_id] = "failed"
+      obj[item.student_id] = {action: "failed"}
     })
     setPendingUpdate(obj)
+  }
+
+  useEffect(() => {
+    if (!isEmpty(checkData)) {
+      setPendingUpdate(checkData)
+    }
+  },[checkData])
+
+  const submitCheck = async () => {
+    const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
+    setPending(true)
+
+    if (Object.keys(pendingUpdate).length < memberData.length) {
+      addToast({
+        theme: "modern",
+        icon: "cross",
+        title: "ข้อมูลที่จะอัพเดทไม่ถูกต้อง",
+        text: "กรุณาเลือกสถานะให้สมาชิกทั้งหมดก่อนกดส่งข้อมูล"
+      })
+      setPending(false)
+      return
+    }
+
+    const res = await submitChecks(currentID, pendingUpdate)
+    if (res.status) {
+      addToast({
+        theme: "modern",
+        icon: "tick",
+        title: "อัพเดทข้อมูลสำเร็จแล้ว",
+        text: "ข้อมูลที่ถูกส่งไป ได้รับการอัพเดทบนฐานข้อมูลแล้ว"
+      })
+    }else{
+      switch (res.report) {
+        case "sessionError":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "พบข้อผิดพลาดของเซสชั่น",
+            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
+            crossPage: true
+          })
+          reFetch()
+          break
+        case "invalidPermission":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
+            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช."
+          })
+          break
+      }
+    }
+    setPending(false)
+  }
+
+  const prevMonday = new Date(getPrevMonday(new Date().getTime()))
+  const month = {
+      1: "มกราคม",
+      2: "กุมภาพันธ์",
+      3: "มีนาคม",
+      4: "เมษายน",
+      5: "พฤษภาคม",
+      6: "มิถุนายน",
+      7: "กรกฎาคม",
+      8: "สิงหาคม",
+      9: "กันยายน",
+      10: "ตุลาคม",
+      11: "พฤศจิกายน",
+      12: "ธันวาคม"
   }
 
   return (
@@ -212,7 +324,7 @@ const Attendance = () => {
                 <div className="flex justify-end w-full h-full rounded-lg bg-TUCMC-gray-700">
                   <div className="flex justify-center w-full py-[0.54rem] overflow-clip overflow-hidden">
                     <span
-                      className="text-white whitespace-nowrap">วันจันทร์ที่ 21 มิถุนายน 2564</span>
+                      className="text-white whitespace-nowrap">วันจันทร์ที่ {prevMonday.getDate()} {month[prevMonday.getMonth() + 1]} {prevMonday.getFullYear() + 543}</span>
                   </div>
                 </div>
               </div>
@@ -283,13 +395,25 @@ const Attendance = () => {
                 <FilterSearch normal={false} sortMode={sortMode} setSortMode={setSortMode} setSearchContext={setSearchContext}/>
               </div>
             </div>
-            <div className="space-y-2 py-8 mb-20">
+            <div className="space-y-2 py-8 mb-6">
               {
                 sortedData.length > 0 ? sortedData.map((item, index) => {
                   return <CheckElement key={`pending-${item.student_id}`} userData={item} pendingUpdate={pendingUpdate}
                                          setPendingUpdate={setPendingUpdate}/>
                 }) : <h1 className="text-center mt-20 mb-20 text-TUCMC-gray-600">ขณะนี้ไม่มีรายชื่อที่รอคำตอบรับ</h1>
               }
+            </div>
+            <div className="flex justify-between mb-20">
+              <div onClick={() => {
+                Router.push("/panel")
+              }} className="flex cursor-pointer items-center space-x-1">
+                <ArrowLeftIcon className="w-4 h-4"/>
+                <h1>ย้อนกลับ</h1>
+              </div>
+              <Button disabled={pending} onClick={!pending && submitCheck} className={classnames("px-10 text-white rounded-full bg-TUCMC-pink-400", !pending ? "py-3" : "py-[8px] cursor-default")}>
+                <span className={classnames(pending && "hidden")}>ยืนยัน</span>
+                <Ellipsis className={classnames("w-[2.4rem] h-8", !pending && "hidden")}/>
+              </Button>
             </div>
           </div>
         </div>
