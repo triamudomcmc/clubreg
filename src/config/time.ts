@@ -16,5 +16,5 @@ export const getPrevMonday = () => {
 
   prevMonday.setDate(prevMonday.getDate() - (prevMonday.getDay() + 6) % 7);
   const timePart = ((prevMonday.getHours()) * 60 * 60 * 1000) + ((prevMonday.getMinutes()) * 60 * 1000) + ((prevMonday.getSeconds()) * 1000) + prevMonday.getMilliseconds()
-  return prevMonday.getTime() - timePart
+  return prevMonday.getTime() - timePart - ((7 + prevMonday.getTimezoneOffset()) * 60 * 60 * 1000)
 }
