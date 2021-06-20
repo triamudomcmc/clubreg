@@ -23,7 +23,7 @@ export const login = async (stdID, password, live, fingerPrint, req, res) => {
 
   const clubID = dataDoc.get("club")
 
-  if (dataDoc.get("club") !== "" &&  !dataDoc.get("cardID")) {
+  if (dataDoc.get("club") !== "" &&  !dataDoc.get("cardID") && dataDoc.get("level") !== "9") {
     const data = await initialisedDB.collection("clubs").doc("mainData").get()
     const cardId = await generateCard(dataDoc, data.data()[clubID], {body: {clubID: clubID}})
     await initialisedDB.collection("data").doc(userDoc.get("dataRefID")).update("cardID", cardId.id)
