@@ -104,9 +104,15 @@ const Page = () => {
 
 
   const redownload = () => {
+    setDisplay(<h1 className="animate-pulse">กำลังเตรียมไฟล์...</h1>)
     try {
       // @ts-ignore
-      storedPDF.download(`รายชื่อ${current}.pdf`)
+      storedPDF.download(`รายชื่อ${current}.pdf`, () => {
+        setDisplay(<div className="flex flex-col items-center">
+          <h1 className="text-TUCMC-gray-800">สร้างเอกสารเสร็จสมบูรณ์</h1>
+          <p className="text-TUCMC-gray-600">หากเอกสารยังไม่ถูกดาวน์โหลด <a onClick={redownload} className="cursor-pointer hover:text-TUCMC-pink-400 underline">กดที่นี่</a></p>
+        </div>)
+      })
     } catch (_) {
 
     }
