@@ -16,6 +16,9 @@ module.exports = {
             ],
             texts: [
                 'Bai Jamjuree'
+            ],
+            sarabun: [
+                'TH Sarabun New'
             ]
         },
         extend: {
@@ -202,6 +205,24 @@ module.exports = {
                         fontWeight: '400',
                         fontDisplay: 'swap',
                         src: 'local("Bai Jamjuree"), local("BaiJamjuree"), url("/assets/fonts/BaiJamjuree-Regular.woff2") format("woff2")',
+                    },
+                },
+                {
+                    '@font-face': {
+                        fontFamily: 'TH Sarabun New',
+                        fontStyle: 'normal',
+                        fontWeight: '400',
+                        fontDisplay: 'swap',
+                        src: 'local("TH Sarabun New"), local("THSarabunNew"), url("/assets/fonts/THSarabunNew.woff2") format("woff2")',
+                    },
+                },
+                {
+                    '@font-face': {
+                        fontFamily: 'TH Sarabun New',
+                        fontStyle: 'normal',
+                        fontWeight: '600',
+                        fontDisplay: 'swap',
+                        src: 'local("TH Sarabun New Bold"), local("THSarabunNew-Bold"), url("/assets/fonts/THSarabunNew-Bold.woff2") format("woff2")',
                     },
                 },
             ])

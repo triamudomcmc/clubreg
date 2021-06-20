@@ -18,3 +18,11 @@ export const sliceArrN = (arr,n) => {
   }
   return chunks
 }
+
+export function sliceArrayIntoGroups(arr, size) {
+  var step = 0, sliceArr = [], len = arr.length;
+  while (step < len) {
+    sliceArr.push(arr.slice(step, step += size));
+  }
+  return sliceArr;
+}

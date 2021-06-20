@@ -16,6 +16,7 @@ import css from "@components/panel/element/bubble.module.css";
 import {CatLoader} from "@components/common/CatLoader";
 import {AnimatePresence, motion} from "framer-motion";
 import {WaitingScreen} from "@components/common/WaitingScreen";
+import Link from "next/link"
 
 const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetStateAction<{}>>, setToast, reFetch, setInitMem) => {
   const data = await fetchMembers(panelID, false)
@@ -292,11 +293,13 @@ const Report = () => {
           <div className="max-w-6xl mx-auto">
             <div className="relative flex justify-center">
               <div className="absolute w-full px-4 pb-8 -top-8">
-                <div
-                  className="flex items-center justify-center max-w-md p-5 mx-auto space-x-2 bg-white border border-gray-300 rounded-md cursor-not-allowed text-TUCMC-gray-700">
-                  <ArrowCircleDownIcon className="w-5 h-5"/>
-                  <span>ดาวน์โหลดรายชื่อสมาชิก</span>
-                </div>
+                <a href="/panel/print" target="_blank">
+                  <div
+                    className="flex items-center justify-center max-w-md p-5 mx-auto space-x-2 bg-white border border-gray-300 rounded-md cursor-pointer text-TUCMC-gray-700">
+                    <ArrowCircleDownIcon className="w-5 h-5"/>
+                    <span>ดาวน์โหลดรายชื่อสมาชิก</span>
+                  </div>
+                </a>
               </div>
             </div>
           </div>

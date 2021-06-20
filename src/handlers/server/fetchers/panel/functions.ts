@@ -29,6 +29,7 @@ const filterMembersData = (members, req) => {
         firstname: obj.firstname,
         lastname: obj.lastname,
         student_id: obj.student_id,
+        number: obj.number,
         level: obj.level,
         room: obj.room
       }
