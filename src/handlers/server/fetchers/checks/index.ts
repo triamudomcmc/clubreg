@@ -4,7 +4,7 @@ import initialisedDB from "@server/firebase-admin";
 import {getPrevMonday} from "@config/time";
 
 const performFetchChecks = async (req, res) => {
-  const lastmonday = getPrevMonday(new Date().getTime())
+  const lastmonday = getPrevMonday()
 
   const checks = await initialisedDB.collection("attendance").doc(lastmonday.toString()).get()
 

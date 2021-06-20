@@ -296,7 +296,7 @@ const Attendance = () => {
     setPending(false)
   }
 
-  const prevMonday = new Date(getPrevMonday(new Date().getTime()))
+  const prevMonday = new Date(getPrevMonday())
   const month = {
       1: "มกราคม",
       2: "กุมภาพันธ์",

@@ -4,7 +4,7 @@ import {getPrevMonday} from "@config/time";
 import initialisedDB from "@server/firebase-admin";
 
 const performSubmitFetch = async (req, ID) => {
-  const lastmonday = getPrevMonday(new Date().getTime())
+  const lastmonday = getPrevMonday()
 
   await initialisedDB.collection("attendance").doc(lastmonday.toString()).set({
     [req.body.panelID]: req.body.data
