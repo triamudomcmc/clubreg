@@ -11,9 +11,11 @@ export const lastround = 1623949200000
 export const endLastRound = 1624035600000
 
 
-export const getPrevMonday = (time: number) => {
-  let prevMonday = new Date(time)
+export const getPrevMonday = () => {
+  let prevMonday = new Date()
+  const offset = prevMonday.getTimezoneOffset()
+
   prevMonday.setDate(prevMonday.getDate() - (prevMonday.getDay() + 6) % 7);
   const timePart = ((prevMonday.getHours()) * 60 * 60 * 1000) + ((prevMonday.getMinutes()) * 60 * 1000) + ((prevMonday.getSeconds()) * 1000) + prevMonday.getMilliseconds()
-  return prevMonday.getTime() - timePart
+  return prevMonday.getTime() - timePart - (offset * 60 * 1000)
 }

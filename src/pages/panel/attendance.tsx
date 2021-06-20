@@ -184,7 +184,6 @@ const Attendance = () => {
     setFiles(prev => ([...prev, {filename: file.name, loading: true}]))
 
     Object.entries({ ...fields, file }).forEach(([key, value]) => {
-      console.log(key ,value)
       // @ts-ignore
       formData.append(key, value);
     });
