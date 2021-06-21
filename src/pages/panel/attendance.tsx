@@ -6,7 +6,7 @@ import Modal from "@components/common/Modals";
 import {Button} from "@components/common/Inputs/Button";
 import {isEmpty, searchKeyword, sortNumber, sortThaiDictionary} from "@utilities/object";
 import {CatLoader} from "@components/common/CatLoader";
-import {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
+import React, {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
 import {
   ArrowLeftIcon,
   CheckCircleIcon,
@@ -107,6 +107,7 @@ const Attendance = () => {
   const [sortMode, setSortMode] = useState("ascending")
   const [searchContext, setSearchContext] = useState("")
   const [initmember, setInitMember] = useState(false)
+  const [accept, setAccept] = useState(false)
   const [pendingUpdate, setPendingUpdate] = useState({})
   const [memberData, setMemberData] = useState([])
   const {addToast} = useToast()
@@ -254,6 +255,17 @@ const Attendance = () => {
   const submitCheck = async () => {
     const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
     setPending(true)
+
+    if (!accept) {
+      addToast({
+        theme: "modern",
+        icon: "cross",
+        title: "กรุณากดยืนยันว่าข้อมูลทั้งหมดได้รับการตรวจสอบจากครูที่ปรึกษาแล้ว",
+        text: "กรุณากดยืนยันว่าข้อมูลทั้งหมดได้รับการตรวจสอบจากครูที่ปรึกษาแล้วทุกครั้งก่อนส่งข้อมูล"
+      })
+      setPending(false)
+      return
+    }
 
     if (Object.keys(pendingUpdate).length < memberData.length) {
       addToast({
@@ -405,12 +417,12 @@ const Attendance = () => {
                 }) : <h1 className="text-center mt-20 mb-20 text-TUCMC-gray-600">ขณะนี้ไม่มีรายชื่อที่รอคำตอบรับ</h1>
               }
             </div>
-            <div className="flex justify-between mb-20">
-              <div onClick={() => {
-                Router.push("/panel")
-              }} className="flex cursor-pointer items-center space-x-1">
-                <ArrowLeftIcon className="w-4 h-4"/>
-                <h1>ย้อนกลับ</h1>
+            <div className="flex justify-between items-center mb-20">
+              <div className="flex flex-row">
+                <input className="w-6 h-6 border rounded-md border-gray-200 ring-0 mr-2"
+                       onChange={(e) => {setAccept(e.target.checked)}}
+                       type="checkbox" required/>
+                <span className="text-gray-700">ข้อมูลทั้งหมดได้รับการตรวจสอบจากครูที่ปรึกษาแล้ว</span>
               </div>
               <Button disabled={pending} onClick={!pending && submitCheck} className={classnames("px-10 text-white rounded-full bg-TUCMC-pink-400", !pending ? "py-3" : "py-[8px] cursor-default")}>
                 <span className={classnames(pending && "hidden")}>ยืนยัน</span>
