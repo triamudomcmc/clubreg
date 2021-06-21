@@ -15,7 +15,7 @@ const Reset = (actionID: string): string => {
 }
 
 export const forgot = async (req, res) => {
-  const user = await initialisedDB.collection("users").where("email","==", req.body.email).get()
+  const user = await initialisedDB.collection("users").where("email","==", (req.body.email || "").toLowerCase()).get()
   if (user.empty) return {status: false, report: "missing_email"}
 
   const action = await initialisedDB.collection("tasks").add({

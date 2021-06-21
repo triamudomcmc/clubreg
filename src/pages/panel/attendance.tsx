@@ -382,7 +382,7 @@ const Attendance = () => {
                   ref={uploader}
                   onChange={uploadPhoto}
                   type="file"
-                  accept="image/png, image/jpeg, image/heif"
+                  accept="image/png, image/jpeg, image/heif, .zip"
                 />
                 <Button onClick={() => {uploader.current.click()}} className="border border-gray-200 flex items-center w-full justify-center space-x-1 py-3 text-TUCMC-gray-600 rounded-md mt-3">
                   <PlusCircleIcon className="w-[1.1rem] h-[1.1rem]"/>
@@ -417,7 +417,7 @@ const Attendance = () => {
                 }) : <h1 className="text-center mt-20 mb-20 text-TUCMC-gray-600">ขณะนี้ไม่มีรายชื่อที่รอคำตอบรับ</h1>
               }
             </div>
-            <div className="flex justify-between items-center mb-20">
+            <div className="flex justify-between items-center mb-20 space-x-10">
               <div className="flex flex-row">
                 <input className="w-6 h-6 border rounded-md border-gray-200 ring-0 mr-2"
                        onChange={(e) => {setAccept(e.target.checked)}}
