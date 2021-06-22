@@ -32,10 +32,31 @@ import {Ellipsis} from "@vectors/Loaders/Ellipsis";
 import {fetchChecks, submitChecks} from "@client/fetcher/checks";
 import {getPrevMonday} from "@config/time";
 
-const fetchFilesData = async (fileUpdate, panelID) => {
+const fetchFilesData = async (fileUpdate, panelID, addToast, reFetch) => {
   const data = await fetchFiles(panelID)
   if (data["status"]) {
-    fileUpdate(data["data"])
+    fileUpdate(data["data"].sort((a, b) => (a.timestamp - b.timestamp)))
+  }else{
+    switch (data["report"]) {
+      case "sessionError":
+        addToast({
+          theme: "modern",
+          icon: "cross",
+          title: "พบข้อผิดพลาดของเซสชั่น",
+          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
+          crossPage: true
+        })
+        reFetch()
+        break
+      case "invalidPermission":
+        addToast({
+          theme: "modern",
+          icon: "cross",
+          title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
+          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช."
+        })
+        break
+    }
   }
 }
 
@@ -212,7 +233,7 @@ const Attendance = () => {
 
   const refetch = () => {
     const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
-    fetchFilesData(setFiles, currentID)
+    fetchFilesData(setFiles, currentID, addToast, reFetch)
     fetchCheckData(currentID, setCheckData, addToast, reFetch, setInitClub)
   }
 
@@ -340,6 +361,27 @@ const Attendance = () => {
       setPreviewName(filename)
       setPreviewURL(response.data.url)
       setOpenPre(true)
+    }else{
+      switch (response.report) {
+        case "sessionError":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "พบข้อผิดพลาดของเซสชั่น",
+            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
+            crossPage: true
+          })
+          reFetch()
+          break
+        case "invalidPermission":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
+            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช."
+          })
+          break
+      }
     }
   }
 
@@ -406,7 +448,7 @@ const Attendance = () => {
                   ref={uploader}
                   onChange={uploadPhoto}
                   type="file"
-                  accept="image/png, image/jpeg, image/heif, .zip"
+                  accept="image/png, image/jpeg, image/heif"
                 />
                 <Button onClick={() => {uploader.current.click()}} className="border border-gray-200 flex items-center w-full justify-center space-x-1 py-3 text-TUCMC-gray-600 rounded-md mt-3">
                   <PlusCircleIcon className="w-[1.1rem] h-[1.1rem]"/>
