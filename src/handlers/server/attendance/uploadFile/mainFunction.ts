@@ -1,5 +1,6 @@
 import { Storage } from '@google-cloud/storage';
 import initialisedDB from "@server/firebase-admin";
+import {update} from "@server/tracker";
 
 export const performUpload = async (req, ID) => {
 
@@ -28,6 +29,8 @@ export const performUpload = async (req, ID) => {
   })
 
   const [response] = await file.generateSignedPostPolicyV4(options);
+
+  update("system",`fileUpload-${tempFileName}`, req.body.fp, ID.userID)
 
   return response
 }
