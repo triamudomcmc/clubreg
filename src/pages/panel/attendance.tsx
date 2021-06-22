@@ -8,6 +8,7 @@ import {isEmpty, searchKeyword, sortNumber, sortThaiDictionary} from "@utilities
 import {CatLoader} from "@components/common/CatLoader";
 import React, {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
 import {
+  ArrowCircleDownIcon,
   ArrowLeftIcon,
   CheckCircleIcon,
   CloudIcon,
@@ -16,10 +17,11 @@ import {
   RefreshIcon,
   XCircleIcon
 } from "@heroicons/react/solid";
+import {XCircleIcon as XOutline} from "@heroicons/react/outline";
 import {FilterSearch} from "@components/common/Inputs/Search";
 import {useAuth} from "@client/auth";
 import Router from "next/router";
-import {fetchFiles} from "@client/fetcher/files";
+import {fetchFiles, getFileTempURL} from "@client/fetcher/files";
 import {request} from "@client/utilities/request";
 import {fetchMembers} from "@client/fetcher/panel";
 import {useToast} from "@components/common/Toast/ToastContext";
@@ -116,6 +118,9 @@ const Attendance = () => {
   const [del, setDel] = useState([])
   const [pending ,setPending] = useState(false)
   const [checkData, setCheckData] = useState({})
+  const [previewURL, setPreviewURL] = useState("")
+  const [openPre, setOpenPre] = useState(false)
+  const [previewName, setPreviewName] = useState("")
 
   const userData = onReady((logged, userData) => {
     if (!logged) Router.push("/auth")
@@ -327,10 +332,29 @@ const Attendance = () => {
       12: "ธันวาคม"
   }
 
+  const previewFile = async (fileID, filename) => {
+    const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
+    const response = await getFileTempURL(fileID, currentID)
+
+    if (response.status) {
+      setPreviewName(filename)
+      setPreviewURL(response.data.url)
+      setOpenPre(true)
+    }
+  }
+
   return (
     <PageContainer hide={!initClub}>
       <AnimatePresence>
         <div className={classnames("min-h-screen", !initClub && "opacity-0")}>
+          <Modal className="relative w-[80vw]" closeClickOutside={true} CloseID="closePreview" TriggerDep={{dep: openPre, revert: () => {setOpenPre(false)}}} overlayClassName="fixed top-0 left-0 min-w-screen min-h-screen w-full bg-gray-700 bg-opacity-50 z-60 flex justify-center items-center">
+            <div className="absolute right-[-14px] top-[-20px]">
+              <XOutline id="closePreview" className="w-6 h-6 text-white cursor-pointer"/>
+            </div>
+            <div className="px-2">
+              <img src={previewURL}/>
+            </div>
+          </Modal>
           <div className="relative pt-10 pb-14 bg-TUCMC-gray-100">
             <h1 className="text-4xl text-center text-TUCMC-gray-900">รายงาน</h1>
             <div className="absolute w-full px-4 -bottom-5">
@@ -353,7 +377,7 @@ const Attendance = () => {
                     return<div className="flex justify-between py-3 px-4">
                       <div className="flex justify-between space-x-3 flex-shrink">
                         <PaperClipIcon className="w-6 h-6 text-gray-400"/>
-                        <h1 className="text-gray-900 text-[16px] truncate w-[70vw] max-w-[770px]">
+                        <h1 onClick={() => {previewFile(item.id, item.filename)}} className="text-gray-900 text-[16px] truncate w-[70vw] max-w-[770px] cursor-pointer hover:underline">
                           {item.filename}
                         </h1>
                       </div>
@@ -365,7 +389,7 @@ const Attendance = () => {
                     return <div className="flex justify-between py-3 px-4 border-t border-gray-200">
                       <div className="flex justify-between space-x-3">
                         <PaperClipIcon className="w-6 h-6 text-gray-400"/>
-                        <h1 className="text-gray-900 text-[16px] truncate w-[70vw] max-w-[770px]">
+                        <h1 onClick={() => {previewFile(item.id, item.filename)}} className="text-gray-900 text-[16px] truncate w-[70vw] max-w-[770px] cursor-pointer hover:underline">
                           {item.filename}
                         </h1>
                       </div>

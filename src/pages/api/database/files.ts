@@ -2,6 +2,7 @@ import {NextApiRequest, NextApiResponse} from "next";
 import initialisedDB from "@server/firebase-admin";
 import {fetchFiles} from "@server/attendance/fetchFiles";
 import {deleteFile} from "@server/attendance/deleteFile";
+import {getFile} from "@server/attendance/getFile";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
@@ -22,6 +23,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           res.json(data)
         }
           break
+        case "getFileTempURL": {
+          const data = await getFile(req, res)
+          res.json(data)
+        }
       }
       break
     default:

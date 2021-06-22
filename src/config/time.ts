@@ -10,6 +10,9 @@ export const positionUpdateTime = 1623884400000
 export const lastround = 1623949200000
 export const endLastRound = 1624035600000
 
+export const getUNIXTimeStamp = () => {
+  return (moment().unix() * 1000)
+}
 
 export const getPrevMonday = () => {
   let prevMonday = new Date((moment().unix() * 1000) + (7 * 60 * 60 * 1000))
