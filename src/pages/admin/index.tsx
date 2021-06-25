@@ -18,7 +18,7 @@ const Admin = () => {
       <div className="min-h-screen py-10 space-y-10">
         <h1 className="text-xl font-medium text-center">Control Panel</h1>
         <div className="flex flex-col items-center">
-          <div className="flex flex-col md:flex-row space-y-4 md:space-x-4">
+          <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
             <div className="flex flex-row space-x-4">
               <Button type="div" href="/admin/database" className="flex flex-col justify-center border items-center w-32 h-32 bg-white rounded-md shadow-lg space-y-2">
                 <DatabaseIcon className="w-10 h-10"/>

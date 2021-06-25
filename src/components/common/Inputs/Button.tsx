@@ -22,8 +22,10 @@ export const Button = ({children, className = "", type = "button", href = "", on
   const router = useRouter()
 
   const trackedClick = () => {
-    tracker.push("click",`Button@${router.pathname}->${href}`)
-    onClick && onClick()
+    if (!disabled) {
+      tracker.push("click",`Button@${router.pathname}->${href}`)
+      onClick && onClick()
+    }
   }
 
   return (

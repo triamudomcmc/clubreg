@@ -10,6 +10,7 @@ import {fieldUpdate, query as doQuery, rollback} from "@client/admin/query";
 import Router from "next/router";
 import {Input} from "@components/auth/Input";
 import {useToast} from "@components/common/Toast/ToastContext";
+import {Ellipsis} from "@vectors/Loaders/Ellipsis";
 
 const Database = () => {
 
@@ -19,6 +20,8 @@ const Database = () => {
   const [isValid, setValidity] = useState(false)
   const [clear, setClear] = useState(false)
   const [display, setDisplay] = useState({})
+  const [querying, setQuerying] = useState(false)
+  const [updating, setUpdating] = useState(false)
   const [edit, setEdit] = useState({refID: "", field: "", data: ""})
   const {addToast} = useToast()
 
@@ -41,6 +44,8 @@ const Database = () => {
 
   const performQuery = async () => {
     if (isValid) {
+      setQuerying(true)
+
       const response = await doQuery(query)
       if (response.status) {
         let obj = {}
@@ -49,7 +54,16 @@ const Database = () => {
         })
         setDisplay(obj)
       }
+    }else{
+      addToast({
+        theme: "modern",
+        icon: "cross",
+        title: "Unable to execute requested field operation",
+        text: "Please check your query syntax before submit the request."
+      })
     }
+
+    setQuerying(false)
   }
 
   const clearEdit = () => {
@@ -57,6 +71,8 @@ const Database = () => {
   }
 
   const updateEditingField = async () => {
+
+    setUpdating(true)
 
     const response = await fieldUpdate(edit)
 
@@ -75,6 +91,8 @@ const Database = () => {
       clearEdit()
 
     }
+
+    setUpdating(false)
   }
 
   const rollbackUpdate = async (cacheID) => {
@@ -108,12 +126,13 @@ const Database = () => {
             <div className="flex flex-row items-center space-x-1">
               <span className="font-medium">Type:</span> <span className="font-medium text-TUCMC-orange-500">string</span>
             </div>
-            <div className="space-x-2">
+            <div className="space-x-2 flex items-center">
               <Button onClick={clearEdit} className="border border-gray-300 px-4 py-2 rounded-md">
                 Cancel
               </Button>
-              <Button onClick={updateEditingField} className="border border-gray-300 px-4 py-2 rounded-md">
-                Update
+              <Button onClick={updateEditingField} disabled={updating} className="border border-gray-300 px-4 py-2 rounded-md">
+                <span className={classnames(updating && "hidden")}>Update</span>
+                <Ellipsis className={classnames("w-[3rem] h-6", !updating && "hidden")} inverted={true}/>
               </Button>
             </div>
           </div>
@@ -137,12 +156,13 @@ const Database = () => {
                   <span className={classnames(isValid?"text-TUCMC-green-500":"text-TUCMC-red-500")}>{isValid ? "Valid Query" : "Invalid Query"}</span>
                 </div>
               </div>
-              <div className="space-x-2">
+              <div className="space-x-2 flex items-center">
                 <Button onClick={clearQuery} className="bg-white border border-gray-300 rounded-md px-4 py-1">
                   Clear
                 </Button>
-                <Button onClick={performQuery} className="bg-white border border-gray-300 rounded-md px-4 py-1">
-                  Query
+                <Button onClick={performQuery} disabled={querying} className="bg-white border border-gray-300 rounded-md px-4 py-1">
+                  <span className={classnames(querying && "hidden")}>Query</span>
+                  <Ellipsis className={classnames("w-[2.4rem] h-6", !querying && "hidden")} inverted={true}/>
                 </Button>
               </div>
             </div>
