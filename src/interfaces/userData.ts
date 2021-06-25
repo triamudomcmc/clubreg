@@ -8,5 +8,6 @@ export default interface UserData {
   level: string,
   club: string,
   audition: {},
-  panelID?: Array<string>
+  panelID?: Array<string>,
+  admin?: boolean
 }

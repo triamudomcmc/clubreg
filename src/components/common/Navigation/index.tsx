@@ -11,9 +11,9 @@ import {
   CalendarIcon, ChatIcon,
   ClipboardListIcon, CogIcon, DocumentTextIcon,
   HomeIcon, KeyIcon,
-  LoginIcon,MailIcon,
+  LoginIcon, MailIcon,
   LogoutIcon,
-  TerminalIcon, HeartIcon
+  TerminalIcon, HeartIcon, LibraryIcon
 } from "@heroicons/react/outline";
 import {ChevronDownIcon} from "@heroicons/react/solid";
 import Modal from "@components/common/Modals";
@@ -137,6 +137,9 @@ const Navigation = () => {
                     </div>}
                     <div style={{minWidth: "100px"}}
                          className="font-normal bg-white space-y-2.5 shadow-md rounded-b-lg py-3 px-5 text-gray-700">
+                      {logged && userData.admin &&
+                      <Link href="/admin"><h1 className="text-black cursor-pointer hover:text-blue-600 hover:underline">Dashboard</h1>
+                      </Link>}
                       {logged && userData.panelID &&
                       <Link href="/panel"><h1 className="text-black cursor-pointer hover:text-blue-600 hover:underline">แผงควบคุม</h1>
                       </Link>}
@@ -210,6 +213,13 @@ const Navigation = () => {
             className={getClass("/select", "font")}>ลงทะเบียนชมรม</span>
           </div>
         </Link>
+        {(logged && userData.admin) && <Link href="/admin">
+            <div
+                className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/panel", "bg"))}>
+                <LibraryIcon className={classnames("w-7 h-7", getClass("/panel", "icon"))}/> <span
+                className={getClass("/panel", "font")}>Dashboard</span>
+            </div>
+        </Link>}
         {(logged && userData.panelID) && <Link href="/panel">
             <div
                 className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/panel", "bg"))}>
