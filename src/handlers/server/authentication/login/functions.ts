@@ -37,6 +37,9 @@ export const checkCredentials = async (stdID, password, fingerPrint, userCollect
         expire: getUNIXTimeStamp() + ( 2 * 60 * 1000),
         userID: userDoc.id
       })
+
+      sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
       const msg = {
         to: auData["email"],
         from: {email: 'no-reply@triamudom.club', name: 'TUCMC Account'},
