@@ -44,7 +44,7 @@ export const checkCredentials = async (stdID, password, fingerPrint, userCollect
         to: auData["email"],
         from: {email: 'no-reply@triamudom.club', name: 'TUCMC Account'},
         subject: 'มีการ login จากอุปกรณ์ที่ไม่ได้รับอนุญาต',
-        html: `คุณสามารถอนุญาติ browser นี้ได้ช่ั่วคราวได้ด้วยการกดลิงก์นี้ https://register.clubs.triamudom.ac.th/auth?verify=${task.id} \n ลิงก์นี้จะมีอายุ 2 นาที หากนี่ไม่ใช่คุณห้ามกดลิงก์นี้และควรเข้าไปเปลี่ยนรหัสผ่าน`,
+        html: `คุณสามารถอนุญาติ browser นี้ได้ชั่วคราวได้ด้วยการกดลิงก์นี้ https://register.clubs.triamudom.ac.th/auth?verify=${task.id} \n ลิงก์นี้จะมีอายุ 2 นาที หากนี่ไม่ใช่คุณห้ามกดลิงก์นี้และควรเข้าไปเปลี่ยนรหัสผ่าน`,
       }
 
       await sgMail.send(msg)
