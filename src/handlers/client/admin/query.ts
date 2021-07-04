@@ -11,3 +11,7 @@ export const fieldUpdate = async (data) => {
 export const rollback = async (cacheID) => {
   return await request("database/admin", "rollback", {cacheID})
 }
+
+export const getReport = async (ts) => {
+  return await request("database/admin", "getReport", {ts})
+}

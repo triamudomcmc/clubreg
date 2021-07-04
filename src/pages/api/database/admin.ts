@@ -6,6 +6,7 @@ import {resetPassword} from "@server/authentication/resetPassword";
 import {query} from "@server/admin/query";
 import {fieldUpdate} from "@server/admin/fieldUpdate";
 import {rollback} from "@server/admin/rollback";
+import {getReport} from "@server/admin/getReport";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
@@ -28,6 +29,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
         case "rollback": {
           const output = await rollback(req, res)
+          res.json(output)
+          break
+        }
+        case "getReport": {
+          const output = await getReport(req, res)
           res.json(output)
           break
         }
