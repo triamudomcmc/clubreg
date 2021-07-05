@@ -20,15 +20,6 @@ const fetchTrackingHistory = async (id, setHistory) => {
   }
 }
 
-const fetchUserID = async (code, setQuery, setClose, perform) => {
-  const response = await getUserIDfromCardID(code)
-  if (response.status) {
-    setQuery(response.data.userID)
-    setClose(true)
-    setTimeout(() => {perform()}, 500)
-  }
-}
-
 let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 const Tracker = () => {
@@ -51,11 +42,17 @@ const Tracker = () => {
     return userData
   })
 
-  const handleScan = async (data) => {
+  const handleScan = (data) => {
     if (data){
       const code = data.replace("https://register.clubs.triamudom.ac.th/card/","")
       if (code.length == 20) {
-        await fetchUserID(code, setQuery, setClose, performQuery)
+        getUserIDfromCardID(code).then(response => {
+          if (response.status) {
+            setQuery(response.data.userID)
+            performQuery(true, response.data.userID)
+          }
+        })
+        setClose(true)
       }
     }
   }
@@ -64,10 +61,10 @@ const Tracker = () => {
     setQuery("")
   }
 
-  const performQuery = async () => {
-    if (isValid) {
+  const performQuery = async (bypass = false, id = "") => {
+    if (bypass || isValid) {
       setQuerying(true)
-      await fetchTrackingHistory(query, setHistory)
+      await fetchTrackingHistory(bypass ? id : query, setHistory)
     }else{
       addToast({
         theme: "modern",
@@ -169,11 +166,11 @@ const Tracker = () => {
         <div className="space-y-2 mt-10">
           {history.map(item => {
             const date = new Date(item.timestamp)
-            return <div className="flex justify-between rounded-md shadow-md">
+            return <div className="flex justify-between rounded-md shadow-md space-x-4">
               <div className="pl-4 py-4">
-                <p>Timestamp: <span className="text-TUCMC-gray-600">{date.getDate()} {months[date.getMonth()]} {date.getFullYear()} {addZero(date.getHours())}:{addZero(date.getMinutes())}:{addZero(date.getSeconds())}</span></p>
-                <p>Context: <span className="text-TUCMC-gray-600">{item.context}</span></p>
-                <p>Fingerprint: <span className="text-TUCMC-gray-600">{item.fingerPrint || "missing"}</span></p>
+                <p>Timestamp: <span className="text-TUCMC-gray-600 break-all">{date.getDate()} {months[date.getMonth()]} {date.getFullYear()} {addZero(date.getHours())}:{addZero(date.getMinutes())}:{addZero(date.getSeconds())}</span></p>
+                <p>Context: <span className="text-TUCMC-gray-600 break-all">{item.context}</span></p>
+                <p>Fingerprint: <span className="text-TUCMC-gray-600 break-all">{item.fingerPrint || "missing"}</span></p>
               </div>
               <div className={classnames("w-4 rounded-r-md shadow-r-md flex-shrink-0", item.type == "click" ? "bg-TUCMC-orange-400" : item.type == "system" ? "bg-blue-500" : "bg-TUCMC-gray-400")}>
 
