@@ -28,6 +28,7 @@ const Tracker = () => {
   const [history, setHistory] = useState([])
   const [query, setQuery] = useState("")
   const [sorted, setSorted] = useState([])
+  const [close, setClose] = useState(false)
   const [scanner, setScanner] = useState(false)
   const [reader, setReader] = useState(<></>)
   const [isValid, setValidity] = useState(false)
@@ -46,6 +47,7 @@ const Tracker = () => {
       const code = data.replace("https://register.clubs.triamudom.ac.th/card/","")
       if (code.length == 20) {
         setQuery(code)
+        setClose(true)
       }
     }
   }
@@ -105,7 +107,7 @@ const Tracker = () => {
 
   return (
     <PageContainer>
-      <Modal reloadChildren={true} overlayClassName="fixed w-screen min-h-screen top-0 left-0 bg-TUCMC-gray-600 bg-opacity-50 flex items-center justify-center px-8" className="bg-white rounded-md py-4 w-full" TriggerDep={{dep: scanner, revert: () => {setScanner(false)}}}>
+      <Modal reloadChildren={true} CloseDep={{dep: close, revert: () => {setClose(false)}}} overlayClassName="fixed w-screen min-h-screen top-0 left-0 bg-TUCMC-gray-600 bg-opacity-50 flex items-center justify-center px-8" className="bg-white rounded-md py-4 w-full" TriggerDep={{dep: scanner, revert: () => {setScanner(false)}}}>
         <div className="height-[80vw] mx-8 max-w-sm border border-TUCMC-gray-600">
           {reader}
         </div>
