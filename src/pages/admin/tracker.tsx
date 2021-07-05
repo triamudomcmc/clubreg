@@ -60,7 +60,7 @@ const Tracker = () => {
   }
 
   const clearQuery = () => {
-
+    setQuery("")
   }
 
   const performQuery = async () => {
@@ -114,7 +114,7 @@ const Tracker = () => {
 
   return (
     <PageContainer>
-      <Modal reloadChildren={true} CloseDep={{dep: close, revert: () => {setClose(false)}}} overlayClassName="fixed w-screen min-h-screen top-0 left-0 bg-TUCMC-gray-600 bg-opacity-50 flex items-center justify-center px-8" className="bg-white rounded-md py-4 w-full" TriggerDep={{dep: scanner, revert: () => {setScanner(false)}}}>
+      <Modal reloadChildren={true} CloseDep={{dep: close, revert: () => {setClose(false)}}} overlayClassName="fixed w-screen min-h-screen top-0 left-0 bg-TUCMC-gray-600 bg-opacity-50 flex items-center justify-center px-8" className="bg-white rounded-md py-4 w-full max-w-[382px]" TriggerDep={{dep: scanner, revert: () => {setScanner(false)}}}>
         <div className="height-[80vw] mx-8 max-w-sm border border-TUCMC-gray-600">
           {reader}
         </div>
