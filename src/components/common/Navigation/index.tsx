@@ -215,9 +215,9 @@ const Navigation = () => {
         </Link>
         {(logged && userData.admin) && <Link href="/admin">
             <div
-                className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/panel", "bg"))}>
+                className={classnames("flex flex-row border-l-2 items-center space-x-4 pl-4 py-3 pr-8", getClass("/admin", "bg"))}>
                 <LibraryIcon className={classnames("w-7 h-7", getClass("/panel", "icon"))}/> <span
-                className={getClass("/panel", "font")}>Dashboard</span>
+                className={getClass("/admin", "font")}>Dashboard</span>
             </div>
         </Link>}
         {(logged && userData.panelID) && <Link href="/panel">

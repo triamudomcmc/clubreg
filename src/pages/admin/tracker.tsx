@@ -20,11 +20,12 @@ const fetchTrackingHistory = async (id, setHistory) => {
   }
 }
 
-const fetchUserID = async (code, setQuery, setClose) => {
+const fetchUserID = async (code, setQuery, setClose, perform) => {
   const response = await getUserIDfromCardID(code)
   if (response.status) {
     setQuery(response.data.userID)
     setClose(true)
+    setTimeout(() => {perform()}, 500)
   }
 }
 
@@ -54,7 +55,7 @@ const Tracker = () => {
     if (data){
       const code = data.replace("https://register.clubs.triamudom.ac.th/card/","")
       if (code.length == 20) {
-        await fetchUserID(code, setQuery, setClose)
+        await fetchUserID(code, setQuery, setClose, performQuery)
       }
     }
   }
@@ -170,9 +171,9 @@ const Tracker = () => {
             const date = new Date(item.timestamp)
             return <div className="flex justify-between rounded-md shadow-md">
               <div className="pl-4 py-4">
-                <h1>Timestamp: <span className="text-TUCMC-gray-600">{date.getDate()} {months[date.getMonth()]} {date.getFullYear()} {addZero(date.getHours())}:{addZero(date.getMinutes())}:{addZero(date.getSeconds())}</span></h1>
-                <h1>Context: <span className="text-TUCMC-gray-600">{item.context}</span></h1>
-                <h1>Fingerprint: <span className="text-TUCMC-gray-600">{item.fingerPrint || "missing"}</span></h1>
+                <p>Timestamp: <span className="text-TUCMC-gray-600">{date.getDate()} {months[date.getMonth()]} {date.getFullYear()} {addZero(date.getHours())}:{addZero(date.getMinutes())}:{addZero(date.getSeconds())}</span></p>
+                <p>Context: <span className="text-TUCMC-gray-600">{item.context}</span></p>
+                <p>Fingerprint: <span className="text-TUCMC-gray-600">{item.fingerPrint || "missing"}</span></p>
               </div>
               <div className={classnames("w-4 rounded-r-md shadow-r-md flex-shrink-0", item.type == "click" ? "bg-TUCMC-orange-400" : item.type == "system" ? "bg-blue-500" : "bg-TUCMC-gray-400")}>
 
