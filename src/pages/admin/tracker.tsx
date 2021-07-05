@@ -29,6 +29,7 @@ const Tracker = () => {
   const [query, setQuery] = useState("")
   const [sorted, setSorted] = useState([])
   const [scanner, setScanner] = useState(false)
+  const [reader, setReader] = useState(<></>)
   const [isValid, setValidity] = useState(false)
   const [querying, setQuerying] = useState(false)
 
@@ -41,8 +42,11 @@ const Tracker = () => {
   })
 
   const handleScan = (data) => {
-    if (data.length == 20) {
-      setQuery(data)
+    if (data){
+      const code = data.replace("https://register.clubs.triamudom.ac.th/card/","")
+      if (code.length == 20) {
+        setQuery(code)
+      }
     }
   }
 
@@ -82,26 +86,28 @@ const Tracker = () => {
     setSorted(history.sort((a, b) => (parseInt(b.timestamp) - parseInt(a.timestamp))))
   },[history])
 
-  let QrReader = dynamic(() => import('modern-react-qr-reader'),{ ssr: false })
 
   useEffect(() => {
     if (scanner) {
-      QrReader = dynamic(() => import('modern-react-qr-reader'),{ ssr: false })
+      const QrReader = dynamic(() => import('modern-react-qr-reader'),{ ssr: false })
+      setTimeout(() => {setReader(<QrReader
+        // @ts-ignore
+        delay={300}
+        facingMode="environment"
+        showViewFinder={false}
+        onScan={handleScan}
+        style={{width: "100%"}}
+      />)}, 500)
+    }else{
+      setReader(<></>)
     }
   },[scanner])
 
   return (
     <PageContainer>
-      <Modal overlayClassName="fixed w-screen min-h-screen top-0 left-0 bg-TUCMC-gray-600 bg-opacity-50 flex items-center justify-center" className="bg-white rounded-md p-4" TriggerDep={{dep: scanner, revert: () => {setScanner(false)}}}>
-        <div className="w-[400px] height-[600px] mx-8 max-w-sm border border-TUCMC-gray-600">
-          {scanner && <QrReader
-            // @ts-ignore
-              delay={300}
-              facingMode="environment"
-              showViewFinder={false}
-              onScan={handleScan}
-              style={{width: "100%"}}
-          />}
+      <Modal reloadChildren={true} overlayClassName="fixed w-screen min-h-screen top-0 left-0 bg-TUCMC-gray-600 bg-opacity-50 flex items-center justify-center px-8" className="bg-white rounded-md py-4 w-full" TriggerDep={{dep: scanner, revert: () => {setScanner(false)}}}>
+        <div className="height-[80vw] mx-8 max-w-sm border border-TUCMC-gray-600">
+          {reader}
         </div>
       </Modal>
 

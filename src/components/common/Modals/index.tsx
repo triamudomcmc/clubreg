@@ -5,7 +5,7 @@ import {useEffect, useRef, useState} from "react";
 
 const Modal = ({
                  children, overlayClassName = "", className = "", TriggerRef = null, CloseID = "",
-                 TriggerDep = null, CloseDep = null, closeClickOutside = true, ToggleDep = null
+                 TriggerDep = null, CloseDep = null, closeClickOutside = true, ToggleDep = null, reloadChildren =false
                }) => {
   const [modalState, setModalState] = useState({comm: false, hide: true})
   const [prevent, setPrevent] = useState(true)
@@ -82,7 +82,7 @@ const Modal = ({
                   onAnimationComplete={() => {
                     !modalState.comm && setModalState({comm: false, hide: true})
                   }} className={className}>
-        {children}
+        {reloadChildren ? !modalState.hide && children : children}
       </motion.div>
     </div>
   )
