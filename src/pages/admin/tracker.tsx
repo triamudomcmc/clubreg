@@ -94,14 +94,14 @@ const Tracker = () => {
     <PageContainer>
       <Modal overlayClassName="fixed w-screen min-h-screen top-0 left-0 bg-TUCMC-gray-600 bg-opacity-50 flex items-center justify-center" className="bg-white rounded-md p-4" TriggerDep={{dep: scanner, revert: () => {setScanner(false)}}}>
         <div className="w-[400px] height-[600px] mx-8 max-w-sm border border-TUCMC-gray-600">
-          <QrReader
+          {scanner && <QrReader
             // @ts-ignore
-            delay={300}
-            facingMode="environment"
-            showViewFinder={false}
-            onScan={handleScan}
-            style={{width: "100%"}}
-          />
+              delay={300}
+              facingMode="environment"
+              showViewFinder={false}
+              onScan={handleScan}
+              style={{width: "100%"}}
+          />}
         </div>
       </Modal>
 
