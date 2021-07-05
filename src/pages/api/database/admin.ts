@@ -7,6 +7,7 @@ import {query} from "@server/admin/query";
 import {fieldUpdate} from "@server/admin/fieldUpdate";
 import {rollback} from "@server/admin/rollback";
 import {getReport} from "@server/admin/getReport";
+import {getTrackingHistory} from "@server/admin/getTrackingHistory";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
@@ -34,6 +35,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
         case "getReport": {
           const output = await getReport(req, res)
+          res.json(output)
+          break
+        }
+        case "getTrackingHistory": {
+          const output = await getTrackingHistory(req, res)
           res.json(output)
           break
         }

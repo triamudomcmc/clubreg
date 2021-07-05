@@ -15,3 +15,7 @@ export const rollback = async (cacheID) => {
 export const getReport = async (ts) => {
   return await request("database/admin", "getReport", {ts})
 }
+
+export const getTrackingHistory = async (id) => {
+  return await request("database/admin", "getTrackingHistory", {id})
+}

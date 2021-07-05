@@ -28,7 +28,7 @@ const Admin = () => {
                   <DatabaseIcon className="w-10 h-10"/>
                   <h1 className="font">Database</h1>
                 </Button>
-                <Button type="div" className="flex flex-col justify-center border items-center w-32 h-32 bg-white rounded-md shadow-lg space-y-2">
+                <Button type="div" href="/admin/tracker" className="flex flex-col justify-center border items-center w-32 h-32 bg-white rounded-md shadow-lg space-y-2">
                   <FingerPrintIcon className="w-10 h-10"/>
                   <h1 className="font">Tracker</h1>
                 </Button>

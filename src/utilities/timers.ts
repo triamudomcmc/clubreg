@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 
-const addZero = (inum) => {
+export const addZero = (inum) => {
   let num = inum
 
   if (inum < 0) {
