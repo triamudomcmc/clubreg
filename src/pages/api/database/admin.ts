@@ -8,6 +8,7 @@ import {fieldUpdate} from "@server/admin/fieldUpdate";
 import {rollback} from "@server/admin/rollback";
 import {getReport} from "@server/admin/getReport";
 import {getTrackingHistory} from "@server/admin/getTrackingHistory";
+import {getUserIDfromCardID} from "@server/admin/getUserIDfromCardID";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
@@ -40,6 +41,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
         case "getTrackingHistory": {
           const output = await getTrackingHistory(req, res)
+          res.json(output)
+          break
+        }
+        case "getUserIDfromCardID": {
+          const output = await getUserIDfromCardID(req, res)
           res.json(output)
           break
         }

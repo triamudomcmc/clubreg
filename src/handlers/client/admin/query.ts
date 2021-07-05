@@ -19,3 +19,7 @@ export const getReport = async (ts) => {
 export const getTrackingHistory = async (id) => {
   return await request("database/admin", "getTrackingHistory", {id})
 }
+
+export const getUserIDfromCardID = async (id) => {
+  return await request("database/admin", "getUserIDfromCardID", {id})
+}

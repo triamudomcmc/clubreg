@@ -1,7 +1,7 @@
 import PageContainer from "@components/common/PageContainer";
 import {CheckIcon, QrcodeIcon} from "@heroicons/react/solid";
 import React, {useEffect, useState} from "react";
-import {getTrackingHistory, query as doQuery} from "@client/admin/query";
+import {getTrackingHistory, getUserIDfromCardID, query as doQuery} from "@client/admin/query";
 import {Button} from "@components/common/Inputs/Button";
 import classnames from "classnames";
 import {Ellipsis} from "@vectors/Loaders/Ellipsis";
@@ -17,6 +17,14 @@ const fetchTrackingHistory = async (id, setHistory) => {
   const res = await getTrackingHistory(id)
   if (res.status) {
     setHistory(res.data)
+  }
+}
+
+const fetchUserID = async (code, setQuery, setClose) => {
+  const response = await getUserIDfromCardID(code)
+  if (response.status) {
+    setQuery(response.data.userID)
+    setClose(true)
   }
 }
 
@@ -42,12 +50,11 @@ const Tracker = () => {
     return userData
   })
 
-  const handleScan = (data) => {
+  const handleScan = async (data) => {
     if (data){
       const code = data.replace("https://register.clubs.triamudom.ac.th/card/","")
       if (code.length == 20) {
-        setQuery(code)
-        setClose(true)
+        await fetchUserID(code, setQuery, setClose)
       }
     }
   }
