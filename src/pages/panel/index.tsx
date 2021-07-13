@@ -20,7 +20,6 @@ import classnames from "classnames"
 import {Switch} from '@headlessui/react'
 import css from "@components/panel/element/bubble.module.css";
 import Modal from "@components/common/Modals";
-import {addBrowser, removeBrowser, toggleSafeMode} from "@client/accManagement";
 import {clubMap} from "@config/clubMap";
 import {isEmpty} from "@utilities/object";
 import {fetchClub} from "@client/fetcher/panel";
