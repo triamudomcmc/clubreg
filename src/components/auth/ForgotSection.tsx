@@ -5,6 +5,7 @@ import {ArrowLeftIcon} from "@heroicons/react/solid";
 import {forgot} from "@client/fetcher/user";
 import {useToast} from "@components/common/Toast/ToastContext";
 import classnames from "classnames";
+import {forgotContext} from "../../handlers/init/auth";
 
 export const ForgotSection = ({swapFunction, setLoader}) => {
 
@@ -14,7 +15,7 @@ export const ForgotSection = ({swapFunction, setLoader}) => {
   const submit = async (event) => {
     event.preventDefault()
 
-    const res = await forgot(email)
+    const res = await forgotContext.call({email})
     if (!res.status) {
       addToast({
         theme: "modern",

@@ -3,6 +3,7 @@ import {LockClosedIcon} from "@heroicons/react/solid";
 import {useAuth} from "@client/auth";
 import {useToast} from "@components/common/Toast/ToastContext";
 import {request} from "@client/utilities/request";
+import {loginContext} from "../../handlers/init/auth";
 
 const LoginSection = ({primaryAction, setLoader, secAction, query}) => {
 
@@ -18,7 +19,7 @@ const LoginSection = ({primaryAction, setLoader, secAction, query}) => {
       setLoader(true)
     }, 1000)
 
-    const result = await request("database/auth", "login", {stdID: ID, password: password, verify: query.verify || ""})
+    const result = await loginContext.call({stdID: ID, password: password, verify: query.verify || ""})
 
     if (result.status) {
       localStorage.setItem("currentPanel","")

@@ -3,6 +3,7 @@ import Router, {useRouter} from "next/router";
 import {fetchUser, logout} from "@client/fetcher/user";
 import UserData from "../../interfaces/userData";
 import {Tracker} from "@client/tracker/track";
+import {logoutContext} from "../init/auth";
 
 interface IAuthContext {
   onReady: ((callback: (logged: boolean, userData: UserData | null) => any) => any),
@@ -51,7 +52,7 @@ function useProvideAuth() {
   }
 
   const singoutAction = async () => {
-    await logout()
+    await logoutContext.call({})
     setUserData(null)
     setTracker(new Tracker())
     Router.push("/auth")

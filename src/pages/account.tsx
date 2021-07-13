@@ -11,10 +11,10 @@ import classnames from "classnames"
 import {Switch} from '@headlessui/react'
 import css from "@components/panel/element/bubble.module.css";
 import Modal from "@components/common/Modals";
-import {addBrowser, removeBrowser, toggleBeta, toggleSafeMode} from "@client/accManagement";
 import {clubMap} from "../config/clubMap";
 import {isEmpty} from "@utilities/object";
 import {ExclamationIcon} from "@heroicons/react/outline";
+import {addBrowserContext, removeBrowserContext, toggleBetaContext, toggleSafeModeContext} from "@handlers/init/account";
 
 const fetchCred = async (setUserCred, errHandler) => {
   const res = await fetchUserCred()
@@ -92,7 +92,7 @@ const Account = () => {
   }, [])
 
   const addBrow = async () => {
-    const res = await addBrowser()
+    const res = await addBrowserContext.call({})
     if (res.status) {
       reFetchCred()
     } else {
@@ -117,7 +117,7 @@ const Account = () => {
   }, [whitelistMode])
 
   const toggleWhitelistMode = async () => {
-    const res = await toggleSafeMode(whitelistMode)
+    const res = await toggleSafeModeContext.call({safeMode: whitelistMode})
     if (res.status) {
       reFetchCred()
     } else {
@@ -126,7 +126,7 @@ const Account = () => {
   }
 
   const removeBrows = async (browserID) => {
-    const res = await removeBrowser(browserID)
+    const res = await removeBrowserContext.call({browserID: browserID})
     if (res.status) {
       reFetchCred()
     } else {
@@ -144,7 +144,7 @@ const Account = () => {
   }
 
   const togglePrivacyBetaOn = async () => {
-    const res = await toggleBeta("privacyOps")
+    const res = await toggleBetaContext.call({name: "privacyOps"})
     if (res.status){
       addToast({
         theme: "modern",

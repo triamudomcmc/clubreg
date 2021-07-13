@@ -1,5 +1,5 @@
 import initialisedDB from "@server/firebase-admin";
-import {destroySession} from "@server/authentication/destroySession";
+import {destroySession} from "@handlers/utilities/destroySession";
 import {announceTime} from "@config/time";
 
 export const getSessionData = async (sessionID, cookies, req, res, fingerprint) => {

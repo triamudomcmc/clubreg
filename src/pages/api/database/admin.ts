@@ -1,8 +1,4 @@
 import {NextApiRequest, NextApiResponse} from "next";
-import {login} from "@server/authentication/login";
-import {register} from "@server/authentication/register";
-import {forgot} from "@server/authentication/forgot";
-import {resetPassword} from "@server/authentication/resetPassword";
 import {query} from "@server/admin/query";
 import {fieldUpdate} from "@server/admin/fieldUpdate";
 import {rollback} from "@server/admin/rollback";
