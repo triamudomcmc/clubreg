@@ -2,7 +2,6 @@ import PageContainer from "@components/common/PageContainer";
 import {useAuth} from "@client/auth";
 import Router from "next/router";
 import {useEffect, useRef, useState} from "react";
-import {fetchUserCred} from "@client/fetcher/user";
 import {useToast} from "@components/common/Toast/ToastContext";
 import {ClipboardCheckIcon, ExclamationCircleIcon, LockClosedIcon, LockOpenIcon, PencilIcon, XIcon} from "@heroicons/react/solid";
 import {Input} from "@components/auth/Input";
@@ -11,13 +10,19 @@ import classnames from "classnames"
 import {Switch} from '@headlessui/react'
 import css from "@components/panel/element/bubble.module.css";
 import Modal from "@components/common/Modals";
-import {clubMap} from "../config/clubMap";
+import {clubMap} from "@config/clubMap";
 import {isEmpty} from "@utilities/object";
 import {ExclamationIcon} from "@heroicons/react/outline";
-import {addBrowserContext, removeBrowserContext, toggleBetaContext, toggleSafeModeContext} from "@handlers/init/account";
+import {
+  addBrowserContext,
+  fetchUserCredentialContext,
+  removeBrowserContext,
+  toggleBetaContext,
+  toggleSafeModeContext
+} from "@handlers/init/account";
 
 const fetchCred = async (setUserCred, errHandler) => {
-  const res = await fetchUserCred()
+  const res = await fetchUserCredentialContext.call({})
   if (res.status) return setUserCred(res.data)
   errHandler(res.report)
 }

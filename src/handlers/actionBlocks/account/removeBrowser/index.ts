@@ -7,7 +7,7 @@ export const removeBrowserBlock: ActionBlock<{browserID: string}> = async (APIPa
   const {browserID} = parameters
   if (browserID === "") return {status: false, report: "dataError"}
 
-  await performDeleteDevice(paramsFromCondition.ID.userID, browserID)
+  await performDeleteDevice(paramsFromCondition.userID, browserID)
 
   return {status: true, report: "success"}
 

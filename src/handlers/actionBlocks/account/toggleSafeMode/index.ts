@@ -8,7 +8,7 @@ export const toggleSafeModeBlock: ActionBlock<{safeMode: boolean}> = async (APIP
 
   if (typeof safeMode !== "boolean") return {status: false, report: "dataError"}
 
-  await initialisedDB.collection("users").doc(paramsFromCondition.ID.userID).update({safeMode: safeMode})
+  await initialisedDB.collection("users").doc(paramsFromCondition.userID).update({safeMode: safeMode})
 
   return {status: true, report: "success"}
 

@@ -8,7 +8,7 @@ export const toggleBetaBlock: ActionBlock<{name: string}> = async (APIParams, pa
 
   if (typeof name !== "string" || name === "")return {status: false, report: "dataError"}
 
-  const ref = initialisedDB.collection("users").doc(paramsFromCondition.ID.userID)
+  const ref = initialisedDB.collection("users").doc(paramsFromCondition.userID)
 
   await initialisedDB.runTransaction(async (transaction) => {
     const data = await transaction.get(ref)

@@ -4,3 +4,5 @@ export const addBrowserContext: ActionContext<{}> = createActionContext("addBrow
 export const removeBrowserContext: ActionContext<{browserID: string}> = createActionContext("removeBrowser", "account")
 export const toggleBetaContext: ActionContext<{name: string}> = createActionContext("toggleBeta", "account")
 export const toggleSafeModeContext: ActionContext<{safeMode: boolean}> = createActionContext("toggleSafeMode", "account")
+export const fetchUserCredentialContext: ActionContext<{}> = createActionContext("fetchUserCred", "account")
+
