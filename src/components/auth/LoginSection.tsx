@@ -23,10 +23,6 @@ const LoginSection = ({primaryAction, setLoader, secAction, query}) => {
 
     if (result.status) {
       localStorage.setItem("currentPanel","")
-      if (localStorage.getItem("lastVisited").includes("?")) {
-        const lastPage = localStorage.getItem("lastVisited")
-        return Router.push(lastPage)
-      }
       await reFetch()
     } else {
       switch (result.report) {
