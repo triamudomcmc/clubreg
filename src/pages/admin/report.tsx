@@ -2,13 +2,17 @@ import PageContainer from "@components/common/PageContainer";
 import {clubMap} from "@config/clubMap";
 import React, {Fragment, useEffect, useState} from "react";
 import {getReport} from "@client/admin/query";
-import {CheckIcon, SelectorIcon, XIcon} from "@heroicons/react/solid";
+import {CheckIcon, ClockIcon, PaperClipIcon, SelectorIcon, XIcon} from "@heroicons/react/solid";
 import {sliceArrN} from "@utilities/array";
 import Router from "next/router";
 import {getRecentMondays} from "@config/time";
 import {Listbox, Transition} from "@headlessui/react";
 import {useAuth} from "@client/auth";
 import {Button} from "@components/common/Inputs/Button";
+import {createTempAccUrlBridge} from "@init/dashboard/report";
+import {useToast} from "@components/common/Toast/ToastContext";
+import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import {convertMiliseconds} from "@utilities/timers";
 
 const people = getRecentMondays().map((item, index) => ({id: index + 1, name: item}))
 
@@ -28,8 +32,9 @@ const fetchReport = async (setChecked, ts, reFetch) => {
 const Report = () => {
 
   const {onReady, reFetch} = useAuth()
+  const {addToast} = useToast()
 
-  const [checked, setChecked] = useState([])
+  const [checked, setChecked] = useState({})
   const [selected, setSelected] = useState(people[0])
   const recentMonday = getRecentMondays()
 
@@ -63,6 +68,47 @@ const Report = () => {
     10: "ตุลาคม",
     11: "พฤศจิกายน",
     12: "ธันวาคม"
+  }
+
+  const copy = (url: string) => {
+    const ta = document.createElement('textarea')
+    ta.innerText = url
+    document.body.appendChild(ta)
+    ta.select()
+    document.execCommand('copy')
+    ta.remove()
+  }
+
+  const generateUrl = async (clubId: string) => {
+    if (checked[clubId].id) {
+      copy(`https://register.clubs.triamudom.ac.th/panel/attendance?access=${checked[clubId].id}&route=${clubId}&targetTime=${checked[clubId].targetTime}&expire=${checked[clubId].expire}`)
+      const timeLeft = convertMiliseconds(checked[clubId].expire - new Date().getTime())
+      addToast({
+        theme: "modern",
+        icon: "tick",
+        title: "บันทึกลิงก์ลงคลิปบอร์ดแล้ว",
+        text: `ลิงก์นี้เหลืออายุอีก ${timeLeft.h} ชั่วโมง ${timeLeft.m} นาที`,
+        crossPage: true
+      })
+      return
+    }
+
+    const fp = await FingerprintJS.load()
+    const fingerPrint = await fp.get();
+
+    const response = await createTempAccUrlBridge.call({timestamp: selected.name, club: clubId, fp: fingerPrint.visitorId})
+    console.log(response)
+    if (response.status) {
+      copy(response.data.accessUrl)
+      addToast({
+        theme: "modern",
+        icon: "tick",
+        title: "บันทึกลิงก์ลงคลิปบอร์ดแล้ว",
+        text: "คุณได้สร้างลิงก์สำหรับเข้าถึงหน้าเช็กชื่อสำเร็จแล้ว ลิงก์จะมีอายุ 2 ชั่วโมง",
+        crossPage: true
+      })
+      fetchReport(setChecked, selected, reFetch)
+    }
   }
 
   return(
@@ -139,7 +185,12 @@ const Report = () => {
             {sliced[0].map(item => {
               return <div className="flex justify-between items-center bg-white py-4 px-4 rounded-md shadow-md space-x-2">
                 <span className="cursor-pointer" onClick={() => {goToAttendanceZone(item)}}>ชมรม{clubMap[item]}</span>
-                {checked.includes(item) ? <CheckIcon className="w-5 h-5 text-white p-[2px] bg-TUCMC-green-400 rounded-md flex-shrink-0"/> : <XIcon className="w-5 h-5 text-white p-[2px] bg-TUCMC-red-400 rounded-md flex-shrink-0"/>}
+                <div className="flex items-center space-x-2">
+                  <div onClick={() => {generateUrl(item)}} className="cursor-pointer">
+                    {checked[item]?.expire ? <ClockIcon className="w-[22px] h-[22px] text-yellow-500"/> : <PaperClipIcon className="w-5 h-5 text-TUCMC-gray-600"/>}
+                  </div>
+                  {checked[item]?.checked ? <CheckIcon className="w-5 h-5 text-white p-[2px] bg-TUCMC-green-400 rounded-md flex-shrink-0"/> : <XIcon className="w-5 h-5 text-white p-[2px] bg-TUCMC-red-400 rounded-md flex-shrink-0"/>}
+                </div>
               </div>
             })}
           </div>
@@ -147,14 +198,19 @@ const Report = () => {
             {sliced[1].map(item => {
               return <div className="flex justify-between items-center bg-white py-4 px-4 rounded-md shadow-md space-x-2">
                 <span className="cursor-pointer" onClick={() => {goToAttendanceZone(item)}}>ชมรม{clubMap[item]}</span>
-                {checked.includes(item) ? <CheckIcon className="w-5 h-5 text-white p-[2px] bg-TUCMC-green-400 rounded-md flex-shrink-0"/> : <XIcon className="w-5 h-5 text-white p-[2px] bg-TUCMC-red-400 rounded-md flex-shrink-0"/>}
+                <div className="flex items-center space-x-2">
+                  <div onClick={() => {generateUrl(item)}} className="cursor-pointer">
+                    {checked[item]?.expire ? <ClockIcon className="w-[22px] h-[22px] text-yellow-500"/> : <PaperClipIcon className="w-5 h-5 text-TUCMC-gray-600"/>}
+                  </div>
+                {checked[item]?.checked ? <CheckIcon className="w-5 h-5 text-white p-[2px] bg-TUCMC-green-400 rounded-md flex-shrink-0"/> : <XIcon className="w-5 h-5 text-white p-[2px] bg-TUCMC-red-400 rounded-md flex-shrink-0"/>}
+                </div>
               </div>
             })}
             <div className="flex flex-col bg-white py-4 px-4 rounded-md shadow-md space-y-2">
               <h1 className="text-lg font-medium">Summary</h1>
               <div className="flex flex-col">
-                <span>Submitted: <span className="text-TUCMC-gray-600">{checked.length}</span> from <span className="text-TUCMC-gray-600">{Object.keys(clubMap).length}</span></span>
-                <span>Missing: <span className="text-TUCMC-gray-600">{Object.keys(clubMap).length - checked.length}</span></span>
+                <span>Submitted: <span className="text-TUCMC-gray-600">{Object.values(checked).filter((val: {checked: boolean}) => (val.checked)).length}</span> from <span className="text-TUCMC-gray-600">{Object.keys(clubMap).length}</span></span>
+                <span>Missing: <span className="text-TUCMC-gray-600">{Object.keys(clubMap).length - Object.values(checked).filter((val: {checked: boolean}) => (val.checked)).length}</span></span>
               </div>
               <span>Date: <span className="text-TUCMC-gray-600">วันจันทร์ที่ {new Date(selected.name).getDate()} {month[new Date(selected.name).getMonth() + 1]} {new Date(selected.name).getFullYear() + 543}</span></span>
             </div>

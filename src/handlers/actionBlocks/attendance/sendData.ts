@@ -8,7 +8,16 @@ export const sendDataBlock = sendDataContext.helper.createAction(async (APIParam
 
   const {data, panelID} = parameters
 
-  const lastmonday = getPrevMonday()
+  let lastmonday = getPrevMonday()
+
+  if (parameters.accessId) {
+    const accessData = await initialisedDB.collection("temp-tasks").doc(parameters.accessId).get()
+    if (accessData.get("expire") > new Date().getTime()) {
+      lastmonday = accessData.get("targetTime")
+    }else{
+      accessData.ref.delete()
+    }
+  }
 
   await initialisedDB.collection("attendance").doc(lastmonday.toString()).set({
     [panelID]: data

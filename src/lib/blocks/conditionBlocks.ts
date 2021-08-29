@@ -2,6 +2,7 @@ import {ConditionBlock} from "../action/createAction";
 import {fetchSession} from "./lib/session";
 import {checkPermissionFromRefID} from "./lib/permission/checkPermissionFromRefID";
 import initialisedDB from "@server/firebase-admin";
+import {checkAdminFromUserID} from "@lib/blocks/lib/permission/checkAdminFromUserID";
 
 const checkSession: ConditionBlock<null> = async (req,res) => {
   const sessionData = await fetchSession(req, res)
@@ -28,8 +29,20 @@ const checkEmail: ConditionBlock<null> = async (req, res) => {
   return {status: true, report: "authenticated", data: {userID: user.docs[0].id}}
 }
 
+const checkAdmin: ConditionBlock<null> = async (req, res) => {
+  const session = await checkSession(req, res)
+
+  if (!session.status) return session
+
+  const checkPermResult = await checkAdminFromUserID(session.data.userID, req)
+  if (!checkPermResult.status) return checkPermResult
+
+  return {status: true, report: "valid"}
+}
+
 export const conditionBlocks = {
   checkSession,
   checkPanel,
-  checkEmail
+  checkEmail,
+  checkAdmin
 }

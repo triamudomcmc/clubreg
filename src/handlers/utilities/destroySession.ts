@@ -27,6 +27,8 @@ export const destroySession = async (req: NextApiRequest, res: NextApiResponse, 
   const cookies = new Cookies(req, res, {keys: [process.env.COOKIE_KEY]})
   const sessionID = cookies.get("sessionID", {signed: true})
 
+  //console.log(cause)
+
   if (!sessionID) return {status: false, report: "invalid_sessionID"}
 
   const destroySessResult = await destroyClientSession(cookies, sessionID)
