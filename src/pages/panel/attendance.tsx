@@ -21,7 +21,6 @@ import {XCircleIcon as XOutline} from "@heroicons/react/outline";
 import {FilterSearch} from "@components/common/Inputs/Search";
 import {useAuth} from "@client/auth";
 import Router from "next/router";
-import {fetchFiles, getFileTempURL} from "@client/fetcher/files";
 import {request} from "@client/utilities/request";
 import {fetchMembers} from "@client/fetcher/panel";
 import {useToast} from "@components/common/Toast/ToastContext";
@@ -29,11 +28,11 @@ import {PendingElement} from "@components/panel/element/PendingElement";
 import {CheckElement} from "@components/panel/element/CheckElement";
 import {isNumeric} from "@utilities/texts";
 import {Ellipsis} from "@vectors/Loaders/Ellipsis";
-import {fetchChecks, submitChecks} from "@client/fetcher/checks";
 import {getPrevMonday} from "@config/time";
+import {deleteFileContext, fetchChecksContext, fetchFilesContext, getFileContext, sendDataContext, uploadFileContext} from "@handlers/init/attendance";
 
 const fetchFilesData = async (fileUpdate, panelID, addToast, reFetch) => {
-  const data = await fetchFiles(panelID)
+  const data = await fetchFilesContext.call({panelID})
   if (data["status"]) {
     fileUpdate(data["data"].sort((a, b) => (a.timestamp - b.timestamp)))
   }else{
@@ -93,7 +92,7 @@ const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetState
 }
 
 const fetchCheckData = async (panelID: string, setCheckData, addToast, reFetch, setInit) => {
-  const data = await fetchChecks(panelID)
+  const data = await fetchChecksContext.call({panelID})
   if (data.status) {
     setCheckData(data.data)
     setInit(true)
@@ -206,7 +205,7 @@ const Attendance = () => {
     const file = e.target.files[0];
     const filename = encodeURIComponent(file.name);
     const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
-    const res = await request("uploader","uploadFile", {panelID: currentID, file: filename})
+    const res = await uploadFileContext.call({panelID: currentID, file: filename})
 
     const { url, fields } = res.data
     const formData = new FormData();
@@ -246,8 +245,7 @@ const Attendance = () => {
   }, [userData])
 
   const deleteID = async (id) => {
-    const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
-    const req = await request("database/files","deleteFile",{panelID: currentID, id: id})
+    const req = await deleteFileContext.call({id: id})
 
     setDel(prevState => ([...prevState, id]))
 
@@ -304,7 +302,7 @@ const Attendance = () => {
       return
     }
 
-    const res = await submitChecks(currentID, pendingUpdate)
+    const res = await sendDataContext.call({panelID: currentID, data: pendingUpdate})
     if (res.status) {
       addToast({
         theme: "modern",
@@ -354,8 +352,7 @@ const Attendance = () => {
   }
 
   const previewFile = async (fileID, filename) => {
-    const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
-    const response = await getFileTempURL(fileID, currentID)
+    const response = await getFileContext.call({fileID: filename})
 
     if (response.status) {
       setPreviewName(filename)

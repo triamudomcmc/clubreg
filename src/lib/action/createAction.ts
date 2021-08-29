@@ -14,7 +14,12 @@ export interface APIInitialiser {
 
 export interface ActionContext<T> {
   init(actionBlock: ActionBlock<T>, conditionBlock?: ConditionBlock<T>): APIInitialiser,
-  call(parameters: T): Promise<ActionResult>
+  call(parameters: T): Promise<ActionResult>,
+  helper: helper<T>
+}
+
+interface helper<T> {
+  createAction(actionBlock: ActionBlock<T>): ActionBlock<T>
 }
 
 export interface ActionResult {
@@ -91,5 +96,11 @@ export const createActionContext = (namespace: string, apiPath: string): ActionC
     return initActionContext(namespace, actionBlock, conditionBlock)
   }
 
-  return {init, call}
+  const createAction = (actionBlock) => (actionBlock)
+
+  const helper = {
+    createAction
+  }
+
+  return {init, call, helper}
 }

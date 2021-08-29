@@ -1,8 +1,9 @@
 import {fetchSession} from "@server/fetchers/session";
 import {appendDeviceToDB, check, checkExistedBrowser, getUserData} from "@actionBlocks/account/addBrowser/functions";
 import {ActionBlock} from "@lib/action/createAction";
+import {addBrowserContext} from "@handlers/init/account";
 
-export const addBrowserBlock: ActionBlock<{}> = async (APIParams, parameters, paramsFromCondition) => {
+export const addBrowserBlock = addBrowserContext.helper.createAction(async (APIParams, parameters, paramsFromCondition) => {
 
   const {ua, clientIp, userData} = await getUserData(APIParams.req, paramsFromCondition.userID)
 
@@ -18,3 +19,4 @@ export const addBrowserBlock: ActionBlock<{}> = async (APIParams, parameters, pa
   return {status: true, report: "success"}
 
 }
+)

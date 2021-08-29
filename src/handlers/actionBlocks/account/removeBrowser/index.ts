@@ -1,8 +1,9 @@
 import {fetchSession} from "@server/fetchers/session";
 import {performDeleteDevice} from "@actionBlocks/account/removeBrowser/functions";
 import {ActionBlock} from "@lib/action/createAction";
+import {removeBrowserContext} from "@handlers/init/account";
 
-export const removeBrowserBlock: ActionBlock<{browserID: string}> = async (APIParams, parameters, paramsFromCondition) => {
+export const removeBrowserBlock = removeBrowserContext.helper.createAction(async (APIParams, parameters, paramsFromCondition) => {
 
   const {browserID} = parameters
   if (browserID === "") return {status: false, report: "dataError"}
@@ -11,4 +12,4 @@ export const removeBrowserBlock: ActionBlock<{browserID: string}> = async (APIPa
 
   return {status: true, report: "success"}
 
-}
+})

@@ -2,8 +2,9 @@ import initialisedDB from "@server/firebase-admin";
 import sgMail from "@sendgrid/mail";
 import {update} from "@server/tracker";
 import {ActionBlock} from "@lib/action/createAction";
+import {forgotContext} from "@handlers/init/auth";
 
-export const forgotBlock: ActionBlock<{email: string}> = async (APIParams, parameters, paramsFromCondition) => {
+export const forgotBlock = forgotContext.helper.createAction(async (APIParams, parameters, paramsFromCondition) => {
 
   const userID = paramsFromCondition.userID
 
@@ -26,4 +27,4 @@ export const forgotBlock: ActionBlock<{email: string}> = async (APIParams, param
   update("system", "forgot", APIParams.fingerPrint, userID)
 
   return {status: true, report: "success"}
-}
+})

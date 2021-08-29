@@ -3,8 +3,9 @@ import {update} from "@server/tracker";
 import {appendSession, checkCredentials, destroyActiveSessions} from "./functions";
 import {generateCard} from "@server/userActions/sharedFunctions";
 import {ActionBlock, ActionResult} from "@lib/action/createAction";
+import {loginContext} from "@handlers/init/auth";
 
-export const loginBlock: ActionBlock<{stdID: string, password: string, verify: string}> = async (APIParams, parameters) => {
+export const loginBlock = loginContext.helper.createAction(async (APIParams, parameters) => {
 
   const {stdID, password, verify} = parameters
   const {fingerPrint, req, res} = APIParams
@@ -38,4 +39,4 @@ export const loginBlock: ActionBlock<{stdID: string, password: string, verify: s
 
   return {status: true, report: "success"}
 
-}
+})

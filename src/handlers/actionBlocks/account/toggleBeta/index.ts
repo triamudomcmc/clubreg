@@ -1,8 +1,9 @@
 import initialisedDB from "@server/firebase-admin";
 import {fetchSession} from "@server/fetchers/session";
 import {ActionBlock} from "@lib/action/createAction";
+import {toggleBetaContext} from "@handlers/init/account";
 
-export const toggleBetaBlock: ActionBlock<{name: string}> = async (APIParams, parameters, paramsFromCondition) => {
+export const toggleBetaBlock = toggleBetaContext.helper.createAction(async (APIParams, parameters, paramsFromCondition) => {
 
   const {name} = parameters
 
@@ -23,4 +24,4 @@ export const toggleBetaBlock: ActionBlock<{name: string}> = async (APIParams, pa
 
   return {status: true, report: "success"}
 
-}
+})

@@ -1,8 +1,9 @@
 import initialisedDB from "@server/firebase-admin";
 import {fetchSession} from "@server/fetchers/session";
 import {ActionBlock} from "@lib/action/createAction";
+import {toggleSafeModeContext} from "@handlers/init/account";
 
-export const toggleSafeModeBlock: ActionBlock<{safeMode: boolean}> = async (APIParams, parameters, paramsFromCondition) => {
+export const toggleSafeModeBlock = toggleSafeModeContext.helper.createAction(async (APIParams, parameters, paramsFromCondition) => {
 
   const {safeMode} = parameters
 
@@ -12,4 +13,4 @@ export const toggleSafeModeBlock: ActionBlock<{safeMode: boolean}> = async (APIP
 
   return {status: true, report: "success"}
 
-}
+})

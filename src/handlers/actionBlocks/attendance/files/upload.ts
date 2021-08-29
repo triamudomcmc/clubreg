@@ -1,8 +1,12 @@
-import { Storage } from '@google-cloud/storage';
+import {ActionBlock} from "@lib/action/createAction";
+import {Storage} from "@google-cloud/storage";
 import initialisedDB from "@server/firebase-admin";
 import {update} from "@server/tracker";
+import {uploadFileContext} from "@handlers/init/attendance";
 
-export const performUpload = async (req, ID) => {
+export const uploadFileBlock = uploadFileContext.helper.createAction(async (APIParams, parameters, paramsFromCondition) => {
+
+  const {fingerPrint} = APIParams
 
   const storage = new Storage({
     projectId: process.env.PROJECT_ID,
@@ -13,7 +17,7 @@ export const performUpload = async (req, ID) => {
   });
 
   const bucket = storage.bucket(process.env.BUCKET_NAME);
-  const tempFileName = `${req.body.panelID}-${new Date().getTime()}`
+  const tempFileName = `${parameters.panelID}-${new Date().getTime()}`
   const file = bucket.file(tempFileName);
 
   const options = {
@@ -23,14 +27,14 @@ export const performUpload = async (req, ID) => {
 
   await initialisedDB.collection("files").add({
     timestamp: new Date().getTime(),
-    owner: req.body.panelID,
-    filename: decodeURI(req.body.file),
+    owner: parameters.panelID,
+    filename: decodeURI(parameters.file),
     bucketName: tempFileName
   })
 
   const [response] = await file.generateSignedPostPolicyV4(options);
 
-  update("system",`fileUpload-${tempFileName}`, req.body.fp, ID.userID)
+  update("system",`fileUpload-${tempFileName}`, fingerPrint, paramsFromCondition.userID)
 
-  return response
-}
+  return {status: true, report: "success", data: response}
+})

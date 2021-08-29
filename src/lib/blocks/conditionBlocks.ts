@@ -10,12 +10,11 @@ const checkSession: ConditionBlock<null> = async (req,res) => {
   return {status: true, report: "authenticated", data: sessionData.ID}
 }
 
-const checkPanel: ConditionBlock<{panelID: string}> = async (req, res, data) => {
+const checkPanel: ConditionBlock<null> = async (req, res, data) => {
 
   const session = await checkSession(req, res)
 
   if (!session.status) return session
-  if (data.panelID === "") return {status: false, report: "unexpectd"}
 
   const checkPermResult = await checkPermissionFromRefID(session.data.dataRefID, req)
   if (!checkPermResult.status) return checkPermResult

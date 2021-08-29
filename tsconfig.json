@@ -29,7 +29,8 @@
       "@actionBlocks/*": ["handlers/actionBlocks/*"],
       "@interfaces/*": ["interfaces/*"],
       "@config/*": ["config/*"],
-      "@lib/*": ["lib/*"]
+      "@lib/*": ["lib/*"],
+      "@init/*": ["handlers/init/*"]
     }
   },
   "include": [

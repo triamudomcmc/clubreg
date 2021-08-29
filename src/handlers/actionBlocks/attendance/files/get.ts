@@ -1,13 +1,11 @@
-import {executeWithPermission} from "@server/utilities/permission";
-import { Storage } from '@google-cloud/storage';
+import {ActionBlock} from "@lib/action/createAction";
 import initialisedDB from "@server/firebase-admin";
-import {performFetchFiles} from "@server/attendance/fetchFiles/mainFunction";
-import {request} from "http";
+import {Storage} from "@google-cloud/storage";
 import {getUNIXTimeStamp} from "@config/time";
+import {getFileContext} from "@handlers/init/attendance";
 
-const main = async (req, ID) => {
-
-  const fileData = await initialisedDB.collection("files").doc(req.body.fileID).get()
+export const getFileBlock = getFileContext.helper.createAction(async (APIParams, parameters) => {
+  const fileData = await initialisedDB.collection("files").doc(parameters.fileID).get()
 
   if (!fileData.exists) return {status: false, report: "fileNotExist"}
 
@@ -29,12 +27,4 @@ const main = async (req, ID) => {
   })
 
   return {status: true, report: "success", data: {url: url || ""}}
-}
-
-export const getFile = async (req, res) => {
-
-  return await executeWithPermission(req, res, async (req, res, ID) => {
-    return await main(req, ID)
-  })
-
-}
+})

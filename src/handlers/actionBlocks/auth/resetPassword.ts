@@ -2,8 +2,9 @@ import initialisedDB from "@server/firebase-admin";
 import {update} from "@server/tracker";
 import {ActionBlock} from "@lib/action/createAction";
 import bcrypt from "bcryptjs"
+import {resetPasswordContext} from "@handlers/init/auth";
 
-export const resetPasswordBlock: ActionBlock<{password: string, conPassword: string, actionID: string}> = async (APIParams, parameters) => {
+export const resetPasswordBlock = resetPasswordContext.helper.createAction(async (APIParams, parameters) => {
 
   const {password, conPassword, actionID} = parameters
 
@@ -19,4 +20,4 @@ export const resetPasswordBlock: ActionBlock<{password: string, conPassword: str
   update("system", "reset_password", APIParams.fingerPrint, doc.get("userID"))
 
   return {status: true, report: "success"}
-}
+})
