@@ -1,6 +1,6 @@
 import {ActionContext, createActionContext} from "@lib/action/createAction";
 
-interface RegisterParamsType {
+export interface RegisterParamsType {
   stdID: string,
   email: string,
   phone: string,
