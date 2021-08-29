@@ -38,8 +38,8 @@ function useProvideAuth() {
   const router = useRouter()
 
   useEffect(() => {
-    if (userData !== null && router.pathname !== "/auth" && router.pathname !== "/") {
-      localStorage.setItem("lastVisited", router.pathname)
+    if (router.pathname !== "/auth" && router.pathname !== "/") {
+      localStorage.setItem("lastVisited", router.asPath)
     }
   },[router.pathname])
 

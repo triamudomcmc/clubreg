@@ -11,7 +11,7 @@ import {
   ArrowCircleDownIcon,
   ArrowLeftIcon,
   CheckCircleIcon,
-  CloudIcon,
+  CloudIcon, ExclamationIcon,
   PaperClipIcon,
   PlusCircleIcon,
   RefreshIcon,
@@ -31,9 +31,10 @@ import {isNumeric} from "@utilities/texts";
 import {Ellipsis} from "@vectors/Loaders/Ellipsis";
 import {fetchChecks, submitChecks} from "@client/fetcher/checks";
 import {getPrevMonday} from "@config/time";
+import {convertMiliseconds} from "@utilities/timers";
 
-const fetchFilesData = async (fileUpdate, panelID, addToast, reFetch) => {
-  const data = await fetchFiles(panelID)
+const fetchFilesData = async (fileUpdate, panelID, addToast, reFetch, query) => {
+  const data = await fetchFiles(panelID, query.access || undefined)
   if (data["status"]) {
     fileUpdate(data["data"].sort((a, b) => (a.timestamp - b.timestamp)))
   }else{
@@ -92,8 +93,8 @@ const fetchMemberData = async (panelID: string, setMemberData: Dispatch<SetState
   }
 }
 
-const fetchCheckData = async (panelID: string, setCheckData, addToast, reFetch, setInit) => {
-  const data = await fetchChecks(panelID)
+const fetchCheckData = async (panelID: string, setCheckData, addToast, reFetch, setInit, query) => {
+  const data = await fetchChecks(panelID,query.access || undefined)
   if (data.status) {
     setCheckData(data.data)
     setInit(true)
@@ -121,7 +122,7 @@ const fetchCheckData = async (panelID: string, setCheckData, addToast, reFetch, 
   }
 }
 
-const Attendance = () => {
+const Attendance = ({query}) => {
 
   const {onReady, reFetch} = useAuth()
   const [initClub, setInitClub] = useState(false)
@@ -144,7 +145,7 @@ const Attendance = () => {
   const [previewName, setPreviewName] = useState("")
 
   const userData = onReady((logged, userData) => {
-    if (!logged) Router.push("/auth")
+    if (!logged) return Router.push("/auth")
 
     if (!("panelID" in userData) || userData.panelID.length <= 0) {
       Router.push("/account");
@@ -205,7 +206,7 @@ const Attendance = () => {
   const uploadPhoto = async (e) => {
     const file = e.target.files[0];
     const filename = encodeURIComponent(file.name);
-    const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
+    const currentID = query.route || localStorage.getItem("currentPanel") || userData.panelID[0]
     const res = await request("uploader","uploadFile", {panelID: currentID, file: filename})
 
     const { url, fields } = res.data
@@ -232,21 +233,21 @@ const Attendance = () => {
   };
 
   const refetch = () => {
-    const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
-    fetchFilesData(setFiles, currentID, addToast, reFetch)
-    fetchCheckData(currentID, setCheckData, addToast, reFetch, setInitClub)
+    const currentID = query.route || localStorage.getItem("currentPanel") || userData.panelID[0]
+    fetchFilesData(setFiles, currentID, addToast, reFetch, query)
+    fetchCheckData(currentID, setCheckData, addToast, reFetch, setInitClub, query)
   }
 
   useEffect(() => {
     if (("panelID" in userData) && userData.panelID.length > 0) {
       refetch()
-      const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
+      const currentID = query.route || localStorage.getItem("currentPanel") || userData.panelID[0]
       fetchMemberData(currentID, setMemberData, addToast, reFetch, setInitMember)
     }
   }, [userData])
 
   const deleteID = async (id) => {
-    const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
+    const currentID = query.route || localStorage.getItem("currentPanel") || userData.panelID[0]
     const req = await request("database/files","deleteFile",{panelID: currentID, id: id})
 
     setDel(prevState => ([...prevState, id]))
@@ -279,7 +280,7 @@ const Attendance = () => {
   },[checkData])
 
   const submitCheck = async () => {
-    const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
+    const currentID = query.route || localStorage.getItem("currentPanel") || userData.panelID[0]
     setPending(true)
 
     if (!accept) {
@@ -304,7 +305,7 @@ const Attendance = () => {
       return
     }
 
-    const res = await submitChecks(currentID, pendingUpdate)
+    const res = await submitChecks(currentID, pendingUpdate, query.access || undefined)
     if (res.status) {
       addToast({
         theme: "modern",
@@ -337,7 +338,7 @@ const Attendance = () => {
     setPending(false)
   }
 
-  const prevMonday = new Date(getPrevMonday())
+  const prevMonday = new Date(parseInt(query.targetTime) || getPrevMonday())
   const month = {
       1: "มกราคม",
       2: "กุมภาพันธ์",
@@ -354,7 +355,7 @@ const Attendance = () => {
   }
 
   const previewFile = async (fileID, filename) => {
-    const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
+    const currentID = query.route || localStorage.getItem("currentPanel") || userData.panelID[0]
     const response = await getFileTempURL(fileID, currentID)
 
     if (response.status) {
@@ -385,8 +386,56 @@ const Attendance = () => {
     }
   }
 
+  const [cd, setCd] = useState({h:0,m:0})
+  const [redirect, setRedirect] = useState(5)
+
+  useEffect(() => {
+    if (query.expire) {
+      if (query.expire > new Date().getTime()) {
+        setInterval(() => {
+          const ts = query.expire- new Date().getTime()
+          const t = convertMiliseconds(ts)
+          setCd({
+            m: t.m,
+            h: t.h
+          })
+        }, 1000)
+      }else{
+        setInterval(() => {
+          setRedirect((prevState) => prevState - 1)
+        }, 1000)
+      }
+    }
+  }, [query])
+
+  useEffect(() => {
+    if (redirect <= 0) {
+      Router.push("/panel")
+    }
+  }, [redirect])
+
   return (
     <PageContainer hide={!initClub}>
+      {query.access && query.route && query.targetTime && <div className="fixed top-0 z-[100] ml-[-137px] left-[50vw] mx-auto">
+        <div className="flex space-x-2 items-center bg-TUCMC-red-600 rounded-md py-2 pl-4 pr-6 shadow-md">
+          {(query.expire > new Date().getTime()) ? <ExclamationIcon className="w-10 h-10 text-white mt-2 animate-pulse"/> : <XCircleIcon className="w-10 h-10 text-white animate-pulse"/> }
+          {(query.expire > new Date().getTime()) ? <div>
+            <div className="flex space-x-2 items-center text-white font-medium">
+              <h1>คุณกำลังแก้ไขข้อมูลย้อนหลัง</h1>
+            </div>
+            <div className="text-sm flex justify-center text-white">
+              <p>ลิงก์จะหมดอายุใน <span className="animate-pulse">{cd.h}</span> ชม. <span className="animate-pulse">{cd.m}</span> นาที</p>
+            </div>
+          </div> : <div>
+            <div className="flex space-x-2 items-center text-white font-medium">
+              <h1>ลิงก์นี้ได้หมดอายุไปแล้ว</h1>
+            </div>
+            <div className="text-sm flex justify-center text-white">
+              <p>ระบบจะนำคุณกลับในอีก <span className="animate-pulse">{redirect}</span> วินาที</p>
+            </div>
+          </div>}
+        </div>
+      </div>}
       <AnimatePresence>
         <div className={classnames("min-h-screen", !initClub && "opacity-0")}>
           <Modal className="relative w-[80vw]" closeClickOutside={true} CloseID="closePreview" TriggerDep={{dep: openPre, revert: () => {setOpenPre(false)}}} overlayClassName="fixed top-0 left-0 min-w-screen min-h-screen w-full bg-gray-700 bg-opacity-50 z-60 flex justify-center items-center">
@@ -501,6 +550,10 @@ const Attendance = () => {
       </AnimatePresence>
     </PageContainer>
   )
+}
+
+Attendance.getInitialProps = ({query}) => {
+  return {query}
 }
 
 export default Attendance

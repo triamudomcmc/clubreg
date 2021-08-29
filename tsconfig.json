@@ -26,7 +26,8 @@
       "@client/*": ["handlers/client/*"],
       "@server/*": ["handlers/server/*"],
       "@interfaces/*": ["interfaces/*"],
-      "@config/*": ["config/*"]
+      "@config/*": ["config/*"],
+      "@init/*": ["handlers/init/*"]
     }
   },
   "include": [

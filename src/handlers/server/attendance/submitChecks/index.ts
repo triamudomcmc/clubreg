@@ -5,7 +5,16 @@ import initialisedDB from "@server/firebase-admin";
 import {update} from "@server/tracker";
 
 const performSubmitFetch = async (req, ID) => {
-  const lastmonday = getPrevMonday()
+  let lastmonday = getPrevMonday()
+
+  if (req.body.accessId) {
+    const accessData = await initialisedDB.collection("temp-tasks").doc(req.body.accessId).get()
+    if (accessData.get("expire") > new Date().getTime()) {
+      lastmonday = accessData.get("targetTime")
+    }else{
+      accessData.ref.delete()
+    }
+  }
 
   await initialisedDB.collection("attendance").doc(lastmonday.toString()).set({
     [req.body.panelID]: req.body.data
