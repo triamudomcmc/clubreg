@@ -15,7 +15,8 @@ export const getUNIXTimeStamp = () => {
 }
 
 export const getPrevMonday = (offset = 0) => {
-  let prevMonday = new Date((moment().unix() * 1000) + (7 * 60 * 60 * 1000) - offset)
+  const utcOffset = moment().utcOffset()
+  let prevMonday = new Date((moment().unix() * 1000) + ((7 * 60 * 60 * 1000) - (utcOffset * 60 * 1000)) - offset)
 
   prevMonday.setDate(prevMonday.getDate() - (prevMonday.getDay() + 6) % 7);
   const timePart = ((prevMonday.getHours()) * 60 * 60 * 1000) + ((prevMonday.getMinutes()) * 60 * 1000) + ((prevMonday.getSeconds()) * 1000) + prevMonday.getMilliseconds()
