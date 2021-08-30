@@ -21,7 +21,7 @@ const Auth = ({query}) => {
 
   onReady((logged, userData) => {
     if (logged) {
-      if (localStorage.getItem("lastVisited").includes("?")) {
+      if (localStorage.getItem("lastVisited").includes("?access")) {
         const lastPage = localStorage.getItem("lastVisited")
         return Router.push(lastPage)
       }
