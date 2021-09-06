@@ -21,27 +21,28 @@ const Auth = ({query}) => {
 
   onReady((logged, userData) => {
     if (logged) {
-      if (localStorage.getItem("lastVisited").includes("?access")) {
-        const lastPage = localStorage.getItem("lastVisited")
-        return Router.push(lastPage)
-      }
+      // Sussy
+      // if (localStorage.getItem("lastVisited").includes("?access")) {
+      //   const lastPage = localStorage.getItem("lastVisited")
+      //   return Router.push(lastPage)
+      // }
       if (userData.student_id.includes("ก")) {
         return Router.push("/panel")
       }
       if (userData.club !== "") {
         return Router.push("/card")
       }
-      if (!userData.club) {
-        if (new Date().getTime() > lastround && new Date().getTime() < endLastRound) {
-          Router.push("/select")
-        } else {
-          Router.push("/announce")
-        }
-      }
+      // if (!userData.club) {
+      //   if (new Date().getTime() > lastround && new Date().getTime() < endLastRound) {
+      //     Router.push("/select")
+      //   } else {
+      //     Router.push("/announce")
+      //   }
+      // }
     }
-    if (new Date().getTime() < openTime) {
-      Router.push("/")
-    }
+    // if (new Date().getTime() < openTime) {
+    //   Router.push("/")
+    // }
   })
 
   const goRegister = () => {
