@@ -165,6 +165,13 @@ const Evaluate = () => {
 
   useEffect(() => {
     if (userData.panelID) {
+      let currPanel = localStorage.getItem("currentPanel")
+
+      if (userData.panelID && (!currPanel || currPanel === "")) {
+        currPanel = userData.panelID[0]
+        localStorage.setItem("currentPanel", currPanel)
+      }
+
       fetch()
     }
   }, [userData])
