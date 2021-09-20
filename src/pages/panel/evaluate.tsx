@@ -275,7 +275,7 @@ const Evaluate = () => {
 
               return (
                 <div className="flex flex-col w-16 flex-shrink-0">
-                  <h1 className="font-medium py-2 bg-gray-100 border-t border-b">{date.getDate()} {month[date.getMonth() - 1]}</h1>
+                  <h1 className="font-medium py-2 bg-gray-100 border-t border-b">{date.getDate()} {month[date.getMonth() + 1]}</h1>
                   {member.map((people) => {
 
                     let status = false
