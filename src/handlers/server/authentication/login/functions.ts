@@ -72,7 +72,7 @@ export const appendSession = async (sessionsColl, userDoc, fingerPrint, live ,re
 
   //append session to db
   const sess = await sessionsColl.add({
-    userID: userDoc.id, dataRefID: userDoc.get("dataRefID"), clientfp: fingerPrint, expires: expires, special: !!userDoc.get("admin")
+    userID: userDoc.id, dataRefID: userDoc.get("dataRefID"), clientfp: fingerPrint, expires: expires, special: !!userDoc.get("admin") ? "admin" : userDoc.get("stdID").includes("ก") ? "teacher" : false
   })
 
   //set session cookie

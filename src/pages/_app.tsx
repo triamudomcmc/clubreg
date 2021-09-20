@@ -4,6 +4,7 @@ import "@styles/tailwind.css"
 import Head from "next/head";
 import {AuthProvider} from "@client/auth";
 import {ToastProvider} from "@components/common/Toast/ToastContext";
+import AlertModal from "@components/alert/AlertModal";
 
 const App = ({Component, pageProps}: AppProps) => {
 
@@ -14,6 +15,7 @@ const App = ({Component, pageProps}: AppProps) => {
     </Head>
     <AuthProvider>
       <ToastProvider>
+        <AlertModal/>
         <Component {...pageProps} />
       </ToastProvider>
     </AuthProvider>

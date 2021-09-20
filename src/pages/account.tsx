@@ -245,7 +245,13 @@ const Account = () => {
             {/*    </Button>*/}
             {/*  </div>*/}
             {/*</div>*/}
-            {userData.panelID && <div className="border-b border-gray-200 py-4 md:py-6 pace-y-4 md:flex md:space-y-0 md:space-x-[9.3rem]">
+            {userData.panelID && <div className="border-b border-gray-200 py-4 md:py-6 space-y-2 md:flex md:space-y-0 md:space-x-[9.3rem]">
+              <h1 className="text-TUCMC-gray-900 mr-4">จัดการแผงควบคุม</h1>
+              <Button href="/transfer" className="bg-TUCMC-pink-400 text-white px-5 py-2 rounded-lg w-full max-w-sm">
+                โอนสิทธิ์เข้าถึงแผงควบคุมให้ผู้อื่น
+              </Button>
+            </div>}
+            {(userData.panelID || userData.admin) && <div className="border-b border-gray-200 py-4 md:py-6 space-y-2 md:flex md:space-y-0 md:space-x-[9.3rem]">
                 <h1 className="text-TUCMC-gray-900">เบราว์เซอร์ที่เชื่อถือได้</h1>
                 <div>
                     <div className="space-y-2">

@@ -8,6 +8,7 @@ import Router from "next/router";
 import classnames from "classnames"
 import {useAuth} from "@client/auth";
 import {
+  AcademicCapIcon,
   CalendarIcon, ChatIcon,
   ClipboardListIcon, CogIcon, DocumentTextIcon,
   HomeIcon, KeyIcon,
@@ -15,7 +16,7 @@ import {
   LogoutIcon,
   TerminalIcon, HeartIcon, LibraryIcon
 } from "@heroicons/react/outline";
-import {ChevronDownIcon} from "@heroicons/react/solid";
+import {ChevronDownIcon, StarIcon} from "@heroicons/react/solid";
 import Modal from "@components/common/Modals";
 import {isEmpty} from "@utilities/object";
 
@@ -141,6 +142,9 @@ const Navigation = () => {
                       <Link href="/admin"><h1 className="text-black cursor-pointer hover:text-blue-600 hover:underline">Dashboard</h1>
                       </Link>}
                       {logged && userData.panelID &&
+                      <Link href="/panel/evaluate"><h1 className="flex space-x-1 items-center font-medium text-TUCMC-orange-500 cursor-pointer hover:text-blue-600 hover:underline"><span>ประเมินผล</span> <StarIcon className="w-4 h-4 animate-pulse"/></h1>
+                      </Link>}
+                      {logged && userData.panelID &&
                       <Link href="/panel"><h1 className="text-black cursor-pointer hover:text-blue-600 hover:underline">แผงควบคุม</h1>
                       </Link>}
                       {userData && userData.club === "" &&
@@ -219,6 +223,13 @@ const Navigation = () => {
                 <LibraryIcon className={classnames("w-7 h-7", getClass("/panel", "icon"))}/> <span
                 className={getClass("/admin", "font")}>Dashboard</span>
             </div>
+        </Link>}
+        {(logged && userData.panelID) && <Link href="/panel/evaluate">
+          <div
+            className={classnames("flex flex-row border-l-2 border-TUCMC-orange-500 items-center space-x-4 pl-4 py-3 pr-8", getClass("/panel/evaluate", "bg"))}>
+            <AcademicCapIcon className={classnames("w-7 h-7 animate-pulse text-TUCMC-orange-500", getClass("/panel/evaluate", "icon"))}/> <span
+            className={classnames("text-TUCMC-orange-500", getClass("/panel/evaluate", "font"))}>ประเมินผล</span>
+          </div>
         </Link>}
         {(logged && userData.panelID) && <Link href="/panel">
             <div

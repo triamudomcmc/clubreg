@@ -10,5 +10,6 @@ export default interface UserData {
   audition: {},
   panelID?: Array<string>,
   admin?: boolean,
-  safeMode?: boolean
+  safeMode?: boolean,
+  conTasks?: {}
 }

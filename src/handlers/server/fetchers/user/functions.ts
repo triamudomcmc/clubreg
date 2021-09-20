@@ -38,19 +38,27 @@ export const getUserDataFromSessionData = async (sessionData) => {
   })
 
   const hide = new Date().getTime() < announceTime
-  let isAdmin = false, safeMode: false
+  let isAdmin = false, safeMode: false, isTeacher = false, annData = {}
 
   if (!!sessionData.get("special")) {
-    const data = await initialisedDB.collection("users").doc(sessionData.get("userID")).get()
-    isAdmin = !!data.get("admin")
-    safeMode = data.get("safeMode")
+    if (sessionData.get("special") === "admin") {
+      const data = await initialisedDB.collection("users").doc(sessionData.get("userID")).get()
+      isAdmin = !!data.get("admin")
+      safeMode = data.get("safeMode")
+    }else{
+      const announcement = await initialisedDB.collection("confirmation-tasks").where("target", "==", sessionData.get("userID")).where("status", "==", "waiting").get()
+      if (announcement.docs.length > 0) {
+        isTeacher = true
+        annData = {...announcement.docs[0].get("data"), id: announcement.docs[0].id}
+      }
+    }
   }
 
   const userData = {
     logged: true,
     expires: sessionData.get("expires"),
     userID: sessionData.get("userID"),
-    userData: {...d, ...hide && {audition: esc}, ...isAdmin && {admin: isAdmin, safeMode: safeMode}}
+    userData: {...d, ...hide && {audition: esc}, ...isAdmin && {admin: isAdmin, safeMode: safeMode}, ...isTeacher && {conTasks: annData}}
   }
 
   return {status: true, userData}
