@@ -5,7 +5,7 @@ import {useAuth} from "@client/auth";
 import {fetchMembers} from "@client/fetcher/panel";
 import Router from "next/router";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
-import {CheckIcon, ChevronDownIcon, ChevronUpIcon, XIcon} from "@heroicons/react/solid";
+import {CheckIcon, ChevronDownIcon, ChevronUpIcon, EyeIcon, EyeOffIcon, XIcon} from "@heroicons/react/solid";
 import {EvalCheck} from "@components/panel/element/EvalCheck";
 import {Button} from "@components/common/Inputs/Button";
 import classnames from "classnames";
@@ -27,6 +27,7 @@ const Evaluate = () => {
   const [pendingUpdate, setPendingUpdate] = useState({})
   const [accept, setAccept] = useState(false)
   const [pending, setPending] = useState(false)
+  const [pinned, setPinned] = useState(false)
   const box = useRef(null)
   const clubsTrigger = useRef(null)
   const [closeBox, setCloseBox] = useState(false)
@@ -230,15 +231,29 @@ const Evaluate = () => {
           </div>
         </div>
         <div className="flex justify-center w-full">
+          {pinned && <div className="flex flex-col flex-shrink-0">
+            <div className="flex items-center space-x-4 py-2 pl-4 bg-gray-100 rounded-tl-lg border-l border-b border-t">
+              <h1 className="font-medium">ชื่อ นามสกุล</h1>
+              <EyeOffIcon onClick={() => {setPinned(false)}} className="w-5 h-5 text-TUCMC-gray-700 cursor-pointer"/>
+            </div>
+            {member.map((people) => {
+              return (
+                <span className="flex items-center border-l border-b h-10 pl-4">{people.title}{people.firstname} {people.lastname}</span>
+              )
+            })}
+          </div>}
           <div className="flex flex-row overflow-x-scroll pb-4">
-            <div className="flex flex-col flex-shrink-0">
-              <h1 className="font-medium py-2 pl-4 bg-gray-100 rounded-tl-lg border-l border-b border-t">ชื่อ นามสกุล</h1>
+            {!pinned && <div className="flex flex-col flex-shrink-0">
+              <div className="flex items-center space-x-4 py-2 pl-4 bg-gray-100 rounded-tl-lg border-l border-b border-t">
+                <h1 className="font-medium">ชื่อ นามสกุล</h1>
+                <EyeIcon onClick={() => {setPinned(true)}} className="w-5 h-5 text-TUCMC-gray-700 cursor-pointer"/>
+              </div>
               {member.map((people) => {
                 return (
                   <span className="flex items-center border-l border-b h-10 pl-4">{people.title}{people.firstname} {people.lastname}</span>
                 )
               })}
-            </div>
+            </div>}
             <div className="flex flex-col flex-shrink-0">
               <h1 className="font-medium py-2 bg-gray-100 text-center border-b border-t px-4">ห้อง</h1>
               {member.map((people) => {
