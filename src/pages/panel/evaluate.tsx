@@ -157,7 +157,7 @@ const Evaluate = () => {
     const member = await fetchMembers(panelID, false)
 
     res.data && setChecks(res.data.sort((a, b) => (parseInt(a.date) - parseInt(b.date))))
-    member.data && setMembers(member.data.filter((data) => (!data.student_id.includes("ก"))))
+    member.data && setMembers(member.data.filter((data) => (!data.student_id.includes("ก"))).sort((a, b) => (parseInt(a.room) - parseInt(b.room) || parseInt(a.number) - parseInt(b.number))))
 
     const evalData = await getEvaluationData.call({panelID: panelID, fp: fingerPrint.visitorId})
     evalData.data && setPendingUpdate(evalData.data)

@@ -17,12 +17,13 @@ export class Tracker {
   }
 
   public async push(type: "click" | "system", context: string) {
+
     await fetch(`/api/tracker`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({action: "push", type: type, context: context, fingerPrint: this.fingerPrint, userID: this.userID}),
+      body: JSON.stringify({action: "push", type: type, context: context, fp: this.fingerPrint, userID: this.userID}),
       credentials: 'include'
     })
   }
