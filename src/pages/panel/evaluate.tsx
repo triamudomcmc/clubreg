@@ -180,7 +180,7 @@ const Evaluate = () => {
   return (
     <PageContainer>
       <Loader display={loading}/>
-      <div className="flex flex-col items-center w-full min-h-screen py-10 px-4">
+      <div className="flex flex-col items-center w-full min-h-screen py-10 px-6">
         <h1 className="text-4xl text-center text-TUCMC-gray-900 mb-2">ประเมินผล</h1>
         <p className="text-TUCMC-gray-700 text-center">กรรมการชมรมจะต้องประเมินผลนักเรียนทุกคนให้เสร็จ</p>
         <p className="text-TUCMC-gray-700 mb-2 text-center">ภายในวันจันทร์ ที่ 27 กันยายน 2564</p>
