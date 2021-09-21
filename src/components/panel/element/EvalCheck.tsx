@@ -1,4 +1,4 @@
-import {CheckCircleIcon, ChevronDownIcon, ExclamationCircleIcon, MoonIcon, SortAscendingIcon, XCircleIcon} from "@heroicons/react/solid";
+import {CheckCircleIcon, ChevronDownIcon, ExclamationCircleIcon, LogoutIcon, MoonIcon, SortAscendingIcon, XCircleIcon} from "@heroicons/react/solid";
 import {useEffect, useState} from "react";
 import classnames from "classnames"
 import Modal from "@components/common/Modals";
@@ -55,6 +55,13 @@ export const EvalCheck = ({userData, pendingUpdate, setPendingUpdate}) => {
            className={classnames("flex items-center space-x-1 border rounded-md px-4 py-1 cursor-pointer", action.action === "break" && "bg-TUCMC-gray-500 text-white")}>
         <MoonIcon className={classnames("w-5 h-5", action.action === "break" ? "text-white" : "text-TUCMC-gray-500")}/>
         <span>ลาพัก</span>
+      </div>
+      <div onClick={() => {
+        action.action !== "resign" ? clickAction("resign") : reset()
+      }}
+           className={classnames("flex items-center space-x-1 border rounded-md px-4 py-1 cursor-pointer", action.action === "resign" && "bg-TUCMC-gray-500 text-white")}>
+        <LogoutIcon className={classnames("w-5 h-5", action.action === "resign" ? "text-white" : "text-TUCMC-gray-500")}/>
+        <span>ลาออก</span>
       </div>
     </div>
   )
