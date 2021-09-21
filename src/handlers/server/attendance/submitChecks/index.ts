@@ -20,7 +20,7 @@ const performSubmitFetch = async (req, ID) => {
     [req.body.panelID]: req.body.data
   }, {merge: true})
 
-  update("system",`submitAttendanceData-${req.body.panelID}-${JSON.stringify(req.body.data)}`, req.body.fp, ID.userID)
+  update("system",`submitAttendanceData-${req.body.panelID}-${lastmonday.toString()}-${JSON.stringify(req.body.data)}`, req.body.fp, ID.userID)
 }
 
 export const submitChecks = async (req, res) => {
