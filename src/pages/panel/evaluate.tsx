@@ -5,7 +5,7 @@ import {useAuth} from "@client/auth";
 import {fetchMembers} from "@client/fetcher/panel";
 import Router from "next/router";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
-import {CheckIcon, ChevronDownIcon, ChevronUpIcon, EyeIcon, EyeOffIcon, XIcon} from "@heroicons/react/solid";
+import {CheckIcon, ChevronDownIcon, ChevronUpIcon, EyeIcon, EyeOffIcon, MinusSmIcon, XIcon} from "@heroicons/react/solid";
 import {EvalCheck} from "@components/panel/element/EvalCheck";
 import {Button} from "@components/common/Inputs/Button";
 import classnames from "classnames";
@@ -272,6 +272,18 @@ const Evaluate = () => {
             </div>
             {checks.map((data) => {
               const date = new Date(parseInt(data.date))
+              if (data.date === "1627232400000") {
+                return (
+                  <div className="flex flex-col w-16 flex-shrink-0">
+                    <h1 className="font-medium py-2 bg-gray-100 border-t border-b">{date.getDate()} {month[date.getMonth() + 1]}</h1>
+                    {member.map((people) => {
+                      return (
+                        <span className="flex justify-center items-center border-b h-10"> <MinusSmIcon className="flex items-center justify-center w-5 h-5 text-white bg-TUCMC-gray-500 rounded-md flex-shrink-0"/></span>
+                      )
+                    })}
+                  </div>
+                )
+              }
 
               return (
                 <div className="flex flex-col w-16 flex-shrink-0">
@@ -294,13 +306,13 @@ const Evaluate = () => {
               )
             })}
             <div className="flex flex-col flex-shrink-0">
-              <h1 className="font-medium py-2 bg-gray-100 text-center border-t border-b ">สรุป ({checks.length})</h1>
+              <h1 className="font-medium py-2 bg-gray-100 text-center border-t border-b ">สรุป ({checks.length - 1})</h1>
               {member.map((people) => {
                 return (
                   <span className="h-10 flex items-center border-b justify-center">{checks.reduce((prev, curr) => {
                     let cons = 0
 
-                    if (curr.data) {
+                    if (curr.data && curr.date !== "1627232400000") {
                       if (curr.data[people.student_id].action === "passed") {
                         cons = 1
                       }
