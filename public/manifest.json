@@ -1,0 +1,36 @@
+{
+  "short_name": "TUCMC",
+  "name": "TUCMC",
+  "icons": [
+    {
+      "src": "/images/logo-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/images/logo-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#F687B3",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#F687B3",
+  "shortcuts": [
+    {
+      "name": "Login to your account",
+      "short_name": "Login",
+      "description": "Login to your account",
+      "url": "/auth"
+    },
+    {
+      "name": "About TUCMC",
+      "short_name": "About TUCMC",
+      "description": "About TUCMC",
+      "url": "/TUCMC"
+    }
+  ],
+  "description": "Triam Udom Clubs Management Committee"
+}

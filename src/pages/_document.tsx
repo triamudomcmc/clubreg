@@ -17,6 +17,8 @@ export default class Document extends NextDocument {
     return (
       <Html lang="th">
         <Head>
+          <link rel="manifest" href="/manifest.json" />
+          <link rel="apple-touch-icon" href="/icon.png"></link>
           <link
             rel="preload"
             href="/assets/fonts/Inter-roman.var.woff2"

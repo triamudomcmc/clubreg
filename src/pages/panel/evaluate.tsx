@@ -10,12 +10,10 @@ import {EvalCheck} from "@components/panel/element/EvalCheck";
 import {Button} from "@components/common/Inputs/Button";
 import classnames from "classnames";
 import {Ellipsis} from "@vectors/Loaders/Ellipsis";
-import {submitChecks} from "@client/fetcher/checks";
 import {useToast} from "@components/common/Toast/ToastContext";
 import {clubMap} from "@config/clubMap";
 import Modal from "@components/common/Modals";
 import {useWindowDimensions} from "@utilities/document";
-import {CatLoader} from "@components/common/CatLoader";
 import {Loader} from "@components/common/Loader";
 
 const Evaluate = () => {
@@ -123,7 +121,7 @@ const Evaluate = () => {
         title: "อัพเดทข้อมูลสำเร็จแล้ว",
         text: "ข้อมูลที่ถูกส่งไป ได้รับการอัพเดทบนฐานข้อมูลแล้ว"
       })
-    }else{
+    } else {
       switch (res.report) {
         case "sessionError":
           addToast({
@@ -176,6 +174,10 @@ const Evaluate = () => {
       fetch()
     }
   }, [userData])
+
+  useEffect(() => {
+    console.log(checks)
+  }, [checks])
 
 
   return (
@@ -234,7 +236,9 @@ const Evaluate = () => {
           {pinned && <div className="flex flex-col flex-shrink-0">
             <div className="flex items-center space-x-4 py-2 pl-4 bg-gray-100 rounded-tl-lg border-l border-b border-t">
               <h1 className="font-medium">ชื่อ นามสกุล</h1>
-              <EyeOffIcon onClick={() => {setPinned(false)}} className="w-5 h-5 text-TUCMC-gray-700 cursor-pointer"/>
+              <EyeOffIcon onClick={() => {
+                setPinned(false)
+              }} className="w-5 h-5 text-TUCMC-gray-700 cursor-pointer"/>
             </div>
             {member.map((people) => {
               return (
@@ -246,7 +250,9 @@ const Evaluate = () => {
             {!pinned && <div className="flex flex-col flex-shrink-0">
               <div className="flex items-center space-x-4 py-2 pl-4 bg-gray-100 rounded-tl-lg border-l border-b border-t">
                 <h1 className="font-medium">ชื่อ นามสกุล</h1>
-                <EyeIcon onClick={() => {setPinned(true)}} className="w-5 h-5 text-TUCMC-gray-700 cursor-pointer"/>
+                <EyeIcon onClick={() => {
+                  setPinned(true)
+                }} className="w-5 h-5 text-TUCMC-gray-700 cursor-pointer"/>
               </div>
               {member.map((people) => {
                 return (
@@ -278,7 +284,8 @@ const Evaluate = () => {
                     <h1 className="font-medium py-2 bg-gray-100 border-t border-b">{date.getDate()} {month[date.getMonth() + 1]}</h1>
                     {member.map((people) => {
                       return (
-                        <span className="flex justify-center items-center border-b h-10"> <MinusSmIcon className="flex items-center justify-center w-5 h-5 text-white bg-TUCMC-gray-500 rounded-md flex-shrink-0"/></span>
+                        <span className="flex justify-center items-center border-b h-10"> <MinusSmIcon
+                          className="flex items-center justify-center w-5 h-5 text-white bg-TUCMC-gray-500 rounded-md flex-shrink-0"/></span>
                       )
                     })}
                   </div>
@@ -293,13 +300,17 @@ const Evaluate = () => {
                     let status = false
 
                     if (data.data) {
-                      if (data.data[people.student_id].action === "passed") {
-                        status = true
+                      if (people.student_id in data.data) {
+                        if (data.data[people.student_id].action === "passed") {
+                          status = true
+                        }
                       }
                     }
 
                     return (
-                      <span className="flex justify-center items-center border-b h-10">{status ? <CheckIcon className="w-5 h-5 text-white p-[2px] bg-TUCMC-green-400 rounded-md flex-shrink-0"/> : <XIcon className="w-5 h-5 text-white p-[2px] bg-TUCMC-red-400 rounded-md flex-shrink-0"/>}</span>
+                      <span className="flex justify-center items-center border-b h-10">{status ?
+                        <CheckIcon className="w-5 h-5 text-white p-[2px] bg-TUCMC-green-400 rounded-md flex-shrink-0"/> :
+                        <XIcon className="w-5 h-5 text-white p-[2px] bg-TUCMC-red-400 rounded-md flex-shrink-0"/>}</span>
                     )
                   })}
                 </div>
@@ -313,8 +324,10 @@ const Evaluate = () => {
                     let cons = 0
 
                     if (curr.data && curr.date !== "1627232400000") {
-                      if (curr.data[people.student_id].action === "passed") {
-                        cons = 1
+                      if(people.student_id in curr.data) {
+                        if (curr.data[people.student_id].action === "passed") {
+                          cons = 1
+                        }
                       }
                     }
 
@@ -338,11 +351,14 @@ const Evaluate = () => {
         <div className="flex flex-col items-center mb-20 space-y-4 mt-8">
           <div className="flex flex-row">
             <input className="w-6 h-6 border rounded-md border-gray-200 ring-0 mr-2"
-                   onChange={(e) => {setAccept(e.target.checked)}}
+                   onChange={(e) => {
+                     setAccept(e.target.checked)
+                   }}
                    type="checkbox" required/>
             <span className="text-gray-700">ข้อมูลทั้งหมดได้รับการตรวจสอบจากครูที่ปรึกษาแล้ว</span>
           </div>
-          <Button disabled={pending} onClick={!pending && submitEvalData} className={classnames("px-10 text-white rounded-full bg-TUCMC-pink-400", !pending ? "py-3" : "py-[8px] cursor-default")}>
+          <Button disabled={pending} onClick={!pending && submitEvalData}
+                  className={classnames("px-10 text-white rounded-full bg-TUCMC-pink-400", !pending ? "py-3" : "py-[8px] cursor-default")}>
             <span className={classnames(pending && "hidden")}>ส่งผลการประเมิน</span>
             <Ellipsis className={classnames("w-[6.2rem] h-8", !pending && "hidden")}/>
           </Button>
