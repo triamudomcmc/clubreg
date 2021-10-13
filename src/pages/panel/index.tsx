@@ -31,6 +31,7 @@ import {CatLoader} from "@components/common/CatLoader";
 import {AnimatePresence, motion} from "framer-motion";
 import {WaitingScreen} from "@components/common/WaitingScreen";
 import {request} from "@client/utilities/request";
+import {Ellipsis} from "@vectors/Loaders/Ellipsis";
 
 const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>, setInitClub) => {
   const data = await fetchClub(clubID)
@@ -58,6 +59,7 @@ const Account = () => {
   const [initClub, setInitClub] = useState(false)
   const [display, setDisplay] = useState(false)
   const [t, setT] = useState(false)
+  const [uploading, setUploading] = useState(false)
 
   const {width} = useWindowDimensions()
 
@@ -125,30 +127,26 @@ const Account = () => {
     }
   }
 
-  const uploadPhoto = async (e) => {
+  const uploadFile = async (e) => {
     const file = e.target.files[0];
     const filename = encodeURIComponent(file.name);
     const currentID = userData.student_id
+    setUploading(true)
     const res = await request("uploader","uploadDoc", {id: currentID, file: filename})
 
     const { url, fields } = res.data
     const formData = new FormData();
-
 
     Object.entries({ ...fields, file }).forEach(([key, value]) => {
       // @ts-ignore
       formData.append(key, value);
     });
 
-    console.log("ok")
-
     const upload = await fetch(url, {
       mode: "cors",
       method: 'POST',
       body: formData,
     });
-
-    console.log(upload)
 
     if (upload.ok) {
       addToast({
@@ -172,6 +170,8 @@ const Account = () => {
       }, 2000)
       console.error('Upload failed.');
     }
+
+    setUploading(false)
   };
 
   useEffect(() => {
@@ -211,16 +211,20 @@ const Account = () => {
             <input
               className="hidden"
               ref={uploader}
-              onChange={uploadPhoto}
+              onChange={uploadFile}
               type="file"
               accept="application/pdf"
             />
             <Button onClick={() => {
               uploader.current.click()
             }}
-                    className="flex items-center justify-center border border-gray-400 bg-TUCMC-white rounded-lg shadow-sm px-4 py-3.5 text-TUCMC-gray-600 space-x-2 shadow-md cursor-pointer">
-              <PlusCircleIcon className="w-[1.1rem] h-[1.1rem]"/>
-              <span>ส่งเอกสารของชมรมนี้</span>
+                    className={classnames("flex items-center justify-center border border-gray-400 bg-TUCMC-white rounded-lg shadow-sm px-4 text-TUCMC-gray-600 space-x-2 shadow-md cursor-pointer", !uploading ? "py-3.5" : "py-1.5")}>
+              {
+                !uploading ? <>
+                  <PlusCircleIcon className="w-[1.1rem] h-[1.1rem]"/>
+                  <span>ส่งเอกสารของชมรมนี้</span>
+                </> : <Ellipsis inverted={true} className="w-20 h-10"/>
+              }
             </Button>
           </div>
         </div>
