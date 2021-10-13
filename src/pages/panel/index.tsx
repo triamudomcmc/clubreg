@@ -140,12 +140,15 @@ const Account = () => {
       formData.append(key, value);
     });
 
+    console.log("ok")
+
     const upload = await fetch(url, {
       mode: "cors",
       method: 'POST',
       body: formData,
     });
 
+    console.log(upload)
 
     if (upload.ok) {
       addToast({
