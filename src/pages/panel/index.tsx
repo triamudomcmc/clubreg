@@ -2,16 +2,16 @@ import PageContainer from "@components/common/PageContainer";
 import {useAuth} from "@client/auth";
 import Router from "next/router";
 import Link from "next/link"
-import {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
+import React, {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
 import {fetchUserCred} from "@client/fetcher/user";
 import {useToast} from "@components/common/Toast/ToastContext";
 import {
   ChevronDownIcon, ChevronUpIcon,
-  ClipboardCheckIcon,
+  ClipboardCheckIcon, DownloadIcon,
   ExclamationCircleIcon,
   LockClosedIcon,
-  LockOpenIcon,
-  PencilIcon, UserGroupIcon,
+  LockOpenIcon, MailOpenIcon,
+  PencilIcon, PlusCircleIcon, UserGroupIcon,
   XIcon
 } from "@heroicons/react/solid";
 import {Input} from "@components/auth/Input";
@@ -30,6 +30,7 @@ import fs from "fs";
 import {CatLoader} from "@components/common/CatLoader";
 import {AnimatePresence, motion} from "framer-motion";
 import {WaitingScreen} from "@components/common/WaitingScreen";
+import {request} from "@client/utilities/request";
 
 const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>, setInitClub) => {
   const data = await fetchClub(clubID)
@@ -47,6 +48,7 @@ const Account = () => {
     new_count: 0, new_count_limit: 0, place: "", audition: false, message: "", contact: {type: "", context: ""},
     contact2: {type: "", context: ""}, contact3: {type: "", context: ""}
   })
+  const uploader = useRef(null)
   const [boxSize, setBoxSize] = useState(0)
   const auTrigger = useRef(null)
   const [adArr, setAdArr] = useState([])
@@ -54,6 +56,8 @@ const Account = () => {
   const box = useRef(null)
   const [closeBox, setCloseBox] = useState(false)
   const [initClub, setInitClub] = useState(false)
+  const [display, setDisplay] = useState(false)
+  const [t, setT] = useState(false)
 
   const {width} = useWindowDimensions()
 
@@ -107,8 +111,117 @@ const Account = () => {
     setCloseBox(true)
   }
 
+  const downloadFile = async () => {
+    const a = document.createElement("a")
+    let currPanel = userData.student_id
+    const response = await request("uploader", "getFile", {id: currPanel})
+
+    if (response.status) {
+      a.href = response.data.url
+      a.download = `${currPanel}.pdf`
+      document.body.append(a)
+      a.click()
+      a.remove()
+    }
+  }
+
+  const uploadPhoto = async (e) => {
+    const file = e.target.files[0];
+    const filename = encodeURIComponent(file.name);
+    const currentID = userData.student_id
+    const res = await request("uploader","uploadDoc", {id: currentID, file: filename})
+
+    const { url, fields } = res.data
+    const formData = new FormData();
+
+
+    Object.entries({ ...fields, file }).forEach(([key, value]) => {
+      // @ts-ignore
+      formData.append(key, value);
+    });
+
+    const upload = await fetch(url, {
+      mode: "cors",
+      method: 'POST',
+      body: formData,
+    });
+
+
+    if (upload.ok) {
+      addToast({
+        theme: "modern",
+        icon: "tick",
+        title: "อัปโหลดเอกสารสำเร็จ",
+        text: "การอัปโหลดเอกสารสำเร็จแล้ว"
+      })
+      localStorage.setItem("submitted", "true")
+      setDisplay(false)
+    } else {
+      addToast({
+        theme: "modern",
+        icon: "cross",
+        title: "พบข้อผิดพลาดของเซสชั่น",
+        text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
+        crossPage: true
+      })
+      setTimeout(() => {
+        reFetch()
+      }, 2000)
+      console.error('Upload failed.');
+    }
+  };
+
+  useEffect(() => {
+    if (userData) {
+      if (userData.student_id){
+        if (userData.student_id.includes("ก") && !userData.student_id.includes("-")) {
+          const summited = localStorage.getItem("submitted")
+          setT(true)
+          if (summited === "true") return
+          setDisplay(true)
+        }
+      }
+    }
+  }, [userData])
+
+
   return (
     (new Date().getTime() > 162418320000) ? <PageContainer hide={!initClub}>
+      {t && (!display && <motion.div animate={{scale: [0.5, 1]}} transition={{duration: 0.2}} whileHover={{scale: 1.1}} onClick={() => {setDisplay(true)}} className="flex items-center justify-center w-10 h-10 fixed top-1 right-1 z-[99] bg-white rounded-full shadow-md">
+        <MailOpenIcon className="w-5 h-5 text-gray-500 cursor-pointer hover:text-blue-500"/>
+      </motion.div>)}
+      {display && <div className="flex justify-center items-center fixed w-full min-h-screen top-0 relative z-[99] bg-gray-700 bg-opacity-20">
+        <div className="bg-white py-4 px-6 rounded-md relative">
+          <XIcon onClick={() => {setDisplay(false)}} className="absolute w-5 h-5 top-5 right-6 text-gray-700 cursor-pointer hover:text-TUCMC-red-500"/>
+          <h1 className="font-medium text-xl mb-4 text-gray-800">เอกสารสรุปผลการประเมินชมรม</h1>
+          <div className="flex flex-col">
+            <div className="">
+              <a onClick={downloadFile}
+                 className="flex items-center justify-center space-x-2 bg-pink-50 py-2 rounded-md px-4 text-gray-700 hover:text-TUCMC-pink-500 hover:underline cursor-pointer">
+                <DownloadIcon className="w-5 h-5"/><span>ดาวน์โหลดแบบสรุปผลการประเมินกิจกรรม</span>
+              </a>
+            </div>
+            <div className="text-gray-800 text-center mt-4 mb-4">
+              <p>ดาวน์โหลดเอกสารจากข้อความด้านบนเพื่อนำไปลงลายมือชื่อ</p>
+              <p>จากนั้นเซฟเป็นไฟล์ pdf และส่งที่ช่องด้านล่างข้อความนี้</p>
+            </div>
+            <input
+              className="hidden"
+              ref={uploader}
+              onChange={uploadPhoto}
+              type="file"
+              accept="application/pdf"
+            />
+            <Button onClick={() => {
+              uploader.current.click()
+            }}
+                    className="flex items-center justify-center border border-gray-400 bg-TUCMC-white rounded-lg shadow-sm px-4 py-3.5 text-TUCMC-gray-600 space-x-2 shadow-md cursor-pointer">
+              <PlusCircleIcon className="w-[1.1rem] h-[1.1rem]"/>
+              <span>ส่งเอกสารของชมรมนี้</span>
+            </Button>
+          </div>
+        </div>
+      </div>}
       <AnimatePresence>
       <div className={classnames("min-h-screen", !initClub && "opacity-0")}>
         <div className="relative pt-10 pb-14 bg-TUCMC-gray-100">
@@ -162,7 +275,7 @@ const Account = () => {
         <div className="pt-8 pb-20 px-4 max-w-6xl mx-auto">
           <div className="flex space-x-1 max-w-xl mx-auto">
               <div className="relative w-1/2">
-                <Button type="div" href="/panel/attendance"
+                <Button disabled={true} type="div" href="#"
                         className="flex items-center justify-center bg-TUCMC-pink-400 rounded-lg shadow-sm px-4 py-3.5 text-white space-x-2">
                   <ClipboardCheckIcon className="w-5 h-5"/><span>รายงานการเข้าเรียน</span>
                 </Button>

@@ -1,6 +1,8 @@
 import {NextApiRequest, NextApiResponse} from "next";
 import {fetchFiles} from "@server/attendance/fetchFiles";
-import {uploadFiles} from "@server/attendance/uploadFile";
+import {uploadDocs, uploadFiles} from "@server/attendance/uploadFile";
+import {getFile} from "@server/panel/getFile";
+import {upBucket} from "@server/attendance/uploadFile/mainFunction";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
@@ -16,6 +18,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           res.json(data)
         }
           break
+        case "uploadDoc": {
+          const data = await uploadDocs(req ,res)
+          res.json(data)
+        }
+          break
+        case "getFile": {
+          const data = await getFile(req, res)
+          res.json(data)
+        }
+        break
       }
       break
     default:

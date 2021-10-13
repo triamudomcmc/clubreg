@@ -34,3 +34,29 @@ export const performUpload = async (req, ID) => {
 
   return response
 }
+
+export const upBucket = async (req, ID) => {
+
+  const storage = new Storage({
+    projectId: process.env.PROJECT_ID,
+    credentials: {
+      client_email: process.env.FCERT_CLIENT_EMAIL,
+      private_key: process.env.FCERT_PRIVATE_KEY.replace(/\\n/g, '\n'),
+    },
+  });
+
+  const bucket = storage.bucket("turn-in");
+  const fname = `${req.body.id}/version-${new Date().getTime()}.pdf`
+  const file = bucket.file(fname);
+
+  const options = {
+    expires: Date.now() + 1 * 60 * 1000, //  1 minute,
+    fields: { 'x-goog-meta-test': 'data' },
+  };
+
+  const [response] = await file.generateSignedPostPolicyV4(options);
+
+  update("system",`docFileUpload-${fname}`, req.body.fp, ID.userID)
+
+  return response
+}
