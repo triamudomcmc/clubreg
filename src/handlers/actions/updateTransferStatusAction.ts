@@ -36,7 +36,7 @@ export const updateTransferStatusAction = updateTransferStatusBridge.helper.crea
         if (!resA.status) return resA
       }
       await initialisedDB.collection("confirmation-tasks").doc(parameters.transactionId).update({status: parameters.status})
-      update("system", "login", ConditionParams.fp, ConditionParams.userID)
+      update("system", `update-transfer-status-id-${parameters.transactionId}`, ConditionParams.fp, ConditionParams.userID)
     }
   }
   return {status: true, report: "success"}
