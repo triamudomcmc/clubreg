@@ -282,7 +282,7 @@ const Account = () => {
         <div className="pt-8 pb-20 px-4 max-w-6xl mx-auto">
           <div className="flex space-x-1 max-w-xl mx-auto">
               <div className="relative w-1/2">
-                <Button disabled={true} type="div" href="#"
+                <Button type="div" href="/panel/attendance"
                         className="flex items-center justify-center bg-TUCMC-pink-400 rounded-lg shadow-sm px-4 py-3.5 text-white space-x-2">
                   <ClipboardCheckIcon className="w-5 h-5"/><span>รายงานการเข้าเรียน</span>
                 </Button>
