@@ -54,6 +54,11 @@ const Toast = () => {
       }
       renderToast()
       addToast({})
+    }else{
+      if ("clear" in toastData) {
+        setToast({})
+        renderToast()
+      }
     }
   }, [toastData])
 

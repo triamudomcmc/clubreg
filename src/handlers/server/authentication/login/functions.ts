@@ -5,6 +5,7 @@ import Cookies from "cookies"
 import sgMail from "@sendgrid/mail";
 import initialiseDB from "@server/firebase-admin"
 import {getUNIXTimeStamp} from "@config/time";
+import cryptoRandomString from "crypto-random-string";
 
 export const checkCredentials = async (stdID, password, fingerPrint, userCollection, req) => {
   if (stdID === "" || password === "") return {status: false, report: "invalid_credentials"}
@@ -17,9 +18,11 @@ export const checkCredentials = async (stdID, password, fingerPrint, userCollect
 
   let verified = false
 
-  if (req.body.verify !== "") {
+  if (req.body.verify && req.body.verify !== "") {
     const task = await initialiseDB.collection("tasks").doc(req.body.verify).get()
     if (task.exists) {
+      if (task.get("code") !== req.body.code) return {status: false, report: "incorrectCode"}
+
       if (task.get("expire") > getUNIXTimeStamp() && task.get("userID") === userDoc.id){
         verified = true
       }
@@ -32,10 +35,14 @@ export const checkCredentials = async (stdID, password, fingerPrint, userCollect
     if (!("authorised" in auData)) return {status: false, report: "notAuthorised"}
     const authorisedField: LooseTypeObject<{fingerPrint: string}> = auData.authorised
     if(!(Object.values(authorisedField).some(val => (val.fingerPrint === fingerPrint)))) {
+
+      const code = cryptoRandomString({type: "numeric", length: 6})
+
       const task = await initialiseDB.collection("tasks").add({
         type: "bypass",
         expire: getUNIXTimeStamp() + ( 2 * 60 * 1000),
-        userID: userDoc.id
+        userID: userDoc.id,
+        code: code
       })
 
       sgMail.setApiKey(process.env.SENDGRID_API_KEY)
@@ -44,11 +51,11 @@ export const checkCredentials = async (stdID, password, fingerPrint, userCollect
         to: auData["email"],
         from: {email: 'no-reply@triamudom.club', name: 'TUCMC Account'},
         subject: 'มีการ login จากอุปกรณ์ที่ไม่ได้รับอนุญาต',
-        html: `คุณสามารถอนุญาติ browser นี้ได้ชั่วคราวได้ด้วยการกดลิงก์นี้ https://register.clubs.triamudom.ac.th/auth?verify=${task.id} \n ลิงก์นี้จะมีอายุ 2 นาที หากนี่ไม่ใช่คุณห้ามกดลิงก์นี้และควรเข้าไปเปลี่ยนรหัสผ่าน`,
+        html: `รหัสสำหรับเข้าสู่ระบบ ${code}`,
       }
 
       await sgMail.send(msg)
-      return {status: false, report: "notAuthorised"}
+      return {status: false, report: "notAuthorised", data: {taskId: task.id}}
     }
   }
 

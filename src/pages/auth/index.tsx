@@ -56,14 +56,6 @@ const Auth = ({query}) => {
   }
 
   useEffect(() => {
-    if ("verify" in query) {
-      addToast({
-        theme: "modern",
-        icon: "tick",
-        title: "เบราซ์เซอร์นี้ได้รับอนุญาตให้เข้าสู่ระบบชั่วคราวแล้ว",
-        text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง"
-      })
-    }
     const cause = localStorage.getItem("beforeExit")
 
     switch (cause) {

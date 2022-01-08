@@ -13,7 +13,8 @@ interface ToastType {
 
 interface ToastContext {
   toastData: ToastType | {},
-  addToast: (toastData: ToastType | {}) => void
+  addToast: (toastData: ToastType | {}) => void,
+  clearToast: () => void
 }
 
 export const useToast = () => {
@@ -37,8 +38,13 @@ const toastAction = () => {
     setToastData(toastData)
   }
 
+  const clearToast = () => {
+    setToastData({clear: true})
+  }
+
   return {
     toastData,
-    addToast
+    addToast,
+    clearToast
   }
 }

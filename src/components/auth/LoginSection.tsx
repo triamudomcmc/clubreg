@@ -1,16 +1,89 @@
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {LockClosedIcon} from "@heroicons/react/solid";
 import {useAuth} from "@client/auth";
 import {useToast} from "@components/common/Toast/ToastContext";
 import {request} from "@client/utilities/request";
-import Router from "next/router";
 
 const LoginSection = ({primaryAction, setLoader, secAction, query}) => {
 
   const {reFetch} = useAuth()
   const [ID, setID] = useState("")
   const [password, setPassword] = useState("")
-  const {addToast} = useToast()
+  const [scode, setScode] = useState([])
+  const seriesInput = useRef([])
+  const {addToast, clearToast} = useToast()
+
+  const sendCode = async (code) => {
+
+    const loaderTimeout = setTimeout(() => {
+      setLoader(true)
+    }, 1000)
+
+    const verify = localStorage.getItem("verify")
+    const result = await request("database/auth", "login", {stdID: ID, password: password, verify: verify || "", code: code})
+
+    clearToast()
+
+    if (result.status) {
+      localStorage.setItem("currentPanel", "")
+      localStorage.setItem("verify", "")
+      clearToast()
+      await reFetch()
+    } else {
+      switch (result.report) {
+        case "invalid_credentials":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "ข้อมูลไม่ถูกต้อง",
+            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง"
+          })
+          break
+        case "incorrectCode":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "รหัสไม่ถูกต้อง",
+            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือ กดเข้าสู่ระบบเพื่อรับรหัสผ่านใหม่อีกรอบ"
+          })
+          break
+        case "invalid_password":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "รหัสผ่านไม่ถูกต้อง",
+            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือ หากลืมรหัสผ่านสามารถติดต่อทาง กช. เพื่อขอเปลี่ยนรหัสผ่านได้"
+          })
+          break
+        case "invalid_user":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "ไม่พบผู้ใช้งานที่ใช้รหัสนักเรียนนี้",
+            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือ หากยังไม่ได้สร้างบัญชีให้ดำเนินการสร้างบัญชีผู้ใช้ก่อน"
+          })
+          break
+        default:
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "พบข้อผิดพลาดที่ไม่ทราบสาเหตุ",
+            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง หากยังพบข้อผิดพลาดสามารถติดต่อทาง กช."
+          })
+      }
+    }
+
+    clearTimeout(loaderTimeout)
+    setLoader(false)
+
+  }
+
+  useEffect(() => {
+    const joined = scode.join("")
+    if (joined.length === 6) {
+      sendCode(joined)
+    }
+  }, [scode])
 
   const onsubmit = async (event) => {
     event.preventDefault()
@@ -19,10 +92,12 @@ const LoginSection = ({primaryAction, setLoader, secAction, query}) => {
       setLoader(true)
     }, 1000)
 
-    const result = await request("database/auth", "login", {stdID: ID, password: password, verify: query.verify || ""})
+    localStorage.setItem("verify", "")
+    const result = await request("database/auth", "login", {stdID: ID, password: password})
 
     if (result.status) {
-      localStorage.setItem("currentPanel","")
+      localStorage.setItem("currentPanel", "")
+      localStorage.setItem("verify", "")
       await reFetch()
     } else {
       switch (result.report) {
@@ -47,8 +122,30 @@ const LoginSection = ({primaryAction, setLoader, secAction, query}) => {
             theme: "modern",
             icon: "cross",
             title: "บัญชี้นี้ไม่ได้อนุญาตให้ใช้เบราว์เซอร์นี้เข้าสู่ระบบ",
-            text: "กรุณาลองตรวจสอบ Email เพื่ออนุญาตเบราว์เซอร์นี้ให้เข้าสู่ระบบได้ชั่วคราว"
+            lifeSpan: 100000,
+            text: <div>
+              <p>กรุณาลองตรวจสอบ Email เพื่ออนุญาตเบราว์เซอร์นี้ให้เข้าสู่ระบบได้ชั่วคราว</p>
+              <div className="w-full flex justify-center space-x-1 mt-2">
+                {
+                  [...Array(6)].map((_, i) => (
+                    <input key={`si-${i}`} ref={(e) => {
+                      seriesInput.current[i] = e
+                    }} onChange={(e) => {
+                      if (e.target.value.length >= 1 && i < 5) {
+                        seriesInput.current[i + 1].focus()
+                      }
+                      setScode(prev => {
+                        const newI = [...prev]
+                        newI[i] = e.target.value
+                        return newI
+                      })
+                    }} maxLength={1} className="h-8 w-8 text-2xl text-center rounded-md appearance-none border"/>
+                  ))
+                }
+              </div>
+            </div>
           })
+          localStorage.setItem("verify", result.data.taskId)
           break
         case "invalid_user":
           addToast({
@@ -70,7 +167,6 @@ const LoginSection = ({primaryAction, setLoader, secAction, query}) => {
 
     clearTimeout(loaderTimeout)
     setLoader(false)
-
 
   }
 
