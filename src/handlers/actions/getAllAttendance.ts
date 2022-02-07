@@ -5,7 +5,7 @@ export const getAllAttendance = getAllAttendanceData.helper.createAction(async (
 
   const checks = await initialisedDB.collection("attendance").get()
 
-  const res = checks.docs.map((data) => ({date: data.id, data: data.get(parameters.panelID)}))
+  const res = checks.docs.filter((doc) => (parseInt(doc.id) >= 1636909200000)).map((data) => ({date: data.id, data: data.get(parameters.panelID)}))
 
   return {status: true, report: "success", data: res}
 })
