@@ -196,7 +196,7 @@ const Account = () => {
       {display && <div className="flex justify-center items-center fixed w-full min-h-screen top-0 relative z-[99] bg-gray-700 bg-opacity-20">
         <div className="bg-white py-4 px-6 rounded-md relative">
           <XIcon onClick={() => {setDisplay(false)}} className="absolute w-5 h-5 top-5 right-6 text-gray-700 cursor-pointer hover:text-TUCMC-red-500"/>
-          <h1 className="font-medium text-xl mb-4 text-gray-800">เอกสารสรุปผลการประเมินชมรม</h1>
+          <h1 className="font-medium text-xl mb-4 text-gray-800">เอกสารสรุปผลการประเมินชมรม 2/2564</h1>
           <div className="flex flex-col">
             <div className="">
               <a onClick={downloadFile}
