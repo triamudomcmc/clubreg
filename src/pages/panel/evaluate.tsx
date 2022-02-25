@@ -37,9 +37,9 @@ const Evaluate = () => {
   const {addToast} = useToast()
 
 
-  // useEffect(() => {
-  //   Router.push("/panel")
-  // }, [])
+  useEffect(() => {
+    Router.push("/panel")
+  }, [])
 
   const month = {
     1: "ม.ค.",
