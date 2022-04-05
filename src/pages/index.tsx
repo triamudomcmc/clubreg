@@ -12,13 +12,30 @@ import { useTimer } from "@utilities/timers"
 import Router from "next/router"
 import { openTime } from "@config/time"
 import Image from "next/image"
+import { useAuth } from "@client/auth"
 
 const Index = () => {
   const goal = openTime
 
   const timer = useTimer(goal)
+  const { onReady } = useAuth()
 
   const [button, setButton] = useState(new Date().getTime() >= goal)
+
+  const regState: "no_login" | "no_club" | "club" = onReady((logged, userData) => {
+    if (!logged) {
+      // Router.push("/auth")
+      return "no_login"
+    } else if (userData.club === "") {
+      // Router.push("/select")
+      // return userData
+      return "no_club"
+    } else {
+      return "club"
+    }
+
+    // return userData
+  })
 
   useEffect(() => {
     const currentTime = new Date().getTime()
@@ -79,12 +96,30 @@ const Index = () => {
                 )}
                 {button && (
                   <div className="hidden h-full flex-col justify-end md:flex">
-                    <Button
-                      href="/auth"
-                      className="mb-4 rounded-full bg-white px-12 py-3 text-xl font-bold text-TUCMC-pink-600 shadow-lg lg:px-[4.5rem] lg:py-3.5 lg:text-2xl"
-                    >
-                      <span>เข้าสู่ระบบ</span>
-                    </Button>
+                    {regState === "no_login" && (
+                      <Button
+                        href="/auth"
+                        className="mb-4 rounded-full bg-white px-12 py-3 text-xl font-bold text-TUCMC-pink-600 shadow-lg lg:px-[4.5rem] lg:py-3.5 lg:text-2xl"
+                      >
+                        <span>เข้าสู่ระบบ</span>
+                      </Button>
+                    )}
+                    {regState === "club" && (
+                      <Button
+                        href="/card"
+                        className="mb-4 rounded-full bg-white px-12 py-3 text-xl font-bold text-TUCMC-pink-600 shadow-lg lg:px-[4.5rem] lg:py-3.5 lg:text-2xl"
+                      >
+                        <span>ดูการ์ดของคุณ</span>
+                      </Button>
+                    )}
+                    {regState === "no_club" && (
+                      <Button
+                        href="/select"
+                        className="mb-4 rounded-full bg-white px-12 py-3 text-xl font-bold text-TUCMC-pink-600 shadow-lg lg:px-[4.5rem] lg:py-3.5 lg:text-2xl"
+                      >
+                        <span>เลือกชมรม</span>
+                      </Button>
+                    )}
                   </div>
                 )}
                 <div className="hidden px-1 font-medium text-white md:block">
@@ -125,12 +160,30 @@ const Index = () => {
             )}
             {button && (
               <div className="relative -top-7 flex flex-row justify-center md:hidden">
-                <Button
-                  href="auth"
-                  className="mb-4 rounded-full bg-white px-[4.5rem] py-3.5 text-2xl font-bold text-TUCMC-pink-600 shadow-lg"
-                >
-                  <span>เข้าสู่ระบบ</span>
-                </Button>
+                {regState === "no_login" && (
+                  <Button
+                    href="/auth"
+                    className="mb-4 rounded-full bg-white px-[4.5rem] py-3.5 text-2xl font-bold text-TUCMC-pink-600 shadow-lg"
+                  >
+                    <span>เข้าสู่ระบบ</span>
+                  </Button>
+                )}
+                {regState === "club" && (
+                  <Button
+                    href="/card"
+                    className="mb-4 rounded-full bg-white px-[4.5rem] py-3.5 text-2xl font-bold text-TUCMC-pink-600 shadow-lg"
+                  >
+                    <span>ดูการ์ดของคุณ</span>
+                  </Button>
+                )}
+                {regState === "no_club" && (
+                  <Button
+                    href="/select"
+                    className="mb-4 rounded-full bg-white px-[4.5rem] py-3.5 text-2xl font-bold text-TUCMC-pink-600 shadow-lg"
+                  >
+                    <span>เลือกชมรม</span>
+                  </Button>
+                )}
               </div>
             )}
             <div className="mx-8 mt-6 mb-14 md:hidden">
