@@ -1,13 +1,13 @@
-import PageContainer from "@components/common/PageContainer";
-import ClubSplash from "@vectors/decorations/ClubSplash";
-import {FilterSearch} from "@components/common/Inputs/Search";
-import {ClubCard} from "@components/clubs/ClubCard";
-import {useEffect, useState} from "react";
-import {GetStaticProps} from "next";
-import * as fs from "fs";
-import {objToArr, searchKeyword, sortAudition, sortThaiDictionary} from "@utilities/object";
+import PageContainer from "@components/common/PageContainer"
+import ClubSplash from "@vectors/decorations/ClubSplash"
+import { FilterSearch } from "@components/common/Inputs/Search"
+import { ClubCard } from "@components/clubs/ClubCard"
+import { useEffect, useState } from "react"
+import { GetStaticProps } from "next"
+import * as fs from "fs"
+import { objToArr, searchKeyword, sortAudition, sortThaiDictionary } from "@utilities/object"
 import classnames from "classnames"
-import ClubIndexSkeleton from "@components/clubs/ClubIndexSkeleton";
+import ClubIndexSkeleton from "@components/clubs/ClubIndexSkeleton"
 
 export const getStaticProps: GetStaticProps = async () => {
   const data = fs.readFileSync("./_map/clubs.json")
@@ -15,8 +15,8 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
-      clubs: clubs
-    }
+      clubs: clubs,
+    },
   }
 }
 
@@ -32,20 +32,23 @@ const Clubs = ({ clubs }) => {
     const dataArr = [...clubs]
 
     switch (sortMode) {
-      case "ascending": {
-        const sorted = sortThaiDictionary(dataArr, obj => (obj.name))
-        setRawSorted(sorted)
-      }
+      case "ascending":
+        {
+          const sorted = sortThaiDictionary(dataArr, (obj) => obj.name)
+          setRawSorted(sorted)
+        }
         break
-      case "descending": {
-        const sorted = sortThaiDictionary(dataArr, obj => (obj.name), true)
-        setRawSorted(sorted)
-      }
+      case "descending":
+        {
+          const sorted = sortThaiDictionary(dataArr, (obj) => obj.name, true)
+          setRawSorted(sorted)
+        }
         break
-      case "hasAudition": {
-        const sorted = sortAudition(dataArr)
-        setRawSorted(sorted)
-      }
+      case "hasAudition":
+        {
+          const sorted = sortAudition(dataArr)
+          setRawSorted(sorted)
+        }
         break
       case "notHasAudition": {
         const sorted = sortAudition(dataArr, true)
@@ -63,56 +66,61 @@ const Clubs = ({ clubs }) => {
     setTimeout(() => {
       setLoadingCount(0)
     }, 10000)
-  },[])
+  }, [])
 
   const loaded = () => {
-    setLoadingCount(prevState => (prevState - 1))
+    setLoadingCount((prevState) => prevState - 1)
   }
 
   useEffect(() => {
     clearTimeout(query)
 
-    setQuery(setTimeout(() => {
-      const escaped = searchContext.replace("ชมรม", "")
-      if (escaped !== "") {
-        const searchResult = searchKeyword(rawSorted, escaped, (obj) => (obj.name))
-        setSortedData(searchResult)
-      } else {
-        setSortedData(rawSorted)
-      }
-
-    }, 900))
+    setQuery(
+      setTimeout(() => {
+        const escaped = searchContext.replace("ชมรม", "")
+        if (escaped !== "") {
+          const searchResult = searchKeyword(rawSorted, escaped, (obj) => obj.name)
+          setSortedData(searchResult)
+        } else {
+          setSortedData(rawSorted)
+        }
+      }, 900)
+    )
   }, [searchContext, rawSorted])
 
   return (
     <PageContainer>
-      <div className={classnames("flex flex-col items-center w-full py-12 md:py-20", loadingCount > 0 && "absolute opacity-0")}>
-        <div className="flex flex-col items-center w-full max-w-md">
+      <div
+        className={classnames(
+          "flex w-full flex-col items-center py-12 md:py-20",
+          loadingCount > 0 && "absolute opacity-0"
+        )}
+      >
+        <div className="flex w-full max-w-md flex-col items-center">
           <h1 className="text-2xl font-bold">ชมรม</h1>
-          <div className="mt-8 md:mt-12 w-full px-14">
+          <div className="mt-8 w-full px-14 md:mt-12">
             <ClubSplash />
           </div>
         </div>
-        <div className="mt-8 md:mt-12 pb-4 border-b mx-8 md:mx-0 md:border-none md:px-8 md:w-full max-w-xl">
-          <FilterSearch setSearchContext={setSearchContext} setSortMode={setSortMode} sortMode={sortMode}/>
+        <div className="mx-8 mt-8 max-w-xl border-b pb-4 md:mx-0 md:mt-12 md:w-full md:border-none md:px-8">
+          <FilterSearch setSearchContext={setSearchContext} setSortMode={setSortMode} sortMode={sortMode} />
         </div>
-        <div className="flex flex-wrap w-full justify-center max-w-5xl mt-5 px-0 marg:px-[0.35rem] md:mt-14">
+        <div className="mt-5 flex w-full max-w-5xl flex-wrap justify-center px-0 md:mt-14 marg:px-[0.35rem]">
           {sortedData.map((item, index) => {
-            if (index < 60) return <ClubCard key={`club-${index}`} data={item} imageLoadAction={loaded}/>
+            if (index < 60) return <ClubCard key={`club-${index}`} data={item} imageLoadAction={loaded} />
           })}
-          {sortedData[60] && sortedData[61] && <div key={`clubWrapper`} className="flex flex-wrap justify-center">
-            <ClubCard key={`club-60`} data={sortedData[60]} imageLoadAction={loaded}/>
-            <ClubCard key={`club-61`} data={sortedData[61]} imageLoadAction={loaded}/>
-            <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
+          {sortedData[60] && sortedData[61] && (
+            <div key={`clubWrapper`} className="flex flex-wrap justify-center">
+              <ClubCard key={`club-60`} data={sortedData[60]} imageLoadAction={loaded} />
+              <ClubCard key={`club-61`} data={sortedData[61]} imageLoadAction={loaded} />
+              <div className="minClubs2:w-175px minClubs:w-185px my-1 mx-10 h-1 minClubs2:mx-1"></div>
+              <div className="minClubs2:w-175px minClubs:w-185px my-1 mx-10 h-1 minClubs2:mx-1"></div>
+              <div className="minClubs2:w-175px minClubs:w-185px my-1 mx-10 h-1 minClubs2:mx-1"></div>
             </div>
-            <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
-            </div>
-            <div className="minClubs2:mx-1 my-1 mx-10 minClubs2:w-175px minClubs:w-185px h-1">
-            </div>
-          </div>}
+          )}
         </div>
       </div>
-      <ClubIndexSkeleton clubs={clubs} className={classnames(loadingCount <= 0 && "hidden")}/>
+      <ClubIndexSkeleton clubs={clubs} className={classnames(loadingCount <= 0 && "hidden")} />
     </PageContainer>
   )
 }

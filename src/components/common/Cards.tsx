@@ -1,14 +1,11 @@
-import React from "react";
-import {InformationCircleIcon} from "@heroicons/react/solid";
+import React from "react"
+import { InformationCircleIcon } from "@heroicons/react/solid"
 
-export const DefaultCard = ({children}) => {
+export const DefaultCard = ({ children }) => {
   return (
-    <div
-      className="flex flex-row bg-TUCMC-pink-100 space-x-4 text-TUCMC-pink-500 p-4 rounded-lg">
-      <InformationCircleIcon className="flex-shrink-0 w-6 h-6"/>
-      <div className="font-medium">
-        {children}
-      </div>
+    <div className="flex flex-row space-x-4 rounded-lg bg-TUCMC-pink-100 p-4 text-TUCMC-pink-500">
+      <InformationCircleIcon className="h-6 w-6 flex-shrink-0" />
+      <div className="font-medium">{children}</div>
     </div>
   )
 }

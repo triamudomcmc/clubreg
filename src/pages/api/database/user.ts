@@ -1,15 +1,14 @@
-import {NextApiRequest, NextApiResponse} from "next";
-import {destroySession} from "@server/authentication/destroySession";
-import {fetchUser} from "@server/fetchers/user";
+import { NextApiRequest, NextApiResponse } from "next"
+import { destroySession } from "@server/authentication/destroySession"
+import { fetchUser } from "@server/fetchers/user"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-
-  const {method} = req
+  const { method } = req
 
   switch (method) {
-    case 'POST':
+    case "POST":
       res.statusCode = 200
-      res.setHeader('Content-Type', `application/json`)
+      res.setHeader("Content-Type", `application/json`)
       switch (req.body.action) {
         case "fetchUser": {
           const output = await fetchUser(req, res, req.body.fp)
@@ -23,8 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
       break
     default:
-      res.setHeader('Allow', ['GET', 'PUT'])
+      res.setHeader("Allow", ["GET", "PUT"])
       res.status(405).end(`Method ${method} Not Allowed`)
   }
-
 }

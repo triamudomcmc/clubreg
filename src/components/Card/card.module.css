@@ -1,81 +1,80 @@
 .container {
-    --width: 400px;
-    --ratio: calc(var(--width) / 329);
-    width: var(--width);
-    height: calc(var(--width) * 570/329);
-    border-radius: calc(var(--ratio) * 6);
+  --width: 400px;
+  --ratio: calc(var(--width) / 329);
+  width: var(--width);
+  height: calc(var(--width) * 570 / 329);
+  border-radius: calc(var(--ratio) * 6);
 }
 
 .text14 {
-    font-size: calc(var(--ratio) * 14);
+  font-size: calc(var(--ratio) * 14);
 }
 
 .text138 {
-    font-size: calc(var(--ratio) * 13.8);
+  font-size: calc(var(--ratio) * 13.8);
 }
 
 .px17 {
-    padding-left: calc(var(--ratio) * 17);
-    padding-right: calc(var(--ratio) * 17);
+  padding-left: calc(var(--ratio) * 17);
+  padding-right: calc(var(--ratio) * 17);
 }
-.mt18{
-    margin-top: calc(var(--ratio) * 18);
+.mt18 {
+  margin-top: calc(var(--ratio) * 18);
 }
-.mt55{
-    margin-top: calc(var(--ratio) * 5.5);
+.mt55 {
+  margin-top: calc(var(--ratio) * 5.5);
 }
 
 .text12 {
-    font-size: calc(var(--ratio) * 12);
+  font-size: calc(var(--ratio) * 12);
 }
 
-.text1155{
-    font-size: calc(var(--ratio) * 11.55);
-    line-height: calc(var(--ratio) * 18.33);
-    padding-left: calc(var(--ratio) * 10.59);
+.text1155 {
+  font-size: calc(var(--ratio) * 11.55);
+  line-height: calc(var(--ratio) * 18.33);
+  padding-left: calc(var(--ratio) * 10.59);
 }
 
 .greenbutt {
-    font-size: calc(var(--ratio) * 10);
-    padding: calc(var(--ratio) * 3) calc(var(--ratio) * 13);
-    margin-top: calc(var(--ratio) * 4);
-    margin-bottom: calc(var(--ratio) * 15);
+  font-size: calc(var(--ratio) * 10);
+  padding: calc(var(--ratio) * 3) calc(var(--ratio) * 13);
+  margin-top: calc(var(--ratio) * 4);
+  margin-bottom: calc(var(--ratio) * 15);
 }
 
 .icon {
-    width: calc(var(--ratio) * 19.26);
-    height: calc(var(--ratio) * 19.26);
+  width: calc(var(--ratio) * 19.26);
+  height: calc(var(--ratio) * 19.26);
 }
 
 .subContainer {
-    margin-top: calc(var(--ratio) * 8.67);
+  margin-top: calc(var(--ratio) * 8.67);
 }
 
 .textContainer {
-    padding-top: calc(var(--ratio) * (20.44 - 8.67));
-    padding-left: calc(var(--ratio) * 22);
-    padding-right: calc(var(--ratio) * 15);
+  padding-top: calc(var(--ratio) * (20.44 - 8.67));
+  padding-left: calc(var(--ratio) * 22);
+  padding-right: calc(var(--ratio) * 15);
 }
 .vector {
-    width: calc(var(--ratio) * 253);
-    height: calc(var(--ratio) * 162);
-    margin-top: calc(var(--ratio) * 14);
-    margin-bottom: calc(var(--ratio) * 21);
+  width: calc(var(--ratio) * 253);
+  height: calc(var(--ratio) * 162);
+  margin-top: calc(var(--ratio) * 14);
+  margin-bottom: calc(var(--ratio) * 21);
 }
 .qrCode {
-    width: calc(var(--ratio) * 52) !important;
-    height: calc(var(--ratio) * 52) !important;
-    position: absolute;
-    top: calc(var(--ratio) * 76);
-    left: calc(var(--ratio) * 153);
+  width: calc(var(--ratio) * 52) !important;
+  height: calc(var(--ratio) * 52) !important;
+  position: absolute;
+  top: calc(var(--ratio) * 76);
+  left: calc(var(--ratio) * 153);
 }
 .logo {
-    width: calc(var(--ratio) * 23.38);
-    height: calc(var(--ratio) * 11);
+  width: calc(var(--ratio) * 23.38);
+  height: calc(var(--ratio) * 11);
 }
 .mt2 {
-    position: absolute;
-    bottom: calc(var(--ratio) * 14);
-    padding-right: calc(var(--ratio) * 13);
-
+  position: absolute;
+  bottom: calc(var(--ratio) * 14);
+  padding-right: calc(var(--ratio) * 13);
 }

@@ -11,21 +11,26 @@ export const lastround = 1623949200000
 export const endLastRound = 1624035600000
 
 export const getUNIXTimeStamp = () => {
-  return (moment().unix() * 1000)
+  return moment().unix() * 1000
 }
 
 export const getPrevMonday = (offset = 0) => {
   const utcOffset = moment().utcOffset()
-  let prevMonday = new Date((moment().unix() * 1000) + ((7 * 60 * 60 * 1000) - (utcOffset * 60 * 1000)) - offset)
+  let prevMonday = new Date(moment().unix() * 1000 + (7 * 60 * 60 * 1000 - utcOffset * 60 * 1000) - offset)
 
-  prevMonday.setDate(prevMonday.getDate() - (prevMonday.getDay() + 6) % 7);
-  const timePart = ((prevMonday.getHours()) * 60 * 60 * 1000) + ((prevMonday.getMinutes()) * 60 * 1000) + ((prevMonday.getSeconds()) * 1000) + prevMonday.getMilliseconds()
-  return prevMonday.getTime() - timePart - (((7 * 60) + prevMonday.getTimezoneOffset()) * 60 * 1000)
+  prevMonday.setDate(prevMonday.getDate() - ((prevMonday.getDay() + 6) % 7))
+  const timePart =
+    prevMonday.getHours() * 60 * 60 * 1000 +
+    prevMonday.getMinutes() * 60 * 1000 +
+    prevMonday.getSeconds() * 1000 +
+    prevMonday.getMilliseconds()
+  return prevMonday.getTime() - timePart - (7 * 60 + prevMonday.getTimezoneOffset()) * 60 * 1000
 }
 
 export const getRecentMondays = () => {
   const lowest = 1624208400000
-  let prev = getPrevMonday(), round = 1
+  let prev = getPrevMonday(),
+    round = 1
   let arr = [prev]
 
   while (prev > lowest) {

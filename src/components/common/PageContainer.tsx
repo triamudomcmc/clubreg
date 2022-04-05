@@ -1,17 +1,16 @@
-import Navigation from "@components/common/Navigation";
-import Footer from "@components/common/Footer";
-import {motion} from "framer-motion";
-import {useRouter} from "next/router";
-import {useAuth} from "@client/auth";
-import classnames from "classnames";
+import Navigation from "@components/common/Navigation"
+import Footer from "@components/common/Footer"
+import { motion } from "framer-motion"
+import { useRouter } from "next/router"
+import { useAuth } from "@client/auth"
+import classnames from "classnames"
 
-const PageContainer = ({children, footer = true, hide = false}) => {
-
+const PageContainer = ({ children, footer = true, hide = false }) => {
   const router = useRouter()
-  const {isInit} = useAuth()
+  const { isInit } = useAuth()
 
   const variants = {
-    initial: !isInit ? {y: -20, opacity: 0} : {},
+    initial: !isInit ? { y: -20, opacity: 0 } : {},
     animate: {
       y: 0,
       opacity: 1,
@@ -20,20 +19,21 @@ const PageContainer = ({children, footer = true, hide = false}) => {
         ease: [0.6, -0.05, 0.01, 0.99],
       },
     },
-  };
+  }
 
   return (
     <div className="font-display">
       <div className={classnames(hide && "hidden")}>
-        <Navigation/>
+        <Navigation />
       </div>
-      <motion.div initial="initial"
-                  animate="animate"
-                  variants={variants}
-                  key={router.pathname}>
+      <motion.div initial="initial" animate="animate" variants={variants} key={router.pathname}>
         {children}
       </motion.div>
-      {footer && <div className={classnames(hide && "hidden")}><Footer/></div>}
+      {footer && (
+        <div className={classnames(hide && "hidden")}>
+          <Footer />
+        </div>
+      )}
     </div>
   )
 }

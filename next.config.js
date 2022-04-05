@@ -1,4 +1,4 @@
-const withPWA = require("next-pwa");
+const withPWA = require("next-pwa")
 
 module.exports = withPWA({
   pwa: {
@@ -6,4 +6,4 @@ module.exports = withPWA({
     register: true,
     skipWaiting: true,
   },
-});
+})

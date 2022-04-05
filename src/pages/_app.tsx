@@ -1,26 +1,25 @@
-import React, {useEffect} from 'react'
-import {AppProps} from 'next/app'
+import React, { useEffect } from "react"
+import { AppProps } from "next/app"
 import "@styles/tailwind.css"
-import Head from "next/head";
-import {AuthProvider} from "@client/auth";
-import {ToastProvider} from "@components/common/Toast/ToastContext";
-import AlertModal from "@components/alert/AlertModal";
+import Head from "next/head"
+import { AuthProvider } from "@client/auth"
+import { ToastProvider } from "@components/common/Toast/ToastContext"
+import AlertModal from "@components/alert/AlertModal"
 
-const App = ({Component, pageProps}: AppProps) => {
-
+const App = ({ Component, pageProps }: AppProps) => {
   return (
-  <div className="antialiased font-display">
-    <Head>
-      <title>TUCMC Club Registration System</title>
-    </Head>
-    <AuthProvider>
-      <ToastProvider>
-        <AlertModal/>
-        <Component {...pageProps} />
-      </ToastProvider>
-    </AuthProvider>
-  </div>)
-
+    <div className="font-display antialiased">
+      <Head>
+        <title>TUCMC Club Registration System</title>
+      </Head>
+      <AuthProvider>
+        <ToastProvider>
+          <AlertModal />
+          <Component {...pageProps} />
+        </ToastProvider>
+      </AuthProvider>
+    </div>
+  )
 }
 
 export default App
