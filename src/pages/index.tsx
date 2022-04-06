@@ -109,7 +109,7 @@ const Index = () => {
                         href="/card"
                         className="mb-4 rounded-full bg-white px-12 py-3 text-xl font-bold text-TUCMC-pink-600 shadow-lg lg:px-[4.5rem] lg:py-3.5 lg:text-2xl"
                       >
-                        <span>ดูการ์ดของคุณ</span>
+                        <span>ดูชมรมของคุณ</span>
                       </Button>
                     )}
                     {regState === "no_club" && (
@@ -173,7 +173,7 @@ const Index = () => {
                     href="/card"
                     className="mb-4 rounded-full bg-white px-[4.5rem] py-3.5 text-2xl font-bold text-TUCMC-pink-600 shadow-lg"
                   >
-                    <span>ดูการ์ดของคุณ</span>
+                    <span>ดูชมรมของคุณ</span>
                   </Button>
                 )}
                 {regState === "no_club" && (
