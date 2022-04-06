@@ -22,23 +22,17 @@ import { addBrowser, removeBrowser, toggleBeta, toggleSafeMode } from "@client/a
 import { clubMap } from "../config/clubMap"
 import { isEmpty } from "@utilities/object"
 import { ExclamationIcon } from "@heroicons/react/outline"
-
-const fetchCred = async (setUserCred, errHandler) => {
-  const res = await fetchUserCred()
-  if (res.status) return setUserCred(res.data)
-  errHandler(res.report)
-}
+import { useUserCred } from "handlers/hooks/useUserCred"
 
 const Account = () => {
   const { onReady, reFetch } = useAuth()
-  const [userCred, setUserCred] = useState({ email: "", phone: "", authorised: [], safeMode: false, beta: [] })
   const [oldPass, setOldPass] = useState("")
   const [betaAlert, setBetaAlert] = useState(false)
   const [whitelistMode, setWhitelistMode] = useState(false)
   const [closeDep, setCloseDep] = useState(false)
   const [rememberedCalls, setRCalls] = useState({ call: () => {} })
   const auTrigger = useRef(null)
-
+  const { userCred, reFetchCred } = useUserCred()
   const { addToast } = useToast()
 
   const userData = onReady((logged, userData) => {
@@ -75,10 +69,6 @@ const Account = () => {
         })
         break
     }
-  }
-
-  const reFetchCred = () => {
-    fetchCred(setUserCred, commonError)
   }
 
   useEffect(() => {

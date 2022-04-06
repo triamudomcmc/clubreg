@@ -13,6 +13,7 @@ import { createTempAccUrlBridge } from "@init/dashboard"
 import { useToast } from "@components/common/Toast/ToastContext"
 import FingerprintJS from "@fingerprintjs/fingerprintjs"
 import { convertMiliseconds } from "@utilities/timers"
+import { useUserCred } from "handlers/hooks/useUserCred"
 
 const people = getRecentMondays().map((item, index) => ({ id: index + 1, name: item }))
 
@@ -32,6 +33,7 @@ const fetchReport = async (setChecked, ts, reFetch) => {
 const Report = () => {
   const { onReady, reFetch } = useAuth()
   const { addToast } = useToast()
+  const { userCred } = useUserCred()
 
   const [checked, setChecked] = useState({})
   const [selected, setSelected] = useState(people[0])
@@ -118,7 +120,7 @@ const Report = () => {
 
   return (
     <PageContainer>
-      {userData.safeMode ? (
+      {userCred.safeMode ? (
         <div className="mx-auto max-w-[420px] py-12 px-4 md:max-w-[720px]">
           <h1 className="mb-14 text-center text-xl font-medium">Report Summary</h1>
           <div className="mb-10 w-full">

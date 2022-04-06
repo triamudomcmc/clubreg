@@ -3,21 +3,25 @@ import { ClipboardCheckIcon, DatabaseIcon, FingerPrintIcon, QrcodeIcon } from "@
 import { Button } from "@components/common/Inputs/Button"
 import Router from "next/router"
 import { useAuth } from "@client/auth"
-import { useState } from "react"
-import { use } from "ast-types"
+import { useToast } from "@components/common/Toast/ToastContext"
+import { useUserCred } from "handlers/hooks/useUserCred"
 
 const Admin = () => {
   const { onReady } = useAuth()
+  const { addToast } = useToast()
+
+  const { userCred } = useUserCred()
 
   const userData = onReady((logged, userData) => {
     if (!logged) return Router.push("/auth")
     if (!userData.admin) return Router.push("/account")
+
     return userData
   })
 
   return (
     <PageContainer>
-      {userData.safeMode ? (
+      {userCred.safeMode ? (
         <div className="min-h-screen space-y-10 py-10">
           <h1 className="text-center text-xl font-medium">Control Panel</h1>
           <div className="flex flex-col items-center space-y-6">

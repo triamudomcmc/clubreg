@@ -12,6 +12,7 @@ import Modal from "@components/common/Modals"
 import dynamic from "next/dynamic"
 import { useAuth } from "@client/auth"
 import Router from "next/router"
+import { useUserCred } from "handlers/hooks/useUserCred"
 
 const fetchTrackingHistory = async (id, setHistory) => {
   const res = await getTrackingHistory(id)
@@ -47,6 +48,7 @@ const Tracker = () => {
   const [querying, setQuerying] = useState(false)
 
   const { onReady, reFetch } = useAuth()
+  const { userCred } = useUserCred()
 
   const userData = onReady((logged, userData) => {
     if (!logged) return Router.push("/auth")
@@ -147,7 +149,7 @@ const Tracker = () => {
         <div className="height-[80vw] mx-8 max-w-sm border border-TUCMC-gray-600">{reader}</div>
       </Modal>
 
-      {userData.safeMode ? (
+      {userCred.safeMode ? (
         <div className="mx-auto min-h-screen max-w-[520px] py-10 px-4">
           <h1 className="text-center text-xl font-medium">Tracker</h1>
           <div className="space-y-2">

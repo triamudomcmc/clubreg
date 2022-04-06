@@ -19,6 +19,7 @@ import Router from "next/router"
 import { Input } from "@components/auth/Input"
 import { useToast } from "@components/common/Toast/ToastContext"
 import { Ellipsis } from "@vectors/Loaders/Ellipsis"
+import { useUserCred } from "handlers/hooks/useUserCred"
 
 const Database = () => {
   const { onReady } = useAuth()
@@ -37,6 +38,8 @@ const Database = () => {
     if (!userData.admin) return Router.push("/account")
     return userData
   })
+
+  const { userCred } = useUserCred()
 
   useEffect(() => {
     if (!query.field || !query.operator || !query.context) {
@@ -124,7 +127,7 @@ const Database = () => {
 
   return (
     <PageContainer>
-      {userData.safeMode ? (
+      {userCred.safeMode ? (
         <>
           <div
             className={classnames(
