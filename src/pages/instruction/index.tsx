@@ -16,7 +16,7 @@ const Index = () => {
   return (
     <PageContainer>
       {zoomOverlay}
-      <div className="mx-auto max-w-6xl pt-8 pb-16">
+      <div className="mx-auto max-w-6xl pt-8 pb-16 2xl:max-w-3xl">
         <h1 className="mb-6 text-center text-2xl font-bold md:my-12">วิธีลงทะเบียน</h1>
         <div className="flex flex-col items-center space-y-8 px-8 font-texts text-TUCMC-gray-700">
           <div className="flex w-[100vw] max-w-[400px] justify-center md:w-full md:max-w-[unset] md:space-x-6">
