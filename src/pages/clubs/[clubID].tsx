@@ -130,6 +130,8 @@ const Page = ({ data, clubID, images, clubList }) => {
                   priority={true}
                   onLoad={loaded}
                   src={`/assets/thumbnails/${clubID}.jpg`}
+                  placeholder="blur"
+                  blurDataURL={`/assets/thumbnails/${clubID}.jpg`}
                   width="768"
                   height="432"
                   className={classnames("object-cover md:rounded-l-2xl")}
@@ -254,6 +256,8 @@ const Page = ({ data, clubID, images, clubList }) => {
                               priority={true}
                               onLoad={loaded}
                               src={`/assets/images/clubs/${clubID}/profile-${index + 1}.jpg`}
+                              placeholder="blur"
+                              blurDataURL={`/assets/images/clubs/${clubID}/profile-${index + 1}.jpg`}
                               width="128"
                               height="128"
                               className="rounded-lg object-cover"

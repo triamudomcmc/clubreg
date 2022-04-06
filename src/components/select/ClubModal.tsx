@@ -155,6 +155,8 @@ const ClubModal = ({ state, userData, closeAction, action, thumbPaths, confirmOl
                       width="448"
                       height="252"
                       src={`/assets/thumbnails/${val}`}
+                      placeholder="blur"
+                      blurDataURL={`/assets/thumbnails/${val}`}
                     />
                   </div>
                 )

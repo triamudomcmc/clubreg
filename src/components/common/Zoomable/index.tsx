@@ -66,6 +66,8 @@ export const Zoomable = ({
             <Image
               priority={priority}
               onLoad={onLoad}
+              placeholder="blur"
+              blurDataURL={src}
               className={className}
               src={src}
               width={zoomedWidth}
@@ -95,6 +97,8 @@ export const Zoomable = ({
             <Image
               priority={priority}
               onLoad={onLoad}
+              placeholder="blur"
+              blurDataURL={src}
               className={className}
               src={src}
               width={zoomedWidth}
@@ -110,7 +114,16 @@ export const Zoomable = ({
         }}
         className={classnames(sqPercent < 80 && "cursor-magnify")}
       >
-        <Image priority={priority} onLoad={onLoad} className={className} src={src} width={width} height={height} />
+        <Image
+          priority={priority}
+          placeholder="blur"
+          blurDataURL={src}
+          onLoad={onLoad}
+          className={className}
+          src={src}
+          width={width}
+          height={height}
+        />
       </div>
     </div>
   )

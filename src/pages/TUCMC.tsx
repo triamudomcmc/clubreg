@@ -20,7 +20,13 @@ const TUCMC = () => {
       {zoomOverlay}
       <div className="bg-TUCMC-pink-500">
         <div className="flex flex-col items-center space-y-12 px-6 text-white md:space-y-16">
-          <Image src="/assets/images/TUCMC/bg.jpg" objectFit="cover" layout="fill" />
+          <Image
+            src="/assets/images/TUCMC/bg.jpg"
+            placeholder="blur"
+            blurDataURL="/assets/images/TUCMC/bg.jpg"
+            objectFit="cover"
+            layout="fill"
+          />
           <h1 className="z-10 pt-6 text-center text-4xl text-[5rem] font-bold">กช.</h1>
           <p className="text-md z-10 mx-auto max-w-lg text-center md:text-lg">
             คณะกรรมการงานกิจกรรมพัฒนาผู้เรียน (กช.) คือ องค์กรนักเรียนที่บริหารจัดการดูแลชมรมทุกชมรม (ตามชื่อเดิม กช. =
