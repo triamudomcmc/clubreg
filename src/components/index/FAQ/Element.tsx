@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import Toggle from "@components/index/FAQ/Toggle"
-import { motion } from "framer-motion"
+import { motion, Variants } from "framer-motion"
 
 const FAQElement = ({ children, title, revealed = true }) => {
   const [reveal, setReveal] = useState(false)
@@ -13,7 +13,7 @@ const FAQElement = ({ children, title, revealed = true }) => {
     }
   }, [reveal])
 
-  const sidebar = {
+  const sidebar: Variants = {
     open: (height = 1000) => ({
       y: 0,
       clipPath: "inset(0% -3% -8% -3%)",
