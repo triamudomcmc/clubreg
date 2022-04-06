@@ -63,7 +63,7 @@ const Index = () => {
                     โรงเรียนเตรียมอุดมศึกษา
                   </h1>
                   <p className="mt-2 tracking-tight text-white md:mt-2 md:text-xl lg:mt-4 lg:text-3xl">
-                    ปีการศึกษา 2564
+                    ปีการศึกษา 2565
                   </p>
                 </div>
                 {!button && (
@@ -124,7 +124,7 @@ const Index = () => {
                 )}
                 <div className="hidden px-1 font-medium text-white md:block">
                   <p>ระบบจะเปิดให้ลงทะเบียนชมรม</p>
-                  <p>ในวันที่ 7 มิ.ย. 2564 เวลา 12.30 น.</p>
+                  <p>ในวันที่ 17 พ.ค. 2565 เวลา 11.30 น.</p>
                 </div>
               </div>
             </div>
@@ -191,7 +191,7 @@ const Index = () => {
                 <InformationCircleIcon className="h-6 w-6" />
                 <div className="font-medium">
                   <p>ระบบจะเปิดให้ลงทะเบียนชมรม</p>
-                  <p>ในวันที่ 7 มิ.ย. 2564 เวลา 12.30 น.</p>
+                  <p>ในวันที่ 17 พ.ค. 2565 เวลา 11.30 น.</p>
                 </div>
               </div>
             </div>
