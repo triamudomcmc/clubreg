@@ -2,6 +2,7 @@ import React from "react"
 import FAQElement from "@components/index/FAQ/Element"
 import { AnimatePresence, AnimateSharedLayout, motion } from "framer-motion"
 import Router from "next/router"
+import Link from "next/link"
 
 const FAQ = () => {
   return (
@@ -58,15 +59,14 @@ const FAQ = () => {
               </FAQElement>
             </div>
           </div>
-          <motion.h1
-            onClick={() => {
-              Router.push("/FAQ")
-            }}
-            layout="position"
-            className="cursor-pointer pt-14 text-center underline md:pt-28"
-          >
-            ดูคำถามทั้งหมด
-          </motion.h1>
+          <Link passHref href="/FAQ">
+            <motion.a
+              layout="position"
+              className="mt-14 block cursor-pointer text-center underline hover:no-underline md:mt-28"
+            >
+              ดูคำถามทั้งหมด
+            </motion.a>
+          </Link>
         </div>
       </div>
     </div>
