@@ -33,7 +33,7 @@ export const Zoomable = ({
     let w = (dimension.width >= 768 ? 768 : dimension.width) - padding
     let h = (w * height) / width
 
-    console.log(h, "e")
+    // console.log(h, "e")
     if (dimension.height - (padding + tp * 3) < h) {
       w = dimension.height - ((padding + tp * 3) * width) / height - padding
       setActiveTP(tp)

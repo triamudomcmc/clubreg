@@ -32,7 +32,7 @@ const Toast = () => {
 
   useEffect(() => {
     Object.keys(toast).forEach((val) => {
-      console.log(toast[val].crossPage)
+      // console.log(toast[val].crossPage)
       if (!toast[val].crossPage) {
         deleteToast(val)
       }

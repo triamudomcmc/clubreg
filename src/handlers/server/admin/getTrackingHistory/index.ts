@@ -8,7 +8,7 @@ export const getTrackingHistory = (req, res) => {
 
     if (req.body.id.length == 5) {
       const userData = await initialisedDB.collection("users").where("stdID", "==", req.body.id).get()
-      console.log(userData.docs[0].id)
+      // console.log(userData.docs[0].id)
       if (userData.empty) return { status: false, report: "invalid_stdID" }
       data = await initialisedDB.collection("track").where("userID", "==", userData.docs[0].id).get()
     } else {

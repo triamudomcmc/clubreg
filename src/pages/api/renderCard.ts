@@ -6,7 +6,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     query: { id },
   } = req
 
-  console.log(id)
+  // console.log(id)
 
   const file = await screenshot(`http://preview.tucmc.dev/renderer/card?id=${id}`)
 
