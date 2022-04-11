@@ -109,30 +109,30 @@ const Navigation = () => {
         className="sticky top-0 z-50 flex h-16 flex-row items-center justify-center bg-TUCMC-gray-900 px-6"
       >
         <div className="flex w-full max-w-6xl flex-row items-center justify-between">
-          <Link href="/">
-            <div className="cursor-pointer">
+          <Link passHref href="/">
+            <a>
               <WhiteLogo />
-            </div>
+            </a>
           </Link>
           <div className="flex flex-row">
             <div className="hidden flex-row space-x-10 whitespace-nowrap font-medium md:flex">
-              <Link href="/">
-                <h1 className="cursor-pointer text-white">หน้าแรก</h1>
+              <Link passHref href="/">
+                <a className="text-white">หน้าแรก</a>
               </Link>
-              <Link href="/instruction">
-                <h1 className="cursor-pointer text-white">วิธีใช้</h1>
+              <Link passHref href="/instruction">
+                <a className="text-white">วิธีใช้</a>
               </Link>
-              <Link href="/clubs">
-                <h1 className="cursor-pointer text-white">ชมรม</h1>
+              <Link passHref href="/clubs">
+                <a className="text-white">ชมรม</a>
               </Link>
-              <Link href="/FAQ">
-                <h1 className="cursor-pointer text-white">FAQ</h1>
+              <Link passHref href="/FAQ">
+                <a className="text-white">FAQ</a>
               </Link>
-              <Link href="/TUCMC">
-                <h1 className="cursor-pointer text-white">กช.</h1>
+              <Link passHref href="/TUCMC">
+                <a className="text-white">กช.</a>
               </Link>
-              <Link href="/contact">
-                <h1 className="cursor-pointer text-white">ติดต่อ</h1>
+              <Link passHref href="/contact">
+                <a className="text-white">ติดต่อ</a>
               </Link>
               <div className={classnames(isEmpty(userData) && "hidden")}>
                 <h1 ref={accRef} className="flex cursor-pointer items-center space-x-1 text-white">
@@ -151,34 +151,34 @@ const Navigation = () => {
                       className="space-y-2.5 rounded-b-lg bg-white py-3 px-5 font-normal text-gray-700 shadow-md"
                     >
                       {logged && userData.admin && (
-                        <Link href="/admin">
-                          <h1 className="cursor-pointer text-black hover:text-blue-600 hover:underline">Dashboard</h1>
+                        <Link passHref href="/admin">
+                          <a className="block text-black hover:text-blue-600 hover:underline">Dashboard</a>
                         </Link>
                       )}
                       {/*{logged && userData.panelID &&*/}
-                      {/*<Link href="/panel/evaluate"><h1 className="flex space-x-1 items-center font-medium text-TUCMC-orange-500 cursor-pointer hover:text-blue-600 hover:underline"><span>ประเมินผล</span> <StarIcon className="w-4 h-4 animate-pulse"/></h1>*/}
+                      {/*<Link passHref href="/panel/evaluate"><h1 className="flex space-x-1 items-center font-medium text-TUCMC-orange-500 cursor-pointer hover:text-blue-600 hover:underline"><span>ประเมินผล</span> <StarIcon className="w-4 h-4 animate-pulse"/></h1>*/}
                       {/*</Link>}*/}
                       {logged && userData.panelID && (
-                        <Link href="/panel">
-                          <h1 className="cursor-pointer text-black hover:text-blue-600 hover:underline">แผงควบคุม</h1>
+                        <Link passHref href="/panel">
+                          <a className="block text-black hover:text-blue-600 hover:underline">แผงควบคุม</a>
                         </Link>
                       )}
                       {userData && userData.club === "" && (
-                        <Link href="/select">
-                          <h1 className="cursor-pointer text-black hover:text-blue-600 hover:underline">เลือกชมรม</h1>
+                        <Link passHref href="/select">
+                          <a className="block text-black hover:text-blue-600 hover:underline">เลือกชมรม</a>
                         </Link>
                       )}
-                      <Link href="/account">
-                        <h1 className="cursor-pointer text-black hover:text-blue-600 hover:underline">จัดการบัญชี</h1>
+                      <Link passHref href="/account">
+                        <a className="block text-black hover:text-blue-600 hover:underline">จัดการบัญชี</a>
                       </Link>
                       {!logged ? (
-                        <Link href="/auth">
-                          <h1 className="cursor-pointer text-black hover:text-blue-600 hover:underline">เข้าสู่ระบบ</h1>
+                        <Link passHref href="/auth">
+                          <a className="block text-black hover:text-blue-600 hover:underline">เข้าสู่ระบบ</a>
                         </Link>
                       ) : (
-                        <h1 onClick={signout} className="cursor-pointer text-black hover:text-blue-600 hover:underline">
+                        <button onClick={signout} className="block text-black hover:text-blue-600 hover:underline">
                           ออกจากระบบ
-                        </h1>
+                        </button>
                       )}
                     </div>
                   </div>
@@ -186,7 +186,7 @@ const Navigation = () => {
               </div>
               <div className={classnames(!isEmpty(userData) && "hidden")}>
                 {!logged ? (
-                  <Link href="/auth">
+                  <Link passHref href="/auth">
                     <h1 className="cursor-pointer text-white">เข้าสู่ระบบ</h1>
                   </Link>
                 ) : (
@@ -220,10 +220,10 @@ const Navigation = () => {
         className={classnames("fixed top-0 z-50 h-full min-w-[280px] bg-white", load && "hidden")}
       >
         <div className="bg-TUCMC-gray-800 p-4">
-          <Link href="/">
-            <div>
+          <Link passHref href="/">
+            <a>
               <WhiteLogo />
-            </div>
+            </a>
           </Link>
         </div>
         {logged && (
@@ -232,8 +232,8 @@ const Navigation = () => {
             <h1 className="tracking-tight text-TUCMC-gray-700">{`${userData.student_id} | ${userData.room} / ${userData.number}`}</h1>
           </div>
         )}
-        <Link href="/">
-          <div
+        <Link passHref href="/">
+          <a
             className={classnames(
               "flex flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8",
               getClass("/", "bg")
@@ -241,11 +241,11 @@ const Navigation = () => {
           >
             <HomeIcon className={classnames("h-7 w-7", getClass("/", "icon"))} />{" "}
             <span className={getClass("/", "font")}>หน้าแรก</span>
-          </div>
+          </a>
         </Link>
         {!logged ? (
-          <Link href="/auth">
-            <div
+          <Link passHref href="/auth">
+            <a
               className={classnames(
                 "flex flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8",
                 getClass("/auth", "bg")
@@ -253,10 +253,10 @@ const Navigation = () => {
             >
               <LoginIcon className={classnames("h-7 w-7", getClass("/auth", "icon"))} />{" "}
               <span className={getClass("/auth", "font")}>เข้าสู่ระบบ</span>
-            </div>
+            </a>
           </Link>
         ) : (
-          <div
+          <button
             onClick={signout}
             className={classnames(
               "flex flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8",
@@ -265,10 +265,10 @@ const Navigation = () => {
           >
             <LogoutIcon className={classnames("h-7 w-7", getClass("/auth", "icon"))} />{" "}
             <span className={getClass("/auth", "font")}>ออกจากระบบ</span>
-          </div>
+          </button>
         )}
-        <Link href="/select">
-          <div
+        <Link passHref href="/select">
+          <a
             className={classnames(
               "flex flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8",
               getClass("/select", "bg")
@@ -276,11 +276,11 @@ const Navigation = () => {
           >
             <HeartIcon className={classnames("h-7 w-7", getClass("/select", "icon"))} />{" "}
             <span className={getClass("/select", "font")}>ลงทะเบียนชมรม</span>
-          </div>
+          </a>
         </Link>
         {logged && userData.admin && (
-          <Link href="/admin">
-            <div
+          <Link passHref href="/admin">
+            <a
               className={classnames(
                 "flex flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8",
                 getClass("/admin", "bg")
@@ -288,10 +288,10 @@ const Navigation = () => {
             >
               <LibraryIcon className={classnames("h-7 w-7", getClass("/panel", "icon"))} />{" "}
               <span className={getClass("/admin", "font")}>Dashboard</span>
-            </div>
+            </a>
           </Link>
         )}
-        {/*{(logged && userData.panelID) && <Link href="/panel/evaluate">*/}
+        {/*{(logged && userData.panelID) && <Link passHref href="/panel/evaluate">*/}
         {/*  <div*/}
         {/*    className={classnames("flex flex-row border-l-2 border-TUCMC-orange-500 items-center space-x-4 pl-4 py-3 pr-8", getClass("/panel/evaluate", "bg"))}>*/}
         {/*    <AcademicCapIcon className={classnames("w-7 h-7 animate-pulse text-TUCMC-orange-500", getClass("/panel/evaluate", "icon"))}/> <span*/}
@@ -299,8 +299,8 @@ const Navigation = () => {
         {/*  </div>*/}
         {/*</Link>}*/}
         {logged && userData.panelID && (
-          <Link href="/panel">
-            <div
+          <Link passHref href="/panel">
+            <a
               className={classnames(
                 "flex flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8",
                 getClass("/panel", "bg")
@@ -308,12 +308,12 @@ const Navigation = () => {
             >
               <TerminalIcon className={classnames("h-7 w-7", getClass("/panel", "icon"))} />{" "}
               <span className={getClass("/panel", "font")}>แผงควบคุม</span>
-            </div>
+            </a>
           </Link>
         )}
         {logged && (
-          <Link href="/account">
-            <div
+          <Link passHref href="/account">
+            <a
               className={classnames(
                 "flex flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8",
                 getClass("/account", "bg")
@@ -321,11 +321,11 @@ const Navigation = () => {
             >
               <CogIcon className={classnames("h-7 w-7", getClass("/account", "icon"))} />{" "}
               <span className={getClass("/account", "font")}>จัดการบัญชี</span>
-            </div>
+            </a>
           </Link>
         )}
-        <Link href="/clubs">
-          <div
+        <Link passHref href="/clubs">
+          <a
             className={classnames(
               "flex cursor-pointer flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8",
               getClass("/clubs", "bg")
@@ -333,10 +333,10 @@ const Navigation = () => {
           >
             <ClipboardListIcon className={classnames("h-7 w-7", getClass("/clubs", "icon"))} />{" "}
             <span className={getClass("/clubs", "font")}>รายชื่อชมรม</span>
-          </div>
+          </a>
         </Link>
-        <Link href="/instruction">
-          <div
+        <Link passHref href="/instruction">
+          <a
             className={classnames(
               "flex flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8",
               getClass("/instruction", "bg")
@@ -344,10 +344,10 @@ const Navigation = () => {
           >
             <CalendarIcon className={classnames("h-7 w-7", getClass("/instruction", "icon"))} />{" "}
             <span className={getClass("/info", "font")}>วิธีลงทะเบียน</span>
-          </div>
+          </a>
         </Link>
-        <Link href="/FAQ">
-          <div
+        <Link passHref href="/FAQ">
+          <a
             className={classnames(
               "flex flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8",
               getClass("/FAQ", "bg")
@@ -355,10 +355,10 @@ const Navigation = () => {
           >
             <ChatIcon className={classnames("h-7 w-7", getClass("/FAQ", "icon"))} />{" "}
             <span className={getClass("/FAQ", "font")}>คำถามที่พบบ่อย</span>
-          </div>
+          </a>
         </Link>
-        <Link href="/TUCMC">
-          <div
+        <Link passHref href="/TUCMC">
+          <a
             className={classnames(
               "flex flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8",
               getClass("/TUCMC", "bg")
@@ -366,10 +366,10 @@ const Navigation = () => {
           >
             <LogoIcon className={classnames("h-7 w-7", getClass("/TUCMC", "icon"))} />{" "}
             <span className={getClass("/TUCMC", "font")}>ทำความรู้จัก กช.</span>
-          </div>
+          </a>
         </Link>
-        <Link href="/contact">
-          <div
+        <Link passHref href="/contact">
+          <a
             className={classnames(
               "flex flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8",
               getClass("/contact", "bg")
@@ -377,7 +377,7 @@ const Navigation = () => {
           >
             <MailIcon className={classnames("h-7 w-7", getClass("/contact", "icon"))} />{" "}
             <span className={getClass("/contact", "font")}>ติดต่อ</span>
-          </div>
+          </a>
         </Link>
       </motion.div>
     </>
