@@ -88,7 +88,7 @@ export const DropDown = ({ title, item, triggerDep }) => {
           <div ref={container} className="mt-4 space-y-4">
             {Object.keys(item.data).map((e) => {
               return (
-                <FAQElement title={e} revealed={revealed}>
+                <FAQElement key={e} title={e} revealed={revealed}>
                   <FAQElement.Answer>{item.data[e]}</FAQElement.Answer>
                 </FAQElement>
               )
