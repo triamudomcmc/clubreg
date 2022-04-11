@@ -131,6 +131,7 @@ const Page = ({ data, clubID, images, clubList }) => {
                   onLoad={loaded}
                   src={`/assets/thumbnails/${clubID}.jpg`}
                   placeholder="blur"
+                  quality={75}
                   blurDataURL={`/assets/thumbnails/${clubID}.jpg`}
                   width="768"
                   height="432"
@@ -255,6 +256,7 @@ const Page = ({ data, clubID, images, clubList }) => {
                             <Image
                               priority={true}
                               onLoad={loaded}
+                              quality={50}
                               src={`/assets/images/clubs/${clubID}/profile-${index + 1}.jpg`}
                               placeholder="blur"
                               blurDataURL={`/assets/images/clubs/${clubID}/profile-${index + 1}.jpg`}

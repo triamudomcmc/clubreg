@@ -116,6 +116,7 @@ export const Zoomable = ({
       >
         <Image
           priority={priority}
+          quality={50}
           placeholder="blur"
           blurDataURL={src}
           onLoad={onLoad}
