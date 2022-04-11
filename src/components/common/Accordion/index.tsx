@@ -23,6 +23,7 @@ const DivVariants: Variants = {
 
 export const Accordion: FC<{ defaultExpanded?: boolean; title: string; id?: string; Icon?: TAccordionIcon }> & {
   Answer: FC
+  NestedAnswer: FC
 } = ({ defaultExpanded, children, title, id, Icon = AccordionIcon.Chevron }) => {
   const [expanded, setExpand] = useState(defaultExpanded ?? false)
 
@@ -57,6 +58,12 @@ export const Accordion: FC<{ defaultExpanded?: boolean; title: string; id?: stri
   )
 }
 
-const Answer: FC = ({ children }) => <div className="px-8 py-4 text-TUCMC-gray-600">{children}</div>
+const Answer: FC = ({ children }) => (
+  <div className="px-8 py-4 text-TUCMC-gray-600" dangerouslySetInnerHTML={{ __html: String(children) }}></div>
+)
 Answer.displayName = "Answer"
 Accordion.Answer = Answer
+
+const NestedAnswer: FC = ({ children }) => <div className="">{children}</div>
+Answer.displayName = "NestedAnswer"
+Accordion.NestedAnswer = NestedAnswer
