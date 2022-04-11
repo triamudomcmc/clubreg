@@ -15,7 +15,7 @@ export const ClubCard = ({ data, imageLoadAction = null }) => {
         {imageLoadAction ? (
           <Image
             priority={false}
-            onBlur={imageLoadAction}
+            onLoad={imageLoadAction}
             className="w-full rounded-t-lg object-cover"
             width="260"
             height="143"
@@ -28,7 +28,7 @@ export const ClubCard = ({ data, imageLoadAction = null }) => {
             className="w-full rounded-t-lg object-cover"
             width="185"
             height="102"
-            onBlur={imageLoadAction}
+            onLoad={imageLoadAction}
             placeholder="blur"
             blurDataURL={`/assets/thumbnails/${data.clubID}.jpg`}
             src={`/assets/thumbnails/${data.clubID}.jpg`}

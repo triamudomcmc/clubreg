@@ -65,7 +65,7 @@ export const Zoomable = ({
             </div>
             <Image
               priority={priority}
-              onBlur={onLoad}
+              onLoad={onLoad}
               placeholder="blur"
               blurDataURL={src}
               className={className}
@@ -96,7 +96,7 @@ export const Zoomable = ({
             </div>
             <Image
               priority={priority}
-              onBlur={onLoad}
+              onLoad={onLoad}
               placeholder="blur"
               blurDataURL={src}
               className={className}
@@ -118,7 +118,7 @@ export const Zoomable = ({
           priority={priority}
           placeholder="blur"
           blurDataURL={src}
-          onBlur={onLoad}
+          onLoad={onLoad}
           className={className}
           src={src}
           width={width}
