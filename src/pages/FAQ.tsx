@@ -10,6 +10,9 @@ import { sliceArrN } from "@utilities/array"
 import { DefaultCard } from "@components/common/Cards"
 import Link from "next/link"
 import Router, { useRouter } from "next/router"
+import { Accordion } from "@components/common/Accordion"
+import { AccordionIcon } from "@components/common/Accordion/Icons"
+import { FAQCategory } from "@components/FAQ/FAQCategory"
 
 const objToArr = (obj: any) => {
   return Object.keys(obj).map((key) => {
@@ -69,6 +72,9 @@ const FAQ = ({ data }) => {
                   />
                 )
               })}
+              {/* {dataArr[0].map((item) => {
+                return <FAQCategory questions={item} />
+              })} */}
             </div>
             <div className="space-y-2 md:w-1/2">
               {dataArr[1].map((item) => {
@@ -80,13 +86,16 @@ const FAQ = ({ data }) => {
                   />
                 )
               })}
+              {/* {dataArr[1].map((item) => {
+                return <FAQCategory questions={item} />
+              })} */}
             </div>
           </div>
           <motion.div layout="position">
             <DefaultCard>
               <p className="font-normal">
                 หากมีข้อสงสัยเพิ่มเติม กรุณาติดต่องานกิจกรรมพัฒนาผู้เรียน (กช.){" "}
-                <Link href="/contact">
+                <Link passHref href="/contact">
                   <a className="underline">ติดต่อเรา</a>
                 </Link>
               </p>

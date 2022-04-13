@@ -19,42 +19,6 @@ const parseText = (text) => {
   return "<p>" + text.replace(/\n{2,}/g, "</p><p>").replace(/\n/g, "<br>")
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const files = fs.readdirSync("./_map/clubs/")
-  const paths = files.map((pathname) => ({
-    params: { clubID: path.basename(pathname, path.extname(pathname)) },
-  }))
-
-  return {
-    paths,
-    fallback: false,
-  }
-}
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const data = fs.readFileSync(`./_map/clubs/${params.clubID}.json`)
-  const images = fs.readdirSync(`./public/assets/images/clubs/${params.clubID}/`)
-  const clubData = JSON.parse(data.toString())
-
-  const clubIndex = fs.readFileSync("./_map/clubs.json")
-  const clubList = JSON.parse(clubIndex.toString())
-
-  return {
-    props: {
-      data: {
-        ...clubData,
-        description: parseText(clubData.description),
-        reviews: clubData.reviews.map((rev) => {
-          return { ...rev, context: parseText(rev.context) }
-        }),
-      },
-      clubID: params.clubID,
-      images: images,
-      clubList: clubList,
-    },
-  }
-}
-
 const createSuggestion = (clubList, clubID, setSuggestion) => {
   const max = clubList.length
   let rand = []
@@ -309,6 +273,42 @@ const Page = ({ data, clubID, images, clubList }) => {
       <ClubSkeleton className={classnames(loadingCount <= 0 && "hidden")} />
     </PageContainer>
   )
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const files = fs.readdirSync("./_map/clubs/")
+  const paths = files.map((pathname) => ({
+    params: { clubID: path.basename(pathname, path.extname(pathname)) },
+  }))
+
+  return {
+    paths,
+    fallback: false,
+  }
+}
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const data = fs.readFileSync(`./_map/clubs/${params.clubID}.json`)
+  const images = fs.readdirSync(`./public/assets/images/clubs/${params.clubID}/`)
+  const clubData = JSON.parse(data.toString())
+
+  const clubIndex = fs.readFileSync("./_map/clubs.json")
+  const clubList = JSON.parse(clubIndex.toString())
+
+  return {
+    props: {
+      data: {
+        ...clubData,
+        description: parseText(clubData.description),
+        reviews: clubData.reviews.map((rev) => {
+          return { ...rev, context: parseText(rev.context) }
+        }),
+      },
+      clubID: params.clubID,
+      images: images,
+      clubList: clubList,
+    },
+  }
 }
 
 export default Page

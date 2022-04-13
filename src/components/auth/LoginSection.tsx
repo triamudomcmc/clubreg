@@ -182,7 +182,7 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
       <h1 className="text-4xl font-bold tracking-tight">เข้าสู่ระบบ</h1>
       <div className="mt-2 text-center text-TUCMC-gray-600">
         <p>ระบบลงทะเบียนชมรม</p>
-        <p>โรงเรียนเตรียมอุดมศึกษา ปีการศึกษา 2564</p>
+        <p>โรงเรียนเตรียมอุดมศึกษา ปีการศึกษา 2565</p>
       </div>
       <form className="w-full" onSubmit={onsubmit}>
         <div className="mt-10 w-full space-y-7 px-6">

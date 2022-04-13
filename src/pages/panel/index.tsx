@@ -37,6 +37,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { WaitingScreen } from "@components/common/WaitingScreen"
 import { request } from "@client/utilities/request"
 import { Ellipsis } from "@vectors/Loaders/Ellipsis"
+import { PencilAltIcon } from "@heroicons/react/outline"
 
 const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>, setInitClub) => {
   const data = await fetchClub(clubID)
@@ -353,7 +354,12 @@ const Account = () => {
                 <h1 className="border-b border-gray-200 pb-4 text-xl">ข้อมูลชมรม</h1>
                 <div className="space-y-1 border-b border-gray-200 py-4 md:flex md:items-center md:space-y-0 md:space-x-52 md:py-6">
                   <h1 className="text-TUCMC-gray-500">ประเภทการรับสมัคร</h1>
-                  <h1>{clubData.audition ? "" : "ไม่"} Audition</h1>
+                  <div className="flex space-x-2">
+                    <p>{clubData.audition ? "" : "ไม่"} Audition</p>
+                    {/* <button>
+                      <PencilIcon className="h-5 w-5" />
+                    </button> */}
+                  </div>
                 </div>
                 <div className="space-y-1 border-b border-gray-200 py-4 md:flex md:items-center md:space-y-0 md:space-x-[183px] md:py-6">
                   <h1 className="text-TUCMC-gray-500">ข้อความถึงสมาชิกชมรม</h1>

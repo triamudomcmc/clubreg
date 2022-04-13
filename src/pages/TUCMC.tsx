@@ -10,6 +10,7 @@ import { RefreshIcon } from "@heroicons/react/outline"
 import { Zoomable } from "@components/common/Zoomable"
 import { useState } from "react"
 import { SocialFacebook, SocialInstagram } from "@vectors/icons/Socials"
+import { Head } from "next/document"
 
 SwiperCore.use([Pagination])
 const TUCMC = () => {
