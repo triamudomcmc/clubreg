@@ -1,47 +1,37 @@
 import dynamic from "next/dynamic"
+import { forwardRef } from "react"
 import { ComponentPropsWithRef, ComponentType, FC, ReactElement, useCallback, useEffect, useRef, useState } from "react"
+const ReactQuill = dynamic(() => import("./QuillCore"), {
+  ssr: false,
+})
 
-function useHookWithRefCallback() {
-  const ref = useRef(null)
-  const setRef = useCallback(node => {
-    if (ref.current) {
-      // Make sure to cleanup any events/references added to the last instance
-    }
-    
-    if (node) {
-      // Check if a node is actually passed. Otherwise node would be null.
-      // You can now do what you need to, addEventListeners, measure, etc.
-    }
-    
-    // Save a reference to the node
-    ref.current = node
-  }, [])
-  
-  return [setRef]
-}
+const ForwardedReactQuill = forwardRef((props: any, ref) => <ReactQuill {...props} editorRef={ref} />)
 
 export const QuillEditor: FC = () => {
-  const [Component, setComponent] = useState<ReactElement | null>(null)
   const [value, setValue] = useState("")
-  const [ref] = useHookWithRefCallback()
+  const quillRef = useRef(null)
 
-  useEffect(() => {
-    const ReactQuill = dynamic(() => import("react-quill"), {
-      ssr: false,
-    })
-
-    setComponent(
-      <ReactQuill
+  return (
+    <div className="mows m-6 rounded-md border border-gray-300 px-2 py-4">
+      <ForwardedReactQuill
         placeholder="Type something..."
         value={value}
         bounds={".mows"}
-        ref={ref}
+        ref={quillRef}
         onChange={(v) => setValue(v)}
-        // onKeyDown={(e) => {
-        //   e.preventDefault()
-        //   // quill.current.theme.tooltip.edit()
-        //   // quill.current.theme.tooltip.show()
-        // }}
+        onClick={(e) => {
+          e.preventDefault()
+
+          const quill = quillRef.current.getEditor()
+          console.log("click")
+
+          if (e.type === "contextmenu") {
+            // right click
+            console.log("right click")
+            quill.theme.tooltip.edit()
+            quill.theme.tooltip.show()
+          }
+        }}
         modules={{
           toolbar: [
             [
@@ -82,10 +72,6 @@ export const QuillEditor: FC = () => {
           "video",
         ]}
       />
-    )
-
-    attachQuillRefs()
-  }, [])
-
-  return <div className="mows m-6 rounded-md border border-gray-300 px-2 py-4">{Component}</div>
+    </div>
+  )
 }

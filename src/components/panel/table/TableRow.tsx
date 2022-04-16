@@ -6,6 +6,8 @@ import classNames from "classnames"
 import { IContactObject, IContactType, TValueTypes } from "./valueTypes"
 import { FC, Fragment, useEffect, useState } from "react"
 import { TUpdateFieldFunction } from "./ClubTable"
+import Link from "next/link"
+import { useRouter } from "next/router"
 
 /*
 // which type of input
@@ -316,8 +318,13 @@ const StatusText: FC<{ status: "declined" | "accepted" | "pending" }> = ({ statu
   )
 }
 
-export const TableWebDataRow: FC<{ status: "declined" | "accepted" | "pending" }> = ({ status }) => {
+export const TableWebDataRow: FC<{ status: "declined" | "accepted" | "pending"; getCurrPanel: () => string }> = ({
+  status,
+  getCurrPanel,
+}) => {
   const [currStatus, setStatus] = useState(status)
+
+  const router = useRouter()
 
   useEffect(() => {
     setStatus(status)
@@ -330,9 +337,16 @@ export const TableWebDataRow: FC<{ status: "declined" | "accepted" | "pending" }
         <p className="text-sm text-TUCMC-gray-500">แก้ไขข้อมูลชมรมที่จะแสดงในหน้าเว็บไซต์</p>
       </div>
       <div className="flex space-x-12">
-        <button className="rounded-md border border-gray-300 bg-white py-2 px-8 transition-colors hover:bg-gray-100">
+        <button
+          onClick={() => {
+            const currPanel = getCurrPanel()
+            router.push(`/clubs/${currPanel}/edit`)
+          }}
+          className="rounded-md border border-gray-300 bg-white py-2 px-8 transition-colors hover:bg-gray-100"
+        >
           แก้ไข
         </button>
+
         <StatusText status={currStatus} />
       </div>
     </div>

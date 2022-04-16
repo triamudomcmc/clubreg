@@ -1,4 +1,4 @@
-import { FC, Fragment, useState } from "react"
+import { FC, Fragment, MouseEvent, useState } from "react"
 import { TableContactRow, TableRow, TableWebDataRow } from "./TableRow"
 import { IContactType } from "./valueTypes"
 
@@ -14,12 +14,16 @@ interface IClubData {
   place: string
 }
 
-export const ClubDataTable: FC<{ data: IClubData; updateField: TUpdateFieldFunction }> = ({ data, updateField }) => {
+export const ClubDataTable: FC<{ data: IClubData; getCurrPanel: () => string; updateField: TUpdateFieldFunction }> = ({
+  data,
+  getCurrPanel,
+  updateField,
+}) => {
   return (
     <div>
       <h1 className="border-b border-gray-200 pb-4 text-xl">ข้อมูลชมรม</h1>
 
-      <TableWebDataRow status={data.status} />
+      <TableWebDataRow getCurrPanel={getCurrPanel} status={data.status} />
 
       <TableRow
         field="audition"
@@ -87,13 +91,13 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
         initialData={{ type: "number", value: data.old_count_limit }}
         updateField={updateField}
       />
-      <div className="grid grid-cols-1 border-b border-gray-200 py-4 md:grid-cols-[2fr,3fr] md:items-center md:py-6">
+      {/* <div className="grid grid-cols-1 border-b border-gray-200 py-4 md:grid-cols-[2fr,3fr] md:items-center md:py-6">
         <p className="text-TUCMC-gray-600">จำนวนสมาชิกใหม่ที่จะรับเข้าชมรม</p>
 
         <div className="flex items-start space-x-2">
-          <div className="block">{data.count_limit - data.old_count_limit}</div>
+          <div className="block">{data.new_count_limit}</div>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
@@ -103,11 +107,16 @@ export const ClubComitteeTable: FC<{}> = ({}) => {
 
   // add backend actions
 
+  const enableModal = (e: MouseEvent<HTMLButtonElement>) => {}
+
   return (
     <div>
       <div className="flex items-center justify-between">
         <h1 className="text-xl">กรรมการชมรม</h1>
-        <button className="rounded-full bg-TUCMC-pink-400 px-8 py-2 text-white transition-colors hover:bg-TUCMC-pink-500">
+        <button
+          onClick={enableModal}
+          className="rounded-full bg-TUCMC-pink-400 px-8 py-2 text-white transition-colors hover:bg-TUCMC-pink-500"
+        >
           เพิ่มกรรมการชมรม
         </button>
       </div>
@@ -125,6 +134,8 @@ export const ClubComitteeTable: FC<{}> = ({}) => {
             <p>ม.4</p>
 
             <p>154</p>
+
+            <div className="w-24"></div>
           </div>
         </div>
 
@@ -141,7 +152,7 @@ export const ClubComitteeTable: FC<{}> = ({}) => {
 
             <p>154</p>
 
-            <button className="rounded-md border border-gray-300 bg-white px-12 py-2 text-gray-600 transition-colors hover:bg-gray-100">
+            <button className="w-24 rounded-md border border-gray-300 bg-white py-2 text-gray-600 transition-colors hover:bg-gray-100">
               ลบ
             </button>
           </div>

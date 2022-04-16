@@ -381,11 +381,15 @@ const Account = () => {
                   status: clubData.status as "pending",
                 }}
                 updateField={updateCurrpanelClubField}
+                getCurrPanel={getCurrPanel}
               />
-              {/* <ProportionTable
-                data={{ old_count_limit: clubData.old_count_limit, count_limit: clubData.count_limit }}
+              <ProportionTable
+                data={{
+                  old_count_limit: clubData.old_count_limit,
+                  count_limit: clubData.count_limit,
+                }}
                 updateField={updateCurrpanelClubField}
-              /> */}
+              />
 
               {/* <div>
                 <h1 className="border-b border-gray-200 pb-4 text-xl">ข้อมูลชมรม</h1>
