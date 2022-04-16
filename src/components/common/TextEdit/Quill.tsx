@@ -1,3 +1,4 @@
+import classNames from "classnames"
 import dynamic from "next/dynamic"
 import { forwardRef } from "react"
 import { ComponentPropsWithRef, ComponentType, FC, ReactElement, useCallback, useEffect, useRef, useState } from "react"
@@ -7,31 +8,35 @@ const ReactQuill = dynamic(() => import("./QuillCore"), {
 
 const ForwardedReactQuill = forwardRef((props: any, ref) => <ReactQuill {...props} editorRef={ref} />)
 
-export const QuillEditor: FC = () => {
-  const [value, setValue] = useState("")
+export const QuillEditor: FC<{
+  value: string
+  onChange?: (value: string) => void
+  placeholder?: string
+  className?: string
+}> = ({ value, onChange, placeholder, className }) => {
   const quillRef = useRef(null)
 
   return (
-    <div className="mows m-6 rounded-md border border-gray-300 px-2 py-4">
+    <div className={classNames("mows", className)}>
       <ForwardedReactQuill
-        placeholder="Type something..."
+        placeholder={placeholder ?? "Type something..."}
         value={value}
         bounds={".mows"}
         ref={quillRef}
-        onChange={(v) => setValue(v)}
-        onClick={(e) => {
-          e.preventDefault()
+        onChange={(v) => onChange(v)}
+        // onClick={(e) => {
+        //   e.preventDefault()
 
-          const quill = quillRef.current.getEditor()
-          console.log("click")
+        //   const quill = quillRef.current.getEditor()
+        //   console.log("click")
 
-          if (e.type === "contextmenu") {
-            // right click
-            console.log("right click")
-            quill.theme.tooltip.edit()
-            quill.theme.tooltip.show()
-          }
-        }}
+        //   if (e.type === "contextmenu") {
+        //     // right click
+        //     console.log("right click")
+        //     quill.theme.tooltip.edit()
+        //     quill.theme.tooltip.show()
+        //   }
+        // }}
         modules={{
           toolbar: [
             [
@@ -43,7 +48,7 @@ export const QuillEditor: FC = () => {
             [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
             [
               "link",
-              "image",
+              // "image",
               // "video"
             ],
             // ["clean"],

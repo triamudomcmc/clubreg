@@ -16,6 +16,7 @@ import Modal from "@components/common/Modals"
 import { Zoomable } from "@components/common/Zoomable"
 import { useAuth } from "@handlers/client/auth"
 import { useToast } from "@components/common/Toast/ToastContext"
+import { QuillEditor } from "@components/common/TextEdit/Quill"
 
 const parseText = (text) => {
   return "<p>" + text.replace(/\n{2,}/g, "</p><p>").replace(/\n/g, "<br>")
@@ -163,12 +164,11 @@ const MainArticle: FC<{ description: string }> = ({ description }) => {
               <XIcon className="h-5 w-5 text-white" />
             </button>
           </div>
-          <input
-            type="text"
-            className="w-full rounded-md border border-gray-300 font-texts text-[1.05rem] text-TUCMC-gray-700"
-            onChange={(e) => setValue(e.target.value)}
+          <QuillEditor
+            placeholder={beforeValue}
             value={value}
-            placeholder="placeholder"
+            onChange={setValue}
+            className="m-6 rounded-md border border-gray-300 px-2 py-4"
           />
         </>
       )}

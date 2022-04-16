@@ -47,6 +47,7 @@ export const TableContactRow: FC<{ initialData: IContactType; title: string; upd
 
   useEffect(() => {
     setData(processData(initialData))
+    setBeforeData(processData(initialData))
   }, [initialData])
 
   const onComfirm = async () => {
@@ -208,6 +209,7 @@ export const TableRow: FC<{
 
   useEffect(() => {
     setData(initialData)
+    setBeforeData(initialData)
   }, [initialData])
 
   const { addToast } = useToast()
