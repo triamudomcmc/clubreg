@@ -21,30 +21,30 @@ const validateData = (data: TValueTypes) => {
   return null
 }
 
-// const processData = (data: IContactType) => {
-//   const out = Object.keys(data).reduce((prev, curr) => {
-//     const newObj = { ...prev }
+const processData = (data: IContactType) => {
+  const out = Object.keys(data).reduce((prev, curr) => {
+    const newObj = { ...prev }
 
-//     const currContact: IContactObject = data[curr]
-//     newObj[curr] = currContact.context === "" || currContact.type === "" ? {} : currContact
+    const currContact: IContactObject = data[curr]
+    newObj[curr] = !currContact?.context || !currContact?.type ? {} : currContact
 
-//     return newObj
-//   }, {}) as IContactType
+    return newObj
+  }, {}) as IContactType
 
-//   return out
-// }
+  return out
+}
 
 export const TableContactRow: FC<{ initialData: IContactType; title: string; updateField: TUpdateFieldFunction }> = ({
   initialData,
   title,
   updateField,
 }) => {
-  const [beforeData, setBeforeData] = useState(initialData)
-  const [data, setData] = useState(initialData)
+  const [beforeData, setBeforeData] = useState(processData(initialData))
+  const [data, setData] = useState(processData(initialData))
   const [mode, setMode] = useState<"view" | "edit">("view")
 
   useEffect(() => {
-    setData(initialData)
+    setData(processData(initialData))
   }, [initialData])
 
   const onComfirm = async () => {
@@ -55,17 +55,19 @@ export const TableContactRow: FC<{ initialData: IContactType; title: string; upd
     //   return
     // }
 
+    const processedData = processData(data)
+
     const out = await updateField("contact", {
       type: "contact_object",
-      value: isEmpty(data.contact) ? {} : data.contact,
+      value: isEmpty(processedData.contact) ? {} : processedData.contact,
     })
     const out2 = await updateField("contact2", {
       type: "contact_object",
-      value: isEmpty(data.contact2) ? {} : data.contact2,
+      value: isEmpty(processedData.contact2) ? {} : processedData.contact2,
     })
     const out3 = await updateField("contact3", {
       type: "contact_object",
-      value: isEmpty(data.contact3) ? {} : data.contact3,
+      value: isEmpty(processedData.contact3) ? {} : processedData.contact3,
     })
 
     const filteredOutputs = [out, out2, out3].filter((e) => !e.status)
@@ -80,8 +82,8 @@ export const TableContactRow: FC<{ initialData: IContactType; title: string; upd
       return
     }
 
-    setBeforeData(data)
-    setData(data)
+    setBeforeData(processedData)
+    setData(processedData)
 
     setMode("view")
   }
