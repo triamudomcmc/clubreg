@@ -28,7 +28,7 @@ import Modal from "@components/common/Modals"
 import { addBrowser, removeBrowser, toggleSafeMode } from "@client/accManagement"
 import { clubMap } from "@config/clubMap"
 import { isEmpty } from "@utilities/object"
-import { fetchClub } from "@client/fetcher/panel"
+import { fetchClub, updateClubField } from "@client/fetcher/panel"
 import { useWindowDimensions } from "@utilities/document"
 import { GetStaticProps } from "next"
 import fs from "fs"
@@ -38,6 +38,7 @@ import { WaitingScreen } from "@components/common/WaitingScreen"
 import { request } from "@client/utilities/request"
 import { Ellipsis } from "@vectors/Loaders/Ellipsis"
 import { PencilAltIcon } from "@heroicons/react/outline"
+import { ClubDataTable, ProportionTable } from "@components/panel/table/ClubTable"
 
 const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>, setInitClub) => {
   const data = await fetchClub(clubID)
@@ -50,16 +51,6 @@ const Account = () => {
   const [userCred, setUserCred] = useState({ email: "", phone: "", authorised: [], safeMode: false })
   const [oldPass, setOldPass] = useState("")
   const [whitelistMode, setWhitelistMode] = useState(false)
-  const [clubData, setClubData] = useState({
-    new_count: 0,
-    new_count_limit: 0,
-    place: "",
-    audition: false,
-    message: "",
-    contact: { type: "", context: "" },
-    contact2: { type: "", context: "" },
-    contact3: { type: "", context: "" },
-  })
   const uploader = useRef(null)
   const [boxSize, setBoxSize] = useState(0)
   const auTrigger = useRef(null)
@@ -86,7 +77,22 @@ const Account = () => {
     return userData
   })
 
-  const reFetchCred = () => {
+  const [clubData, setClubData] = useState({
+    new_count: 0,
+    new_count_limit: 0,
+    old_count: 0,
+    old_count_limit: 0,
+    count_limit: 0,
+    place: "",
+    audition: false,
+    message: "",
+    contact: { type: "", context: "" },
+    contact2: { type: "", context: "" },
+    contact3: { type: "", context: "" },
+    status: "accepted",
+  })
+
+  const getCurrPanel = () => {
     let currPanel = localStorage.getItem("currentPanel")
 
     if (userData.panelID && (!currPanel || currPanel === "")) {
@@ -94,7 +100,21 @@ const Account = () => {
       localStorage.setItem("currentPanel", currPanel)
     }
 
+    return currPanel
+  }
+
+  const reFetchCred = () => {
+    const currPanel = getCurrPanel()
+
     fetchClubData(currPanel, setClubData, setInitClub)
+  }
+
+  const updateCurrpanelClubField = async (field: string, data: any) => {
+    const currPanel = getCurrPanel()
+
+    const res = await updateClubField(currPanel, field, data)
+    reFetchCred()
+    return res
   }
 
   useEffect(() => {
@@ -350,15 +370,30 @@ const Account = () => {
               </Button>
             </div>
             <div className="mt-20 flex flex-col space-y-14 px-2 md:px-4">
-              <div>
+              <ClubDataTable
+                data={{
+                  audition: `${clubData.audition ? "" : "ไม่"} Audition`,
+                  message: clubData.message,
+                  contact: clubData.contact,
+                  contact2: clubData.contact2,
+                  contact3: clubData.contact3,
+                  place: clubData.place,
+                  status: clubData.status as "pending",
+                }}
+                updateField={updateCurrpanelClubField}
+              />
+              {/* <ProportionTable
+                data={{ old_count_limit: clubData.old_count_limit, count_limit: clubData.count_limit }}
+                updateField={updateCurrpanelClubField}
+              /> */}
+
+              {/* <div>
                 <h1 className="border-b border-gray-200 pb-4 text-xl">ข้อมูลชมรม</h1>
                 <div className="space-y-1 border-b border-gray-200 py-4 md:flex md:items-center md:space-y-0 md:space-x-52 md:py-6">
                   <h1 className="text-TUCMC-gray-500">ประเภทการรับสมัคร</h1>
                   <div className="flex space-x-2">
                     <p>{clubData.audition ? "" : "ไม่"} Audition</p>
-                    {/* <button>
-                      <PencilIcon className="h-5 w-5" />
-                    </button> */}
+
                   </div>
                 </div>
                 <div className="space-y-1 border-b border-gray-200 py-4 md:flex md:items-center md:space-y-0 md:space-x-[183px] md:py-6">
@@ -383,7 +418,7 @@ const Account = () => {
                   <h1 className="text-TUCMC-gray-500">สถานที่ทำการเรียนการสอน</h1>
                   <h1>{clubData.place}</h1>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

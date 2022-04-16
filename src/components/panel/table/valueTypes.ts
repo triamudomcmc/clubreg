@@ -8,9 +8,15 @@ interface NumberType {
   value: number
 }
 
-interface ArrayType {
-  type: "array"
-  value: string[]
+export interface IContactObject {
+  type: string
+  context: string
 }
 
-export type TValueTypes = StringType | ArrayType | NumberType
+export interface IContactType {
+  contact: IContactObject | {}
+  contact2: IContactObject | {}
+  contact3: IContactObject | {}
+}
+
+export type TValueTypes = StringType | NumberType

@@ -23,3 +23,11 @@ export const updatePosition = async (panelID, tasks): Promise<{ status: boolean;
 export const fetchClub = async (clubID: string): Promise<{}> => {
   return await request("database/panel", "fetchAClub", { clubID: clubID })
 }
+
+export const updateClubField = async (
+  panelID: string,
+  field: string,
+  data
+): Promise<{ status: boolean; report: string }> => {
+  return await request("database/panel", "updateClubField", { panelID, field, data })
+}

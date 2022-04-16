@@ -94,8 +94,6 @@ const FormatUnderlined = forwardRef(
 // }
 
 const getColor = (active, reversed) => {
-  console.log(active, reversed)
-
   return reversed ? (active ? "white" : "#aaa") : active ? "black" : "#ccc"
 }
 

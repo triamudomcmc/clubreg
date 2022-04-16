@@ -78,6 +78,16 @@ export const Card = ({ width, userData, clubData }) => {
             >
               {clubData.contact2?.type} : {clubData.contact2?.context}
             </p>
+            <p
+              className={classnames(
+                css.text1155,
+                "text-TUCMC-gray-500",
+                css.mt55,
+                clubData.contact3 === {} && "hidden"
+              )}
+            >
+              {clubData.contact3?.type} : {clubData.contact3?.context}
+            </p>
           </div>
         </div>
       </div>

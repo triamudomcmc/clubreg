@@ -5,6 +5,7 @@ import { submitPending } from "@server/panel/submitPending"
 import { updatePosition } from "@server/panel/updatePosition"
 import { updateUser } from "@server/panel/updateUser"
 import { fetchSession } from "@server/fetchers/session"
+import { updateClubField } from "@server/panel/updateClubField"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req
@@ -13,6 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     case "POST":
       res.statusCode = 200
       res.setHeader("Content-Type", `application/json`)
+
       switch (req.body.action) {
         case "fetchMembers": {
           const output = await fetchPanel(req, res)
@@ -44,6 +46,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const data = clubDoc.get(req.body.clubID)
             res.json(data)
           }
+          break
+        }
+        case "updateClubField": {
+          const output = await updateClubField(req, res)
+          res.json(output)
+          break
         }
       }
       break
