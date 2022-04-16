@@ -1,17 +1,29 @@
 import dynamic from "next/dynamic"
-import { ComponentPropsWithRef, ComponentType, FC, ReactElement, useEffect, useRef, useState } from "react"
+import { ComponentPropsWithRef, ComponentType, FC, ReactElement, useCallback, useEffect, useRef, useState } from "react"
+
+function useHookWithRefCallback() {
+  const ref = useRef(null)
+  const setRef = useCallback(node => {
+    if (ref.current) {
+      // Make sure to cleanup any events/references added to the last instance
+    }
+    
+    if (node) {
+      // Check if a node is actually passed. Otherwise node would be null.
+      // You can now do what you need to, addEventListeners, measure, etc.
+    }
+    
+    // Save a reference to the node
+    ref.current = node
+  }, [])
+  
+  return [setRef]
+}
 
 export const QuillEditor: FC = () => {
   const [Component, setComponent] = useState<ReactElement | null>(null)
   const [value, setValue] = useState("")
-
-  const reactQuillRef = useRef(null)
-  const quillRef = useRef(null)
-
-  const attachQuillRefs = () => {
-    if (typeof reactQuillRef?.current?.getEditor !== "function") return
-    quillRef.current = reactQuillRef?.current.getEditor()
-  }
+  const [ref] = useHookWithRefCallback()
 
   useEffect(() => {
     const ReactQuill = dynamic(() => import("react-quill"), {
@@ -23,6 +35,7 @@ export const QuillEditor: FC = () => {
         placeholder="Type something..."
         value={value}
         bounds={".mows"}
+        ref={ref}
         onChange={(v) => setValue(v)}
         // onKeyDown={(e) => {
         //   e.preventDefault()
