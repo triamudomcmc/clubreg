@@ -47,6 +47,7 @@ export const TableContactRow: FC<{ initialData: IContactType; title: string; upd
 
   useEffect(() => {
     setData(processData(initialData))
+    setBeforeData(processData(initialData))
   }, [initialData])
 
   const onComfirm = async () => {
@@ -208,6 +209,7 @@ export const TableRow: FC<{
 
   useEffect(() => {
     setData(initialData)
+    setBeforeData(initialData)
   }, [initialData])
 
   const { addToast } = useToast()
@@ -293,7 +295,7 @@ export const TableRow: FC<{
   )
 }
 
-const StatusText: FC<{ status: "declined" | "accepted" | "pending" }> = ({ status }) => {
+export const StatusText: FC<{ status: "declined" | "accepted" | "pending" }> = ({ status }) => {
   return (
     <div className="flex items-center space-x-2">
       {status === "declined" && (

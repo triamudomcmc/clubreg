@@ -16,6 +16,8 @@ import Modal from "@components/common/Modals"
 import { Zoomable } from "@components/common/Zoomable"
 import { useAuth } from "@handlers/client/auth"
 import { useToast } from "@components/common/Toast/ToastContext"
+import { QuillEditor } from "@components/common/TextEdit/Quill"
+import { StatusText } from "@components/panel/table/TableRow"
 
 const parseText = (text) => {
   return "<p>" + text.replace(/\n{2,}/g, "</p><p>").replace(/\n/g, "<br>")
@@ -23,99 +25,106 @@ const parseText = (text) => {
 
 const ClubHeaderCard = ({ clubID, data, contactRef, onLoad }) => {
   return (
-    <div className="md:mx-6 md:mt-20 md:mb-2 md:flex md:space-x-8 md:rounded-2xl md:bg-white md:shadow-md">
-      <div>
-        <div className="relative mb-[-6.5px] md:max-w-[512px]">
-          <Image
-            priority={true}
-            onLoad={onLoad}
-            src={`/assets/thumbnails/${clubID}.jpg`}
-            placeholder="blur"
-            blurDataURL={`/assets/thumbnails/${clubID}.jpg`}
-            width="768"
-            height="432"
-            quality={75}
-            className={classnames("object-cover md:rounded-l-2xl")}
-          />
-        </div>
+    <div className="md:mx-6 md:mt-20 md:mb-2">
+      <div className="flex space-x-4 px-2 py-4">
+        <span>สถานะ:</span>
+        <StatusText status="accepted" />
       </div>
-      <div className="flex">
-        <div className="hidden h-2 w-6 md:block"></div>
-        <div className="pl-6 pr-12 md:pl-0">
-          <div className="h-6 w-full md:h-[1.8vw]"></div>
-          <div className="space-y-5">
-            <div>
-              <h1 className="min-w-[150px] text-xl">ชมรม{data.nameTH}</h1>
-              <h1 className="text-TUCMC-gray-600">{data.nameEN}</h1>
-            </div>
-            <div className="space-y-1">
-              {data.audition ? (
-                <div className="flex space-x-2 text-TUCMC-pink-400">
-                  <StarIcon className="h-6 w-6" />
-                  <span>มีการ Audition</span>
-                </div>
-              ) : (
-                <div className="flex space-x-2 text-TUCMC-blue-400">
-                  <ClipboardCopyIcon className="h-6 w-6" />
-                  <span>ไม่มีการ Audition</span>
-                </div>
-              )}
-              <div className="flex space-x-2 text-TUCMC-gray-600">
-                <UserIcon className="h-6 w-6" />
-                <span>สมาชิก {data.count} คน</span>
-              </div>
-              <div className="flex space-x-2 text-TUCMC-gray-600">
-                <GlobeAltIcon className="h-6 w-6" />
-                <div className="hidden md:block lg:hidden">
-                  <a ref={contactRef} className="flex cursor-pointer items-center space-x-2">
-                    <h1 className="whitespace-nowrap">ช่องทางการติดตาม</h1>
-                    <ChevronDownIcon className="h-5 w-5" />
-                  </a>
-                  <Modal
-                    TriggerRef={contactRef}
-                    overlayClassName="flex justify-end"
-                    className="absolute z-20 mt-1 w-[300px] rounded-lg bg-white px-4 py-3 shadow-md"
-                  >
-                    <div className="flex flex-col">
-                      {!isEmpty(data.contact) && (
-                        <h1>
-                          {data.contact.type} : {data.contact.context}
-                        </h1>
-                      )}
-                      {!isEmpty(data.contact2) && (
-                        <h1>
-                          {data.contact2.type} : {data.contact2.context}
-                        </h1>
-                      )}
-                      {!isEmpty(data.contact3) && (
-                        <h1>
-                          {data.contact3.type} : {data.contact3.context}
-                        </h1>
-                      )}
-                    </div>
-                  </Modal>
-                </div>
-                <div className="flex flex-col md:hidden lg:block">
-                  {!isEmpty(data.contact) && (
-                    <h1>
-                      {data.contact.type} : {data.contact.context}
-                    </h1>
-                  )}
-                  {!isEmpty(data.contact2) && (
-                    <h1>
-                      {data.contact2.type} : {data.contact2.context}
-                    </h1>
-                  )}
-                  {!isEmpty(data.contact3) && (
-                    <h1>
-                      {data.contact3.type} : {data.contact3.context}
-                    </h1>
-                  )}
-                </div>
-              </div>
-            </div>
+
+      <div className="md:flex md:space-x-8 md:rounded-2xl md:bg-white md:shadow-md">
+        <div>
+          <div className="relative mb-[-6.5px] md:max-w-[512px]">
+            <Image
+              priority={true}
+              onLoad={onLoad}
+              src={`/assets/thumbnails/${clubID}.jpg`}
+              placeholder="blur"
+              blurDataURL={`/assets/thumbnails/${clubID}.jpg`}
+              width="768"
+              height="432"
+              quality={75}
+              className={classnames("object-cover md:rounded-l-2xl")}
+            />
           </div>
-          <div className="h-10 w-full md:h-[2vw]"></div>
+        </div>
+        <div className="flex">
+          <div className="hidden h-2 w-6 md:block"></div>
+          <div className="pl-6 pr-12 md:pl-0">
+            <div className="h-6 w-full md:h-[1.8vw]"></div>
+            <div className="space-y-5">
+              <div>
+                <h1 className="min-w-[150px] text-xl">ชมรม{data.nameTH}</h1>
+                <h1 className="text-TUCMC-gray-600">{data.nameEN}</h1>
+              </div>
+              <div className="space-y-1">
+                {data.audition ? (
+                  <div className="flex space-x-2 text-TUCMC-pink-400">
+                    <StarIcon className="h-6 w-6" />
+                    <span>มีการ Audition</span>
+                  </div>
+                ) : (
+                  <div className="flex space-x-2 text-TUCMC-blue-400">
+                    <ClipboardCopyIcon className="h-6 w-6" />
+                    <span>ไม่มีการ Audition</span>
+                  </div>
+                )}
+                <div className="flex space-x-2 text-TUCMC-gray-600">
+                  <UserIcon className="h-6 w-6" />
+                  <span>สมาชิก {data.count} คน</span>
+                </div>
+                <div className="flex space-x-2 text-TUCMC-gray-600">
+                  <GlobeAltIcon className="h-6 w-6" />
+                  <div className="hidden md:block lg:hidden">
+                    <a ref={contactRef} className="flex cursor-pointer items-center space-x-2">
+                      <h1 className="whitespace-nowrap">ช่องทางการติดตาม</h1>
+                      <ChevronDownIcon className="h-5 w-5" />
+                    </a>
+                    <Modal
+                      TriggerRef={contactRef}
+                      overlayClassName="flex justify-end"
+                      className="absolute z-20 mt-1 w-[300px] rounded-lg bg-white px-4 py-3 shadow-md"
+                    >
+                      <div className="flex flex-col">
+                        {!isEmpty(data.contact) && (
+                          <h1>
+                            {data.contact.type} : {data.contact.context}
+                          </h1>
+                        )}
+                        {!isEmpty(data.contact2) && (
+                          <h1>
+                            {data.contact2.type} : {data.contact2.context}
+                          </h1>
+                        )}
+                        {!isEmpty(data.contact3) && (
+                          <h1>
+                            {data.contact3.type} : {data.contact3.context}
+                          </h1>
+                        )}
+                      </div>
+                    </Modal>
+                  </div>
+                  <div className="flex flex-col md:hidden lg:block">
+                    {!isEmpty(data.contact) && (
+                      <h1>
+                        {data.contact.type} : {data.contact.context}
+                      </h1>
+                    )}
+                    {!isEmpty(data.contact2) && (
+                      <h1>
+                        {data.contact2.type} : {data.contact2.context}
+                      </h1>
+                    )}
+                    {!isEmpty(data.contact3) && (
+                      <h1>
+                        {data.contact3.type} : {data.contact3.context}
+                      </h1>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="h-10 w-full md:h-[2vw]"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -163,12 +172,11 @@ const MainArticle: FC<{ description: string }> = ({ description }) => {
               <XIcon className="h-5 w-5 text-white" />
             </button>
           </div>
-          <input
-            type="text"
-            className="w-full rounded-md border border-gray-300 font-texts text-[1.05rem] text-TUCMC-gray-700"
-            onChange={(e) => setValue(e.target.value)}
+          <QuillEditor
+            placeholder={beforeValue}
             value={value}
-            placeholder="placeholder"
+            onChange={setValue}
+            className="m-6 rounded-md border border-gray-300 px-2 py-4"
           />
         </>
       )}
@@ -194,6 +202,72 @@ const SummaryImages = ({ images, onLoad, clubID }) => {
             </div>
           )
       })}
+    </div>
+  )
+}
+
+const ReviewContent: FC<{ initialReviews: any[]; onLoad: () => void; clubID: string }> = ({
+  initialReviews,
+  onLoad,
+  clubID,
+}) => {
+  const [reviews, setReviews] = useState(initialReviews)
+
+  useEffect(() => {
+    setReviews(initialReviews)
+  }, [initialReviews])
+
+  return (
+    <div className="space-y-10 md:space-y-16">
+      {reviews.length > 0 && <h1 className="text-2xl text-TUCMC-gray-700">รีวิวจากรุ่นพี่</h1>}
+      <div className="space-y-16 md:space-y-24">
+        {reviews.map((revContent, index) => {
+          return (
+            <div key={`review-${index}`}>
+              <div className="flex flex-wrap-reverse md:flex-row md:flex-nowrap">
+                <div className="mt-6 ml-4 flex flex-row md:mt-0 md:flex-col">
+                  <div className="h-20 w-20 md:h-24 md:w-24">
+                    <Image
+                      priority={true}
+                      onLoad={onLoad}
+                      src={`/assets/images/clubs/${clubID}/profile-${index + 1}.jpg`}
+                      placeholder="blur"
+                      quality={50}
+                      blurDataURL={`/assets/images/clubs/${clubID}/profile-${index + 1}.jpg`}
+                      width="128"
+                      height="128"
+                      className="rounded-lg object-cover"
+                    />
+                  </div>
+                  <div className="mt-1 flex flex-col pl-2 text-gray-500 md:mt-3 md:pl-0">
+                    <h1 className="text-xl font-black md:text-2xl">{revContent.name}</h1>
+                    <span className="w-max text-xs">{revContent.contact}</span>
+                    <span className="text-xs">เตรียมอุดม {revContent.year}</span>
+                  </div>
+                </div>
+                <div className="flex flex-col md:ml-8">
+                  <div className="relative hidden md:block">
+                    <span className="absolute left-10 top-6 text-7xl text-gray-300">“</span>
+                  </div>
+                  <div className="bg-whtie rounded-xl px-6 shadow-lg md:px-16 md:pt-12 md:pb-16">
+                    <div className="h-12 pt-2 text-center text-6xl text-gray-300 md:hidden">
+                      <span className="absolute">“</span>
+                    </div>
+                    <article
+                      dangerouslySetInnerHTML={{ __html: `${revContent.context}` }}
+                      className="font-texts text-[1.05rem] text-gray-500"
+                    ></article>
+                    <h1 className="mt-4 h-14 w-full text-center text-6xl text-gray-300 md:hidden">”</h1>
+                  </div>
+                  <div className="relative hidden md:block">
+                    <span className="absolute right-16 -top-16 text-7xl text-gray-300">”</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }
@@ -243,57 +317,7 @@ const Page = ({ data, clubID, images, clubList }) => {
           <div className="space-y-12 px-6 pb-24 pt-11 md:space-y-16 md:pt-12">
             <MainArticle description={data.description} />
             <SummaryImages clubID={clubID} images={images} onLoad={loaded} />
-            <div className="space-y-10 md:space-y-16">
-              {data.reviews.length > 0 && <h1 className="text-2xl text-TUCMC-gray-700">รีวิวจากรุ่นพี่</h1>}
-              <div className="space-y-16 md:space-y-24">
-                {data.reviews.map((revContent, index) => {
-                  return (
-                    <div key={`review-${index}`}>
-                      <div className="flex flex-wrap-reverse md:flex-row md:flex-nowrap">
-                        <div className="mt-6 ml-4 flex flex-row md:mt-0 md:flex-col">
-                          <div className="h-20 w-20 md:h-24 md:w-24">
-                            <Image
-                              priority={true}
-                              onLoad={loaded}
-                              src={`/assets/images/clubs/${clubID}/profile-${index + 1}.jpg`}
-                              placeholder="blur"
-                              quality={50}
-                              blurDataURL={`/assets/images/clubs/${clubID}/profile-${index + 1}.jpg`}
-                              width="128"
-                              height="128"
-                              className="rounded-lg object-cover"
-                            />
-                          </div>
-                          <div className="mt-1 flex flex-col pl-2 text-gray-500 md:mt-3 md:pl-0">
-                            <h1 className="text-xl font-black md:text-2xl">{revContent.name}</h1>
-                            <span className="w-max text-xs">{revContent.contact}</span>
-                            <span className="text-xs">เตรียมอุดม {revContent.year}</span>
-                          </div>
-                        </div>
-                        <div className="flex flex-col md:ml-8">
-                          <div className="relative hidden md:block">
-                            <span className="absolute left-10 top-6 text-7xl text-gray-300">“</span>
-                          </div>
-                          <div className="bg-whtie rounded-xl px-6 shadow-lg md:px-16 md:pt-12 md:pb-16">
-                            <div className="h-12 pt-2 text-center text-6xl text-gray-300 md:hidden">
-                              <span className="absolute">“</span>
-                            </div>
-                            <article
-                              dangerouslySetInnerHTML={{ __html: `${revContent.context}` }}
-                              className="font-texts text-[1.05rem] text-gray-500"
-                            ></article>
-                            <h1 className="mt-4 h-14 w-full text-center text-6xl text-gray-300 md:hidden">”</h1>
-                          </div>
-                          <div className="relative hidden md:block">
-                            <span className="absolute right-16 -top-16 text-7xl text-gray-300">”</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
+            <ReviewContent clubID={clubID} onLoad={loaded} initialReviews={data.reviews} />
           </div>
         </div>
       </div>
