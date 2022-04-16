@@ -125,10 +125,6 @@ export const ClubComitteeTable: FC<{}> = ({}) => {
             <p>ม.4</p>
 
             <p>154</p>
-
-            <button className="rounded-md border border-gray-300 bg-white px-12 py-2 text-gray-600 transition-colors hover:bg-gray-100">
-              ลบ
-            </button>
           </div>
         </div>
 

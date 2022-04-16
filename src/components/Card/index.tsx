@@ -7,6 +7,7 @@ import { clubMap } from "../../config/clubMap"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import QRCode from "qrcode"
 import { fetchAClub } from "@client/fetcher/club"
+import { isEmpty } from "@utilities/object"
 
 const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>) => {
   const data = await fetchAClub(clubID)
@@ -64,7 +65,12 @@ export const Card = ({ width, userData, clubData }) => {
           <div className="flex flex-col">
             <span className={classnames(css.text1155, "text-TUCMC-gray-700")}>ช่องทางการติดต่อชมรม</span>
             <p
-              className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55, clubData.contact === {} && "hidden")}
+              className={classnames(
+                css.text1155,
+                "text-TUCMC-gray-500",
+                css.mt55,
+                isEmpty(clubData.contact) && "hidden"
+              )}
             >
               {clubData.contact?.type} : {clubData.contact?.context}
             </p>
@@ -73,7 +79,7 @@ export const Card = ({ width, userData, clubData }) => {
                 css.text1155,
                 "text-TUCMC-gray-500",
                 css.mt55,
-                clubData.contact2 === {} && "hidden"
+                isEmpty(clubData.contact2) && "hidden"
               )}
             >
               {clubData.contact2?.type} : {clubData.contact2?.context}
@@ -83,7 +89,7 @@ export const Card = ({ width, userData, clubData }) => {
                 css.text1155,
                 "text-TUCMC-gray-500",
                 css.mt55,
-                clubData.contact3 === {} && "hidden"
+                isEmpty(clubData.contact3) && "hidden"
               )}
             >
               {clubData.contact3?.type} : {clubData.contact3?.context}
