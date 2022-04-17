@@ -409,7 +409,7 @@ const ReviewContent: FC<{ reviews: any[]; onLoad: () => void; clubID: string, se
             contact: "IG: instagram",
             context: "",
             name: "ชื่อ",
-            profile: "/assets/images/clubs/ก30920-8/profile-1.jpg",
+            profile: "https://storage.googleapis.com/clwimages/placeholder-profile.png",
             year: "85"
           }]))}} className="flex items-center space-x-2 bg-white shadow-md rounded-full px-6 py-3 cursor-pointer">
           <PlusIcon className="w-5 h-5"/> <h1>เพิ่มรีวิวจากรุ่นพี่</h1>
