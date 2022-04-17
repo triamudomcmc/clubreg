@@ -166,7 +166,7 @@ const ClubSkeleton = ({ ...restProps }) => {
       </div>
       <div className="flex flex-col items-center space-y-14 bg-TUCMC-gray-100 py-16">
         <div className="h-4 w-[120px] animate-pulse bg-TUCMC-gray-300"> </div>
-        <div className="mx-auto mt-5 flex w-full max-w-5xl max-w-[1100px] flex-wrap justify-center pb-20 md:mt-14">
+        <div className="mx-auto mt-5 flex w-full max-w-[1100px] flex-wrap justify-center pb-20 md:mt-14">
           <div className="minClubs2:w-175px minClubs:w-185px my-1 mx-10 flex w-full flex-col rounded-lg shadow-md minClubs2:mx-1">
             <div className="animate-pulse rounded-t-lg bg-TUCMC-gray-300 minClubs2:h-[96px] minClubs2:w-[175px] minClubs:h-[102px] minClubs:w-[185px]"></div>
             <div className="space-y-2.5 rounded-b-lg bg-white px-2 py-2">
