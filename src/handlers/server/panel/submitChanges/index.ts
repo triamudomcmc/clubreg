@@ -51,14 +51,28 @@ const performUpload = async (req) => {
     }
   }
 
+  let reviews = []
+  
+  for (let rev of req.body.reviews) {
+      if (rev.profile.includes("data:image")) {
+        const tempFileName = `userUpload-${new Date().getTime()}-${Math.floor(Math.random() * 400)}`
+        const res = await upload(rev.profile, storage, tempFileName)
+        reviews.push({...rev, profile: `https://storage.googleapis.com/clwimages/${tempFileName}`})
+      }else{
+          reviews.push(rev)
+      }
+  }
+
   const clubDataDoc = initialisedDB.collection("clubs").doc("mainData")
   const out = await clubDataDoc.update({ [`${req.body.panelID}.status`]: "pending" })
 
-  await await initialisedDB.collection("clubDisplay").doc(req.body.panelID).set(
+  const dat = await initialisedDB.collection("clubDisplay").doc(req.body.panelID).get()
+  await initialisedDB.collection("clubDisplay").doc(req.body.panelID).set(
     {
-      reviews: req.body.reviews,
+    ...(req.body.contact),
+      reviews: reviews,
       description: req.body.main,
-      images: nim,
+      images: {...(dat.get("images") || {}), ...nim},
     },
     { merge: true }
   )

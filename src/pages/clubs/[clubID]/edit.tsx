@@ -5,7 +5,7 @@ import { FC, KeyboardEvent, useEffect, useRef, useState } from "react"
 import { ChevronDownIcon, ClipboardCopyIcon, StarIcon } from "@heroicons/react/solid"
 import PageContainer from "@components/common/PageContainer"
 import Image from "next/image"
-import { CameraIcon, CheckIcon, GlobeAltIcon, TrashIcon, UserIcon, XIcon } from "@heroicons/react/outline"
+import { CameraIcon, CheckIcon, GlobeAltIcon, PlusIcon, TrashIcon, UserIcon, XIcon } from "@heroicons/react/outline"
 import { PencilIcon } from "@heroicons/react/solid"
 import { isEmpty } from "@utilities/object"
 import { useWindowDimensions } from "@utilities/document"
@@ -151,11 +151,10 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                                 }
                               }))
                             }} className="outline-none border-none focus:border-none focus:outline-none pl-0">
-                              <option value={contact.contact.type}>{contact.contact.type}</option>
                               {
-                                avail.filter((a) => (contact.contact.type !== a)).map((i,k) => {
+                                avail.map((i,k) => {
                                   return (
-                                    <option key={`opt-${k}`} value={i}>{i}</option>
+                                    <option key={`opt11-${k}`} value={i} selected={contact.contact.type === i}>{i}</option>
                                   )
                                 })
                               }
@@ -164,6 +163,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                                 ...prev,
                                 contact: {
                                   type: prev.contact.type,
+                                  //@ts-ignore
                                   context: e.target.innerText
                                 }
                               }))
@@ -175,17 +175,16 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                             <select onChange={(e) => {
                               setContact(prev => ({
                                 ...prev,
-                                contact: {
+                                contact2: {
                                   type: e.target.value,
                                   context: prev.contact2.context
                                 }
                               }))
                             }} className="outline-none border-none focus:border-none focus:outline-none pl-0">
-                              <option value={contact.contact2.type}>{contact.contact2.type}</option>
                               {
-                                avail.filter((a) => (contact.contact2.type !== a)).map((i,k) => {
+                                avail.map((i,k) => {
                                   return (
-                                    <option key={`opt-${k}`} value={i}>{i}</option>
+                                    <option key={`opt22-${k}`} value={i} selected={contact.contact2.type === i}>{i}</option>
                                   )
                                 })
                               }
@@ -194,6 +193,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                                 ...prev,
                                 contact2: {
                                   type: prev.contact2.type,
+                                  //@ts-ignore
                                   context: e.target.innerText
                                 }
                               }))
@@ -211,11 +211,10 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                                 }
                               }))
                             }} className="outline-none border-none focus:border-none focus:outline-none pl-0">
-                              <option value={contact.contact3.type}>{contact.contact3.type}</option>
                               {
-                                avail.filter((a) => (contact.contact3.type !== a)).map((i,k) => {
+                                avail.map((i,k) => {
                                   return (
-                                    <option key={`opt-${k}`} value={i}>{i}</option>
+                                    <option key={`opt33-${k}`} value={i} selected={contact.contact3.type === i}>{i}</option>
                                   )
                                 })
                               }
@@ -224,6 +223,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                                 ...prev,
                                 contact3: {
                                   type: prev.contact3.type,
+                                  //@ts-ignore
                                   context: e.target.innerText
                                 }
                               }))
@@ -245,11 +245,10 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                                 }
                               }))
                             }} className="outline-none border-none focus:border-none focus:outline-none pl-0">
-                              <option value={contact.contact.type}>{contact.contact.type}</option>
                               {
-                                avail.filter((a) => (contact.contact.type !== a)).map((i,k) => {
+                                avail.map((i,k) => {
                                   return (
-                                    <option key={`opt-${k}`} value={i}>{i}</option>
+                                    <option key={`opt1-${k}`} value={i} selected={contact.contact.type === i}>{i}</option>
                                   )
                                 })
                               }
@@ -258,6 +257,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                                 ...prev,
                                 contact: {
                                   type: prev.contact.type,
+                                  //@ts-ignore
                                   context: e.target.innerText
                                 }
                               }))
@@ -269,17 +269,16 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                             <select onChange={(e) => {
                               setContact(prev => ({
                                 ...prev,
-                                contact: {
+                                contact2: {
                                   type: e.target.value,
                                   context: prev.contact2.context
                                 }
                               }))
                             }} className="outline-none border-none focus:border-none focus:outline-none pl-0">
-                              <option value={contact.contact2.type}>{contact.contact2.type}</option>
                               {
-                                avail.filter((a) => (contact.contact2.type !== a)).map((i,k) => {
+                                avail.map((i,k) => {
                                   return (
-                                    <option key={`opt-${k}`} value={i}>{i}</option>
+                                    <option key={`opt2-${k}`} value={i} selected={contact.contact2.type === i}>{i}</option>
                                   )
                                 })
                               }
@@ -288,6 +287,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                                 ...prev,
                                 contact2: {
                                   type: prev.contact2.type,
+                                  //@ts-ignore
                                   context: e.target.innerText
                                 }
                               }))
@@ -305,11 +305,10 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                                 }
                               }))
                             }} className="outline-none border-none focus:border-none focus:outline-none pl-0">
-                              <option value={contact.contact3.type}>{contact.contact3.type}</option>
                               {
-                                avail.filter((a) => (contact.contact3.type !== a)).map((i,k) => {
+                                avail.map((i,k) => {
                                   return (
-                                    <option key={`opt-${k}`} value={i}>{i}</option>
+                                    <option key={`opt3-${k}`} value={i} selected={contact.contact3.type === i}>{i}</option>
                                   )
                                 })
                               }
@@ -318,6 +317,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                                 ...prev,
                                 contact3: {
                                   type: prev.contact3.type,
+                                  //@ts-ignore
                                   context: e.target.innerText
                                 }
                               }))
@@ -350,7 +350,7 @@ const MainArticle: FC<{ value: string; setValue: any }> = ({ value, setValue }) 
   )
 }
 
-const SummaryImages = ({ images, onLoad, clubID, setImageS }) => {
+const SummaryImages = ({ images, onLoad, clubID, setImageS, newImages }) => {
   return (
     <div className="space-y-8 md:flex md:justify-center md:space-y-0 md:space-x-4">
       {images.map((name, index) => {
@@ -361,10 +361,10 @@ const SummaryImages = ({ images, onLoad, clubID, setImageS }) => {
                 priority={true}
                 onLoad={onLoad}
                 className="rounded-lg object-cover"
-                src={`/assets/images/clubs/${clubID}/${name}`}
+                src={name.replace(".jpg","") in newImages ? newImages[name.replace(".jpg","")] : `/assets/images/clubs/${clubID}/${name}`}
                 updateImage={(d) => {
                   setImageS((prev) => {
-                    return { ...prev, [`picture-${index}`]: d }
+                    return { ...prev, [`picture-${index+1}`]: d }
                   })
                 }}
                 width={768}
@@ -400,9 +400,21 @@ const ReviewContent: FC<{ reviews: any[]; onLoad: () => void; clubID: string, se
               clubID={clubID}
               setReviews={setReviews}
               setImageReview={setImageReview}
+              setRerender={setRerender}
             />
           )
         })}
+        {reviews.length < 3 && <div className="flex justify-center">
+          <div onClick={() => {setReviews(prev => ([...prev, {
+            contact: "IG: instagram",
+            context: "",
+            name: "ชื่อ",
+            profile: "/assets/images/clubs/ก30920-8/profile-1.jpg",
+            year: "85"
+          }]))}} className="flex items-center space-x-2 bg-white shadow-md rounded-full px-6 py-3 cursor-pointer">
+          <PlusIcon className="w-5 h-5"/> <h1>เพิ่มรีวิวจากรุ่นพี่</h1>
+          </div>
+          </div>}
       </div>
     </div>
   )
@@ -419,8 +431,9 @@ const Review = ({revContent, index, onLoad,clubID, setReviews, setImageReview, s
   }
 
   useEffect(() => {
-    setImageReview((prev) => {
-      return { ...prev, [`review-${index}`]: image }
+    image && setReviews(prev => {
+      prev[index].profile = image
+      return prev
     })
   }, [image])
 
@@ -453,14 +466,17 @@ const Review = ({revContent, index, onLoad,clubID, setReviews, setImageReview, s
       </div>
       <div className="mt-1 flex flex-col pl-2 text-gray-500 md:mt-3 md:pl-0">
         <h1 contentEditable={true} onKeyUpCapture={(e) => {setReviews(prev => {
+          //@ts-ignore
           prev[index].name = e.target.innerText
           return prev
         })}} className="text-xl font-black md:text-2xl">{revContent.name}</h1>
         <span contentEditable={true} onKeyUpCapture={(e) => {setReviews(prev => {
+          //@ts-ignore
           prev[index].contact = e.target.innerText
           return prev
         })}} className="w-max text-xs">{revContent.contact}</span>
         <span className="text-xs">เตรียมอุดม <span contentEditable={true} onKeyUpCapture={(e) => {setReviews(prev => {
+          //@ts-ignore
           prev[index].year = e.target.innerText
           return prev
         })}}>{revContent.year}</span></span>
@@ -487,41 +503,17 @@ const Review = ({revContent, index, onLoad,clubID, setReviews, setImageReview, s
           onChange={(e) => {setReviews(prev => {
                     prev[index].context = e
                     return prev
-                  })
-                }}
-              >
-                {revContent.year}
-              </span>
-            </span>
-          </div>
-        </div>
-        <div className="flex w-full flex-col md:ml-8">
-          <div className="relative hidden md:block">
-            <span className="absolute left-10 top-6 text-7xl text-gray-300">“</span>
-          </div>
-          <div className="rounded-xl bg-white px-6 shadow-lg md:px-16 md:pt-12 md:pb-16">
-            <div className="h-12 pt-2 text-center text-6xl text-gray-300 md:hidden">
-              <span className="absolute">“</span>
-            </div>
-            <QuillEditor
-              value={revContent.context}
-              onChange={(e) => {
-                setReviews((prev) => {
-                  prev[index].context = e
-                  return prev
-                })
-              }}
-              className="w-full"
-            />
-            <h1 className="mt-4 h-14 w-full text-center text-6xl text-gray-300 md:hidden">”</h1>
-          </div>
-          <div className="relative hidden md:block">
-            <span className="absolute right-16 -top-16 text-7xl text-gray-300">”</span>
-          </div>
-        </div>
+                   })}}
+                   className="w-full"
+        />
+        <h1 className="mt-4 h-14 w-full text-center text-6xl text-gray-300 md:hidden">”</h1>
+      </div>
+      <div className="relative hidden md:block">
+        <span className="absolute right-16 -top-16 text-7xl text-gray-300">”</span>
       </div>
     </div>
-  )
+  </div>
+</div>)
 }
 
 const Page = ({ data, clubID, images, clubData, clubList, newImages }) => {
@@ -554,7 +546,8 @@ const Page = ({ data, clubID, images, clubData, clubList, newImages }) => {
       panelID: clubID,
       reviews: reviews,
       main: mainArt,
-      images: { mainImage: imageHead, ...imageS, ...imageReview },
+      contact: contactData,
+      images: { mainImage: imageHead, ...imageS },
     })
 
     if (res.status) {
@@ -607,11 +600,11 @@ const Page = ({ data, clubID, images, clubData, clubList, newImages }) => {
       {rerender && <div className="hidden">s</div>}
       <div className={classnames(loadingCount > 0 && "absolute opacity-0")}>
         <div className="mx-auto max-w-[1100px]">
-          <ClubHeaderCard clubID={clubID} contactRef={contactRef} data={data} onLoad={loaded} publish={getAllPart} image={imageHead} setImage={setImageHead} newImages={newImages} contact={contactData} setContact={setContactData} />
+          <ClubHeaderCard status={clubData?.status} clubID={clubID} contactRef={contactRef} data={data} onLoad={loaded} publish={getAllPart} image={imageHead} setImage={setImageHead} newImages={newImages} contact={contactData} setContact={setContactData} />
           <div className="w-full border-b border-TUCMC-gray-300 md:hidden"></div>
           <div className="space-y-12 px-6 pb-24 pt-11 md:space-y-16 md:pt-12">
             <MainArticle value={mainArt} setValue={setMainArt} />
-            <SummaryImages clubID={clubID} images={images} onLoad={loaded} setImageS={setImageS} />
+            <SummaryImages clubID={clubID} images={images} onLoad={loaded} setImageS={setImageS} newImages={newImages}/>
             <ReviewContent clubID={clubID} onLoad={loaded} reviews={reviews} setReviews={setReviews} setImageReview={setImageReview} setRerender={setRerender}/>
           </div>
         </div>
