@@ -31,6 +31,7 @@ const parseText = (text) => {
 
 const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, image, setImage, newImages, contact, setContact }) => {
   const [publishing, setPublishing] = useState(false)
+  const [initialContact, setInitContact] = useState(contact)
   const uploader = useRef(null)
   const doUpload = async (e) => {
     const data = await toBase64(e.target.files[0])
@@ -39,6 +40,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
   }
 
   const avail = [
+    "ไม่มี",
     "FB",
     "IG",
     "Twitter",
@@ -150,7 +152,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                                   context: prev.contact.context
                                 }
                               }))
-                            }} className="outline-none border-none focus:border-none focus:outline-none pl-0">
+                            }} className="outline-none border-none focus:border-none focus:outline-none pl-0 py-0">
                               {
                                 avail.map((i,k) => {
                                   return (
@@ -167,7 +169,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                                   context: e.target.innerText
                                 }
                               }))
-                            }} contentEditable={true}>{contact.contact.context}</span>
+                            }} contentEditable={true} className={contact.contact.type === "ไม่มี" && "hidden"}>{initialContact.contact.context}</span>
                           </h1>
                         )}
                         {!isEmpty(contact.contact2) && (
@@ -180,7 +182,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                                   context: prev.contact2.context
                                 }
                               }))
-                            }} className="outline-none border-none focus:border-none focus:outline-none pl-0">
+                            }} className="outline-none border-none focus:border-none focus:outline-none pl-0 py-0">
                               {
                                 avail.map((i,k) => {
                                   return (
@@ -197,7 +199,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                                   context: e.target.innerText
                                 }
                               }))
-                            }} contentEditable={true}>{contact.contact2.context}</span>
+                            }} contentEditable={true} className={contact.contact2.type === "ไม่มี" && "hidden"}>{initialContact.contact2.context}</span>
                           </h1>
                         )}
                         {!isEmpty(contact.contact3) && (
@@ -210,7 +212,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                                   context: prev.contact3.context
                                 }
                               }))
-                            }} className="outline-none border-none focus:border-none focus:outline-none pl-0">
+                            }} className="outline-none border-none focus:border-none focus:outline-none pl-0 py-0">
                               {
                                 avail.map((i,k) => {
                                   return (
@@ -227,7 +229,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                                   context: e.target.innerText
                                 }
                               }))
-                            }} contentEditable={true}>{contact.contact3.context}</span>
+                            }} contentEditable={true} className={contact.contact3.type === "ไม่มี" && "hidden"}>{initialContact.contact3.context}</span>
                           </h1>
                         )}
                       </div>
@@ -244,7 +246,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                                   context: prev.contact.context
                                 }
                               }))
-                            }} className="outline-none border-none focus:border-none focus:outline-none pl-0">
+                            }} className="outline-none border-none focus:border-none focus:outline-none pl-0 py-0">
                               {
                                 avail.map((i,k) => {
                                   return (
@@ -261,7 +263,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                                   context: e.target.innerText
                                 }
                               }))
-                            }} contentEditable={true}>{contact.contact.context}</span>
+                            }} contentEditable={true} className={contact.contact.type === "ไม่มี" && "hidden"}>{initialContact.contact.context}</span>
                           </h1>
                         )}
                         {!isEmpty(contact.contact2) && (
@@ -274,7 +276,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                                   context: prev.contact2.context
                                 }
                               }))
-                            }} className="outline-none border-none focus:border-none focus:outline-none pl-0">
+                            }} className="outline-none border-none focus:border-none focus:outline-none pl-0 py-0">
                               {
                                 avail.map((i,k) => {
                                   return (
@@ -291,7 +293,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                                   context: e.target.innerText
                                 }
                               }))
-                            }} contentEditable={true}>{contact.contact2.context}</span>
+                            }} contentEditable={true} className={contact.contact2.type === "ไม่มี" && "hidden"}>{initialContact.contact2.context}</span>
                           </h1>
                         )}
                         {!isEmpty(contact.contact3) && (
@@ -304,7 +306,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                                   context: prev.contact3.context
                                 }
                               }))
-                            }} className="outline-none border-none focus:border-none focus:outline-none pl-0">
+                            }} className="outline-none border-none focus:border-none focus:outline-none pl-0 py-0">
                               {
                                 avail.map((i,k) => {
                                   return (
@@ -321,7 +323,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                                   context: e.target.innerText
                                 }
                               }))
-                            }} contentEditable={true}>{contact.contact3.context}</span>
+                            }} contentEditable={true} className={contact.contact3.type === "ไม่มี" && "hidden"}>{initialContact.contact3.context}</span>
                           </h1>
                         )}
                   </div>
@@ -351,17 +353,31 @@ const MainArticle: FC<{ value: string; setValue: any }> = ({ value, setValue }) 
 }
 
 const SummaryImages = ({ images, onLoad, clubID, setImageS, newImages }) => {
+
+
+  const [ime, setIme] = useState([])
+
+  useEffect(()=>{
+    let im = [...images].filter((e) => (e.includes("picture")))
+    console.log(im)
+    while (im.length < 3) {
+      im.push("https://storage.googleapis.com/clwimages/placeholder-image.png")
+    }
+    setIme(im)
+  }, [images])
+
+
   return (
     <div className="space-y-8 md:flex md:justify-center md:space-y-0 md:space-x-4">
-      {images.map((name, index) => {
-        if (name.includes("picture"))
+      {ime.map((name, index) => {
+        if (name.includes("picture") || name.includes("https://"))
           return (
             <div key={`picture-${index}`}>
               <EditableZoomable
                 priority={true}
                 onLoad={onLoad}
                 className="rounded-lg object-cover"
-                src={name.replace(".jpg","") in newImages ? newImages[name.replace(".jpg","")] : `/assets/images/clubs/${clubID}/${name}`}
+                src={name.replace(".jpg","") in newImages ? newImages[name.replace(".jpg","")] : name.includes("picture-") ? `/assets/images/clubs/${clubID}/${name}` : `${name}`}
                 updateImage={(d) => {
                   setImageS((prev) => {
                     return { ...prev, [`picture-${index+1}`]: d }
@@ -535,13 +551,23 @@ const Page = ({ data, clubID, images, clubData, clubList, newImages }) => {
   const [reviews, setReviews] = useState(data.reviews)
   const [mainArt, setMainArt] = useState(data.description)
 
-  const [contactData, setContactData] = useState({contact: data.contact, contact2: data.contact2, contact3: data.contact3})
+  const [contactData, setContactData] = useState({contact: data.contact, contact2: isEmpty(data.contact2) ? {type: "ไม่มี", context: "..."} : data.contact2, contact3: isEmpty(data.contact3) ? {type: "ไม่มี", context: "..."} : data.contact3})
 
   const [imageHead, setImageHead] = useState<string | null>(null)
   const [imageS, setImageS] = useState({})
   const [imageReview, setImageReview] = useState({})
 
   const getAllPart = async () => {
+
+    const safeContact = {}
+
+    Object.keys(contactData).forEach(k => {
+      if (contactData[k].type === "ไม่มี") {
+        safeContact[k] = {}
+      }else{
+        safeContact[k] = contactData[k]
+      }
+    })
     const res = await request("database/editWeb", "submitChanges", {
       panelID: clubID,
       reviews: reviews,
