@@ -119,7 +119,7 @@ export const EditableZoomable = ({
           width={width}
           height={height}
         /> : <img src={image} width={width}
-        height={height} className={classnames(className)}/>}
+        height={height} className={classnames(className, "h-[52vw] md:h-[18vw] lg:h-[200px]")}/>}
         <input
             className="hidden"
             ref={uploader}

@@ -88,7 +88,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
             ) : (
               <img
                 src={image}
-                className={classnames("mb-[0px] h-full object-cover sm:h-[288px] md:rounded-l-2xl")}
+                className={classnames("mb-[0px] h-[54vw] object-cover sm:h-[288px] md:rounded-l-2xl")}
                 width="768"
                 height="432"
               />
