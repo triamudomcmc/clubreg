@@ -533,7 +533,7 @@ const Review = ({revContent, index, onLoad,clubID, setReviews, setImageReview, s
 </div>)
 }
 
-const Page = ({ data, clubID, images, clubData, clubList, newImages }) => {
+const Page = ({ data, clubID, images, clubData, newImages }) => {
   const { onReady } = useAuth()
   const router = useRouter()
 
@@ -651,7 +651,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
   const clubData = clubDataDoc?.get(params.clubID.toString())
   const clubIndex = fs.readFileSync("./_map/clubs.json")
-  const clubList = JSON.parse(clubIndex.toString())
 
   return {
     props: {
@@ -663,8 +662,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       clubData: clubData,
       clubID: params.clubID,
       images: images,
-      newImages: data.get("images") || {},
-      clubList: clubList,
+      newImages: data.get("images") || {}
     },
   }
 }
