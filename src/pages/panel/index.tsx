@@ -28,7 +28,14 @@ import Modal from "@components/common/Modals"
 import { addBrowser, removeBrowser, toggleSafeMode } from "@client/accManagement"
 import { clubMap } from "@config/clubMap"
 import { isEmpty } from "@utilities/object"
-import { fetchClub, updateClubField } from "@client/fetcher/panel"
+import {
+  addClubCommittee,
+  fetchClub,
+  fetchClubCommittee,
+  fetchStudentID,
+  removeClubCommittee,
+  updateClubField,
+} from "@client/fetcher/panel"
 import { useWindowDimensions } from "@utilities/document"
 import { GetStaticProps } from "next"
 import fs from "fs"
@@ -38,12 +45,19 @@ import { WaitingScreen } from "@components/common/WaitingScreen"
 import { request } from "@client/utilities/request"
 import { Ellipsis } from "@vectors/Loaders/Ellipsis"
 import { PencilAltIcon } from "@heroicons/react/outline"
-import { ClubDataTable, ProportionTable } from "@components/panel/table/ClubTable"
+import { ClubCommitteeTable, ClubDataTable, ProportionTable } from "@components/panel/table/ClubTable"
 
 const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>, setInitClub) => {
   const data = await fetchClub(clubID)
   setClubData(data)
   setInitClub(true)
+}
+
+const fetchClubCommitteeData = async (clubID: string, setCommittee: Dispatch<SetStateAction<{}>>) => {
+  const res = await fetchClubCommittee(clubID)
+
+  setCommittee(res.data)
+  return res
 }
 
 const Account = () => {
@@ -62,6 +76,7 @@ const Account = () => {
   const [display, setDisplay] = useState(false)
   const [t, setT] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [committee, setCommittee] = useState([])
 
   const { width } = useWindowDimensions()
 
@@ -107,12 +122,43 @@ const Account = () => {
     const currPanel = getCurrPanel()
 
     fetchClubData(currPanel, setClubData, setInitClub)
+    reFetchClubCommittee()
+  }
+
+  const reFetchClubCommittee = () => {
+    const currPanel = getCurrPanel()
+
+    fetchClubCommitteeData(currPanel, setCommittee)
   }
 
   const updateCurrpanelClubField = async (field: string, data: any) => {
     const currPanel = getCurrPanel()
 
     const res = await updateClubField(currPanel, field, data)
+    reFetchCred()
+    return res
+  }
+
+  const getStudentID = async (studentID: string) => {
+    const currPanel = getCurrPanel()
+
+    const res = await fetchStudentID(currPanel, studentID)
+    reFetchCred()
+    return res
+  }
+
+  const addStudentToClubCommittee = async (studentID: string, password: string) => {
+    const currPanel = getCurrPanel()
+
+    const res = await addClubCommittee(currPanel, studentID, password)
+    reFetchCred()
+    return res
+  }
+
+  const removeStudentFromClubCommittee = async (studentID: string, password: string) => {
+    const currPanel = getCurrPanel()
+
+    const res = await removeClubCommittee(currPanel, studentID, password)
     reFetchCred()
     return res
   }
@@ -389,6 +435,12 @@ const Account = () => {
                   count_limit: clubData.count_limit,
                 }}
                 updateField={updateCurrpanelClubField}
+              />
+              <ClubCommitteeTable
+                committee={committee}
+                getStudentID={getStudentID}
+                addCommittee={addStudentToClubCommittee}
+                removeCommittee={removeStudentFromClubCommittee}
               />
 
               {/* <div>
