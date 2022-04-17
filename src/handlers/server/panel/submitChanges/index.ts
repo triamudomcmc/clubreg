@@ -31,7 +31,7 @@ const upload = async (image: string, storage, tempFileName) => {
 
 const performUpload = async (req, ID) => {
   const storage = new Storage({
-    projectId: process.env.PROJECT_ID,
+    projectId: process.env.FCERT_PROJECT_ID,
     credentials: {
       client_email: process.env.FCERT_CLIENT_EMAIL,
       private_key: process.env.FCERT_PRIVATE_KEY.replace(/\\n/g, "\n"),
