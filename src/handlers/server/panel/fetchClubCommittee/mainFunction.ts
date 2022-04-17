@@ -16,7 +16,7 @@ export const fetchClubCommitteeAction = async (req, res, ID) => {
       let notFound = false
 
       const committeeData = await clubData.committees.map(async (stdID) => {
-        const studentDoc = initialisedDB.collection("data").where("student_id", "==", stdID)
+        const studentDoc = initialisedDB.collection("data").where("student_id", "==", `${stdID}`)
         const out = await studentDoc.get()
 
         if (out.empty || out.size === 0) {
