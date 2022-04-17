@@ -127,7 +127,7 @@ export const EditableZoomable = ({
             type="file"
             accept="image/png, image/jpeg, image/heif"
           />
-        <motion.div onClick={() => {uploader.current.click()}} initial={{opacity: 0}} whileHover={{opacity: 1}} className="absolute text-white flex justify-center rounded-lg bg-TUCMC-gray-800 bg-opacity-70 items-center w-full h-full cursor-pointer top-0">
+        <motion.div onClick={() => {uploader.current.click()}} initial={{opacity: 0.4}} whileHover={{opacity: 1}} className="absolute text-white flex justify-center rounded-lg bg-TUCMC-gray-800 bg-opacity-70 items-center w-full h-full cursor-pointer top-0">
             <CameraIcon className="w-12 h-12"/>
         </motion.div>
       </div>
