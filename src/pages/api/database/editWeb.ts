@@ -11,12 +11,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     case "POST":
       res.statusCode = 200
       res.setHeader("Content-Type", `application/json`)
-      console.log(req.body.action)
+      // console.log(req.body.action)
       switch (req.body.action) {
         case "submitChanges":
           {
             const data = await submitChanges(req, res)
-            console.log(data)
+            // console.log(data)
             res.json(data)
           }
           break
