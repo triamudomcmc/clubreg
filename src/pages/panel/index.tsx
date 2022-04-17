@@ -68,8 +68,6 @@ const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateActio
 const fetchClubCommitteeData = async (clubID: string, setCommittee: Dispatch<SetStateAction<{}>>) => {
   const res = await fetchClubCommittee(clubID)
 
-  console.log(res.data)
-
   setCommittee(res.data)
   return res
 }
