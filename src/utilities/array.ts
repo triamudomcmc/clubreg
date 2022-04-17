@@ -20,6 +20,13 @@ export const sliceArrN = (arr, n) => {
   return chunks
 }
 
+export function removeItem(arr, index) {
+  if (index > -1) {
+    arr.splice(index, 1);
+  }
+  return arr;
+}
+
 export function sliceArrayIntoGroups(arr, size) {
   var step = 0,
     sliceArr = [],

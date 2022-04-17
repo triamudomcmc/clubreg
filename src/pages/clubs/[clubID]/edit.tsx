@@ -5,7 +5,7 @@ import { FC, useEffect, useRef, useState } from "react"
 import { ChevronDownIcon, ClipboardCopyIcon, StarIcon } from "@heroicons/react/solid"
 import PageContainer from "@components/common/PageContainer"
 import Image from "next/image"
-import { CameraIcon, CheckIcon, GlobeAltIcon, UserIcon, XIcon } from "@heroicons/react/outline"
+import { CameraIcon, CheckIcon, GlobeAltIcon, TrashIcon, UserIcon, XIcon } from "@heroicons/react/outline"
 import { PencilIcon } from "@heroicons/react/solid"
 import { isEmpty } from "@utilities/object"
 import { useWindowDimensions } from "@utilities/document"
@@ -22,12 +22,13 @@ import { motion } from "framer-motion"
 import { EditableZoomable } from "@components/common/Zoomable/editable"
 import { toBase64 } from "@utilities/files"
 import initialisedDB from "@server/firebase-admin"
+import { removeItem } from "@utilities/array"
 
 const parseText = (text) => {
   return "<p>" + text.replace(/\n{2,}/g, "</p><p>").replace(/\n/g, "<br>")
 }
 
-const ClubHeaderCard = ({ clubID, data, contactRef, onLoad, publish, image, setImage, newImages }) => {
+const ClubHeaderCard = ({ clubID, data, contactRef, onLoad, publish, image, setImage, newImages, contact, setContact }) => {
 
   const uploader = useRef(null)
   const doUpload = async (e) => {
@@ -35,6 +36,14 @@ const ClubHeaderCard = ({ clubID, data, contactRef, onLoad, publish, image, setI
     //@ts-ignore
     setImage(data) 
   }
+
+  const avail = [
+    "FB",
+    "IG",
+    "Twitter",
+    "YT",
+    "Line",
+  ]
 
   return (
     <div className="md:mx-6 md:mt-20 md:mb-2">
@@ -76,7 +85,7 @@ const ClubHeaderCard = ({ clubID, data, contactRef, onLoad, publish, image, setI
             type="file"
             accept="image/png, image/jpeg, image/heif"
           />
-          <motion.div onClick={() => {uploader.current.click()}} initial={{opacity: 0}} whileHover={{opacity: 1}} className="absolute text-white flex justify-center rounded-l-2xl bg-TUCMC-gray-800 bg-opacity-70 items-center w-full h-full sm:h-[288px] cursor-pointer top-0">
+          <motion.div onClick={() => {uploader.current.click()}} initial={{opacity: 0}} whileHover={{opacity: 1}} className="absolute text-white flex justify-center sm:rounded-l-2xl bg-TUCMC-gray-800 bg-opacity-70 items-center w-full h-full sm:h-[288px] cursor-pointer top-0">
             <CameraIcon className="w-12 h-12"/>
           </motion.div>
         </div>
@@ -118,40 +127,190 @@ const ClubHeaderCard = ({ clubID, data, contactRef, onLoad, publish, image, setI
                       className="absolute z-20 mt-1 w-[300px] rounded-lg bg-white px-4 py-3 shadow-md"
                     >
                       <div className="flex flex-col">
-                        {!isEmpty(data.contact) && (
+                      {!isEmpty(contact.contact) && (
                           <h1>
-                            {data.contact.type} : {data.contact.context}
+                            <select onChange={(e) => {
+                              setContact(prev => ({
+                                ...prev,
+                                contact: {
+                                  type: e.target.value,
+                                  context: prev.contact.context
+                                }
+                              }))
+                            }} className="outline-none border-none focus:border-none focus:outline-none pl-0">
+                              <option value={contact.contact.type}>{contact.contact.type}</option>
+                              {
+                                avail.filter((a) => (contact.contact.type !== a)).map((i,k) => {
+                                  return (
+                                    <option key={`opt-${k}`} value={i}>{i}</option>
+                                  )
+                                })
+                              }
+                              </select> : <span onKeyUpCapture={(e) => {
+                              setContact(prev => ({
+                                ...prev,
+                                contact: {
+                                  type: prev.contact.type,
+                                  context: e.target.innerText
+                                }
+                              }))
+                            }} contentEditable={true}>{contact.contact.context}</span>
                           </h1>
                         )}
-                        {!isEmpty(data.contact2) && (
+                        {!isEmpty(contact.contact2) && (
                           <h1>
-                            {data.contact2.type} : {data.contact2.context}
+                            <select onChange={(e) => {
+                              setContact(prev => ({
+                                ...prev,
+                                contact: {
+                                  type: e.target.value,
+                                  context: prev.contact2.context
+                                }
+                              }))
+                            }} className="outline-none border-none focus:border-none focus:outline-none pl-0">
+                              <option value={contact.contact2.type}>{contact.contact2.type}</option>
+                              {
+                                avail.filter((a) => (contact.contact2.type !== a)).map((i,k) => {
+                                  return (
+                                    <option key={`opt-${k}`} value={i}>{i}</option>
+                                  )
+                                })
+                              }
+                              </select> : <span onKeyUpCapture={(e) => {
+                              setContact(prev => ({
+                                ...prev,
+                                contact2: {
+                                  type: prev.contact2.type,
+                                  context: e.target.innerText
+                                }
+                              }))
+                            }} contentEditable={true}>{contact.contact2.context}</span>
                           </h1>
                         )}
-                        {!isEmpty(data.contact3) && (
+                        {!isEmpty(contact.contact3) && (
                           <h1>
-                            {data.contact3.type} : {data.contact3.context}
+                            <select onChange={(e) => {
+                              setContact(prev => ({
+                                ...prev,
+                                contact3: {
+                                  type: e.target.value,
+                                  context: prev.contact3.context
+                                }
+                              }))
+                            }} className="outline-none border-none focus:border-none focus:outline-none pl-0">
+                              <option value={contact.contact3.type}>{contact.contact3.type}</option>
+                              {
+                                avail.filter((a) => (contact.contact3.type !== a)).map((i,k) => {
+                                  return (
+                                    <option key={`opt-${k}`} value={i}>{i}</option>
+                                  )
+                                })
+                              }
+                              </select> : <span onKeyUpCapture={(e) => {
+                              setContact(prev => ({
+                                ...prev,
+                                contact3: {
+                                  type: prev.contact3.type,
+                                  context: e.target.innerText
+                                }
+                              }))
+                            }} contentEditable={true}>{contact.contact3.context}</span>
                           </h1>
                         )}
                       </div>
                     </Modal>
                   </div>
                   <div className="flex flex-col md:hidden lg:block">
-                    {!isEmpty(data.contact) && (
-                      <h1>
-                        {data.contact.type} : {data.contact.context}
-                      </h1>
-                    )}
-                    {!isEmpty(data.contact2) && (
-                      <h1>
-                        {data.contact2.type} : {data.contact2.context}
-                      </h1>
-                    )}
-                    {!isEmpty(data.contact3) && (
-                      <h1>
-                        {data.contact3.type} : {data.contact3.context}
-                      </h1>
-                    )}
+                  {!isEmpty(contact.contact) && (
+                          <h1>
+                            <select onChange={(e) => {
+                              setContact(prev => ({
+                                ...prev,
+                                contact: {
+                                  type: e.target.value,
+                                  context: prev.contact.context
+                                }
+                              }))
+                            }} className="outline-none border-none focus:border-none focus:outline-none pl-0">
+                              <option value={contact.contact.type}>{contact.contact.type}</option>
+                              {
+                                avail.filter((a) => (contact.contact.type !== a)).map((i,k) => {
+                                  return (
+                                    <option key={`opt-${k}`} value={i}>{i}</option>
+                                  )
+                                })
+                              }
+                              </select> : <span onKeyUpCapture={(e) => {
+                              setContact(prev => ({
+                                ...prev,
+                                contact: {
+                                  type: prev.contact.type,
+                                  context: e.target.innerText
+                                }
+                              }))
+                            }} contentEditable={true}>{contact.contact.context}</span>
+                          </h1>
+                        )}
+                        {!isEmpty(contact.contact2) && (
+                          <h1>
+                            <select onChange={(e) => {
+                              setContact(prev => ({
+                                ...prev,
+                                contact: {
+                                  type: e.target.value,
+                                  context: prev.contact2.context
+                                }
+                              }))
+                            }} className="outline-none border-none focus:border-none focus:outline-none pl-0">
+                              <option value={contact.contact2.type}>{contact.contact2.type}</option>
+                              {
+                                avail.filter((a) => (contact.contact2.type !== a)).map((i,k) => {
+                                  return (
+                                    <option key={`opt-${k}`} value={i}>{i}</option>
+                                  )
+                                })
+                              }
+                              </select> : <span onKeyUpCapture={(e) => {
+                              setContact(prev => ({
+                                ...prev,
+                                contact2: {
+                                  type: prev.contact2.type,
+                                  context: e.target.innerText
+                                }
+                              }))
+                            }} contentEditable={true}>{contact.contact2.context}</span>
+                          </h1>
+                        )}
+                        {!isEmpty(contact.contact3) && (
+                          <h1>
+                            <select onChange={(e) => {
+                              setContact(prev => ({
+                                ...prev,
+                                contact3: {
+                                  type: e.target.value,
+                                  context: prev.contact3.context
+                                }
+                              }))
+                            }} className="outline-none border-none focus:border-none focus:outline-none pl-0">
+                              <option value={contact.contact3.type}>{contact.contact3.type}</option>
+                              {
+                                avail.filter((a) => (contact.contact3.type !== a)).map((i,k) => {
+                                  return (
+                                    <option key={`opt-${k}`} value={i}>{i}</option>
+                                  )
+                                })
+                              }
+                              </select> : <span onKeyUpCapture={(e) => {
+                              setContact(prev => ({
+                                ...prev,
+                                contact3: {
+                                  type: prev.contact3.type,
+                                  context: e.target.innerText
+                                }
+                              }))
+                            }} contentEditable={true}>{contact.contact3.context}</span>
+                          </h1>
+                        )}
                   </div>
                 </div>
               </div>
@@ -210,12 +369,13 @@ const SummaryImages = ({ images, onLoad, clubID, setImageS }) => {
   )
 }
 
-const ReviewContent: FC<{ reviews: any[]; onLoad: () => void; clubID: string, setReviews:any, setImageReview: any }> = ({
+const ReviewContent: FC<{ reviews: any[]; onLoad: () => void; clubID: string, setReviews:any, setImageReview: any, setRerender: any }> = ({
   reviews,
   onLoad,
   clubID,
   setReviews,
-  setImageReview
+  setImageReview,
+  setRerender
 }) => {
 
 
@@ -225,7 +385,7 @@ const ReviewContent: FC<{ reviews: any[]; onLoad: () => void; clubID: string, se
       <div className="space-y-16 md:space-y-24">
         {reviews.map((revContent, index) => {
           return (
-            <Review revContent={revContent} index={index} onLoad={onLoad} clubID={clubID} setReviews={setReviews} setImageReview={setImageReview}/>
+            <Review revContent={revContent} index={index} onLoad={onLoad} clubID={clubID} setReviews={setReviews} setImageReview={setImageReview} setRerender={setRerender}/>
           )
         })}
       </div>
@@ -233,7 +393,7 @@ const ReviewContent: FC<{ reviews: any[]; onLoad: () => void; clubID: string, se
   )
 }
 
-const Review = ({revContent, index, onLoad,clubID, setReviews, setImageReview}) => {
+const Review = ({revContent, index, onLoad,clubID, setReviews, setImageReview, setRerender}) => {
 
   const [image, setImage] = useState<string | null>(null)
   const uploader = useRef(null)
@@ -242,7 +402,7 @@ const Review = ({revContent, index, onLoad,clubID, setReviews, setImageReview}) 
     //@ts-ignore
     setImage(data) 
   }
-  
+
   useEffect(() => {
     setImageReview(prev => {
       return ({...prev, [`review-${index}`]: image})
@@ -256,10 +416,10 @@ const Review = ({revContent, index, onLoad,clubID, setReviews, setImageReview}) 
         {!image ? <Image
           priority={true}
           onLoad={onLoad}
-          src={`/assets/images/clubs/${clubID}/profile-${index + 1}.jpg`}
+          src={`${revContent.profile}`}
           placeholder="blur"
           quality={50}
-          blurDataURL={`/assets/images/clubs/${clubID}/profile-${index + 1}.jpg`}
+          blurDataURL={`${revContent.profile}`}
           width="128"
           height="128"
           className="rounded-lg object-cover"
@@ -289,6 +449,14 @@ const Review = ({revContent, index, onLoad,clubID, setReviews, setImageReview}) 
           prev[index].year = e.target.innerText
           return prev
         })}}>{revContent.year}</span></span>
+      <div onClick={() => {
+        setReviews(prev => {
+          return removeItem(prev, index)
+        })
+        setRerender(true)
+      }} className="bg-red-100 rounded-md flex justify-center shadow-md py-1 mt-2 cursor-pointer">
+        <TrashIcon className="w-7 h-7"/>
+      </div>
       </div>
     </div>
     <div className="flex flex-col md:ml-8 w-full">
@@ -327,9 +495,16 @@ const Page = ({ data, clubID, images, clubList, newImages }) => {
   const { width } = useWindowDimensions()
   const { addToast } = useToast()
 
+  const [rerender, setRerender] = useState(false)
+  
+  useEffect(() => {
+    rerender && setRerender(false)
+  }, [rerender])
 
   const [reviews, setReviews] = useState(data.reviews)
   const [mainArt, setMainArt] = useState(data.description)
+
+  const [contactData, setContactData] = useState({contact: data.contact, contact2: data.contact2, contact3: data.contact3})
 
   const [imageHead, setImageHead] = useState<string | null>(null)
   const [imageS, setImageS] = useState({})
@@ -370,14 +545,15 @@ const Page = ({ data, clubID, images, clubList, newImages }) => {
 
   return (
     <PageContainer>
+      {rerender && <div className="hidden">s</div>}
       <div className={classnames(loadingCount > 0 && "absolute opacity-0")}>
         <div className="mx-auto max-w-[1100px]">
-          <ClubHeaderCard clubID={clubID} contactRef={contactRef} data={data} onLoad={loaded} publish={getAllPart} image={imageHead} setImage={setImageHead} newImages={newImages} />
+          <ClubHeaderCard clubID={clubID} contactRef={contactRef} data={data} onLoad={loaded} publish={getAllPart} image={imageHead} setImage={setImageHead} newImages={newImages} contact={contactData} setContact={setContactData} />
           <div className="w-full border-b border-TUCMC-gray-300 md:hidden"></div>
           <div className="space-y-12 px-6 pb-24 pt-11 md:space-y-16 md:pt-12">
             <MainArticle value={mainArt} setValue={setMainArt}/>
             <SummaryImages clubID={clubID} images={images} onLoad={loaded} setImageS={setImageS} />
-            <ReviewContent clubID={clubID} onLoad={loaded} reviews={reviews} setReviews={setReviews} setImageReview={setImageReview}/>
+            <ReviewContent clubID={clubID} onLoad={loaded} reviews={reviews} setReviews={setReviews} setImageReview={setImageReview} setRerender={setRerender}/>
           </div>
         </div>
       </div>
