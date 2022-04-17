@@ -9,14 +9,6 @@ import { TUpdateFieldFunction } from "./ClubTable"
 import Link from "next/link"
 import { useRouter } from "next/router"
 
-/*
-// which type of input
-// placeholder
-// enabled to edit?
-which action to take when done editing
-// default value
-*/
-
 const validateData = (data: TValueTypes) => {
   // if (value.type === "string" && value.value === "") return null
   if (data.type === "number" && isNaN(+data.value)) return { reason: "กรอกค่าเป็นตัวเลขเท่านั้น" }
@@ -352,6 +344,11 @@ export const StatusText: FC<{ status: "declined" | "accepted" | "pending" }> = (
   )
 }
 
+const removeSectionSlugs = (currPanel: string) => {
+  let res = currPanel.split("_")[0]
+  return res.startsWith("ก30920") ? "ก30920" : res
+}
+
 export const TableWebDataRow: FC<{ status: "declined" | "accepted" | "pending"; getCurrPanel: () => string }> = ({
   status,
   getCurrPanel,
@@ -374,7 +371,7 @@ export const TableWebDataRow: FC<{ status: "declined" | "accepted" | "pending"; 
         <button
           onClick={() => {
             const currPanel = getCurrPanel()
-            router.push(`/clubs/${currPanel.split("_")[0]}/edit`)
+            router.push(`/clubs/${removeSectionSlugs(currPanel)}/edit`)
           }}
           className="rounded-md border border-gray-300 bg-white py-2 px-8 transition-colors hover:bg-gray-100"
         >
