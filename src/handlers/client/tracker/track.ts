@@ -1,8 +1,8 @@
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import FingerprintJS from "@fingerprintjs/fingerprintjs"
 
 export class Tracker {
-  private userID;
-  private fingerPrint;
+  private userID
+  private fingerPrint
 
   public setUserID(userID) {
     this.userID = userID
@@ -17,15 +17,13 @@ export class Tracker {
   }
 
   public async push(type: "click" | "system", context: string) {
-
     await fetch(`/api/tracker`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({action: "push", type: type, context: context, fp: this.fingerPrint, userID: this.userID}),
-      credentials: 'include'
+      body: JSON.stringify({ action: "push", type: type, context: context, fp: this.fingerPrint, userID: this.userID }),
+      credentials: "include",
     })
   }
-
 }

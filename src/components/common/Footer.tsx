@@ -1,12 +1,11 @@
-import {SocialFacebook, SocialInstagram} from "@vectors/icons/Socials";
-import {WhiteLogo} from "@vectors/Logo";
+import { SocialFacebook, SocialInstagram } from "@vectors/icons/Socials"
+import { WhiteLogo } from "@vectors/Logo"
 import Link from "next/link"
 
 const Footer = () => {
   return (
     <>
-      <div
-        className="flex flex-col items-center justify-center space-y-24 select-none bg-TUCMC-gray-900 py-14 md:space-y-0 md:py-8">
+      <div className="flex select-none flex-col items-center justify-center space-y-24 bg-TUCMC-gray-900 py-14 md:space-y-0 md:py-8">
         <div className="flex flex-col items-center space-y-4 text-xl text-white md:hidden">
           <Link href="/">
             <a>หน้าแรก</a>
@@ -28,19 +27,17 @@ const Footer = () => {
             <a>ทำความรู้จัก กช.</a>
           </Link>
         </div>
-        <div className="md:flex md:justify-center md:w-full">
-          <div
-            className="flex flex-col items-center space-y-8 md:flex-row-reverse md:justify-between md:space-y-0 md:w-full md:max-w-6xl md:px-6">
+        <div className="md:flex md:w-full md:justify-center">
+          <div className="flex flex-col items-center space-y-8 md:w-full md:max-w-6xl md:flex-row-reverse md:justify-between md:space-y-0 md:px-6">
             <div className="flex flex-row space-x-6 md:space-x-3">
               <a target="_blank" href="https://www.facebook.com/triamudomclubs">
-                <SocialFacebook className="w-10 h-10 text-white md:w-6 md:h-6"/>
+                <SocialFacebook className="h-10 w-10 text-white md:h-6 md:w-6" />
               </a>
               <a target="_blank" href="https://instagram.com/tucmc_official">
-                <SocialInstagram className="w-10 h-10 text-white md:w-6 md:h-6"/>
+                <SocialInstagram className="h-10 w-10 text-white md:h-6 md:w-6" />
               </a>
             </div>
-            <div
-              className="flex-row hidden space-x-10 font-medium text-white md:flex whitespace-nowrap">
+            <div className="hidden flex-row space-x-10 whitespace-nowrap font-medium text-white md:flex">
               <Link href="/">
                 <a>หน้าแรก</a>
               </Link>
@@ -62,14 +59,13 @@ const Footer = () => {
             </div>
             <Link href="/">
               <div className="cursor-pointer">
-                <WhiteLogo/>
+                <WhiteLogo />
               </div>
             </Link>
           </div>
         </div>
       </div>
-      <div
-        className="flex-row justify-center hidden py-5 space-x-2 text-xs text-white bg-black md:flex">
+      <div className="hidden flex-row justify-center space-x-2 bg-black py-5 text-xs text-white md:flex">
         <Link href="/terms-of-service">
           <a>ข้อตกลงและเงื่อนไขการใช้งาน</a>
         </Link>

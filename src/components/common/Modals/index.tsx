@@ -1,18 +1,26 @@
-import {motion} from "framer-motion";
+import { motion } from "framer-motion"
 import classnames from "classnames"
-import {detectOuside} from "@utilities/document";
-import {useEffect, useRef, useState} from "react";
+import { detectOuside } from "@utilities/document"
+import { useEffect, useRef, useState } from "react"
 
 const Modal = ({
-                 children, overlayClassName = "", className = "", TriggerRef = null, CloseID = "",
-                 TriggerDep = null, CloseDep = null, closeClickOutside = true, ToggleDep = null, reloadChildren =false
-               }) => {
-  const [modalState, setModalState] = useState({comm: false, hide: true})
+  children,
+  overlayClassName = "",
+  className = "",
+  TriggerRef = null,
+  CloseID = "",
+  TriggerDep = null,
+  CloseDep = null,
+  closeClickOutside = true,
+  ToggleDep = null,
+  reloadChildren = false,
+}) => {
+  const [modalState, setModalState] = useState({ comm: false, hide: true })
   const [prevent, setPrevent] = useState(true)
   const panel = useRef(null)
 
   const trigger = () => {
-    setModalState(prevState => ({comm: !prevState.comm, hide: false}))
+    setModalState((prevState) => ({ comm: !prevState.comm, hide: false }))
   }
 
   useEffect(() => {
@@ -27,11 +35,11 @@ const Modal = ({
   }, [ToggleDep])
 
   const close = () => {
-    setModalState({comm: false, hide: false})
+    setModalState({ comm: false, hide: false })
   }
 
   const open = () => {
-    setModalState({comm: true, hide: false})
+    setModalState({ comm: true, hide: false })
   }
 
   useEffect(() => {
@@ -50,8 +58,8 @@ const Modal = ({
   }, [CloseDep])
 
   const variants = {
-    show: {opacity: 1},
-    hide: {opacity: 0}
+    show: { opacity: 1 },
+    hide: { opacity: 0 },
   }
 
   useEffect(() => {
@@ -71,17 +79,22 @@ const Modal = ({
     }
   }, [TriggerDep])
 
-  closeClickOutside && detectOuside(panel, !prevent, () => {
-    close()
-  })
+  closeClickOutside &&
+    detectOuside(panel, !prevent, () => {
+      close()
+    })
 
   return (
     <div className={classnames(overlayClassName, modalState.hide && "hidden")}>
-      <motion.div ref={panel} variants={variants}
-                  animate={modalState.comm ? "open" : "hide"}
-                  onAnimationComplete={() => {
-                    !modalState.comm && setModalState({comm: false, hide: true})
-                  }} className={className}>
+      <motion.div
+        ref={panel}
+        variants={variants}
+        animate={modalState.comm ? "open" : "hide"}
+        onAnimationComplete={() => {
+          !modalState.comm && setModalState({ comm: false, hide: true })
+        }}
+        className={className}
+      >
         {reloadChildren ? !modalState.hide && children : children}
       </motion.div>
     </div>

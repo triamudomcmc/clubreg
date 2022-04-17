@@ -1,41 +1,38 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react"
 
 export const detectOuside = (ref, dep, callback) => {
   useEffect(() => {
-
     function handleClickOutside(event) {
       if (ref.current && !ref.current.contains(event.target) && dep) {
         callback()
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside)
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [ref, dep]);
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [ref, dep])
 }
 
 export function useWindowDimensions() {
-
   function getWindowDimensions() {
-    const { innerWidth: width, innerHeight: height } = window;
-    return { width, height };
+    const { innerWidth: width, innerHeight: height } = window
+    return { width, height }
   }
 
-  const [windowDimensions, setWindowDimensions] = useState({width: 0, height: 0});
+  const [windowDimensions, setWindowDimensions] = useState({ width: 0, height: 0 })
 
   useEffect(() => {
-
-    setWindowDimensions(getWindowDimensions());
+    setWindowDimensions(getWindowDimensions())
 
     function handleResize() {
-      setWindowDimensions(getWindowDimensions());
+      setWindowDimensions(getWindowDimensions())
     }
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
-  return windowDimensions;
+  return windowDimensions
 }

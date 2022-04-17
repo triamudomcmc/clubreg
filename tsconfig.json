@@ -19,16 +19,38 @@
     "jsx": "preserve",
     "baseUrl": "./src",
     "paths": {
-      "@styles/*": ["styles/*"],
-      "@components/*": ["components/*"],
-      "@vectors/*": ["vectors/*"],
-      "@utilities/*": ["utilities/*"],
-      "@client/*": ["handlers/client/*"],
-      "@server/*": ["handlers/server/*"],
-      "@interfaces/*": ["interfaces/*"],
-      "@config/*": ["config/*"],
-      "@init/*": ["handlers/init/*"]
-    }
+      "@styles/*": [
+        "styles/*"
+      ],
+      "@handlers/*": [
+        "handlers/*"
+      ],
+      "@components/*": [
+        "components/*"
+      ],
+      "@vectors/*": [
+        "vectors/*"
+      ],
+      "@utilities/*": [
+        "utilities/*"
+      ],
+      "@client/*": [
+        "handlers/client/*"
+      ],
+      "@server/*": [
+        "handlers/server/*"
+      ],
+      "@interfaces/*": [
+        "interfaces/*"
+      ],
+      "@config/*": [
+        "config/*"
+      ],
+      "@init/*": [
+        "handlers/init/*"
+      ]
+    },
+    "incremental": true
   },
   "include": [
     "next-env.d.ts",

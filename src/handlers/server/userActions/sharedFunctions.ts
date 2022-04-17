@@ -1,5 +1,5 @@
-import initialisedDB from "@server/firebase-admin";
-import {initCollections} from "@server/utilities/database";
+import initialisedDB from "@server/firebase-admin"
+import { initCollections } from "@server/utilities/database"
 
 export const generateCard = async (dataDoc, clubData, req) => {
   return await initialisedDB.collection("cards").add({
@@ -12,14 +12,26 @@ export const generateCard = async (dataDoc, clubData, req) => {
     message: clubData.message,
     contact: clubData.contact ? clubData.contact : "",
     contact2: clubData.contact2 ? clubData.contact2 : "",
-    contact3: clubData.contact3 ? clubData.contact3 : ""
+    contact3: clubData.contact3 ? clubData.contact3 : "",
   })
 }
 
 export const initData = async (userID, dataRefID, clubData = true) => {
-
-  const collections = initCollections(clubData ? [{coll: "users", doc: userID}, {coll: "data", doc: dataRefID}, {coll: "clubs", doc: "mainData"}] : [{coll: "users", doc: userID}, {coll: "data", doc: dataRefID}])
-  const userData = await collections[0].get(), dataRef = await collections[1], clubRef = clubData ? collections[2] : null
+  const collections = initCollections(
+    clubData
+      ? [
+          { coll: "users", doc: userID },
+          { coll: "data", doc: dataRefID },
+          { coll: "clubs", doc: "mainData" },
+        ]
+      : [
+          { coll: "users", doc: userID },
+          { coll: "data", doc: dataRefID },
+        ]
+  )
+  const userData = await collections[0].get(),
+    dataRef = await collections[1],
+    clubRef = clubData ? collections[2] : null
   const dataDoc = await dataRef.get()
 
   return { userData, dataRef, clubRef, dataDoc }

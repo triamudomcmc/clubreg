@@ -1,14 +1,14 @@
-import React, {useState, useEffect, useContext} from 'react'
-import Router, {useRouter} from "next/router";
-import {fetchUser, logout} from "@client/fetcher/user";
-import UserData from "../../interfaces/userData";
-import {Tracker} from "@client/tracker/track";
+import React, { useState, useEffect, useContext } from "react"
+import Router, { useRouter } from "next/router"
+import { fetchUser, logout } from "@client/fetcher/user"
+import UserData from "../../interfaces/userData"
+import { Tracker } from "@client/tracker/track"
 
 interface IAuthContext {
-  onReady: ((callback: (logged: boolean, userData: UserData | null) => any) => any),
-  signout: () => void,
-  tracker: Tracker,
-  reFetch: (cause?: string) => Promise<void>,
+  onReady: (callback: (logged: boolean, userData: UserData | null) => any) => any
+  signout: () => void
+  tracker: Tracker
+  reFetch: (cause?: string) => Promise<void>
   isInit: boolean
 }
 
@@ -18,18 +18,16 @@ export const useAuth = () => {
   return useContext(AuthContext)
 }
 
-export const AuthProvider = ({children}) => {
-
+export const AuthProvider = ({ children }) => {
   const auth = useProvideAuth()
 
   return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>
 }
 
 function useProvideAuth() {
-
   const onReady = (callback: (logged: boolean, userData: UserData | null) => any) => {
     if (userData !== null) return callback("student_id" in userData, userData)
-    return {logged: false, userData: null}
+    return { logged: false, userData: null }
   }
 
   const [userData, setUserData] = useState(null)
@@ -41,7 +39,7 @@ function useProvideAuth() {
     if (router.pathname !== "/auth" && router.pathname !== "/") {
       localStorage.setItem("lastVisited", router.asPath)
     }
-  },[router.pathname])
+  }, [router.pathname])
 
   const reFetch = async (cause: string = "") => {
     const data = await fetchUser()
@@ -62,7 +60,6 @@ function useProvideAuth() {
   }
 
   useEffect(() => {
-
     reFetch()
 
     setInit(false)
@@ -73,6 +70,6 @@ function useProvideAuth() {
     signout,
     tracker,
     reFetch,
-    isInit
+    isInit,
   }
 }

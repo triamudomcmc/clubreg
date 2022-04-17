@@ -1,9 +1,8 @@
-import {Card} from "@components/Card";
-import {GetServerSideProps} from "next";
-import initialisedDB from "@server/firebase-admin";
+import { Card } from "@components/Card"
+import { GetServerSideProps } from "next"
+import initialisedDB from "@server/firebase-admin"
 
-export const getServerSideProps: GetServerSideProps = async ({query}) => {
-
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const id = query.id.toString() || null
   let data = null
 
@@ -12,25 +11,23 @@ export const getServerSideProps: GetServerSideProps = async ({query}) => {
     if (data.exists) {
       return {
         props: {
-          cardData: {...data.data(), ...{cardID: id}}
-        }
+          cardData: { ...data.data(), ...{ cardID: id } },
+        },
       }
     }
   }
 
   return {
     props: {
-      cardData: null
-    }
+      cardData: null,
+    },
   }
-
 }
 
 const CardRender = ({ cardData }) => {
-
-  return(
+  return (
     <div className="font-display">
-      <Card width={990} userData={cardData} clubData={cardData}/>
+      <Card width={990} userData={cardData} clubData={cardData} />
     </div>
   )
 }

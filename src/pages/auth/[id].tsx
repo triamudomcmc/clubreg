@@ -1,17 +1,16 @@
-import {GetServerSideProps} from "next";
-import initialisedDB from "@server/firebase-admin";
-import React, {useEffect, useState} from "react";
-import PageContainer from "@components/common/PageContainer";
-import {Loader} from "@components/common/Loader";
-import {Input} from "@components/auth/Input";
-import {Button} from "@components/common/Inputs/Button";
-import Error from "next/error";
-import Router from "next/router";
-import {resetPassword} from "@client/fetcher/user";
-import {useToast} from "@components/common/Toast/ToastContext";
+import { GetServerSideProps } from "next"
+import initialisedDB from "@server/firebase-admin"
+import React, { useEffect, useState } from "react"
+import PageContainer from "@components/common/PageContainer"
+import { Loader } from "@components/common/Loader"
+import { Input } from "@components/auth/Input"
+import { Button } from "@components/common/Inputs/Button"
+import Error from "next/error"
+import Router from "next/router"
+import { resetPassword } from "@client/fetcher/user"
+import { useToast } from "@components/common/Toast/ToastContext"
 
-export const getServerSideProps: GetServerSideProps = async ({params}) => {
-
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const rawActionID = params.id.toString()
 
   let actionID = "forbidden"
@@ -22,7 +21,7 @@ export const getServerSideProps: GetServerSideProps = async ({params}) => {
     if (doc.exists) {
       if (doc.get("expire") > new Date().getTime()) {
         actionID = trimmed
-      }else{
+      } else {
         await doc.ref.delete()
       }
     }
@@ -30,19 +29,17 @@ export const getServerSideProps: GetServerSideProps = async ({params}) => {
 
   return {
     props: {
-      actionID: actionID
-    }
+      actionID: actionID,
+    },
   }
-
 }
 
-const Page = ({actionID}) => {
-
+const Page = ({ actionID }) => {
   const [loader, setLoader] = useState(false)
   const [password, setPassword] = useState("")
   const [conpass, setConpass] = useState("")
 
-  const {addToast} = useToast()
+  const { addToast } = useToast()
 
   useEffect(() => {
     if (actionID === "forbidden") {
@@ -51,32 +48,32 @@ const Page = ({actionID}) => {
         icon: "cross",
         title: "พบข้อผิดพลาดที่ไม่ทราบสาเหตุ",
         text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง หากยังพบข้อผิดพลาดสามารถติดต่อทาง กช.",
-        crossPage: true
+        crossPage: true,
       })
       Router.push("/auth")
     }
-  },[actionID])
+  }, [actionID])
 
   const submit = async (e) => {
     e.preventDefault()
     const res = await resetPassword(password, conpass, actionID)
-    if (res.status){
+    if (res.status) {
       addToast({
         theme: "modern",
         icon: "tick",
         title: "รหัสผ่านถูกเปลี่ยนแล้ว",
         text: "รหัสผ่านของบัญชีนี้ได้ถูกเปลี่ยนแล้ว กรุณาลองเข้าสู่ระบบด้วยรหัสใหม่",
-        crossPage: true
+        crossPage: true,
       })
       Router.push("/auth")
-    }else{
+    } else {
       switch (res.report) {
         case "missing_email":
           addToast({
             theme: "modern",
             icon: "cross",
             title: "ไม่พบอีเมลนี้บนฐานข้อมูล",
-            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช. เพื่อขอตรวจสอบข้อมูล"
+            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช. เพื่อขอตรวจสอบข้อมูล",
           })
           break
         case "mismatch_password":
@@ -84,7 +81,7 @@ const Page = ({actionID}) => {
             theme: "modern",
             icon: "cross",
             title: "ช่องรหัสผ่านและช่องยืนยันรหัสผ่านไม่ตรงกัน",
-            text: "ข้อมูลในช่องรหัสผ่านและช่องยืนยันรหัสผ่านจะต้องเหมือนกัน กรุณาลองใหม่อีกครั้ง"
+            text: "ข้อมูลในช่องรหัสผ่านและช่องยืนยันรหัสผ่านจะต้องเหมือนกัน กรุณาลองใหม่อีกครั้ง",
           })
           break
         default:
@@ -92,30 +89,35 @@ const Page = ({actionID}) => {
             theme: "modern",
             icon: "cross",
             title: "พบข้อผิดพลาดที่ไม่ทราบสาเหตุ",
-            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง หากยังพบข้อผิดพลาดสามารถติดต่อทาง กช."
+            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง หากยังพบข้อผิดพลาดสามารถติดต่อทาง กช.",
           })
       }
     }
   }
 
-  return (
-    actionID !== "forbidden" ? <PageContainer>
-      <Loader display={loader}/>
-      <div style={{maxWidth: "26rem"}} className="mx-auto py-10 mb-16 md:my-10 md:mb-14 space-y-8 min-h-screen px-6">
+  return actionID !== "forbidden" ? (
+    <PageContainer>
+      <Loader display={loader} />
+      <div style={{ maxWidth: "26rem" }} className="mx-auto mb-16 min-h-screen space-y-8 py-10 px-6 md:my-10 md:mb-14">
         <h1 className="text-4xl">เปลี่ยนรหัสผ่าน</h1>
         <form onSubmit={submit}>
           <div className="space-y-6">
-            <Input title="รหัสผ่าน" type="password" stateUpdate={setPassword} required={true}/>
-            <Input title="ยืนยันรหัสผ่าน" type="password" stateUpdate={setConpass} required={true}/>
+            <Input title="รหัสผ่าน" type="password" stateUpdate={setPassword} required={true} />
+            <Input title="ยืนยันรหัสผ่าน" type="password" stateUpdate={setConpass} required={true} />
           </div>
-          <div className="flex justify-end w-full mt-8">
-            <Button type="submit" className="cursor-pointer shadow-md bg-TUCMC-pink-400 text-white tracking-tight rounded-md px-5 py-3">
+          <div className="mt-8 flex w-full justify-end">
+            <Button
+              type="submit"
+              className="cursor-pointer rounded-md bg-TUCMC-pink-400 px-5 py-3 tracking-tight text-white shadow-md"
+            >
               <span>เปลี่ยนรหัสผ่าน</span>
             </Button>
           </div>
         </form>
       </div>
-    </PageContainer> : <Error statusCode={404}/>
+    </PageContainer>
+  ) : (
+    <Error statusCode={404} />
   )
 }
 

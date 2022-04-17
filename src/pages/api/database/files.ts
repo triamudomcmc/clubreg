@@ -1,27 +1,28 @@
-import {NextApiRequest, NextApiResponse} from "next";
-import initialisedDB from "@server/firebase-admin";
-import {fetchFiles} from "@server/attendance/fetchFiles";
-import {deleteFile} from "@server/attendance/deleteFile";
-import {getFile} from "@server/attendance/getFile";
+import { NextApiRequest, NextApiResponse } from "next"
+import initialisedDB from "@server/firebase-admin"
+import { fetchFiles } from "@server/attendance/fetchFiles"
+import { deleteFile } from "@server/attendance/deleteFile"
+import { getFile } from "@server/attendance/getFile"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-
-  const {method} = req
+  const { method } = req
 
   switch (method) {
-    case 'POST':
+    case "POST":
       res.statusCode = 200
-      res.setHeader('Content-Type', `application/json`)
+      res.setHeader("Content-Type", `application/json`)
       switch (req.body.action) {
-        case "fetchFiles": {
-          const data = await fetchFiles(req, res)
-          res.json(data)
-        }
+        case "fetchFiles":
+          {
+            const data = await fetchFiles(req, res)
+            res.json(data)
+          }
           break
-        case "deleteFile": {
-          const data = await deleteFile(req, res)
-          res.json(data)
-        }
+        case "deleteFile":
+          {
+            const data = await deleteFile(req, res)
+            res.json(data)
+          }
           break
         case "getFileTempURL": {
           const data = await getFile(req, res)
@@ -30,8 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
       break
     default:
-      res.setHeader('Allow', ['GET', 'PUT'])
+      res.setHeader("Allow", ["GET", "PUT"])
       res.status(405).end(`Method ${method} Not Allowed`)
   }
-
 }

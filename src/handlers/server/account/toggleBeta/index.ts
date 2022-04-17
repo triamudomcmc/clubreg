@@ -1,12 +1,11 @@
-import initialisedDB from "@server/firebase-admin";
-import {fetchSession} from "@server/fetchers/session";
+import initialisedDB from "@server/firebase-admin"
+import { fetchSession } from "@server/fetchers/session"
 
 export const toggleBeta = async (req, res) => {
+  const { logged, ID } = await fetchSession(req, res)
 
-  const {logged, ID} = await fetchSession(req, res)
-
-  if (!logged) return {status: false, report: "sessionError"}
-  if (typeof req.body.name !== "string" || req.body.name === "")return {status: false, report: "dataError"}
+  if (!logged) return { status: false, report: "sessionError" }
+  if (typeof req.body.name !== "string" || req.body.name === "") return { status: false, report: "dataError" }
 
   const ref = initialisedDB.collection("users").doc(ID.userID)
 
@@ -18,9 +17,8 @@ export const toggleBeta = async (req, res) => {
       field.push(req.body.name)
     }
 
-    transaction.update(ref,"beta", field)
+    transaction.update(ref, "beta", field)
   })
 
-  return {status: true, report: "success"}
-
+  return { status: true, report: "success" }
 }

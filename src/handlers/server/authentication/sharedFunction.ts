@@ -1,3 +1,3 @@
 export const generateExpireTime = (liveSpan) => {
-  return (new Date().getTime()) + liveSpan
+  return new Date().getTime() + liveSpan
 }

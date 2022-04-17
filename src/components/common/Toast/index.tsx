@@ -1,12 +1,11 @@
-import React, {useContext, useEffect, useState} from "react";
-import ToastElement from "./ToastElement";
-import {useWindowDimensions} from "@utilities/document";
-import {useToast} from "@components/common/Toast/ToastContext";
-import {useRouter} from "next/router";
+import React, { useContext, useEffect, useState } from "react"
+import ToastElement from "./ToastElement"
+import { useWindowDimensions } from "@utilities/document"
+import { useToast } from "@components/common/Toast/ToastContext"
+import { useRouter } from "next/router"
 
 const Toast = () => {
-
-  const {toastData, addToast} = useToast()
+  const { toastData, addToast } = useToast()
   const router = useRouter()
 
   const { width } = useWindowDimensions()
@@ -33,28 +32,30 @@ const Toast = () => {
 
   useEffect(() => {
     Object.keys(toast).forEach((val) => {
-      console.log(toast[val].crossPage)
-      if (!toast[val].crossPage){
+      // console.log(toast[val].crossPage)
+      if (!toast[val].crossPage) {
         deleteToast(val)
       }
     })
-  },[router.pathname])
+  }, [router.pathname])
 
   useEffect(() => {
     if ("title" in toastData) {
-      setToast(Object.assign(toast,
-        {
-          [toastCount]: <ToastElement key={toastCount} toastData={toastData} index={toastCount} toastDeleteHandler={deleteToast}/>
-        }
-      ))
+      setToast(
+        Object.assign(toast, {
+          [toastCount]: (
+            <ToastElement key={toastCount} toastData={toastData} index={toastCount} toastDeleteHandler={deleteToast} />
+          ),
+        })
+      )
       setToastCount(toastCount + 1)
       const activeToasts = Object.keys(toast)
-      if(activeToasts.length > maxToasts){
+      if (activeToasts.length > maxToasts) {
         deleteToast(activeToasts[0])
       }
       renderToast()
       addToast({})
-    }else{
+    } else {
       if ("clear" in toastData) {
         setToast({})
         renderToast()
@@ -62,11 +63,7 @@ const Toast = () => {
     }
   }, [toastData])
 
-  return (
-    <div className="fixed z-[100] sm:w-max top-0 right-0 font-display">
-      {toastElement}
-    </div>
-  )
+  return <div className="fixed top-0 right-0 z-[100] font-display sm:w-max">{toastElement}</div>
 }
 
 export default Toast

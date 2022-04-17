@@ -1,36 +1,28 @@
-import PageContainer from "@components/common/PageContainer";
-import SelectSplash from "@vectors/decorations/SelectSplash";
-import {
-  XIcon
-} from '@heroicons/react/solid'
-import ClubList from "@components/select/ClubList";
-import ClubModal from "@components/select/ClubModal";
-import {useEffect, useRef, useState} from "react";
-import {FilterSearch} from "@components/common/Inputs/Search";
-import Modal from "@components/common/Modals";
-import ConfirmModal from "@components/select/ConfirmModal";
-import DataModal from "@components/select/DataModal";
-import {useAuth} from "@client/auth";
-import Router from "next/router";
-import {GetServerSideProps, GetStaticProps} from "next";
-import * as fs from "fs";
-import {useWindowDimensions} from "@utilities/document";
-import {fetchClub} from "@client/fetcher/club";
-import {Loader} from "@components/common/Loader";
-import {
-  isEmpty,
-  objToArr,
-  searchKeyword,
-  sortAudition,
-  sortThaiDictionary
-} from "@utilities/object";
-import {sliceArr} from "@utilities/array";
-import {clubMap} from "../config/clubMap";
-import {regClub} from "@client/userAction";
-import {CatLoader} from "@components/common/CatLoader";
-import {AnimatePresence, motion} from "framer-motion";
-import {endLastRound, endRegClubTime, lastround} from "@config/time";
-import {useToast} from "@components/common/Toast/ToastContext";
+import PageContainer from "@components/common/PageContainer"
+import SelectSplash from "@vectors/decorations/SelectSplash"
+import { XIcon } from "@heroicons/react/solid"
+import ClubList from "@components/select/ClubList"
+import ClubModal from "@components/select/ClubModal"
+import { useEffect, useRef, useState } from "react"
+import { FilterSearch } from "@components/common/Inputs/Search"
+import Modal from "@components/common/Modals"
+import ConfirmModal from "@components/select/ConfirmModal"
+import DataModal from "@components/select/DataModal"
+import { useAuth } from "@client/auth"
+import Router from "next/router"
+import { GetServerSideProps, GetStaticProps } from "next"
+import * as fs from "fs"
+import { useWindowDimensions } from "@utilities/document"
+import { fetchClub } from "@client/fetcher/club"
+import { Loader } from "@components/common/Loader"
+import { isEmpty, objToArr, searchKeyword, sortAudition, sortThaiDictionary } from "@utilities/object"
+import { sliceArr } from "@utilities/array"
+import { clubMap } from "../config/clubMap"
+import { regClub } from "@client/userAction"
+import { CatLoader } from "@components/common/CatLoader"
+import { AnimatePresence, motion } from "framer-motion"
+import { endLastRound, endRegClubTime, lastround } from "@config/time"
+import { useToast } from "@components/common/Toast/ToastContext"
 
 /*const blockContent = (dataObj) => {
   let newObj = {}
@@ -48,17 +40,16 @@ export const getStaticProps: GetStaticProps = async () => {
   const files = fs.readdirSync("./public/assets/thumbnails/")
   return {
     props: {
-      thumbPaths: files
-    }
+      thumbPaths: files,
+    },
   }
 }
 
-const Select = ({thumbPaths}) => {
+const Select = ({ thumbPaths }) => {
+  const { onReady, tracker, reFetch } = useAuth()
+  const { width } = useWindowDimensions()
 
-  const {onReady, tracker, reFetch} = useAuth()
-  const {width} = useWindowDimensions()
-
-  const [modalState, setModalState] = useState({open: false, data: {}})
+  const [modalState, setModalState] = useState({ open: false, data: {} })
   const [select, setSelect] = useState(false)
   const [dataModal, setDataModal] = useState(false)
   const [sortedData, setSortedData] = useState([])
@@ -69,32 +60,31 @@ const Select = ({thumbPaths}) => {
   const [auditionList, setAuditionList] = useState(<></>)
   const [loader, setLoader] = useState(false)
   const [initclub, setInitclub] = useState(false)
-  const {addToast} = useToast()
+  const { addToast } = useToast()
 
   const auTrigger = useRef(null)
-  const noAu = (new Date().getTime() > lastround)
+  const noAu = new Date().getTime() > lastround
   const time = endLastRound
 
-  const {userData} = onReady((logged, userData) => {
+  const { userData } = onReady((logged, userData) => {
     if (!logged) {
       Router.push("/auth")
     } else {
-
       if (new Date().getTime() < lastround) {
         Router.push("/announce")
-        return {userData}
+        return { userData }
       }
 
       if (userData.club !== "") {
         Router.push("/card")
-      }else{
+      } else {
         if (Object.keys(userData.audition).length <= 0 || new Date().getTime() > endLastRound) {
-          localStorage.setItem("alert","denied")
+          localStorage.setItem("alert", "denied")
           Router.push("/account")
         }
       }
     }
-    return {userData}
+    return { userData }
   })
 
   useEffect(() => {
@@ -114,20 +104,23 @@ const Select = ({thumbPaths}) => {
     })
 
     switch (sortMode) {
-      case "ascending": {
-        const sorted = sortThaiDictionary(dataArr, obj => (obj.title))
-        setRawSorted(sorted)
-      }
+      case "ascending":
+        {
+          const sorted = sortThaiDictionary(dataArr, (obj) => obj.title)
+          setRawSorted(sorted)
+        }
         break
-      case "descending": {
-        const sorted = sortThaiDictionary(dataArr, obj => (obj.title), true)
-        setRawSorted(sorted)
-      }
+      case "descending":
+        {
+          const sorted = sortThaiDictionary(dataArr, (obj) => obj.title, true)
+          setRawSorted(sorted)
+        }
         break
-      case "hasAudition": {
-        const sorted = sortAudition(dataArr)
-        setRawSorted(sorted)
-      }
+      case "hasAudition":
+        {
+          const sorted = sortAudition(dataArr)
+          setRawSorted(sorted)
+        }
         break
       case "notHasAudition": {
         const sorted = sortAudition(dataArr, true)
@@ -147,13 +140,20 @@ const Select = ({thumbPaths}) => {
   }, [userData])
 
   useEffect(() => {
-    (userData && "audition" in userData && Object.keys(clubData).length > 0) && setAuditionList(<>
-      {
-        Object.keys(userData.audition).map((val) => {
-          return <h1 key={val} className="py-4 px-4 border-t">{clubData[val].title}</h1>
-        })
-      }
-    </>)
+    userData &&
+      "audition" in userData &&
+      Object.keys(clubData).length > 0 &&
+      setAuditionList(
+        <>
+          {Object.keys(userData.audition).map((val) => {
+            return (
+              <h1 key={val} className="border-t py-4 px-4">
+                {clubData[val].title}
+              </h1>
+            )
+          })}
+        </>
+      )
   }, [clubData, userData])
 
   useEffect(() => {
@@ -163,7 +163,7 @@ const Select = ({thumbPaths}) => {
   useEffect(() => {
     const escaped = searchContext.replace("ชมรม", "")
     if (escaped !== "") {
-      const searchResult = searchKeyword(rawSorted, escaped, (obj) => (obj.title))
+      const searchResult = searchKeyword(rawSorted, escaped, (obj) => obj.title)
       setSortedData(sliceArr(searchResult, width))
     } else {
       setSortedData(sliceArr(rawSorted, width))
@@ -171,7 +171,7 @@ const Select = ({thumbPaths}) => {
   }, [searchContext, rawSorted])
 
   const clearState = () => {
-    setModalState({open: false, data: {}})
+    setModalState({ open: false, data: {} })
   }
 
   const selectClub = () => {
@@ -180,137 +180,160 @@ const Select = ({thumbPaths}) => {
 
   const confirmOld = () => {
     setModalState({
-      open: false, data: {...clubData[userData.old_club], clubID: userData.old_club, oldClubConfirm: true}
+      open: false,
+      data: { ...clubData[userData.old_club], clubID: userData.old_club, oldClubConfirm: true },
     })
     setSelect(true)
   }
 
   return (
-    (new Date().getTime() < time) && <PageContainer hide={!initclub}>
-      <Loader display={loader}/>
-      <ConfirmModal onAgree={() => {
-        setDataModal(true)
-      }} clubData={modalState}
-                    TriggerDep={{
-                      dep: select, revert: () => {
-                        setSelect(false)
-                      }
-                    }}
-                    refetcher={reFetch} setLoader={setLoader}/>
-      <ClubModal state={modalState} userData={userData} closeAction={clearState} action={selectClub} thumbPaths={thumbPaths}
-                 confirmOldClub={confirmOld}/>
-      <DataModal setLoader={setLoader} state={modalState} refetcher={reFetch} closeFunc={clearState}
-                 TriggerDep={{
-                   dep: dataModal, revert: () => {
-                     setDataModal(false)
-                   }
-                 }}/>
-      <AnimatePresence>
-        {initclub ? <div className="flex flex-col md:flex-row md:justify-center md:items-start md:space-x-6 items-center py-14 px-4">
-            <div className="md:max-w-xs">
-              <div className="flex flex-col items-center">
-                <h1 className="font-medium text-4xl">เลือกชมรม</h1>
-                <span className="text-sm tracking-tight">ภายในวันที่ 18 มิ.ย. 64</span>
-              </div>
-              <div className="mt-6 w-full px-8 min-w-[300px]">
-                <SelectSplash/>
-              </div>
-              <div className="space-y-6 mt-10 px-2">
-                {!noAu && (userData && !isEmpty(userData.audition)) &&
-                <div className="flex flex-col rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
-                    <h1 className="text-lg font-medium tracking-tight">คุณได้ลงชื่อ Audition
-                                                                       ชมรมไว้</h1>
-                    <p className="text-gray-600 tracking-tight">ให้ไปทำการ Audition
-                                                                ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนด โดยติดตามรายละเอียดการ Audition
-                                                                จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง
-                                                                และรอการประกาศผลในวันที่ 15 มิ.ย. 2564 เวลา 7.30 น.</p>
-                    <div className="md:hidden relative">
-                        <a ref={auTrigger}
-                           className="text-TUCMC-pink-500 tracking-tight cursor-pointer">ดูรายชื่อชมรมที่ลงชื่อ
-                                                                                         Audition ไว้ →</a>
-                        <Modal TriggerRef={auTrigger} CloseID="audiClose"
-                               className="shadow-md rounded-lg absolute w-full mt-1 z-20">
-                            <div
-                                className="flex items-start rounded-t-lg text-sm justify-between bg-gray-50 text-gray-500 py-2 px-4">
-                                <h1 className="mt-1">รายชื่อชมรมที่ลงชื่อ Audition ไว้</h1>
-                                <XIcon id="audiClose"
-                                       className="w-7 h-7 cursor-pointer text-TUCMC-gray-400"/>
-                            </div>
-                            <div className="bg-white rounded-b-lg">
-                              {
-                                auditionList
-                              }
-                            </div>
+    new Date().getTime() < time && (
+      <PageContainer hide={!initclub}>
+        <Loader display={loader} />
+        <ConfirmModal
+          onAgree={() => {
+            setDataModal(true)
+          }}
+          clubData={modalState}
+          TriggerDep={{
+            dep: select,
+            revert: () => {
+              setSelect(false)
+            },
+          }}
+          refetcher={reFetch}
+          setLoader={setLoader}
+        />
+        <ClubModal
+          state={modalState}
+          userData={userData}
+          closeAction={clearState}
+          action={selectClub}
+          thumbPaths={thumbPaths}
+          confirmOldClub={confirmOld}
+        />
+        <DataModal
+          setLoader={setLoader}
+          state={modalState}
+          refetcher={reFetch}
+          closeFunc={clearState}
+          TriggerDep={{
+            dep: dataModal,
+            revert: () => {
+              setDataModal(false)
+            },
+          }}
+        />
+        <AnimatePresence>
+          {initclub ? (
+            <div className="flex flex-col items-center py-14 px-4 md:flex-row md:items-start md:justify-center md:space-x-6">
+              <div className="md:max-w-xs">
+                <div className="flex flex-col items-center">
+                  <h1 className="text-4xl font-medium">เลือกชมรม</h1>
+                  <span className="text-sm tracking-tight">ภายในวันที่ 18 มิ.ย. 64</span>
+                </div>
+                <div className="mt-6 w-full min-w-[300px] px-8">
+                  <SelectSplash />
+                </div>
+                <div className="mt-10 space-y-6 px-2">
+                  {!noAu && userData && !isEmpty(userData.audition) && (
+                    <div className="flex flex-col space-y-4 rounded-lg bg-white p-4 py-6 shadow-md">
+                      <h1 className="text-lg font-medium tracking-tight">คุณได้ลงชื่อ Audition ชมรมไว้</h1>
+                      <p className="tracking-tight text-gray-600">
+                        ให้ไปทำการ Audition ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนด โดยติดตามรายละเอียดการ Audition
+                        จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง และรอการประกาศผลในวันที่ 15 มิ.ย. 2564 เวลา 7.30 น.
+                      </p>
+                      <div className="relative md:hidden">
+                        <a ref={auTrigger} className="cursor-pointer tracking-tight text-TUCMC-pink-500">
+                          ดูรายชื่อชมรมที่ลงชื่อ Audition ไว้ →
+                        </a>
+                        <Modal
+                          TriggerRef={auTrigger}
+                          CloseID="audiClose"
+                          className="absolute z-20 mt-1 w-full rounded-lg shadow-md"
+                        >
+                          <div className="flex items-start justify-between rounded-t-lg bg-gray-50 py-2 px-4 text-sm text-gray-500">
+                            <h1 className="mt-1">รายชื่อชมรมที่ลงชื่อ Audition ไว้</h1>
+                            <XIcon id="audiClose" className="h-7 w-7 cursor-pointer text-TUCMC-gray-400" />
+                          </div>
+                          <div className="rounded-b-lg bg-white">{auditionList}</div>
                         </Modal>
+                      </div>
                     </div>
-                </div>}
-                {!noAu && (userData && !isEmpty(userData.audition)) &&
-                <div className="hidden md:block shadow-md rounded-lg mt-1 z-20">
-                    <div
-                        className="flex items-start rounded-t-lg text-sm justify-between bg-gray-50 text-gray-500 py-2 px-4">
+                  )}
+                  {!noAu && userData && !isEmpty(userData.audition) && (
+                    <div className="z-20 mt-1 hidden rounded-lg shadow-md md:block">
+                      <div className="flex items-start justify-between rounded-t-lg bg-gray-50 py-2 px-4 text-sm text-gray-500">
                         <h1 className="mt-1">รายชื่อชมรมที่ลงชื่อ Audition ไว้</h1>
+                      </div>
+                      <div className="rounded-b-lg bg-white">{auditionList}</div>
                     </div>
-                    <div className="bg-white rounded-b-lg">
-                      {
-                        auditionList
-                      }
-                    </div>
-                </div>}
+                  )}
 
-                {!noAu && (!isEmpty(clubData) && userData && "old_club" in userData && userData.old_club !== "" && clubData[userData.old_club].old_count < clubData[userData.old_club].old_count_limit ?
-                  <div className="flex flex-col items-start rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
-                    <h1 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h1>
-                    <p
-                      className="text-gray-600 tracking-tight">นักเรียนสามารถใช้โควตายืนยันสิทธิ์ชมรมเดิมได้ทันที
-                                                               [ชมรม{clubMap[userData.old_club]}] *โควตามีจำนวนจำกัด</p>
-                    <a
-                      onClick={confirmOld}
-                      className="bg-TUCMC-green-400 text-white whitespace-nowrap rounded-3xl shadow-md px-5 py-2.5 cursor-pointer">ยืนยันสิทธิ์ชมรมเดิม</a>
-                  </div> :
-                  <div className="flex flex-col rounded-lg shadow-md bg-white p-4 py-6 space-y-4">
-                    <h1 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h1>
-                    <p className="text-gray-600 tracking-tight">นักเรียนไม่สามารถยืนยันสิทธิ์ได้
-                                                                (ชมรม{userData && clubMap[userData.old_club]})
-                                                                เนื่องจากชมรม{userData && clubData[userData.old_club]?.old_count_limit === 0 ? "ไม่อนุญาตให้ยืนยันสิทธิ์ชมรมเดิม" : "ไม่มีโควตาสมาชิกเก่าเหลือแล้ว"}
-                                                                หากต้องการอยู่ชมรมเดิม ให้กดลงทะเบียนเข้าชมรมเดิมในฐานะสมาชิกใหม่</p>
-                    <div className="md:hidden relative">
-                      <a href="/FAQ" target="_blank"
-                         className="text-TUCMC-gray-700 tracking-tight cursor-pointer">ดูรายละเอียดเพิ่มเติม →</a>
-                    </div>
-                  </div>)
-                }
+                  {!noAu &&
+                    (!isEmpty(clubData) &&
+                    userData &&
+                    "old_club" in userData &&
+                    userData.old_club !== "" &&
+                    clubData[userData.old_club].old_count < clubData[userData.old_club].old_count_limit ? (
+                      <div className="flex flex-col items-start space-y-4 rounded-lg bg-white p-4 py-6 shadow-md">
+                        <h1 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h1>
+                        <p className="tracking-tight text-gray-600">
+                          นักเรียนสามารถใช้โควตายืนยันสิทธิ์ชมรมเดิมได้ทันที [ชมรม{clubMap[userData.old_club]}]
+                          *โควตามีจำนวนจำกัด
+                        </p>
+                        <a
+                          onClick={confirmOld}
+                          className="cursor-pointer whitespace-nowrap rounded-3xl bg-TUCMC-green-400 px-5 py-2.5 text-white shadow-md"
+                        >
+                          ยืนยันสิทธิ์ชมรมเดิม
+                        </a>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col space-y-4 rounded-lg bg-white p-4 py-6 shadow-md">
+                        <h1 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h1>
+                        <p className="tracking-tight text-gray-600">
+                          นักเรียนไม่สามารถยืนยันสิทธิ์ได้ (ชมรม{userData && clubMap[userData.old_club]}) เนื่องจากชมรม
+                          {userData && clubData[userData.old_club]?.old_count_limit === 0
+                            ? "ไม่อนุญาตให้ยืนยันสิทธิ์ชมรมเดิม"
+                            : "ไม่มีโควตาสมาชิกเก่าเหลือแล้ว"}
+                          หากต้องการอยู่ชมรมเดิม ให้กดลงทะเบียนเข้าชมรมเดิมในฐานะสมาชิกใหม่
+                        </p>
+                        <div className="relative md:hidden">
+                          <a href="/FAQ" target="_blank" className="cursor-pointer tracking-tight text-TUCMC-gray-700">
+                            ดูรายละเอียดเพิ่มเติม →
+                          </a>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </div>
+              <div style={width > 768 ? { width: width - 376, maxWidth: 952 } : {}} className="mt-16 md:mt-0">
+                <div className="mx-4 border-b pb-5">
+                  <div>
+                    <FilterSearch setSearchContext={setSearchContext} sortMode={sortMode} setSortMode={setSortMode} />
+                  </div>
+                </div>
+                <div className="mt-6 flex flex-col md:flex-row md:space-x-4">
+                  <div className="space-y-2 md:w-1/2">
+                    {sortedData[0]?.map((val) => {
+                      return <ClubList key={val.clubID} data={val} action={setModalState} />
+                    })}
+                  </div>
+                  <div className="mt-2 space-y-2 md:mt-0 md:w-1/2">
+                    {sortedData[1]?.map((val) => {
+                      return <ClubList key={val.clubID} data={val} action={setModalState} />
+                    })}
+                  </div>
+                </div>
               </div>
             </div>
-            <div style={width > 768 ? {width: width - 376, maxWidth: 952} : {}}
-                 className="mt-16 md:mt-0">
-              <div className="border-b pb-5 mx-4">
-                <div>
-                  <FilterSearch setSearchContext={setSearchContext} sortMode={sortMode}
-                                setSortMode={setSortMode}/>
-                </div>
-              </div>
-              <div className="flex flex-col md:flex-row md:space-x-4 mt-6">
-                <div className="space-y-2 md:w-1/2">
-                  {
-                    sortedData[0]?.map((val) => {
-                      return <ClubList key={val.clubID} data={val} action={setModalState}/>
-                    })
-                  }
-                </div>
-                <div className="mt-2 md:mt-0 space-y-2 md:w-1/2">
-                  {
-                    sortedData[1]?.map((val) => {
-                      return <ClubList key={val.clubID} data={val} action={setModalState}/>
-                    })
-                  }
-                </div>
-              </div>
-            </div>
-          </div> :
-            <CatLoader key="cat"/>
-        }
-      </AnimatePresence>
-    </PageContainer>
+          ) : (
+            <CatLoader key="cat" />
+          )}
+        </AnimatePresence>
+      </PageContainer>
+    )
   )
 }
 
