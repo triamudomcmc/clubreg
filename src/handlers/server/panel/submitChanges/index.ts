@@ -31,10 +31,10 @@ const upload = async (image: string, storage, tempFileName) => {
 
 const performUpload = async (req, ID) => {
   const storage = new Storage({
-    projectId: process.env.PROJECT_ID_R,
+    projectId: process.env.PROJECT_ID,
     credentials: {
-      client_email: process.env.FCERT_CLIENT_EMAIL_R,
-      private_key: process.env.FCERT_PRIVATE_KEY_R.replace(/\\n/g, "\n"),
+      client_email: process.env.FCERT_CLIENT_EMAIL,
+      private_key: process.env.FCERT_PRIVATE_KEY.replace(/\\n/g, "\n"),
     },
   })
 
