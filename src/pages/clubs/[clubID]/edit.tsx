@@ -29,7 +29,7 @@ const parseText = (text) => {
   return "<p>" + text.replace(/\n{2,}/g, "</p><p>").replace(/\n/g, "<br>")
 }
 
-const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, image, setImage, newImages, contact, setContact }) => {
+const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, image, setImage, newImages, contact, setContact, clubData }) => {
   const [publishing, setPublishing] = useState(false)
   const [initialContact, setInitContact] = useState(contact)
   const uploader = useRef(null)
@@ -114,7 +114,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                 <h1 className="text-TUCMC-gray-600">{data.nameEN}</h1>
               </div>
               <div className="space-y-1">
-                {data.audition ? (
+                {clubData.audition ? (
                   <div className="flex space-x-2 text-TUCMC-pink-400">
                     <StarIcon className="h-6 w-6" />
                     <span>มีการ Audition</span>
@@ -127,7 +127,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                 )}
                 <div className="flex space-x-2 text-TUCMC-gray-600">
                   <UserIcon className="h-6 w-6" />
-                  <span>สมาชิก {data.count} คน</span>
+                  <span>สมาชิก {clubData?.count_limit} คน</span>
                 </div>
                 <div className="flex space-x-2 text-TUCMC-gray-600">
                   <GlobeAltIcon className="h-6 w-6" />
@@ -626,7 +626,7 @@ const Page = ({ data, clubID, images, clubData, clubList, newImages }) => {
       {rerender && <div className="hidden">s</div>}
       <div className={classnames(loadingCount > 0 && "absolute opacity-0")}>
         <div className="mx-auto max-w-[1100px]">
-          <ClubHeaderCard status={clubData?.status} clubID={clubID} contactRef={contactRef} data={data} onLoad={loaded} publish={getAllPart} image={imageHead} setImage={setImageHead} newImages={newImages} contact={contactData} setContact={setContactData} />
+          <ClubHeaderCard status={clubData?.status} clubID={clubID} contactRef={contactRef} data={data} onLoad={loaded} publish={getAllPart} image={imageHead} setImage={setImageHead} newImages={newImages} contact={contactData} setContact={setContactData} clubData={clubData} />
           <div className="w-full border-b border-TUCMC-gray-300 md:hidden"></div>
           <div className="space-y-12 px-6 pb-24 pt-11 md:space-y-16 md:pt-12">
             <MainArticle value={mainArt} setValue={setMainArt} />
