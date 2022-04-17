@@ -263,7 +263,7 @@ const Page = ({ data, clubID, images, clubList }) => {
         </div>
         <div className="space-y-14 bg-TUCMC-gray-100 py-16">
           <h1 className="text-center text-2xl">ชมรมอื่น ๆ</h1>
-          <div className="mx-auto mt-5 flex w-full max-w-5xl max-w-[1100px] flex-wrap justify-center pb-20 md:mt-14">
+          <div className="mx-auto mt-5 flex w-full max-w-[1100px] flex-wrap justify-center pb-20 md:mt-14">
             {allowedSugg.map((item, index) => {
               return <ClubCard key={`suggestion-${index}`} data={item} />
             })}

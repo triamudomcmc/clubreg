@@ -280,7 +280,7 @@ const Account = () => {
         </motion.div>
       )}
       {display && (
-        <div className="fixed relative top-0 z-[99] flex min-h-screen w-full items-center justify-center bg-gray-700 bg-opacity-20">
+        <div className="fixed top-0 z-[99] flex min-h-screen w-full items-center justify-center bg-gray-700 bg-opacity-20">
           <div className="relative rounded-md bg-white py-4 px-6">
             <XIcon
               onClick={() => {
@@ -309,7 +309,7 @@ const Account = () => {
                   uploader.current.click()
                 }}
                 className={classnames(
-                  "bg-TUCMC-white flex cursor-pointer items-center justify-center space-x-2 rounded-lg border border-gray-400 px-4 text-TUCMC-gray-600 shadow-sm shadow-md",
+                  "bg-TUCMC-white flex cursor-pointer items-center justify-center space-x-2 rounded-lg border border-gray-400 px-4 text-TUCMC-gray-600 shadow-md",
                   !uploading ? "py-3.5" : "py-1.5"
                 )}
               >
@@ -409,7 +409,7 @@ const Account = () => {
               <Button
                 href="/panel/report"
                 type="div"
-                className="bg-TUCMC-white flex w-1/2 cursor-pointer items-center justify-center space-x-2 rounded-lg px-4 py-3.5 text-TUCMC-gray-600 shadow-sm shadow-md"
+                className="bg-TUCMC-white flex w-1/2 cursor-pointer items-center justify-center space-x-2 rounded-lg px-4 py-3.5 text-TUCMC-gray-600 shadow-md"
               >
                 <UserGroupIcon className="h-6 w-6" />
                 <span>รายชื่อสมาชิก</span>
