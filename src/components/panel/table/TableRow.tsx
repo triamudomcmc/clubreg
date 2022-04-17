@@ -346,7 +346,7 @@ export const StatusText: FC<{ status: "declined" | "accepted" | "pending" }> = (
 
 const removeSectionSlugs = (currPanel: string) => {
   let res = currPanel.split("_")[0]
-  return res.startsWith("ก30920") ? "ก30920" : res
+  return res.startsWith("ก30920") && res !== "ก30920-8" ? "ก30920" : res
 }
 
 export const TableWebDataRow: FC<{ status: "declined" | "accepted" | "pending"; getCurrPanel: () => string }> = ({
