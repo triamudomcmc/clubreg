@@ -650,7 +650,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const clubDataDoc = await initialisedDB.collection("clubs").doc("mainData").get()
 
   const clubData = clubDataDoc?.get(params.clubID.toString())
-  const clubIndex = fs.readFileSync("./_map/clubs.json")
 
   return {
     props: {
