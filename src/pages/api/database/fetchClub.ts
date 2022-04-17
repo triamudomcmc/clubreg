@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import initialisedDB from "@server/firebase-admin"
+import { fetchClubDisplay } from "@handlers/server/club/fetchClubDisplay"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req
@@ -25,9 +26,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             contact3: data.contact3,
             message: data.message,
           })
+          break
+        }
+        case "fetchClubDisplay": {
+          const output = await fetchClubDisplay(req, res)
+          res.json(output)
+          break
         }
       }
-      break
     default:
       res.setHeader("Allow", ["GET", "PUT"])
       res.status(405).end(`Method ${method} Not Allowed`)
