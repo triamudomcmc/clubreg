@@ -202,7 +202,8 @@ export const TableRow: FC<{
   field: string
   initialData: TValueTypes
   updateField: TUpdateFieldFunction
-}> = ({ editable, title, initialData, field, updateField }) => {
+  validateFunc?: (data) => { reason: string } | null
+}> = ({ editable, title, initialData, field, updateField, validateFunc }) => {
   const [beforeData, setBeforeData] = useState(initialData)
   const [data, setData] = useState(initialData)
   const [mode, setMode] = useState<"view" | "edit">("view")
@@ -216,6 +217,17 @@ export const TableRow: FC<{
 
   const onComfirm = async () => {
     const validateErrors = validateData(data)
+
+    const validateFuncOut = validateFunc(data)
+
+    if (validateFuncOut?.reason && validateFuncOut?.reason === "teacher_to_student") {
+      addToast({
+        theme: "modern",
+        icon: "warning",
+        title: "สัดส่วนครูที่ปรึกษาไม่เหมาะสม",
+        text: "ครูที่ปรึกษา 1 คน ควรมีสัดส่วนต่อนักเรียนในชมรมไม่น้อยกว่า 26.5 คน",
+      })
+    }
 
     if (validateErrors) {
       onDecline()

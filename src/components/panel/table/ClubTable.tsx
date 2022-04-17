@@ -75,6 +75,7 @@ export const ClubDataTable: FC<{ data: IClubData; getCurrPanel: () => string; up
 interface IProportion {
   count_limit: number
   old_count_limit: number
+  teacher_count: number
 }
 
 export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldFunction }> = ({
@@ -101,6 +102,18 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
         editable
         initialData={{ type: "number", value: data.old_count_limit }}
         updateField={updateField}
+      />
+      <TableRow
+        field="teacher_count"
+        title="จำนวนครูที่ปรึกษาชมรม"
+        editable
+        initialData={{ type: "number", value: data.teacher_count }}
+        updateField={updateField}
+        validateFunc={(teacherCount) => {
+          if (teacherCount.value === 0 || data.count_limit / teacherCount.value < 26.5) {
+            return { reason: "teacher_to_student" }
+          } else return null
+        }}
       />
       {/* <div className="grid grid-cols-1 border-b border-gray-200 py-4 md:grid-cols-[2fr,3fr] md:items-center md:py-6">
         <p className="text-TUCMC-gray-600">จำนวนสมาชิกใหม่ที่จะรับเข้าชมรม</p>
@@ -527,7 +540,7 @@ export const ClubCommitteeTable: FC<{
       <hr className="my-6" />
 
       <div className="flex flex-col space-y-6">
-        {committee.map((user) => {
+        {committee?.map((user) => {
           return (
             <Fragment key={user.student_id}>
               <div className="flex flex-col items-start justify-between px-2 sm:flex-row sm:items-center sm:px-4">

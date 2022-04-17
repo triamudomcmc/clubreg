@@ -19,7 +19,7 @@ export function QuillStaging() {
 
   useEffect(() => {
     const init = (quill) => {
-      console.log(quill)
+      // console.log(quill)
     }
 
     const check = () => {
