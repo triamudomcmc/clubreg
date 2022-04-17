@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import { useWindowDimensions } from "@utilities/document"
-import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/outline"
+import { CheckCircleIcon, ExclamationCircleIcon, XCircleIcon } from "@heroicons/react/outline"
 import { XIcon } from "@heroicons/react/solid"
 
 const ToastElement = ({ toastData, index, toastDeleteHandler, ...restProps }) => {
@@ -83,6 +83,7 @@ const ToastElement = ({ toastData, index, toastDeleteHandler, ...restProps }) =>
         />
       </svg>
     ),
+    warning: <ExclamationCircleIcon className={`h-8 w-8 text-${toastData.color}-600 mr-4`} />,
   }
 
   const newIcons = "title" in toastData && {
@@ -104,6 +105,7 @@ const ToastElement = ({ toastData, index, toastDeleteHandler, ...restProps }) =>
       </svg>
     ),
     cross: <XCircleIcon className="h-6 w-6 flex-shrink-0 text-red-400" />,
+    warning: <ExclamationCircleIcon className={`h-6 w-6 flex-shrink-0 text-TUCMC-orange-400`} />,
   }
 
   if (toastData.theme == "default") {

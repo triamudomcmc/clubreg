@@ -104,6 +104,7 @@ const Account = () => {
     contact: { type: "", context: "" },
     contact2: { type: "", context: "" },
     contact3: { type: "", context: "" },
+    teacher_count: 0,
     status: "accepted",
   })
 
@@ -433,6 +434,7 @@ const Account = () => {
                 data={{
                   old_count_limit: clubData.old_count_limit,
                   count_limit: clubData.count_limit,
+                  teacher_count: clubData.teacher_count,
                 }}
                 updateField={updateCurrpanelClubField}
               />

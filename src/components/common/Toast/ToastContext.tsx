@@ -3,10 +3,10 @@ import Toast from "@components/common/Toast/index"
 
 interface ToastType {
   theme: "default" | "modern"
-  icon: "info" | "cross" | "tick"
+  icon: "info" | "cross" | "tick" | "warning"
   title: string
   text: string
-  color?: "green" | "yellow" | "red" | "blue"
+  color?: "green" | "yellow" | "red" | "blue" | "orange"
   lifeSpan?: number
   crossPage?: boolean
 }
