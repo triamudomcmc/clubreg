@@ -1,6 +1,6 @@
 import { Storage } from "@google-cloud/storage"
 import { getUNIXTimeStamp } from "@config/time"
-import { executeWithPermission, executeWithPermissionEx } from "@handlers/server/utilities/permission"
+import { executeWithPermission, executeWithPermissionEx, executeWithPermissionExclusive } from "@handlers/server/utilities/permission"
 import initialisedDB from "@server/firebase-admin"
 
 const upload = async (image: string, storage, tempFileName) => {
@@ -63,8 +63,25 @@ const performUpload = async (req, ID) => {
     }
   }
 
-  const clubDataDoc = initialisedDB.collection("clubs").doc("mainData")
-  const out = await clubDataDoc.update({ [`${req.body.panelID}.status`]: "pending" })
+  const clubDataDoc = await initialisedDB.collection("clubs").doc("mainData").get()
+  const panelid: string = req.body.panelID
+  let clubData = clubDataDoc?.get(panelid)
+  let pid = panelid
+
+  if (!clubData) {
+    clubData = clubDataDoc?.get(`${panelid}_1`)
+    if (!clubData) {
+      if (panelid.includes("ก30920")) {
+        clubData = clubDataDoc?.get(`ก30920-1`)
+        pid = "ก30920-1"
+      }
+    }else{
+
+      pid = `${panelid}_1`
+    }
+  }
+
+  const out = await clubDataDoc.ref.update({ [`${pid}.status`]: "pending" })
 
   const dat = await initialisedDB.collection("clubDisplay").doc(req.body.panelID).get()
   await initialisedDB
@@ -103,7 +120,7 @@ const main = async (req, ID) => {
 }
 
 export const submitChanges = async (req, res) => {
-  return await executeWithPermission(req, res, async (req, res, ID) => {
+  return await executeWithPermissionExclusive(req, res, async (req, res, ID) => {
     return await main(req, ID)
   })
 }
