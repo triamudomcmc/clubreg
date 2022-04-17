@@ -115,7 +115,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
                 <h1 className="text-TUCMC-gray-600">{data.nameEN}</h1>
               </div>
               <div className="space-y-1">
-                {clubData.audition ? (
+                {(clubData ? clubData.audition : data.audition) ? (
                   <div className="flex space-x-2 text-TUCMC-pink-400">
                     <StarIcon className="h-6 w-6" />
                     <span>มีการ Audition</span>
@@ -378,7 +378,7 @@ const SummaryImages = ({ images, onLoad, clubID, setImageS, newImages }) => {
                 priority={true}
                 onLoad={onLoad}
                 className="rounded-lg object-cover"
-                src={name.replace(".jpg","") in newImages ? newImages[name.replace(".jpg","")] : name.includes("picture-") ? `/assets/images/clubs/${clubID}/${name}` : `${name}`}
+                src={`picture-${index+1}` in newImages ? newImages[`picture-${index+1}`] : name.includes("picture-") ? `/assets/images/clubs/${clubID}/${name}` : `${name}`}
                 updateImage={(d) => {
                   setImageS((prev) => {
                     return { ...prev, [`picture-${index+1}`]: d }
@@ -533,7 +533,7 @@ const Review = ({revContent, index, onLoad,clubID, setReviews, setImageReview, s
 </div>)
 }
 
-const Page = ({ data, clubID, images, clubData, clubList, newImages }) => {
+const Page = ({ data, clubID, images, clubData, newImages }) => {
   const { onReady } = useAuth()
   const router = useRouter()
 
@@ -600,7 +600,7 @@ const Page = ({ data, clubID, images, clubData, clubList, newImages }) => {
     if (!logged) Router.push("/auth")
     else if (!("panelID" in userData) || userData.panelID.length <= 0) {
       Router.push("/select")
-    } else if (!userData.panelID.includes(clubID)) {
+    } else if (!userData.panelID.map(e => (e.split("_")[0])).includes(clubID) && !(clubID === "ก30920" && userData.panelID.map(e => (e.split("-")[0])).includes("ก30920"))) {
       Router.push("/")
     }
 
@@ -649,9 +649,19 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
   const clubDataDoc = await initialisedDB.collection("clubs").doc("mainData").get()
 
-  const clubData = clubDataDoc?.get(params.clubID.toString())
-  const clubIndex = fs.readFileSync("./_map/clubs.json")
-  const clubList = JSON.parse(clubIndex.toString())
+  let clubData = clubDataDoc?.get(params.clubID.toString())
+
+  if (!clubData) {
+    clubData = clubDataDoc?.get(`${params.clubID.toString()}_1`)
+    if (!clubData) {
+      if (params.clubID.toString().includes("ก30920")) {
+        clubData = clubDataDoc?.get(`ก30920-1`)
+        clubData = {...clubData, count_limit: "__"}
+      }
+    }else{
+      clubData = {...clubData, count_limit: "__"}
+    }
+  }
 
   return {
     props: {
@@ -660,11 +670,10 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
         description: data.get("description"),
         reviews: data.get("reviews"),
       },
-      clubData: clubData,
+      clubData: clubData || null,
       clubID: params.clubID,
       images: images,
-      newImages: data.get("images") || {},
-      clubList: clubList,
+      newImages: data.get("images") || {}
     },
   }
 }

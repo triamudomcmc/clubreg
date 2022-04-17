@@ -1,5 +1,5 @@
 import { fetchSession } from "@server/fetchers/session"
-import { checkPermissionFromRefID } from "@server/panel/sharedFunctions"
+import { checkPermissionFromRefID, checkPermissionFromRefIDExclusive } from "@server/panel/sharedFunctions"
 import initialisedDB from "@server/firebase-admin"
 
 export const executeWithPermission = async (req, res, callback: (req, res, ID) => any) => {
@@ -9,6 +9,18 @@ export const executeWithPermission = async (req, res, callback: (req, res, ID) =
   if (req.body.panelID === "") return { status: false, report: "unexpectd" }
 
   const checkPermResult = await checkPermissionFromRefID(ID.dataRefID, req)
+  if (!checkPermResult.status) return checkPermResult
+
+  return await callback(req, res, ID)
+}
+
+export const executeWithPermissionExclusive = async (req, res, callback: (req, res, ID) => any) => {
+  const { logged, ID } = await fetchSession(req, res)
+  if (!logged) return { status: false, report: "sessionError" }
+
+  if (req.body.panelID === "") return { status: false, report: "unexpectd" }
+
+  const checkPermResult = await checkPermissionFromRefIDExclusive(ID.dataRefID, req)
   if (!checkPermResult.status) return checkPermResult
 
   return await callback(req, res, ID)
