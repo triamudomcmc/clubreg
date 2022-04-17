@@ -51,7 +51,7 @@ export const QuillEditor: FC<{
               // "image",
               // "video"
             ],
-            // ["clean"],
+            ["clean"],
           ],
           clipboard: {
             // toggle to add extra line breaks when pasting HTML:

@@ -5,5 +5,7 @@ module.exports = withPWA({
     dest: "public",
     register: true,
     skipWaiting: true,
-  },
+  },images: {
+    domains: ["storage.googleapis.com"]
+  }
 })
