@@ -577,6 +577,11 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
       images: { mainImage: imageHead, ...imageS },
     })
 
+    const awaitTimeout = delay =>
+  new Promise(resolve => setTimeout(resolve, delay));
+
+  await awaitTimeout(8000)
+
     if (res.status) {
       addToast({
         theme: "modern",
