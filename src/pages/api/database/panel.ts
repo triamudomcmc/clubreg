@@ -6,6 +6,10 @@ import { updatePosition } from "@server/panel/updatePosition"
 import { updateUser } from "@server/panel/updateUser"
 import { fetchSession } from "@server/fetchers/session"
 import { updateClubField } from "@server/panel/updateClubField"
+import { fetchStudentID } from "@handlers/server/panel/fetchStudentID"
+import { addClubCommittee } from "@handlers/server/panel/addClubCommittee"
+import { fetchClubCommittee } from "@handlers/server/panel/fetchClubCommittee"
+import { removeClubCommittee } from "@handlers/server/panel/removeClubCommittee"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req
@@ -50,6 +54,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
         case "updateClubField": {
           const output = await updateClubField(req, res)
+          res.json(output)
+          break
+        }
+        case "fetchStudentID": {
+          const output = await fetchStudentID(req, res)
+          res.json(output)
+          break
+        }
+        case "addClubCommittee": {
+          const output = await addClubCommittee(req, res)
+          res.json(output)
+          break
+        }
+        case "fetchClubCommittee": {
+          const output = await fetchClubCommittee(req, res)
+          res.json(output)
+          break
+        }
+        case "removeClubCommittee": {
+          const output = await removeClubCommittee(req, res)
           res.json(output)
           break
         }

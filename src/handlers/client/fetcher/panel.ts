@@ -1,5 +1,7 @@
 import LooseTypeObject from "../../../interfaces/LooseTypeObject"
 import { request } from "@client/utilities/request"
+import UserData from "@interfaces/userData"
+import { AtSymbolIcon } from "@heroicons/react/outline"
 
 export const fetchMembers = async (
   panelID,
@@ -30,4 +32,33 @@ export const updateClubField = async (
   data
 ): Promise<{ status: boolean; report: string }> => {
   return await request("database/panel", "updateClubField", { panelID, field, data })
+}
+
+export const fetchStudentID = async (
+  panelID: string,
+  studentID: string
+): Promise<{ status: boolean; report: string; data?: UserData }> => {
+  return await request("database/panel", "fetchStudentID", { studentID, panelID })
+}
+
+export const addClubCommittee = async (
+  panelID: string,
+  studentID: string,
+  password: string
+): Promise<{ status: boolean; report: string }> => {
+  return await request("database/panel", "addClubCommittee", { studentID, panelID, password })
+}
+
+export const fetchClubCommittee = async (
+  panelID: string
+): Promise<{ status: boolean; report: string; data: UserData[] }> => {
+  return await request("database/panel", "fetchClubCommittee", { panelID })
+}
+
+export const removeClubCommittee = async (
+  panelID: string,
+  studentID: string,
+  password: string
+): Promise<{ status: boolean; report: string }> => {
+  return await request("database/panel", "removeClubCommittee", { studentID, panelID, password })
 }

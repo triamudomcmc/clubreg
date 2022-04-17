@@ -210,19 +210,19 @@ const Announce = () => {
                   <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
                     {openTimer.hour}
                   </span>
-                  <span className="mt-2 text-xs font-bold text-white text-TUCMC-gray-600">HOUR</span>
+                  <span className="mt-2 text-xs font-bold text-TUCMC-gray-600">HOUR</span>
                 </div>
                 <div className="flex flex-col items-center">
                   <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
                     {openTimer.min}
                   </span>
-                  <span className="mt-2 text-xs font-bold text-white text-TUCMC-gray-600">MIN</span>
+                  <span className="mt-2 text-xs font-bold text-TUCMC-gray-600">MIN</span>
                 </div>
                 <div className="flex flex-col items-center">
                   <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
                     {openTimer.sec}
                   </span>
-                  <span className="mt-2 text-xs font-bold text-white text-TUCMC-gray-600">SEC</span>
+                  <span className="mt-2 text-xs font-bold text-TUCMC-gray-600">SEC</span>
                 </div>
               </div>
             </div>

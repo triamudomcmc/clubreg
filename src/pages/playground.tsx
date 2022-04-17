@@ -5,7 +5,7 @@ import Footer from "@components/common/Footer"
 import { AnimateSharedLayout, motion } from "framer-motion"
 import React, { useEffect, useState } from "react"
 import Router, { useRouter } from "next/router"
-import { ClubComitteeTable, ClubDataTable, ProportionTable } from "@components/panel/table/ClubTable"
+import { ClubCommitteeTable, ClubDataTable, ProportionTable } from "@components/panel/table/ClubTable"
 
 const PlaygroundPage = ({ data }) => {
   const router = useRouter()
@@ -23,7 +23,7 @@ const PlaygroundPage = ({ data }) => {
           <div className="flex flex-col space-y-10">
             {/* <ClubDataTable />
             <ProportionTable /> */}
-            <ClubComitteeTable />
+            {/* <ClubComitteeTable /> */}
           </div>
         </div>
         <motion.div layout="position" transition={{ delay: 0.05, duration: 0.2 }}>
