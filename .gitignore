@@ -34,3 +34,5 @@ yarn-error.log*
 .vercel
 .env
 .idea
+
+public/sw.js.map
