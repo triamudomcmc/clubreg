@@ -552,7 +552,7 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
   const [reviews, setReviews] = useState(data.reviews)
   const [mainArt, setMainArt] = useState(data.description)
 
-  const [contactData, setContactData] = useState({contact: data.contact, contact2: isEmpty(data.contact2) ? {type: "ไม่มี", context: "..."} : data.contact2, contact3: isEmpty(data.contact3) ? {type: "ไม่มี", context: "..."} : data.contact3})
+  const [contactData, setContactData] = useState({contact: data.contact, contact2: isEmpty(data.contact2) ? {type: "ไม่มี", context: "แก้ไขข้อมูล"} : data.contact2, contact3: isEmpty(data.contact3) ? {type: "ไม่มี", context: "แก้ไขข้อมูล"} : data.contact3})
 
   const [imageHead, setImageHead] = useState<string | null>(null)
   const [imageS, setImageS] = useState({})
@@ -582,7 +582,7 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
         theme: "modern",
         icon: "tick",
         title: "ส่งการแก้ไขข้อมูลสำเร็จ",
-        text: "",
+        text: "ระบบอาจะใช้เวลาถึง 2 นาทีในการประมวลผลข้อมูล หาก refresh หน้าจอแล้วการเปลี่ยนแปลงหายไปให้ลอง refresh ใหม่",
       })
     } else {
       addToast({
