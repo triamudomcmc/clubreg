@@ -24,6 +24,7 @@ import { toBase64 } from "@utilities/files"
 import initialisedDB from "@server/firebase-admin"
 import { removeItem } from "@utilities/array"
 import { Ellipsis } from "@vectors/Loaders/Ellipsis"
+import { getImages } from "@utilities/getImages"
 
 const parseText = (text) => {
   return "<p>" + text.replace(/\n{2,}/g, "</p><p>").replace(/\n/g, "<br>")
@@ -643,7 +644,7 @@ const Page = ({ data, clubID, images, clubData, clubList, newImages }) => {
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const data = await initialisedDB.collection("clubDisplay").doc(params.clubID.toString()).get()
 
-  const images = fs.readdirSync(`./public/assets/images/clubs/${params.clubID}/`)
+  const images = getImages(params.clubID.toString())
   const clubDisplayData = data.data()
 
   const clubDataDoc = await initialisedDB.collection("clubs").doc("mainData").get()
