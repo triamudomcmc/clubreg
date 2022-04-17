@@ -74,7 +74,8 @@ export const ClubDataTable: FC<{ data: IClubData; getCurrPanel: () => string; up
 interface IProportion {
   count_limit: number
   old_count_limit: number
-  teacher_count: number
+  teacher_count: number,
+  committee_count: number
 }
 
 export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldFunction }> = ({
@@ -89,28 +90,46 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
       <h1 className="border-b border-gray-200 pb-4 text-xl">สัดส่วนชมรม</h1>
 
       <TableRow
-        field="count_limit"
-        title="จำนวนนักเรียนในชมรมสูงสุด"
-        editable
-        initialData={{ type: "number", value: data.count_limit }}
-        updateField={updateField}
-      />
-      <TableRow
-        field="old_count_limit"
-        title="จำนวนสมาชิกเก่าที่จะรับเข้าชมรม"
-        editable
-        initialData={{ type: "number", value: data.old_count_limit }}
-        updateField={updateField}
-      />
-      <TableRow
         field="teacher_count"
         title="จำนวนครูที่ปรึกษาชมรม"
         editable
         initialData={{ type: "number", value: data.teacher_count }}
         updateField={updateField}
-        validateFunc={(teacherCount) => {
-          if (teacherCount.value === 0 || data.count_limit / teacherCount.value < 26.5) {
+        validateFunc={() => {return null}}
+      />
+
+      <TableRow
+        field="count_limit"
+        title="จำนวนนักเรียนในชมรมสูงสุด"
+        description="จำนวนนักเรียนทั้งหมดในชมรม รวมถึงนักเรียนเก่าและกรรมการชมรม"
+        editable
+        initialData={{ type: "number", value: data.count_limit }}
+        updateField={updateField}
+        validateFunc={(c) => {
+          if (data.teacher_count === 0 || (c.value / data.teacher_count) < 26.5) {
             return { reason: "teacher_to_student" }
+          } else return null
+        }}
+      />
+      <div className="grid grid-cols-1 border-b border-gray-200 py-4 md:grid-cols-[2fr,3fr] md:items-center md:py-6">
+        <p className="text-TUCMC-gray-600">จำนวนสมาชิกใหม่ที่จะรับเข้าชมรม</p>
+        <div className="flex items-start space-x-2">
+          <div className="block">{data.count_limit - data.old_count_limit - data.committee_count}</div>
+
+            </div></div>
+      <TableRow
+        field="old_count_limit"
+        title="จำนวนสมาชิกเก่าที่จะรับเข้าชมรม"
+        description="จำนวนสมาชิกเก่าในชมรม ไม่รวมจำนวนกรรมการชมรม"
+        editable
+        initialData={{ type: "number", value: data.old_count_limit }}
+        updateField={updateField}
+        declineVal={true}
+        validateFunc={(c) => {
+
+          if (c.value > Math.ceil((33 * data.count_limit)/ 100)) {
+
+            return { reason: "limit_exceded" }
           } else return null
         }}
       />

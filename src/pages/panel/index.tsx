@@ -400,17 +400,18 @@ const Account = () => {
               <div className="relative w-1/2">
                 <Button
                   type="div"
-                  href="/panel/attendance"
-                  className="flex items-center justify-center space-x-2 rounded-lg bg-TUCMC-pink-400 px-4 py-3.5 text-white shadow-sm"
+                  disabled={true}
+                  className="flex items-center justify-center space-x-2 cursor-not-allowed rounded-lg bg-TUCMC-pink-400 px-4 py-3.5 text-white shadow-sm"
                 >
                   <ClipboardCheckIcon className="h-5 w-5" />
                   <span>รายงานการเข้าเรียน</span>
                 </Button>
               </div>
               <Button
-                href="/panel/report"
+                // href="/panel/report"
                 type="div"
-                className="bg-TUCMC-white flex w-1/2 cursor-pointer items-center justify-center space-x-2 rounded-lg px-4 py-3.5 text-TUCMC-gray-600 shadow-md"
+                disabled={true}
+                className="bg-TUCMC-white flex w-1/2 cursor-pointer items-center justify-center space-x-2 cursor-not-allowed rounded-lg px-4 py-3.5 text-TUCMC-gray-600 shadow-md"
               >
                 <UserGroupIcon className="h-6 w-6" />
                 <span>รายชื่อสมาชิก</span>
@@ -435,6 +436,7 @@ const Account = () => {
                   old_count_limit: clubData.old_count_limit,
                   count_limit: clubData.count_limit,
                   teacher_count: clubData.teacher_count,
+                  committee_count: committee?.length || 0
                 }}
                 updateField={updateCurrpanelClubField}
               />

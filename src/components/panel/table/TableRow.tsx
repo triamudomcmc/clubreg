@@ -198,12 +198,14 @@ export const TableContactRow: FC<{ initialData: IContactType; title: string; upd
 
 export const TableRow: FC<{
   editable?: boolean
+  description?: string
   title: string
   field: string
+  declineVal?: boolean
   initialData: TValueTypes
   updateField: TUpdateFieldFunction
   validateFunc?: (data) => { reason: string } | null
-}> = ({ editable, title, initialData, field, updateField, validateFunc }) => {
+}> = ({ editable, title, description, initialData, field, updateField, validateFunc, declineVal = false }) => {
   const [beforeData, setBeforeData] = useState(initialData)
   const [data, setData] = useState(initialData)
   const [mode, setMode] = useState<"view" | "edit">("view")
@@ -224,9 +226,24 @@ export const TableRow: FC<{
       addToast({
         theme: "modern",
         icon: "warning",
-        title: "สัดส่วนครูที่ปรึกษาไม่เหมาะสม",
+        title: "จำนวนนักเรียนในชมรมสูงสุดไม่สอดคล้องกับจำนวนที่ปรึกษา",
         text: "ครูที่ปรึกษา 1 คน ควรมีสัดส่วนต่อนักเรียนในชมรมไม่น้อยกว่า 26.5 คน",
       })
+    }
+
+    if (validateFuncOut?.reason && validateFuncOut?.reason === "limit_exceded") {
+      addToast({
+        theme: "modern",
+        icon: "cross",
+        title: "ไม่สามารถกำหนดจำนวนสมาชิกเก่าได้",
+        text: "จำนวนสมาชิกเก่าที่จำยืนยันสิทธิ์ได้จะต้องไม่เกิน 33% ของจำนวนนักเรียนในชมรมสูงสุด",
+      })
+    }
+
+    if (declineVal) {
+      if (validateFuncOut?.reason){
+        return
+      }
     }
 
     if (validateErrors) {
@@ -255,7 +272,10 @@ export const TableRow: FC<{
 
   return (
     <div className="grid grid-cols-1 border-b border-gray-200 py-4 md:grid-cols-[2fr,3fr] md:items-center md:py-6">
-      <p className="text-TUCMC-gray-600">{title}</p>
+      <div className="flex flex-col">
+        <p className="text-TUCMC-gray-600">{title}</p>
+        {description && <p className="text-sm text-TUCMC-gray-500 mb-1">{description}</p>}
+      </div>
       {mode === "view" && (
         <div className="flex items-start space-x-2">
           <div className="block">{data.value}</div>
@@ -345,7 +365,7 @@ export const TableWebDataRow: FC<{ status: "declined" | "accepted" | "pending"; 
   }, [status])
 
   return (
-    <div className="grid grid-cols-1 border-b border-gray-200 py-4 md:grid-cols-[2fr,3fr] md:items-center md:py-6">
+    <div className="grid grid-cols-1 border-b border-gray-200 py-4 space-y-2 md:space-y-0 md:grid-cols-[2fr,3fr] md:items-center md:py-6">
       <div className="flex flex-col">
         <p className="text-TUCMC-gray-600">การแสดงผลในเว็บไซต์</p>
         <p className="text-sm text-TUCMC-gray-500">แก้ไขข้อมูลชมรมที่จะแสดงในหน้าเว็บไซต์</p>
