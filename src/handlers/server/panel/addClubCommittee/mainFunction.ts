@@ -1,3 +1,4 @@
+import { update } from "@handlers/server/tracker"
 import initialisedDB from "@server/firebase-admin"
 import { isEmpty } from "@utilities/object"
 import bcrypt from "bcryptjs"
@@ -46,6 +47,13 @@ export const addClubCommitteeAction = async (req, res, ID) => {
       }
 
       await clubDoc.update({ [`${req.body.panelID}.committees`]: [...clubData.committees, req.body.studentID] })
+
+      update(
+        "system",
+        `addCommittes-${req.body.panelID}-${req.body.studentID}`,
+        req.body.fp,
+        ID.userID
+      )
     }
 
     return { status: true, report: "success" }
