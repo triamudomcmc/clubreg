@@ -69,6 +69,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
         case "fetchClubCommittee": {
           const output = await fetchClubCommittee(req, res)
+          console.log(output)
           res.json(output)
           break
         }

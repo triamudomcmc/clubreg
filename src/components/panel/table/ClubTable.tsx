@@ -119,7 +119,7 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
             </div></div>
       <TableRow
         field="old_count_limit"
-        title="จำนวนสมาชิกเก่าที่จะรับเข้าชมรม"
+        title="จำนวนสมาชิกเก่าที่สามารถยืนยันสิทธิ์ชมรมเดิมได้"
         description="จำนวนสมาชิกเก่าในชมรม ไม่รวมจำนวนกรรมการชมรม"
         editable
         initialData={{ type: "number", value: data.old_count_limit }}
@@ -545,11 +545,14 @@ export const ClubCommitteeTable: FC<{
         </div>
       </Modal>
 
-      <div className="flex items-center justify-between">
+      <div className="flex sm:flex-row flex-col items-center justify-between">
+        <div>
         <h1 className="text-xl">กรรมการชมรม</h1>
+        <p className="text-sm text-TUCMC-gray-600">กรรมการชมรม เช่น ประธานชมรม รองประธานชมรม เลขานุการ</p>
+        </div>
         <button
           onClick={enableModal}
-          className="rounded-full bg-TUCMC-pink-400 px-8 py-2 text-white transition-colors hover:bg-TUCMC-pink-500"
+          className="rounded-full bg-TUCMC-pink-400 px-8 py-2 text-white min-w-[200px] mt-3 sm:mt-0 transition-colors hover:bg-TUCMC-pink-500"
         >
           เพิ่มกรรมการชมรม
         </button>

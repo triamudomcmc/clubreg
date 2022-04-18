@@ -49,7 +49,19 @@ import { ClubCommitteeTable, ClubDataTable, ProportionTable } from "@components/
 
 const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>, setInitClub) => {
   const data = await fetchClub(clubID)
-  setClubData(data)
+  let nid = clubID
+  if (clubID.includes("_")) {
+      nid = `${clubID.split("_")[0]}_1`
+  }else{
+    if (clubID.includes("ก30920") && clubID !== "ก30920-8") {
+      nid = "ก30920-1"
+    }
+  }
+
+  //@ts-ignore
+  const st: {status: any} = await fetchClub(nid)
+
+  setClubData({...data, status: st.status})
   setInitClub(true)
 }
 

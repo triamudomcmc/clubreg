@@ -88,7 +88,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
             ) : (
               <img
                 src={image}
-                className={classnames("mb-[0px] h-full object-cover sm:h-[288px] md:rounded-l-2xl")}
+                className={classnames("mb-[0px] h-[54vw] object-cover sm:h-[288px] md:rounded-l-2xl")}
                 width="768"
                 height="432"
               />
@@ -101,7 +101,7 @@ const ClubHeaderCard = ({ clubID, data, status, contactRef, onLoad, publish, ima
             type="file"
             accept="image/png, image/jpeg, image/heif"
           />
-          <motion.div onClick={() => {uploader.current.click()}} initial={{opacity: 0}} whileHover={{opacity: 1}} className="absolute text-white flex justify-center sm:rounded-l-2xl bg-TUCMC-gray-800 bg-opacity-70 items-center w-full h-full sm:h-[288px] cursor-pointer top-0">
+          <motion.div onClick={() => {uploader.current.click()}} initial={{opacity: 0.4}} whileHover={{opacity: 1}} className="absolute text-white flex justify-center sm:rounded-l-2xl bg-TUCMC-gray-800 bg-opacity-70 items-center w-full h-full sm:h-[288px] cursor-pointer top-0">
             <CameraIcon className="w-12 h-12"/>
           </motion.div>
         </div>
@@ -477,7 +477,7 @@ const Review = ({revContent, index, onLoad,clubID, setReviews, setImageReview, s
             type="file"
             accept="image/png, image/jpeg, image/heif"
           />
-          <motion.div onClick={() => {uploader.current.click()}} initial={{opacity: 0}} whileHover={{opacity: 1}} className="absolute text-white flex justify-center rounded-lg bg-TUCMC-gray-800 bg-opacity-70 items-center w-full h-full cursor-pointer top-0">
+          <motion.div onClick={() => {uploader.current.click()}} initial={{opacity: 0.4}} whileHover={{opacity: 1}} className="absolute text-white flex justify-center rounded-lg bg-TUCMC-gray-800 bg-opacity-70 items-center w-full h-full cursor-pointer top-0">
             <CameraIcon className="w-12 h-12"/>
           </motion.div>
       </div>
@@ -552,7 +552,7 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
   const [reviews, setReviews] = useState(data.reviews)
   const [mainArt, setMainArt] = useState(data.description)
 
-  const [contactData, setContactData] = useState({contact: data.contact, contact2: isEmpty(data.contact2) ? {type: "ไม่มี", context: "..."} : data.contact2, contact3: isEmpty(data.contact3) ? {type: "ไม่มี", context: "..."} : data.contact3})
+  const [contactData, setContactData] = useState({contact: data.contact, contact2: isEmpty(data.contact2) ? {type: "ไม่มี", context: "แก้ไขข้อมูล"} : data.contact2, contact3: isEmpty(data.contact3) ? {type: "ไม่มี", context: "แก้ไขข้อมูล"} : data.contact3})
 
   const [imageHead, setImageHead] = useState<string | null>(null)
   const [imageS, setImageS] = useState({})
@@ -577,12 +577,17 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
       images: { mainImage: imageHead, ...imageS },
     })
 
+    const awaitTimeout = delay =>
+  new Promise(resolve => setTimeout(resolve, delay));
+
+  await awaitTimeout(8000)
+
     if (res.status) {
       addToast({
         theme: "modern",
         icon: "tick",
         title: "ส่งการแก้ไขข้อมูลสำเร็จ",
-        text: "",
+        text: "ระบบอาจะใช้เวลาถึง 2 นาทีในการประมวลผลข้อมูล หาก refresh หน้าจอแล้วการเปลี่ยนแปลงหายไปให้ลอง refresh ใหม่",
       })
     } else {
       addToast({
