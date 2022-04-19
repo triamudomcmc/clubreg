@@ -74,7 +74,7 @@ export const ClubDataTable: FC<{ data: IClubData; getCurrPanel: () => string; up
 interface IProportion {
   count_limit: number
   old_count_limit: number
-  teacher_count: number,
+  teacher_count: number
   committee_count: number
 }
 
@@ -95,7 +95,9 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
         editable
         initialData={{ type: "number", value: data.teacher_count }}
         updateField={updateField}
-        validateFunc={() => {return null}}
+        validateFunc={() => {
+          return null
+        }}
       />
 
       <TableRow
@@ -106,7 +108,7 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
         initialData={{ type: "number", value: data.count_limit }}
         updateField={updateField}
         validateFunc={(c) => {
-          if (data.teacher_count === 0 || (c.value / data.teacher_count) < 26.5) {
+          if (data.teacher_count === 0 || c.value / data.teacher_count < 26.5) {
             return { reason: "teacher_to_student" }
           } else return null
         }}
@@ -115,8 +117,8 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
         <p className="text-TUCMC-gray-600">จำนวนสมาชิกใหม่ที่จะรับเข้าชมรม</p>
         <div className="flex items-start space-x-2">
           <div className="block">{data.count_limit - data.old_count_limit - data.committee_count}</div>
-
-            </div></div>
+        </div>
+      </div>
       <TableRow
         field="old_count_limit"
         title="จำนวนสมาชิกเก่าที่สามารถยืนยันสิทธิ์ชมรมเดิมได้"
@@ -126,9 +128,7 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
         updateField={updateField}
         declineVal={true}
         validateFunc={(c) => {
-
-          if (c.value > Math.ceil((33 * data.count_limit)/ 100)) {
-
+          if (c.value > Math.ceil((33 * data.count_limit) / 100)) {
             return { reason: "limit_exceded" }
           } else return null
         }}
@@ -545,14 +545,14 @@ export const ClubCommitteeTable: FC<{
         </div>
       </Modal>
 
-      <div className="flex sm:flex-row flex-col items-center justify-between">
+      <div className="flex flex-col items-center justify-between sm:flex-row">
         <div>
-        <h1 className="text-xl">กรรมการชมรม</h1>
-        <p className="text-sm text-TUCMC-gray-600">กรรมการชมรม เช่น ประธานชมรม รองประธานชมรม เลขานุการ</p>
+          <h1 className="text-xl">กรรมการชมรม</h1>
+          <p className="text-sm text-TUCMC-gray-600">กรรมการชมรม เช่น ประธานชมรม รองประธานชมรม เลขานุการ</p>
         </div>
         <button
           onClick={enableModal}
-          className="rounded-full bg-TUCMC-pink-400 px-8 py-2 text-white min-w-[200px] mt-3 sm:mt-0 transition-colors hover:bg-TUCMC-pink-500"
+          className="mt-3 min-w-[200px] rounded-full bg-TUCMC-pink-400 px-8 py-2 text-white transition-colors hover:bg-TUCMC-pink-500 sm:mt-0"
         >
           เพิ่มกรรมการชมรม
         </button>

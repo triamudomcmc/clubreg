@@ -106,12 +106,12 @@ const Auth = ({ query }) => {
     <PageContainer footer={false}>
       <Loader display={loader} />
       <div style={{ maxWidth: "26rem" }} className="mx-auto my-6 mb-16 min-h-screen space-y-8 md:my-10 md:mb-10">
-        <DefaultCard>
+        {/* <DefaultCard>
           <p className="font-normal">
             นักเรียน ม.5 และ ม.6 จะไม่สามารถล็อกอินเข้าสู่ระบบด้วยบัญชีเดิมในปีการศึกษาที่ผ่านมาได้
             ต้องยืนยันตัวตนและสร้างบัญชีใหม่ทั้งหมด เนื่องจากมีการออกแบบระบบใหม่
           </p>
-        </DefaultCard>
+        </DefaultCard> */}
         {action == "login" && (
           <LoginSection
             query={query}

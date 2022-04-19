@@ -212,36 +212,38 @@ export const TableRow: FC<{
   const onComfirm = async () => {
     const validateErrors = validateData(data)
 
-    const validateFuncOut = validateFunc(data)
+    if (validateFunc) {
+      const validateFuncOut = validateFunc(data)
 
-    if (validateFuncOut?.reason && validateFuncOut?.reason === "teacher_to_student") {
-      addToast({
-        theme: "modern",
-        icon: "warning",
-        title: "จำนวนนักเรียนในชมรมสูงสุดไม่สอดคล้องกับจำนวนที่ปรึกษา",
-        text: "ครูที่ปรึกษา 1 คน ควรมีสัดส่วนต่อนักเรียนในชมรมไม่น้อยกว่า 26.5 คน",
-      })
-    }
+      if (validateFuncOut?.reason && validateFuncOut?.reason === "teacher_to_student") {
+        addToast({
+          theme: "modern",
+          icon: "warning",
+          title: "จำนวนนักเรียนในชมรมสูงสุดไม่สอดคล้องกับจำนวนที่ปรึกษา",
+          text: "ครูที่ปรึกษา 1 คน ควรมีสัดส่วนต่อนักเรียนในชมรมไม่น้อยกว่า 26.5 คน",
+        })
+      }
 
-    if (validateFuncOut?.reason && validateFuncOut?.reason === "limit_exceded") {
-      addToast({
-        theme: "modern",
-        icon: "cross",
-        title: "ไม่สามารถกำหนดจำนวนสมาชิกเก่าได้",
-        text: "จำนวนสมาชิกเก่าที่จำยืนยันสิทธิ์ได้จะต้องไม่เกิน 33% ของจำนวนนักเรียนในชมรมสูงสุด",
-      })
-    }
+      if (validateFuncOut?.reason && validateFuncOut?.reason === "limit_exceded") {
+        addToast({
+          theme: "modern",
+          icon: "cross",
+          title: "ไม่สามารถกำหนดจำนวนสมาชิกเก่าได้",
+          text: "จำนวนสมาชิกเก่าที่จำยืนยันสิทธิ์ได้จะต้องไม่เกิน 33% ของจำนวนนักเรียนในชมรมสูงสุด",
+        })
+      }
 
-    if (declineVal) {
-      if (validateFuncOut?.reason) {
+      if (declineVal) {
+        if (validateFuncOut?.reason) {
+          return
+        }
+      }
+
+      if (validateErrors) {
+        onDecline()
+        // toast errors
         return
       }
-    }
-
-    if (validateErrors) {
-      onDecline()
-      // toast errors
-      return
     }
 
     const out = await updateField(field, data)
