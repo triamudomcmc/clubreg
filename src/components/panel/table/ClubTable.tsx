@@ -16,6 +16,7 @@ export type TUpdateFieldFunction = (field: string, data: any) => Promise<{ statu
 
 interface IClubData {
   status: "pending" | "accepted" | "declined"
+  reason?: string
   audition: string
   message: string
   contact: IContactType | {}
@@ -33,7 +34,7 @@ export const ClubDataTable: FC<{ data: IClubData; getCurrPanel: () => string; up
     <div>
       <h1 className="border-b border-gray-200 pb-4 text-xl">ข้อมูลชมรม</h1>
 
-      <TableWebDataRow getCurrPanel={getCurrPanel} status={data.status} />
+      <TableWebDataRow getCurrPanel={getCurrPanel} status={data.status} reason={data.reason} />
 
       <TableRow
         field="audition"

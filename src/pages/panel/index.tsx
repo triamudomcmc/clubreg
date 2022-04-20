@@ -119,6 +119,7 @@ const Account = () => {
     contact3: { type: "", context: "" },
     teacher_count: 0,
     status: "accepted",
+    reason: null,
   })
 
   const getCurrPanel = () => {
@@ -443,6 +444,7 @@ const Account = () => {
                   contact3: clubData.contact3,
                   place: clubData.place,
                   status: clubData.status as "pending",
+                  reason: clubData?.reason,
                 }}
                 updateField={updateCurrpanelClubField}
                 getCurrPanel={getCurrPanel}
