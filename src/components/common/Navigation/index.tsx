@@ -22,6 +22,7 @@ import {
   TerminalIcon,
   HeartIcon,
   LibraryIcon,
+  CheckCircleIcon,
 } from "@heroicons/react/outline"
 import { ChevronDownIcon, StarIcon } from "@heroicons/react/solid"
 import Modal from "@components/common/Modals"
@@ -171,6 +172,11 @@ const Navigation = () => {
                       <Link passHref href="/account">
                         <a className="block text-black hover:text-blue-600 hover:underline">จัดการบัญชี</a>
                       </Link>
+                      {userData && userData.tucmc && (
+                        <Link passHref href="/TUCMC/view-web">
+                          <a className="block text-black hover:text-blue-600 hover:underline">ตรวจสอบข้อมูลชมรม</a>
+                        </Link>
+                      )}
                       {!logged ? (
                         <Link passHref href="/auth">
                           <a className="block text-black hover:text-blue-600 hover:underline">เข้าสู่ระบบ</a>
@@ -286,8 +292,21 @@ const Navigation = () => {
                 getClass("/admin", "bg")
               )}
             >
-              <LibraryIcon className={classnames("h-7 w-7", getClass("/panel", "icon"))} />{" "}
+              <LibraryIcon className={classnames("h-7 w-7", getClass("/admin", "icon"))} />{" "}
               <span className={getClass("/admin", "font")}>Dashboard</span>
+            </a>
+          </Link>
+        )}
+        {userData && userData.tucmc && (
+          <Link passHref href="/TUCMC/view-web">
+            <a
+              className={classnames(
+                "flex flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8",
+                getClass("/TUCMC/view-web", "bg")
+              )}
+            >
+              <CheckCircleIcon className={classnames("h-7 w-7", getClass("/TUCMC/view-web", "icon"))} />{" "}
+              <span className={getClass("/TUCMC/view-web", "font")}>ตรวจสอบข้อมูลชมรม</span>
             </a>
           </Link>
         )}

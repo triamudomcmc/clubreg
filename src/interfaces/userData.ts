@@ -12,4 +12,5 @@ export default interface UserData {
   admin?: boolean
   safeMode?: boolean
   conTasks?: {}
+  tucmc?: boolean
 }

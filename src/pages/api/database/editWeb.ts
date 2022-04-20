@@ -3,6 +3,7 @@ import initialisedDB from "@server/firebase-admin"
 import { fetchChecks } from "@server/fetchers/checks"
 import { submitChecks } from "@server/attendance/submitChecks"
 import { submitChanges } from "@handlers/server/panel/submitChanges"
+import { changeClubDisplayStatus } from "@handlers/server/club/changeClubDisplayStatus"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req
@@ -11,21 +12,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     case "POST":
       res.statusCode = 200
       res.setHeader("Content-Type", `application/json`)
-      // console.log(req.body.action)
       switch (req.body.action) {
-        case "submitChanges":
-          {
-            const data = await submitChanges(req, res)
-            // console.log(data)
-            res.json(data)
-          }
+        case "submitChanges": {
+          const data = await submitChanges(req, res)
+          res.json(data)
           break
-        case "submitChecks":
-          {
-            const data = await submitChecks(req, res)
-            res.json(data)
-          }
+        }
+        case "submitChecks": {
+          const data = await submitChecks(req, res)
+          res.json(data)
           break
+        }
+        case "changeClubDisplayStatus": {
+          const data = await changeClubDisplayStatus(req, res)
+          res.json(data)
+          break
+        }
       }
       break
     default:
@@ -37,7 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 export const config = {
   api: {
     bodyParser: {
-      sizeLimit: '3mb',
+      sizeLimit: "3mb",
     },
   },
 }

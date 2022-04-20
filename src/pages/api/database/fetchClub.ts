@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import initialisedDB from "@server/firebase-admin"
 import { fetchClubDisplay } from "@handlers/server/club/fetchClubDisplay"
+import { fetchAllClubData } from "@handlers/server/club/fetchAllClubData"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req
@@ -30,6 +31,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
         case "fetchClubDisplay": {
           const output = await fetchClubDisplay(req, res)
+          res.json(output)
+          break
+        }
+        case "fetchAllClubData": {
+          const output = await fetchAllClubData(req, res)
           res.json(output)
           break
         }
