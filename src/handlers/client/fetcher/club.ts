@@ -1,4 +1,6 @@
 import { request } from "@client/utilities/request"
+import { ClubData } from "@interfaces/clubData"
+import { ClubDisplay } from "@interfaces/clubDisplay"
 
 export const fetchClub = async (): Promise<{}> => {
   return await request("database/fetchClub", "fetchClub", {})
@@ -8,6 +10,23 @@ export const fetchAClub = async (clubID: string): Promise<{}> => {
   return await request("database/fetchClub", "fetchAClub", { clubID: clubID })
 }
 
-export const fetchClubDisplay = async (clubID: string): Promise<{}> => {
+export const fetchClubDisplay = async (
+  clubID: string
+): Promise<{ status: boolean; report?: string; data?: ClubDisplay }> => {
   return await request("database/fetchClub", "fetchClubDisplay", { clubID: clubID })
+}
+
+export const fetchAllClubData = async (
+  clubID: string
+): Promise<{ status: boolean; report?: string; data?: (ClubData & { clubID: string })[] }> => {
+  return await request("database/fetchClub", "fetchAllClubData", { clubID: clubID })
+}
+
+export const changeClubDisplayStatus = async (
+  clubID: string,
+  password: string,
+  status: "accepted" | "declined",
+  reason?: string
+): Promise<{ status: boolean; report?: string }> => {
+  return await request("database/editWeb", "changeClubDisplayStatus", { clubID, status, reason, password })
 }

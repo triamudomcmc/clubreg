@@ -46,22 +46,23 @@ import { request } from "@client/utilities/request"
 import { Ellipsis } from "@vectors/Loaders/Ellipsis"
 import { PencilAltIcon } from "@heroicons/react/outline"
 import { ClubCommitteeTable, ClubDataTable, ProportionTable } from "@components/panel/table/ClubTable"
+import classNames from "classnames"
 
 const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>, setInitClub) => {
   const data = await fetchClub(clubID)
   let nid = clubID
   if (clubID.includes("_")) {
-      nid = `${clubID.split("_")[0]}_1`
-  }else{
+    nid = `${clubID.split("_")[0]}_1`
+  } else {
     if (clubID.includes("ก30920") && clubID !== "ก30920-8") {
       nid = "ก30920-1"
     }
   }
 
   //@ts-ignore
-  const st: {status: any} = await fetchClub(nid)
+  const st: { status: any } = await fetchClub(nid)
 
-  setClubData({...data, status: st.status})
+  setClubData({ ...data, status: st.status })
   setInitClub(true)
 }
 
@@ -413,7 +414,7 @@ const Account = () => {
                 <Button
                   type="div"
                   disabled={true}
-                  className="flex items-center justify-center space-x-2 cursor-not-allowed rounded-lg bg-TUCMC-pink-400 px-4 py-3.5 text-white shadow-sm"
+                  className="flex cursor-not-allowed items-center justify-center space-x-2 rounded-lg bg-TUCMC-pink-400 px-4 py-3.5 text-white shadow-sm"
                 >
                   <ClipboardCheckIcon className="h-5 w-5" />
                   <span>รายงานการเข้าเรียน</span>
@@ -423,7 +424,10 @@ const Account = () => {
                 // href="/panel/report"
                 type="div"
                 disabled={true}
-                className="bg-TUCMC-white flex w-1/2 cursor-pointer items-center justify-center space-x-2 cursor-not-allowed rounded-lg px-4 py-3.5 text-TUCMC-gray-600 shadow-md"
+                className={classNames(
+                  /*"cursor-pointer", */ "cursor-not-allowed",
+                  "bg-TUCMC-white space-x-2rounded-lg flex w-1/2 cursor-pointer items-center justify-center px-4 py-3.5 text-TUCMC-gray-600 shadow-md"
+                )}
               >
                 <UserGroupIcon className="h-6 w-6" />
                 <span>รายชื่อสมาชิก</span>
@@ -448,7 +452,7 @@ const Account = () => {
                   old_count_limit: clubData.old_count_limit,
                   count_limit: clubData.count_limit,
                   teacher_count: clubData.teacher_count,
-                  committee_count: committee?.length || 0
+                  committee_count: committee?.length || 0,
                 }}
                 updateField={updateCurrpanelClubField}
               />
@@ -458,7 +462,6 @@ const Account = () => {
                 addCommittee={addStudentToClubCommittee}
                 removeCommittee={removeStudentFromClubCommittee}
               />
-
               {/* <div>
                 <h1 className="border-b border-gray-200 pb-4 text-xl">ข้อมูลชมรม</h1>
                 <div className="space-y-1 border-b border-gray-200 py-4 md:flex md:items-center md:space-y-0 md:space-x-52 md:py-6">

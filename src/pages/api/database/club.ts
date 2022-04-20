@@ -11,21 +11,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.statusCode = 200
       res.setHeader("Content-Type", `application/json`)
       switch (req.body.action) {
-        case "regClub":
-          {
-            const output = await regClub(req, res)
-            res.json(output)
-          }
+        case "regClub": {
+          const output = await regClub(req, res)
+          res.json(output)
           break
-        case "confirmClub":
-          {
-            const output = await confirmClub(req, res)
-            res.json(output)
-          }
+        }
+        case "confirmClub": {
+          const output = await confirmClub(req, res)
+          res.json(output)
           break
+        }
         case "rejectClub": {
           const output = await rejectClub(req, res)
           res.json(output)
+          break
         }
       }
       break

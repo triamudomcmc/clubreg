@@ -18,6 +18,16 @@ export const executeWithPermission = async (req, res, callback: (req, res, ID) =
   return await callback(req, res, ID)
 }
 
+export const checkTUCMCPermission = async (req, res) => {
+  const { logged, ID } = await fetchSession(req, res)
+  if (!logged) return { status: false, report: "sessionError" }
+
+  const userDoc = await initialisedDB.collection("users").doc(ID.userID).get()
+  if (!userDoc.get("tucmc")) return { status: false, report: "invalidPermission" }
+
+  return { status: true }
+}
+
 export const getUpdatedUser = async (collection, refID) => {
   const data = await initialisedDB.collection(collection).doc(refID).get()
   if (!data.exists) return { status: false, report: "invalid_refID" }
