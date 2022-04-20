@@ -12,21 +12,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.statusCode = 200
       res.setHeader("Content-Type", `application/json`)
       switch (req.body.action) {
-        case "fetchFiles":
-          {
-            const data = await fetchFiles(req, res)
-            res.json(data)
-          }
+        case "fetchFiles": {
+          const data = await fetchFiles(req, res)
+          res.json(data)
           break
-        case "deleteFile":
-          {
-            const data = await deleteFile(req, res)
-            res.json(data)
-          }
+        }
+        case "deleteFile": {
+          const data = await deleteFile(req, res)
+          res.json(data)
           break
+        }
         case "getFileTempURL": {
           const data = await getFile(req, res)
           res.json(data)
+          break
         }
       }
       break

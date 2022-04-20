@@ -27,6 +27,16 @@ const changeClubDisplayStatusAction = async (req, res, ID): Promise<{ status: bo
       const out2 = await clubDoc.update({ [`${req.body.clubID}.reason`]: req.body.reason })
     }
 
+    await initialisedDB.collection("clubDisplayRequests").add({
+      action: "evaluate",
+      fp: req.body.fp,
+      status: req.body.status,
+      userID: ID.userID,
+      studentID: ID.studentID,
+      clubID: req.body.clubID,
+      ...(req.body.reason && { reason: req.body.reason }),
+    })
+
     update(
       "system",
       `changeClubDisplay-${req.body.clubID}-${req.body.status}-${req.body?.reason}`,

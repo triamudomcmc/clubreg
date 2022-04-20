@@ -42,7 +42,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
         case "fetchAClub": {
           const { logged } = await fetchSession(req, res)
-
           if (!logged) {
             res.json({ status: false, report: "sessionError" })
           } else {
