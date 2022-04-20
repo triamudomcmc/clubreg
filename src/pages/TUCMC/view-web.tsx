@@ -110,7 +110,7 @@ const WebDisplayPage: NextPage = () => {
   }, [clubID])
 
   useEffect(() => {
-    setClubData(allClubData.find((c) => c.clubID === clubID))
+    if (allClubData) setClubData(allClubData.find((c) => c.clubID === clubID))
   }, [allClubData])
 
   const { onReady } = useAuth()
