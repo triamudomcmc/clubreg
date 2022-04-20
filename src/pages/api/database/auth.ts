@@ -17,21 +17,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           res.json(output)
           break
         }
-        case "register":
-          {
-            const output = await register(req)
-            res.json(output)
-          }
+        case "register": {
+          const output = await register(req)
+          res.json(output)
           break
-        case "forgot":
-          {
-            const output = await forgot(req, res)
-            res.json(output)
-          }
+        }
+        case "forgot": {
+          const output = await forgot(req, res)
+          res.json(output)
           break
+        }
         case "reset": {
           const output = await resetPassword(req, res)
           res.json(output)
+          break
         }
       }
       break

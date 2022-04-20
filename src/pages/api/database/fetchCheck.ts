@@ -11,18 +11,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.statusCode = 200
       res.setHeader("Content-Type", `application/json`)
       switch (req.body.action) {
-        case "fetchChecks":
-          {
-            const data = await fetchChecks(req, res)
-            res.json(data)
-          }
+        case "fetchChecks": {
+          const data = await fetchChecks(req, res)
+          res.json(data)
           break
-        case "submitChecks":
-          {
-            const data = await submitChecks(req, res)
-            res.json(data)
-          }
+        }
+        case "submitChecks": {
+          const data = await submitChecks(req, res)
+          res.json(data)
           break
+        }
       }
       break
     default:

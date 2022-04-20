@@ -11,12 +11,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.statusCode = 200
       res.setHeader("Content-Type", `application/json`)
       switch (req.body.action) {
-        case "fetchClub":
-          {
-            const data = await initialisedDB.collection("clubs").doc("mainData").get()
-            res.json(data.data())
-          }
+        case "fetchClub": {
+          const data = await initialisedDB.collection("clubs").doc("mainData").get()
+          res.json(data.data())
           break
+        }
         case "fetchAClub": {
           const clubDoc = await initialisedDB.collection("clubs").doc("mainData").get()
           const data = clubDoc.get(req.body.clubID)
@@ -40,6 +39,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           break
         }
       }
+
+      break
+
     default:
       res.setHeader("Allow", ["GET", "PUT"])
       res.status(405).end(`Method ${method} Not Allowed`)
