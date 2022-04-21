@@ -27,7 +27,7 @@ const changeClubDisplayStatusAction = async (req, res, ID): Promise<{ status: bo
       const out2 = await clubDoc.update({ [`${req.body.clubID}.reason`]: req.body.reason })
     }
 
-    await initialisedDB.collection("clubDisplayRequests").add({
+    await initialisedDB.collection("clubDisplayVerdict").add({
       action: "evaluate",
       fp: req.body.fp,
       status: req.body.status,
