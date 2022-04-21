@@ -93,7 +93,6 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
       <TableRow
         field="teacher_count"
         title="จำนวนครูที่ปรึกษาชมรม"
-        editable
         initialData={{ type: "number", value: data.teacher_count }}
         updateField={updateField}
         validateFunc={() => {
@@ -105,7 +104,6 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
         field="count_limit"
         title="จำนวนนักเรียนในชมรมสูงสุด"
         description="จำนวนนักเรียนทั้งหมดในชมรม รวมถึงนักเรียนเก่าและกรรมการชมรม"
-        editable
         initialData={{ type: "number", value: data.count_limit }}
         updateField={updateField}
         validateFunc={(c) => {
@@ -124,7 +122,6 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
         field="old_count_limit"
         title="จำนวนสมาชิกเก่าที่สามารถยืนยันสิทธิ์ชมรมเดิมได้"
         description="จำนวนสมาชิกเก่าในชมรม ไม่รวมจำนวนกรรมการชมรม"
-        editable
         initialData={{ type: "number", value: data.old_count_limit }}
         updateField={updateField}
         declineVal={true}
