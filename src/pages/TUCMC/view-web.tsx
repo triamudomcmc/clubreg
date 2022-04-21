@@ -49,7 +49,8 @@ const fetchClubDataAction = async (clubID: string, setClubData: Dispatch<SetStat
 
 const fetchAllClubDataAction = async (
   clubID: string,
-  setClubData: Dispatch<SetStateAction<(ClubData & { clubID: string })[]>>
+  setClubData: Dispatch<SetStateAction<(ClubData & { clubID: string })[]>>,
+  setClubID: Dispatch<SetStateAction<string>>
 ) => {
   let nid = clubID
   if (clubID.includes("_")) {
@@ -62,6 +63,9 @@ const fetchAllClubDataAction = async (
 
   const { data } = await fetchAllClubData(nid)
   setClubData(data)
+
+  const availableData = data.filter((d) => d.status === "pending")
+  if (clubID === "") setClubID(availableData[~~(Math.random() * availableData.length)].clubID)
 }
 
 const fetchClubDisplayAction = async (
@@ -79,7 +83,7 @@ const fetchClubDisplayAction = async (
 }
 
 const WebDisplayPage: NextPage = () => {
-  const [clubID, setClubID] = useState("ก30950")
+  const [clubID, setClubID] = useState("")
   const [clubDisplay, setClubDisplay] = useState<ClubDisplay>({
     audition: false,
     contact: {},
@@ -101,7 +105,7 @@ const WebDisplayPage: NextPage = () => {
   const refetchData = () => {
     fetchClubDisplayAction(clubID, setClubDisplay, setLoading)
     // fetchClubDataAction(clubID, setClubData)
-    fetchAllClubDataAction(clubID, setAllClubData)
+    fetchAllClubDataAction(clubID, setAllClubData, setClubID)
   }
 
   useEffect(() => {
@@ -124,7 +128,14 @@ const WebDisplayPage: NextPage = () => {
 
   return (
     <PageContainer>
-      <ModalSection refetch={refetchData} clubID={clubID} action={action} />
+      <ModalSection
+        refetch={() => {
+          setClubID("")
+          refetchData()
+        }}
+        clubID={clubID}
+        action={action}
+      />
       <div className="relative pt-10 pb-14">
         <div className="pb-4">
           <h1 className="text-center text-2xl font-medium">ตรวจสอบข้อมูลชมรมบนเว็บไซต์</h1>
