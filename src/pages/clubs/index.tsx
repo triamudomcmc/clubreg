@@ -84,7 +84,8 @@ const Clubs = ({ clubs }) => {
         } else {
           setSortedData(rawSorted)
         }
-      }, 900)
+        // }, 900)
+      }, 0)
     )
   }, [searchContext, rawSorted])
 
