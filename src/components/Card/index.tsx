@@ -4,7 +4,7 @@ import classnames from "classnames"
 import { CalendarIcon, LocationMarkerIcon, SpeakerphoneIcon } from "@heroicons/react/solid"
 import { LogoDarkIcon } from "@vectors/Logo"
 import { clubMap } from "../../config/clubMap"
-import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 import QRCode from "qrcode"
 import { fetchAClub } from "@client/fetcher/club"
 import { isEmpty } from "@utilities/object"
@@ -16,11 +16,15 @@ const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateActio
 }
 
 export const CustomCard = ({ width, clubData, panelID }) => {
-  const canvas = document.getElementById("qrCode")
-  QRCode.toCanvas(canvas, `https://register.clubs.triamudom.ac.th/`, {
-    errorCorrectionLevel: "L",
-    margin: 1.2,
-  })
+  const qrCodeRef = useRef(null)
+
+  useEffect(() => {
+    // const canvas = document.getElementById("qrCode")
+    QRCode.toCanvas(qrCodeRef.current, `https://register.clubs.triamudom.ac.th/`, {
+      errorCorrectionLevel: "L",
+      margin: 1.2,
+    })
+  }, [])
 
   return (
     <div
@@ -33,7 +37,7 @@ export const CustomCard = ({ width, clubData, panelID }) => {
       </div>
       <div className="relative">
         <CardSplash className={css.vector} />
-        <canvas id="qrCode" className={css.qrCode}></canvas>
+        <canvas ref={qrCodeRef} id="qrCode" className={css.qrCode}></canvas>
       </div>
       <div className="flex w-full flex-col items-center bg-TUCMC-gray-100">
         <h1 className={classnames(css.text138, "text-TUCMC-700 w-full text-center tracking-tight", css.px17, css.mt18)}>

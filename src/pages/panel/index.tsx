@@ -436,6 +436,7 @@ const Account = () => {
             </div>
             <div className="mt-20 flex flex-col space-y-14 px-2 md:px-4">
               <ClubDataTable
+                width={width}
                 data={{
                   audition: `${clubData.audition ? "" : "ไม่"} Audition`,
                   message: clubData.message,
