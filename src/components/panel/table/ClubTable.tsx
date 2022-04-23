@@ -92,7 +92,7 @@ export const ClubDataTable: FC<{
 
       <div className="flex flex-col items-center space-y-4 pt-6">
         <p className="text-TUCMC-gray-700">Preview การ์ดลงทะเบียนชมรม</p>
-        {/* <CustomCard width={cardWidth} panelID={currPanel} clubData={clubData} /> */}
+        <CustomCard width={cardWidth} panelID={currPanel} clubData={clubData} />
       </div>
     </div>
   )
