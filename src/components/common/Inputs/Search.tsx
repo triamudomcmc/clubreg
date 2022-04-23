@@ -1,7 +1,29 @@
 import { ChevronDownIcon, SearchIcon, SortAscendingIcon } from "@heroicons/react/solid"
-import { useRef } from "react"
+import { Dispatch, FC, SetStateAction, useRef } from "react"
 import Modal from "@components/common/Modals"
 import classnames from "classnames"
+
+export const GroupSearch: FC<{ setSearchContext: Dispatch<SetStateAction<string>> }> = ({ setSearchContext }) => {
+  return (
+    <div className="mt-1 flex rounded-md shadow-sm">
+      <div className="relative flex flex-grow items-stretch focus-within:z-10">
+        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+          <SearchIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+        </div>
+        <input
+          type="text"
+          name="search"
+          id="questionSearch"
+          onChange={(event) => {
+            setSearchContext(event.target.value)
+          }}
+          className="block w-full rounded-none rounded-l-md border-gray-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          placeholder="ค้นหาคำถาม"
+        />
+      </div>
+    </div>
+  )
+}
 
 export const FilterSearch = ({ sortMode, setSortMode, setSearchContext, normal = true }) => {
   const buttonRef = useRef(null)

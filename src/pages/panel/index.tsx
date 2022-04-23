@@ -448,6 +448,7 @@ const Account = () => {
                 }}
                 updateField={updateCurrpanelClubField}
                 getCurrPanel={getCurrPanel}
+                clubData={clubData}
               />
               <ProportionTable
                 data={{
