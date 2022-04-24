@@ -94,7 +94,7 @@ const ClubHeader: FC<{ clubID: string; clubDisplay: ClubDisplay; loaded: () => v
                     </div>
                   </Modal>
                 </div>
-                <div className="flex flex-col md:hidden lg:block">
+                <div className="flex flex-col md:hidden lg:flex">
                   {!isEmpty(clubDisplay.contact) && (
                     <span>
                       {/* @ts-ignore */}
