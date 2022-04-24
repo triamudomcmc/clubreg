@@ -221,7 +221,7 @@ const Index = () => {
                     </Button>
                     <Button
                       type="div"
-                      href="/instruction"
+                      href="/instructions"
                       className="flex flex-row items-center justify-between rounded-xl bg-white px-7 py-5 shadow-lg md:rounded-lg"
                     >
                       <div className="w-1/2 flex-shrink-0">
