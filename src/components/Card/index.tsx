@@ -33,7 +33,7 @@ export const CustomCard = ({ width, clubData, panelID }) => {
     >
       <div className={classnames("text-center text-TUCMC-gray-700", css.mt18)}>
         <h1 className={css.text14}>นายเรียนเด่น เล่นดี</h1>
-        <h1 className={css.text12}>ห้อง 112</h1>
+        <h1 className={css.text12}>ห้อง 111</h1>
       </div>
       <div className="relative">
         <CardSplash className={css.vector} />
