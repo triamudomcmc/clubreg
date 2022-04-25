@@ -8,7 +8,6 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 import QRCode from "qrcode"
 import { fetchAClub } from "@client/fetcher/club"
 import { isEmpty } from "@utilities/object"
-import { ClubNames } from "../../../_map/clubs"
 
 const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>) => {
   const data = await fetchAClub(clubID)
@@ -41,7 +40,7 @@ export const CustomCard = ({ width, clubData, panelID }) => {
       </div>
       <div className="flex w-full flex-col items-center bg-TUCMC-gray-100">
         <h1 className={classnames(css.text138, "text-TUCMC-700 w-full text-center tracking-tight", css.px17, css.mt18)}>
-          ชมรม{ClubNames[panelID]}
+          ชมรม{clubMap[panelID]}
         </h1>
         <span className={classnames(css.greenbutt, "rounded-full bg-TUCMC-green-400 tracking-tight text-white")}>
           ลงทะเบียนสำเร็จ
