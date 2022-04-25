@@ -62,7 +62,10 @@ export const Accordion: FC<{ defaultExpanded?: boolean; title: string; id?: stri
 }
 
 const Answer: FC = ({ children }) => (
-  <div className="px-8 py-4 text-TUCMC-gray-600" dangerouslySetInnerHTML={{ __html: String(children) }}></div>
+  <div
+    className="accordion-text px-8 py-4 text-TUCMC-gray-600"
+    dangerouslySetInnerHTML={{ __html: String(children) }}
+  ></div>
 )
 Answer.displayName = "Answer"
 Accordion.Answer = Answer

@@ -94,4 +94,12 @@
       height: 34rem;
     }
   }
+
+  .accordion-text a {
+    text-decoration: underline;
+  }
+
+  .accordion-text a:hover {
+    text-decoration: none;
+  }
 }
