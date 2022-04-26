@@ -1,6 +1,10 @@
 import { Storage } from "@google-cloud/storage"
 import { getUNIXTimeStamp } from "@config/time"
-import { executeWithPermission, executeWithPermissionEx, executeWithPermissionExclusive } from "@handlers/server/utilities/permission"
+import {
+  executeWithPermission,
+  executeWithPermissionEx,
+  executeWithPermissionExclusive,
+} from "@handlers/server/utilities/permission"
 import initialisedDB from "@server/firebase-admin"
 
 const upload = async (image: string, storage, tempFileName) => {
@@ -75,8 +79,7 @@ const performUpload = async (req, ID) => {
         clubData = clubDataDoc?.get(`ก30920-1`)
         pid = "ก30920-1"
       }
-    }else{
-
+    } else {
       pid = `${panelid}_1`
     }
   }
