@@ -16,7 +16,7 @@ export const clubMap = {
   "ก30905-2_2": "ภาษาอังกฤษ (English Drama) ฝ่าย Stage Crew",
   "ก30905-2_6": "ภาษาอังกฤษ (English Drama) ฝ่าย PR Staff",
   "ก30905-2_7": "ภาษาอังกฤษ (English Drama) ฝ่าย Editor",
-  "ก30905-2_9": "ภาษาอังกฤษ (English Drama) ฝ่าย Fashion and Makeup",
+  "ก30905-2_9": "ภาษาอังกฤษ (English Drama) ฝ่าย Costume and Makeup",
   "ก30905-3": "ภาษาอังกฤษ (Debate)",
   "ก30905-4": "ภาษาอังกฤษ (Crossword)",
   "ก30905-8": "English Skills (Vocabulary) M.4",
