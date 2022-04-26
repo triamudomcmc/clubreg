@@ -19,7 +19,8 @@ export const SelectClub: FC<{
           .map((clubData) => (
             <div className="grid grid-cols-[3fr,1fr] items-center border-b border-gray-300 py-6" key={clubData.clubID}>
               <p>
-                {clubData.clubID} - {clubMap[clubData.clubID]}
+                {clubData.clubID?.replace(/_\d+/g, "")} -{" "}
+                {clubMap[clubData.clubID]?.replace(/ฝ่าย\s?([\u0E00-\u0E7F]+|[a-z]+)+/gi, "")}
               </p>
 
               <button

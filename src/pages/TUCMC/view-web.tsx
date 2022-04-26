@@ -14,6 +14,7 @@ import { ClubData } from "@interfaces/clubData"
 import { CheckIcon, XIcon } from "@heroicons/react/solid"
 import { SelectClub } from "@components/clubs/view-web/SelectClub"
 import { ModalSection } from "@components/clubs/view-web/ModalSection"
+import { delBasePath } from "next/dist/shared/lib/router/router"
 
 const BaseData: ClubData = {
   new_count: 0,
@@ -62,9 +63,12 @@ const fetchAllClubDataAction = async (
   }
 
   const { data } = await fetchAllClubData(nid)
+
   setClubData(data)
 
   const availableData = data.filter((d) => d.status === "pending")
+
+  if (availableData.length === 0) return
   if (clubID === "") setClubID(availableData[~~(Math.random() * availableData.length)].clubID)
 }
 
@@ -74,7 +78,8 @@ const fetchClubDisplayAction = async (
   setLoading: Dispatch<SetStateAction<boolean>>
 ) => {
   setLoading(true)
-  const res = await fetchClubDisplay(clubID)
+
+  const res = await fetchClubDisplay(clubID.replace(/_\d+/g, ""))
 
   if (res.status) {
     setClubDisplay(res.data)
