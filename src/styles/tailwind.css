@@ -102,4 +102,12 @@
   .accordion-text a:hover {
     text-decoration: none;
   }
+
+  .club-article a {
+    text-decoration: underline;
+  }
+
+  .club-article a:hover {
+    text-decoration: none;
+  }
 }
