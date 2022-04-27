@@ -117,7 +117,6 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
       <h1 className="border-b border-gray-200 pb-4 text-xl">สัดส่วนชมรม</h1>
 
       <TableRow
-        editable
         field="teacher_count"
         title="จำนวนครูที่ปรึกษาชมรม"
         initialData={{ type: "number", value: data.teacher_count }}
@@ -128,7 +127,6 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
       />
 
       <TableRow
-        editable
         field="count_limit"
         title="จำนวนนักเรียนในชมรมสูงสุด"
         description="จำนวนนักเรียนทั้งหมดในชมรม รวมถึงนักเรียนเก่าและกรรมการชมรม"
@@ -147,7 +145,6 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
         </div>
       </div>
       <TableRow
-        editable
         field="old_count_limit"
         title="จำนวนสมาชิกเก่าที่สามารถยืนยันสิทธิ์ชมรมเดิมได้"
         description="จำนวนสมาชิกเก่าในชมรม ไม่รวมจำนวนกรรมการชมรม"
