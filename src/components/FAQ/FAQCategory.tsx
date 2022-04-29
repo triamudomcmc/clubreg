@@ -13,7 +13,7 @@ export const FAQCategory: FC<{ questions: Record<string, string>; title: string 
    * }
    */
 
-  const [expanded, setExpanded] = useState(true)
+  const [expanded, setExpanded] = useState(false)
 
   return (
     <div className={classNames(expanded ? "mb-8" : "mb-2", "flex flex-col space-y-4")}>
