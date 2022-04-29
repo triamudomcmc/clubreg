@@ -53,7 +53,7 @@ export const Accordion: FC<{ defaultExpanded?: boolean; title: string; id?: stri
         aria-labelledby={id ? `${id}-header` : null}
         animate={expanded ? "active" : "hidden"}
         variants={DivVariants}
-        className="hidden h-0 rounded-lg rounded-t-none bg-white py-0 shadow-md"
+        className="hidden h-0 rounded-lg rounded-t-none bg-[#f7fafc] py-0 text-gray-500 shadow-md"
       >
         {children}
       </motion.div>
