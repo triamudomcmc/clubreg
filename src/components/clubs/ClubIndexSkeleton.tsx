@@ -11,14 +11,14 @@ const ClubIndexSkeleton = ({ clubs, className }) => {
       <div className="flex w-full flex-col items-center py-12 md:py-20">
         <div className="flex w-full max-w-md flex-col items-center">
           <h1 className="text-2xl font-bold">ชมรม</h1>
-          <div className="mt-8 w-full px-14 md:mt-12">
+          {/* <div className="mt-8 w-full px-14 md:mt-12">
             <ClubSplash />
-          </div>
+          </div> */}
         </div>
         <div className="mx-8 mt-8 max-w-xl border-b pb-4 md:mx-0 md:mt-12 md:w-full md:border-none md:px-8">
           <FilterSearch setSearchContext={setSearchContext} setSortMode={setSortMode} sortMode={sortMode} />
         </div>
-        <div className="mt-5 flex w-full max-w-5xl flex-wrap justify-center px-0 md:mt-14 marg:px-[0.35rem]">
+        <div className="mt-5 flex w-full max-w-5xl flex-wrap justify-center px-0 marg:px-[0.35rem]">
           {clubs.map((item, index) => {
             if (index < 60)
               return (
