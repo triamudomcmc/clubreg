@@ -6,11 +6,12 @@ import classNames from "classnames"
 import { useToast } from "@components/common/Toast/ToastContext"
 import { changeClubDisplayStatus } from "@handlers/client/fetcher/club"
 
-export const ModalSection: FC<{ refetch: () => void; clubID; action: "accepted" | "declined" | null }> = ({
-  refetch,
-  clubID,
-  action,
-}) => {
+export const ModalSection: FC<{
+  refetch: () => void
+  clubID
+  action: "accepted" | "declined" | null
+  newData: null | { description: string; reviews: any[] }
+}> = ({ refetch, clubID, action, newData }) => {
   const [reason, setReason] = useState("")
   const [password, setPassword] = useState("")
 
@@ -32,7 +33,7 @@ export const ModalSection: FC<{ refetch: () => void; clubID; action: "accepted" 
   }
 
   const submitData = async () => {
-    const out = await changeClubDisplayStatus(clubID, password, action, reason === "" ? null : reason)
+    const out = await changeClubDisplayStatus(clubID, password, action, newData, reason === "" ? null : reason)
 
     if (out.status) {
       setCloseState2(true)

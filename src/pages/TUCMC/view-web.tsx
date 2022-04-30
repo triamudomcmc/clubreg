@@ -6,7 +6,7 @@ import { ClubDisplay } from "@interfaces/clubDisplay"
 import UserData from "@interfaces/userData"
 import { GetServerSideProps, InferGetServerSidePropsType, NextPage } from "next"
 import { useRouter } from "next/router"
-import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 import initialisedDB from "@server/firebase-admin"
 import { ClubDisplaySection } from "@components/clubs/ClubDisplay"
 import { StatusText } from "@components/panel/table/TableRow"
@@ -113,6 +113,11 @@ const WebDisplayPage: NextPage = () => {
     fetchAllClubDataAction(clubID, setAllClubData, setClubID)
   }
 
+  const [newData, setNewData] = useState<{ description: string; reviews: any[] } | null>(null)
+  const onDataChange = (newData: { description: string; reviews: any[] }) => {
+    setNewData(newData)
+  }
+
   useEffect(() => {
     // works for initial fetch too
     refetchData()
@@ -140,6 +145,7 @@ const WebDisplayPage: NextPage = () => {
         }}
         clubID={clubID}
         action={action}
+        newData={newData}
       />
       <div className="relative pt-10 pb-14">
         <div className="pb-4">
@@ -175,7 +181,13 @@ const WebDisplayPage: NextPage = () => {
               )}
             </div>
           </div>
-          <ClubDisplaySection clubID={clubID} clubDisplay={clubDisplay} imgLoading={imgLoading} />
+          <ClubDisplaySection
+            editable
+            onDataChange={onDataChange}
+            clubID={clubID}
+            clubDisplay={clubDisplay}
+            imgLoading={imgLoading}
+          />
         </div>
       </div>
     </PageContainer>
