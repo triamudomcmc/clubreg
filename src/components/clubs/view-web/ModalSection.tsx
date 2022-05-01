@@ -130,7 +130,6 @@ export const ModalSection: FC<{
           dep: modalState,
           revert: () => {
             setModalState(false)
-            setAction(null)
           },
         }}
       >
@@ -181,7 +180,6 @@ export const ModalSection: FC<{
           dep: modalState2,
           revert: () => {
             setModalState2(false)
-            setAction(null)
           },
         }}
       >
