@@ -144,6 +144,7 @@ const WebDisplayPage: NextPage = () => {
           refetchData()
         }}
         clubID={clubID}
+        setAction={setAction}
         action={action}
         newData={newData}
       />

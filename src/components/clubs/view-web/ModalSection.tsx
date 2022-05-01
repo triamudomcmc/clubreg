@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react"
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
 import Modal from "@components/common/Modals"
 import { CheckCircleIcon, ExclamationIcon } from "@heroicons/react/outline"
 import { Input } from "@components/auth/Input"
@@ -10,8 +10,9 @@ export const ModalSection: FC<{
   refetch: () => void
   clubID
   action: "accepted" | "declined" | null
+  setAction: Dispatch<SetStateAction<"accepted" | "declined" | null>>
   newData: null | { description: string; reviews: any[] }
-}> = ({ refetch, clubID, action, newData }) => {
+}> = ({ refetch, clubID, setAction, action, newData }) => {
   const [reason, setReason] = useState("")
   const [password, setPassword] = useState("")
 
@@ -23,8 +24,11 @@ export const ModalSection: FC<{
   const { addToast } = useToast()
 
   useEffect(() => {
-    if (action === "accepted") setModalState2(true)
-    if (action === "declined") setModalState(true)
+    if (action === "accepted") {
+      setModalState2(true)
+    } else if (action === "declined") {
+      setModalState(true)
+    }
   }, [action])
 
   const nextSection = async () => {
@@ -36,7 +40,13 @@ export const ModalSection: FC<{
     const out = await changeClubDisplayStatus(clubID, password, action, newData, reason === "" ? null : reason)
 
     if (out.status) {
+      setCloseState(true)
       setCloseState2(true)
+      setAction(null)
+
+      setPassword("")
+      setReason("")
+
       addToast({
         theme: "modern",
         icon: "tick",
@@ -113,12 +123,14 @@ export const ModalSection: FC<{
           dep: closeState,
           revert: () => {
             setCloseState(false)
+            setAction(null)
           },
         }}
         TriggerDep={{
           dep: modalState,
           revert: () => {
             setModalState(false)
+            setAction(null)
           },
         }}
       >
@@ -162,12 +174,14 @@ export const ModalSection: FC<{
           dep: closeState2,
           revert: () => {
             setCloseState2(false)
+            setAction(null)
           },
         }}
         TriggerDep={{
           dep: modalState2,
           revert: () => {
             setModalState2(false)
+            setAction(null)
           },
         }}
       >
