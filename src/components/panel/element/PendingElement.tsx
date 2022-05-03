@@ -1,15 +1,19 @@
 import {
   CheckCircleIcon,
+  CheckIcon,
   ChevronDownIcon,
   ExclamationCircleIcon,
+  SelectorIcon,
   SortAscendingIcon,
   XCircleIcon,
 } from "@heroicons/react/solid"
-import { useEffect, useState } from "react"
+import { Fragment, useEffect, useState } from "react"
 import classnames from "classnames"
 import Modal from "@components/common/Modals"
 import css from "./bubble.module.css"
 import { motion, useAnimation } from "framer-motion"
+import { Listbox, Transition} from "@headlessui/react"
+import classNames from "classnames"
 
 const getRandomTransformOrigin = () => {
   const value = (16 + 40 * Math.random()) / 100
@@ -44,13 +48,35 @@ function arrayMax(arr) {
   }, 0)
 }
 
-export const PendingElement = ({ userData, pendingUpdate, setPendingUpdate, reservedPos, setReservedPos }) => {
+export const PendingElement = ({ userData, pendingUpdate, setPendingUpdate, reservedPos, setReservedPos, sections }) => {
   const [action, setAction] = useState(
-    userData.dataRefID in pendingUpdate ? pendingUpdate[userData.dataRefID] : { action: "", pos: 0 }
+    userData.dataRefID in pendingUpdate ? pendingUpdate[userData.dataRefID] : { action: "", pos: 0, section: null }
   )
   const [pos, setPos] = useState(0)
   const [warning, setWarning] = useState(false)
   const controls = useAnimation()
+  const [people, setPeople] = useState([
+    { id: 1, name: null }
+  ])
+
+
+  useEffect(() => {
+    if (sections === null) {
+      return
+    }
+
+    setPeople(sections.map((e,k) => ({
+      id: k +1,
+      name: e
+    })))
+
+    setSection(sections.map((e,k) => ({
+      id: k +1,
+      name: e
+    }))[0])
+  },[ sections])
+
+  const [section, setSection] = useState(people[0])
 
   useEffect(() => {
     setWarning(false)
@@ -58,10 +84,12 @@ export const PendingElement = ({ userData, pendingUpdate, setPendingUpdate, rese
       delete prev[userData.dataRefID]
       return prev
     })
+
+    console.log(reservedPos)
     if (pos > 0) {
-      if (!Object.values(reservedPos).includes(pos) && arrayMax(Object.values(reservedPos)) + 1 >= pos) {
-        setAction({ action: "reserved", pos: pos })
-        setReservedPos((prev) => ({ ...prev, ...{ [userData.dataRefID]: pos } }))
+      if (!(section.name in reservedPos) || (!Object.values(reservedPos[section.name]).includes(pos) && arrayMax(Object.values(reservedPos[section.name])) + 1 >= pos)) {
+        setAction({ action: "reserved", pos: pos, section: section.name })
+        setReservedPos((prev) => ({ ...prev, [section.name]: { ...prev[section.name], [userData.dataRefID]: pos } }))
       } else {
         setWarning(true)
       }
@@ -73,9 +101,13 @@ export const PendingElement = ({ userData, pendingUpdate, setPendingUpdate, rese
   }, [pos])
 
   const reset = () => {
-    setAction({ action: "", pos: 0 })
+    setAction({ action: "", pos: 0, section: section.name })
     setPos(0)
   }
+
+  useEffect(() => {
+    setAction(prev => ({...prev, section: section.name}))
+  }, [section.name])
 
   useEffect(() => {
     if (action.action !== "")
@@ -92,7 +124,7 @@ export const PendingElement = ({ userData, pendingUpdate, setPendingUpdate, rese
   }, [pendingUpdate])
 
   const clickAction = (actionType) => {
-    setAction({ action: actionType, pos: 0 })
+    setAction({ action: actionType, pos: 0, section: section.name })
     setPos(0)
   }
 
@@ -112,6 +144,69 @@ export const PendingElement = ({ userData, pendingUpdate, setPendingUpdate, rese
           {userData.title}
           {userData.firstname} {userData.lastname}
         </h1>
+        <div className="ml-3">
+          <Listbox value={section} onChange={setSection}>
+            {({ open }) => (
+              <>
+                <div className="relative mt-1">
+                  <Listbox.Button className="focus:outline-none relative w-full cursor-default rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 text-left text-lg shadow-sm focus:border-TUCMC-pink-500 focus:ring-1 focus:ring-TUCMC-pink-500">
+                    <span className="block truncate">{section.name}</span>
+                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                      <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                    </span>
+                  </Listbox.Button>
+
+                  <Transition
+                    show={open}
+                    as={Fragment}
+                    leave="transition ease-in duration-100"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                  >
+                    <Listbox.Options
+                      static
+                      className="focus:outline-none absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-lg shadow-lg ring-1 ring-black ring-opacity-5"
+                    >
+                      {people.map((person) => (
+                        <Listbox.Option
+                          key={person.id}
+                          className={({ active }) =>
+                            classNames(
+                              active ? "bg-TUCMC-pink-600 text-white" : "text-gray-900",
+                              "relative cursor-default select-none py-2 pl-3 pr-9"
+                            )
+                          }
+                          value={person}
+                        >
+                          {({ selected, active }) => (
+                            <>
+                              <span
+                                className={classNames(selected ? "font-semibold" : "font-normal", "block truncate")}
+                              >
+                                {person.name}
+                              </span>
+
+                              {selected ? (
+                                <span
+                                  className={classNames(
+                                    active ? "text-white" : "text-TUCMC-pink-600",
+                                    "absolute inset-y-0 right-0 flex items-center pr-4"
+                                  )}
+                                >
+                                  <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                </span>
+                              ) : null}
+                            </>
+                          )}
+                        </Listbox.Option>
+                      ))}
+                    </Listbox.Options>
+                  </Transition>
+                </div>
+              </>
+            )}
+          </Listbox>
+        </div>
         <span className="text-TUCMC-gray-600 md:hidden">
           {userData.student_id} | ม.{userData.level}/{userData.room}
         </span>

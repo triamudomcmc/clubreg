@@ -14,8 +14,8 @@ export const submitPending = async (panelID, tasks): Promise<{ status: boolean; 
   return await request("database/panel", "submitPending", { panelID: panelID, tasks: tasks })
 }
 
-export const updateUser = async (panelID, objectRefID, action): Promise<{ status: boolean; report: string }> => {
-  return await request("database/panel", "updateUser", { panelID: panelID, objectRefID: objectRefID, task: action })
+export const updateUser = async (panelID, objectRefID, action, section, sectionUpdate): Promise<{ status: boolean; report: string; }> => {
+  return await request("database/panel", "updateUser", { panelID: panelID, objectRefID: objectRefID, task: action, section: section, sectionUpdate: sectionUpdate })
 }
 
 export const updatePosition = async (panelID, tasks): Promise<{ status: boolean; report: string }> => {

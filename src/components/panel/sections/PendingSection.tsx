@@ -109,6 +109,7 @@ const PendingSection = ({
                   setPendingUpdate={setPendingUpdate}
                   reservedPos={reservedPos}
                   setReservedPos={setReservedPos}
+                  sections={clubData.sections || null}
                 />
               )
             })

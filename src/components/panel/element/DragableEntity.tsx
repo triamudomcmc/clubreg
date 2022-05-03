@@ -243,7 +243,7 @@ export function DragableList({ editable, editFunc, dragable, setDragMode, callCo
 
   return (
     <ul>
-      {items.map((item, i) => (
+      {items.map((item, i) => {return(
         <motion.div
           custom={i}
           className="relative hover:z-30"
@@ -268,7 +268,7 @@ export function DragableList({ editable, editFunc, dragable, setDragMode, callCo
           onPointerUp={() => {
             clearTimeout(TapnHold)
           }}
-          key={`shakeWrapper${item.id}`}
+          key={`shakeWrapper${item.id}-${item.section}`}
         >
           <DragableEntity
             key={item.id}
@@ -281,7 +281,7 @@ export function DragableList({ editable, editFunc, dragable, setDragMode, callCo
             callCount={callCount}
           />
         </motion.div>
-      ))}
+      )})}
     </ul>
   )
 }

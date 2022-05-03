@@ -1,12 +1,18 @@
 import moment from "moment"
 
+export const getUNIXTimeStamp = () => {
+  return moment().unix() * 1000
+}
+
 export const openTime = 1623043800000
-export const editDataTime = 1623690000000
+// export const editDataTime = 1623690000000
+export const editDataTime = getUNIXTimeStamp() + 1000000
 export const announceTime = 1623717000000
 export const endRegClubTime = 1623690000000
 export const breakUpperBound = 1623889800000
 export const breakLowerBound = 1623884400000
-export const positionUpdateTime = 1623884400000
+export const positionUpdateTime = getUNIXTimeStamp() + 1000000
+// export const positionUpdateTime = 1623884400000
 export const lastround = 1623949200000
 export const endLastRound = 1624035600000
 
@@ -21,10 +27,6 @@ const _breakLowerBound = +new Date(2022, 5 - 1, 14, 9, 0, 0)
 const _positionUpdateTime = +new Date(2022, 5 - 1, 14, 9, 0, 0)
 const _lastround = +new Date(2022, 5 - 1, 14, 9, 0, 0)
 const _endLastRound = +new Date(2022, 5 - 1, 14, 9, 0, 0)
-
-export const getUNIXTimeStamp = () => {
-  return moment().unix() * 1000
-}
 
 export const getPrevMonday = (offset = 0) => {
   const utcOffset = moment().utcOffset()
