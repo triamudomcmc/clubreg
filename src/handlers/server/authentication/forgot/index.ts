@@ -16,8 +16,9 @@ const Reset = (actionID: string): string => {
 export const forgot = async (req, res) => {
   const user = await initialisedDB
     .collection("users")
-    .where("email", "==", (req.body.email || "").toLowerCase())
+    .where("email", "==", (req.body.email || ""))
     .get()
+
   if (user.empty) return { status: false, report: "missing_email" }
 
   const action = await initialisedDB.collection("tasks").add({
@@ -35,6 +36,8 @@ export const forgot = async (req, res) => {
     subject: "การขอเปลี่ยนรหัสผ่าน",
     text: `แก้ไขรหัสผ่านได้ที่ https://register.clubs.triamudom.ac.th/auth/reset${action.id}`,
   }
+
+  console.log(`https://register.clubs.triamudom.ac.th/auth/reset${action.id}`)
 
   await sgMail.send(msg)
 
