@@ -70,7 +70,7 @@ const Index = () => {
                     โรงเรียนเตรียมอุดมศึกษา
                   </h1>
                   <p className="mt-2 tracking-tight text-white md:mt-2 md:text-xl lg:mt-4 lg:text-3xl">
-                    ปีการศึกษา 2564
+                    ปีการศึกษา 2565
                   </p>
                 </div>
                 {!button && (
