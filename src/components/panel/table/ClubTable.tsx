@@ -1,11 +1,14 @@
 import { Input } from "@components/auth/Input"
+import { Card, CustomCard } from "@components/Card"
 import { Button } from "@components/common/Inputs/Button"
 import Modal from "@components/common/Modals"
 import { useToast } from "@components/common/Toast/ToastContext"
 import { useAuth } from "@handlers/client/auth"
 import { ExclamationIcon, TrashIcon } from "@heroicons/react/outline"
 import { CheckCircleIcon } from "@heroicons/react/solid"
+import { ClubData } from "@interfaces/clubData"
 import UserData from "@interfaces/userData"
+import { useWindowDimensions } from "@utilities/document"
 import { request } from "https"
 import { FC, Fragment, MouseEvent, useEffect, useState } from "react"
 import { stringify } from "remark"
@@ -16,6 +19,7 @@ export type TUpdateFieldFunction = (field: string, data: any) => Promise<{ statu
 
 interface IClubData {
   status: "pending" | "accepted" | "declined"
+  reason?: string
   audition: string
   message: string
   contact: IContactType | {}
@@ -24,16 +28,34 @@ interface IClubData {
   place: string
 }
 
-export const ClubDataTable: FC<{ data: IClubData; getCurrPanel: () => string; updateField: TUpdateFieldFunction }> = ({
-  data,
-  getCurrPanel,
-  updateField,
-}) => {
+export const ClubDataTable: FC<{
+  data: IClubData
+  clubData: any
+  getCurrPanel: () => string
+  width
+  updateField: TUpdateFieldFunction
+}> = ({ data, getCurrPanel, updateField, clubData, width }) => {
+  const [currPanel, setCurrPanel] = useState("")
+
+  useEffect(() => {
+    setCurrPanel(getCurrPanel())
+  }, [clubData])
+
+  let cardWidth,
+    padding = 18,
+    maxWidth = 480
+
+  if (width < maxWidth) {
+    cardWidth = width - 2 * padding
+  } else {
+    cardWidth = maxWidth - 2 * padding
+  }
+
   return (
     <div>
       <h1 className="border-b border-gray-200 pb-4 text-xl">ข้อมูลชมรม</h1>
 
-      <TableWebDataRow getCurrPanel={getCurrPanel} status={data.status} />
+      <TableWebDataRow getCurrPanel={getCurrPanel} status={data.status} reason={data.reason} />
 
       <TableRow
         field="audition"
@@ -67,6 +89,11 @@ export const ClubDataTable: FC<{ data: IClubData; getCurrPanel: () => string; up
         initialData={{ type: "string", value: data.place }}
         updateField={updateField}
       />
+
+      <div className="flex flex-col items-center space-y-4 pt-6">
+        <p className="text-TUCMC-gray-700">Preview การ์ดลงทะเบียนชมรม</p>
+        <CustomCard width={cardWidth} panelID={currPanel} clubData={clubData} />
+      </div>
     </div>
   )
 }
@@ -92,7 +119,6 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
       <TableRow
         field="teacher_count"
         title="จำนวนครูที่ปรึกษาชมรม"
-        editable
         initialData={{ type: "number", value: data.teacher_count }}
         updateField={updateField}
         validateFunc={() => {
@@ -104,7 +130,6 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
         field="count_limit"
         title="จำนวนนักเรียนในชมรมสูงสุด"
         description="จำนวนนักเรียนทั้งหมดในชมรม รวมถึงนักเรียนเก่าและกรรมการชมรม"
-        editable
         initialData={{ type: "number", value: data.count_limit }}
         updateField={updateField}
         validateFunc={(c) => {
@@ -123,7 +148,6 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
         field="old_count_limit"
         title="จำนวนสมาชิกเก่าที่สามารถยืนยันสิทธิ์ชมรมเดิมได้"
         description="จำนวนสมาชิกเก่าในชมรม ไม่รวมจำนวนกรรมการชมรม"
-        editable
         initialData={{ type: "number", value: data.old_count_limit }}
         updateField={updateField}
         declineVal={true}

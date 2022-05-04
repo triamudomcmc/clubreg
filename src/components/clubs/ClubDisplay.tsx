@@ -1,13 +1,15 @@
 import { ClubDisplay } from "@interfaces/clubDisplay"
 import classNames from "classnames"
 import Image from "next/image"
-import { FC, useEffect, useRef, useState } from "react"
+import { FC, forwardRef, MutableRefObject, RefObject, useEffect, useRef, useState } from "react"
 import ClubSkeleton from "./ClubSkeleton"
 import { ChevronDownIcon, ClipboardCopyIcon, StarIcon } from "@heroicons/react/solid"
 import { GlobeAltIcon, UserIcon } from "@heroicons/react/outline"
 import Modal from "@components/common/Modals"
 import { isEmpty } from "@utilities/object"
 import { Zoomable } from "@components/common/Zoomable"
+import { QuillEditor } from "@components/common/TextEdit/Quill"
+import { ForwardRefComponent } from "framer-motion"
 
 const ClubHeader: FC<{ clubID: string; clubDisplay: ClubDisplay; loaded: () => void }> = ({
   clubID,
@@ -73,19 +75,22 @@ const ClubHeader: FC<{ clubID: string; clubDisplay: ClubDisplay; loaded: () => v
                     className="absolute z-20 mt-1 w-[300px] rounded-lg bg-white px-4 py-3 shadow-md"
                   >
                     <div className="flex flex-col">
-                      {!isEmpty(clubDisplay.contact) && (
+                      {/* @ts-ignore */}
+                      {!isEmpty(clubDisplay.contact) && clubDisplay?.contact?.type !== "ไม่มี" && (
                         <span>
                           {/* @ts-ignore */}
                           {clubDisplay.contact?.type} : {clubDisplay.contact.context}
                         </span>
                       )}
-                      {!isEmpty(clubDisplay.contact2) && (
+                      {/* @ts-ignore */}
+                      {!isEmpty(clubDisplay.contact2) && clubDisplay?.contact2?.type !== "ไม่มี" && (
                         <span>
                           {/* @ts-ignore */}
                           {clubDisplay.contact2?.type} : {clubDisplay.contact2?.context}
                         </span>
                       )}
-                      {!isEmpty(clubDisplay.contact3) && (
+                      {/* @ts-ignore */}
+                      {!isEmpty(clubDisplay.contact3) && clubDisplay?.contact3?.type !== "ไม่มี" && (
                         <span>
                           {/* @ts-ignore */}
                           {clubDisplay.contact3?.type} : {clubDisplay.contact3?.context}
@@ -94,20 +99,23 @@ const ClubHeader: FC<{ clubID: string; clubDisplay: ClubDisplay; loaded: () => v
                     </div>
                   </Modal>
                 </div>
-                <div className="flex flex-col md:hidden lg:block">
-                  {!isEmpty(clubDisplay.contact) && (
+                <div className="flex flex-col md:hidden lg:flex">
+                  {/* @ts-ignore */}
+                  {!isEmpty(clubDisplay.contact) && clubDisplay?.contact?.type !== "ไม่มี" && (
                     <span>
                       {/* @ts-ignore */}
                       {clubDisplay.contact.type} : {clubDisplay.contact.context}
                     </span>
                   )}
-                  {!isEmpty(clubDisplay.contact2) && (
+                  {/* @ts-ignore */}
+                  {!isEmpty(clubDisplay.contact2) && clubDisplay?.contact2?.type !== "ไม่มี" && (
                     <span>
                       {/* @ts-ignore */}
                       {clubDisplay.contact2.type} : {clubDisplay.contact2.context}
                     </span>
                   )}
-                  {!isEmpty(clubDisplay.contact3) && (
+                  {/* @ts-ignore */}
+                  {!isEmpty(clubDisplay.contact3) && clubDisplay?.contact3?.type !== "ไม่มี" && (
                     <span>
                       {/* @ts-ignore */}
                       {clubDisplay.contact3.type} : {clubDisplay.contact3.context}
@@ -124,12 +132,35 @@ const ClubHeader: FC<{ clubID: string; clubDisplay: ClubDisplay; loaded: () => v
   )
 }
 
-export const ClubDisplaySection: FC<{ clubDisplay: ClubDisplay; clubID: string; imgLoading: boolean }> = ({
-  clubDisplay,
-  clubID,
-  imgLoading,
-}) => {
+// export const ClubDisplaySection: ForwardRefComponent<
+//   { reviews: any[]; description: string },
+//   {
+//     clubDisplay: ClubDisplay
+//     clubID: string
+//     imgLoading: boolean
+//     editable?: boolean
+//   }
+// > = forwardRef(({ clubDisplay, clubID, imgLoading, editable }, newDataRef) => {
+export const ClubDisplaySection: FC<{
+  clubDisplay: ClubDisplay
+  clubID: string
+  imgLoading: boolean
+  editable?: boolean
+  onDataChange?: (data: { reviews: any[]; description: string }) => void
+}> = ({ clubDisplay, clubID, imgLoading, editable, onDataChange }) => {
   const [loadingCount, setLoadingCount] = useState(1)
+
+  const [reviews, setReviews] = useState(clubDisplay.reviews)
+  const [description, setDescription] = useState(clubDisplay.description)
+
+  useEffect(() => {
+    setReviews(clubDisplay.reviews)
+    setDescription(clubDisplay.description)
+  }, [clubDisplay])
+
+  useEffect(() => {
+    onDataChange({ reviews, description })
+  }, [reviews, description])
 
   const loaded = () => {
     setTimeout(() => {
@@ -150,11 +181,19 @@ export const ClubDisplaySection: FC<{ clubDisplay: ClubDisplay; clubID: string; 
         <main className="space-y-12 px-6 pb-24 pt-11 md:space-y-16 md:pt-12">
           {/* article */}
 
-          <article
-            id="article"
-            dangerouslySetInnerHTML={{ __html: `${clubDisplay.description}` }}
-            className="space-y-4 font-texts text-[1.05rem] text-TUCMC-gray-700"
-          ></article>
+          {editable ? (
+            <QuillEditor
+              value={description}
+              onChange={setDescription}
+              className="club-article space-y-4 font-texts text-[1.05rem] text-TUCMC-gray-700"
+            />
+          ) : (
+            <article
+              id="article"
+              dangerouslySetInnerHTML={{ __html: `${clubDisplay.description}` }}
+              className="club-article space-y-4 font-texts text-[1.05rem] text-TUCMC-gray-700"
+            ></article>
+          )}
 
           {/* images */}
           <section id="club-images" className="space-y-8 md:flex md:justify-center md:space-y-0 md:space-x-4">
@@ -189,7 +228,7 @@ export const ClubDisplaySection: FC<{ clubDisplay: ClubDisplay; clubID: string; 
               </h2>
             )}
             <div className="space-y-16 md:space-y-24">
-              {clubDisplay.reviews.map((revContent, index) => {
+              {reviews.map((revContent, index) => {
                 return (
                   <div key={`review-${index}`}>
                     <div className="flex flex-wrap-reverse md:flex-row md:flex-nowrap">
@@ -199,9 +238,9 @@ export const ClubDisplaySection: FC<{ clubDisplay: ClubDisplay; clubID: string; 
                             priority={true}
                             onLoad={loaded}
                             quality={50}
-                            src={clubDisplay.reviews[index].profile}
+                            src={clubDisplay.reviews[index]?.profile}
                             placeholder="blur"
-                            blurDataURL={clubDisplay.reviews[index].profile}
+                            blurDataURL={clubDisplay.reviews[index]?.profile}
                             width="128"
                             height="128"
                             className="rounded-lg object-cover"
@@ -221,10 +260,23 @@ export const ClubDisplaySection: FC<{ clubDisplay: ClubDisplay; clubID: string; 
                           <div className="h-12 pt-2 text-center text-6xl text-gray-300 md:hidden">
                             <span className="absolute">“</span>
                           </div>
-                          <article
-                            dangerouslySetInnerHTML={{ __html: `${revContent.context}` }}
-                            className="font-texts text-[1.05rem] text-gray-500"
-                          ></article>
+                          {editable ? (
+                            <QuillEditor
+                              value={revContent.context}
+                              onChange={(e) => {
+                                setReviews((prev) => {
+                                  prev[index].context = e
+                                  return prev
+                                })
+                              }}
+                              className="club-article font-texts text-[1.05rem] text-gray-500"
+                            />
+                          ) : (
+                            <article
+                              dangerouslySetInnerHTML={{ __html: `${revContent.context}` }}
+                              className="club-article font-texts text-[1.05rem] text-gray-500"
+                            ></article>
+                          )}
                           <p className="mt-4 h-14 w-full text-center text-6xl text-gray-300 md:hidden">”</p>
                         </div>
                         <div className="relative hidden md:block">

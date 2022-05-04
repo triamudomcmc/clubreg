@@ -6,7 +6,7 @@ import { ClubDisplay } from "@interfaces/clubDisplay"
 import UserData from "@interfaces/userData"
 import { GetServerSideProps, InferGetServerSidePropsType, NextPage } from "next"
 import { useRouter } from "next/router"
-import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 import initialisedDB from "@server/firebase-admin"
 import { ClubDisplaySection } from "@components/clubs/ClubDisplay"
 import { StatusText } from "@components/panel/table/TableRow"
@@ -14,6 +14,7 @@ import { ClubData } from "@interfaces/clubData"
 import { CheckIcon, XIcon } from "@heroicons/react/solid"
 import { SelectClub } from "@components/clubs/view-web/SelectClub"
 import { ModalSection } from "@components/clubs/view-web/ModalSection"
+import { delBasePath } from "next/dist/shared/lib/router/router"
 
 const BaseData: ClubData = {
   new_count: 0,
@@ -49,7 +50,8 @@ const fetchClubDataAction = async (clubID: string, setClubData: Dispatch<SetStat
 
 const fetchAllClubDataAction = async (
   clubID: string,
-  setClubData: Dispatch<SetStateAction<(ClubData & { clubID: string })[]>>
+  setClubData: Dispatch<SetStateAction<(ClubData & { clubID: string })[]>>,
+  setClubID: Dispatch<SetStateAction<string>>
 ) => {
   let nid = clubID
   if (clubID.includes("_")) {
@@ -61,7 +63,13 @@ const fetchAllClubDataAction = async (
   }
 
   const { data } = await fetchAllClubData(nid)
+
   setClubData(data)
+
+  const availableData = data.filter((d) => d.status === "pending")
+
+  if (availableData.length === 0) return
+  if (clubID === "") setClubID(availableData[~~(Math.random() * availableData.length)].clubID)
 }
 
 const fetchClubDisplayAction = async (
@@ -70,7 +78,8 @@ const fetchClubDisplayAction = async (
   setLoading: Dispatch<SetStateAction<boolean>>
 ) => {
   setLoading(true)
-  const res = await fetchClubDisplay(clubID)
+
+  const res = await fetchClubDisplay(clubID.replace(/_\d+/g, ""))
 
   if (res.status) {
     setClubDisplay(res.data)
@@ -79,7 +88,7 @@ const fetchClubDisplayAction = async (
 }
 
 const WebDisplayPage: NextPage = () => {
-  const [clubID, setClubID] = useState("ก30950")
+  const [clubID, setClubID] = useState("")
   const [clubDisplay, setClubDisplay] = useState<ClubDisplay>({
     audition: false,
     contact: {},
@@ -101,7 +110,12 @@ const WebDisplayPage: NextPage = () => {
   const refetchData = () => {
     fetchClubDisplayAction(clubID, setClubDisplay, setLoading)
     // fetchClubDataAction(clubID, setClubData)
-    fetchAllClubDataAction(clubID, setAllClubData)
+    fetchAllClubDataAction(clubID, setAllClubData, setClubID)
+  }
+
+  const [newData, setNewData] = useState<{ description: string; reviews: any[] } | null>(null)
+  const onDataChange = (newData: { description: string; reviews: any[] }) => {
+    setNewData(newData)
   }
 
   useEffect(() => {
@@ -124,7 +138,16 @@ const WebDisplayPage: NextPage = () => {
 
   return (
     <PageContainer>
-      <ModalSection refetch={refetchData} clubID={clubID} action={action} />
+      <ModalSection
+        refetch={() => {
+          setClubID("")
+          refetchData()
+        }}
+        clubID={clubID}
+        setAction={setAction}
+        action={action}
+        newData={newData}
+      />
       <div className="relative pt-10 pb-14">
         <div className="pb-4">
           <h1 className="text-center text-2xl font-medium">ตรวจสอบข้อมูลชมรมบนเว็บไซต์</h1>
@@ -159,7 +182,13 @@ const WebDisplayPage: NextPage = () => {
               )}
             </div>
           </div>
-          <ClubDisplaySection clubID={clubID} clubDisplay={clubDisplay} imgLoading={imgLoading} />
+          <ClubDisplaySection
+            editable
+            onDataChange={onDataChange}
+            clubID={clubID}
+            clubDisplay={clubDisplay}
+            imgLoading={imgLoading}
+          />
         </div>
       </div>
     </PageContainer>

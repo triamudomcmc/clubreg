@@ -94,4 +94,20 @@
       height: 34rem;
     }
   }
+
+  .accordion-text a {
+    text-decoration: underline;
+  }
+
+  .accordion-text a:hover {
+    text-decoration: none;
+  }
+
+  .club-article a {
+    text-decoration: underline;
+  }
+
+  .club-article a:hover {
+    text-decoration: none;
+  }
 }

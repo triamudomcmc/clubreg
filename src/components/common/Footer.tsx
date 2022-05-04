@@ -16,7 +16,7 @@ const Footer = () => {
           <Link href="/clubs">
             <a>ชมรม</a>
           </Link>
-          <Link href="/instruction">
+          <Link href="/instructions">
             <a>วิธีลงทะเบียน</a>
           </Link>
           <Link href="/FAQ">
@@ -41,7 +41,7 @@ const Footer = () => {
               <Link href="/">
                 <a>หน้าแรก</a>
               </Link>
-              <Link href="/instruction">
+              <Link href="/instructions">
                 <a>วิธีใช้</a>
               </Link>
               <Link href="/clubs">

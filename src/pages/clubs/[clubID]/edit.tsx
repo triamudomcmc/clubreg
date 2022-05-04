@@ -734,7 +734,7 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
         theme: "modern",
         icon: "cross",
         title: "พบข้อผิดพลาดระหว่างพยายามแก้ไขข้อมูล",
-        text: "",
+        text: "ปัญหานี้อาจเกิดจากการส่งไฟล์รูปที่มีขนาดใหญ่ แนะนำให้ compress รูป (https://compressjpeg.com) ก่อนส่งแก้ไขข้อมูลอีกครั้ง",
       })
     }
 

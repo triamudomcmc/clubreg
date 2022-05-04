@@ -5,7 +5,7 @@ import { useState } from "react"
 import Toggle from "@components/index/FAQ/Toggle"
 import { AccordionIcon, TAccordionIcon } from "./Icons"
 
-const DURATION = 0.4
+const DURATION = 0.2
 
 const DivVariants: Variants = {
   hidden: {
@@ -16,7 +16,10 @@ const DivVariants: Variants = {
     transition: { duration: DURATION, type: "tween" },
   },
   active: {
+    height: "unset",
     overflow: "auto",
+    paddingTop: "unset",
+    paddingBottom: "unset",
     transition: { duration: DURATION, type: "tween" },
   },
 }
@@ -50,7 +53,7 @@ export const Accordion: FC<{ defaultExpanded?: boolean; title: string; id?: stri
         aria-labelledby={id ? `${id}-header` : null}
         animate={expanded ? "active" : "hidden"}
         variants={DivVariants}
-        className="rounded-lg rounded-t-none bg-white shadow-md"
+        className="hidden h-0 rounded-lg rounded-t-none bg-[#f7fafc] py-0 text-gray-500 shadow-md"
       >
         {children}
       </motion.div>
@@ -59,7 +62,10 @@ export const Accordion: FC<{ defaultExpanded?: boolean; title: string; id?: stri
 }
 
 const Answer: FC = ({ children }) => (
-  <div className="px-8 py-4 text-TUCMC-gray-600" dangerouslySetInnerHTML={{ __html: String(children) }}></div>
+  <div
+    className="accordion-text px-8 py-4 text-TUCMC-gray-600"
+    dangerouslySetInnerHTML={{ __html: String(children) }}
+  ></div>
 )
 Answer.displayName = "Answer"
 Accordion.Answer = Answer

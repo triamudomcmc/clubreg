@@ -26,7 +26,8 @@ export const changeClubDisplayStatus = async (
   clubID: string,
   password: string,
   status: "accepted" | "declined",
+  newData: null | { description: string; reviews: any[] },
   reason?: string
 ): Promise<{ status: boolean; report?: string }> => {
-  return await request("database/editWeb", "changeClubDisplayStatus", { clubID, status, reason, password })
+  return await request("database/editWeb", "changeClubDisplayStatus", { clubID, status, reason, password, newData })
 }

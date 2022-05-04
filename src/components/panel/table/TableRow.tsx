@@ -351,17 +351,23 @@ const removeSectionSlugs = (currPanel: string) => {
   return res.startsWith("ก30920") && res !== "ก30920-8" ? "ก30920" : res
 }
 
-export const TableWebDataRow: FC<{ status: "declined" | "accepted" | "pending"; getCurrPanel: () => string }> = ({
-  status,
-  getCurrPanel,
-}) => {
+export const TableWebDataRow: FC<{
+  status: "declined" | "accepted" | "pending"
+  reason?: string
+  getCurrPanel: () => string
+}> = ({ status, getCurrPanel, reason }) => {
   const [currStatus, setStatus] = useState(status)
+  const [currReason, setReason] = useState(reason)
 
   const router = useRouter()
 
   useEffect(() => {
     setStatus(status)
   }, [status])
+
+  useEffect(() => {
+    setReason(reason)
+  }, [reason])
 
   return (
     <div className="grid grid-cols-1 space-y-2 border-b border-gray-200 py-4 md:grid-cols-[2fr,3fr] md:items-center md:space-y-0 md:py-6">
@@ -380,7 +386,12 @@ export const TableWebDataRow: FC<{ status: "declined" | "accepted" | "pending"; 
           แก้ไข
         </button>
 
-        <StatusText status={currStatus} />
+        <div className="flex items-center space-x-2">
+          <StatusText status={currStatus} />
+          {currStatus === "declined" && currReason && (
+            <p className="text-sm text-TUCMC-red-400">สาเหตุ: {currReason}</p>
+          )}
+        </div>
       </div>
     </div>
   )

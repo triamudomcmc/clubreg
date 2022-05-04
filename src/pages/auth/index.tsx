@@ -36,6 +36,8 @@ const Auth = ({ query }) => {
       //     Router.push("/announce")
       //   }
       // }
+
+      return Router.push("/")
     }
     // if (new Date().getTime() < openTime) {
     //   Router.push("/")
