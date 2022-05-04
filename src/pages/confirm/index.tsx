@@ -238,8 +238,9 @@ const BaseData: ClubData = {
 const fetchClubDataAction = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>) => {
   if (!clubID) return
   const data = await fetchClub(clubID)
+  console.log(data, clubID)
 
-  if (data.hasOwnProperty("status")) setClubData({ invalid: true })
+  if (data.hasOwnProperty("report")) setClubData({ invalid: true })
   else setClubData({ ...data })
 }
 
