@@ -1,11 +1,13 @@
 import {
   CheckCircleIcon,
+  CheckIcon,
   ChevronDownIcon,
   ExclamationCircleIcon,
+  SelectorIcon,
   SortAscendingIcon,
   XCircleIcon,
 } from "@heroicons/react/solid"
-import { useEffect, useState } from "react"
+import { Fragment, useEffect, useState } from "react"
 import classnames from "classnames"
 import Modal from "@components/common/Modals"
 import css from "./bubble.module.css"
@@ -15,6 +17,8 @@ import { useAuth } from "@client/auth"
 import { useToast } from "@components/common/Toast/ToastContext"
 import { isEmpty } from "@utilities/object"
 import { Ellipsis } from "@vectors/Loaders/Ellipsis"
+import { Listbox, Transition } from "@headlessui/react"
+import classNames from "classnames"
 
 const getRandomTransformOrigin = () => {
   const value = (16 + 40 * Math.random()) / 100
@@ -43,12 +47,13 @@ const variants = {
   },
 }
 
-export const Editor = ({ userData, reservedPos, setReservedPos, TriggerDep, refetch }) => {
+export const Editor = ({ userData, reservedPos, setReservedPos, TriggerDep, refetch, section, clubSectionList, initClubSection }) => {
   const [action, setAction] = useState({ action: "", pos: 0 })
   const [pos, setPos] = useState(0)
   const [warning, setWarning] = useState(false)
   const [closeDep, setCloseDep] = useState(false)
   const [pending, setPending] = useState(false)
+  const [clubSection, setClubSection] = useState(initClubSection)
   const controls = useAnimation()
 
   const { onReady, reFetch } = useAuth()
@@ -110,7 +115,8 @@ export const Editor = ({ userData, reservedPos, setReservedPos, TriggerDep, refe
       setPending(true)
       if (action.action === "") return setPending(false)
       try {
-        const res = await updateUser(localStorage.getItem("currentPanel"), userData.dataRefID, action)
+        console.log(clubSection.name)
+        const res = await updateUser(localStorage.getItem("currentPanel"), userData.dataRefID, action, section, clubSection.name)
         if (res.status) {
           refetch()
           addToast({
@@ -163,6 +169,10 @@ export const Editor = ({ userData, reservedPos, setReservedPos, TriggerDep, refe
     }
   }
 
+  useEffect(() => {
+    setClubSection(clubSectionList.filter(e => (e.name === section))[0])
+  }, [section])
+
   return (
     <Modal
       TriggerDep={TriggerDep}
@@ -193,7 +203,7 @@ export const Editor = ({ userData, reservedPos, setReservedPos, TriggerDep, refe
               className={classnames(
                 "mr-2 flex cursor-pointer items-center space-x-1 rounded-md border px-6 py-1",
                 action.action === "passed" && "bg-TUCMC-green-400 text-white",
-                userData.status === "passed" && "hidden"
+                userData.status === "passed" && section === clubSection.name && "hidden"
               )}
             >
               <CheckCircleIcon
@@ -209,7 +219,7 @@ export const Editor = ({ userData, reservedPos, setReservedPos, TriggerDep, refe
               className={classnames(
                 "relative mr-2 flex items-center space-x-1 rounded-md border px-3 py-1",
                 warning && "border-TUCMC-red-400 text-TUCMC-gray-500",
-                userData.status === "reserved" && "hidden"
+                (userData.status === "reserved" || section !== clubSection.name) && "hidden"
               )}
             >
               <input
@@ -242,7 +252,7 @@ export const Editor = ({ userData, reservedPos, setReservedPos, TriggerDep, refe
               className={classnames(
                 "flex cursor-pointer items-center space-x-1 rounded-md border px-4 py-1",
                 action.action === "failed" && "bg-TUCMC-red-400 text-white",
-                userData.status === "failed" && "hidden"
+                userData.status === "failed" && section === clubSection.name && "hidden"
               )}
             >
               <XCircleIcon
@@ -250,6 +260,69 @@ export const Editor = ({ userData, reservedPos, setReservedPos, TriggerDep, refe
               />
               <span>ไม่รับ</span>
             </div>
+            <div className="ml-1">
+            <Listbox value={clubSection} onChange={setClubSection}>
+              {({ open }) => (
+                <>
+                  <div className="relative z-20">
+                    <Listbox.Button className="focus:outline-none relative w-full cursor-default rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 text-left text-lg shadow-sm focus:border-TUCMC-pink-500 focus:ring-1 focus:ring-TUCMC-pink-500">
+                      <span className="block truncate">{clubSection?.name}</span>
+                      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                        <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                      </span>
+                    </Listbox.Button>
+
+                    <Transition
+                      show={open}
+                      as={Fragment}
+                      leave="transition ease-in duration-100"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <Listbox.Options
+                        static
+                        className="focus:outline-none absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-lg shadow-lg ring-1 ring-black ring-opacity-5"
+                      >
+                        {clubSectionList?.map((person) => (
+                          <Listbox.Option
+                            key={person.id}
+                            className={({ active }) =>
+                              classNames(
+                                active ? "bg-TUCMC-pink-600 text-white" : "text-gray-900",
+                                "relative cursor-default select-none py-2 pl-3 pr-9"
+                              )
+                            }
+                            value={person}
+                          >
+                            {({ selected, active }) => (
+                              <>
+                                <span
+                                  className={classNames(selected ? "font-semibold" : "font-normal", "block truncate")}
+                                >
+                                  {person.name}
+                                </span>
+
+                                {selected ? (
+                                  <span
+                                    className={classNames(
+                                      active ? "text-white" : "text-TUCMC-pink-600",
+                                      "absolute inset-y-0 right-0 flex items-center pr-4"
+                                    )}
+                                  >
+                                    <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                  </span>
+                                ) : null}
+                              </>
+                            )}
+                          </Listbox.Option>
+                        ))}
+                      </Listbox.Options>
+                    </Transition>
+                  </div>
+                </>
+              )}
+            </Listbox>
+                    </div>
           </div>
         </div>
         <div className="rounded-b-lg bg-gray-50 py-3 px-3">

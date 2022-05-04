@@ -21,6 +21,7 @@ const filterMembersData = (members, req) => {
         room: obj.room,
         dataRefID: value.id,
         ...("position" in obj && { position: obj.position[req.body.panelID] }),
+        ...("section" in obj && { section: obj.section[req.body.panelID] }),
       }
     } else {
       return {
