@@ -3,10 +3,10 @@ import { generateCard, initData } from "@server/userActions/sharedFunctions"
 import { fetchSession } from "@server/fetchers/session"
 import { update } from "@server/tracker"
 import initialisedDB from "@server/firebase-admin"
-import { endLastRound, endOldClubTest, endRegClubTime, lastround, startOldClubTest } from "@config/time"
+import { endLastRound, endOldClub, endRegClubTime, lastround, startOldClub } from "@config/time"
 
 export const oldClub = async (req, res) => {
-  if (!(new Date().getTime() < endOldClubTest && new Date().getTime() >= startOldClubTest))
+  if (!(new Date().getTime() < endOldClub && new Date().getTime() >= startOldClub))
     return { status: false, report: "exceeded_time_limit" }
 
   // Procedures

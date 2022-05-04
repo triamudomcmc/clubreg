@@ -82,8 +82,6 @@ const Auth = ({ query }) => {
       }, startOldClubCountdown - currentTime)
     }
 
-
-
     switch (cause) {
       case "sessionError":
         addToast({
@@ -139,7 +137,7 @@ const Auth = ({ query }) => {
             ต้องยืนยันตัวตนและสร้างบัญชีใหม่ทั้งหมด เนื่องจากมีการออกแบบระบบใหม่
           </p>
         </DefaultCard> */}
-         <DefaultCard>
+        <DefaultCard>
           <p className="font-normal">
             นักเรียน ม.5 และ ม.6 ในปีการศึกษา 2565 ที่เข้ามายืนยันสิทธิ์ชมรมเดิม จะต้องใช้บัญชีเดิมในการเข้าสู่ระบบ
           </p>
@@ -155,44 +153,51 @@ const Auth = ({ query }) => {
           />
         )}
         {action == "waiting" && (
-            <div className="mt-6 flex flex-col items-center pt-8">
-      <h1 className="text-4xl font-bold tracking-tight">เข้าสู่ระบบ</h1>
-      <div className="mt-2 mb-6 text-center text-TUCMC-gray-600">
-        <p>ระบบลงทะเบียนชมรม</p>
-        <p>โรงเรียนเตรียมอุดมศึกษา ปีการศึกษา 2564</p>
-      </div>
-            <div className="flex-row justify-center space-x-2 text-TUCMC-gray-900 flex">
-          <div className="flex flex-col items-center">
-            <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
-              {timer.day}
-            </span>
-            <span className="mt-2 text-xs font-bold text-gray-800">DAY</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
-              {timer.hour}
-            </span>
-            <span className="mt-2 text-xs font-bold text-gray-800">HOUR</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
-              {timer.min}
-            </span>
-            <span className="mt-2 text-xs font-bold text-gray-800">MIN</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
-              {timer.sec}
-            </span>
-            <span className="mt-2 text-xs font-bold text-gray-800">SEC</span>
-          </div>
-        </div>
-        <p className="text-TUCMC-gray-700 mt-8 max-w-[300px]">ระบบจะเปิดให้เข้าสู่ระบบเพื่อยืนยันสิทธิ์ชมรมเดิมพร้อมกันในวันที่ 5 พ.ค. 2565 เวลา 11.30 น.</p>
-        <div className="flex w-full flex-row justify-center mt-2">
-            <span onClick={() => {setAction("forgot")}} className="cursor-pointer text-TUCMC-pink-400">
-              ลืมรหัสผ่าน
-            </span>
-          </div>
+          <div className="mt-6 flex flex-col items-center pt-8">
+            <h1 className="text-4xl font-bold tracking-tight">เข้าสู่ระบบ</h1>
+            <div className="mt-2 mb-6 text-center text-TUCMC-gray-600">
+              <p>ระบบลงทะเบียนชมรม</p>
+              <p>โรงเรียนเตรียมอุดมศึกษา ปีการศึกษา 2564</p>
+            </div>
+            <div className="flex flex-row justify-center space-x-2 text-TUCMC-gray-900">
+              <div className="flex flex-col items-center">
+                <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
+                  {timer.day}
+                </span>
+                <span className="mt-2 text-xs font-bold text-gray-800">DAY</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
+                  {timer.hour}
+                </span>
+                <span className="mt-2 text-xs font-bold text-gray-800">HOUR</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
+                  {timer.min}
+                </span>
+                <span className="mt-2 text-xs font-bold text-gray-800">MIN</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
+                  {timer.sec}
+                </span>
+                <span className="mt-2 text-xs font-bold text-gray-800">SEC</span>
+              </div>
+            </div>
+            <p className="mt-8 max-w-[300px] text-TUCMC-gray-700">
+              ระบบจะเปิดให้เข้าสู่ระบบเพื่อยืนยันสิทธิ์ชมรมเดิมพร้อมกันในวันที่ 5 พ.ค. 2565 เวลา 11.30 น.
+            </p>
+            <div className="mt-2 flex w-full flex-row justify-center">
+              <span
+                onClick={() => {
+                  setAction("forgot")
+                }}
+                className="cursor-pointer text-TUCMC-pink-400"
+              >
+                ลืมรหัสผ่าน
+              </span>
+            </div>
           </div>
         )}
         {action == "register" && (

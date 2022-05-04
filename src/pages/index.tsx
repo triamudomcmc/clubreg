@@ -10,14 +10,14 @@ import Footer from "@components/common/Footer"
 import { AnimateSharedLayout, motion } from "framer-motion"
 import { useTimer } from "@utilities/timers"
 import Router from "next/router"
-import { endLastRound, endOldClubTest, openTime, startOldClub, startOldClubTest } from "@config/time"
+import { endLastRound, endOldClub, openTime, startOldClub } from "@config/time"
 import Image from "next/image"
 import { useAuth } from "@client/auth"
 import { Data } from "framer"
 
 const Index = () => {
   // const goal = openTime
-  const goal = startOldClubTest
+  const goal = startOldClub
 
   const timer = useTimer(goal)
   const { onReady } = useAuth()
@@ -31,7 +31,7 @@ const Index = () => {
     } else if (userData.club === "") {
       // Router.push("/select")
       // return userData
-      if (new Date().getTime() > endOldClubTest || new Date().getTime() < startOldClubTest) {
+      if (new Date().getTime() > endOldClub || new Date().getTime() < startOldClub) {
         // during club reg time
         if (new Date().getTime() > openTime && new Date().getTime() < endLastRound) return "no_club"
       } else {

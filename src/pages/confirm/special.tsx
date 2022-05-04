@@ -1,5 +1,5 @@
 import PageContainer from "@components/common/PageContainer"
-import { endOldClub, endOldClubTest, startOldClubTest } from "@config/time"
+import { endOldClub, startOldClub } from "@config/time"
 import { useAuth } from "@handlers/client/auth"
 import { fetchClub } from "@client/fetcher/panel"
 import { ClubData } from "@interfaces/clubData"
@@ -264,7 +264,7 @@ const Confirm: NextPage = () => {
     if (!logged) {
       Router.push("/auth")
     } else {
-      if (!(new Date().getTime() < endOldClubTest && new Date().getTime() >= startOldClubTest)) {
+      if (!(new Date().getTime() < endOldClub && new Date().getTime() >= startOldClub)) {
         Router.push("/")
         return { userData }
       }

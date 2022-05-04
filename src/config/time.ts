@@ -1,23 +1,25 @@
 import moment from "moment"
+;("2022-05-03T11:30:00.000+07:00")
+;("2022-05-03T00:00:00.000+07:00")
 
-export const startOldClubTest = +new Date(2022, 5 - 1, 3, 11, 30, 0)
-export const endOldClubTest = +new Date(2022, 5 - 1, 5, 0, 0, 0)
+export const startOldClubTest = +new Date("2022-05-03T11:30:00.000+07:00")
+export const endOldClubTest = +new Date("2022-05-05T00:00:00.000+07:00")
 
-export const startOldClub = +new Date(2022, 5 - 1, 5, 11, 30, 0)
-export const startOldClubCountdown = +new Date(2022, 5 - 1, 5, 10, 30, 0)
-export const endOldClub = +new Date(2022, 5 - 1, 7, 0, 0, 0)
+export const startOldClub = +new Date("2022-05-05T11:30:00.000+07:00")
+export const startOldClubCountdown = +new Date("2022-05-05T10:30:00.000+07:00")
+export const endOldClub = +new Date("2022-05-07T00:00:00.000+07:00")
 
-export const openTime = +new Date(2022, 5 - 1, 17, 11, 30, 0)
-export const editDataTime = +new Date(2022, 5 - 1, 24, 23, 59, 59)
-export const endRegClubTime = +new Date(2022, 5 - 1, 25, 0, 0, 0)
-export const announceTime = +new Date(2022, 5 - 1, 25, 7, 30, 0)
+export const openTime = +new Date("2022-05-17T11:30:00.000+07:00")
+export const editDataTime = +new Date("2022-05-25T00:00:00.000+07:00")
+export const endRegClubTime = +new Date("2022-05-25T00:00:00.000+07:00")
+export const announceTime = +new Date("2022-05-25T07:30:00.000+07:00")
 // rem
 export const breakUpperBound = +new Date(2022, 5 - 1, 14, 9, 0, 0)
 export const breakLowerBound = +new Date(2022, 5 - 1, 14, 9, 0, 0)
 export const positionUpdateTime = +new Date(2022, 5 - 1, 14, 9, 0, 0)
 // rem
-export const lastround = +new Date(2022, 5 - 1, 28, 7, 30, 0)
-export const endLastRound = +new Date(2022, 5 - 1, 29, 0, 0, 0)
+export const lastround = +new Date("2022-05-28T07:30:00.000+07:00")
+export const endLastRound = +new Date("2022-05-29T00:00:00.000+07:00")
 
 export const getUNIXTimeStamp = () => {
   return moment().unix() * 1000
