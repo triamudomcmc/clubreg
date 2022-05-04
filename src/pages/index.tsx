@@ -137,9 +137,13 @@ const Index = () => {
                     )}
                   </div>
                 )}
-                <div className="hidden px-1 font-medium text-white md:block">
+                {/* <div className="hidden px-1 font-medium text-white md:block">
                   <p>ระบบจะเปิดให้ลงทะเบียนชมรม</p>
                   <p>ในวันที่ 7 มิ.ย. 2564 เวลา 12.30 น.</p>
+                </div> */}
+                <div className="hidden px-1 font-medium text-white md:block">
+                  <p>ระบบจะเปิดให้ยืนยันสิทธิ์ชมรมเดิม</p>
+                  <p>ในวันที่ 5 พ.ค. 2565 เวลา 11.30 น.</p>
                 </div>
               </div>
             </div>
@@ -212,9 +216,13 @@ const Index = () => {
             <div className="mx-8 mt-6 mb-14 md:hidden">
               <div className="flex flex-row space-x-4 rounded-lg bg-TUCMC-pink-100 p-4 text-TUCMC-pink-500">
                 <InformationCircleIcon className="h-6 w-6" />
-                <div className="font-medium">
+                {/* <div className="font-medium">
                   <p>ระบบจะเปิดให้ลงทะเบียนชมรม</p>
                   <p>ในวันที่ 7 มิ.ย. 2564 เวลา 12.30 น.</p>
+                </div> */}
+                <div className="font-medium">
+                  <p>ระบบจะเปิดให้ยืนยันสิทธิ์ชมรมเดิม</p>
+                  <p>ในวันที่ 5 พ.ค. 2565 เวลา 11.30 น.</p>
                 </div>
               </div>
             </div>
