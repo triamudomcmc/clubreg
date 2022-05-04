@@ -8,7 +8,7 @@ import RegisterSection from "@components/auth/RegisterSection"
 import { Loader } from "@components/common/Loader"
 import { useToast } from "@components/common/Toast/ToastContext"
 import { ForgotSection } from "@components/auth/ForgotSection"
-import { endLastRound, lastround, openTime, startOldClub, startOldClubCountdown } from "@config/time"
+import { endLastRound, endOldClub, lastround, openTime, startOldClub, startOldClubCountdown } from "@config/time"
 import { useTimer } from "@utilities/timers"
 
 const Auth = ({ query }) => {
@@ -38,6 +38,12 @@ const Auth = ({ query }) => {
       //     Router.push("/announce")
       //   }
       // }
+
+      if (userData.club === "") {
+        if (new Date().getTime() < endOldClub && new Date().getTime() > startOldClub) {
+          return Router.push("/confirm")
+        }
+      }
 
       return Router.push("/")
     }
