@@ -44,7 +44,7 @@ const ModalSection: FC<{
 
   const submitData = async () => {
     setPending(true)
-    const res = await confirmOldClub(phone, password, oldClubID)
+    const res = await confirmOldClub(password, oldClubID)
     setPending(false)
 
     try {
@@ -159,36 +159,7 @@ const ModalSection: FC<{
         </div>
       </div>
       <div className="w-full space-y-6 rounded-b-lg bg-TUCMC-gray-100 px-4 py-4">
-        <div className="flex-col space-y-2">
-          <div>
-            <div className="relative mt-1 rounded-md shadow-sm">
-              <div className="absolute inset-y-0 left-0 flex items-center">
-                <label htmlFor="country" className="sr-only">
-                  Country
-                </label>
-                <select
-                  id="country"
-                  name="country"
-                  className="h-full rounded-md border-transparent bg-transparent py-0 pl-3 pr-7 text-gray-500 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                >
-                  <option>TH</option>
-                </select>
-              </div>
-              <input
-                type="text"
-                name="phone_number"
-                id="phone_number"
-                className="block w-full rounded-md border-gray-300 pl-16 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                placeholder="0935353535"
-                value={phone}
-                onChange={(event) => {
-                  setPhone(event.target.value)
-                }}
-              />
-            </div>
-          </div>
-          <Input stateUpdate={setPassword} type="password" className="h-10" placeholder="รหัสผ่าน" />
-        </div>
+      <Input stateUpdate={setPassword} type="password" className="h-10" placeholder="รหัสผ่าน" />
         <div className="space-y-2">
           <Button
             onClick={submitData}
