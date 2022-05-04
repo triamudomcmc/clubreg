@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { regClub } from "@server/userActions/regClub"
 import { confirmClub } from "@server/userActions/confirmClub"
 import { rejectClub } from "@server/userActions/rejectClub"
+import { oldClub } from "@handlers/server/userActions/oldClub"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req
@@ -18,6 +19,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
         case "confirmClub": {
           const output = await confirmClub(req, res)
+          res.json(output)
+          break
+        }
+        case "confirmOldClub": {
+          const output = await oldClub(req, res)
           res.json(output)
           break
         }
