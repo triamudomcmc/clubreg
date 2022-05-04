@@ -32,6 +32,10 @@ export const oldClub = async (req, res) => {
       return { status: false, report: "in_club" }
     }
 
+    if (currentData.get("old_club") !== req.body.clubID || currentData.get("old_club") === "ก30921") {
+      return { status: false, report: "not_old_club" }
+    }
+
     await dataRef.update({ club: req.body.clubID, audition: {}, cardID: cardRef.id })
 
     update("system", `regClub-${"oc"}-${clubData.audition ? "au" : "nu"}-${req.body.clubID}`, req.body.fp, userData.id)
