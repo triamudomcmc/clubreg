@@ -4,6 +4,7 @@ export const startOldClubTest = +new Date(2022, 5 - 1, 3, 11, 30, 0)
 export const endOldClubTest = +new Date(2022, 5 - 1, 5, 0, 0, 0)
 
 export const startOldClub = +new Date(2022, 5 - 1, 5, 11, 30, 0)
+export const startOldClubCountdown = +new Date(2022, 5 - 1, 5, 10, 30, 0)
 export const endOldClub = +new Date(2022, 5 - 1, 7, 0, 0, 0)
 
 export const openTime = +new Date(2022, 5 - 1, 17, 11, 30, 0)
