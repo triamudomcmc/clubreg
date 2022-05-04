@@ -22,7 +22,12 @@ export const oldClub = async (req, res) => {
   if (!checkInputResult.status) return { status: false, report: checkInputResult.report }
 
   try {
-    const clubData = await updateClub(clubRef, req)
+
+    const doc = await clubRef.get()
+    // 1 read
+    const data = doc.get(req.body.clubID)
+
+    const clubData = data
 
     // confirm or not audition
     const cardRef = await generateCard(dataDoc, clubData, req)
@@ -37,6 +42,8 @@ export const oldClub = async (req, res) => {
     }
 
     await dataRef.update({ club: req.body.clubID, audition: {}, cardID: cardRef.id })
+
+    await updateClub(clubRef, req)
 
     update("system", `regClub-${"oc"}-${clubData.audition ? "au" : "nu"}-${req.body.clubID}`, req.body.fp, userData.id)
 
