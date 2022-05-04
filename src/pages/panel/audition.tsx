@@ -1,7 +1,7 @@
 import PageContainer from "@components/common/PageContainer"
-import { ArrowLeftIcon, DocumentTextIcon, ExclamationIcon, UserGroupIcon } from "@heroicons/react/solid"
+import { ArrowLeftIcon, CheckIcon, DocumentTextIcon, ExclamationIcon, SelectorIcon, UserGroupIcon } from "@heroicons/react/solid"
 import { FilterSearch } from "@components/common/Inputs/Search"
-import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react"
 import { PassedSection } from "@components/panel/sections/PassedSection"
 import classnames from "classnames"
 import { ReservedSection } from "@components/panel/sections/ReservedSection"
@@ -23,6 +23,8 @@ import { CatLoader } from "@components/common/CatLoader"
 import { AnimatePresence, motion } from "framer-motion"
 import { WaitingScreen } from "@components/common/WaitingScreen"
 import { announceTime, breakLowerBound, breakUpperBound, editDataTime } from "@config/time"
+import { Listbox, Transition } from "@headlessui/react"
+import classNames from "classnames"
 
 const fetchMemberData = async (
   panelID: string,
@@ -30,10 +32,18 @@ const fetchMemberData = async (
   setReservedPos: Dispatch<SetStateAction<{}>>,
   setToast,
   reFetch,
-  setInitMem
+  setInitMem,
+  section,
+  setAllMembers
 ) => {
   const data = await fetchMembers(panelID)
   const obj = {
+    waiting: [],
+    passed: [],
+    failed: [],
+    reserved: [],
+  }
+  const aobj = {
     waiting: [],
     passed: [],
     failed: [],
@@ -44,16 +54,31 @@ const fetchMemberData = async (
   if (data.status) {
     data.data.forEach((oitem) => {
       let item = oitem
+
       if ("position" in oitem) {
         item = { ...oitem, id: oitem.position }
-        reservedPos[item.dataRefID] = item.position
+        reservedPos[item.section] = {
+          ...reservedPos[item.section],
+          [item.dataRefID]: item.position
+        }
       }
-      if (item.status === "confirmed" || item.status === "rejected") return obj["passed"].push(item)
 
-      obj[item.status].push(item)
+      if (section !== null && section && oitem.section !== section) {
+
+        if (item.status === "confirmed" || item.status === "rejected") return aobj["passed"].push(item)
+
+        aobj[item.status].push(item)
+      }else{
+        if (item.status === "confirmed" || item.status === "rejected") return obj["passed"].push(item)
+
+        obj[item.status].push(item)
+      }
     })
 
+    console.log(obj)
+
     setMemberData(obj)
+    setAllMembers(aobj)
     setReservedPos(reservedPos)
     setInitMem(true)
   } else {
@@ -95,6 +120,12 @@ const Audition = () => {
   const [section, setSection] = useState("passed")
   const [rawSorted, setRawSorted] = useState([])
   const [sortedData, setSortedData] = useState([])
+  const [allMemberData, setAllMemberData] = useState({
+    waiting: [],
+    passed: [],
+    failed: [],
+    reserved: [],
+  })
   const [initmember, setInitMember] = useState(false)
 
   const [memberData, setMemberData] = useState({
@@ -107,14 +138,21 @@ const Audition = () => {
   const [page, setPage] = useState("panel")
   const [pendingUpdate, setPendingUpdate] = useState({})
   const [reservedPos, setReservedPos] = useState({})
-  const [clubData, setClubData] = useState({ new_count: 0, new_count_limit: 0, call_count: 0 })
+  const [clubData, setClubData] = useState({ new_count: 0, new_count_limit: 0, call_count: 0, sections: null })
+  const [clubSectionList, setClubSectionList] = useState([
+    { id: 1, name: null }
+  ])
+
+  const [clubSection, setClubSection] = useState(clubSectionList[0])
   const [editing, setEditing] = useState({})
   const [editDep, setEditDep] = useState(false)
   const [pending, setPending] = useState(false)
 
   const upperBound = breakUpperBound,
     lowerBound = breakLowerBound
-  const editable = !(new Date().getTime() > announceTime)
+
+  const editable = true
+  // const editable = !(new Date().getTime() > announceTime)
 
   const timer = useTimer(lowerBound)
 
@@ -130,10 +168,41 @@ const Audition = () => {
     return userData
   })
 
+  useEffect(() => {
+    const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
+    fetchMemberData(currentID, setMemberData, setReservedPos, addToast, reFetch, setInitMember, clubSection.name, setAllMemberData)
+
+    if (clubSection.name === null) return
+    localStorage.setItem("selClubSec", JSON.stringify(clubSection))
+
+  }, [clubSection.name])
+
+  useEffect(() => {
+    
+    if (!clubData.sections || clubData.sections.length <= 0) return
+
+    setClubSectionList(clubData.sections.map((e,k) => ({
+      id: k +1,
+      name: e
+    })))
+
+
+    const sectionData = JSON.parse(localStorage.getItem("selClubSec")|| "{}")
+      if (sectionData.name) {
+        setClubSection(sectionData)
+      }else{
+        setClubSection(clubData.sections.map((e,k) => ({
+          id: k +1,
+          name: e
+        }))[0])
+      }
+
+  },[ clubData.sections ])
+
   const refetch = () => {
     const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
 
-    fetchMemberData(currentID, setMemberData, setReservedPos, addToast, reFetch, setInitMember)
+    fetchMemberData(currentID, setMemberData, setReservedPos, addToast, reFetch, setInitMember, clubSection.name, setAllMemberData)
     fetchClubData(currentID, setClubData)
   }
 
@@ -189,6 +258,8 @@ const Audition = () => {
       setPending(false)
       return
     }
+
+
     const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
     const res = await submitPending(currentID, pendingUpdate)
     if (res.status) {
@@ -317,7 +388,7 @@ const Audition = () => {
     <PageContainer hide={!initmember}>
       <Editor
         userData={editing}
-        reservedPos={reservedPos}
+        reservedPos={reservedPos[clubSection.name]}
         setReservedPos={setReservedPos}
         refetch={refetch}
         TriggerDep={{
@@ -326,6 +397,9 @@ const Audition = () => {
             setEditDep(false)
           },
         }}
+        section={clubSection?.name}
+        clubSectionList={clubSectionList}
+        initClubSection={clubSection}
       />
       <AnimatePresence>
         {initmember ? (
@@ -358,6 +432,74 @@ const Audition = () => {
                 {button}
               </div>
               <div className="mt-14 flex flex-col px-3">
+              <div className="flex justify-left mb-6 px-2">
+                  <div className="flex items-center space-x-3">
+                    <h1>ส่วนที่กำลังแก้ไข : </h1>
+                    <div className="">
+            <Listbox value={clubSection} onChange={setClubSection}>
+              {({ open }) => (
+                <>
+                  <div className="relative mt-1 z-20">
+                    <Listbox.Button className="focus:outline-none relative w-full cursor-default rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 text-left text-lg shadow-sm focus:border-TUCMC-pink-500 focus:ring-1 focus:ring-TUCMC-pink-500">
+                      <span className="block truncate">{clubSection?.name}</span>
+                      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                        <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                      </span>
+                    </Listbox.Button>
+
+                    <Transition
+                      show={open}
+                      as={Fragment}
+                      leave="transition ease-in duration-100"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <Listbox.Options
+                        static
+                        className="focus:outline-none absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-lg shadow-lg ring-1 ring-black ring-opacity-5"
+                      >
+                        {clubSectionList.map((person) => (
+                          <Listbox.Option
+                            key={person.id}
+                            className={({ active }) =>
+                              classNames(
+                                active ? "bg-TUCMC-pink-600 text-white" : "text-gray-900",
+                                "relative cursor-default select-none py-2 pl-3 pr-9"
+                              )
+                            }
+                            value={person}
+                          >
+                            {({ selected, active }) => (
+                              <>
+                                <span
+                                  className={classNames(selected ? "font-semibold" : "font-normal", "block truncate")}
+                                >
+                                  {person.name}
+                                </span>
+
+                                {selected ? (
+                                  <span
+                                    className={classNames(
+                                      active ? "text-white" : "text-TUCMC-pink-600",
+                                      "absolute inset-y-0 right-0 flex items-center pr-4"
+                                    )}
+                                  >
+                                    <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                  </span>
+                                ) : null}
+                              </>
+                            )}
+                          </Listbox.Option>
+                        ))}
+                      </Listbox.Options>
+                    </Transition>
+                  </div>
+                </>
+              )}
+            </Listbox>
+                    </div>
+                  </div>
+                </div>
                 <div className="flex w-full px-3 font-medium text-TUCMC-gray-400">
                   <div
                     onClick={() => {
@@ -438,7 +580,7 @@ const Audition = () => {
                 submitPendingSection={submitPendingSection}
                 reservedPos={reservedPos}
                 clubData={clubData}
-                memberData={memberData}
+                memberData={allMemberData}
                 pendingUpdate={pendingUpdate}
                 pending={pending}
               />

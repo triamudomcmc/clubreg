@@ -30,6 +30,7 @@ const BaseData: ClubData = {
   contact3: { type: "", context: "" },
   teacher_count: 0,
   status: "pending",
+  title: "",
 }
 
 const fetchClubDataAction = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>) => {

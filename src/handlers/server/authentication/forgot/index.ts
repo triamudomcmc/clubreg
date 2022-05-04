@@ -37,8 +37,6 @@ export const forgot = async (req, res) => {
     text: `แก้ไขรหัสผ่านได้ที่ https://register.clubs.triamudom.ac.th/auth/reset${action.id}`,
   }
 
-  console.log(`https://register.clubs.triamudom.ac.th/auth/reset${action.id}`)
-
   await sgMail.send(msg)
 
   update("system", "forgot", req.body.fp, user.docs[0].id)

@@ -437,7 +437,6 @@ const SummaryImages = ({ images, onLoad, clubID, setImageS, newImages }) => {
 
   useEffect(() => {
     let im = [...images].filter((e) => e.includes("picture"))
-    console.log(im)
     while (im.length < 3) {
       im.push("https://storage.googleapis.com/clwimages/placeholder-image.png")
     }

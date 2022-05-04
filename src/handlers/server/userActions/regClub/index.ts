@@ -38,6 +38,7 @@ export const regClub = async (req, res) => {
       if (currentData.get("club") !== "") {
         return { status: false, report: "in_club" }
       }
+      
       if (Object.keys(currentData.get("audition") || {}).length <= 0) {
         return { status: false, report: "denied" }
       }

@@ -9,6 +9,13 @@ export const regClub = async (phone: string, password: string, clubID: string, o
   })
 }
 
+export const confirmOldClub = async (password: string, clubID: string) => {
+  return await request("database/club", "confirmOldClub", {
+    clubID: clubID,
+    password: password,
+  })
+}
+
 export const confirmClub = async (phone: string, password: string, clubID: string) => {
   return await request("database/club", "confirmClub", { clubID: clubID, phone: phone, password: password })
 }

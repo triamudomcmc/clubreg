@@ -8,13 +8,15 @@ import RegisterSection from "@components/auth/RegisterSection"
 import { Loader } from "@components/common/Loader"
 import { useToast } from "@components/common/Toast/ToastContext"
 import { ForgotSection } from "@components/auth/ForgotSection"
-import { endLastRound, lastround, openTime } from "@config/time"
+import { endLastRound, lastround, openTime, startOldClub, startOldClubCountdown } from "@config/time"
+import { useTimer } from "@utilities/timers"
 
 const Auth = ({ query }) => {
-  const { onReady } = useAuth()
+  const { onReady, signout } = useAuth()
   const { addToast } = useToast()
   const [action, setAction] = useState("register" in query ? "register" : "login")
   const [loader, setLoader] = useState(false)
+  const timer = useTimer(startOldClub)
 
   onReady((logged, userData) => {
     if (logged) {
@@ -57,7 +59,28 @@ const Auth = ({ query }) => {
   }
 
   useEffect(() => {
+    const currentTime = new Date().getTime()
+    if (currentTime <= startOldClubCountdown) return
+    if (currentTime >= startOldClub) return
+    action === "login" && setAction("waiting")
+  }, [action])
+
+  useEffect(() => {
     const cause = localStorage.getItem("beforeExit")
+
+    const currentTime = new Date().getTime()
+
+    if (currentTime < startOldClub) {
+      setTimeout(() => {
+        Router.reload()
+      }, startOldClub - currentTime)
+    }
+
+    if (currentTime < startOldClubCountdown) {
+      setTimeout(() => {
+        signout()
+      }, startOldClubCountdown - currentTime)
+    }
 
     switch (cause) {
       case "sessionError":
@@ -128,6 +151,54 @@ const Auth = ({ query }) => {
             }}
             setLoader={setLoader}
           />
+        )}
+        {action == "waiting" && (
+          <div className="mt-6 flex flex-col items-center pt-8">
+            <h1 className="text-4xl font-bold tracking-tight">เข้าสู่ระบบ</h1>
+            <div className="mt-2 mb-6 text-center text-TUCMC-gray-600">
+              <p>ระบบลงทะเบียนชมรม</p>
+              <p>โรงเรียนเตรียมอุดมศึกษา ปีการศึกษา 2564</p>
+            </div>
+            <div className="flex flex-row justify-center space-x-2 text-TUCMC-gray-900">
+              <div className="flex flex-col items-center">
+                <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
+                  {timer.day}
+                </span>
+                <span className="mt-2 text-xs font-bold text-gray-800">DAY</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
+                  {timer.hour}
+                </span>
+                <span className="mt-2 text-xs font-bold text-gray-800">HOUR</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
+                  {timer.min}
+                </span>
+                <span className="mt-2 text-xs font-bold text-gray-800">MIN</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
+                  {timer.sec}
+                </span>
+                <span className="mt-2 text-xs font-bold text-gray-800">SEC</span>
+              </div>
+            </div>
+            <p className="mt-8 max-w-[300px] text-TUCMC-gray-700">
+              ระบบจะเปิดให้เข้าสู่ระบบเพื่อยืนยันสิทธิ์ชมรมเดิมพร้อมกันในวันที่ 5 พ.ค. 2565 เวลา 11.30 น.
+            </p>
+            <div className="mt-2 flex w-full flex-row justify-center">
+              <span
+                onClick={() => {
+                  setAction("forgot")
+                }}
+                className="cursor-pointer text-TUCMC-pink-400"
+              >
+                ลืมรหัสผ่าน
+              </span>
+            </div>
+          </div>
         )}
         {action == "register" && (
           <RegisterSection

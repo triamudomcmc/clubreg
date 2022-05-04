@@ -7,6 +7,7 @@ export default interface UserData {
   number: string
   level: string
   club: string
+  old_club: string
   audition: {}
   panelID?: Array<string>
   admin?: boolean

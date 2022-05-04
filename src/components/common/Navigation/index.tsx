@@ -164,11 +164,11 @@ const Navigation = () => {
                           <a className="block text-black hover:text-blue-600 hover:underline">แผงควบคุม</a>
                         </Link>
                       )}
-                      {userData && userData.club === "" && (
+                      {/* {userData && userData.club === "" && (
                         <Link passHref href="/select">
                           <a className="block text-black hover:text-blue-600 hover:underline">เลือกชมรม</a>
                         </Link>
-                      )}
+                      )} */}
                       <Link passHref href="/account">
                         <a className="block text-black hover:text-blue-600 hover:underline">จัดการบัญชี</a>
                       </Link>

@@ -12,4 +12,5 @@ export interface ClubData {
   contact3: { type: string; context: string }
   teacher_count: number
   status: "pending" | "accepted" | "declined"
+  title: string
 }

@@ -8,11 +8,11 @@ export const batchUpdateTasks = async (tasks, req) => {
     if (tasks[user].action === "reserved") {
       batch.set(
         ref,
-        { audition: { [req.body.panelID]: tasks[user].action }, position: { [req.body.panelID]: tasks[user].pos } },
+        { audition: { [req.body.panelID]: tasks[user].action }, position: { [req.body.panelID]: tasks[user].pos }, ...(tasks[user].section) && {section: { [req.body.panelID]: tasks[user].section}} },
         { merge: true }
       )
     } else {
-      batch.set(ref, { audition: { [req.body.panelID]: tasks[user].action } }, { merge: true })
+      batch.set(ref, { audition: { [req.body.panelID]: tasks[user].action }, ...(tasks[user].section) && {section: { [req.body.panelID]: tasks[user].section}} }, { merge: true })
     }
   }
 
