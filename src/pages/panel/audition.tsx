@@ -188,7 +188,7 @@ const Audition = () => {
 
 
     const sectionData = JSON.parse(localStorage.getItem("selClubSec")|| "{}")
-      if (sectionData.name !== null) {
+      if (sectionData.name) {
         setClubSection(sectionData)
       }else{
         setClubSection(clubData.sections.map((e,k) => ({
@@ -397,7 +397,7 @@ const Audition = () => {
             setEditDep(false)
           },
         }}
-        section={clubSection.name}
+        section={clubSection?.name}
         clubSectionList={clubSectionList}
         initClubSection={clubSection}
       />

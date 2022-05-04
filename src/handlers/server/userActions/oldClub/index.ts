@@ -5,7 +5,7 @@ import { update } from "@server/tracker"
 import initialisedDB from "@server/firebase-admin"
 import { endLastRound, endRegClubTime, lastround } from "@config/time"
 
-export const regClub = async (req, res) => {
+export const oldClub = async (req, res) => {
   if (new Date().getTime() < lastround || new Date().getTime() >= endLastRound)
     return { status: false, report: "exceeded_time_limit" }
 
@@ -24,12 +24,10 @@ export const regClub = async (req, res) => {
   try {
     const clubData = await updateClub(clubRef, req)
 
-    if (clubData.audition && !req.body.oldClubConfirm) {
-      if (new Date().getTime() > lastround) return { status: false, report: "denied" }
-      // is audition and not confirm old club
-      await dataRef.update("audition", { ...dataDoc.data().audition, ...{ [req.body.clubID]: "waiting" } })
+    if (clubData.audition) {
+
+
     } else {
-      if (req.body.oldClubConfirm) return { status: false, report: "denied" }
 
       // confirm or not audition
       const cardRef = await generateCard(dataDoc, clubData, req)
@@ -38,7 +36,6 @@ export const regClub = async (req, res) => {
       if (currentData.get("club") !== "") {
         return { status: false, report: "in_club" }
       }
-      
       if (Object.keys(currentData.get("audition") || {}).length <= 0) {
         return { status: false, report: "denied" }
       }
@@ -48,7 +45,7 @@ export const regClub = async (req, res) => {
 
     update(
       "system",
-      `regClub-${req.body.oldClubConfirm ? "oc" : "nc"}-${clubData.audition ? "au" : "nu"}-${req.body.clubID}`,
+      `regClub-${"oc"}-${clubData.audition ? "au" : "nu"}-${req.body.clubID}`,
       req.body.fp,
       userData.id
     )
