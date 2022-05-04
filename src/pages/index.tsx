@@ -10,7 +10,7 @@ import Footer from "@components/common/Footer"
 import { AnimateSharedLayout, motion } from "framer-motion"
 import { useTimer } from "@utilities/timers"
 import Router from "next/router"
-import { endOldClubTest, openTime, startOldClub, startOldClubTest } from "@config/time"
+import { endLastRound, endOldClubTest, openTime, startOldClub, startOldClubTest } from "@config/time"
 import Image from "next/image"
 import { useAuth } from "@client/auth"
 import { Data } from "framer"
@@ -24,15 +24,16 @@ const Index = () => {
 
   const [button, setButton] = useState(new Date().getTime() >= goal)
 
-  const regState: "no_login" | "no_club" | "club" | "old_club" = onReady((logged, userData) => {
+  const regState: "no_login" | "no_club" | "club" | "old_club" | "" = onReady((logged, userData) => {
     if (!logged) {
       // Router.push("/auth")
       return "no_login"
     } else if (userData.club === "") {
       // Router.push("/select")
       // return userData
-      if (new Date().getTime() > endOldClubTest) {
-        return "no_club"
+      if (new Date().getTime() > endOldClubTest || new Date().getTime() < startOldClubTest) {
+        // during club reg time
+        if (new Date().getTime() > openTime && new Date().getTime() < endLastRound) return "no_club"
       } else {
         return "old_club"
       }
