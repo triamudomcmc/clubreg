@@ -17,78 +17,78 @@ import { Input } from "@components/auth/Input"
 import { regClub } from "@handlers/client/userAction"
 import { useToast } from "@components/common/Toast/ToastContext"
 
-// const ModalSection: FC<{ clubName: string; open: boolean; setOpen: Dispatch<SetStateAction<boolean>> }> = ({
-//   clubName,
-//   open,
-//   setOpen,
-// }) => {
-//   const [modalState, setModalState] = useState(false)
-//   const [closeState, setCloseState] = useState(false)
+const ModalSection: FC<{ clubName: string; open: boolean; setOpen: Dispatch<SetStateAction<boolean>> }> = ({
+  clubName,
+  open,
+  setOpen,
+}) => {
+  const [modalState, setModalState] = useState(false)
+  const [closeState, setCloseState] = useState(false)
 
-//   const [password, setPassword] = useState("")
+  const [password, setPassword] = useState("")
 
-//   useEffect(() => {
-//     setModalState(open)
-//   }, [open])
+  useEffect(() => {
+    setModalState(open)
+  }, [open])
 
-//   const submitData = async () => {
-//     //
-//   }
+  const submitData = async () => {
+    //
+  }
 
-//   return (
-//     <Modal
-//       overlayClassName="fixed flex flex-col items-center justify-center top-0 left-0 bg-black bg-opacity-20 w-full min-h-screen z-[99]"
-//       className="flex min-w-[340px] flex-col items-center rounded-lg bg-white"
-//       CloseDep={{
-//         dep: closeState,
-//         revert: () => {
-//           setCloseState(false)
-//         },
-//       }}
-//       TriggerDep={{
-//         dep: modalState,
-//         revert: () => {
-//           setModalState(false)
-//           setOpen(false)
-//         },
-//       }}
-//     >
-//       <div className="flex w-full flex-col items-center px-4 py-4">
-//         <div className="mt-1 mb-2 rounded-full bg-TUCMC-orange-200 p-3">
-//           <ExclamationIcon className="h-6 w-6 text-TUCMC-orange-500" />
-//         </div>
-//         <div className="w-full space-y-1">
-//           <h1 className="text-center text-TUCMC-gray-900">ยืนยันสิทธิ์ชมรม{clubName}</h1>
-//           <p className="text-center text-sm text-TUCMC-gray-600">
-//             หากยืนยันสิทธิ์ชมรมนี้แล้ว
-//             <br />
-//             จะไม่สามารถเปลี่ยนชมรมได้อีกจนกว่าจะหมดปีการศึกษา
-//           </p>
-//         </div>
-//       </div>
-//       <div className="w-full space-y-6 rounded-b-lg bg-TUCMC-gray-100 px-4 py-4">
-//         <Input stateUpdate={setPassword} type="password" className="h-10" placeholder="รหัสผ่าน" />
-//         <div className="space-y-2">
-//           <button
-//             onClick={submitData}
-//             className="flex w-full items-center justify-center space-x-1 rounded-lg bg-TUCMC-green-400 py-2 text-white"
-//           >
-//             <CheckCircleIcon className="h-5 w-5" />
-//             <span>ยืนยัน</span>
-//           </button>
-//           <button
-//             onClick={() => {
-//               setCloseState(true)
-//             }}
-//             className="text-gray-TUCMC-600 w-full rounded-lg border border-gray-400 bg-white py-2"
-//           >
-//             ยกเลิก
-//           </button>
-//         </div>
-//       </div>
-//     </Modal>
-//   )
-// }
+  return (
+    <Modal
+      overlayClassName="fixed flex flex-col items-center justify-center top-0 left-0 bg-black bg-opacity-20 w-full min-h-screen z-[99]"
+      className="flex min-w-[340px] flex-col items-center rounded-lg bg-white"
+      CloseDep={{
+        dep: closeState,
+        revert: () => {
+          setCloseState(false)
+        },
+      }}
+      TriggerDep={{
+        dep: modalState,
+        revert: () => {
+          setModalState(false)
+          setOpen(false)
+        },
+      }}
+    >
+      <div className="flex w-full flex-col items-center px-4 py-4">
+        <div className="mt-1 mb-2 rounded-full bg-TUCMC-orange-200 p-3">
+          <ExclamationIcon className="h-6 w-6 text-TUCMC-orange-500" />
+        </div>
+        <div className="w-full space-y-1">
+          <h1 className="text-center text-TUCMC-gray-900">ยืนยันสิทธิ์ชมรม{clubName}</h1>
+          <p className="text-center text-sm text-TUCMC-gray-600">
+            หากยืนยันสิทธิ์ชมรมนี้แล้ว
+            <br />
+            จะไม่สามารถเปลี่ยนชมรมได้อีกจนกว่าจะหมดปีการศึกษา
+          </p>
+        </div>
+      </div>
+      <div className="w-full space-y-6 rounded-b-lg bg-TUCMC-gray-100 px-4 py-4">
+        <Input stateUpdate={setPassword} type="password" className="h-10" placeholder="รหัสผ่าน" />
+        <div className="space-y-2">
+          <button
+            onClick={submitData}
+            className="flex w-full items-center justify-center space-x-1 rounded-lg bg-TUCMC-green-400 py-2 text-white"
+          >
+            <CheckCircleIcon className="h-5 w-5" />
+            <span>ยืนยัน</span>
+          </button>
+          <button
+            onClick={() => {
+              setCloseState(true)
+            }}
+            className="text-gray-TUCMC-600 w-full rounded-lg border border-gray-400 bg-white py-2"
+          >
+            ยกเลิก
+          </button>
+        </div>
+      </div>
+    </Modal>
+  )
+}
 
 const BaseData: ClubData = {
   new_count: 0,
@@ -127,7 +127,7 @@ const fetchClubDataAction = async (clubID: string, setClubData: Dispatch<SetStat
 
 const Confirm: NextPage = () => {
   const [clubData, setClubData] = useState<ClubData & { loading?: boolean }>({ ...BaseData, loading: true })
-  // const [modalOpen, setModalOpen] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
 
   const { onReady, tracker, reFetch } = useAuth()
   const { addToast } = useToast()
@@ -184,7 +184,7 @@ const Confirm: NextPage = () => {
   return (
     <PageContainer>
       <AnimateSharedLayout>
-        {/* <ModalSection clubName={clubData.title} open={modalOpen} setOpen={setModalOpen} /> */}
+        <ModalSection clubName={clubData.title} open={modalOpen} setOpen={setModalOpen} />
 
         <div className="flex min-h-screen flex-col items-center space-y-8 py-14 px-4">
           <div className="md:max-w-xs">
@@ -225,8 +225,8 @@ const Confirm: NextPage = () => {
               {clubData.old_count_limit - clubData.old_count > 0 && (
                 <button
                   onClick={() => {
-                    // setModalOpen(true)
-                    confirm()
+                    setModalOpen(true)
+                    // confirm()
                   }}
                   className="mt-4 rounded-full bg-TUCMC-green-400 py-3 px-6 text-white transition-colors hover:bg-TUCMC-green-500"
                 >
