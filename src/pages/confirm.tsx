@@ -1,5 +1,5 @@
 import PageContainer from "@components/common/PageContainer"
-import { endOldClub } from "@config/time"
+import { endOldClub, endOldClubTest, startOldClubTest } from "@config/time"
 import { useAuth } from "@handlers/client/auth"
 import { fetchClub } from "@client/fetcher/panel"
 import { ClubData } from "@interfaces/clubData"
@@ -14,25 +14,117 @@ import { FC } from "react"
 import Modal from "@components/common/Modals"
 import { CheckCircleIcon, CheckIcon, ExclamationIcon } from "@heroicons/react/outline"
 import { Input } from "@components/auth/Input"
-import { regClub } from "@handlers/client/userAction"
+import { confirmOldClub, regClub } from "@handlers/client/userAction"
 import { useToast } from "@components/common/Toast/ToastContext"
+import Link from "next/link"
+import SelectSplash from "@vectors/decorations/SelectSplash"
+import { Button } from "@components/common/Inputs/Button"
+import { Ellipsis } from "@vectors/Loaders/Ellipsis"
 
-const ModalSection: FC<{ clubName: string; open: boolean; setOpen: Dispatch<SetStateAction<boolean>> }> = ({
-  clubName,
-  open,
-  setOpen,
-}) => {
+const ModalSection: FC<{
+  clubName: string
+  open: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
+  oldClubID: string
+}> = ({ clubName, open, setOpen, oldClubID }) => {
   const [modalState, setModalState] = useState(false)
   const [closeState, setCloseState] = useState(false)
+  const [pending, setPending] = useState(false)
+
+  const { reFetch } = useAuth()
 
   const [password, setPassword] = useState("")
+  const [phone, setPhone] = useState("")
+
+  const { addToast } = useToast()
 
   useEffect(() => {
     setModalState(open)
   }, [open])
 
   const submitData = async () => {
-    //
+    setPending(true)
+    const res = await confirmOldClub(phone, password, oldClubID)
+    setPending(false)
+
+    try {
+      if (res.status) {
+        addToast({
+          theme: "modern",
+          icon: "tick",
+          title: "ยืนยันสิทธิ์ชมรมแล้ว",
+          text: "ขอให้มีความสุขกับกิจกรรมชมรม",
+          lifeSpan: 30000,
+          crossPage: true,
+        })
+        reFetch()
+        Router.push({ href: "/card" })
+      } else {
+        switch (res.report) {
+          case "sessionError":
+            addToast({
+              theme: "modern",
+              icon: "cross",
+              title: "พบข้อผิดพลาดของเซสชั่น",
+              text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
+              crossPage: true,
+            })
+            reFetch()
+            break
+          case "invalid_password":
+            addToast({
+              theme: "modern",
+              icon: "cross",
+              title: "รหัสผ่านไม่ถูกต้อง",
+              text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือ หากลืมรหัสผ่านสามารถติดต่อทาง กช. เพื่อขอเปลี่ยนรหัสผ่านได้",
+            })
+            break
+          case "invalid_phone":
+            addToast({
+              theme: "modern",
+              icon: "cross",
+              title: "เบอร์โทรศัพท์ ที่ระบุไม่ถูกต้อง",
+              text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช.",
+            })
+            break
+          case "club_full":
+            addToast({
+              theme: "modern",
+              icon: "cross",
+              title: "ขออภัยในขณะนี้โควต้าสมาชิกเก่าของชมรมนี้เต็มแล้ว",
+              text: "กรุณาลองเลือกชมรมนี้ในฐานะสมาชิกใหม่ในวันเปิดระบบลงทะเบียนชมรม",
+            })
+            setCloseState(true)
+            setPhone("")
+            setPassword("")
+            reFetch()
+            break
+          case "in_club":
+            addToast({
+              theme: "modern",
+              icon: "cross",
+              title: "ขออภัยคุณได้เลือกชมรมนี้ไปแล้ว",
+              text: "กรุณาเลือกชมรมอื่นที่ยังว่างอยู่ในตอนนี้",
+            })
+            break
+          case "in_audition":
+            addToast({
+              theme: "modern",
+              icon: "cross",
+              title: "ขออภัยคุณได้เลือกชมรมที่มีการ Audition ไปแล้ว",
+              text: "กรุณาเลือกชมรมอื่น เนื่องจากหากลง Audition ไปแล้วจะไม่สามารถเลือกชมรมที่ไม่มีการ Audition ได้",
+            })
+            break
+        }
+      }
+    } catch (error) {
+      addToast({
+        theme: "modern",
+        icon: "cross",
+        title: "พบข้อผิดพลาดที่ไม่ทราบสาเหตุ",
+        text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง หากยังพบข้อผิดพลาดสามารถติดต่อทาง กช.",
+      })
+    }
   }
 
   return (
@@ -67,15 +159,51 @@ const ModalSection: FC<{ clubName: string; open: boolean; setOpen: Dispatch<SetS
         </div>
       </div>
       <div className="w-full space-y-6 rounded-b-lg bg-TUCMC-gray-100 px-4 py-4">
-        <Input stateUpdate={setPassword} type="password" className="h-10" placeholder="รหัสผ่าน" />
+        <div className="flex-col space-y-2">
+          <div>
+            <div className="relative mt-1 rounded-md shadow-sm">
+              <div className="absolute inset-y-0 left-0 flex items-center">
+                <label htmlFor="country" className="sr-only">
+                  Country
+                </label>
+                <select
+                  id="country"
+                  name="country"
+                  className="h-full rounded-md border-transparent bg-transparent py-0 pl-3 pr-7 text-gray-500 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                >
+                  <option>TH</option>
+                </select>
+              </div>
+              <input
+                type="text"
+                name="phone_number"
+                id="phone_number"
+                className="block w-full rounded-md border-gray-300 pl-16 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                placeholder="0935353535"
+                value={phone}
+                onChange={(event) => {
+                  setPhone(event.target.value)
+                }}
+              />
+            </div>
+          </div>
+          <Input stateUpdate={setPassword} type="password" className="h-10" placeholder="รหัสผ่าน" />
+        </div>
         <div className="space-y-2">
-          <button
+          <Button
             onClick={submitData}
+            disabled={pending}
             className="flex w-full items-center justify-center space-x-1 rounded-lg bg-TUCMC-green-400 py-2 text-white"
           >
-            <CheckCircleIcon className="h-5 w-5" />
-            <span>ยืนยัน</span>
-          </button>
+            {pending ? (
+              <Ellipsis className="h-6 w-[2.4rem]" />
+            ) : (
+              <>
+                <CheckCircleIcon className="h-5 w-5" />
+                <span>ยืนยัน</span>
+              </>
+            )}
+          </Button>
           <button
             onClick={() => {
               setCloseState(true)
@@ -109,28 +237,20 @@ const BaseData: ClubData = {
 
 const fetchClubDataAction = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>) => {
   if (!clubID) return
-
   const data = await fetchClub(clubID)
-  let nid = clubID
-  if (clubID.includes("_")) {
-    nid = `${clubID.split("_")[0]}_1`
-  } else {
-    if (clubID.includes("ก30920") && clubID !== "ก30920-8") {
-      nid = "ก30920-1"
-    }
-  }
 
-  //@ts-ignore
-  const st: { status: any } = await fetchClub(nid)
-  setClubData({ ...data, status: st.status })
+  if (data.hasOwnProperty("status")) setClubData({ invalid: true })
+  else setClubData({ ...data })
 }
 
 const Confirm: NextPage = () => {
-  const [clubData, setClubData] = useState<ClubData & { loading?: boolean }>({ ...BaseData, loading: true })
+  const [clubData, setClubData] = useState<ClubData & { loading?: boolean } & { invalid?: boolean }>({
+    ...BaseData,
+    loading: true,
+  })
   const [modalOpen, setModalOpen] = useState(false)
 
   const { onReady, tracker, reFetch } = useAuth()
-  const { addToast } = useToast()
 
   const { userData } = onReady((logged, userData) => {
     if (!logged) {
@@ -143,7 +263,11 @@ const Confirm: NextPage = () => {
 
       if (userData.club !== "") {
         Router.push("/card")
-      } else if (userData.old_club === "") {
+      } else if (
+        userData?.old_club === "" ||
+        !userData?.old_club ||
+        !(new Date().getTime() < endOldClubTest && new Date().getTime() >= startOldClubTest)
+      ) {
         Router.push("/")
       }
     }
@@ -154,91 +278,104 @@ const Confirm: NextPage = () => {
     fetchClubDataAction(userData?.old_club, setClubData)
   }
 
-  const confirm = async () => {
-    const res = await regClub("", "", userData?.old_club, true)
-    console.log(res)
-    if (res.status) {
-      addToast({
-        theme: "modern",
-        icon: "tick",
-        title: "ยืนยันสิทธิ์ชมรมเดิม",
-        text: "ติดตามรายละเอียดการ Audition จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง และไปทำการ Audition ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนด",
-        lifeSpan: 30000,
-      })
-      // refetcher()
-    } else {
-      addToast({
-        theme: "modern",
-        icon: "cross",
-        title: "พบข้อผิดพลาดที่ไม่ทราบสาเหตุ",
-        text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง หากยังพบข้อผิดพลาดสามารถติดต่อทาง กช.",
-      })
-    }
-  }
-
   useEffect(() => {
     refetchData()
   }, [userData])
 
-  if (clubData.loading) return <CatLoader />
-  return (
-    <PageContainer>
-      <AnimateSharedLayout>
-        <ModalSection clubName={clubData.title} open={modalOpen} setOpen={setModalOpen} />
+  if (clubData?.loading) return <CatLoader />
+  else
+    return (
+      <PageContainer>
+        <AnimateSharedLayout>
+          <ModalSection
+            oldClubID={userData?.old_club}
+            clubName={clubData.title}
+            open={modalOpen}
+            setOpen={setModalOpen}
+          />
 
-        <div className="flex min-h-screen flex-col items-center space-y-8 py-14 px-4">
-          <div className="md:max-w-xs">
-            <div className="flex flex-col items-center">
-              <h1 className="text-4xl font-medium">ยืนยันสิทธิ์ชมรมเดิม</h1>
-              <span className="text-sm tracking-tight">ภายในวันที่ 6 พ.ค. 65</span>
-            </div>
-            <div className="mt-6 w-full min-w-[300px] px-8">
-              <AnnounceSplash />
-            </div>
-          </div>
-
-          <div className="flex justify-center">
-            <div className="rounded-md py-4 px-8 shadow-md">
-              <div className="flex flex-col space-y-1">
-                <h2>ชมรม{clubData.title}</h2>
-                {clubData.audition ? (
-                  <div className="flex space-x-1 text-xs text-TUCMC-pink-400">
-                    <StarIcon className="mt-1 h-4 w-4" />
-                    <span className="leading-6">มีการ Audition</span>
-                  </div>
-                ) : (
-                  <div className="flex space-x-1 text-xs text-TUCMC-blue-400">
-                    <ClipboardCopyIcon className="mt-1 h-4 w-4" />
-                    <span className="leading-6">ไม่มีการ Audition</span>
-                  </div>
-                )}
-
-                {clubData.old_count_limit - clubData.old_count > 0 ? (
-                  <p className="text-sm text-TUCMC-gray-600">
-                    เหลืออีก {clubData.old_count_limit - clubData.old_count} ที่
-                  </p>
-                ) : (
-                  <p className="text-sm text-TUCMC-red-500">ชมรมนี้มีโควตายืนยันชมรมเดิมเต็มแล้ว</p>
-                )}
+          <div className="flex min-h-screen flex-col items-center space-y-8 py-14 px-4">
+            <div className="md:max-w-xs">
+              <div className="flex flex-col items-center">
+                <h1 className="text-4xl font-medium">ยืนยันสิทธิ์ชมรมเดิม</h1>
+                <span className="text-sm tracking-tight">ภายในวันที่ 6 พ.ค. 65</span>
               </div>
+              <div className="mt-6 w-full min-w-[300px] px-8">
+                <SelectSplash />
+              </div>
+            </div>
 
-              {clubData.old_count_limit - clubData.old_count > 0 && (
-                <button
-                  onClick={() => {
-                    setModalOpen(true)
-                    // confirm()
-                  }}
-                  className="mt-4 rounded-full bg-TUCMC-green-400 py-3 px-6 text-white transition-colors hover:bg-TUCMC-green-500"
-                >
-                  ยืนยันสิทธิ์ชมรมเดิม
-                </button>
+            <div className="flex justify-center">
+              {clubData?.invalid ? (
+                <div className="flex max-w-lg flex-col space-y-4 rounded-lg bg-white p-4 py-6 shadow-md">
+                  <h2 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h2>
+                  <p className="tracking-tight text-gray-600">
+                    นักเรียนไม่สามารถยืนยันสิทธิ์ได้ เนื่องจาก
+                    <span className="text-TUCMC-red-400">ไม่มีชมรมดังกล่าวในปีการศึกษานี้แล้ว</span>
+                    <br />
+                    ให้นักเรียนเลือกชมรมใหม่ในวันเปิดระบบลงทะเบียนชมรม
+                  </p>
+                  <div className="relative">
+                    <Link href="/FAQ" passHref>
+                      <a target="_blank" className="cursor-pointer tracking-tight text-TUCMC-gray-700">
+                        ดูรายละเอียดเพิ่มเติม →
+                      </a>
+                    </Link>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {clubData?.old_count_limit - clubData?.old_count > 0 ? (
+                    <div className="flex max-w-lg flex-col items-start space-y-4 rounded-lg bg-white p-4 py-6 shadow-md">
+                      <h2 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h2>
+                      <p className="tracking-tight text-gray-600">
+                        นักเรียนสามารถใช้โควตายืนยันสิทธิ์ชมรมเดิมได้ทันที [ชมรม{clubData?.title}] *โควตามีจำนวนจำกัด
+                      </p>
+                      <div className="relative">
+                        <Link href="/FAQ" passHref>
+                          <a target="_blank" className="cursor-pointer tracking-tight text-TUCMC-gray-700">
+                            ดูรายละเอียดเพิ่มเติม →
+                          </a>
+                        </Link>
+                      </div>
+                      <Button
+                        onClick={() => {
+                          setModalOpen(true)
+                        }}
+                        className="mt-4 rounded-full bg-TUCMC-green-400 py-3 px-6 text-white transition-colors hover:bg-TUCMC-green-500"
+                      >
+                        ยืนยันสิทธิ์ชมรมเดิม
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="flex max-w-lg flex-col space-y-4 rounded-lg bg-white p-4 py-6 shadow-md">
+                      <h2 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h2>
+                      <p className="tracking-tight text-gray-600">
+                        นักเรียนไม่สามารถยืนยันสิทธิ์ได้ (ชมรม{clubData.title}) เนื่องจากชมรม
+                        <span className="text-TUCMC-red-400">
+                          {userData && clubData?.old_count_limit === 0
+                            ? "ไม่อนุญาตให้ยืนยันสิทธิ์ชมรมเดิม"
+                            : "ไม่มีโควตาสมาชิกเก่าเหลือแล้ว"}
+                        </span>
+                        <br />
+                        หากต้องการอยู่ชมรมเดิม ให้กดลงทะเบียนเข้าชมรมเดิมในฐานะสมาชิกใหม่
+                      </p>
+                      <div className="relative">
+                        <Link href="/FAQ" passHref>
+                          <a target="_blank" className="cursor-pointer tracking-tight text-TUCMC-gray-700">
+                            ดูรายละเอียดเพิ่มเติม →
+                          </a>
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>
-        </div>
-      </AnimateSharedLayout>
-    </PageContainer>
-  )
+        </AnimateSharedLayout>
+      </PageContainer>
+    )
 }
 
 export default Confirm

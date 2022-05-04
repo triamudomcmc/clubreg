@@ -1,12 +1,12 @@
-import { checkInputs, updateClub } from "@server/userActions/regClub/functions"
+import { checkInputs, updateClub } from "@server/userActions/oldClub/functions"
 import { generateCard, initData } from "@server/userActions/sharedFunctions"
 import { fetchSession } from "@server/fetchers/session"
 import { update } from "@server/tracker"
 import initialisedDB from "@server/firebase-admin"
-import { endLastRound, endRegClubTime, lastround } from "@config/time"
+import { endLastRound, endOldClubTest, endRegClubTime, lastround, startOldClubTest } from "@config/time"
 
 export const oldClub = async (req, res) => {
-  if (new Date().getTime() < lastround || new Date().getTime() >= endLastRound)
+  if (!(new Date().getTime() < endOldClubTest && new Date().getTime() >= startOldClubTest))
     return { status: false, report: "exceeded_time_limit" }
 
   // Procedures
@@ -24,31 +24,17 @@ export const oldClub = async (req, res) => {
   try {
     const clubData = await updateClub(clubRef, req)
 
-    if (clubData.audition) {
+    // confirm or not audition
+    const cardRef = await generateCard(dataDoc, clubData, req)
+    const currentData = await initialisedDB.collection("data").doc(ID.dataRefID).get()
 
-
-    } else {
-
-      // confirm or not audition
-      const cardRef = await generateCard(dataDoc, clubData, req)
-      const currentData = await initialisedDB.collection("data").doc(ID.dataRefID).get()
-
-      if (currentData.get("club") !== "") {
-        return { status: false, report: "in_club" }
-      }
-      if (Object.keys(currentData.get("audition") || {}).length <= 0) {
-        return { status: false, report: "denied" }
-      }
-
-      await dataRef.update({ club: req.body.clubID, audition: {}, cardID: cardRef.id })
+    if (currentData.get("club") !== "") {
+      return { status: false, report: "in_club" }
     }
 
-    update(
-      "system",
-      `regClub-${"oc"}-${clubData.audition ? "au" : "nu"}-${req.body.clubID}`,
-      req.body.fp,
-      userData.id
-    )
+    await dataRef.update({ club: req.body.clubID, audition: {}, cardID: cardRef.id })
+
+    update("system", `regClub-${"oc"}-${clubData.audition ? "au" : "nu"}-${req.body.clubID}`, req.body.fp, userData.id)
 
     return { status: true, report: clubData.audition ? "success_audition" : "success_notAudition" }
   } catch (e) {

@@ -10,6 +10,7 @@ import Router from "next/router"
 import { Button } from "@components/common/Inputs/Button"
 import { GetStaticProps } from "next"
 import classnames from "classnames"
+import { endOldClubTest, startOldClubTest } from "@config/time"
 
 export const getStaticProps: GetStaticProps = async () => {
   const data = fs.readFileSync("./_map/links.json")
@@ -46,7 +47,10 @@ const Page = ({ links }) => {
       return userData
     }
     if (userData.club === "") {
-      Router.push("/select")
+      if (userData.old_club && new Date().getTime() < endOldClubTest && new Date().getTime() >= startOldClubTest)
+        Router.push("/confirm")
+      else Router.push("/select")
+
       return userData
     }
 

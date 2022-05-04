@@ -14,15 +14,27 @@ export const submitPending = async (panelID, tasks): Promise<{ status: boolean; 
   return await request("database/panel", "submitPending", { panelID: panelID, tasks: tasks })
 }
 
-export const updateUser = async (panelID, objectRefID, action, section, sectionUpdate): Promise<{ status: boolean; report: string; }> => {
-  return await request("database/panel", "updateUser", { panelID: panelID, objectRefID: objectRefID, task: action, section: section, sectionUpdate: sectionUpdate })
+export const updateUser = async (
+  panelID,
+  objectRefID,
+  action,
+  section,
+  sectionUpdate
+): Promise<{ status: boolean; report: string }> => {
+  return await request("database/panel", "updateUser", {
+    panelID: panelID,
+    objectRefID: objectRefID,
+    task: action,
+    section: section,
+    sectionUpdate: sectionUpdate,
+  })
 }
 
 export const updatePosition = async (panelID, tasks): Promise<{ status: boolean; report: string }> => {
   return await request("database/panel", "updatePosition", { panelID: panelID, tasks: tasks })
 }
 
-export const fetchClub = async (clubID: string): Promise<{}> => {
+export const fetchClub = async (clubID: string): Promise<any> => {
   return await request("database/panel", "fetchAClub", { clubID: clubID })
 }
 

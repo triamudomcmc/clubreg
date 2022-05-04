@@ -10,10 +10,10 @@ export const regClub = async (phone: string, password: string, clubID: string, o
 }
 
 export const confirmOldClub = async (phone: string, password: string, clubID: string) => {
-  return await request("database/club", "regClub", {
+  return await request("database/club", "confirmOldClub", {
     clubID: clubID,
     phone: phone,
-    password: password
+    password: password,
   })
 }
 

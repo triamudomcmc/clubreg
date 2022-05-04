@@ -25,19 +25,10 @@ export const updateClub = async (clubRef: firestore.DocumentReference, req) => {
     // 1 read
     const data = doc.get(req.body.clubID)
 
-    if (!req.body.oldClubConfirm) {
-      // register new club
-      if (data.audition) return data
-      if (data.new_count >= data.new_count_limit) throw "club_full"
-      const newCount = data.new_count + 1
-      // 1 write
-      t.set(clubRef, { [req.body.clubID]: { new_count: newCount } }, { merge: true })
-    } else {
-      // confirm old club
-      if (data.old_count >= data.old_count_limit) throw "club_full"
-      const newOCount = data.old_count + 1
-      t.set(clubRef, { [req.body.clubID]: { old_count: newOCount } }, { merge: true })
-    }
+    // confirm old club
+    if (data.old_count >= data.old_count_limit) throw "club_full"
+    const newOCount = data.old_count + 1
+    t.set(clubRef, { [req.body.clubID]: { old_count: newOCount } }, { merge: true })
 
     return data
   })
