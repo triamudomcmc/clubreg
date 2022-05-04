@@ -10,26 +10,32 @@ import Footer from "@components/common/Footer"
 import { AnimateSharedLayout, motion } from "framer-motion"
 import { useTimer } from "@utilities/timers"
 import Router from "next/router"
-import { openTime } from "@config/time"
+import { endOldClubTest, openTime, startOldClub, startOldClubTest } from "@config/time"
 import Image from "next/image"
 import { useAuth } from "@client/auth"
+import { Data } from "framer"
 
 const Index = () => {
-  const goal = openTime
+  // const goal = openTime
+  const goal = startOldClubTest
 
   const timer = useTimer(goal)
   const { onReady } = useAuth()
 
   const [button, setButton] = useState(new Date().getTime() >= goal)
 
-  const regState: "no_login" | "no_club" | "club" = onReady((logged, userData) => {
+  const regState: "no_login" | "no_club" | "club" | "old_club" = onReady((logged, userData) => {
     if (!logged) {
       // Router.push("/auth")
       return "no_login"
     } else if (userData.club === "") {
       // Router.push("/select")
       // return userData
-      return "no_club"
+      if (new Date().getTime() > endOldClubTest) {
+        return "no_club"
+      } else {
+        return "old_club"
+      }
     } else {
       return "club"
     }
@@ -120,6 +126,14 @@ const Index = () => {
                         <span>เลือกชมรม</span>
                       </Button>
                     )}
+                    {regState === "old_club" && (
+                      <Button
+                        href="/confirm"
+                        className="mb-4 rounded-full bg-white px-12 py-3 text-xl font-bold text-TUCMC-pink-600 shadow-lg lg:px-[4.5rem] lg:py-3.5 lg:text-2xl"
+                      >
+                        <span>ยืนยันสิทธิ์ชมรมเดิม</span>
+                      </Button>
+                    )}
                   </div>
                 )}
                 <div className="hidden px-1 font-medium text-white md:block">
@@ -182,6 +196,14 @@ const Index = () => {
                     className="mb-4 rounded-full bg-white px-[4.5rem] py-3.5 text-2xl font-bold text-TUCMC-pink-600 shadow-lg"
                   >
                     <span>เลือกชมรม</span>
+                  </Button>
+                )}
+                {regState === "old_club" && (
+                  <Button
+                    href="/confirm"
+                    className="mb-4 rounded-full bg-white px-[4.5rem] py-3.5 text-2xl font-bold text-TUCMC-pink-600 shadow-lg"
+                  >
+                    <span>ยืนยันสิทธิ์ชมรมเดิม</span>
                   </Button>
                 )}
               </div>

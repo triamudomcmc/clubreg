@@ -40,8 +40,6 @@ export const ModalSection: FC<{
     const out = await changeClubDisplayStatus(clubID, password, action, newData, reason === "" ? null : reason)
 
     if (out.status) {
-      setCloseState(true)
-      setCloseState2(true)
       setAction(null)
 
       setPassword("")
@@ -54,6 +52,9 @@ export const ModalSection: FC<{
         text: "",
       })
       refetch()
+
+      setCloseState(true)
+      setCloseState2(true)
     } else {
       switch (out.report) {
         case "user_not_found":

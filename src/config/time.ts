@@ -1,26 +1,22 @@
 import moment from "moment"
 
-export const openTime = 1623043800000
-export const editDataTime = 1623690000000
-export const announceTime = 1623717000000
-export const endRegClubTime = 1623690000000
-export const breakUpperBound = 1623889800000
-export const breakLowerBound = 1623884400000
-export const positionUpdateTime = 1623884400000
-export const lastround = 1623949200000
-export const endLastRound = 1624035600000
+export const startOldClubTest = +new Date(2022, 5 - 1, 3, 11, 30, 0)
+export const endOldClubTest = +new Date(2022, 5 - 1, 5, 0, 0, 0)
 
-// change this
+export const startOldClub = +new Date(2022, 5 - 1, 5, 11, 30, 0)
+export const endOldClub = +new Date(2022, 5 - 1, 7, 0, 0, 0)
 
-const _openTime = +new Date(2022, 5 - 1, 17, 11, 30, 0)
-const _editDataTime = +new Date(2022, 5 - 1, 24, 23, 59, 59)
-const _announceTime = +new Date(2022, 5 - 1, 25, 7, 30, 0)
-const _endRegClubTime = +new Date(2022, 5 - 1, 14, 9, 0, 0)
-const _breakUpperBound = +new Date(2022, 5 - 1, 14, 9, 0, 0)
-const _breakLowerBound = +new Date(2022, 5 - 1, 14, 9, 0, 0)
-const _positionUpdateTime = +new Date(2022, 5 - 1, 14, 9, 0, 0)
-const _lastround = +new Date(2022, 5 - 1, 14, 9, 0, 0)
-const _endLastRound = +new Date(2022, 5 - 1, 14, 9, 0, 0)
+export const openTime = +new Date(2022, 5 - 1, 17, 11, 30, 0)
+export const editDataTime = +new Date(2022, 5 - 1, 24, 23, 59, 59)
+export const endRegClubTime = +new Date(2022, 5 - 1, 25, 0, 0, 0)
+export const announceTime = +new Date(2022, 5 - 1, 25, 7, 30, 0)
+// rem
+export const breakUpperBound = +new Date(2022, 5 - 1, 14, 9, 0, 0)
+export const breakLowerBound = +new Date(2022, 5 - 1, 14, 9, 0, 0)
+export const positionUpdateTime = +new Date(2022, 5 - 1, 14, 9, 0, 0)
+// rem
+export const lastround = +new Date(2022, 5 - 1, 28, 7, 30, 0)
+export const endLastRound = +new Date(2022, 5 - 1, 29, 0, 0, 0)
 
 export const getUNIXTimeStamp = () => {
   return moment().unix() * 1000
