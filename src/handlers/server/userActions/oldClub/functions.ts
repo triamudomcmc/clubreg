@@ -5,16 +5,11 @@ import { firestore } from "firebase-admin/lib/firestore"
 export const checkInputs = async (dataDoc, userData, req, clubRef) => {
   if (dataDoc.get("club") !== "") return { status: false, report: "in_club" }
 
-  const clubData = await clubRef.get()
-
-  if (!clubData.get(req.body.clubID).audition || req.body.oldClubConfirm) {
-    if (userData.get("phone") !== req.body.phone) return { status: false, report: "invalid_phone" }
     if (!(await bcrypt.compare(req.body.password, userData.get("password"))))
       return {
         status: false,
         report: "invalid_password",
       }
-  }
 
   return { status: true, report: "" }
 }

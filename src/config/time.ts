@@ -5,9 +5,13 @@ import moment from "moment"
 export const startOldClubTest = +new Date("2022-05-03T11:30:00.000+07:00")
 export const endOldClubTest = +new Date("2022-05-05T00:00:00.000+07:00")
 
-export const startOldClub = +new Date("2022-05-05T11:30:00.000+07:00")
-export const startOldClubCountdown = +new Date("2022-05-05T10:30:00.000+07:00")
-export const endOldClub = +new Date("2022-05-07T00:00:00.000+07:00")
+// export const startOldClub = +new Date("2022-05-05T11:30:00.000+07:00")
+// export const startOldClubCountdown = +new Date("2022-05-05T10:30:00.000+07:00")
+// export const endOldClub = +new Date("2022-05-07T00:00:00.000+07:00")
+
+export const startOldClub = +new Date("2022-05-05T01:11:00.000+07:00")
+export const startOldClubCountdown = +new Date("2022-05-05T01:10:00.000+07:00")
+export const endOldClub = +new Date("2022-05-05T01:13:00.000+07:00")
 
 export const openTime = +new Date("2022-05-17T11:30:00.000+07:00")
 export const editDataTime = +new Date("2022-05-25T00:00:00.000+07:00")
