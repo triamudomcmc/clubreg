@@ -31,9 +31,9 @@ const Index = () => {
     } else if (userData.club === "") {
       // Router.push("/select")
       // return userData
-      if (new Date().getTime() > endOldClub || new Date().getTime() < startOldClub) {
-        // during club reg time
-        if (new Date().getTime() > openTime && new Date().getTime() < endLastRound) return "no_club"
+      if (new Date().getTime() >= endOldClub || new Date().getTime() < startOldClub) {
+        //  not during old club time
+        return "no_club"
       } else {
         return "old_club"
       }
