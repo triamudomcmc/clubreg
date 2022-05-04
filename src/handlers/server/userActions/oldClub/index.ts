@@ -32,7 +32,7 @@ export const oldClub = async (req, res) => {
       return { status: false, report: "in_club" }
     }
 
-    if (currentData.get("old_club") !== req.body.clubID || currentData.get("old_club") === "ก30921") {
+    if (currentData.get("old_club") !== req.body.clubID && currentData.get("old_club") !== "ก30921") {
       return { status: false, report: "not_old_club" }
     }
 

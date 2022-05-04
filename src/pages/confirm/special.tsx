@@ -6,7 +6,7 @@ import { ClubData } from "@interfaces/clubData"
 import { AnimateSharedLayout } from "framer-motion"
 import { NextPage } from "next"
 import Router from "next/router"
-import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react"
 import { ClipboardCopyIcon, StarIcon } from "@heroicons/react/solid"
 import { CatLoader } from "@components/common/CatLoader"
 import { AnnounceSplash } from "@vectors/decorations/AnnounceSplash"
@@ -218,7 +218,7 @@ const ModalSection: FC<{
   )
 }
 
-const BaseData: ClubData = {
+const BaseData: ClubData & { clubID: string } = {
   new_count: 0,
   new_count_limit: 0,
   old_count: 0,
@@ -233,22 +233,30 @@ const BaseData: ClubData = {
   teacher_count: 0,
   status: "pending",
   title: "",
+  clubID: "",
 }
 
-const fetchClubDataAction = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>) => {
+const fetchClubDataAction = async (
+  clubID: string,
+  setClubData: Dispatch<SetStateAction<{}>>,
+  setLoad: Dispatch<SetStateAction<boolean>>
+) => {
   if (!clubID) return
-  const data = await fetchClub(clubID)
 
-  if (data.hasOwnProperty("status")) setClubData({ invalid: true })
-  else setClubData({ ...data })
+  const data = await fetchClub(`${clubID}_1`)
+  const data2 = await fetchClub(`${clubID}_2`)
+
+  setLoad(false)
+  setClubData([
+    { ...data, clubID: `${clubID}_1` },
+    { ...data2, clubID: `${clubID}_2` },
+  ])
 }
 
 const Confirm: NextPage = () => {
-  const [clubData, setClubData] = useState<ClubData & { loading?: boolean } & { invalid?: boolean }>({
-    ...BaseData,
-    loading: true,
-  })
+  const [clubData, setClubData] = useState<Array<ClubData & { clubID: string }>>([BaseData, BaseData])
   const [modalOpen, setModalOpen] = useState(false)
+  const [loading, setLoad] = useState(true)
 
   const { onReady, tracker, reFetch } = useAuth()
 
@@ -256,43 +264,39 @@ const Confirm: NextPage = () => {
     if (!logged) {
       Router.push("/auth")
     } else {
-      if (new Date().getTime() > endOldClub) {
+      if (!(new Date().getTime() < endOldClubTest && new Date().getTime() >= startOldClubTest)) {
         Router.push("/")
         return { userData }
       }
 
       if (userData.club !== "") {
         Router.push("/card")
-      } else if (
-        userData?.old_club === "" ||
-        !userData?.old_club ||
-        !(new Date().getTime() < endOldClubTest && new Date().getTime() >= startOldClubTest)
-      ) {
+      } else if (userData?.old_club === "" || !userData?.old_club) {
         Router.push("/")
+      } else if (!["ก30921"].includes(userData?.old_club)) {
+        Router.push("/confirm")
       }
     }
     return { userData }
   })
 
+  const [currTitle, setCurrTitle] = useState(clubData[0]?.title)
+  const [currOldClubID, setCurrOldClubID] = useState(`${userData?.old_club}_1`)
+
   const refetchData = () => {
-    fetchClubDataAction(userData?.old_club, setClubData)
+    fetchClubDataAction(userData?.old_club, setClubData, setLoad)
   }
 
   useEffect(() => {
     refetchData()
   }, [userData])
 
-  if (clubData?.loading) return <CatLoader />
+  if (loading) return <CatLoader />
   else
     return (
       <PageContainer>
         <AnimateSharedLayout>
-          <ModalSection
-            oldClubID={userData?.old_club}
-            clubName={clubData.title}
-            open={modalOpen}
-            setOpen={setModalOpen}
-          />
+          <ModalSection oldClubID={currOldClubID} clubName={currTitle} open={modalOpen} setOpen={setModalOpen} />
 
           <div className="flex min-h-screen flex-col items-center space-y-8 py-14 px-4">
             <div className="md:max-w-xs">
@@ -305,72 +309,59 @@ const Confirm: NextPage = () => {
               </div>
             </div>
 
-            <div className="flex justify-center">
-              {clubData?.invalid ? (
-                <div className="flex max-w-lg flex-col space-y-4 rounded-lg bg-white p-4 py-6 shadow-md">
-                  <h2 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h2>
-                  <p className="tracking-tight text-gray-600">
-                    นักเรียนไม่สามารถยืนยันสิทธิ์ได้ เนื่องจาก
-                    <span className="text-TUCMC-red-400">ไม่มีชมรมดังกล่าวในปีการศึกษานี้แล้ว</span>
-                    <br />
-                    ให้นักเรียนเลือกชมรมใหม่ในวันเปิดระบบลงทะเบียนชมรม
-                  </p>
-                  <div className="relative">
-                    <Link href="/FAQ" passHref>
-                      <a target="_blank" className="cursor-pointer tracking-tight text-TUCMC-gray-700">
-                        ดูรายละเอียดเพิ่มเติม →
-                      </a>
-                    </Link>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  {clubData?.old_count_limit - clubData?.old_count > 0 ? (
-                    <div className="flex max-w-lg flex-col items-start space-y-4 rounded-lg bg-white p-4 py-6 shadow-md">
-                      <h2 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h2>
-                      <p className="tracking-tight text-gray-600">
-                        นักเรียนสามารถใช้โควตายืนยันสิทธิ์ชมรมเดิมได้ทันที [ชมรม{clubData?.title}] *โควตามีจำนวนจำกัด
-                      </p>
-                      <div className="relative">
-                        <Link href="/FAQ" passHref>
-                          <a target="_blank" className="cursor-pointer tracking-tight text-TUCMC-gray-700">
-                            ดูรายละเอียดเพิ่มเติม →
-                          </a>
-                        </Link>
+            <div className="flex flex-col justify-center space-x-8 sm:flex-row">
+              {clubData.map((data, i) => {
+                return (
+                  <Fragment key={`${data.clubID}-${i}`}>
+                    {data?.old_count_limit - data?.old_count > 0 ? (
+                      <div className="flex max-w-lg flex-col items-start space-y-4 rounded-lg bg-white p-4 py-6 shadow-md">
+                        <h2 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h2>
+                        <p className="tracking-tight text-gray-600">
+                          นักเรียนสามารถใช้โควตายืนยันสิทธิ์ชมรมเดิมได้ทันที [ชมรม{data?.title}] *โควตามีจำนวนจำกัด
+                        </p>
+                        <div className="relative">
+                          <Link href="/FAQ" passHref>
+                            <a target="_blank" className="cursor-pointer tracking-tight text-TUCMC-gray-700">
+                              ดูรายละเอียดเพิ่มเติม →
+                            </a>
+                          </Link>
+                        </div>
+                        <Button
+                          onClick={() => {
+                            setCurrOldClubID(data.clubID)
+                            setCurrTitle(data.title)
+                            setModalOpen(true)
+                          }}
+                          className="mt-4 rounded-full bg-TUCMC-green-400 py-3 px-6 text-white transition-colors hover:bg-TUCMC-green-500"
+                        >
+                          ยืนยันสิทธิ์ชมรมเดิม
+                        </Button>
                       </div>
-                      <Button
-                        onClick={() => {
-                          setModalOpen(true)
-                        }}
-                        className="mt-4 rounded-full bg-TUCMC-green-400 py-3 px-6 text-white transition-colors hover:bg-TUCMC-green-500"
-                      >
-                        ยืนยันสิทธิ์ชมรมเดิม
-                      </Button>
-                    </div>
-                  ) : (
-                    <div className="flex max-w-lg flex-col space-y-4 rounded-lg bg-white p-4 py-6 shadow-md">
-                      <h2 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h2>
-                      <p className="tracking-tight text-gray-600">
-                        นักเรียนไม่สามารถยืนยันสิทธิ์ได้ (ชมรม{clubData.title}) เนื่องจากชมรม
-                        <span className="text-TUCMC-red-400">
-                          {userData && clubData?.old_count_limit === 0
-                            ? "ไม่อนุญาตให้ยืนยันสิทธิ์ชมรมเดิม"
-                            : "ไม่มีโควตาสมาชิกเก่าเหลือแล้ว"}
-                        </span>
-                        <br />
-                        หากต้องการอยู่ชมรมเดิม ให้กดลงทะเบียนเข้าชมรมเดิมในฐานะสมาชิกใหม่
-                      </p>
-                      <div className="relative">
-                        <Link href="/FAQ" passHref>
-                          <a target="_blank" className="cursor-pointer tracking-tight text-TUCMC-gray-700">
-                            ดูรายละเอียดเพิ่มเติม →
-                          </a>
-                        </Link>
+                    ) : (
+                      <div className="flex max-w-lg flex-col space-y-4 rounded-lg bg-white p-4 py-6 shadow-md">
+                        <h2 className="text-lg font-medium tracking-tight">โควตายืนยันสิทธิ์ชมรมเดิม</h2>
+                        <p className="tracking-tight text-gray-600">
+                          นักเรียนไม่สามารถยืนยันสิทธิ์ได้ (ชมรม{data.title}) เนื่องจากชมรม
+                          <span className="text-TUCMC-red-400">
+                            {userData && data?.old_count_limit === 0
+                              ? "ไม่อนุญาตให้ยืนยันสิทธิ์ชมรมเดิม"
+                              : "ไม่มีโควตาสมาชิกเก่าเหลือแล้ว"}
+                          </span>
+                          <br />
+                          หากต้องการอยู่ชมรมเดิม ให้กดลงทะเบียนเข้าชมรมเดิมในฐานะสมาชิกใหม่
+                        </p>
+                        <div className="relative">
+                          <Link href="/FAQ" passHref>
+                            <a target="_blank" className="cursor-pointer tracking-tight text-TUCMC-gray-700">
+                              ดูรายละเอียดเพิ่มเติม →
+                            </a>
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </>
-              )}
+                    )}
+                  </Fragment>
+                )
+              })}
             </div>
           </div>
         </AnimateSharedLayout>
