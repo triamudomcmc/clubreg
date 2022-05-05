@@ -1,7 +1,6 @@
 import { updateTransferStatusBridge } from "@init/transfer"
 import initialisedDB from "@server/firebase-admin"
 import { update } from "@server/tracker"
-import { firestore } from "firebase-admin/lib/firestore"
 import { FieldValue } from "@google-cloud/firestore"
 
 const removeFromUser = async (data, taskData) => {

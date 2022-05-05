@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs"
 import initialisedDB from "@server/firebase-admin"
-import { firestore } from "firebase-admin/lib/firestore"
+import { DocumentReference } from "firebase-admin/lib/firestore"
 
 export const checkInputs = async (dataDoc, userData, req) => {
   if (!(req.body.clubID in dataDoc.get("audition")) || dataDoc.get("club") !== "")
@@ -16,7 +16,7 @@ export const checkInputs = async (dataDoc, userData, req) => {
   return { status: true }
 }
 
-export const updateClub = async (clubRef: firestore.DocumentReference, req) => {
+export const updateClub = async (clubRef: DocumentReference, req) => {
   return await initialisedDB.runTransaction(async (t) => {
     const doc = await t.get(clubRef)
     // 1 read
