@@ -32,7 +32,7 @@ export const sliceObj = (obj, partitions) => {
 
 export const sortThaiDictionary = (arr: any, objAction: (obj: any) => string, inverted = false) => {
   return arr
-    .sort((a, b) => objAction(a).localeCompare(objAction(b), "th") * (inverted ? -1 : 1))
+    .sort((a, b) => objAction(a)?.localeCompare(objAction(b), "th") * (inverted ? -1 : 1))
     .map((val) => {
       return val
     })

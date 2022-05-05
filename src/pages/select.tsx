@@ -270,7 +270,7 @@ const Select = ({ thumbPaths }) => {
                     </div>
                   )}
 
-                  {!noAu &&
+                  {/* {!noAu &&
                     (!isEmpty(clubData) &&
                     userData &&
                     "old_club" in userData &&
@@ -305,7 +305,7 @@ const Select = ({ thumbPaths }) => {
                           </a>
                         </div>
                       </div>
-                    ))}
+                    ))} */}
                 </div>
               </div>
               <div style={width > 768 ? { width: width - 376, maxWidth: 952 } : {}} className="mt-16 md:mt-0">
