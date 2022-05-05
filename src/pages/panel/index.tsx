@@ -422,12 +422,11 @@ const Account = () => {
                 </Button>
               </div>
               <Button
-                // href="/panel/report"
+                href="/panel/report"
                 type="div"
-                disabled={true}
                 className={classNames(
-                  /*"cursor-pointer", */ "cursor-not-allowed",
-                  "bg-TUCMC-white space-x-2rounded-lg flex w-1/2 cursor-pointer items-center justify-center px-4 py-3.5 text-TUCMC-gray-600 shadow-md"
+                  "cursor-pointer",
+                  "bg-TUCMC-white space-x-2 rounded-lg flex w-1/2 cursor-pointer items-center justify-center px-4 py-3.5 text-TUCMC-gray-600 shadow-md"
                 )}
               >
                 <UserGroupIcon className="h-6 w-6" />
