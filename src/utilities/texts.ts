@@ -50,8 +50,8 @@ export const fixGrammar = (text: string) => {
   let fixed = text
   Object.keys(correction).forEach((item) => {
     // @ts-ignore
-    fixed = fixed.replace(new RegExp(item, "g"), correction[item])
+    fixed = fixed?.replace(new RegExp(item, "g"), correction[item])
   })
 
-  return fixed.replace(/\u200B/g, "").trim()
+  return fixed?.replace(/\u200B/g, "").trim()
 }
