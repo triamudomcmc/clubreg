@@ -30,33 +30,33 @@ export const checkCredentials = async (stdID, password, fingerPrint, userCollect
     }
   }
 
-  if (userDoc.get("safeMode") === true && !verified) {
-    const auData = userDoc.data()
-    if (!("authorised" in auData)) return { status: false, report: "notAuthorised" }
-    const authorisedField: LooseTypeObject<{ fingerPrint: string }> = auData.authorised
-    if (!Object.values(authorisedField).some((val) => val.fingerPrint === fingerPrint)) {
-      const code = cryptoRandomString({ type: "numeric", length: 6 })
+  // if (userDoc.get("safeMode") === true && !verified) {
+  //   const auData = userDoc.data()
+  //   if (!("authorised" in auData)) return { status: false, report: "notAuthorised" }
+  //   const authorisedField: LooseTypeObject<{ fingerPrint: string }> = auData.authorised
+  //   if (!Object.values(authorisedField).some((val) => val.fingerPrint === fingerPrint)) {
+  //     const code = cryptoRandomString({ type: "numeric", length: 6 })
 
-      const task = await initialiseDB.collection("tasks").add({
-        type: "bypass",
-        expire: getUNIXTimeStamp() + 2 * 60 * 1000,
-        userID: userDoc.id,
-        code: code,
-      })
+  //     const task = await initialiseDB.collection("tasks").add({
+  //       type: "bypass",
+  //       expire: getUNIXTimeStamp() + 2 * 60 * 1000,
+  //       userID: userDoc.id,
+  //       code: code,
+  //     })
 
-      sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+  //     sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
-      const msg = {
-        to: auData["email"],
-        from: { email: "no-reply@triamudom.club", name: "TUCMC Account" },
-        subject: "มีการ login จากอุปกรณ์ที่ไม่ได้รับอนุญาต",
-        html: `รหัสสำหรับเข้าสู่ระบบ ${code}`,
-      }
+  //     const msg = {
+  //       to: auData["email"],
+  //       from: { email: "no-reply@triamudom.club", name: "TUCMC Account" },
+  //       subject: "มีการ login จากอุปกรณ์ที่ไม่ได้รับอนุญาต",
+  //       html: `รหัสสำหรับเข้าสู่ระบบ ${code}`,
+  //     }
 
-      await sgMail.send(msg)
-      return { status: false, report: "notAuthorised", data: { taskId: task.id } }
-    }
-  }
+  //     await sgMail.send(msg)
+  //     return { status: false, report: "notAuthorised", data: { taskId: task.id } }
+  //   }
+  // }
 
   //password checking guard clause
   if (!(await bcrypt.compare(password, userDoc.get("password"))))

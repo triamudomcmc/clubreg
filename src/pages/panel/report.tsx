@@ -98,6 +98,8 @@ const Report = () => {
     old_count: 0,
     old_count_limit: 0,
     call_count: 0,
+    count_limit: 0,
+    committees: []
   })
 
   const userData = onReady((logged, userData) => {
@@ -214,7 +216,7 @@ const Report = () => {
                                   css.tooltip2
                                 )}
                               >
-                                <h1 className="text-center">จำนวนนี้ไม่รวมกรรมการชมรม</h1>
+                                <h1 className="text-center">จำนวนนี้ไม่รวมกรรมการชมรม ({clubData.committees.length} คน)</h1>
                               </div>
                             </div>
                             <ExclamationCircleIcon className="h-5 w-5 text-TUCMC-gray-600" />
@@ -224,9 +226,9 @@ const Report = () => {
                       </div>
                       <div className="flex flex-row items-end">
                         <h1 className="text-3xl font-bold text-TUCMC-gray-900">
-                          {clubData.old_count + clubData.new_count}
+                          {clubData.old_count + 0}
                         </h1>
-                        <h2 className="text-TUCMC-gray-500">/{clubData.old_count_limit + clubData.new_count_limit}</h2>
+                        <h2 className="text-TUCMC-gray-500">/{clubData.count_limit}</h2>
                       </div>
                       <div>คน</div>
                     </div>
@@ -245,7 +247,7 @@ const Report = () => {
                                     css.tooltip2
                                   )}
                                 >
-                                  <h1 className="text-center">จำนวนนี้ไม่รวมกรรมการชมรม</h1>
+                                  <h1 className="text-center">จำนวนนี้ไม่รวมกรรมการชมรม ({clubData.committees.length} คน)</h1>
                                 </div>
                               </div>
                               <ExclamationCircleIcon className="h-5 w-5 text-TUCMC-gray-600" />
@@ -264,8 +266,8 @@ const Report = () => {
                       <div className="flex flex-col items-center justify-center space-y-2">
                         <div>สมาชิกใหม่</div>
                         <div className="flex flex-row items-end">
-                          <h1 className="text-3xl font-bold text-TUCMC-gray-900">{clubData.new_count}</h1>
-                          <h2 className="text-TUCMC-gray-500">/{clubData.new_count_limit}</h2>
+                          <h1 className="text-3xl font-bold text-TUCMC-gray-900">{0}</h1>
+                          <h2 className="text-TUCMC-gray-500">/{clubData.count_limit - clubData.old_count_limit}</h2>
                         </div>
                         <div>คน</div>
                       </div>
