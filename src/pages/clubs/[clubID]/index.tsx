@@ -114,7 +114,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   //   params: { clubID: path.basename(pathname, path.extname(pathname)) },
   // }))
 
-  const paths = clubDisplayDocs.docs.map((d) => d.id)
+  const paths = clubDisplayDocs.docs.map((d) => `/clubs/${d.id}`)
 
   return {
     paths,
