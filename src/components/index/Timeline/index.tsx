@@ -123,7 +123,7 @@ const Timeline = () => {
                 date="17 พ.ค. 65"
                 time="11.30 น."
                 title="สมัครและ Audition"
-                subTitle="สร้างบัญชีและลงชื่อ Audition ชมรมที่ต้องการ"
+                subTitle="เข้าสู่ระบบ หรือสร้างบัญชี (เฉพาะ ม.4) แล้วลงชื่อ Audition ชมรมที่ต้องการ"
               >
                 <TimelineTag.Desc>
                   ให้ไปทำการ Audition ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนดโดยติดตามรายละเอียด การ audition
@@ -177,7 +177,9 @@ const Timeline = () => {
                 className="h-full"
                 padding="items-start h-2/5 md:h-3/5"
               >
-                <TimelineTag.Desc>สร้างบัญชีและลงทะเบียน ชมรมที่ไม่มีการ audition</TimelineTag.Desc>
+                <TimelineTag.Desc>
+                  เข้าสู่ระบบ หรือสร้างบัญชี (เฉพาะ ม.4) แล้วลงทะเบียน ชมรมที่ไม่มีการ audition
+                </TimelineTag.Desc>
                 <TimelineTag.ExtraDescription>ภายในวันที่ 24 พ.ค. 65 เวลา 23.59 น.</TimelineTag.ExtraDescription>
               </TimelineTag>
               <TimelineTag

@@ -19,12 +19,15 @@ export const updateClub = async (clubRef: DocumentReference, req) => {
     const doc = await t.get(clubRef)
     // 1 read
     const data = doc.get(req.body.clubID)
+    const newOCount = data.old_count + 1
 
     // confirm old club
-    if (data.old_count >= data.old_count_limit) throw "club_full"
-    const newOCount = data.old_count + 1
-    t.set(clubRef, { [req.body.clubID]: { old_count: newOCount } }, { merge: true })
+    if (data.old_count < data.old_count_limit) {
+      await t.update(clubRef, { [req.body.clubID]: { old_count: newOCount } })
 
-    return data
+      return data
+    } else {
+      throw "club_full"
+    }
   })
 }

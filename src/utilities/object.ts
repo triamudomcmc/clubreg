@@ -64,10 +64,10 @@ export const searchKeyword = (arr: any, keyword: string, keySelector: (obj: any)
     bottom = []
   const keyLength = keyword.length
   arr.forEach((val) => {
-    if (fixGrammar(keyword.toLowerCase()) === fixGrammar(keySelector(val).slice(0, keyLength).toLowerCase()))
+    if (fixGrammar(keyword.toLowerCase()) === fixGrammar(keySelector(val)?.slice(0, keyLength).toLowerCase()))
       // top primary
       return topPrimary.push(val)
-    if (fixGrammar(keySelector(val).toLowerCase()).includes(fixGrammar(keyword.toLowerCase())))
+    if (fixGrammar(keySelector(val)?.toLowerCase())?.includes(fixGrammar(keyword.toLowerCase())))
       // top secondary
       return topSecondary.push(val)
 
