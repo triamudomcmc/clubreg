@@ -94,13 +94,12 @@ const Page = ({ data, clubID, clubList, clubDisplay }) => {
   // }
 
   return (
-    <>
-      <DescribeRoute
-        title={clubDisplay.nameTH}
-        /* clean up html tags*/
-        description={clubDisplay.description.replace(/<\/?[^>]+(>|$)/g, "")}
-        imgURL={clubDisplay?.images?.mainImage || `/assets/thumbnails/${clubID}.jpg`}
-      />
+    <DescribeRoute
+      title={clubDisplay.nameTH}
+      /* clean up html tags*/
+      description={clubDisplay.description.replace(/<\/?[^>]+(>|$)/g, "")}
+      imgURL={clubDisplay?.images?.mainImage || `/assets/thumbnails/${clubID}.jpg`}
+    >
       <PageContainer>
         <AnimateSharedLayout>
           <ClubDisplaySection
@@ -111,7 +110,7 @@ const Page = ({ data, clubID, clubList, clubDisplay }) => {
           />
         </AnimateSharedLayout>
       </PageContainer>
-    </>
+    </DescribeRoute>
   )
 }
 

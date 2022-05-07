@@ -10,6 +10,7 @@ import classnames from "classnames"
 import ClubIndexSkeleton from "@components/clubs/ClubIndexSkeleton"
 import initialisedDB from "@server/firebase-admin"
 import { ClubDisplay } from "@interfaces/clubDisplay"
+import { DescribeRoute } from "@components/common/Meta/OpenGraph"
 
 export const getStaticProps: GetStaticProps = async (): Promise<
   GetStaticPropsResult<{ clubs: { name: string; audition: boolean; clubID: string; imageURL: string }[] }>
@@ -110,39 +111,45 @@ const Clubs: FC = ({ clubs }: InferGetStaticPropsType<typeof getStaticProps>) =>
   }, [searchContext, rawSorted])
 
   return (
-    <PageContainer>
-      <div
-        className={classnames(
-          "flex w-full flex-col items-center py-12 md:py-20",
-          loadingCount > 0 && "absolute opacity-0"
-        )}
-      >
-        <div className="flex w-full max-w-md flex-col items-center">
-          <h1 className="text-2xl font-bold">ชมรม</h1>
-          {/* <div className="mt-8 w-full px-14 md:mt-12">
+    <DescribeRoute
+      title="ชมรม"
+      description="รายชื่อชมรมโรงเรียนเตรียมอุดมศึกษา ประจำปีการศึกษา 2565"
+      imgURL="/assets/meta/index.jpg"
+    >
+      <PageContainer>
+        <div
+          className={classnames(
+            "flex w-full flex-col items-center py-12 md:py-20",
+            loadingCount > 0 && "absolute opacity-0"
+          )}
+        >
+          <div className="flex w-full max-w-md flex-col items-center">
+            <h1 className="text-2xl font-bold">ชมรม</h1>
+            {/* <div className="mt-8 w-full px-14 md:mt-12">
             <ClubSplash />
           </div> */}
+          </div>
+          <div className="mx-8 mt-8 max-w-xl border-b pb-4 md:mx-0 md:mt-12 md:w-full md:border-none md:px-8">
+            <FilterSearch setSearchContext={setSearchContext} setSortMode={setSortMode} sortMode={sortMode} />
+          </div>
+          <div className="mt-5 flex w-full max-w-5xl flex-wrap justify-center px-0 marg:px-[0.35rem]">
+            {sortedData.map((item, index) => {
+              if (index < 60) return <ClubCard key={`club-${index}`} data={item} imageLoadAction={loaded} />
+            })}
+            {sortedData[60] && sortedData[61] && (
+              <div key={`clubWrapper`} className="flex flex-wrap justify-center">
+                <ClubCard key={`club-60`} data={sortedData[60]} imageLoadAction={loaded} />
+                <ClubCard key={`club-61`} data={sortedData[61]} imageLoadAction={loaded} />
+                <div className="minClubs2:w-175px minClubs:w-185px my-1 mx-10 h-1 minClubs2:mx-1"></div>
+                <div className="minClubs2:w-175px minClubs:w-185px my-1 mx-10 h-1 minClubs2:mx-1"></div>
+                <div className="minClubs2:w-175px minClubs:w-185px my-1 mx-10 h-1 minClubs2:mx-1"></div>
+              </div>
+            )}
+          </div>
         </div>
-        <div className="mx-8 mt-8 max-w-xl border-b pb-4 md:mx-0 md:mt-12 md:w-full md:border-none md:px-8">
-          <FilterSearch setSearchContext={setSearchContext} setSortMode={setSortMode} sortMode={sortMode} />
-        </div>
-        <div className="mt-5 flex w-full max-w-5xl flex-wrap justify-center px-0 marg:px-[0.35rem]">
-          {sortedData.map((item, index) => {
-            if (index < 60) return <ClubCard key={`club-${index}`} data={item} imageLoadAction={loaded} />
-          })}
-          {sortedData[60] && sortedData[61] && (
-            <div key={`clubWrapper`} className="flex flex-wrap justify-center">
-              <ClubCard key={`club-60`} data={sortedData[60]} imageLoadAction={loaded} />
-              <ClubCard key={`club-61`} data={sortedData[61]} imageLoadAction={loaded} />
-              <div className="minClubs2:w-175px minClubs:w-185px my-1 mx-10 h-1 minClubs2:mx-1"></div>
-              <div className="minClubs2:w-175px minClubs:w-185px my-1 mx-10 h-1 minClubs2:mx-1"></div>
-              <div className="minClubs2:w-175px minClubs:w-185px my-1 mx-10 h-1 minClubs2:mx-1"></div>
-            </div>
-          )}
-        </div>
-      </div>
-      <ClubIndexSkeleton clubs={clubs} className={classnames(loadingCount <= 0 && "hidden")} />
-    </PageContainer>
+        <ClubIndexSkeleton clubs={clubs} className={classnames(loadingCount <= 0 && "hidden")} />
+      </PageContainer>
+    </DescribeRoute>
   )
 }
 
