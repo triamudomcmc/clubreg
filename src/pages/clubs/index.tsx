@@ -20,18 +20,16 @@ export const getStaticProps: GetStaticProps = async () => {
   // clubID
 
   const clubDisplayDocs = await initialisedDB.collection("clubDisplay").get()
-  const clubs = await Promise.all(
-    clubDisplayDocs.docs.map((club) => {
-      const data = club.data() as ClubDisplay
+  const clubs = clubDisplayDocs.docs.map((club) => {
+    const data = club.data() as ClubDisplay
 
-      return {
-        name: data.nameTH,
-        audition: data.audition,
-        clubID: club.id,
-        imageURL: data?.images?.mainImage || `/assets/thumbnails/${club.id}.jpg`,
-      }
-    })
-  )
+    return {
+      name: data.nameTH,
+      audition: data.audition,
+      clubID: club.id,
+      imageURL: data?.images?.mainImage || `/assets/thumbnails/${club.id}.jpg`,
+    }
+  })
 
   return {
     props: {
