@@ -155,6 +155,10 @@ export const ClubDisplaySection: FC<{
   useEffect(() => {
     setReviews(clubDisplay.reviews)
     setDescription(clubDisplay.description)
+
+    setTimeout(() => {
+      setLoadingCount(0)
+    }, 2000)
   }, [clubDisplay])
 
   useEffect(() => {
@@ -166,6 +170,10 @@ export const ClubDisplaySection: FC<{
       setLoadingCount((prevState) => prevState - 1)
     }, 100)
   }
+
+  useEffect(() => {
+    console.log(loadingCount)
+  }, [loadingCount])
 
   useEffect(() => {
     if (imgLoading) setLoadingCount(1)
