@@ -136,9 +136,9 @@ const Clubs: FC = ({ clubs }: InferGetStaticPropsType<typeof getStaticProps>) =>
           </div>
           <div className="mt-5 flex w-full max-w-5xl flex-wrap justify-center px-0 marg:px-[0.35rem]">
             {sortedData.map((item, index) => {
-              if (index < 60) return <ClubCard key={`club-${index}`} data={item} imageLoadAction={loaded} />
+              if (index < 70) return <ClubCard key={`club-${index}`} data={item} imageLoadAction={loaded} />
             })}
-            {sortedData[60] && sortedData[61] && (
+            {/* {sortedData[60] && sortedData[61] && (
               <div key={`clubWrapper`} className="flex flex-wrap justify-center">
                 <ClubCard key={`club-60`} data={sortedData[60]} imageLoadAction={loaded} />
                 <ClubCard key={`club-61`} data={sortedData[61]} imageLoadAction={loaded} />
@@ -146,7 +146,7 @@ const Clubs: FC = ({ clubs }: InferGetStaticPropsType<typeof getStaticProps>) =>
                 <div className="minClubs2:w-175px minClubs:w-185px my-1 mx-10 h-1 minClubs2:mx-1"></div>
                 <div className="minClubs2:w-175px minClubs:w-185px my-1 mx-10 h-1 minClubs2:mx-1"></div>
               </div>
-            )}
+            )} */}
           </div>
         </div>
         <ClubIndexSkeleton clubs={clubs} className={classnames(loadingCount <= 0 && "hidden")} />
