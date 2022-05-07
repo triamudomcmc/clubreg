@@ -171,9 +171,9 @@ export const ClubDisplaySection: FC<{
     }, 100)
   }
 
-  useEffect(() => {
-    console.log(loadingCount)
-  }, [loadingCount])
+  // useEffect(() => {
+  //   console.log(loadingCount)
+  // }, [loadingCount])
 
   useEffect(() => {
     if (imgLoading) setLoadingCount(1)

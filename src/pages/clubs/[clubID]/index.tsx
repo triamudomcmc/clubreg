@@ -97,7 +97,8 @@ const Page = ({ data, clubID, clubList, clubDisplay }) => {
     <>
       <DescribeRoute
         title={clubDisplay.nameTH}
-        description="ชมรม"
+        /* clean up html tags*/
+        description={clubDisplay.description.replace(/<\/?[^>]+(>|$)/g, "")}
         imgURL={clubDisplay?.images?.mainImage || `/assets/thumbnails/${clubID}.jpg`}
       />
       <PageContainer>
