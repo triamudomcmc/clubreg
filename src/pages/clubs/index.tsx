@@ -2,8 +2,8 @@ import PageContainer from "@components/common/PageContainer"
 import ClubSplash from "@vectors/decorations/ClubSplash"
 import { FilterSearch } from "@components/common/Inputs/Search"
 import { ClubCard } from "@components/clubs/ClubCard"
-import { Dispatch, SetStateAction, useEffect, useState } from "react"
-import { GetStaticProps, InferGetStaticPropsType } from "next"
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
+import { GetStaticProps, GetStaticPropsResult, InferGetStaticPropsType } from "next"
 import * as fs from "fs"
 import { objToArr, searchKeyword, sortAudition, sortThaiDictionary } from "@utilities/object"
 import classnames from "classnames"
@@ -11,7 +11,9 @@ import ClubIndexSkeleton from "@components/clubs/ClubIndexSkeleton"
 import initialisedDB from "@server/firebase-admin"
 import { ClubDisplay } from "@interfaces/clubDisplay"
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async (): Promise<
+  GetStaticPropsResult<{ clubs: { name: string; audition: boolean; clubID: string; imageURL: string }[] }>
+> => {
   // const data = fs.readFileSync("./_map/clubs.json")
   // const clubs = JSON.parse(data.toString())
 
@@ -38,7 +40,7 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
-const Clubs: InferGetStaticPropsType<typeof getStaticProps> = ({ clubs }) => {
+const Clubs: FC = ({ clubs }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [sortMode, setSortMode] = useState("ascending")
   const [searchContext, setSearchContext] = useState("")
   const [query, setQuery] = useState(setTimeout(() => {}, 10))
