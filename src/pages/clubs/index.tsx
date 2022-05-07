@@ -2,16 +2,36 @@ import PageContainer from "@components/common/PageContainer"
 import ClubSplash from "@vectors/decorations/ClubSplash"
 import { FilterSearch } from "@components/common/Inputs/Search"
 import { ClubCard } from "@components/clubs/ClubCard"
-import { useEffect, useState } from "react"
-import { GetStaticProps } from "next"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { GetStaticProps, InferGetStaticPropsType } from "next"
 import * as fs from "fs"
 import { objToArr, searchKeyword, sortAudition, sortThaiDictionary } from "@utilities/object"
 import classnames from "classnames"
 import ClubIndexSkeleton from "@components/clubs/ClubIndexSkeleton"
+import initialisedDB from "@server/firebase-admin"
+import { ClubDisplay } from "@interfaces/clubDisplay"
 
 export const getStaticProps: GetStaticProps = async () => {
-  const data = fs.readFileSync("./_map/clubs.json")
-  const clubs = JSON.parse(data.toString())
+  // const data = fs.readFileSync("./_map/clubs.json")
+  // const clubs = JSON.parse(data.toString())
+
+  // name
+  // audition
+  // clubID
+
+  const clubDisplayDocs = await initialisedDB.collection("clubDisplay").get()
+  const clubs = await Promise.all(
+    clubDisplayDocs.docs.map((club) => {
+      const data = club.data() as ClubDisplay
+
+      return {
+        name: data.nameTH,
+        audition: data.audition,
+        clubID: club.id,
+        imageURL: data?.images?.mainImage || `/assets/thumbnails/${club.id}.jpg`,
+      }
+    })
+  )
 
   return {
     props: {
@@ -20,7 +40,7 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
-const Clubs = ({ clubs }) => {
+const Clubs: InferGetStaticPropsType<typeof getStaticProps> = ({ clubs }) => {
   const [sortMode, setSortMode] = useState("ascending")
   const [searchContext, setSearchContext] = useState("")
   const [query, setQuery] = useState(setTimeout(() => {}, 10))

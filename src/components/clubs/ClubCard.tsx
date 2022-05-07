@@ -21,8 +21,8 @@ export const ClubCard = ({ data, imageLoadAction = null }) => {
             height="143"
             quality={75}
             placeholder="blur"
-            blurDataURL={`/assets/thumbnails/${data.clubID}.jpg`}
-            src={`/assets/thumbnails/${data.clubID}.jpg`}
+            blurDataURL={data.imageURL}
+            src={data.imageURL}
           />
         ) : (
           <Image
@@ -32,8 +32,8 @@ export const ClubCard = ({ data, imageLoadAction = null }) => {
             quality={75}
             onLoad={imageLoadAction}
             placeholder="blur"
-            blurDataURL={`/assets/thumbnails/${data.clubID}.jpg`}
-            src={`/assets/thumbnails/${data.clubID}.jpg`}
+            blurDataURL={data.imageURL}
+            src={data.imageURL}
           />
         )}
         <div className="space-y-2.5 rounded-b-lg bg-white px-2 py-2">
