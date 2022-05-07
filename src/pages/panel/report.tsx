@@ -269,7 +269,7 @@ const Report = () => {
                         <div>สมาชิกใหม่</div>
                         <div className="flex flex-row items-end">
                           <h1 className="text-3xl font-bold text-TUCMC-gray-900">{0}</h1>
-                          <h2 className="text-TUCMC-gray-500">/{clubData.count_limit - clubData.old_count_limit}</h2>
+                          <h2 className="text-TUCMC-gray-500">/{clubData.count_limit - clubData.old_count_limit - (clubData?.committees?.length ?? 0)}</h2>
                         </div>
                         <div>คน</div>
                       </div>
