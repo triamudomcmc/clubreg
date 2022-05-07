@@ -10,7 +10,7 @@ export const ClubCard = ({ data, imageLoadAction = null }) => {
       <motion.div
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.97 }}
-        className="minClubs2:w-175px minClubs:w-185px mx-1 my-[0.35rem] mx-10 flex w-full max-w-[260px] cursor-pointer flex-col rounded-lg shadow-lg marg:mx-[0.35rem]"
+        className="minClubs2:w-175px minClubs:w-185px my-[0.35rem] mx-10 flex w-full max-w-[260px] cursor-pointer flex-col rounded-lg shadow-lg marg:mx-[0.35rem]"
       >
         {imageLoadAction ? (
           <Image
