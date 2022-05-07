@@ -139,7 +139,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   // const clubIndex = fs.readFileSync("./_map/clubs.json")
   // const clubList = JSON.parse(clubIndex.toString())
 
-  const clubDisplayDocs = await initialisedDB.collection("clubDisplay").get()
+  const clubDisplayDocs = await initialisedDB.collection("clubDisplayTEMP").get()
   const clubList = clubDisplayDocs.docs.map((club) => {
     const data = club.data() as ClubDisplay
 
