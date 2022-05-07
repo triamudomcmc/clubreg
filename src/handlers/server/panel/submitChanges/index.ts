@@ -102,7 +102,7 @@ const performUpload = async (req, ID) => {
       )
 
     const clubDisplayRequestDoc = initialisedDB.collection("clubDisplayRequests").doc()
-    const cDisplayRequestOut = clubDisplayRequestDoc.create({
+    const cDisplayRequestOut = await clubDisplayRequestDoc.create({
       clubID: req.body.panelID,
       timeStamp: +new Date(),
       userID: ID.userID,
