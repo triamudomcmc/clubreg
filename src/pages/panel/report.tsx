@@ -1,6 +1,6 @@
 import { FilterSearch } from "@components/common/Inputs/Search"
 import PageContainer from "@components/common/PageContainer"
-import { ArrowCircleDownIcon, ExclamationCircleIcon } from "@heroicons/react/solid"
+import { ArrowCircleDownIcon, ExclamationCircleIcon, QuestionMarkCircleIcon } from "@heroicons/react/solid"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { fetchClub, fetchMembers } from "@client/fetcher/panel"
 import { useAuth } from "@client/auth"
@@ -217,17 +217,17 @@ const Report = () => {
                                 )}
                               >
                                 <h1 className="text-center">
-                                  จำนวนนี้ไม่รวมกรรมการชมรม ({clubData?.committees?.length ?? 0} คน)
+                                  จำนวนนี้รวมกรรมการชมรม ({clubData?.committees?.length ?? 0} คน)
                                 </h1>
                               </div>
                             </div>
-                            <ExclamationCircleIcon className="h-5 w-5 text-TUCMC-gray-600" />
+                            <QuestionMarkCircleIcon className="h-5 w-5 text-TUCMC-gray-600" />
                           </div>
-                          <ExclamationCircleIcon className="absolute z-[29] h-5 w-5 text-TUCMC-gray-600" />
+                          <QuestionMarkCircleIcon className="absolute z-[29] h-5 w-5 text-TUCMC-gray-600" />
                         </div>
                       </div>
                       <div className="flex flex-row items-end">
-                        <h1 className="text-3xl font-bold text-TUCMC-gray-900">{clubData.old_count + 0}</h1>
+                        <h1 className="text-3xl font-bold text-TUCMC-gray-900">{clubData.old_count + (clubData?.committees?.length ?? 0)}</h1>
                         <h2 className="text-TUCMC-gray-500">/{clubData.count_limit}</h2>
                       </div>
                       <div>คน</div>
