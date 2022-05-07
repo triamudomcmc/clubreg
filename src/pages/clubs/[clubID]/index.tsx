@@ -115,7 +115,8 @@ const Page = ({ data, clubID, clubList, clubDisplay }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const clubDisplayDocs = await initialisedDB.collection("clubDisplay").get()
+  // const clubDisplayDocs = await initialisedDB.collection("clubDisplay").get()
+  const clubDisplayDocs = await initialisedDB.collection("clubDisplayTEMP").get()
 
   // const files = fs.readdirSync("./_map/clubs/")
   // const paths = files.map((pathname) => ({
