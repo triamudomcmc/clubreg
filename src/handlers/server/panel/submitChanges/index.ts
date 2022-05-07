@@ -45,81 +45,90 @@ const performUpload = async (req, ID) => {
   const images = req.body.images
   const nim = {}
 
-  for (let k of Object.keys(images)) {
-    if (images[k] !== null) {
-      const tempFileName = `userUpload-${new Date().getTime()}-${Math.floor(Math.random() * 400)}`
-      const res = await upload(images[k], storage, tempFileName)
-      if (res) {
-        nim[k] = `https://storage.googleapis.com/clwimages/${tempFileName}`
+  try {
+    for (let k of Object.keys(images)) {
+      if (images[k] !== null) {
+        const tempFileName = `userUpload-${new Date().getTime()}-${Math.floor(Math.random() * 400)}`
+        const res = await upload(images[k], storage, tempFileName)
+        if (res) {
+          nim[k] = `https://storage.googleapis.com/clwimages/${tempFileName}`
+        }
       }
     }
-  }
 
-  let reviews = []
+    let reviews = []
 
-  for (let rev of req.body.reviews) {
-    if (rev.profile.includes("data:image")) {
-      const tempFileName = `userUpload-${new Date().getTime()}-${Math.floor(Math.random() * 400)}`
-      const res = await upload(rev.profile, storage, tempFileName)
-      reviews.push({ ...rev, profile: `https://storage.googleapis.com/clwimages/${tempFileName}` })
-    } else {
-      reviews.push(rev)
+    for (let rev of req.body.reviews) {
+      if (rev.profile.includes("data:image")) {
+        const tempFileName = `userUpload-${new Date().getTime()}-${Math.floor(Math.random() * 400)}`
+        const res = await upload(rev.profile, storage, tempFileName)
+        reviews.push({ ...rev, profile: `https://storage.googleapis.com/clwimages/${tempFileName}` })
+      } else {
+        reviews.push(rev)
+      }
     }
-  }
 
-  const clubDataDoc = await initialisedDB.collection("clubs").doc("mainData").get()
-  const panelid: string = req.body.panelID
-  let clubData = clubDataDoc?.get(panelid)
-  let pid = panelid
+    const clubDataDoc = await initialisedDB.collection("clubs").doc("mainData").get()
+    const panelid: string = req.body.panelID
+    let clubData = clubDataDoc?.get(panelid)
+    let pid = panelid
 
-  if (!clubData) {
-    clubData = clubDataDoc?.get(`${panelid}_1`)
     if (!clubData) {
-      if (panelid.includes("ก30920")) {
-        clubData = clubDataDoc?.get(`ก30920-1`)
-        pid = "ก30920-1"
+      clubData = clubDataDoc?.get(`${panelid}_1`)
+      if (!clubData) {
+        if (panelid.includes("ก30920")) {
+          clubData = clubDataDoc?.get(`ก30920-1`)
+          pid = "ก30920-1"
+        }
+      } else {
+        pid = `${panelid}_1`
       }
-    } else {
-      pid = `${panelid}_1`
     }
-  }
 
-  const out = await clubDataDoc.ref.update({ [`${pid}.status`]: "pending" })
+    const out = await clubDataDoc.ref.update({ [`${pid}.status`]: "pending" })
 
-  const dat = await initialisedDB.collection("clubDisplay").doc(req.body.panelID).get()
-  await initialisedDB
-    .collection("clubDisplay")
-    .doc(req.body.panelID)
-    .set(
-      {
+    const dat = await initialisedDB.collection("clubDisplay").doc(req.body.panelID).get()
+    await initialisedDB
+      .collection("clubDisplay")
+      .doc(req.body.panelID)
+      .set(
+        {
+          ...req.body.contact,
+          reviews: reviews,
+          description: req.body.main,
+          images: { ...(dat.get("images") || {}), ...nim },
+        },
+        { merge: true }
+      )
+
+    const clubDisplayRequestDoc = initialisedDB.collection("clubDisplayRequests").doc()
+    const cDisplayRequestOut = clubDisplayRequestDoc.create({
+      clubID: req.body.panelID,
+      timeStamp: +new Date(),
+      userID: ID.userID,
+      data: {
         ...req.body.contact,
         reviews: reviews,
         description: req.body.main,
         images: { ...(dat.get("images") || {}), ...nim },
       },
-      { merge: true }
-    )
+    })
 
-  const clubDisplayRequestDoc = initialisedDB.collection("clubDisplayRequests").doc()
-  const cDisplayRequestOut = clubDisplayRequestDoc.create({
-    clubID: req.body.panelID,
-    timeStamp: +new Date(),
-    userID: ID.userID,
-    data: {
-      ...req.body.contact,
-      reviews: reviews,
-      description: req.body.main,
-      images: { ...(dat.get("images") || {}), ...nim },
-    },
-  })
-
-  return null
+    return true
+  } catch (error) {
+    console.error(error)
+    return false
+  }
 }
 
 const main = async (req, ID) => {
-  performUpload(req, ID)
+  const status = performUpload(req, ID)
 
-  return { status: true, report: "success", data: { url: "" } }
+  if (status) {
+    return { status: true, report: "success", data: { url: "" } }
+  } else {
+    return { status: false, report: "unexpected_error" }
+  }
 }
 
 export const submitChanges = async (req, res) => {
