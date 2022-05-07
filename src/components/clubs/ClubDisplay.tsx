@@ -199,7 +199,7 @@ export const ClubDisplaySection: FC<{
               <article
                 id="article"
                 dangerouslySetInnerHTML={{ __html: `${clubDisplay.description}` }}
-                className="club-article space-y-4 font-texts text-[1.05rem] text-TUCMC-gray-700"
+                className="club-article ql-container ql-editor space-y-4 font-texts text-[1.05rem] text-TUCMC-gray-700"
               ></article>
             )}
 
@@ -277,7 +277,7 @@ export const ClubDisplaySection: FC<{
                             ) : (
                               <article
                                 dangerouslySetInnerHTML={{ __html: `${revContent.context}` }}
-                                className="club-article font-texts text-[1.05rem] text-gray-500"
+                                className="club-article ql-container ql-editor font-texts text-[1.05rem] text-gray-500"
                               ></article>
                             )}
                             <p className="mt-4 h-14 w-full text-center text-6xl text-gray-300 md:hidden">”</p>
