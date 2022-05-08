@@ -37,3 +37,5 @@ yarn-error.log*
 
 public/sw.js.map
 public/sw.js
+
+src/pages/api/do.tsx
