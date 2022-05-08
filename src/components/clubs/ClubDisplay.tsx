@@ -133,11 +133,11 @@ const ClubHeader: FC<{ clubID: string; clubDisplay: ClubDisplay; loaded: () => v
   )
 }
 
-function imageURL(clubDisplay, clubID, index) {
-  if (clubDisplay?.images && clubDisplay?.images[`picture-${index + 1}`])
-    return clubDisplay?.images[`picture-${index + 1}`]
-  else return `/assets/images/clubs/${clubID}/picture-${index + 1}.jpg`
-}
+// function imageURL(clubDisplay, clubID, index) {
+//   if (clubDisplay?.images && clubDisplay?.images[`picture-${index + 1}`])
+//     return clubDisplay?.images[`picture-${index + 1}`]
+//   else return `/assets/images/clubs/${clubID}/picture-${index + 1}.jpg`
+// }
 
 export const ClubDisplaySection: FC<{
   clubDisplay: ClubDisplay
@@ -205,22 +205,44 @@ export const ClubDisplaySection: FC<{
 
             {/* images */}
             <section id="club-images" className="space-y-8 md:flex md:justify-center md:space-y-0 md:space-x-4">
-              {Array(3)
-                .fill("")
-                .map((_, index) => {
-                  return (
-                    <div key={`picture-${index}`}>
-                      <Zoomable
-                        priority={true}
-                        onLoad={loaded}
-                        className="rounded-lg object-cover"
-                        src={imageURL(clubDisplay, clubID, index)}
-                        width={768}
-                        height={432}
-                      />
-                    </div>
-                  )
-                })}
+              {clubDisplay?.images?.["picture-1"] && (
+                <div id={`picture-1`}>
+                  <Zoomable
+                    priority={true}
+                    onLoad={loaded}
+                    className="rounded-lg object-cover"
+                    src={clubDisplay?.images?.["picture-1"]}
+                    width={768}
+                    height={432}
+                  />
+                </div>
+              )}
+
+              {clubDisplay?.images?.["picture-2"] && (
+                <div id={`picture-2`}>
+                  <Zoomable
+                    priority={true}
+                    onLoad={loaded}
+                    className="rounded-lg object-cover"
+                    src={clubDisplay?.images?.["picture-2"]}
+                    width={768}
+                    height={432}
+                  />
+                </div>
+              )}
+
+              {clubDisplay?.images?.["picture-3"] && (
+                <div id={`picture-3`}>
+                  <Zoomable
+                    priority={true}
+                    onLoad={loaded}
+                    className="rounded-lg object-cover"
+                    src={clubDisplay?.images?.["picture-3"]}
+                    width={768}
+                    height={432}
+                  />
+                </div>
+              )}
             </section>
 
             {/* reviews */}
