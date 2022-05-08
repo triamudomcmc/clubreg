@@ -36,3 +36,4 @@ yarn-error.log*
 .idea
 
 public/sw.js.map
+public/sw.js
