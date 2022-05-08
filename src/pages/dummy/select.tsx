@@ -1,13 +1,13 @@
 import PageContainer from "@components/common/PageContainer"
 import SelectSplash from "@vectors/decorations/SelectSplash"
 import { XIcon } from "@heroicons/react/solid"
-import ClubList from "@components/select/ClubList"
-import ClubModal from "@components/select/ClubModal"
+import ClubList from "@components/dummy/select/ClubList"
+import ClubModal from "@components/dummy/select/ClubModal"
 import { useEffect, useRef, useState } from "react"
 import { FilterSearch } from "@components/common/Inputs/Search"
 import Modal from "@components/common/Modals"
-import ConfirmModal from "@components/select/ConfirmModal"
-import DataModal from "@components/select/DataModal"
+import ConfirmModal from "@components/dummy/select/ConfirmModal"
+import DataModal from "@components/dummy/select/DataModal"
 import { useAuth } from "@client/auth"
 import Router from "next/router"
 import { GetServerSideProps, GetStaticProps } from "next"
@@ -17,7 +17,7 @@ import { fetchClub } from "@client/fetcher/club"
 import { Loader } from "@components/common/Loader"
 import { isEmpty, objToArr, searchKeyword, sortAudition, sortThaiDictionary } from "@utilities/object"
 import { sliceArr } from "@utilities/array"
-import { clubMap } from "../config/clubMap"
+import { clubMap } from "../../config/clubMap"
 import { regClub } from "@client/userAction"
 import { CatLoader } from "@components/common/CatLoader"
 import { AnimatePresence, motion } from "framer-motion"
@@ -46,7 +46,7 @@ export const getStaticProps: GetStaticProps = async () => {
 }
 
 const Select = ({ thumbPaths }) => {
-  const { onReady, tracker, reFetch } = useAuth()
+  const { onReady, tracker} = useAuth()
   const { width } = useWindowDimensions()
 
   const [modalState, setModalState] = useState({ open: false, data: {} })
@@ -57,7 +57,9 @@ const Select = ({ thumbPaths }) => {
   const [searchContext, setSearchContext] = useState("")
   const [rawSorted, setRawSorted] = useState([])
   const [clubData, setClubData] = useState({})
+  const [reload, setReload] = useState(false)
   const [auditionList, setAuditionList] = useState(<></>)
+  const [userData, setUserData] = useState<any>({})
   const [loader, setLoader] = useState(false)
   const [initclub, setInitclub] = useState(false)
   const { addToast } = useToast()
@@ -66,36 +68,24 @@ const Select = ({ thumbPaths }) => {
   const noAu = new Date().getTime() > lastround
   const time = endLastRound
 
-  const { userData } = onReady((logged, userData) => {
-    if (!logged) {
-      Router.push("/auth")
-    } else {
-      // if (new Date().getTime() < lastround) {
-      //   Router.push("/announce")
-      //   return { userData }
-      // }
-      // if (userData.club !== "") {
-      //   Router.push("/card")
-      // }
-      // else {
-      //   if (Object.keys(userData.audition).length <= 0 || new Date().getTime() > endLastRound) {
-      //     localStorage.setItem("alert", "denied")
-      //     Router.push("/account")
-      //   }
-      // }
-    }
-    return { userData }
-  })
+  const reFetch = () => {
+    setReload(true)
+  }
 
   useEffect(() => {
-    const currentTime = new Date().getTime()
 
-    if (currentTime < time) {
-      setTimeout(() => {
-        Router.reload()
-      }, time - currentTime)
-    }
-  }, [])
+    const d = JSON.parse(localStorage.getItem("dummyData") || "{}")
+    const aud = JSON.parse(localStorage.getItem("dummyAuditions") || "[]")
+    const audobj = {}
+    aud.forEach(e => {
+      audobj[e] = "waiting"
+    })
+
+    setUserData({...d, audition: audobj})
+
+    setReload(false)
+
+  }, [reload])
 
   const apply = () => {
     const dataArr = objToArr(clubData, (val) => {
@@ -244,7 +234,7 @@ const Select = ({ thumbPaths }) => {
                       <h1 className="text-lg font-medium tracking-tight">คุณได้ลงชื่อ Audition ชมรมไว้</h1>
                       <p className="tracking-tight text-gray-600">
                         ให้ไปทำการ Audition ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนด โดยติดตามรายละเอียดการ Audition
-                        จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง และรอการประกาศผลในวันที่ 15 มิ.ย. 2564 เวลา 7.30 น.
+                        จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง และรอการประกาศผลในวันที่ 25 พ.ค. 2565 เวลา 7.30 น.
                       </p>
                       <div className="relative md:hidden">
                         <a ref={auTrigger} className="cursor-pointer tracking-tight text-TUCMC-pink-500">
@@ -310,6 +300,9 @@ const Select = ({ thumbPaths }) => {
                       </div>
                     ))} */}
                 </div>
+              </div>
+              <div onClick={() => {Router.push("/dummy/announce")}} className="fixed right-4 bottom-4 bg-TUCMC-pink-400 text-white font-medium text-xl px-10 py-2 rounded-full">
+                <h1>ไปสู่ช่วงประกาศผล</h1>
               </div>
               <div style={width > 768 ? { width: width - 376, maxWidth: 952 } : {}} className="mt-16 md:mt-0">
                 <div className="mx-4 border-b pb-5">
