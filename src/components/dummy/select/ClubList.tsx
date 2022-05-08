@@ -1,10 +1,10 @@
 import { ClipboardCopyIcon, StarIcon } from "@heroicons/react/solid"
 import { Dispatch, SetStateAction } from "react"
 import { useAuth } from "@client/auth"
-import LooseTypeObject from "../../interfaces/LooseTypeObject"
 import classnames from "classnames"
 import { Full, Vacant } from "@vectors/texts/ClubStates"
 import { useToast } from "@components/common/Toast/ToastContext"
+import LooseTypeObject from "@interfaces/LooseTypeObject"
 
 interface props {
   data: LooseTypeObject<string>
