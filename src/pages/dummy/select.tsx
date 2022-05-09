@@ -62,6 +62,7 @@ const Select = ({ thumbPaths }) => {
   const [sortMode, setSortMode] = useState("ascending")
   const [tutorial, setTutorial] = useState(false)
   const [scene, setScene] = useState(1)
+  const [locked, setLocked] = useState(true)
   const [narratText, setNarrateText] = useState(<></>)
   const [isCon, setIsCon] = useState(false)
   const [hideA, setHideA] = useState(false)
@@ -384,6 +385,8 @@ const Select = ({ thumbPaths }) => {
         {initclub && tutorial && (
           <div
             onClick={() => {
+              if (locked) return
+
               if (!isCon) {
                 setSuperSpeed(true)
                 setIsCon(true)
@@ -405,6 +408,7 @@ const Select = ({ thumbPaths }) => {
               animate={scene === 9 ? { y: -height - 220 } : { y: -220 }}
               transition={scene === 9 ? { duration: 0.5 } : { duration: 2 }}
               onAnimationComplete={() => {
+                setLocked(false)
                 setTimeout(() => {
                   setScene((prev) => {
                     prev === 1 && setIsCon(true)
@@ -594,6 +598,7 @@ const Select = ({ thumbPaths }) => {
                     setExit(false)
                     setScene(1)
                     setTutorial(true)
+                    setLocked(true)
                   }}
                   className="absolute top-[-80px] right-0 cursor-pointer"
                 >
