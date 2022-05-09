@@ -13,7 +13,7 @@ export const endOldClub = +new Date("2022-05-07T00:00:00.000+07:00")
 // export const startOldClubCountdown = +new Date("2022-05-05T01:10:00.000+07:00")
 // export const endOldClub = +new Date("2022-05-05T01:13:00.000+07:00")
 
-export const openTime = +new Date("2022-05-17T11:30:00.000+07:00")
+export const openTime = +new Date("2022-05-17T12:00:00.000+07:00")
 export const editDataTime = +new Date("2022-05-25T00:00:00.000+07:00")
 export const endRegClubTime = +new Date("2022-05-25T00:00:00.000+07:00")
 export const announceTime = +new Date("2022-05-25T07:30:00.000+07:00")
