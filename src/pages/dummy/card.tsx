@@ -151,7 +151,7 @@ const Page = ({ links }) => {
         </div>
         <motion.div
           initial={{ y: -200, x: 250 }}
-          animate={enter ? { x: 30 } : { x: -width - 250, y: -300 }}
+          animate={enter ? { x: 40 } : { x: -width - 250, y: -300 }}
           transition={{ duration: 1, delay: enter ? 1 : 1 }}
           className="fixed bottom-0 right-0"
         >

@@ -120,8 +120,8 @@ const Navigation = () => {
               <Link passHref href="/">
                 <a className="text-white">หน้าแรก</a>
               </Link>
-              <Link passHref href="/instructions">
-                <a className="text-white">วิธีใช้</a>
+              <Link passHref href="/dummy">
+                <a className="text-white">ลองใช้</a>
               </Link>
               <Link passHref href="/clubs">
                 <a className="text-white">ชมรม</a>
@@ -354,7 +354,7 @@ const Navigation = () => {
             <span className={getClass("/clubs", "font")}>รายชื่อชมรม</span>
           </a>
         </Link>
-        <Link passHref href="/instructions">
+        <Link passHref href="/dummy">
           <a
             className={classnames(
               "flex flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8",
@@ -362,7 +362,7 @@ const Navigation = () => {
             )}
           >
             <CalendarIcon className={classnames("h-7 w-7", getClass("/instructions", "icon"))} />{" "}
-            <span className={getClass("/info", "font")}>วิธีลงทะเบียน</span>
+            <span className={getClass("/info", "font")}>ระบบจำลอง</span>
           </a>
         </Link>
         <Link passHref href="/FAQ">

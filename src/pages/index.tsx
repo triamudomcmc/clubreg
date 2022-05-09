@@ -208,7 +208,7 @@ const Index = () => {
                 </div> */}
                   <div className="hidden px-1 font-medium text-white md:block">
                     <p>ระบบจะเปิดให้ยืนยันสิทธิ์ชมรมเดิม</p>
-                    <p>ในวันที่ 5 พ.ค. 2565 เวลา 11.30 น.</p>
+                    <p>ในวันที่ 17 พ.ค. 2565 เวลา 12.00 น.</p>
                   </div>
                 </div>
               </div>
@@ -286,8 +286,8 @@ const Index = () => {
                   <p>ในวันที่ 7 มิ.ย. 2564 เวลา 12.30 น.</p>
                 </div> */}
                   <div className="font-medium">
-                    <p>ระบบจะเปิดให้ยืนยันสิทธิ์ชมรมเดิม</p>
-                    <p>ในวันที่ 5 พ.ค. 2565 เวลา 11.30 น.</p>
+                    <p>ระบบจะเปิดให้ลงทะเบียนชมรม</p>
+                    <p>ในวันที่ 17 พ.ค. 2565 เวลา 12.00 น.</p>
                   </div>
                 </div>
               </div>
@@ -317,11 +317,11 @@ const Index = () => {
                       </Button>
                       <Button
                         type="div"
-                        href="/instructions"
+                        href="/dummy"
                         className="flex flex-row items-center justify-between rounded-xl bg-white px-7 py-5 shadow-lg md:rounded-lg"
                       >
                         <div className="w-1/2 flex-shrink-0">
-                          <h1 className="text-5xl font-bold tracking-tighter text-TUCMC-pink-400">วิธีใช้</h1>
+                          <h1 className="text-5xl font-bold tracking-tighter text-TUCMC-pink-400">ลองใช้</h1>
                         </div>
                         <img className="w-36 md:w-32" src="/assets/images/menu2.png" />
                       </Button>
