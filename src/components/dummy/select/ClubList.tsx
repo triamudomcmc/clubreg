@@ -7,7 +7,7 @@ import { useToast } from "@components/common/Toast/ToastContext"
 import LooseTypeObject from "@interfaces/LooseTypeObject"
 
 interface props {
-  data: LooseTypeObject<string>
+  data: LooseTypeObject<any>
   action: Dispatch<SetStateAction<{ open: boolean; data: {} }>>
 }
 

@@ -1,8 +1,11 @@
 import { CheckCircleIcon, DotsCircleHorizontalIcon, XCircleIcon, InformationCircleIcon } from "@heroicons/react/solid"
+import { useWindowDimensions } from "@utilities/document"
 import { translateClubID } from "@utilities/object"
+import { Tooltip } from "../common/Tooltip"
 
 const ClubStatus = ({ data, action, selectTrigger }) => {
   let interaction, status
+  const { width } = useWindowDimensions()
 
   const select = (mode: "confirm" | "reject") => {
     action({ open: true, data: { title: translateClubID(data.clubID), clubID: data.clubID, audition: true } })
@@ -53,7 +56,7 @@ const ClubStatus = ({ data, action, selectTrigger }) => {
       status = (
         <div className="flex space-x-1 text-TUCMC-orange-400">
           <DotsCircleHorizontalIcon className="mt-0.5 h-5 w-5" />
-          <span className="leading-6">ติดสำรอง ลำดับที่ 1 จาก 23 - ส่วนนักแสดงชาย</span>
+          <span className="leading-6">ติดสำรอง ลำดับที่ 1 จาก 23 - ส่วนผู้จัดหาอาหาร</span>
         </div>
       )
       interaction = <></>
@@ -86,12 +89,32 @@ const ClubStatus = ({ data, action, selectTrigger }) => {
       interaction = <></>
   }
   return (
-    <div className="rounded-lg bg-white shadow-md">
-      <div className="flex flex-col space-y-0.5 py-[22px] px-6 tracking-tight text-TUCMC-gray-700">
-        <h1>ชมรม{translateClubID(data.clubID)}</h1>
-        {status}
+    <div className="relative">
+      <div className="rounded-lg bg-white shadow-md">
+        <div className="flex flex-col space-y-0.5 py-[22px] px-6 tracking-tight text-TUCMC-gray-700">
+          <h1>ชมรม{translateClubID(data.clubID)}</h1>
+          {status}
+        </div>
+        {interaction}
       </div>
-      {interaction}
+      {data.clubID.includes("ก400") && data.status === "passed" && (
+        <Tooltip type={width < 1024 ? "top" : "left"} className="relative mt-4 lg:absolute lg:top-4 lg:right-[-300px]">
+          <span className="font-semibold">หากยืนยันสิทธิ์ชมรม</span>แล้วจะถือว่าอยู่ชมรมนั้นทันที <br />
+          และจะไม่สามารถเปลี่ยนชมรมได้ <br />
+          <br />
+          <span className="font-semibold">หากสละสิทธิ์ชมรม</span>จะถือว่าสละสิทธิ์จากชมรมนั้นแล้ว <br />
+          จะไม่สามารถกลับมายืนยันสิทธิ์ชมรมนั้นได้อีก
+        </Tooltip>
+      )}
+      {data.clubID.includes("ก400") && data.status === "reserved" && (
+        <Tooltip type={width < 1024 ? "top" : "left"} className="relative mt-2 lg:absolute lg:top-4 lg:right-[-314px]">
+          หากมีสถานะเป็นติดสำรอง นักเรียนสามารถรอลุ้นผล
+          <br />
+          วันประกาศลำดับสำรองได้ โดยถ้าหากถูกเรียก
+          <br />
+          ลำดับสำรองระบบจะเปลี่ยนสถานะเป็น ผ่านการคัดเลือก
+        </Tooltip>
+      )}
     </div>
   )
 }

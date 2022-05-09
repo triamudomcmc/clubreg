@@ -104,14 +104,21 @@ export const CustomCard = ({ width, clubData, panelID }) => {
   )
 }
 
-export const Card = ({ width, userData, clubData }) => {
+export const Card = ({ width, userData, clubData, customURL = "" }) => {
   useEffect(() => {
-    if (userData && userData.cardID) {
+    if ((userData && userData.cardID) || customURL !== "") {
       const canvas = document.getElementById("qrCode")
-      QRCode.toCanvas(canvas, `https://register.clubs.triamudom.ac.th/card/${userData.cardID}`, {
-        errorCorrectionLevel: "L",
-        margin: 1.2,
-      })
+      if (customURL !== "") {
+        QRCode.toCanvas(canvas, customURL, {
+          errorCorrectionLevel: "L",
+          margin: 1.2,
+        })
+      } else {
+        QRCode.toCanvas(canvas, `https://register.clubs.triamudom.ac.th/card/${userData.cardID}`, {
+          errorCorrectionLevel: "L",
+          margin: 1.2,
+        })
+      }
     }
   }, [userData])
 

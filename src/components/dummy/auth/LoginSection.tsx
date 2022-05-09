@@ -4,12 +4,15 @@ import { useAuth } from "@client/auth"
 import { useToast } from "@components/common/Toast/ToastContext"
 import { request } from "@client/utilities/request"
 import Router from "next/router"
+import { Tooltip } from "../common/Tooltip"
+import { motion } from "framer-motion"
 
 const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
   const { reFetch } = useAuth()
   const [ID, setID] = useState("")
   const [password, setPassword] = useState("")
   const [scode, setScode] = useState([])
+  const [isRegistered, setIsRegistred] = useState(true)
   const seriesInput = useRef([])
   const { addToast, clearToast } = useToast()
 
@@ -88,6 +91,14 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
     }
   }, [scode])
 
+  useEffect(() => {
+    const dummyData = JSON.parse(localStorage.getItem("dummyData") || "{}")
+    if ("email" in dummyData) {
+      setIsRegistred(true)
+    } else {
+      setIsRegistred(false)
+    }
+  }, [])
   const onsubmit = async (event) => {
     event.preventDefault()
 
@@ -95,13 +106,13 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
       setLoader(true)
     }, 1000)
 
-    const result = {status: true, report: "success", data: {taskId: ""}}
+    const result = { status: true, report: "success", data: { taskId: "" } }
 
     const dummyData = JSON.parse(localStorage.getItem("dummyData") || "{}")
 
     if ("email" in dummyData) {
       Router.push("/dummy/select")
-    }else{
+    } else {
       addToast({
         theme: "modern",
         icon: "cross",
@@ -116,6 +127,9 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
 
   return (
     <div className="mt-6 flex flex-col items-center pt-8">
+      {!isRegistered && (
+        <motion.div className="fixed top-0 left-0 z-[29] min-h-screen w-full bg-gray-500 bg-opacity-50 backdrop-blur-sm backdrop-filter"></motion.div>
+      )}
       <h1 className="text-4xl font-bold tracking-tight">เข้าสู่ระบบ</h1>
       <div className="mt-2 text-center text-TUCMC-gray-600">
         <p>ระบบลงทะเบียนชมรม</p>
@@ -123,7 +137,7 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
       </div>
       <form className="w-full" onSubmit={onsubmit}>
         <div className="mt-10 w-full space-y-7 px-6">
-          <div className="flex w-full flex-col -space-y-px">
+          <div className="relative flex w-full flex-col -space-y-px">
             <input
               type="text"
               className="webkit-rounded-t-md appearance-none border border-gray-300 px-4 py-2 text-lg placeholder-gray-500 focus:z-10 focus:border-TUCMC-pink-500 focus:ring-TUCMC-pink-500"
@@ -132,6 +146,13 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
               disabled={true}
               required
             />
+            <Tooltip className="top-2 left-[80px]">
+              <span className="font-bold">เลขนี้เป็นเลขจำลอง</span> สำหรับในวันเปิดระบบจริง
+              <br />
+              นักเรียนจะต้องใช้เลขประจำตัวนักเรียนจริง
+              <br />
+              ในการเข้าสู่ระบบ
+            </Tooltip>
             <input
               onChange={(event) => {
                 setPassword(event.target.value)
@@ -161,8 +182,18 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
               </div>
               <span>ล็อกอิน</span>
             </button>
-            <a onClick={primaryAction} className="mt-2 cursor-pointer whitespace-nowrap font-normal text-gray-600">
+            <a
+              onClick={primaryAction}
+              className="z-[30] mt-2 cursor-pointer whitespace-nowrap bg-white px-4 font-normal text-gray-600"
+            >
               สร้างบัญชีใหม่
+              {!isRegistered && (
+                <Tooltip type="top" className="mt-2">
+                  <span className="font-semibold">สำหรับนักเรียน ม.4</span> จะต้องสร้างบัญชีใหม่
+                  <br />
+                  ก่อนเข้าใช้ระบบลงทะเบียนชมรม
+                </Tooltip>
+              )}
             </a>
           </div>
         </div>

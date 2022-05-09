@@ -7,6 +7,7 @@ import { useAuth } from "@client/auth"
 import RegisterSection from "@components/dummy/auth/RegisterSection"
 import { Loader } from "@components/common/Loader"
 import { useToast } from "@components/common/Toast/ToastContext"
+import { ExclamationIcon } from "@heroicons/react/solid"
 import { ForgotSection } from "@components/dummy/auth/ForgotSection"
 import { endLastRound, endOldClub, lastround, openTime, startOldClub, startOldClubCountdown } from "@config/time"
 import { useTimer } from "@utilities/timers"
@@ -19,7 +20,6 @@ const Auth = ({ query }) => {
   const timer = useTimer(startOldClub)
 
   onReady((logged, userData) => {
-    
     // if (new Date().getTime() < openTime) {
     //   Router.push("/")
     // }
@@ -108,6 +108,19 @@ const Auth = ({ query }) => {
 
   return (
     <PageContainer footer={false}>
+      <div className="fixed top-0 z-[98] mx-auto flex w-full justify-center">
+        <div className="flex items-center space-x-2 rounded-md bg-TUCMC-orange-500 py-2 pl-4 pr-6 shadow-md">
+          <ExclamationIcon className="mt-2 h-10 w-10 animate-pulse text-white" />
+          <div>
+            <div className="flex items-center space-x-2 font-medium text-white">
+              <h1>คุณกำลังอยู่ในโหมดระบบจำลอง</h1>
+            </div>
+            <div className="flex justify-center text-sm text-white">
+              <p>ทุกการกระทำในโหมดระบบจำลองจะไม่มีผลในระบบจริง</p>
+            </div>
+          </div>
+        </div>
+      </div>
       <Loader display={loader} />
       <div style={{ maxWidth: "26rem" }} className="mx-auto my-6 mb-16 min-h-screen space-y-8 md:my-10 md:mb-10">
         {/* <DefaultCard>
@@ -116,7 +129,7 @@ const Auth = ({ query }) => {
             ต้องยืนยันตัวตนและสร้างบัญชีใหม่ทั้งหมด เนื่องจากมีการออกแบบระบบใหม่
           </p>
         </DefaultCard> */}
-         <DefaultCard>
+        <DefaultCard>
           <p className="font-normal">
             นักเรียน ม.5 และ ม.6 ในปีการศึกษา 2565 ที่เข้ามายืนยันสิทธิ์ชมรมเดิม จะต้องใช้บัญชีเดิมในการเข้าสู่ระบบ
           </p>

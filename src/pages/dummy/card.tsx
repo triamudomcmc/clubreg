@@ -3,6 +3,7 @@ import { Card } from "@components/Card"
 import { useWindowDimensions } from "@utilities/document"
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { ArrowCircleDownIcon, ClipboardCopyIcon, StarIcon } from "@heroicons/react/solid"
+import { ExclamationIcon } from "@heroicons/react/solid"
 import { useAuth } from "@client/auth"
 import * as fs from "fs"
 import { fetchAClub } from "@client/fetcher/club"
@@ -11,11 +12,14 @@ import { Button } from "@components/common/Inputs/Button"
 import { GetStaticProps } from "next"
 import classnames from "classnames"
 import { endOldClub, startOldClub } from "@config/time"
+import { ArrowLeftIcon } from "@heroicons/react/outline"
+import { motion } from "framer-motion"
+import Image from "next/image"
+import { Tooltip } from "@components/dummy/common/Tooltip"
 
 export const getStaticProps: GetStaticProps = async () => {
   const data = fs.readFileSync("./_map/links.json")
   const links = JSON.parse(data.toString())
-  
 
   return {
     props: {
@@ -24,20 +28,22 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
-const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>) => {
-  const data = await fetchAClub(clubID)
-  setClubData(data)
-}
-
 const Page = ({ links }) => {
   const { width } = useWindowDimensions()
   const { onReady } = useAuth()
+  const [enter, setEnter] = useState(true)
   const [clubData, setClubData] = useState({
-    place: "",
-    contact: {},
-    contact2: {},
+    place: "ห้อง 111",
+    contact: {
+      type: "IG",
+      context: "@tucmc_official",
+    },
+    contact2: {
+      type: "FB",
+      context: "TUCMC",
+    },
     contact3: {},
-    message: "",
+    message: "ส่วนนี้เป็นข้อความที่ชมรมจะแจ้งสมาชิกใหม่ เพื่อให้รับทราบข้อมูลต่าง ๆ ไปจนถึงข้อความทักทาย",
   })
   const [reload, setReload] = useState(false)
   const [auditionList, setAuditionList] = useState(<></>)
@@ -50,23 +56,20 @@ const Page = ({ links }) => {
   }
 
   useEffect(() => {
-
     const d = JSON.parse(localStorage.getItem("dummyData") || "{}")
     const club = localStorage.getItem("dummyClub") || ""
 
-    if (club === ""){
+    if (club === "") {
       Router.push("/dummy/select")
     }
 
-    setUserData({...d, club: club, title: "ผู้ใช้ "})
+    setUserData({ ...d, club: club, title: "ผู้ใช้ " })
 
     setReload(false)
-
   }, [reload])
 
   useEffect(() => {
     if (userData && userData.club) {
-      fetchClubData(userData.club, setClubData)
       setLink(links[userData.club] || "")
     }
   }, [userData])
@@ -94,6 +97,19 @@ const Page = ({ links }) => {
 
   return (
     <PageContainer>
+      <div className="fixed top-0 z-[98] mx-auto flex w-full justify-center">
+        <div className="flex items-center space-x-2 rounded-md bg-TUCMC-orange-500 py-2 pl-4 pr-6 shadow-md">
+          <ExclamationIcon className="mt-2 h-10 w-10 animate-pulse text-white" />
+          <div>
+            <div className="flex items-center space-x-2 font-medium text-white">
+              <h1>คุณกำลังอยู่ในโหมดระบบจำลอง</h1>
+            </div>
+            <div className="flex justify-center text-sm text-white">
+              <p>ทุกการกระทำในโหมดระบบจำลองจะไม่มีผลในระบบจริง</p>
+            </div>
+          </div>
+        </div>
+      </div>
       <div>
         {/* <div className="mx-auto mt-10 flex max-w-md flex-col space-y-3 px-7">
           <Button
@@ -109,25 +125,47 @@ const Page = ({ links }) => {
           </Button>
         </div> */}
         <div className="flex justify-center py-10">
-          <Card width={cardWidth} userData={userData} clubData={clubData} />
+          <Card
+            width={cardWidth}
+            userData={userData}
+            clubData={clubData}
+            customURL="https://www.facebook.com/triamudomclubs/"
+          />
         </div>
-        <div onClick={() =>{Router.push("/dummy/announce")}} className="fixed right-4 bottom-4 bg-TUCMC-pink-400 text-white font-medium text-xl px-10 py-2 rounded-full">
-                <h1>กลับสู่ช่วงประกาศผล</h1>
-        </div>
-        <div className="mx-auto mb-10 flex max-w-md flex-col space-y-3 px-7">
-          <div className="flex flex-row space-x-3 rounded-md bg-TUCMC-green-100 p-4 text-TUCMC-gray-700">
-            <StarIcon className="h-5 w-5 flex-shrink-0" />
-            <div className="text-sm">
-              <p>กรุณาดาวน์โหลดรูปภาพหรือถ่ายภาพหน้าจอเก็บไว้เป็นหลักฐาน</p>
-            </div>
-          </div>
-          <div
-            onClick={download}
-            className="flex cursor-pointer items-center justify-center space-x-2 rounded-md border border-gray-300 bg-white p-5 text-TUCMC-gray-700"
+        <motion.div
+          initial={{ y: -200, x: 250 }}
+          animate={enter ? { x: 30 } : { x: -width - 250, y: -300 }}
+          transition={{ duration: 1, delay: enter ? 1 : 1 }}
+          className="fixed bottom-0 right-0"
+        >
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={enter ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ delay: enter ? 2 : 0 }}
+            onAnimationComplete={() => {
+              enter &&
+                setTimeout(() => {
+                  setEnter(false)
+                }, 15000)
+            }}
           >
-            <ArrowCircleDownIcon className="h-5 w-5" />
-            <span>ดาวน์โหลด</span>
-          </div>
+            <Tooltip type="right" className="top-[75px] left-[-180px]">
+              เย่ ! ลงทะเบียนชมรมสำเร็จแล้ว <br /> แต่ว่านี่
+              <span className="font-bold">เป็นเพียงแค่การจำลองเท่านั้น</span> <br /> น้อง ๆ อย่าลืม ลงทะเบียนในวันจริง
+              <br />
+              วันที่ 17 พ.ค. 2565 เวลา 12.00 น. ด้วยนะ
+            </Tooltip>
+          </motion.div>
+          <Image src="/assets/dummy/astro-4.png" width={289} height={200} />
+        </motion.div>
+        <div
+          onClick={() => {
+            Router.push("/dummy/select")
+          }}
+          className="fixed  left-4 bottom-4 flex cursor-pointer items-center space-x-2 rounded-full bg-TUCMC-pink-400 px-6 py-2 font-semibold text-white"
+        >
+          <ArrowLeftIcon className="h-5 w-5" />
+          <h1>กลับสู่หน้าเลือกชมรมอีกครั้ง</h1>
         </div>
       </div>
     </PageContainer>

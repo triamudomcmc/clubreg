@@ -7,10 +7,9 @@ import { Button } from "@components/common/Inputs/Button"
 import { useToast } from "@components/common/Toast/ToastContext"
 import { request } from "@client/utilities/request"
 import classnames from "classnames"
+import { Tooltip } from "../common/Tooltip"
 
-const people = [
-  { id: 1, name: "ม.4" },
-]
+const people = [{ id: 1, name: "ม.4" }]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ")
@@ -75,9 +74,9 @@ const RegisterSection = ({ swapFunction, setLoader }) => {
       password: password,
     }
 
-    localStorage.setItem("dummyData", JSON.stringify({...data, password: "", confirmPassword: ""}))
+    localStorage.setItem("dummyData", JSON.stringify({ ...data, password: "", confirmPassword: "" }))
 
-    const result = {status: true, report: "success", data: {}}
+    const result = { status: true, report: "success", data: {} }
 
     if (result.status) {
       await Router.push({
@@ -166,18 +165,25 @@ const RegisterSection = ({ swapFunction, setLoader }) => {
       <form onSubmit={onsubmit} className="mt-8 w-full space-y-6">
         <Input title="ชื่อ (หากมีชื่อกลาง ให้กรอกในช่องนี้)" stateUpdate={setFirstname} required={true} />
         <Input title="นามสกุล" stateUpdate={setLastname} required={true} />
-        <div>
-      <span className="tracking-tight text-gray-700">เลขประจำตัวนักเรียน</span>
-      <input
-        type="text"
-        className={classnames(
-          "outline-none w-full appearance-none rounded-md border border-gray-300 px-4 py-2 shadow-sm focus:border-TUCMC-pink-500 focus:ring-TUCMC-pink-500",
-          "text-lg placeholder-gray-500"
-        )}
-        value={"70000"}
-        disabled={true}
-      />
-    </div>
+        <div className="relative">
+          <span className="tracking-tight text-gray-700">เลขประจำตัวนักเรียน</span>
+          <Tooltip className="top-8 left-[80px]">
+            <span className="font-bold">เลขนี้เป็นเลขจำลอง</span> สำหรับในวันเปิดระบบจริง
+            <br />
+            นักเรียนจะต้องใช้เลขประจำตัวนักเรียนจริง
+            <br />
+            ในการเข้าสู่ระบบ
+          </Tooltip>
+          <input
+            type="text"
+            className={classnames(
+              "outline-none w-full appearance-none rounded-md border border-gray-300 px-4 py-2 shadow-sm focus:border-TUCMC-pink-500 focus:ring-TUCMC-pink-500",
+              "text-lg placeholder-gray-500"
+            )}
+            value={"70000"}
+            disabled={true}
+          />
+        </div>
         <div className="w-full">
           <Listbox value={selected} onChange={setSelected}>
             {({ open }) => (

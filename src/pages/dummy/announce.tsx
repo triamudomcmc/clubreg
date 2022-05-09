@@ -7,11 +7,13 @@ import { isEmpty } from "@utilities/object"
 import React, { useEffect, useState } from "react"
 import ConfirmModal from "@components/dummy/select/ConfirmModal"
 import DataModal from "@components/dummy/select/DataModal"
+import { ExclamationIcon } from "@heroicons/react/solid"
 import { Loader } from "@components/common/Loader"
 import { useTimer } from "@utilities/timers"
 import classnames from "classnames"
 import { announceTime, breakLowerBound, breakUpperBound, endLastRound, endRegClubTime, lastround } from "@config/time"
 import { WaitingScreen } from "@components/common/WaitingScreen"
+import { ArrowLeftIcon, RefreshIcon } from "@heroicons/react/outline"
 
 const Announce = () => {
   const [desc, setDesc] = useState(<></>)
@@ -31,38 +33,48 @@ const Announce = () => {
   }
 
   useEffect(() => {
-
     const d = JSON.parse(localStorage.getItem("dummyData") || "{}")
     const aud = JSON.parse(localStorage.getItem("dummyAuditions") || "[]")
     const exState = JSON.parse(localStorage.getItem("dummyExState") || "{}")
-    console.log(Object.values(exState).length)
-    if (Object.values(exState).length > 0){
+
+    if (!aud.includes("ก40001")) {
+      aud.push("ก40001")
+    }
+    if (!aud.includes("ก40000")) {
+      aud.push("ก40000")
+    }
+    if (!aud.includes("ก40002")) {
+      aud.push("ก40002")
+    }
+
+    if (Object.values(exState).length > 0) {
       setOverr(true)
-    }else{
+    } else {
       setOverr(false)
     }
     const audobj = {}
-    aud.forEach((e,i) => {
+    aud.forEach((e, i) => {
       if (e in exState) {
         audobj[e] = exState[e]
         return
       }
 
+      audobj[e] = "passed"
+
       if (i === 0) {
         audobj[e] = "passed"
       }
-      if (i === 1) {
+      if (i === 2) {
         audobj[e] = "failed"
       }
-      if (i === 2) {
+      if (i === 3) {
         audobj[e] = "reserved"
       }
     })
 
-    setUserData({...d, audition: audobj})
+    setUserData({ ...d, audition: audobj })
 
     setReload(false)
-
   }, [reload])
 
   const upperBound = breakUpperBound,
@@ -115,7 +127,7 @@ const Announce = () => {
       ) {
         setBottomDesc(
           <p className="mx-auto mt-20 max-w-md px-16 text-center text-TUCMC-gray-700">
-            กรุณารอเลือกเข้าชมรมที่ไม่มีการ Audition และยังมีที่นั่งว่างอยู่ ในวันที่ 18 มิ.ย. 64
+            กรุณารอเลือกเข้าชมรมที่ไม่มีการ Audition และยังมีที่นั่งว่างอยู่ ในวันที่ 28 พ.ค. 65
           </p>
         )
       }
@@ -143,12 +155,8 @@ const Announce = () => {
                   >
                     1
                   </div>
-                  <span
-                    className={classnames(
-                      reserved ? "text-TUCMC-gray-700" : "text-TUCMC-gray-500"
-                    )}
-                  >
-                    16 มิ.ย. 64 เวลา 07.30 น.
+                  <span className={classnames(reserved ? "text-TUCMC-gray-700" : "text-TUCMC-gray-500")}>
+                    26 พ.ค. 65 เวลา 07.30 น.
                   </span>
                 </div>
                 <div className="flex items-center space-x-1">
@@ -160,12 +168,8 @@ const Announce = () => {
                   >
                     2
                   </div>
-                  <span
-                    className={classnames(
-                      reserved2 ? "text-TUCMC-gray-700" : "text-TUCMC-gray-500"
-                    )}
-                  >
-                    17 มิ.ย. 64 เวลา 07.30 น.
+                  <span className={classnames(reserved2 ? "text-TUCMC-gray-700" : "text-TUCMC-gray-500")}>
+                    27 พ.ค. 65 เวลา 07.30 น.
                   </span>
                 </div>
               </div>
@@ -182,14 +186,42 @@ const Announce = () => {
 
   return new Date().getTime() > upperBound || new Date().getTime() < lowerBound ? (
     <PageContainer>
-      <Loader display={loader} />
-      <div className="flex flex-row space-x-4 items-center justify-between w-full fixed bottom-4 px-4">
-      {isOverr && <div onClick={() => {localStorage.setItem("dummyExState", "{}"); reFetch()}} className="bg-TUCMC-pink-400 text-white font-medium text-xl px-10 py-2 rounded-full">
-                <h1>ย้อนกลับสถานะ</h1>
-      </div>}
-      <div onClick={() =>{Router.push("/dummy/select")}} className="bg-TUCMC-pink-400 text-white font-medium text-xl px-10 py-2 rounded-full">
-                <h1>กลับสู่ช่วงเลือกชมรม</h1>
+      <div className="fixed top-0 z-[98] mx-auto flex w-full justify-center">
+        <div className="flex items-center space-x-2 rounded-md bg-TUCMC-orange-500 py-2 pl-4 pr-6 shadow-md">
+          <ExclamationIcon className="mt-2 h-10 w-10 animate-pulse text-white" />
+          <div>
+            <div className="flex items-center space-x-2 font-medium text-white">
+              <h1>คุณกำลังอยู่ในโหมดระบบจำลอง</h1>
+            </div>
+            <div className="flex justify-center text-sm text-white">
+              <p>ทุกการกระทำในโหมดระบบจำลองจะไม่มีผลในระบบจริง</p>
+            </div>
+          </div>
         </div>
+      </div>
+      <Loader display={loader} />
+      <div className="fixed bottom-4 flex w-full flex-row items-center space-x-4 px-4">
+        <div
+          onClick={() => {
+            Router.push("/dummy/select")
+          }}
+          className="flex cursor-pointer items-center space-x-2 rounded-full bg-TUCMC-pink-400 px-6 py-2 font-medium text-white"
+        >
+          <ArrowLeftIcon className="h-5 w-5" />
+          <h1>กลับสู่ช่วงเลือกชมรม</h1>
+        </div>
+        {isOverr && (
+          <div
+            onClick={() => {
+              localStorage.setItem("dummyExState", "{}")
+              reFetch()
+            }}
+            className="flex cursor-pointer items-center space-x-2 rounded-full bg-TUCMC-pink-400 px-6 py-2 font-medium text-white"
+          >
+            <h1>ย้อนกลับสถานะ</h1>
+            <RefreshIcon className="h-5 w-5" />
+          </div>
+        )}
       </div>
       <ConfirmModal
         onAgree={() => {
@@ -232,7 +264,7 @@ const Announce = () => {
             <div className="mb-20 space-y-8 pt-10">
               <div className="flex flex-col items-center text-TUCMC-gray-700">
                 <h1 className="text-4xl">รอประกาศผล</h1>
-                <h1 className="text-xl">15 มิ.ย. 2564 เวลา 7.30 น.</h1>
+                <h1 className="text-xl">25 พ.ค. 2565 เวลา 7.30 น.</h1>
               </div>
               <div className="flex flex-row justify-center space-x-2 text-TUCMC-gray-700">
                 <div className="flex flex-col items-center">
