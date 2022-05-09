@@ -248,7 +248,7 @@ const Select = ({ thumbPaths }) => {
             prev === 6 && setIsCon(true)
             return prev
           })
-        }, 6700)
+        }, 6000)
         setNarrateText(
           <ReactTypingEffect
             key={4}
@@ -287,7 +287,7 @@ const Select = ({ thumbPaths }) => {
             prev === 8 && setIsCon(true)
             return prev
           })
-        }, 6800)
+        }, 6200)
         setNarrateText(
           <ReactTypingEffect
             key={6}
@@ -414,13 +414,18 @@ const Select = ({ thumbPaths }) => {
               }}
               className="fixed bottom-[-200px] right-[-30px]"
             >
-              <div className="absolute left-[-160px] top-[100px]">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 2.2, duration: 0.4 }}
+                className="absolute left-[-160px] top-[100px]"
+              >
                 {scene < 9 && (
                   <Tooltip type="right" className="w-[220px] min-w-[220px]">
                     {narratText}
                   </Tooltip>
                 )}
-              </div>
+              </motion.div>
               <Image src="/assets/dummy/astro-1.png" width={200} height={200} />
             </motion.div>
             <motion.div
@@ -692,8 +697,8 @@ const Select = ({ thumbPaths }) => {
                             <span className="font-semibold">ชมรมที่มีการ Audition</span> <br />{" "}
                             นักเรียนจะสามารถกดเลือกชมรมที่มีการ Audition กี่ชมรมก็ได้ <br className="hidden lg:block" />
                             ตั้งแต่วันที่ 17 พ.ค. เวลา 12.00 - ภายในวันที่ 24 พ.ค. 2565
-                            <br className="hidden lg:block" /> จากนั้นนักเรียนติดตามข่าวสารการจัดการ
-                            Auditionผ่านช่องทางของชมรม
+                            <br className="hidden lg:block" /> จากนั้นนักเรียนติดตามข่าวสารการจัดการ Audition{" "}
+                            ผ่านทางช่องทางของชมรม
                           </p>
                         </Tooltip>
                       )}
