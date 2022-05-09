@@ -154,14 +154,7 @@ const Auth = ({ query }) => {
           </p>
         </DefaultCard>
         {action == "login" && (
-          <LoginSection
-            query={query}
-            primaryAction={goRegister}
-            secAction={() => {
-              setAction("forgot")
-            }}
-            setLoader={setLoader}
-          />
+          <LoginSection query={query} primaryAction={goRegister} secAction={() => {}} setLoader={setLoader} />
         )}
         {action == "waiting" && (
           <div className="mt-6 flex flex-col items-center pt-8">

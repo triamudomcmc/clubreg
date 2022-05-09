@@ -140,7 +140,7 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
           <div className="relative flex w-full flex-col -space-y-px">
             <input
               type="text"
-              className="webkit-rounded-t-md appearance-none border border-gray-300 bg-gray-200 px-4 py-2 text-lg text-TUCMC-gray-600 placeholder-gray-500 focus:z-10 focus:border-TUCMC-pink-500 focus:ring-TUCMC-pink-500"
+              className="webkit-rounded-t-md appearance-none border border-gray-300 bg-gray-100 px-4 py-2 text-lg text-TUCMC-gray-700 placeholder-gray-500 focus:z-10 focus:border-TUCMC-pink-500 focus:ring-TUCMC-pink-500"
               placeholder="เลขประจำตัวนักเรียน"
               value="70000"
               disabled={true}
@@ -191,7 +191,7 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
                 <Tooltip type="top" className="mt-2">
                   <span className="font-semibold">สำหรับนักเรียน ม.4</span> จะต้องสร้างบัญชีใหม่
                   <br />
-                  ก่อนเข้าใช้ระบบลงทะเบียนชมรม
+                  ก่อนเข้าใช้งานระบบลงทะเบียนชมรม
                 </Tooltip>
               )}
             </a>

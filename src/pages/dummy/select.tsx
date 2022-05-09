@@ -187,7 +187,7 @@ const Select = ({ thumbPaths }) => {
             speed={superSpeed ? 0 : 70}
             eraseDelay={1000000}
             text={[
-              "สวัสดี เรา นักบินอวกาศหมายเลข 1 วันนี้เราจะมาพาทุกคนมาทัวร์ระบบลงทะเบียนชมรม ถ้าพร้อมแล้วไปกันเลย !",
+              "สวัสดี เรา นักบินอวกาศหมายเลข 1 วันนี้เราจะมาพาทุกคนมาทัวร์ระบบลงทะเบียนชมรมของเรากัน ถ้าพร้อมแล้ว.. ไปกันเลย !",
             ]}
           />
         )
@@ -203,7 +203,7 @@ const Select = ({ thumbPaths }) => {
             speed={superSpeed ? 0 : 70}
             eraseDelay={1000000}
             typingDelay={0}
-            text={["โดยโรงเรียนของเราชมรมอยู่สองประเภทด้วยกันก็คือ ชมรมที่ไม่มีการออดิชั่น และ ชมรมที่มีการออดิชั่น"]}
+            text={["โรงเรียนของเรามีชมรมอยู่สองประเภทด้วยกัน ก็คือ ชมรมที่ไม่มีการ Audition และ ชมรมที่มีการ Audition"]}
           />
         )
         return
@@ -234,7 +234,7 @@ const Select = ({ thumbPaths }) => {
             eraseDelay={1000000}
             typingDelay={0}
             text={[
-              "ข้อควรระวัง หากลงทะเบียนชมรมที่ไม่มีการออดิชั่นไปแล้วจะไม่สามารถกลับไปเลือกชมรมอื่นหรือออดิชั่นชมรมใดได้อีก",
+              "ข้อควรระวัง หากลงทะเบียนชมรมที่ไม่มีการ Audition ไปแล้วจะไม่สามารถกลับไปเลือกชมรมอื่นหรือ Audition ชมรมใดได้อีก",
             ]}
           />
         )
@@ -256,7 +256,7 @@ const Select = ({ thumbPaths }) => {
             speed={superSpeed ? 0 : 70}
             eraseDelay={1000000}
             typingDelay={0}
-            text={["ชมรมที่ไม่มีการออดิชั่นทุกชมรม หากเต็มแล้วจะไม่สามารถลงทะเบียนเข้าไปได้"]}
+            text={["ชมรมที่ไม่มีการ Audition ทุกชมรม หากเต็มแล้วจะไม่สามารถลงทะเบียนเข้าไปได้"]}
           />
         )
         return
@@ -267,7 +267,7 @@ const Select = ({ thumbPaths }) => {
             prev === 7 && setIsCon(true)
             return prev
           })
-        }, 7000)
+        }, 6000)
         setNarrateText(
           <ReactTypingEffect
             key={5}
@@ -275,7 +275,9 @@ const Select = ({ thumbPaths }) => {
             speed={superSpeed ? 0 : 70}
             eraseDelay={1000000}
             typingDelay={0}
-            text={["นักเรียนสามารถตรวจสอบรายชื่อชมรมที่ได้กดออดิชั่นไป ได้ที่ส่วนนี้เลย อย่าลืมไปออดิชั่นด้วยหล่ะ !"]}
+            text={[
+              "นักเรียนสามารถตรวจสอบรายชื่อชมรมที่ได้กด Audition ไปได้ที่ส่วนนี้เลย อย่าลืมไป​​ Audition ด้วยหล่ะ !",
+            ]}
           />
         )
         return
@@ -599,7 +601,7 @@ const Select = ({ thumbPaths }) => {
                     }}
                     className="flex cursor-pointer items-center space-x-2 rounded-full bg-TUCMC-pink-400 px-6 py-2 font-semibold text-white"
                   >
-                    <h1>จำลองการประกาศผลการออดิชั่น</h1>
+                    <h1>จำลองการประกาศผลการ Audition</h1>
                     <ArrowRightIcon className="h-5 w-5" />
                   </div>
                 )}
@@ -637,8 +639,8 @@ const Select = ({ thumbPaths }) => {
                           className="absolute top-[120px] lg:top-1 lg:right-[-370px]"
                         >
                           <p>
-                            <span className="font-semibold">ชมรมที่ไม่มีการออดิชั่น</span> <br />{" "}
-                            นักเรียนจะสามารถกดลงทะเบียนชมรมที่ไม่มีการออดิชั่นที่ยังว่างได้{" "}
+                            <span className="font-semibold">ชมรมที่ไม่มีการ Audition</span> <br />{" "}
+                            นักเรียนจะสามารถกดลงทะเบียนชมรมที่ไม่มีการ Audition ที่ยังว่างได้{" "}
                             <br className="hidden lg:block" />
                             ตั้งแต่วันที่ 17 พ.ค. เวลา 12.00 - ภายในวันที่ 24 พ.ค. 2565
                             <br className="hidden lg:block" /> เมื่อกดลงทะเบียนชมรมไปแล้วจะไม่สามารถย้ายชมรมได้อีก
@@ -687,12 +689,11 @@ const Select = ({ thumbPaths }) => {
                       {(scene === 4 || scene === 5) && (
                         <Tooltip type={"top"} className="absolute top-[120px]">
                           <p>
-                            <span className="font-semibold">ชมรมที่มีการออดิชั่น</span> <br />{" "}
-                            นักเรียนจะสามารถกดเลือกชมรมที่มีการออดิชั่นกี่ชมรมก็ได้
-                            <br className="hidden lg:block" />
+                            <span className="font-semibold">ชมรมที่มีการ Audition</span> <br />{" "}
+                            นักเรียนจะสามารถกดเลือกชมรมที่มีการ Audition กี่ชมรมก็ได้ <br className="hidden lg:block" />
                             ตั้งแต่วันที่ 17 พ.ค. เวลา 12.00 - ภายในวันที่ 24 พ.ค. 2565
-                            <br className="hidden lg:block" />{" "}
-                            จากนั้นนักเรียนติดตามข่าวสารการจัดการออดิชั่นผ่านช่องทางของชมรม
+                            <br className="hidden lg:block" /> จากนั้นนักเรียนติดตามข่าวสารการจัดการ
+                            Auditionผ่านช่องทางของชมรม
                           </p>
                         </Tooltip>
                       )}

@@ -14,7 +14,7 @@ export const ForgotSection = ({ swapFunction, setLoader }) => {
   const submit = async (event) => {
     event.preventDefault()
 
-    const res = await forgot(email)
+    const res = { status: true, report: "e", data: { redirect: "" } }
     if (!res.status) {
       addToast({
         theme: "modern",
@@ -29,8 +29,6 @@ export const ForgotSection = ({ swapFunction, setLoader }) => {
       //   title: "ส่งคำขอเปลี่ยนรหัสผ่านแล้ว",
       //   text: "คำขอได้ถูกส่งแล้วกรุณาเช็คอีเมลที่ระบุเพื่อดำเนินการเปลี่ยนรหัสผ่านต่อไป หากยังไม่พบอีกเมลให้ลองส่งฟอร์มนี้ใหม่อีกรอบ",
       // })
-
-      if (res.data.redirect) Router.push(res.data.redirect)
       setEmail("")
     }
   }

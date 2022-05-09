@@ -167,7 +167,7 @@ const RegisterSection = ({ swapFunction, setLoader }) => {
         <Input title="นามสกุล" stateUpdate={setLastname} required={true} />
         <div className="relative">
           <span className="tracking-tight text-gray-700">เลขประจำตัวนักเรียน</span>
-          <Tooltip className="x-[12] top-8 left-[80px]">
+          <Tooltip className="top-8 left-[80px] z-[12]">
             <span className="font-bold">เลขนี้เป็นเลขจำลอง</span> สำหรับในวันเปิดระบบจริง
             <br />
             นักเรียนจะต้องใช้เลขประจำตัวนักเรียนจริง
@@ -177,7 +177,7 @@ const RegisterSection = ({ swapFunction, setLoader }) => {
           <input
             type="text"
             className={classnames(
-              "outline-none w-full appearance-none rounded-md border border-gray-300 bg-gray-200 px-4 py-2 text-TUCMC-gray-600 shadow-sm focus:border-TUCMC-pink-500 focus:ring-TUCMC-pink-500",
+              "outline-none w-full appearance-none rounded-md border border-gray-300 bg-gray-100 px-4 py-2 text-TUCMC-gray-700 shadow-sm focus:border-TUCMC-pink-500 focus:ring-TUCMC-pink-500",
               "text-lg placeholder-gray-500"
             )}
             value={"70000"}

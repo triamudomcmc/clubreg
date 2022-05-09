@@ -326,7 +326,7 @@ const Announce = () => {
                 })
               ) : (
                 <div className="flex justify-center">
-                  <h1 className="mt-5 text-TUCMC-gray-700">ไม่มีชมรมที่ออดิชั่น</h1>
+                  <h1 className="mt-5 text-TUCMC-gray-700">ไม่มีชมรมที่เลือก Audition</h1>
                 </div>
               )}
             </div>
