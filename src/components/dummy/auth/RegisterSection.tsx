@@ -177,7 +177,7 @@ const RegisterSection = ({ swapFunction, setLoader }) => {
           <input
             type="text"
             className={classnames(
-              "outline-none w-full appearance-none rounded-md border border-gray-300 px-4 py-2 shadow-sm focus:border-TUCMC-pink-500 focus:ring-TUCMC-pink-500",
+              "outline-none w-full appearance-none rounded-md border border-gray-300 bg-gray-200 px-4 py-2 text-TUCMC-gray-600 shadow-sm focus:border-TUCMC-pink-500 focus:ring-TUCMC-pink-500",
               "text-lg placeholder-gray-500"
             )}
             value={"70000"}

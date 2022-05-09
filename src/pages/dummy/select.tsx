@@ -64,6 +64,8 @@ const Select = ({ thumbPaths }) => {
   const [scene, setScene] = useState(1)
   const [narratText, setNarrateText] = useState(<></>)
   const [isCon, setIsCon] = useState(false)
+  const [hideA, setHideA] = useState(false)
+  const [completeHide, setCompHide] = useState(false)
   const [exitAnimation, setExit] = useState(false)
   const notAuRef = useRef(null)
   const auRef = useRef(null)
@@ -91,6 +93,11 @@ const Select = ({ thumbPaths }) => {
   useEffect(() => {
     const d = JSON.parse(localStorage.getItem("dummyData") || "{}")
     const aud = JSON.parse(localStorage.getItem("dummyAuditions") || "[]")
+
+    if (!("email" in d)) {
+      Router.push("/dummy/auth")
+    }
+
     if (!aud.includes("ก40000")) {
       aud.push("ก40000")
     }
@@ -180,7 +187,7 @@ const Select = ({ thumbPaths }) => {
             speed={superSpeed ? 0 : 70}
             eraseDelay={1000000}
             text={[
-              "สวัสดี เรา กันย์ นักบินอวกาศหมายเลข 1 วันนี้เราจะมาพาทุกคนมาทัวร์ระบบลงทะเบียนชมรม ถ้าพร้อมแล้วไปกันเลย !",
+              "สวัสดี เรา นักบินอวกาศหมายเลข 1 วันนี้เราจะมาพาทุกคนมาทัวร์ระบบลงทะเบียนชมรม ถ้าพร้อมแล้วไปกันเลย !",
             ]}
           />
         )
@@ -241,7 +248,7 @@ const Select = ({ thumbPaths }) => {
             prev === 6 && setIsCon(true)
             return prev
           })
-        }, 8000)
+        }, 6700)
         setNarrateText(
           <ReactTypingEffect
             key={4}
@@ -260,7 +267,7 @@ const Select = ({ thumbPaths }) => {
             prev === 7 && setIsCon(true)
             return prev
           })
-        }, 8000)
+        }, 7000)
         setNarrateText(
           <ReactTypingEffect
             key={5}
@@ -344,18 +351,33 @@ const Select = ({ thumbPaths }) => {
   return (
     new Date().getTime() < time && (
       <PageContainer hide={!initclub}>
-        <div className="fixed top-0 z-[98] mx-auto flex w-full justify-center">
-          <div className="flex items-center space-x-2 rounded-md bg-TUCMC-orange-500 py-2 pl-4 pr-6 shadow-md">
+        <div className={classnames("fixed top-0 z-[98] mx-auto flex w-full justify-center", completeHide && "hidden")}>
+          <motion.div
+            onClick={() => {
+              setHideA(true)
+            }}
+            animate={hideA ? { y: -80 } : { y: 0 }}
+            transition={{ duration: 0.8 }}
+            onAnimationComplete={() => {
+              hideA &&
+                setTimeout(() => {
+                  setCompHide(false)
+                  setHideA(false)
+                }, 9000)
+              setCompHide(hideA)
+            }}
+            className="flex cursor-pointer items-center space-x-2 rounded-md bg-TUCMC-orange-500 py-2 pl-4 pr-6 shadow-md"
+          >
             <ExclamationIcon className="mt-2 h-10 w-10 animate-pulse text-white" />
             <div>
               <div className="flex items-center space-x-2 font-medium text-white">
                 <h1>คุณกำลังอยู่ในโหมดระบบจำลอง</h1>
               </div>
               <div className="flex justify-center text-sm text-white">
-                <p>ทุกการกระทำในโหมดระบบจำลองจะไม่มีผลในระบบจริง</p>
+                <p>ทุกการกระทำในโหมดนี้จะไม่มีผลในระบบจริง</p>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
         {initclub && tutorial && (
           <div
@@ -670,7 +692,7 @@ const Select = ({ thumbPaths }) => {
                             <br className="hidden lg:block" />
                             ตั้งแต่วันที่ 17 พ.ค. เวลา 12.00 - ภายในวันที่ 24 พ.ค. 2565
                             <br className="hidden lg:block" />{" "}
-                            จากนั้นนักเรียนติดตามข่าวสารการจัดการออดิชั่นจากช่องทางของชมรม
+                            จากนั้นนักเรียนติดตามข่าวสารการจัดการออดิชั่นผ่านช่องทางของชมรม
                           </p>
                         </Tooltip>
                       )}

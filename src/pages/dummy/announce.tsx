@@ -13,7 +13,8 @@ import { useTimer } from "@utilities/timers"
 import classnames from "classnames"
 import { announceTime, breakLowerBound, breakUpperBound, endLastRound, endRegClubTime, lastround } from "@config/time"
 import { WaitingScreen } from "@components/common/WaitingScreen"
-import { ArrowLeftIcon, RefreshIcon } from "@heroicons/react/outline"
+import { ArrowLeftIcon, RefreshIcon, LogoutIcon } from "@heroicons/react/outline"
+import { motion } from "framer-motion"
 
 const Announce = () => {
   const [desc, setDesc] = useState(<></>)
@@ -25,6 +26,8 @@ const Announce = () => {
   const [dataModal, setDataModal] = useState(false)
   const [isOverr, setOverr] = useState(false)
   const [reserved, setReserved] = useState(false)
+  const [hideA, setHideA] = useState(false)
+  const [completeHide, setCompHide] = useState(false)
   const [reserved2, setReserved2] = useState(false)
   const [loader, setLoader] = useState(false)
 
@@ -37,14 +40,14 @@ const Announce = () => {
     const aud = JSON.parse(localStorage.getItem("dummyAuditions") || "[]")
     const exState = JSON.parse(localStorage.getItem("dummyExState") || "{}")
 
-    if (!aud.includes("ก40001")) {
-      aud.push("ก40001")
+    if (!aud.includes("ก40002")) {
+      aud.unshift("ก40002")
     }
     if (!aud.includes("ก40000")) {
-      aud.push("ก40000")
+      aud.unshift("ก40000")
     }
-    if (!aud.includes("ก40002")) {
-      aud.push("ก40002")
+    if (!aud.includes("ก40001")) {
+      aud.unshift("ก40001")
     }
 
     if (Object.values(exState).length > 0) {
@@ -64,10 +67,10 @@ const Announce = () => {
       if (i === 0) {
         audobj[e] = "passed"
       }
-      if (i === 2) {
+      if (i === 1) {
         audobj[e] = "failed"
       }
-      if (i === 3) {
+      if (i === 2) {
         audobj[e] = "reserved"
       }
     })
@@ -186,26 +189,41 @@ const Announce = () => {
 
   return new Date().getTime() > upperBound || new Date().getTime() < lowerBound ? (
     <PageContainer>
-      <div className="fixed top-0 z-[98] mx-auto flex w-full justify-center">
-        <div className="flex items-center space-x-2 rounded-md bg-TUCMC-orange-500 py-2 pl-4 pr-6 shadow-md">
+      <div className={classnames("fixed top-0 z-[98] mx-auto flex w-full justify-center", completeHide && "hidden")}>
+        <motion.div
+          onClick={() => {
+            setHideA(true)
+          }}
+          animate={hideA ? { y: -80 } : { y: 0 }}
+          transition={{ duration: 0.8 }}
+          onAnimationComplete={() => {
+            hideA &&
+              setTimeout(() => {
+                setCompHide(false)
+                setHideA(false)
+              }, 9000)
+            setCompHide(hideA)
+          }}
+          className="flex cursor-pointer items-center space-x-2 rounded-md bg-TUCMC-orange-500 py-2 pl-4 pr-6 shadow-md"
+        >
           <ExclamationIcon className="mt-2 h-10 w-10 animate-pulse text-white" />
           <div>
             <div className="flex items-center space-x-2 font-medium text-white">
               <h1>คุณกำลังอยู่ในโหมดระบบจำลอง</h1>
             </div>
             <div className="flex justify-center text-sm text-white">
-              <p>ทุกการกระทำในโหมดระบบจำลองจะไม่มีผลในระบบจริง</p>
+              <p>ทุกการกระทำในโหมดนี้จะไม่มีผลในระบบจริง</p>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
       <Loader display={loader} />
-      <div className="fixed bottom-4 flex w-full flex-row items-center space-x-4 px-4">
+      <div className="fixed bottom-4 z-[10] flex w-full flex-col-reverse items-start px-4 sm:flex-row sm:items-center sm:space-x-4">
         <div
           onClick={() => {
             Router.push("/dummy/select")
           }}
-          className="flex cursor-pointer items-center space-x-2 rounded-full bg-TUCMC-pink-400 px-6 py-2 font-medium text-white"
+          className="mt-1 flex cursor-pointer items-center space-x-2 rounded-full bg-TUCMC-pink-400 px-6 py-2 font-medium text-white sm:mt-0"
         >
           <ArrowLeftIcon className="h-5 w-5" />
           <h1>กลับสู่ช่วงเลือกชมรม</h1>

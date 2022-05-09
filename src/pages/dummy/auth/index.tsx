@@ -11,6 +11,8 @@ import { ExclamationIcon } from "@heroicons/react/solid"
 import { ForgotSection } from "@components/dummy/auth/ForgotSection"
 import { endLastRound, endOldClub, lastround, openTime, startOldClub, startOldClubCountdown } from "@config/time"
 import { useTimer } from "@utilities/timers"
+import { motion } from "framer-motion"
+import classnames from "classnames"
 
 const Auth = ({ query }) => {
   const { onReady, signout } = useAuth()
@@ -18,6 +20,8 @@ const Auth = ({ query }) => {
   const [action, setAction] = useState("register" in query ? "register" : "login")
   const [loader, setLoader] = useState(false)
   const timer = useTimer(startOldClub)
+  const [hideA, setHideA] = useState(false)
+  const [completeHide, setCompHide] = useState(false)
 
   onReady((logged, userData) => {
     // if (new Date().getTime() < openTime) {
@@ -108,18 +112,33 @@ const Auth = ({ query }) => {
 
   return (
     <PageContainer footer={false}>
-      <div className="fixed top-0 z-[98] mx-auto flex w-full justify-center">
-        <div className="flex items-center space-x-2 rounded-md bg-TUCMC-orange-500 py-2 pl-4 pr-6 shadow-md">
+      <div className={classnames("fixed top-0 z-[98] mx-auto flex w-full justify-center", completeHide && "hidden")}>
+        <motion.div
+          onClick={() => {
+            setHideA(true)
+          }}
+          animate={hideA ? { y: -80 } : { y: 0 }}
+          transition={{ duration: 0.8 }}
+          onAnimationComplete={() => {
+            hideA &&
+              setTimeout(() => {
+                setCompHide(false)
+                setHideA(false)
+              }, 9000)
+            setCompHide(hideA)
+          }}
+          className="flex cursor-pointer items-center space-x-2 rounded-md bg-TUCMC-orange-500 py-2 pl-4 pr-6 shadow-md"
+        >
           <ExclamationIcon className="mt-2 h-10 w-10 animate-pulse text-white" />
           <div>
             <div className="flex items-center space-x-2 font-medium text-white">
               <h1>คุณกำลังอยู่ในโหมดระบบจำลอง</h1>
             </div>
             <div className="flex justify-center text-sm text-white">
-              <p>ทุกการกระทำในโหมดระบบจำลองจะไม่มีผลในระบบจริง</p>
+              <p>ทุกการกระทำในโหมดนี้จะไม่มีผลในระบบจริง</p>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
       <Loader display={loader} />
       <div style={{ maxWidth: "26rem" }} className="mx-auto my-6 mb-16 min-h-screen space-y-8 md:my-10 md:mb-10">
