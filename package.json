@@ -21,6 +21,7 @@
     "bcryptjs": "^2.4.3",
     "chrome-aws-lambda": "^8.0.2",
     "classnames": "^2.3.1",
+    "cookie-cutter": "^0.2.0",
     "cookies": "^0.8.0",
     "crypto-random-string": "^3.3.1",
     "detect-browser": "^5.2.0",

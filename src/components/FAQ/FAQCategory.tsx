@@ -2,9 +2,13 @@ import { Accordion } from "@components/common/Accordion"
 import { AccordionIcon } from "@components/common/Accordion/Icons"
 import { MinusIcon, PlusIcon } from "@heroicons/react/solid"
 import classNames from "classnames"
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 
-export const FAQCategory: FC<{ questions: Record<string, string>; title: string }> = ({ questions, title }) => {
+export const FAQCategory: FC<{ questions: Record<string, string>; title: string; searchContext: string }> = ({
+  questions,
+  title,
+  searchContext,
+}) => {
   /**
    * title: "เกี่ยวกับ กช.",
    * questions: {
@@ -14,6 +18,10 @@ export const FAQCategory: FC<{ questions: Record<string, string>; title: string 
    */
 
   const [expanded, setExpanded] = useState(false)
+
+  useEffect(() => {
+    setExpanded(searchContext !== "")
+  }, [searchContext])
 
   return (
     <div className={classNames(expanded ? "mb-8" : "mb-2", "flex flex-col space-y-4")}>

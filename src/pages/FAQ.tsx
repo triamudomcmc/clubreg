@@ -125,7 +125,14 @@ const FAQ = ({ data }) => {
 
                   if (Object.keys(item.data).length === 0) return
 
-                  return <FAQCategory key={item.group} title={item.group} questions={item.data} />
+                  return (
+                    <FAQCategory
+                      searchContext={searchContext}
+                      key={item.group}
+                      title={item.group}
+                      questions={item.data}
+                    />
+                  )
                 })}
               </div>
             </div>
