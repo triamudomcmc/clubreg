@@ -121,7 +121,7 @@ const Timeline = () => {
             <div className="space-y-8">
               <TimelineTag
                 date="17 พ.ค. 65"
-                time="11.30 น."
+                time="12.00 น."
                 title="สมัครและ Audition"
                 subTitle="เข้าสู่ระบบ หรือสร้างบัญชี (เฉพาะ ม.4) แล้วลงชื่อ Audition ชมรมที่ต้องการ"
               >
@@ -171,7 +171,7 @@ const Timeline = () => {
             <div className="flex h-[600px] flex-col justify-between md:h-full">
               <TimelineTag
                 date="17 พ.ค. 65"
-                time="11.30 น."
+                time="12.00 น."
                 title="เลือกชมรมที่ต้องการ"
                 color="bg-TUCMC-blue-400"
                 className="h-full"
