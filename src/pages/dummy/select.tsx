@@ -410,7 +410,7 @@ const Select = ({ thumbPaths }) => {
                     prev === 1 && setIsCon(true)
                     return prev
                   })
-                }, 5200)
+                }, 7900)
               }}
               className="fixed bottom-[-200px] right-[-30px]"
             >
