@@ -167,7 +167,7 @@ const RegisterSection = ({ swapFunction, setLoader }) => {
         <Input title="นามสกุล" stateUpdate={setLastname} required={true} />
         <div className="relative">
           <span className="tracking-tight text-gray-700">เลขประจำตัวนักเรียน</span>
-          <Tooltip className="top-8 left-[80px]">
+          <Tooltip className="x-[12] top-8 left-[80px]">
             <span className="font-bold">เลขนี้เป็นเลขจำลอง</span> สำหรับในวันเปิดระบบจริง
             <br />
             นักเรียนจะต้องใช้เลขประจำตัวนักเรียนจริง
