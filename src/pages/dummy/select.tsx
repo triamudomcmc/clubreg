@@ -267,7 +267,7 @@ const Select = ({ thumbPaths }) => {
             prev === 7 && setIsCon(true)
             return prev
           })
-        }, 6000)
+        }, 7000)
         setNarrateText(
           <ReactTypingEffect
             key={5}
@@ -284,10 +284,10 @@ const Select = ({ thumbPaths }) => {
       case 8:
         setTimeout(() => {
           setScene((prev) => {
-            prev === 7 && setIsCon(true)
+            prev === 8 && setIsCon(true)
             return prev
           })
-        }, 7000)
+        }, 6800)
         setNarrateText(
           <ReactTypingEffect
             key={6}
