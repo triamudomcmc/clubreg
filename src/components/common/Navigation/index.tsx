@@ -121,7 +121,7 @@ const Navigation = () => {
                 <a className="text-white">หน้าแรก</a>
               </Link>
               <Link passHref href="/dummy">
-                <a className="text-white">ลองใช้</a>
+                <a className="text-white">ทดลองเล่นระบบ</a>
               </Link>
               <Link passHref href="/clubs">
                 <a className="text-white">ชมรม</a>
