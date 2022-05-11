@@ -25,6 +25,7 @@ import {
   CheckCircleIcon,
 } from "@heroicons/react/outline"
 import { ChevronDownIcon, StarIcon } from "@heroicons/react/solid"
+import { BeakerIcon } from "@heroicons/react/outline"
 import Modal from "@components/common/Modals"
 import { isEmpty } from "@utilities/object"
 
@@ -247,6 +248,17 @@ const Navigation = () => {
           >
             <HomeIcon className={classnames("h-7 w-7", getClass("/", "icon"))} />{" "}
             <span className={getClass("/", "font")}>หน้าแรก</span>
+          </a>
+        </Link>
+        <Link passHref href="/dummy">
+          <a
+            className={classnames(
+              "flex flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8",
+              getClass("/dummy/select", "bg")
+            )}
+          >
+            <BeakerIcon className={classnames("h-7 w-7", getClass("/dummy/select", "icon"))} />{" "}
+            <span className={getClass("/dummy/select", "font")}>ทดลองเล่นระบบ</span>
           </a>
         </Link>
         {!logged ? (
