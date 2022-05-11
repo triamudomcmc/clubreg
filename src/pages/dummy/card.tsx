@@ -127,7 +127,7 @@ const Page = ({ links }) => {
           </div>
         </motion.div>
       </div>
-      <div>
+      <div className="overflow-hidden">
         {/* <div className="mx-auto mt-10 flex max-w-md flex-col space-y-3 px-7">
           <Button
             disabled={link === ""}
