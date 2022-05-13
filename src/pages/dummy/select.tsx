@@ -10,7 +10,7 @@ import ConfirmModal from "@components/dummy/select/ConfirmModal"
 import DataModal from "@components/dummy/select/DataModal"
 import { useAuth } from "@client/auth"
 import Router from "next/router"
-import { GetServerSideProps, GetStaticProps } from "next"
+import { GetServerSideProps, GetStaticProps, NextPage } from "next"
 import ReactTypingEffect from "react-typing-effect"
 import * as fs from "fs"
 import { useWindowDimensions } from "@utilities/document"
@@ -29,6 +29,8 @@ import { Helmet } from "react-helmet"
 import Image from "next/image"
 import classnames from "classnames"
 import { Vacant } from "@vectors/texts/ClubStates"
+import initialisedDB from "@server/firebase-admin"
+import { ClubDisplay } from "@interfaces/clubDisplay"
 
 /*const blockContent = (dataObj) => {
   let newObj = {}
@@ -42,16 +44,36 @@ import { Vacant } from "@vectors/texts/ClubStates"
   return newObj
 }*/
 
+export interface IClubListData {
+  name: string
+  audition: boolean
+  clubID: string
+  imageURL: string
+}
+
 export const getStaticProps: GetStaticProps = async () => {
-  const files = fs.readdirSync("./public/assets/thumbnails/")
+  // const files = fs.readdirSync("./public/assets/thumbnails/")
+
+  const clubDisplayDocs = await initialisedDB.collection("clubDisplayTEMP").get()
+  const clubList = clubDisplayDocs.docs.map((club) => {
+    const data = club.data() as ClubDisplay
+
+    return {
+      name: data.nameTH,
+      audition: data.audition,
+      clubID: club.id,
+      imageURL: data?.images?.mainImage || `/assets/thumbnails/${club.id}.jpg`,
+    }
+  })
+
   return {
     props: {
-      thumbPaths: files,
+      clubList: clubList,
     },
   }
 }
 
-const Select = ({ thumbPaths }) => {
+const Select: NextPage<{ clubList: IClubListData[] }> = ({ clubList }) => {
   const { onReady, tracker } = useAuth()
   const { width, height } = useWindowDimensions()
 
@@ -475,7 +497,7 @@ const Select = ({ thumbPaths }) => {
           userData={userData}
           closeAction={clearState}
           action={selectClub}
-          thumbPaths={thumbPaths}
+          clubList={clubList}
           confirmOldClub={confirmOld}
         />
         <DataModal

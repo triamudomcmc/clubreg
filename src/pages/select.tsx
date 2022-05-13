@@ -23,6 +23,8 @@ import { CatLoader } from "@components/common/CatLoader"
 import { AnimatePresence, motion } from "framer-motion"
 import { endLastRound, endRegClubTime, lastround } from "@config/time"
 import { useToast } from "@components/common/Toast/ToastContext"
+import initialisedDB from "@server/firebase-admin"
+import { ClubDisplay } from "@interfaces/clubDisplay"
 
 /*const blockContent = (dataObj) => {
   let newObj = {}
@@ -36,16 +38,36 @@ import { useToast } from "@components/common/Toast/ToastContext"
   return newObj
 }*/
 
+export interface IClubListData {
+  name: string
+  audition: boolean
+  clubID: string
+  imageURL: string
+}
+
 export const getStaticProps: GetStaticProps = async () => {
-  const files = fs.readdirSync("./public/assets/thumbnails/")
+  // const files = fs.readdirSync("./public/assets/thumbnails/")
+
+  const clubDisplayDocs = await initialisedDB.collection("clubDisplayTEMP").get()
+  const clubList = clubDisplayDocs.docs.map((club) => {
+    const data = club.data() as ClubDisplay
+
+    return {
+      name: data.nameTH,
+      audition: data.audition,
+      clubID: club.id,
+      imageURL: data?.images?.mainImage || `/assets/thumbnails/${club.id}.jpg`,
+    }
+  })
+
   return {
     props: {
-      thumbPaths: files,
+      clubList: clubList,
     },
   }
 }
 
-const Select = ({ thumbPaths }) => {
+const Select = ({ clubList }) => {
   const { onReady, tracker, reFetch } = useAuth()
   const { width } = useWindowDimensions()
 
@@ -209,7 +231,7 @@ const Select = ({ thumbPaths }) => {
           userData={userData}
           closeAction={clearState}
           action={selectClub}
-          thumbPaths={thumbPaths}
+          clubList={clubList}
           confirmOldClub={confirmOld}
         />
         <DataModal
