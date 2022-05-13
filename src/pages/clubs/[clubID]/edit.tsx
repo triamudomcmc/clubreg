@@ -815,7 +815,7 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const data = await initialisedDB.collection("clubDisplay").doc(params.clubID.toString()).get()
+  const data = await initialisedDB.collection("clubDisplayPending").doc(params.clubID.toString()).get()
 
   const images = getImages(params.clubID.toString())
   const clubDisplayData = data.data()

@@ -87,7 +87,7 @@ const performUpload = async (req, ID) => {
 
     const out = await clubDataDoc.ref.update({ [`${pid}.status`]: "pending" })
 
-    const dat = await initialisedDB.collection("clubDisplay").doc(req.body.panelID).get()
+    const dat = await initialisedDB.collection("clubDisplayPending").doc(req.body.panelID).get()
     await initialisedDB
       .collection("clubDisplay")
       .doc(req.body.panelID)

@@ -48,7 +48,7 @@ export interface IClubListData {
 export const getStaticProps: GetStaticProps = async () => {
   // const files = fs.readdirSync("./public/assets/thumbnails/")
 
-  const clubDisplayDocs = await initialisedDB.collection("clubDisplayTEMP").get()
+  const clubDisplayDocs = await initialisedDB.collection("clubDisplay").get()
   const clubList = clubDisplayDocs.docs.map((club) => {
     const data = club.data() as ClubDisplay
 

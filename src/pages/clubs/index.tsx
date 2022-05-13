@@ -22,8 +22,8 @@ export const getStaticProps: GetStaticProps = async (): Promise<
   // audition
   // clubID
 
-  // const clubDisplayDocs = await initialisedDB.collection("clubDisplay").get()
-  const clubDisplayDocs = await initialisedDB.collection("clubDisplayTEMP").get()
+  // const clubDisplayDocs = await initialisedDB.collection("clubDisplayPending").get()
+  const clubDisplayDocs = await initialisedDB.collection("clubDisplay").get()
   const clubs = clubDisplayDocs.docs.map((club) => {
     const data = club.data() as ClubDisplay
 

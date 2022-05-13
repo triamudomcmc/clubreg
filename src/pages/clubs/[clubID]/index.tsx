@@ -115,8 +115,8 @@ const Page = ({ data, clubID, clubList, clubDisplay }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // const clubDisplayDocs = await initialisedDB.collection("clubDisplay").get()
-  const clubDisplayDocs = await initialisedDB.collection("clubDisplayTEMP").get()
+  // const clubDisplayDocs = await initialisedDB.collection("clubDisplayPending").get()
+  const clubDisplayDocs = await initialisedDB.collection("clubDisplay").get()
 
   // const files = fs.readdirSync("./_map/clubs/")
   // const paths = files.map((pathname) => ({
@@ -139,7 +139,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   // const clubIndex = fs.readFileSync("./_map/clubs.json")
   // const clubList = JSON.parse(clubIndex.toString())
 
-  const clubDisplayDocs = await initialisedDB.collection("clubDisplayTEMP").get()
+  const clubDisplayDocs = await initialisedDB.collection("clubDisplay").get()
   const clubList = clubDisplayDocs.docs.map((club) => {
     const data = club.data() as ClubDisplay
 
