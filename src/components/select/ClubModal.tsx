@@ -94,12 +94,8 @@ const ClubModal = ({ state, userData, closeAction, action, clubList, confirmOldC
 
   if (userData && userData.old_club === dataState.clubID && dataState.old_count < dataState.old_count_limit) {
     notAuButt = (
-      <div
-        onClick={confirmOldClub}
-        className="flex cursor-pointer items-center justify-center space-x-2 rounded-lg bg-TUCMC-green-400 py-4 text-lg text-white"
-      >
+      <div className="flex cursor-pointer items-center justify-center space-x-2 rounded-lg bg-TUCMC-green-400 py-4 text-lg text-white">
         <CheckCircleIcon className="h-5 w-5" />
-        <span>ยืนยันสิทธิ์ชมรมเดิม</span>
       </div>
     )
   }

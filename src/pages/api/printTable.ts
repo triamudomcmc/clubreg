@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import initialisedDB from "@server/firebase-admin"
-import { savePDF } from "@utilities/files"
+import { savePDF } from "@utilities/savePDF"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   } = req
 
 
-  const file = await savePDF(`http://localhost:57823/panel/print/renderer?path=${path}`)
+  const file = await savePDF(`${getProtocol(req)}://${req.headers.host}/panel/print/renderer?path=${path}`)
 
   if (typeof path == "string") {
     await initialisedDB.collection("printReport").doc(path).delete()

@@ -32,7 +32,7 @@ const DataModal = ({ state, setLoader, TriggerDep, closeFunc, refetcher, mode = 
     try {
       let res
       if (action === "register") {
-        res = await regClub(phone, password, state.data.clubID, !!state.data.oldClubConfirm)
+        res = await regClub(phone, password, state.data.clubID, false)
       }
       if (action === "confirm") {
         res = await confirmClub(phone, password, state.data.clubID)
