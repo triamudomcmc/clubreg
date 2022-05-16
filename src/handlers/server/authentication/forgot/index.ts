@@ -76,7 +76,7 @@ export const forgot = async (req, res) => {
                                         <h1 style="color:#1e1e2d; font-weight:600; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">มีคำขอแก้ไขรหัสผ่าน</h1>
                                         <span
                                             style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
-                                        <p style="color:#e5e7eb; font-size:15px;line-height:24px; margin:0;">
+                                        <p style="color:#A0AEC0; font-size:15px;line-height:24px; margin:0;">
                                             บัญชีของคุณมีคำขอในการแก้ไขรหัสผ่าน หากต้องการดำเนินการต่อกดที่ด้านล่างช้อความนี้เพื่อดำเนินการในขั้นต่อไป คำขอนี้จะมีอายุ 1 ชั่วโมง
                                         </p>
                                         <a href="${url}"
