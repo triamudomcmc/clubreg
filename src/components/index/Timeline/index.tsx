@@ -146,7 +146,7 @@ const Timeline = () => {
               <TimelineTag date="27 พ.ค. 65" time="07.30 น.">
                 <TimelineTag.Desc>เรียกลำดับสำรอง รอบที่ 2</TimelineTag.Desc>
               </TimelineTag>
-              <TimelineTag date="28 พ.ค. 65" subTitle="(เฉพาะนักเรียนที่ Audition ไม่ผ่าน)">
+              <TimelineTag date="28 พ.ค. 65" time="12.00 น." subTitle="(เฉพาะนักเรียนที่ Audition ไม่ผ่าน)">
                 <TimelineTag.Desc>เลือกเข้าชมรมที่ไม่มีการ Audition และยังมีที่นั่งว่างอยู่</TimelineTag.Desc>
               </TimelineTag>
               <TimelineTag date="30 พ.ค. 65" last={true} title="เริ่มเรียนชมรมคาบแรก">
