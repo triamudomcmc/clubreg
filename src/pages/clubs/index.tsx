@@ -39,7 +39,6 @@ export const getStaticProps: GetStaticProps = async (): Promise<
     props: {
       clubs: clubs,
     },
-    revalidate: 60,
   }
 }
 

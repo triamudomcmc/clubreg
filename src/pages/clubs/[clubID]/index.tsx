@@ -167,7 +167,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       clubList: clubList,
       clubDisplay: clubDisplay,
     },
-    revalidate: 60,
   }
 }
 
