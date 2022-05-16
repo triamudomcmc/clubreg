@@ -18,6 +18,7 @@ export class Tracker {
 
   public async push(type: "click" | "system", context: string) {
     await fetch(`/api/tracker`, {
+      // await fetch("https://asia-southeast1-clubreg-fa68a.cloudfunctions.net/tracker", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
