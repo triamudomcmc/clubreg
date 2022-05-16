@@ -5,6 +5,7 @@ import { ArrowLeftIcon } from "@heroicons/react/solid"
 import { forgot } from "@client/fetcher/user"
 import { useToast } from "@components/common/Toast/ToastContext"
 import classnames from "classnames"
+import Router from "next/router"
 
 export const ForgotSection = ({ swapFunction, setLoader }) => {
   const [email, setEmail] = useState("")
@@ -22,12 +23,14 @@ export const ForgotSection = ({ swapFunction, setLoader }) => {
         text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช. เพื่อขอตรวจสอบข้อมูล",
       })
     } else {
-      addToast({
-        theme: "modern",
-        icon: "tick",
-        title: "ส่งคำขอเปลี่ยนรหัสผ่านแล้ว",
-        text: "คำขอได้ถูกส่งแล้วกรุณาเช็คอีเมลที่ระบุเพื่อดำเนินการเปลี่ยนรหัสผ่านต่อไป หากยังไม่พบอีกเมลให้ลองส่งฟอร์มนี้ใหม่อีกรอบ",
-      })
+      // addToast({
+      //   theme: "modern",
+      //   icon: "tick",
+      //   title: "ส่งคำขอเปลี่ยนรหัสผ่านแล้ว",
+      //   text: "คำขอได้ถูกส่งแล้วกรุณาเช็คอีเมลที่ระบุเพื่อดำเนินการเปลี่ยนรหัสผ่านต่อไป หากยังไม่พบอีกเมลให้ลองส่งฟอร์มนี้ใหม่อีกรอบ",
+      // })
+
+      if (res.data.redirect) Router.push(res.data.redirect)
       setEmail("")
     }
   }

@@ -120,36 +120,36 @@ const Timeline = () => {
             </div>
             <div className="space-y-8">
               <TimelineTag
-                date="7 มิ.ย. 64"
+                date="17 พ.ค. 65"
                 time="11.30 น."
                 title="สมัครและ Audition"
-                subTitle="สร้างบัญชีและลงชื่อ Audition ชมรมที่ต้องการ"
+                subTitle="เข้าสู่ระบบ หรือสร้างบัญชี (เฉพาะ ม.4) แล้วลงชื่อ Audition ชมรมที่ต้องการ"
               >
                 <TimelineTag.Desc>
                   ให้ไปทำการ Audition ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนดโดยติดตามรายละเอียด การ audition
                   จากช่องทางประชาสัมพันธ์ ของชมรมนั้นโดยตรง
                 </TimelineTag.Desc>
-                <TimelineTag.ExtraDescription>ภายในวันที่ 14 มิ.ย. 64 เวลา 23.59 น.</TimelineTag.ExtraDescription>
+                <TimelineTag.ExtraDescription>ภายในวันที่ 24 พ.ค. 65 เวลา 23.59 น.</TimelineTag.ExtraDescription>
               </TimelineTag>
-              <TimelineTag date="14 มิ.ย. 64" time="23.59 น." title="สิ้นสุดการสมัครและ Audition">
+              <TimelineTag date="24 พ.ค. 65" time="23.59 น." title="สิ้นสุดการสมัครและ Audition">
                 <TimelineTag.Desc>
                   หากไม่ดำเนินการลงชื่อชมรมใด ๆ เลยก่อนสิ้นสุดระยะเวลาการสมัคร และ Audition ระบบจะทำการสุ่ม
                   ชมรมให้อัตโนมัติ
                 </TimelineTag.Desc>
               </TimelineTag>
-              <TimelineTag date="15 มิ.ย. 64" time="07.30 น." title="ประกาศผลการ Audition">
+              <TimelineTag date="25 พ.ค. 65" time="07.30 น." title="ประกาศผลการ Audition">
                 <TimelineTag.Desc>นักเรียนที่ผ่านการ Audition เลือกกดยืนยันสิทธิ์หรือสละสิทธิ์</TimelineTag.Desc>
               </TimelineTag>
-              <TimelineTag date="16 มิ.ย. 64" time="07.30 น.">
+              <TimelineTag date="26 พ.ค. 65" time="07.30 น.">
                 <TimelineTag.Desc>เรียกลำดับสำรอง รอบที่ 1</TimelineTag.Desc>
               </TimelineTag>
-              <TimelineTag date="17 มิ.ย. 64" time="07.30 น.">
+              <TimelineTag date="27 พ.ค. 65" time="07.30 น.">
                 <TimelineTag.Desc>เรียกลำดับสำรอง รอบที่ 2</TimelineTag.Desc>
               </TimelineTag>
-              <TimelineTag date="18 มิ.ย. 64" subTitle="(เฉพาะนักเรียนที่ Audition ไม่ผ่าน)">
+              <TimelineTag date="28 พ.ค. 65" subTitle="(เฉพาะนักเรียนที่ Audition ไม่ผ่าน)">
                 <TimelineTag.Desc>เลือกเข้าชมรมที่ไม่มีการ Audition และยังมีที่นั่งว่างอยู่</TimelineTag.Desc>
               </TimelineTag>
-              <TimelineTag date="21 มิ.ย. 64" last={true} title="เริ่มเรียนชมรมคาบแรก">
+              <TimelineTag date="30 พ.ค. 65" last={true} title="เริ่มเรียนชมรมคาบแรก">
                 <TimelineTag.Desc>{""}</TimelineTag.Desc>
               </TimelineTag>
             </div>
@@ -170,18 +170,20 @@ const Timeline = () => {
             </div>
             <div className="flex h-[600px] flex-col justify-between md:h-full">
               <TimelineTag
-                date="7 มิ.ย. 64"
+                date="17 พ.ค. 65"
                 time="11.30 น."
                 title="เลือกชมรมที่ต้องการ"
                 color="bg-TUCMC-blue-400"
                 className="h-full"
                 padding="items-start h-2/5 md:h-3/5"
               >
-                <TimelineTag.Desc>สร้างบัญชีและลงทะเบียน ชมรมที่ไม่มีการ audition</TimelineTag.Desc>
-                <TimelineTag.ExtraDescription>ภายในวันที่ 14 มิ.ย. 64 เวลา 23.59 น.</TimelineTag.ExtraDescription>
+                <TimelineTag.Desc>
+                  เข้าสู่ระบบ หรือสร้างบัญชี (เฉพาะ ม.4) แล้วลงทะเบียน ชมรมที่ไม่มีการ audition
+                </TimelineTag.Desc>
+                <TimelineTag.ExtraDescription>ภายในวันที่ 24 พ.ค. 65 เวลา 23.59 น.</TimelineTag.ExtraDescription>
               </TimelineTag>
               <TimelineTag
-                date="14 มิ.ย. 64"
+                date="24 พ.ค. 65"
                 time="23.59 น."
                 title="สิ้นสุดการลงทะเบียน"
                 color="bg-TUCMC-blue-400"
@@ -192,7 +194,7 @@ const Timeline = () => {
                   นักเรียนที่ไม่ได้เข้ามาเลือก ลงทะเบียนชมรมใดในช่วงเวลานี้ เลย จะถูกสุ่มชมรมให้อัตโนมัติ
                 </TimelineTag.Desc>
               </TimelineTag>
-              <TimelineTag date="21 มิ.ย. 64" last={true} title="เริ่มเรียนชมรมคาบแรก">
+              <TimelineTag date="30 พ.ค. 65" last={true} title="เริ่มเรียนชมรมคาบแรก">
                 <TimelineTag.Desc>{""}</TimelineTag.Desc>
               </TimelineTag>
             </div>

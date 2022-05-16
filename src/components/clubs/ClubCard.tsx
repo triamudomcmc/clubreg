@@ -10,7 +10,7 @@ export const ClubCard = ({ data, imageLoadAction = null }) => {
       <motion.div
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.97 }}
-        className="minClubs2:w-175px minClubs:w-185px mx-1 my-[0.35rem] mx-10 flex w-full max-w-[260px] cursor-pointer flex-col rounded-lg shadow-lg marg:mx-[0.35rem]"
+        className="minClubs2:w-175px minClubs:w-185px my-[0.35rem] mx-10 flex w-full max-w-[260px] cursor-pointer flex-col rounded-lg shadow-lg marg:mx-[0.35rem]"
       >
         {imageLoadAction ? (
           <Image
@@ -21,8 +21,8 @@ export const ClubCard = ({ data, imageLoadAction = null }) => {
             height="143"
             quality={75}
             placeholder="blur"
-            blurDataURL={`/assets/thumbnails/${data.clubID}.jpg`}
-            src={`/assets/thumbnails/${data.clubID}.jpg`}
+            blurDataURL={data.imageURL}
+            src={data.imageURL}
           />
         ) : (
           <Image
@@ -32,8 +32,8 @@ export const ClubCard = ({ data, imageLoadAction = null }) => {
             quality={75}
             onLoad={imageLoadAction}
             placeholder="blur"
-            blurDataURL={`/assets/thumbnails/${data.clubID}.jpg`}
-            src={`/assets/thumbnails/${data.clubID}.jpg`}
+            blurDataURL={data.imageURL}
+            src={data.imageURL}
           />
         )}
         <div className="space-y-2.5 rounded-b-lg bg-white px-2 py-2">

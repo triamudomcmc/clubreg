@@ -10,7 +10,7 @@ import { openTime } from "@config/time"
 import initialisedDB from "@server/firebase-admin"
 
 export const checkCredentials = async (userColl, req, ref) => {
-  if (new Date().getTime() < openTime) return { status: false, report: "not_allowed" }
+  // if (new Date().getTime() < openTime) return { status: false, report: "not_allowed" }
 
   const ousd = await userColl.where("stdID", "==", req.body.stdID).get()
 

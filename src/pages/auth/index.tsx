@@ -8,7 +8,7 @@ import RegisterSection from "@components/auth/RegisterSection"
 import { Loader } from "@components/common/Loader"
 import { useToast } from "@components/common/Toast/ToastContext"
 import { ForgotSection } from "@components/auth/ForgotSection"
-import { endLastRound, lastround, openTime, startOldClub, startOldClubCountdown } from "@config/time"
+import { endLastRound, endOldClub, lastround, openTime, startOldClub, startOldClubCountdown } from "@config/time"
 import { useTimer } from "@utilities/timers"
 
 const Auth = ({ query }) => {
@@ -38,6 +38,12 @@ const Auth = ({ query }) => {
       //     Router.push("/announce")
       //   }
       // }
+
+      if (userData.club === "") {
+        if (new Date().getTime() < endOldClub && new Date().getTime() > startOldClub) {
+          return Router.push("/confirm")
+        }
+      }
 
       return Router.push("/")
     }
@@ -157,7 +163,7 @@ const Auth = ({ query }) => {
             <h1 className="text-4xl font-bold tracking-tight">เข้าสู่ระบบ</h1>
             <div className="mt-2 mb-6 text-center text-TUCMC-gray-600">
               <p>ระบบลงทะเบียนชมรม</p>
-              <p>โรงเรียนเตรียมอุดมศึกษา ปีการศึกษา 2564</p>
+              <p>โรงเรียนเตรียมอุดมศึกษา ปีการศึกษา 2565</p>
             </div>
             <div className="flex flex-row justify-center space-x-2 text-TUCMC-gray-900">
               <div className="flex flex-col items-center">

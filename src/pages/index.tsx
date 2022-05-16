@@ -10,7 +10,7 @@ import Footer from "@components/common/Footer"
 import { AnimateSharedLayout, motion } from "framer-motion"
 import { useTimer } from "@utilities/timers"
 import Router from "next/router"
-import { endLastRound, endOldClub, openTime, startOldClub } from "@config/time"
+import { endLastRound, endOldClub, endRegClubTime, openTime, startOldClub } from "@config/time"
 import Image from "next/image"
 import { useAuth } from "@client/auth"
 import { Data } from "framer"
@@ -34,7 +34,7 @@ const Index = () => {
       if (new Date().getTime() < endOldClub && new Date().getTime() > startOldClub) {
         //  not during old club time
         return "old_club"
-      } else {
+      } else if (new Date().getTime() < endRegClubTime && new Date().getTime() > openTime) {
         return "no_club"
       }
     } else {
@@ -70,7 +70,7 @@ const Index = () => {
                     โรงเรียนเตรียมอุดมศึกษา
                   </h1>
                   <p className="mt-2 tracking-tight text-white md:mt-2 md:text-xl lg:mt-4 lg:text-3xl">
-                    ปีการศึกษา 2564
+                    ปีการศึกษา 2565
                   </p>
                 </div>
                 {!button && (

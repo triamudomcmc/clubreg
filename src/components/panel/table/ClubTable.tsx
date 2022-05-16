@@ -574,12 +574,12 @@ export const ClubCommitteeTable: FC<{
           <h1 className="text-xl">กรรมการชมรม</h1>
           <p className="text-sm text-TUCMC-gray-600">กรรมการชมรม เช่น ประธานชมรม รองประธานชมรม เลขานุการ</p>
         </div>
-        <button
+        {/* <button
           onClick={enableModal}
           className="mt-3 min-w-[200px] rounded-full bg-TUCMC-pink-400 px-8 py-2 text-white transition-colors hover:bg-TUCMC-pink-500 sm:mt-0"
         >
           เพิ่มกรรมการชมรม
-        </button>
+        </button> */}
       </div>
 
       <hr className="my-6" />
@@ -602,7 +602,7 @@ export const ClubCommitteeTable: FC<{
 
                   <p>{user.room}</p>
 
-                  {userData.student_id === user.student_id ? (
+                  {/* {userData.student_id === user.student_id ? (
                     <div className="w-24"></div>
                   ) : (
                     <button
@@ -611,7 +611,7 @@ export const ClubCommitteeTable: FC<{
                     >
                       ลบ
                     </button>
-                  )}
+                  )} */}
                 </div>
               </div>
 

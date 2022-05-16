@@ -6,6 +6,7 @@ import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from "swiper"
 import "swiper/swiper-bundle.css"
 import { Zoomable } from "@components/common/Zoomable"
 import { useRef, useState } from "react"
+import { ClockIcon } from "@heroicons/react/solid"
 
 // install Swiper modules
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y])
@@ -16,7 +17,15 @@ const Index = () => {
   return (
     <PageContainer>
       {zoomOverlay}
-      <div className="mx-auto max-w-6xl pt-8 pb-16">
+      <div className="mx-auto max-w-6xl pt-8 pb-16 relative">
+        <div className="absolute w-full h-full bg-gray-100 bg-opacity-30 z-20 backdrop-filter backdrop-blur">
+          <div className="fixed w-full min-h-screen left-0 top-0 flex items-center justify-center">
+          <div className="flex flex-col items-center space-y-2 mt-10">
+            <ClockIcon className="w-12 h-12 text-TUCMC-gray-700 animate-pulse"/>
+          <p className="font-bold text-2xl text-center text-TUCMC-gray-800">รอติดตามวิธีใช้ระบบลงทะเบียนชมรม<br/>อย่างละเอียดในภายหลัง</p>
+          </div>
+          </div>
+        </div>
         <h1 className="mb-6 text-center text-2xl font-bold md:my-12">วิธีลงทะเบียน</h1>
         <div className="flex flex-col items-center space-y-8 px-8 font-texts text-TUCMC-gray-700">
           <div className="flex w-[100vw] max-w-[400px] justify-center md:w-full md:max-w-[unset] md:space-x-6">

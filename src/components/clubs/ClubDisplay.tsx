@@ -10,6 +10,7 @@ import { isEmpty } from "@utilities/object"
 import { Zoomable } from "@components/common/Zoomable"
 import { QuillEditor } from "@components/common/TextEdit/Quill"
 import { ForwardRefComponent } from "framer-motion"
+import { ClubCard } from "./ClubCard"
 
 const ClubHeader: FC<{ clubID: string; clubDisplay: ClubDisplay; loaded: () => void }> = ({
   clubID,
@@ -25,8 +26,8 @@ const ClubHeader: FC<{ clubID: string; clubDisplay: ClubDisplay; loaded: () => v
           <Image
             priority={true}
             onLoad={loaded}
-            blurDataURL={clubDisplay?.images?.mainImage ?? `/assets/thumbnails/${clubID}.jpg`}
-            src={clubDisplay?.images?.mainImage ?? `/assets/thumbnails/${clubID}.jpg`}
+            blurDataURL={clubDisplay?.images?.mainImage || `/assets/thumbnails/${clubID}.jpg`}
+            src={clubDisplay?.images?.mainImage || `/assets/thumbnails/${clubID}.jpg`}
             placeholder="blur"
             quality={75}
             width="768"
@@ -132,22 +133,20 @@ const ClubHeader: FC<{ clubID: string; clubDisplay: ClubDisplay; loaded: () => v
   )
 }
 
-// export const ClubDisplaySection: ForwardRefComponent<
-//   { reviews: any[]; description: string },
-//   {
-//     clubDisplay: ClubDisplay
-//     clubID: string
-//     imgLoading: boolean
-//     editable?: boolean
-//   }
-// > = forwardRef(({ clubDisplay, clubID, imgLoading, editable }, newDataRef) => {
+function imageURL(clubDisplay, clubID, index) {
+  if (clubDisplay?.images && clubDisplay?.images[`picture-${index + 1}`])
+    return clubDisplay?.images[`picture-${index + 1}`]
+  else return `/assets/images/clubs/${clubID}/picture-${index + 1}.jpg`
+}
+
 export const ClubDisplaySection: FC<{
   clubDisplay: ClubDisplay
   clubID: string
   imgLoading: boolean
   editable?: boolean
   onDataChange?: (data: { reviews: any[]; description: string }) => void
-}> = ({ clubDisplay, clubID, imgLoading, editable, onDataChange }) => {
+  suggestions?: any[]
+}> = ({ clubDisplay, clubID, imgLoading, editable, onDataChange, suggestions }) => {
   const [loadingCount, setLoadingCount] = useState(1)
 
   const [reviews, setReviews] = useState(clubDisplay.reviews)
@@ -159,7 +158,7 @@ export const ClubDisplaySection: FC<{
   }, [clubDisplay])
 
   useEffect(() => {
-    onDataChange({ reviews, description })
+    if (onDataChange) onDataChange({ reviews, description })
   }, [reviews, description])
 
   const loaded = () => {
@@ -206,12 +205,7 @@ export const ClubDisplaySection: FC<{
                       priority={true}
                       onLoad={loaded}
                       className="rounded-lg object-cover"
-                      src={
-                        clubDisplay?.images
-                          ? clubDisplay?.images[`picture-${index + 1}`] ??
-                            `/assets/images/clubs/${clubID}/picture-${index + 1}.jpg`
-                          : `/assets/images/clubs/${clubID}/picture-${index + 1}.jpg`
-                      }
+                      src={imageURL(clubDisplay, clubID, index)}
                       width={768}
                       height={432}
                     />
@@ -290,6 +284,17 @@ export const ClubDisplaySection: FC<{
             </div>
           </section>
         </main>
+
+        {loadingCount <= 0 && suggestions && (
+          <div className="space-y-14 bg-TUCMC-gray-100 py-16">
+            <h1 className="text-center text-2xl">ชมรมอื่น ๆ</h1>
+            <div className="mx-auto mt-5 flex w-full max-w-[1100px] flex-wrap justify-center pb-20 md:mt-14">
+              {suggestions.map((item, index) => {
+                return <ClubCard key={`suggestion-${index}`} data={item} />
+              })}
+            </div>
+          </div>
+        )}
       </div>
 
       <ClubSkeleton className={classNames(loadingCount <= 0 && "hidden")} />

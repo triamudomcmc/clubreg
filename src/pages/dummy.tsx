@@ -70,19 +70,19 @@ const Select = ({ thumbPaths }) => {
     if (!logged) {
       Router.push("/auth")
     } else {
-      if (new Date().getTime() < lastround) {
-        Router.push("/announce")
-        return { userData }
-      }
-
-      if (userData.club !== "") {
-        Router.push("/card")
-      } else {
-        if (Object.keys(userData.audition).length <= 0 || new Date().getTime() > endLastRound) {
-          localStorage.setItem("alert", "denied")
-          Router.push("/account")
-        }
-      }
+      // if (new Date().getTime() < lastround) {
+      //   Router.push("/announce")
+      //   return { userData }
+      // }
+      // if (userData.club !== "") {
+      //   Router.push("/card")
+      // }
+      // else {
+      //   if (Object.keys(userData.audition).length <= 0 || new Date().getTime() > endLastRound) {
+      //     localStorage.setItem("alert", "denied")
+      //     Router.push("/account")
+      //   }
+      // }
     }
     return { userData }
   })
@@ -230,7 +230,10 @@ const Select = ({ thumbPaths }) => {
               <div className="md:max-w-xs">
                 <div className="flex flex-col items-center">
                   <h1 className="text-4xl font-medium">เลือกชมรม</h1>
-                  <span className="text-sm tracking-tight">ภายในวันที่ 18 มิ.ย. 64</span>
+                  <span className="text-sm tracking-tight">สำหรับงาน PAE</span>
+                  <span className="mt-4 text-sm tracking-tight text-TUCMC-red-400">
+                    * ทุกอย่างในหน้านี้เป็นระบบจำลอง และจะไม่มีผลต่อการลงทะเบียนชมรมในระบบลงทะเบียนชมรม
+                  </span>
                 </div>
                 <div className="mt-6 w-full min-w-[300px] px-8">
                   <SelectSplash />
