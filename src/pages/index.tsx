@@ -21,7 +21,7 @@ import moment from "moment"
 
 const Index = () => {
   // const goal = openTime
-  const goal = startOldClub
+  const goal = openTime
 
   const timer = useTimer(goal)
   const [changeAlert, setChangeAlert] = useState(false)
