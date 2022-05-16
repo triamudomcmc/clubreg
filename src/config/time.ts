@@ -14,13 +14,13 @@ export const endOldClub = +new Date("2022-05-07T00:00:00.000+07:00")
 // export const endOldClub = +new Date("2022-05-05T01:13:00.000+07:00")
 
 export const openTime = +new Date("2022-05-17T12:00:00.000+07:00")
-export const editDataTime = +new Date("2022-05-25T00:00:00.000+07:00")
+export const editDataTime = +new Date("2022-05-25T06:00:00.000+07:00")
 export const endRegClubTime = +new Date("2022-05-25T00:00:00.000+07:00")
 export const announceTime = +new Date("2022-05-25T07:30:00.000+07:00")
 // rem
 export const breakUpperBound = +new Date(2022, 5 - 1, 14, 9, 0, 0)
 export const breakLowerBound = +new Date(2022, 5 - 1, 14, 9, 0, 0)
-export const positionUpdateTime = +new Date(2022, 5 - 1, 14, 9, 0, 0)
+export const positionUpdateTime = editDataTime
 // rem
 export const lastround = +new Date("2022-05-28T07:30:00.000+07:00")
 export const endLastRound = +new Date("2022-05-29T00:00:00.000+07:00")

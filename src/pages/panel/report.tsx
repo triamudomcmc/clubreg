@@ -227,7 +227,9 @@ const Report = () => {
                         </div>
                       </div>
                       <div className="flex flex-row items-end">
-                        <h1 className="text-3xl font-bold text-TUCMC-gray-900">{clubData.old_count + (clubData?.committees?.length ?? 0)}</h1>
+                        <h1 className="text-3xl font-bold text-TUCMC-gray-900">
+                          {clubData.old_count + (clubData?.committees?.length ?? 0)}
+                        </h1>
                         <h2 className="text-TUCMC-gray-500">/{clubData.count_limit}</h2>
                       </div>
                       <div>คน</div>
@@ -268,8 +270,8 @@ const Report = () => {
                       <div className="flex flex-col items-center justify-center space-y-2">
                         <div>สมาชิกใหม่</div>
                         <div className="flex flex-row items-end">
-                          <h1 className="text-3xl font-bold text-TUCMC-gray-900">{0}</h1>
-                          <h2 className="text-TUCMC-gray-500">/{clubData.count_limit - clubData.old_count_limit - (clubData?.committees?.length ?? 0)}</h2>
+                          <h1 className="text-3xl font-bold text-TUCMC-gray-900">{clubData.new_count}</h1>
+                          <h2 className="text-TUCMC-gray-500">/{clubData.new_count_limit}</h2>
                         </div>
                         <div>คน</div>
                       </div>

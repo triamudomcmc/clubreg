@@ -9,6 +9,7 @@ import { jsPDF } from "jspdf"
 import html2canvas from "html2canvas"
 import pdfMake from "pdfmake"
 import { sliceArrayIntoGroups, sliceArrN } from "@utilities/array"
+import { request } from "@handlers/client/utilities/request"
 
 const fetchMemberData = async (
   panelID: string,
@@ -82,7 +83,7 @@ const Page = () => {
   const [count, setCount] = useState(0)
   const page = useRef([])
   const [display, setDisplay] = useState(<h1 className="animate-pulse">กำลังเตรียมไฟล์...</h1>)
-  const [storedPDF, setStoredPDF] = useState()
+  const [storedPDF, setStoredPDF] = useState<HTMLAnchorElement | null>(null)
 
   const [initmember, setInitMember] = useState(false)
 
@@ -111,59 +112,54 @@ const Page = () => {
   }
 
   const redownload = () => {
-    setDisplay(<h1 className="animate-pulse">กำลังเตรียมไฟล์...</h1>)
-    try {
-      // @ts-ignore
-      storedPDF.download(`รายชื่อ${current}.pdf`, () => {
-        setDisplay(
-          <div className="flex flex-col items-center">
-            <h1 className="text-TUCMC-gray-800">สร้างเอกสารเสร็จสมบูรณ์</h1>
-            <p className="text-TUCMC-gray-600">
-              หากเอกสารยังไม่ถูกดาวน์โหลด{" "}
-              <a onClick={redownload} className="cursor-pointer underline hover:text-TUCMC-pink-400">
-                กดที่นี่
-              </a>
-            </p>
-          </div>
-        )
-      })
-    } catch (_) {}
+    document.getElementById("download").click()
   }
 
   const downloadpdf = async () => {
-    if (storedPDF === undefined) {
-      let pagedata = []
+    const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
 
-      for (let data of page.current) {
-        if (data) {
-          const canvas = await html2canvas(data)
-          pagedata.push(canvas.toDataURL())
-        }
-      }
+    const e = await request("database/files", "printReport", {
+      panelID: currentID,
+      data: memberData,
+      meta: {
+        clubName: clubMap[current],
+        clubID: current,
+        count: count,
+      },
+    })
 
-      const pdf = pdfMake.createPdf({
-        content: pagedata.map((item) => ({
-          image: item,
-          width: 430,
-        })),
-        pageMargins: [80, 60, 80, 60],
-      })
+    console.log(e)
 
-      pdf.download(`รายชื่อ${current}.pdf`, () => {
-        setDisplay(
-          <div className="flex flex-col items-center">
-            <h1 className="text-TUCMC-gray-800">สร้างเอกสารเสร็จสมบูรณ์</h1>
-            <p className="text-TUCMC-gray-600">
-              หากเอกสารยังไม่ถูกดาวน์โหลด{" "}
-              <a onClick={redownload} className="cursor-pointer underline hover:text-TUCMC-pink-400">
-                กดที่นี่
-              </a>
-            </p>
-          </div>
-        )
-      })
-      setStoredPDF(pdf)
-    }
+    if (!e.status) return
+
+    const res = await fetch(`/api/printTable?path=${e.data.path}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/pdf",
+      },
+      credentials: "include",
+    })
+
+    const file = await res.blob()
+    const blobUrl = URL.createObjectURL(file)
+    let link = document.createElement("a") // Or maybe get it from the current document
+    link.href = blobUrl
+    link.download = `report-${current}.pdf`
+    document.body.appendChild(link)
+    link.click()
+    link.id = "download"
+
+    setDisplay(
+      <div className="flex flex-col items-center">
+        <h1 className="text-TUCMC-gray-800">สร้างเอกสารเสร็จสมบูรณ์</h1>
+        <p className="text-TUCMC-gray-600">
+          หากเอกสารยังไม่ถูกดาวน์โหลด{" "}
+          <a onClick={redownload} className="cursor-pointer underline hover:text-TUCMC-pink-400">
+            กดที่นี่
+          </a>
+        </p>
+      </div>
+    )
   }
 
   useEffect(() => {
@@ -175,51 +171,6 @@ const Page = () => {
   return (
     <div className="space-y-10">
       <div className="fix left-0 top-0 flex min-h-screen w-full items-center justify-center bg-white">{display}</div>
-      {memberData.map((chunk, chunckc) => {
-        return (
-          <div
-            ref={(e) => {
-              page.current[chunckc] = e
-            }}
-            className="fixed w-[680px] space-y-6 font-sarabun"
-          >
-            <div className="flex flex-col items-center">
-              <h1 className="text-center text-[20px] font-semibold">
-                รายชื่อนักเรียนชมรม {current && clubMap[current]}
-              </h1>
-              <p className="text-[20px]">
-                รหัสชมรม {current} จำนวน {count} คน
-              </p>
-            </div>
-            <table className="mx-auto min-w-[680px]">
-              <tr className="border-t-[0.3px] border-TUCMC-gray-900">
-                <th></th>
-                <th></th>
-                <th></th>
-                <th className="text-left"></th>
-                <th className="text-left"></th>
-                <th>ชั้น</th>
-                <th>ห้อง</th>
-                <th>เลขที่</th>
-              </tr>
-              {chunk.map((item, index) => {
-                return (
-                  <tr className="border-t-[0.3px] border-b-[0.3px] border-TUCMC-gray-900 text-center text-[18px]">
-                    <td>{index + 1 + 35 * chunckc}</td>
-                    <td>{item.student_id}</td>
-                    <td className="text-left">{item.title.replace("เด็กหญิง", "ด.ญ.").replace("เด็กชาย", "ด.ช.")}</td>
-                    <td className="text-left">{item.firstname}</td>
-                    <td className="text-left">{item.lastname}</td>
-                    <td>ม.{item.level}</td>
-                    <td>{item.room}</td>
-                    <td>{item.number}</td>
-                  </tr>
-                )
-              })}
-            </table>
-          </div>
-        )
-      })}
     </div>
   )
 }

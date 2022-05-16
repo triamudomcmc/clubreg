@@ -97,18 +97,18 @@ const Select = ({ clubList }) => {
         return { userData }
       }
 
-      if (new Date().getTime() < lastround) {
-        Router.push("/announce")
-        return { userData }
-      }
+      // if (new Date().getTime() < lastround) {
+      //   Router.push("/announce")
+      //   return { userData }
+      // }
 
       if (userData.club !== "") {
         Router.push("/card")
       } else {
-        if (Object.keys(userData.audition).length <= 0 || new Date().getTime() > endLastRound) {
-          localStorage.setItem("alert", "denied")
-          Router.push("/account")
-        }
+        // if (Object.keys(userData.audition).length <= 0 || new Date().getTime() > endLastRound) {
+        //   localStorage.setItem("alert", "denied")
+        //   Router.push("/account")
+        // }
       }
     }
     return { userData }
@@ -257,7 +257,7 @@ const Select = ({ clubList }) => {
               <div className="md:max-w-xs">
                 <div className="flex flex-col items-center">
                   <h1 className="text-4xl font-medium">เลือกชมรม</h1>
-                  <span className="text-sm tracking-tight">ภายในวันที่ 18 มิ.ย. 64</span>
+                  <span className="text-sm tracking-tight">ภายในวันที่ 24 พ.ค. 65</span>
                 </div>
                 <div className="mt-6 w-full min-w-[300px] px-8">
                   <SelectSplash />
@@ -268,7 +268,7 @@ const Select = ({ clubList }) => {
                       <h1 className="text-lg font-medium tracking-tight">คุณได้ลงชื่อ Audition ชมรมไว้</h1>
                       <p className="tracking-tight text-gray-600">
                         ให้ไปทำการ Audition ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนด โดยติดตามรายละเอียดการ Audition
-                        จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง และรอการประกาศผลในวันที่ 15 มิ.ย. 2564 เวลา 7.30 น.
+                        จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง และรอการประกาศผลในวันที่ 25 พ.ค. 2565 เวลา 7.30 น.
                       </p>
                       <div className="relative md:hidden">
                         <a ref={auTrigger} className="cursor-pointer tracking-tight text-TUCMC-pink-500">

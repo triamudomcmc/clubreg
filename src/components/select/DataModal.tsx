@@ -132,6 +132,14 @@ const DataModal = ({ state, setLoader, TriggerDep, closeFunc, refetcher, mode = 
               text: "กรุณาเลือกชมรมอื่นที่ยังว่างอยู่ในตอนนี้",
             })
             break
+          case "concurrent":
+            addToast({
+              theme: "modern",
+              icon: "cross",
+              title: "มีคำขอจำนวนมากถูกส่งเข้าสู่ระบบ",
+              text: "ขณะนี้มีคำขอที่ถูกส่งมาจำนวนมากในระบบ รบกวนกดส่งอีกครั้ง หากยังเจอข้อความนี้อีกให้ลองกดส่งอีกครั้ง",
+            })
+            break
           case "in_audition":
             addToast({
               theme: "modern",

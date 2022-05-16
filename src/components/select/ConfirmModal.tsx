@@ -35,12 +35,26 @@ const ConfirmModal = ({ TriggerDep, clubData, onAgree, mode = "default", refetch
         })
         refetcher()
       } else {
-        addToast({
-          theme: "modern",
-          icon: "cross",
-          title: "พบข้อผิดพลาดที่ไม่ทราบสาเหตุ",
-          text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง หากยังพบข้อผิดพลาดสามารถติดต่อทาง กช.",
-        })
+        if (res.report === "concurrent") {
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "มีคำขอจำนวนมากถูกส่งเข้าสู่ระบบ",
+            text: (
+              <span>
+                ขณะนี้มีคำขอที่ถูกส่งมาจำนวนมากในระบบ <span className="font-semibold">รบกวนกดส่งอีกครั้ง</span>{" "}
+                หากยังเจอข้อความนี้อีกให้ลองกดส่งอีกครั้ง
+              </span>
+            ),
+          })
+        } else {
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "พบข้อผิดพลาดที่ไม่ทราบสาเหตุ",
+            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง หากยังพบข้อผิดพลาดสามารถติดต่อทาง กช.",
+          })
+        }
       }
     } else {
       onAgree()

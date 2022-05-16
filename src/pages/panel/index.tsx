@@ -414,19 +414,27 @@ const Account = () => {
               <div className="relative w-1/2">
                 <Button
                   type="div"
+                  href="/panel/audition"
+                  className="flex items-center justify-center space-x-2 rounded-lg bg-TUCMC-pink-400 px-4 py-3.5 text-white shadow-sm"
+                >
+                  <ClipboardCheckIcon className="h-5 w-5" />
+                  <span>ผลการ Audition</span>
+                </Button>
+                {/* <Button
+                  type="div"
                   disabled={true}
                   className="flex cursor-not-allowed items-center justify-center space-x-2 rounded-lg bg-TUCMC-pink-400 px-4 py-3.5 text-white shadow-sm"
                 >
                   <ClipboardCheckIcon className="h-5 w-5" />
                   <span>รายงานการเข้าเรียน</span>
-                </Button>
+                </Button> */}
               </div>
               <Button
                 href="/panel/report"
                 type="div"
                 className={classNames(
                   "cursor-pointer",
-                  "bg-TUCMC-white space-x-2 rounded-lg flex w-1/2 cursor-pointer items-center justify-center px-4 py-3.5 text-TUCMC-gray-600 shadow-md"
+                  "bg-TUCMC-white flex w-1/2 cursor-pointer items-center justify-center space-x-2 rounded-lg px-4 py-3.5 text-TUCMC-gray-600 shadow-md"
                 )}
               >
                 <UserGroupIcon className="h-6 w-6" />
