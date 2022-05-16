@@ -21,7 +21,7 @@ import { clubMap } from "../config/clubMap"
 import { regClub } from "@client/userAction"
 import { CatLoader } from "@components/common/CatLoader"
 import { AnimatePresence, motion } from "framer-motion"
-import { endLastRound, endRegClubTime, lastround } from "@config/time"
+import { endLastRound, endRegClubTime, lastround, openTime } from "@config/time"
 import { useToast } from "@components/common/Toast/ToastContext"
 import initialisedDB from "@server/firebase-admin"
 import { ClubDisplay } from "@interfaces/clubDisplay"
@@ -92,6 +92,11 @@ const Select = ({ clubList }) => {
     if (!logged) {
       Router.push("/auth")
     } else {
+      if (new Date().getTime() < openTime) {
+        Router.push("/")
+        return { userData }
+      }
+
       if (new Date().getTime() < lastround) {
         Router.push("/announce")
         return { userData }
