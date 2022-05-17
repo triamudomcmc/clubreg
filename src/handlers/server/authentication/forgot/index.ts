@@ -2,7 +2,7 @@ import initialisedDB from "@server/firebase-admin"
 import path from "path"
 import fs from "fs"
 import { update } from "@server/tracker"
-const SibApiV3Sdk = require('sib-api-v3-sdk')
+const SibApiV3Sdk = require("sib-api-v3-sdk")
 
 const Reset = (actionID: string): string => {
   const dir = path.resolve("./public", "_template/resetsvg.html")
@@ -13,12 +13,8 @@ const Reset = (actionID: string): string => {
 }
 
 export const forgot = async (req, res) => {
-
-const inputEmail: string = (req.body.email || "")
-  const user = await initialisedDB
-    .collection("users")
-    .where("email", "==", inputEmail.toLowerCase())
-    .get()
+  const inputEmail: string = req.body.email || ""
+  const user = await initialisedDB.collection("users").where("email", "==", inputEmail.toLowerCase()).get()
 
   if (user.empty) return { status: false, report: "missing_email" }
 
@@ -27,17 +23,16 @@ const inputEmail: string = (req.body.email || "")
     expire: new Date().getTime() + 60 * 60 * 1000,
   })
 
-
   const url = `https://register.clubs.triamudom.ac.th/auth/reset${action.id}`
 
-  const defaultClient = SibApiV3Sdk.ApiClient.instance;
+  const defaultClient = SibApiV3Sdk.ApiClient.instance
 
-  const apiKey = defaultClient.authentications['api-key'];
+  const apiKey = defaultClient.authentications["api-key"]
   apiKey.apiKey = process.env.MAIL_KEY
   const api = new SibApiV3Sdk.TransactionalEmailsApi()
-  const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
-  sendSmtpEmail.sender = {name: "Triam Udom Clubs Registration System", email: "no-reply@triamudom.club"}
-  sendSmtpEmail.to = [{email: `${req.body.email}`}]
+  const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail()
+  sendSmtpEmail.sender = { name: "Triam Udom Clubs Registration System", email: "no-reply@triamudom.club" }
+  sendSmtpEmail.to = [{ email: `${req.body.email}` }]
   sendSmtpEmail.subject = "มีการขอเปลี่ยนรหัสผ่าน"
   sendSmtpEmail.htmlContent = `
   <!doctype html>
@@ -111,11 +106,14 @@ const inputEmail: string = (req.body.email || "")
 </html>
 `
 
-api.sendTransacEmail(sendSmtpEmail).then(function(data: any) {
-    console.log('API called successfully. Returned data: ' + data);
-  }, function(error: any) {
-    console.error(error);
-  });
+  api.sendTransacEmail(sendSmtpEmail).then(
+    function (data: any) {
+      console.log("API called successfully. Returned data: " + data)
+    },
+    function (error: any) {
+      console.error(error)
+    }
+  )
 
   const msg = {
     to: req.body.email,
