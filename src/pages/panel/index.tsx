@@ -179,6 +179,7 @@ const Account = () => {
   }
 
   useEffect(() => {
+    localStorage.removeItem("selClubSec")
     reFetchCred()
   }, [userData])
 
