@@ -76,22 +76,21 @@ const Page = ({ links }) => {
   }
 
   const download = async () => {
-    const data = await fetch(`https://api.club-reg.tucm.cc/api/renderCard?id=${userData.cardID}`, {
+    const res = await fetch(`https://api.club-reg.tucm.cc/api/renderCard?id=${userData.cardID}`, {
       method: "GET",
       headers: {
         "Content-Type": "image/png",
       },
     })
 
-    console.log(data)
-    const imgUrl = `https://api.club-reg.tucm.cc/api/renderCard?id=${userData.cardID}`
-
-    const a = document.createElement("a")
-    a.href = imgUrl
-    a.download = "Card.png"
-    document.body.appendChild(a)
-    a.click()
-    a.remove()
+    const file = await res.blob()
+    const blobUrl = URL.createObjectURL(file)
+    let link = document.createElement("a") // Or maybe get it from the current document
+    link.href = blobUrl
+    link.download = `card.png`
+    document.body.appendChild(link)
+    link.click()
+    link.id = "download"
   }
 
   return (
