@@ -13,9 +13,11 @@ const Reset = (actionID: string): string => {
 }
 
 export const forgot = async (req, res) => {
+
+const inputEmail: string = (req.body.email || "")
   const user = await initialisedDB
     .collection("users")
-    .where("email", "==", (req.body.email || ""))
+    .where("email", "==", inputEmail.toLowerCase())
     .get()
 
   if (user.empty) return { status: false, report: "missing_email" }
