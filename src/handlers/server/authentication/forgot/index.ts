@@ -128,9 +128,10 @@ const Reset = (actionID: string): string => {
 // }
 
 export const forgot = async (req, res) => {
+    const inputMail:string = req.body.email || "" 
   const user = await initialisedDB
     .collection("users")
-    .where("email", "==", req.body.email || "")
+    .where("email", "==", inputMail.toLowerCase().replace(/ /g, "").replace(/\u200B/g,""))
     .get()
 
   if (user.empty) return { status: false, report: "missing_email" }
