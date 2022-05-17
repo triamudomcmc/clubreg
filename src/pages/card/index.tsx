@@ -11,6 +11,7 @@ import { Button } from "@components/common/Inputs/Button"
 import { GetStaticProps } from "next"
 import classnames from "classnames"
 import { endOldClub, startOldClub } from "@config/time"
+import { async } from "crypto-random-string"
 
 export const getStaticProps: GetStaticProps = async () => {
   const data = fs.readFileSync("./_map/links.json")
@@ -74,9 +75,17 @@ const Page = ({ links }) => {
     cardWidth = maxWidth - 2 * padding
   }
 
-  const imgUrl = `/api/renderCard?id=${userData.cardID}`
+  const download = async () => {
+    const data = await fetch(`https://api.club-reg.tucm.cc/api/renderCard?id=${userData.cardID}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "image/png",
+      },
+    })
 
-  const download = () => {
+    console.log(data)
+    const imgUrl = `https://api.club-reg.tucm.cc/api/renderCard?id=${userData.cardID}`
+
     const a = document.createElement("a")
     a.href = imgUrl
     a.download = "Card.png"
