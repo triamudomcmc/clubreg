@@ -4,7 +4,7 @@ import puppeteer from "puppeteer-core"
 export default async function screenshot(url: string, width: number = 990, height: number = 1715) {
   const options = process.env.AWS_REGION
     ? {
-        args: chrome.args,
+        args: [...chrome.args, '--no-sandbox'],
         executablePath: await chrome.executablePath,
         headless: chrome.headless,
       }
