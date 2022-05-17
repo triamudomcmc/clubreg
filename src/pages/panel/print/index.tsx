@@ -132,7 +132,7 @@ const Page = () => {
 
     if (!e.status) return
 
-    const res = await fetch(`https://api.club-reg.tucm.cc/api/api/printTable?path=${e.data.path}`, {
+    const res = await fetch(`https://api.club-reg.tucm.cc/api/printTable?path=${e.data.path}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/pdf",
