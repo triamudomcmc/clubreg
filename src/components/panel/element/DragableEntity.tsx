@@ -74,43 +74,6 @@ export function useFixedList<T>({
 
 type DragState = "idle" | "animating" | "dragging"
 
-type FixedListItemResult = [
-  DragState,
-  {
-    onDragStart(event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo): void
-    onDragEnd(event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo): void
-    onAnimationComplete(): void
-    onViewportBoxUpdate(box: AxisBox2D, delta: BoxDelta): void
-  }
-]
-
-export function useFixedListItem(
-  index: number,
-  { handleChange, handleDragStart, handleDragEnd }: FixedListItemProps
-): FixedListItemResult {
-  const [state, setState] = useState<DragState>("idle")
-
-  return [
-    state,
-    {
-      onDragStart: (event) => {
-        setState("dragging")
-        handleDragStart(index)
-      },
-      onDragEnd: () => {
-        setState("animating")
-        handleDragEnd(index)
-      },
-      onAnimationComplete: () => {
-        if (state === "animating") setState("idle")
-      },
-      onViewportBoxUpdate: (_viewportBox, delta) => {
-        if (state === "dragging") handleChange(index, delta.y.translate)
-      },
-    },
-  ]
-}
-
 type FixedSizeItemProps = {
   index: number
   data: LooseTypeObject<any>
@@ -131,8 +94,6 @@ const tapVariants = {
 }
 
 function DragableEntity({ index, data, editable, itemProps, editFunc, dragable, callCount }: FixedSizeItemProps) {
-  const [dragState, eventHandlers] = useFixedListItem(index, itemProps)
-
   const dragControls = useDragControls()
   const dragOriginY = useMotionValue(0)
 
@@ -142,7 +103,7 @@ function DragableEntity({ index, data, editable, itemProps, editFunc, dragable, 
 
   return (
     <li className="relative cursor-pointer">
-      <Reorder.Item key={data.position} value={data} dragListener={dragable} {...eventHandlers}>
+      <Reorder.Item key={data.position} value={data} dragListener={dragable}>
         <motion.div
           className="absolute h-full w-full bg-TUCMC-gray-700"
           initial="idle"
