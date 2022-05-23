@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useRef, useState } from "react"
 import LooseTypeObject from "../../../interfaces/LooseTypeObject"
 import { submitPending, updatePosition } from "@client/fetcher/panel"
 import { useAuth } from "@client/auth"
-import { motion, useAnimation } from "framer-motion"
+import { motion, Reorder, useAnimation } from "framer-motion"
 import { detectOuside } from "@utilities/document"
 
 const ItemsContext = createContext<[LooseTypeObject<any>[], (setItems: LooseTypeObject<any>) => void]>([
@@ -16,6 +16,7 @@ export const ReservedSection = ({ display, refetch, userData, editable, editFunc
   const [items, setItems] = useState<LooseTypeObject<any>[]>([])
   const [updateEvent, setUpdateEvent] = useState(setTimeout(() => {}, 1000))
   const [blockRerender, setBRrender] = useState(false)
+  const [prev, setPrev] = useState([])
   const [dragMode, setDragMode] = useState(false)
 
   const innerItemRef = useRef(null)
@@ -31,11 +32,26 @@ export const ReservedSection = ({ display, refetch, userData, editable, editFunc
 
   const update = () => {
     let ulist = []
-    items.forEach((val) => {
+    let nitem: any[] = items.map((e, i) => ({ ...e, position: i + 1 }))
+
+    setItems(nitem)
+
+    nitem.forEach((val) => {
       const obj = userData.find((i) => i.dataRefID === val.dataRefID)
-      if (obj.position !== val.position) return ulist.push({ dataRefID: obj.dataRefID, position: val.position })
+      if (obj.position !== val.position) {
+        setPrev((prev) => {
+          const prevData = prev.find((i) => i.dataRefID === val.dataRefID)
+          if (prevData) {
+            if (prevData.position === val.position) return prev
+          }
+          ulist.push({ dataRefID: obj.dataRefID, position: val.position })
+          return prev
+        })
+      }
     })
+
     if (ulist.length > 0) {
+      setPrev(ulist)
       updatePos(ulist)
     }
   }
@@ -50,6 +66,7 @@ export const ReservedSection = ({ display, refetch, userData, editable, editFunc
   }, [items])
 
   const updatePos = async (tasks) => {
+    console.log(tasks)
     const res = await updatePosition(localStorage.getItem("currentPanel"), tasks)
     if (res.status) {
       setBRrender(true)
@@ -75,13 +92,15 @@ export const ReservedSection = ({ display, refetch, userData, editable, editFunc
         เสร็จสิ้น
       </motion.div>
       <ItemsContext.Provider value={[items, setItems]}>
-        <DragableList
-          editable={editable}
-          editFunc={editFunc}
-          dragable={dragMode}
-          setDragMode={setDragMode}
-          callCount={callCount}
-        />
+        <Reorder.Group axis="y" values={items} onReorder={setItems}>
+          <DragableList
+            editable={editable}
+            editFunc={editFunc}
+            dragable={dragMode}
+            setDragMode={setDragMode}
+            callCount={callCount}
+          />{" "}
+        </Reorder.Group>
       </ItemsContext.Provider>
     </div>
   )

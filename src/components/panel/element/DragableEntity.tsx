@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from "react"
-import { PanInfo, AxisBox2D, BoxDelta, motion, useAnimation, useDragControls } from "framer-motion"
+import { PanInfo, motion, useAnimation, useDragControls, useMotionValue, Reorder } from "framer-motion"
 import { useItems } from "@components/panel/sections/ReservedSection"
 import { moveArray } from "@utilities/animationHelper"
 import LooseTypeObject from "../../../interfaces/LooseTypeObject"
@@ -93,7 +93,7 @@ export function useFixedListItem(
   return [
     state,
     {
-      onDragStart: () => {
+      onDragStart: (event) => {
         setState("dragging")
         handleDragStart(index)
       },
@@ -134,6 +134,7 @@ function DragableEntity({ index, data, editable, itemProps, editFunc, dragable, 
   const [dragState, eventHandlers] = useFixedListItem(index, itemProps)
 
   const dragControls = useDragControls()
+  const dragOriginY = useMotionValue(0)
 
   function startDrag(event) {
     dragControls.start(event, { snapToCursor: true })
@@ -141,15 +142,7 @@ function DragableEntity({ index, data, editable, itemProps, editFunc, dragable, 
 
   return (
     <li className="relative cursor-pointer">
-      <motion.div
-        layout
-        initial={false}
-        drag={dragable ? "y" : false}
-        onPointerDown={startDrag}
-        dragControls={dragControls}
-        style={{ padding: 0 }}
-        {...eventHandlers}
-      >
+      <Reorder.Item key={data.position} value={data} dragListener={dragable} {...eventHandlers}>
         <motion.div
           className="absolute h-full w-full bg-TUCMC-gray-700"
           initial="idle"
@@ -164,7 +157,7 @@ function DragableEntity({ index, data, editable, itemProps, editFunc, dragable, 
           editFunc={editFunc}
           callCount={callCount}
         />
-      </motion.div>
+      </Reorder.Item>
     </li>
   )
 }
@@ -243,45 +236,50 @@ export function DragableList({ editable, editFunc, dragable, setDragMode, callCo
 
   return (
     <ul>
-      {items.map((item, i) => {return(
-        <motion.div
-          custom={i}
-          className="relative hover:z-30"
-          variants={variants}
-          animate={controls}
-          style={getRandomTransformOrigin()}
-          whileTap={dragable ? { scale: 1.03 } : { scale: 1 }}
-          onTapStart={(event) => {
-            // @ts-ignore
-            setInitialPos([event.clientX, event.clientY])
-            setTapnHold(
-              setTimeout(() => {
-                !lock && setDragMode(true)
-              }, 1000)
-            )
-          }}
-          onPointerMove={(event) => {
-            if (checkOffset(event.clientX, initialPos[0], offset) && checkOffset(event.clientY, initialPos[1], offset))
-              return
-            return isMobile() && clearTimeout(TapnHold)
-          }}
-          onPointerUp={() => {
-            clearTimeout(TapnHold)
-          }}
-          key={`shakeWrapper${item.id}-${item.section}`}
-        >
-          <DragableEntity
-            key={item.id}
-            data={item}
-            index={i}
-            dragable={dragable}
-            editFunc={editFunc}
-            editable={editable}
-            itemProps={props}
-            callCount={callCount}
-          />
-        </motion.div>
-      )})}
+      {items.map((item, i) => {
+        return (
+          <motion.div
+            custom={i}
+            className="relative hover:z-30"
+            variants={variants}
+            animate={controls}
+            style={getRandomTransformOrigin()}
+            whileTap={dragable ? { scale: 1.03 } : { scale: 1 }}
+            onTapStart={(event) => {
+              // @ts-ignore
+              setInitialPos([event.clientX, event.clientY])
+              setTapnHold(
+                setTimeout(() => {
+                  !lock && setDragMode(true)
+                }, 1000)
+              )
+            }}
+            onPointerMove={(event) => {
+              if (
+                checkOffset(event.clientX, initialPos[0], offset) &&
+                checkOffset(event.clientY, initialPos[1], offset)
+              )
+                return
+              return isMobile() && clearTimeout(TapnHold)
+            }}
+            onPointerUp={() => {
+              clearTimeout(TapnHold)
+            }}
+            key={`shakeWrapper${item.id}-${item.section}`}
+          >
+            <DragableEntity
+              key={item.id}
+              data={item}
+              index={i}
+              dragable={dragable}
+              editFunc={editFunc}
+              editable={editable}
+              itemProps={props}
+              callCount={callCount}
+            />
+          </motion.div>
+        )
+      })}
     </ul>
   )
 }
