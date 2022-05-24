@@ -290,7 +290,11 @@ const Announce = () => {
                           allClubData.filter((e) => e.clubID === key).length > 0
                             ? typeof allClubData.filter((e) => e.clubID === key)[0].maxPos === "number"
                               ? allClubData.filter((e) => e.clubID === key)[0].maxPos
-                              : allClubData.filter((e) => e.clubID === key)[0].maxPos[userData.section[key]]
+                              : userData.section
+                              ? userData.section[key] in (allClubData.filter((e) => e.clubID === key)[0].maxPos || {})
+                                ? allClubData.filter((e) => e.clubID === key)[0].maxPos[userData.section[key]]
+                                : undefined
+                              : undefined
                             : 0,
                         section: userData.section ? userData.section[key] : null,
                       }}
