@@ -29,7 +29,14 @@ import PendingSection from "@components/panel/sections/PendingSection"
 import { CatLoader } from "@components/common/CatLoader"
 import { AnimatePresence, motion } from "framer-motion"
 import { WaitingScreen } from "@components/common/WaitingScreen"
-import { announceTime, breakLowerBound, breakUpperBound, editDataTime } from "@config/time"
+import {
+  announceTime,
+  breakLowerBound,
+  breakUpperBound,
+  editDataTime,
+  endAnnounceTime,
+  firstRoundTime,
+} from "@config/time"
 import { Listbox, Transition } from "@headlessui/react"
 import classNames from "classnames"
 
@@ -157,11 +164,8 @@ const Audition = () => {
   const [editDep, setEditDep] = useState(false)
   const [pending, setPending] = useState(false)
 
-  const upperBound = breakUpperBound,
-    lowerBound = breakLowerBound
-
-  const editable = true
-  // const editable = !(new Date().getTime() > announceTime)
+  // const editable = false
+  const editable = !(new Date().getTime() > announceTime)
 
   const timer = useTimer(editDataTime)
 
@@ -410,7 +414,7 @@ const Audition = () => {
     )
   }
 
-  return new Date().getTime() > upperBound || new Date().getTime() < lowerBound ? (
+  return (
     <PageContainer hide={!initmember}>
       <Editor
         userData={editing}
@@ -622,8 +626,6 @@ const Audition = () => {
         )}
       </AnimatePresence>
     </PageContainer>
-  ) : (
-    <WaitingScreen target={upperBound} />
   )
 }
 

@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs"
 import initialisedDB from "@server/firebase-admin"
 import { DocumentReference } from "firebase-admin/lib/firestore"
+import { generateCard } from "@server/userActions/sharedFunctions"
 
 export const checkInputs = async (dataDoc, userData, req) => {
   if (!(req.body.clubID in dataDoc.get("audition")) || dataDoc.get("club") !== "")
@@ -16,18 +17,24 @@ export const checkInputs = async (dataDoc, userData, req) => {
   return { status: true }
 }
 
-export const updateClub = async (clubRef: DocumentReference, req) => {
+export const updateClub = async (clubRef: DocumentReference, req, dataRef, dataDoc) => {
   return await initialisedDB.runTransaction(async (t) => {
     const doc = await t.get(clubRef)
     // 1 read
     const data = doc.get(req.body.clubID)
+
     if (!data.audition) throw "invalid_club_type"
     if (data.new_count >= data.new_count_limit) throw "club_full"
     const newCount = data.new_count + 1
 
     // 1 write
     t.set(clubRef, { [req.body.clubID]: { new_count: newCount } }, { merge: true })
-    return data
+    
+    const cardRef = await generateCard(dataDoc, data, req)
+
+    const newAuditionData = await createNewAuditionData(dataDoc, req, clubRef)
+    
+    await dataRef.update({ club: req.body.clubID, audition: newAuditionData, cardID: cardRef.id })
   })
 }
 

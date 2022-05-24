@@ -103,7 +103,7 @@ function DragableEntity({ index, data, editable, itemProps, editFunc, dragable, 
 
   return (
     <li className="relative cursor-pointer">
-      <Reorder.Item key={data.position} value={data} dragListener={dragable}>
+      <Reorder.Item key={data.position} value={data} dragListener={dragable && editable}>
         <motion.div
           className="absolute h-full w-full bg-TUCMC-gray-700"
           initial="idle"
@@ -184,7 +184,7 @@ export function DragableList({ editable, editFunc, dragable, setDragMode, callCo
     onPositionUpdate,
   })
 
-  const lock = new Date().getTime() > positionUpdateTime
+  const lock = !editable
 
   useEffect(() => {
     if (dragable) {

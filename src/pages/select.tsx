@@ -97,18 +97,18 @@ const Select = ({ clubList }) => {
         return { userData }
       }
 
-      if (new Date().getTime() > endRegClubTime) {
-        Router.push("/announce")
-        return { userData }
-      }
-
       if (userData.club !== "") {
         Router.push("/card")
       } else {
-        // if (Object.keys(userData.audition).length <= 0 || new Date().getTime() > endLastRound) {
-        //   localStorage.setItem("alert", "denied")
-        //   Router.push("/account")
-        // }
+        if (Object.keys(userData.audition).length <= 0 || new Date().getTime() > endLastRound) {
+          localStorage.setItem("alert", "denied")
+          return Router.push("/account")
+        }
+      }
+
+      if (new Date().getTime() > endRegClubTime) {
+        Router.push("/announce")
+        return { userData }
       }
     }
     return { userData }

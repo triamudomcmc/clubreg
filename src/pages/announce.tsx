@@ -10,10 +10,12 @@ import DataModal from "@components/select/DataModal"
 import { Loader } from "@components/common/Loader"
 import { useTimer } from "@utilities/timers"
 import classnames from "classnames"
+import { fetchAllClubData } from "@handlers/client/fetcher/club"
 import {
   announceTime,
   breakLowerBound,
   breakUpperBound,
+  endAnnounceTime,
   endFirstRoundTime,
   endLastRound,
   endRegClubTime,
@@ -23,6 +25,7 @@ import {
   secondRoundTime,
 } from "@config/time"
 import { WaitingScreen } from "@components/common/WaitingScreen"
+import { async } from "crypto-random-string"
 
 const Announce = () => {
   const { onReady, reFetch } = useAuth()
@@ -31,6 +34,7 @@ const Announce = () => {
 
   const [modalState, setModalState] = useState({ open: false, data: {} })
   const [select, setSelect] = useState({ state: false, mode: "confirm" })
+  const [allClubData, setAllClubData] = useState([])
   const [dataModal, setDataModal] = useState(false)
   const [loader, setLoader] = useState(false)
 
@@ -55,17 +59,31 @@ const Announce = () => {
     return userData
   })
 
-  const upperBound = breakUpperBound,
-    lowerBound = breakLowerBound
-
   const before = new Date().getTime() < announceTime
 
   const limit =
-    new Date().getTime() < endFirstRoundTime
+    new Date().getTime() < endAnnounceTime
+      ? endAnnounceTime
+      : new Date().getTime() < endFirstRoundTime
       ? endFirstRoundTime
-      : new Date().getTime() < endSecondRoundTime
-      ? endSecondRoundTime
-      : lastround
+      : endSecondRoundTime
+
+  const slimit =
+    new Date().getTime() < firstRoundTime
+      ? firstRoundTime
+      : new Date().getTime() < secondRoundTime
+      ? secondRoundTime
+      : limit
+
+  const elimit =
+    new Date().getTime() < firstRoundTime
+      ? endAnnounceTime
+      : new Date().getTime() < secondRoundTime
+      ? endFirstRoundTime
+      : endSecondRoundTime
+
+  const upperBound = slimit,
+    lowerBound = elimit
 
   const timer = useTimer(limit)
   const openTimer = useTimer(announceTime)
@@ -77,6 +95,12 @@ const Announce = () => {
       setTimeout(() => {
         Router.push("/select")
       }, lastround - currentTime)
+    }
+
+    if (currentTime < elimit) {
+      setTimeout(() => {
+        Router.reload()
+      }, elimit - currentTime)
     }
   }, [])
 
@@ -166,6 +190,15 @@ const Announce = () => {
     }
   }, [userData, timer])
 
+  useEffect(() => {
+    const getData = async () => {
+      const data = await fetchAllClubData("")
+      setAllClubData(data.data)
+    }
+
+    getData()
+  }, [])
+
   const clearState = () => {
     setModalState({ open: false, data: {} })
   }
@@ -252,6 +285,14 @@ const Announce = () => {
                       data={{
                         clubID: key,
                         status: userData.audition[key],
+                        position: userData.position ? userData.position[key] : null,
+                        fromPos:
+                          allClubData.filter((e) => e.clubID === key).length > 0
+                            ? typeof allClubData.filter((e) => e.clubID === key)[0].maxPos === "number"
+                              ? allClubData.filter((e) => e.clubID === key)[0].maxPos
+                              : allClubData.filter((e) => e.clubID === key)[0].maxPos[userData.section[key]]
+                            : 0,
+                        section: userData.section ? userData.section[key] : null,
                       }}
                     />
                   )
