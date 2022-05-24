@@ -86,7 +86,7 @@ const Select = ({ clubList }) => {
 
   const auTrigger = useRef(null)
   const noAu = new Date().getTime() > lastround
-  const time = endLastRound
+  const time = endRegClubTime
 
   const { userData } = onReady((logged, userData) => {
     if (!logged) {
@@ -97,10 +97,10 @@ const Select = ({ clubList }) => {
         return { userData }
       }
 
-      // if (new Date().getTime() < lastround) {
-      //   Router.push("/announce")
-      //   return { userData }
-      // }
+      if (new Date().getTime() > endRegClubTime) {
+        Router.push("/announce")
+        return { userData }
+      }
 
       if (userData.club !== "") {
         Router.push("/card")

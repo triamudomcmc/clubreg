@@ -10,7 +10,18 @@ import DataModal from "@components/select/DataModal"
 import { Loader } from "@components/common/Loader"
 import { useTimer } from "@utilities/timers"
 import classnames from "classnames"
-import { announceTime, breakLowerBound, breakUpperBound, endLastRound, endRegClubTime, lastround } from "@config/time"
+import {
+  announceTime,
+  breakLowerBound,
+  breakUpperBound,
+  endFirstRoundTime,
+  endLastRound,
+  endRegClubTime,
+  endSecondRoundTime,
+  firstRoundTime,
+  lastround,
+  secondRoundTime,
+} from "@config/time"
 import { WaitingScreen } from "@components/common/WaitingScreen"
 
 const Announce = () => {
@@ -50,11 +61,11 @@ const Announce = () => {
   const before = new Date().getTime() < announceTime
 
   const limit =
-    new Date().getTime() < 1623776400000
-      ? 1623776400000
-      : new Date().getTime() < 1623862800000
-      ? 1623862800000
-      : 1623949200000
+    new Date().getTime() < endFirstRoundTime
+      ? endFirstRoundTime
+      : new Date().getTime() < endSecondRoundTime
+      ? endSecondRoundTime
+      : lastround
 
   const timer = useTimer(limit)
   const openTimer = useTimer(announceTime)
@@ -94,7 +105,7 @@ const Announce = () => {
       ) {
         setBottomDesc(
           <p className="mx-auto mt-20 max-w-md px-16 text-center text-TUCMC-gray-700">
-            กรุณารอเลือกเข้าชมรมที่ไม่มีการ Audition และยังมีที่นั่งว่างอยู่ ในวันที่ 18 มิ.ย. 64
+            กรุณารอเลือกเข้าชมรมที่ไม่มีการ Audition และยังมีที่นั่งว่างอยู่ ในวันที่ 28 พ.ค. 65
           </p>
         )
       }
@@ -117,34 +128,34 @@ const Announce = () => {
                   <div
                     className={classnames(
                       "flex h-4 w-4 items-center justify-center rounded-full text-[8px] font-medium text-white",
-                      new Date().getTime() >= 1623803400000 ? "bg-TUCMC-gray-700" : "bg-TUCMC-gray-500"
+                      new Date().getTime() >= firstRoundTime ? "bg-TUCMC-gray-700" : "bg-TUCMC-gray-500"
                     )}
                   >
                     1
                   </div>
                   <span
                     className={classnames(
-                      new Date().getTime() >= 1623803400000 ? "text-TUCMC-gray-700" : "text-TUCMC-gray-500"
+                      new Date().getTime() >= firstRoundTime ? "text-TUCMC-gray-700" : "text-TUCMC-gray-500"
                     )}
                   >
-                    16 มิ.ย. 64 เวลา 07.30 น.
+                    26 พ.ค. 65 เวลา 07.30 น.
                   </span>
                 </div>
                 <div className="flex items-center space-x-1">
                   <div
                     className={classnames(
                       "flex h-4 w-4 items-center justify-center rounded-full text-[8px] font-medium text-white",
-                      new Date().getTime() >= 1623889800000 ? "bg-TUCMC-gray-700" : "bg-TUCMC-gray-500"
+                      new Date().getTime() >= secondRoundTime ? "bg-TUCMC-gray-700" : "bg-TUCMC-gray-500"
                     )}
                   >
                     2
                   </div>
                   <span
                     className={classnames(
-                      new Date().getTime() >= 1623889800000 ? "text-TUCMC-gray-700" : "text-TUCMC-gray-500"
+                      new Date().getTime() >= secondRoundTime ? "text-TUCMC-gray-700" : "text-TUCMC-gray-500"
                     )}
                   >
-                    17 มิ.ย. 64 เวลา 07.30 น.
+                    27 พ.ค. 65 เวลา 07.30 น.
                   </span>
                 </div>
               </div>
@@ -203,7 +214,7 @@ const Announce = () => {
             <div className="mb-20 space-y-8 pt-10">
               <div className="flex flex-col items-center text-TUCMC-gray-700">
                 <h1 className="text-4xl">รอประกาศผล</h1>
-                <h1 className="text-xl">15 มิ.ย. 2564 เวลา 7.30 น.</h1>
+                <h1 className="text-xl">25 พ.ค. 2565 เวลา 7.30 น.</h1>
               </div>
               <div className="flex flex-row justify-center space-x-2 text-TUCMC-gray-700">
                 <div className="flex flex-col items-center">
