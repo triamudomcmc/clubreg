@@ -165,9 +165,18 @@ const Audition = () => {
   const [pending, setPending] = useState(false)
 
   // const editable = false
-  const editable = !(new Date().getTime() > announceTime)
+  const editable = !(new Date().getTime() > editDataTime)
 
   const timer = useTimer(editDataTime)
+
+  useEffect(() => {
+    const curr = new Date().getTime()
+    if (editDataTime > curr) {
+      setTimeout(() => {
+        Router.reload()
+      }, editDataTime - curr)
+    }
+  }, [])
 
   const userData = onReady((logged, userData) => {
     if (!logged) {
