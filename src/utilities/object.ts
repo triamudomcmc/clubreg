@@ -38,10 +38,10 @@ export const sortThaiDictionary = (arr: any, objAction: (obj: any) => string, in
     })
 }
 
-export const sortNumber = (arr: any, objAction: (obj: any) => string, inverted = false) => {
+export const sortNumber = (arr: any, objAction: (obj: any) => string, descending = false) => {
   return arr
     .sort((a, b) =>
-      inverted ? parseInt(objAction(a)) > parseInt(objAction(b)) : parseInt(objAction(a)) < parseInt(objAction(b))
+      descending ? parseInt(objAction(b)) - parseInt(objAction(a)) : parseInt(objAction(a)) - parseInt(objAction(b))
     )
     .map((val) => {
       return val
