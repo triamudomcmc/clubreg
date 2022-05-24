@@ -32,13 +32,13 @@ export const updateClub = async (clubRef: DocumentReference, req, dataRef, dataD
     
     const cardRef = await generateCard(dataDoc, data, req)
 
-    const newAuditionData = await createNewAuditionData(dataDoc, req, clubRef)
-    
-    await dataRef.update({ club: req.body.clubID, audition: newAuditionData, cardID: cardRef.id })
+    const newAuditionData = await createNewAuditionData(dataDoc, req, clubRef, t)
+
+    t.update(dataRef, { club: req.body.clubID, audition: newAuditionData, cardID: cardRef.id })
   })
 }
 
-export const createNewAuditionData = async (dataDoc, req, clubRef) => {
+export const createNewAuditionData = async (dataDoc, req, clubRef, t) => {
   const updatedItem = dataDoc.get("audition")
   const newAuditionData = {}
 
@@ -52,7 +52,7 @@ export const createNewAuditionData = async (dataDoc, req, clubRef) => {
         if (updatedItem[key] === "passed") {
           const prevCall = await clubRef.get()
           const prevCount = prevCall.get(key)["call_count"] || 0
-          await clubRef.set({ [key]: { call_count: prevCount + 1 } }, { merge: true })
+         t.set(clubRef, { [key]: { call_count: prevCount + 1 } }, { merge: true })
         }
         newAuditionData[key] = "rejected"
       }
