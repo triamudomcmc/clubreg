@@ -128,8 +128,6 @@ const Page = () => {
       },
     })
 
-    console.log(e)
-
     if (!e.status) return
 
     const res = await fetch(`/api/printTable?path=${e.data.path}`, {

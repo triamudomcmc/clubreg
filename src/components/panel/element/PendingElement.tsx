@@ -106,7 +106,6 @@ export const PendingElement = ({
       })
     }
 
-    console.log(reservedPos)
     if (pos > 0) {
       if (section.name !== null) {
         if (
