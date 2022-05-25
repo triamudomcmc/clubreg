@@ -32,9 +32,7 @@ export const ReservedSection = ({ display, refetch, userData, editable, editFunc
 
   const update = () => {
     let ulist = []
-    let nitem: any[] = items.map((e, i) => ({ ...e, position: i + 1 }))
-
-    setItems(nitem)
+    let nitem = items
 
     nitem.forEach((val) => {
       const obj = userData.find((i) => i.dataRefID === val.dataRefID)
