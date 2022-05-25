@@ -601,7 +601,7 @@ const Audition = () => {
                   display={section === "reserved"}
                   editable={editable}
                   editFunc={edit}
-                  callCount={clubData.call_count}
+                  callCount={clubSection.name === null ? clubData.call_count : 0}
                 />
                 <FailedSection
                   userData={section === "failed" ? sortedData : []}
