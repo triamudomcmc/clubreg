@@ -15,9 +15,6 @@ import Image from "next/image"
 import { useAuth } from "@client/auth"
 import { Data } from "framer"
 import { DescribeRoute } from "@components/common/Meta/OpenGraph"
-import Modal from "@components/common/Modals"
-import cookieCutter from "cookie-cutter"
-import moment from "moment"
 
 const Index = () => {
   // const goal = openTime
@@ -51,24 +48,6 @@ const Index = () => {
     // return userData
   })
 
-  useEffect(() => {
-    const currentTime = new Date().getTime()
-
-    const alertState = cookieCutter.get("informed")
-
-    if (alertState === "yes") {
-      setChangeAlert(false)
-    } else {
-      setChangeAlert(true)
-    }
-
-    if (currentTime < goal) {
-      setTimeout(() => {
-        Router.reload()
-      }, goal - currentTime)
-    }
-  }, [])
-
   return (
     <DescribeRoute
       title="ระบบลงทะเบียนชมรม โรงเรียนเตรียมอุดมศึกษา"
@@ -76,54 +55,6 @@ const Index = () => {
       imgURL="/assets/meta/index.jpg"
     >
       <PageContainer footer={false}>
-        <Modal
-          TriggerDep={{
-            dep: changeAlert,
-            revert: () => {
-              setChangeAlert(false)
-            },
-          }}
-          CloseID="closeAlert"
-          className="flex max-w-[420px] flex-col space-y-3 rounded-md bg-white px-7 py-5 shadow-md"
-          overlayClassName="fixed flex justify-center px-4 items-center top-0 left-0 min-h-screen w-full bg-TUCMC-gray-800 backdrop-filter backdrop-blur bg-opacity-50 z-[50]"
-          closeClickOutside={false}
-        >
-          <div className="flex items-center space-x-2">
-            <ExclamationIcon className="h-8 w-8 text-yellow-500" />
-            <h1 className="text-lg font-semibold">แจ้งการเปลี่ยนแปลงเวลาเปิดระบบ</h1>
-          </div>
-          <div className="space-y-4">
-            <p className="text-TUCMC-gray-700">
-              เนื่องจากเหตุผลเกี่ยวกับความเหมาะสมในการจัดเวลาการเปิดระบบลงทะเบียนให้เหมาะสมและส่งผลกระทบต่อเวลาเรียนน้อยที่สุด
-              จึงมีการเปลี่ยนแปลงเวลาดังนี้
-            </p>
-            <div className="flex flex-col justify-center rounded-md bg-[#1f2937] py-4 px-4">
-              <div className="mx-auto">
-                <span className="font-medium text-gray-300">
-                  <span className="font-semibold text-white">จากวันที่ :</span> 17 พฤษภาคม 2565 เวลา{" "}
-                  <span className="font-semibold text-red-400">11.30</span> น.
-                </span>
-                <ChevronDoubleDownIcon className="my-1 mx-auto h-6 w-6 animate-pulse text-red-600" />
-                <span className="font-medium text-gray-300">
-                  <span className="font-semibold text-white">เป็นวันที่ :</span> 17 พฤษภาคม 2565 เวลา{" "}
-                  <span className="font-semibold text-red-400">12.00</span> น.
-                </span>
-              </div>
-            </div>
-            <div className="flex justify-center space-x-2">
-              <div
-                id="closeAlert"
-                onClick={() => {
-                  cookieCutter.set("informed", "yes", { expires: moment().add(4, "hours") })
-                }}
-                className="flex w-full cursor-pointer justify-center rounded-md border border-TUCMC-green-500 py-2 px-4 font-medium text-TUCMC-green-500 hover:bg-TUCMC-green-500 hover:text-white"
-              >
-                รับทราบการเปลี่ยนแปลงนี้
-              </div>
-            </div>
-          </div>
-        </Modal>
-
         <div className="h-full bg-TUCMC-pink-400">
           <div className="flex justify-center">
             <div className="mx-8 flex flex-col items-center px-8 md:w-full md:max-w-6xl md:flex-row-reverse md:justify-between md:py-0 lg:py-20 xl:px-0">
