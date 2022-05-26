@@ -1,4 +1,4 @@
-import { SocialFacebook, SocialInstagram } from "@vectors/icons/Socials"
+import { SocialFacebook, SocialGitHub, SocialInstagram } from "@vectors/icons/Socials"
 import { WhiteLogo } from "@vectors/Logo"
 import Link from "next/link"
 
@@ -35,6 +35,9 @@ const Footer = () => {
               </a>
               <a target="_blank" href="https://instagram.com/tucmc_official">
                 <SocialInstagram className="h-10 w-10 text-white md:h-6 md:w-6" />
+              </a>
+              <a rel="noreferrer" target="_blank" href="https://github.com/triamudomcmc">
+                <SocialGitHub className="h-10 w-10 text-white md:h-6 md:w-6" />
               </a>
             </div>
             <div className="hidden flex-row space-x-10 whitespace-nowrap font-medium text-white md:flex">
