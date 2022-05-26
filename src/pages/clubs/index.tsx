@@ -126,9 +126,6 @@ const Clubs: FC = ({ clubs }: InferGetStaticPropsType<typeof getStaticProps>) =>
         >
           <div className="flex w-full max-w-md flex-col items-center">
             <h1 className="text-2xl font-bold">ชมรม</h1>
-            {/* <div className="mt-8 w-full px-14 md:mt-12">
-            <ClubSplash />
-          </div> */}
           </div>
           <div className="mx-8 mt-8 max-w-xl border-b pb-4 md:mx-0 md:mt-12 md:w-full md:border-none md:px-8">
             <FilterSearch setSearchContext={setSearchContext} setSortMode={setSortMode} sortMode={sortMode} />
@@ -137,15 +134,6 @@ const Clubs: FC = ({ clubs }: InferGetStaticPropsType<typeof getStaticProps>) =>
             {sortedData.map((item, index) => {
               if (index < 70) return <ClubCard key={`club-${index}`} data={item} imageLoadAction={loaded} />
             })}
-            {/* {sortedData[60] && sortedData[61] && (
-              <div key={`clubWrapper`} className="flex flex-wrap justify-center">
-                <ClubCard key={`club-60`} data={sortedData[60]} imageLoadAction={loaded} />
-                <ClubCard key={`club-61`} data={sortedData[61]} imageLoadAction={loaded} />
-                <div className="minClubs2:w-175px minClubs:w-185px my-1 mx-10 h-1 minClubs2:mx-1"></div>
-                <div className="minClubs2:w-175px minClubs:w-185px my-1 mx-10 h-1 minClubs2:mx-1"></div>
-                <div className="minClubs2:w-175px minClubs:w-185px my-1 mx-10 h-1 minClubs2:mx-1"></div>
-              </div>
-            )} */}
           </div>
         </div>
         <ClubIndexSkeleton clubs={clubs} className={classnames(loadingCount <= 0 && "hidden")} />

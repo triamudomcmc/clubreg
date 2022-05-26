@@ -15,7 +15,7 @@ export const EditableZoomable = ({
   priority = false,
   className = "",
   updateOverlay = null,
-  updateImage
+  updateImage,
 }) => {
   const [zoom, toggleZoom] = useState(false)
   const ref = useRef(null)
@@ -33,13 +33,13 @@ export const EditableZoomable = ({
   const [image, setImage] = useState<string | null>(null)
 
   useEffect(() => {
-      updateImage(image)
+    updateImage(image)
   }, [image])
   const uploader = useRef(null)
   const doUpload = async (e) => {
     const data = await toBase64(e.target.files[0])
     //@ts-ignore
-    setImage(data) 
+    setImage(data)
   }
 
   const padding = 60
@@ -49,7 +49,6 @@ export const EditableZoomable = ({
     let w = (dimension.width >= 768 ? 768 : dimension.width) - padding
     let h = (w * height) / width
 
-    // console.log(h, "e")
     if (dimension.height - (padding + tp * 3) < h) {
       w = dimension.height - ((padding + tp * 3) * width) / height - padding
       setActiveTP(tp)
@@ -99,7 +98,6 @@ export const EditableZoomable = ({
 
   return (
     <div className="select-none">
-      
       <div
         ref={squeezed}
         onClick={() => {
@@ -107,28 +105,42 @@ export const EditableZoomable = ({
         }}
         className={classnames("relative cursor-pointer")}
       >
-          
-        {!image ? <Image
-          priority={priority}
-          quality={50}
-          placeholder="blur"
-          blurDataURL={src}
-          onLoad={onLoad}
-          className={classnames(className)}
-          src={src}
-          width={width}
-          height={height}
-        /> : <img src={image} width={width}
-        height={height} className={classnames(className, "h-[52vw] md:h-[18vw] lg:h-[200px]")}/>}
-        <input
-            className="hidden"
-            ref={uploader}
-            onChange={doUpload}
-            type="file"
-            accept="image/png, image/jpeg, image/heif"
+        {!image ? (
+          <Image
+            priority={priority}
+            quality={50}
+            placeholder="blur"
+            blurDataURL={src}
+            onLoad={onLoad}
+            className={classnames(className)}
+            src={src}
+            width={width}
+            height={height}
           />
-        <motion.div onClick={() => {uploader.current.click()}} initial={{opacity: 0.4}} whileHover={{opacity: 1}} className="absolute text-white flex justify-center rounded-lg bg-TUCMC-gray-800 bg-opacity-70 items-center w-full h-full cursor-pointer top-0">
-            <CameraIcon className="w-12 h-12"/>
+        ) : (
+          <img
+            src={image}
+            width={width}
+            height={height}
+            className={classnames(className, "h-[52vw] md:h-[18vw] lg:h-[200px]")}
+          />
+        )}
+        <input
+          className="hidden"
+          ref={uploader}
+          onChange={doUpload}
+          type="file"
+          accept="image/png, image/jpeg, image/heif"
+        />
+        <motion.div
+          onClick={() => {
+            uploader.current.click()
+          }}
+          initial={{ opacity: 0.4 }}
+          whileHover={{ opacity: 1 }}
+          className="absolute top-0 flex h-full w-full cursor-pointer items-center justify-center rounded-lg bg-TUCMC-gray-800 bg-opacity-70 text-white"
+        >
+          <CameraIcon className="h-12 w-12" />
         </motion.div>
       </div>
     </div>

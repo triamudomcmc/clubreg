@@ -96,19 +96,6 @@ const Page = ({ links }) => {
   return (
     <PageContainer>
       <div>
-        {/* <div className="mx-auto mt-10 flex max-w-md flex-col space-y-3 px-7">
-          <Button
-            disabled={link === ""}
-            href={link}
-            className={classnames(
-              "flex cursor-pointer items-center justify-center space-x-2 rounded-md border bg-white p-5 ",
-              link === "" ? "border-TUCMC-gray-500 text-TUCMC-gray-500" : "border-TUCMC-green-500 text-TUCMC-green-500"
-            )}
-          >
-            <ClipboardCopyIcon className={classnames("h-5 w-5", link === "" && "hidden")} />
-            <span>{link === "" ? "ไม่พบข้อมูลห้องเรียน" : "เข้าเรียนออนไลน์"}</span>
-          </Button>
-        </div> */}
         <div className="flex justify-center py-10">
           <Card width={cardWidth} userData={userData} clubData={clubData} />
         </div>
