@@ -5,6 +5,7 @@ import { useEffect } from "react"
 const TUCMCPage: NextPage = () => {
   const router = useRouter()
 
+  // pls redeploy
   useEffect(() => {
     router.push("https://clubs.triamudom.ac.th")
   }, [])
