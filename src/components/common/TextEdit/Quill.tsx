@@ -24,19 +24,6 @@ export const QuillEditor: FC<{
         bounds={".mows"}
         ref={quillRef}
         onChange={(v) => onChange(v)}
-        // onClick={(e) => {
-        //   e.preventDefault()
-
-        //   const quill = quillRef.current.getEditor()
-        //   console.log("click")
-
-        //   if (e.type === "contextmenu") {
-        //     // right click
-        //     console.log("right click")
-        //     quill.theme.tooltip.edit()
-        //     quill.theme.tooltip.show()
-        //   }
-        // }}
         modules={{
           toolbar: [
             [

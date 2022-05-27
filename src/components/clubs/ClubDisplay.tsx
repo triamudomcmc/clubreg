@@ -171,9 +171,7 @@ export const ClubDisplaySection: FC<{
     }, 100)
   }
 
-  // useEffect(() => {
-  //   console.log(loadingCount)
-  // }, [loadingCount])
+  const [zoomOverlay, setZoomOverlay] = useState(<></>)
 
   useEffect(() => {
     if (imgLoading) setLoadingCount(1)
@@ -181,6 +179,7 @@ export const ClubDisplaySection: FC<{
 
   return (
     <div>
+      {zoomOverlay}
       <div className="mx-auto max-w-[1100px]">
         <div className={classNames(loadingCount > 0 && "absolute opacity-0")}>
           <ClubHeader clubDisplay={clubDisplay} clubID={clubID} loaded={loaded} />
@@ -214,6 +213,7 @@ export const ClubDisplaySection: FC<{
                     src={clubDisplay?.images?.["picture-1"]}
                     width={768}
                     height={432}
+                    updateOverlay={setZoomOverlay}
                   />
                 </div>
               )}
@@ -227,6 +227,7 @@ export const ClubDisplaySection: FC<{
                     src={clubDisplay?.images?.["picture-2"]}
                     width={768}
                     height={432}
+                    updateOverlay={setZoomOverlay}
                   />
                 </div>
               )}
@@ -240,6 +241,7 @@ export const ClubDisplaySection: FC<{
                     src={clubDisplay?.images?.["picture-3"]}
                     width={768}
                     height={432}
+                    updateOverlay={setZoomOverlay}
                   />
                 </div>
               )}

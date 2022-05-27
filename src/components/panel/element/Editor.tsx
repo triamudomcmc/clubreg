@@ -128,7 +128,6 @@ export const Editor = ({
       setPending(true)
       if (action.action === "") return setPending(false)
       try {
-        console.log(clubSection.name)
         const res = await updateUser(
           localStorage.getItem("currentPanel"),
           userData.dataRefID,

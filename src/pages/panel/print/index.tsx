@@ -128,8 +128,6 @@ const Page = () => {
       },
     })
 
-    console.log(e)
-
     if (!e.status) return
 
     const res = await fetch(`https://api.club-reg.tucm.cc/api/printTable?path=${e.data.path}`, {
