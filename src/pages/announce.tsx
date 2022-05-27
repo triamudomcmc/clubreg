@@ -73,7 +73,7 @@ const Announce = () => {
       ? firstRoundTime
       : new Date().getTime() < secondRoundTime
       ? secondRoundTime
-      : limit
+      : lastround
 
   const elimit =
     new Date().getTime() < firstRoundTime
