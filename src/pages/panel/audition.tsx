@@ -409,6 +409,7 @@ const Audition = () => {
         <p>ระบบจะสละสิทธิ์ให้อัตโนมัติ</p>
       </div>
     )
+    //w
 
     button = (
       <div className="flex items-center space-x-4 rounded-md border border-TUCMC-gray-600 border-opacity-90 px-6 py-4">
