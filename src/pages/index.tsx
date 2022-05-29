@@ -33,6 +33,7 @@ const Index = () => {
     } else if (userData.club === "") {
       if (new Date().getTime() >= openTime) {
         Router.push("/select")
+        return "no_club"
       }
       // return userData
       if (new Date().getTime() < endOldClub && new Date().getTime() > startOldClub) {
