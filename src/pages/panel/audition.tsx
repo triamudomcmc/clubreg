@@ -292,7 +292,7 @@ const Audition = () => {
       addToast({
         theme: "modern",
         icon: "cross",
-        title: "ไม่มีข้อมูลที่จะอัพเดท",
+        title: "ไม่มีข้อมูลที่จะอัปเดท",
         text: "กรุณาเลือกสถานะให้ผู้สมัครก่อนกดส่งข้อมูล",
       })
       setPending(false)
@@ -306,8 +306,8 @@ const Audition = () => {
       addToast({
         theme: "modern",
         icon: "tick",
-        title: "อัพเดทข้อมูลสำเร็จแล้ว",
-        text: "ข้อมูลที่ถูกส่งไป ได้รับการอัพเดทบนฐานข้อมูลแล้ว",
+        title: "อัปเดทข้อมูลสำเร็จแล้ว",
+        text: "ข้อมูลที่ถูกส่งไป ได้รับการอัปเดทบนฐานข้อมูลแล้ว",
       })
     } else {
       switch (res.report) {
@@ -341,7 +341,7 @@ const Audition = () => {
           addToast({
             theme: "modern",
             icon: "cross",
-            title: "ไม่มีข้อมูลที่จะอัพเดท",
+            title: "ไม่มีข้อมูลที่จะอัปเดท",
             text: "กรุณาเลือกสถานะให้ผู้สมัครก่อนกดส่งข้อมูล",
           })
           break
