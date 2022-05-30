@@ -433,8 +433,8 @@ const Account = () => {
                 </div>
               )} */}
               <Button
+                href="/panel/attendance"
                 type="div"
-                disabled={true}
                 className="flex cursor-pointer items-center justify-center space-x-2 rounded-lg bg-TUCMC-pink-400 px-4 py-3.5 text-white shadow-sm transition-all hover:scale-105"
               >
                 <ClipboardCheckIcon className="h-6 w-6" />
