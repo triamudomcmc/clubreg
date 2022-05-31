@@ -130,7 +130,7 @@ const Navigation = () => {
               <Link passHref href="/FAQ">
                 <a className="text-white">FAQ</a>
               </Link>
-              <Link passHref href="/TUCMC">
+              <Link passHref href="https://clubs.triamudom.ac.th">
                 <a className="text-white">กช.</a>
               </Link>
               <Link passHref href="/contact">
@@ -388,15 +388,15 @@ const Navigation = () => {
             <span className={getClass("/FAQ", "font")}>คำถามที่พบบ่อย</span>
           </a>
         </Link>
-        <Link passHref href="/TUCMC">
+        <Link passHref href="https://clubs.triamudom.ac.th">
           <a
             className={classnames(
               "flex flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8",
-              getClass("/TUCMC", "bg")
+              getClass("https://clubs.triamudom.ac.th", "bg")
             )}
           >
-            <LogoIcon className={classnames("h-7 w-7", getClass("/TUCMC", "icon"))} />{" "}
-            <span className={getClass("/TUCMC", "font")}>ทำความรู้จัก กช.</span>
+            <LogoIcon className={classnames("h-7 w-7", getClass("https://clubs.triamudom.ac.th", "icon"))} />{" "}
+            <span className={getClass("https://clubs.triamudom.ac.th", "font")}>ทำความรู้จัก กช.</span>
           </a>
         </Link>
         <Link passHref href="/contact">

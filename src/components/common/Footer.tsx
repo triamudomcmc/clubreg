@@ -23,7 +23,7 @@ const Footer = () => {
             <a>คำถามที่พบบ่อย</a>
           </Link>
           <a>ข้อตกลงและเงื่อนไขการใช้งาน</a>
-          <Link href="/TUCMC">
+          <Link href="https://clubs.triamudom.ac.th">
             <a>ทำความรู้จัก กช.</a>
           </Link>
         </div>
@@ -53,7 +53,7 @@ const Footer = () => {
               <Link href="/FAQ">
                 <a>FAQ</a>
               </Link>
-              <Link href="/TUCMC">
+              <Link href="https://clubs.triamudom.ac.th">
                 <a>กช.</a>
               </Link>
               <Link href="/contact">
