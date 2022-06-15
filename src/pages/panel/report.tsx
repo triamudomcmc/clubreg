@@ -228,7 +228,7 @@ const Report = () => {
                       </div>
                       <div className="flex flex-row items-end">
                         <h1 className="text-3xl font-bold text-TUCMC-gray-900">
-                          {clubData.old_count + (clubData?.committees?.length ?? 0)}
+                          {clubData.old_count + clubData.new_count + (clubData?.committees?.length ?? 0)}
                         </h1>
                         <h2 className="text-TUCMC-gray-500">/{clubData.count_limit}</h2>
                       </div>

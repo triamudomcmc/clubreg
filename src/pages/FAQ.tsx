@@ -1,7 +1,7 @@
 import PageContainer from "@components/common/PageContainer"
 import { FAQSplash } from "@vectors/decorations/FAQSplash"
 import Footer from "@components/common/Footer"
-import { AnimateSharedLayout, motion } from "framer-motion"
+import { motion } from "framer-motion"
 import React, { useEffect, useState } from "react"
 import { GetStaticProps } from "next"
 import * as fs from "fs"
@@ -92,55 +92,53 @@ const FAQ = ({ data }) => {
       imgURL="/assets/meta/index.jpg"
     >
       <PageContainer footer={false}>
-        <AnimateSharedLayout>
-          <div className="mx-auto max-w-6xl space-y-6 py-10 px-6 md:py-16 md:pb-24">
-            <motion.div layout="position" className="flex w-full flex-col items-center space-y-8">
-              <h1 className="text-center text-2xl font-semibold">คำถามที่พบบ่อย</h1>
-              <FAQSplash className="w-[280px]" />
-              <div className="mx-8 mt-8 max-w-xl border-b pb-4 md:mx-0 md:mt-12 md:w-full md:border-none md:px-8">
-                <GroupSearch setSearchContext={setSearchContext} />
-              </div>
+        <div className="mx-auto max-w-6xl space-y-6 py-10 px-6 md:py-16 md:pb-24">
+          <motion.div layout="position" className="flex w-full flex-col items-center space-y-8">
+            <h1 className="text-center text-2xl font-semibold">คำถามที่พบบ่อย</h1>
+            <FAQSplash className="w-[280px]" />
+            <div className="mx-8 mt-8 max-w-xl border-b pb-4 md:mx-0 md:mt-12 md:w-full md:border-none md:px-8">
+              <GroupSearch setSearchContext={setSearchContext} />
+            </div>
+          </motion.div>
+
+          <div className="px-2 sm:px-24">
+            <motion.div className="mb-10" layout="position">
+              <DefaultCard>
+                <p className="font-normal">
+                  หากมีข้อสงสัยเพิ่มเติม กรุณาติดต่องานกิจกรรมพัฒนาผู้เรียน (กช.){" "}
+                  <Link passHref href="/contact">
+                    <a className="underline">ติดต่อเรา</a>
+                  </Link>
+                </p>
+              </DefaultCard>
             </motion.div>
 
-            <div className="px-2 sm:px-24">
-              <motion.div className="mb-10" layout="position">
-                <DefaultCard>
-                  <p className="font-normal">
-                    หากมีข้อสงสัยเพิ่มเติม กรุณาติดต่องานกิจกรรมพัฒนาผู้เรียน (กช.){" "}
-                    <Link passHref href="/contact">
-                      <a className="underline">ติดต่อเรา</a>
-                    </Link>
-                  </p>
-                </DefaultCard>
-              </motion.div>
+            <div className="flex flex-col">
+              {sortedData.map((item) => {
+                /**
+                 * group: 'เกี่ยวกับ กช.',
+                 * data: {
+                 *  นักเรียนแลกเปลี่ยนต้องทำอย่างไร: "นักเรียนที่กำลังจะไปแลกเปลี่ยนในปีการศึกษา 2564 กรณีไปแลกเปลี่ยนหลังช่วงลงทะเบียนชมรม หากยังอยู่ทันในช่วงที่มีระบบลงทะเบียน (7-14 มิ.ย. 2564) ให้ลงทะเบียนชมรมเอาไว้เช่นเดียวกับนักเรียนทั่วไป ในกรณีที่ต้องการกลับมาอยู่ชมรมเดิมในปีการศึกษาถัดมา ก็ให้แจ้งครูที่ปรึกษาชมรมไว้ด้วยส่วนนักเรียนที่กลับมาจากแลกเปลี่ยน (กำลังจะเข้าเรียนในปีการศึกษา 2564) กรณีกลับมาทันระบบลงทะเบียนชมรม (7-14 มิ.ย. 2564) สามารถลงชื่อออดิชันหรือลงทะเบียนชมรมต่าง ๆ ได้ตามปกติ หรือหากลงชื่อเป็นกรรมการชมรมไว้แล้วก็ถือว่าได้เป็นสมาชิกของชมรมนั้นแล้ว ในกรณีกลับมาไม่ทันช่วงลงทะเบียนชมรม ให้ไปติดต่องานทะเบียน หากไม่มีชมรมที่ต้องการก็จะได้ไปอยู่ชมรมนักเรียนแลกเปลี่ยน แต่หากไม่อยากอยู่ชมรมแลกเปลี่ยน ก็ให้ไปติดต่อกับครูที่ปรึกษาของชมรมที่เราต้องการจะอยู่ และแจ้งที่งานทะเบียนว่าต้องการย้ายชมรม จากนั้นงานทะเบียนจะแนะวิธีการถัดไปให้"
+                 * }
+                 */
 
-              <div className="flex flex-col">
-                {sortedData.map((item) => {
-                  /**
-                   * group: 'เกี่ยวกับ กช.',
-                   * data: {
-                   *  นักเรียนแลกเปลี่ยนต้องทำอย่างไร: "นักเรียนที่กำลังจะไปแลกเปลี่ยนในปีการศึกษา 2564 กรณีไปแลกเปลี่ยนหลังช่วงลงทะเบียนชมรม หากยังอยู่ทันในช่วงที่มีระบบลงทะเบียน (7-14 มิ.ย. 2564) ให้ลงทะเบียนชมรมเอาไว้เช่นเดียวกับนักเรียนทั่วไป ในกรณีที่ต้องการกลับมาอยู่ชมรมเดิมในปีการศึกษาถัดมา ก็ให้แจ้งครูที่ปรึกษาชมรมไว้ด้วยส่วนนักเรียนที่กลับมาจากแลกเปลี่ยน (กำลังจะเข้าเรียนในปีการศึกษา 2564) กรณีกลับมาทันระบบลงทะเบียนชมรม (7-14 มิ.ย. 2564) สามารถลงชื่อออดิชันหรือลงทะเบียนชมรมต่าง ๆ ได้ตามปกติ หรือหากลงชื่อเป็นกรรมการชมรมไว้แล้วก็ถือว่าได้เป็นสมาชิกของชมรมนั้นแล้ว ในกรณีกลับมาไม่ทันช่วงลงทะเบียนชมรม ให้ไปติดต่องานทะเบียน หากไม่มีชมรมที่ต้องการก็จะได้ไปอยู่ชมรมนักเรียนแลกเปลี่ยน แต่หากไม่อยากอยู่ชมรมแลกเปลี่ยน ก็ให้ไปติดต่อกับครูที่ปรึกษาของชมรมที่เราต้องการจะอยู่ และแจ้งที่งานทะเบียนว่าต้องการย้ายชมรม จากนั้นงานทะเบียนจะแนะวิธีการถัดไปให้"
-                   * }
-                   */
+                if (Object.keys(item.data).length === 0) return
 
-                  if (Object.keys(item.data).length === 0) return
-
-                  return (
-                    <FAQCategory
-                      searchContext={searchContext}
-                      key={item.group}
-                      title={item.group}
-                      questions={item.data}
-                    />
-                  )
-                })}
-              </div>
+                return (
+                  <FAQCategory
+                    searchContext={searchContext}
+                    key={item.group}
+                    title={item.group}
+                    questions={item.data}
+                  />
+                )
+              })}
             </div>
           </div>
-          <motion.div layout="position" transition={{ delay: 0.05, duration: 0.2 }}>
-            <Footer />
-          </motion.div>
-        </AnimateSharedLayout>
+        </div>
+        <motion.div>
+          <Footer />
+        </motion.div>
       </PageContainer>
     </DescribeRoute>
   )

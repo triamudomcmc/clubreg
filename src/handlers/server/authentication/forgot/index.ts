@@ -37,7 +37,6 @@ export const forgot = async (req, res) => {
   sendSmtpEmail.htmlContent = `
   <!doctype html>
 <html lang="en-US">
-
 <head>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
     <title>เปลี่ยนรหัสผ่าน</title>
@@ -46,7 +45,6 @@ export const forgot = async (req, res) => {
         a:hover {text-decoration: underline !important;}
     </style>
 </head>
-
 <body marginheight="0" topmargin="0" marginwidth="0" style="margin: 0px; background-color: #f2f3f8;" leftmargin="0">
     <!--100% body table-->
     <table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="#f2f3f8"
@@ -102,7 +100,6 @@ export const forgot = async (req, res) => {
     </table>
     <!--/100% body table-->
 </body>
-
 </html>
 `
 

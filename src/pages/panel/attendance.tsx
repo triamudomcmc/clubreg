@@ -307,7 +307,7 @@ const Attendance = ({ query }) => {
       addToast({
         theme: "modern",
         icon: "cross",
-        title: "ข้อมูลที่จะอัพเดทไม่ถูกต้อง",
+        title: "ข้อมูลที่จะอัปเดทไม่ถูกต้อง",
         text: "กรุณาเลือกสถานะให้สมาชิกทั้งหมดก่อนกดส่งข้อมูล",
       })
       setPending(false)
@@ -319,8 +319,8 @@ const Attendance = ({ query }) => {
       addToast({
         theme: "modern",
         icon: "tick",
-        title: "อัพเดทข้อมูลสำเร็จแล้ว",
-        text: "ข้อมูลที่ถูกส่งไป ได้รับการอัพเดทบนฐานข้อมูลแล้ว",
+        title: "อัปเดทข้อมูลสำเร็จแล้ว",
+        text: "ข้อมูลที่ถูกส่งไป ได้รับการอัปเดทบนฐานข้อมูลแล้ว",
       })
     } else {
       switch (res.report) {

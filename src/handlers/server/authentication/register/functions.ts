@@ -75,7 +75,7 @@ export const appendUser = async (userColl, req, refDB, dataDoc) => {
 
   return await userColl.add({
     stdID: refDB.docs[0].get("student_id"),
-    email: email.toLowerCase(),
+    email: email.toLowerCase().replace(/ /g, "").replace(/\u200B/g,""),
     phone: req.body.phone,
     dataRefID: dataDoc.id,
     password: await bcrypt.hash(req.body.password, 10),

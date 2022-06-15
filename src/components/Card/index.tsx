@@ -120,6 +120,8 @@ export const Card = ({ width, userData, clubData, customURL = "" }) => {
         })
       }
     }
+
+    console.log(clubData)
   }, [userData])
 
   return (

@@ -29,7 +29,14 @@ import PendingSection from "@components/panel/sections/PendingSection"
 import { CatLoader } from "@components/common/CatLoader"
 import { AnimatePresence, motion } from "framer-motion"
 import { WaitingScreen } from "@components/common/WaitingScreen"
-import { announceTime, breakLowerBound, breakUpperBound, editDataTime } from "@config/time"
+import {
+  announceTime,
+  breakLowerBound,
+  breakUpperBound,
+  editDataTime,
+  endAnnounceTime,
+  firstRoundTime,
+} from "@config/time"
 import { Listbox, Transition } from "@headlessui/react"
 import classNames from "classnames"
 
@@ -157,13 +164,19 @@ const Audition = () => {
   const [editDep, setEditDep] = useState(false)
   const [pending, setPending] = useState(false)
 
-  const upperBound = breakUpperBound,
-    lowerBound = breakLowerBound
-
-  const editable = true
-  // const editable = !(new Date().getTime() > announceTime)
+  // const editable = false
+  const editable = !(new Date().getTime() > editDataTime)
 
   const timer = useTimer(editDataTime)
+
+  useEffect(() => {
+    const curr = new Date().getTime()
+    if (editDataTime > curr) {
+      setTimeout(() => {
+        Router.reload()
+      }, editDataTime - curr)
+    }
+  }, [])
 
   const userData = onReady((logged, userData) => {
     if (!logged) {
@@ -279,7 +292,7 @@ const Audition = () => {
       addToast({
         theme: "modern",
         icon: "cross",
-        title: "ไม่มีข้อมูลที่จะอัพเดท",
+        title: "ไม่มีข้อมูลที่จะอัปเดท",
         text: "กรุณาเลือกสถานะให้ผู้สมัครก่อนกดส่งข้อมูล",
       })
       setPending(false)
@@ -293,8 +306,8 @@ const Audition = () => {
       addToast({
         theme: "modern",
         icon: "tick",
-        title: "อัพเดทข้อมูลสำเร็จแล้ว",
-        text: "ข้อมูลที่ถูกส่งไป ได้รับการอัพเดทบนฐานข้อมูลแล้ว",
+        title: "อัปเดทข้อมูลสำเร็จแล้ว",
+        text: "ข้อมูลที่ถูกส่งไป ได้รับการอัปเดทบนฐานข้อมูลแล้ว",
       })
     } else {
       switch (res.report) {
@@ -328,7 +341,7 @@ const Audition = () => {
           addToast({
             theme: "modern",
             icon: "cross",
-            title: "ไม่มีข้อมูลที่จะอัพเดท",
+            title: "ไม่มีข้อมูลที่จะอัปเดท",
             text: "กรุณาเลือกสถานะให้ผู้สมัครก่อนกดส่งข้อมูล",
           })
           break
@@ -396,6 +409,7 @@ const Audition = () => {
         <p>ระบบจะสละสิทธิ์ให้อัตโนมัติ</p>
       </div>
     )
+    //w
 
     button = (
       <div className="flex items-center space-x-4 rounded-md border border-TUCMC-gray-600 border-opacity-90 px-6 py-4">
@@ -410,7 +424,7 @@ const Audition = () => {
     )
   }
 
-  return new Date().getTime() > upperBound || new Date().getTime() < lowerBound ? (
+  return (
     <PageContainer hide={!initmember}>
       <Editor
         userData={editing}
@@ -588,7 +602,7 @@ const Audition = () => {
                   display={section === "reserved"}
                   editable={editable}
                   editFunc={edit}
-                  callCount={clubData.call_count}
+                  callCount={clubSection.name === null ? clubData.call_count : 0}
                 />
                 <FailedSection
                   userData={section === "failed" ? sortedData : []}
@@ -622,8 +636,6 @@ const Audition = () => {
         )}
       </AnimatePresence>
     </PageContainer>
-  ) : (
-    <WaitingScreen target={upperBound} />
   )
 }
 

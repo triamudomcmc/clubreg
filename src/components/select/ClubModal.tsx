@@ -92,14 +92,6 @@ const ClubModal = ({ state, userData, closeAction, action, clubList, confirmOldC
     </div>
   )
 
-  if (userData && userData.old_club === dataState.clubID && dataState.old_count < dataState.old_count_limit) {
-    notAuButt = (
-      <div className="flex cursor-pointer items-center justify-center space-x-2 rounded-lg bg-TUCMC-green-400 py-4 text-lg text-white">
-        <CheckCircleIcon className="h-5 w-5" />
-      </div>
-    )
-  }
-
   const imageID =
     dataState.clubID && (dataState.clubID.includes("_") ? `${dataState.clubID.split("_")[0]}` : `${dataState.clubID}`)
 

@@ -1,5 +1,7 @@
+import { Tooltip } from "@components/dummy/common/Tooltip"
 import { CheckCircleIcon, DotsCircleHorizontalIcon, XCircleIcon, InformationCircleIcon } from "@heroicons/react/solid"
 import { translateClubID } from "@utilities/object"
+import { useState } from "react"
 
 const ClubStatus = ({ data, action, selectTrigger }) => {
   let interaction, status
@@ -8,6 +10,8 @@ const ClubStatus = ({ data, action, selectTrigger }) => {
     action({ open: true, data: { title: translateClubID(data.clubID), clubID: data.clubID, audition: true } })
     selectTrigger({ state: true, mode: mode })
   }
+
+  const [show, setShow] = useState(false)
 
   switch (data.status) {
     case "passed":
@@ -53,7 +57,45 @@ const ClubStatus = ({ data, action, selectTrigger }) => {
       status = (
         <div className="flex space-x-1 text-TUCMC-orange-400">
           <DotsCircleHorizontalIcon className="mt-0.5 h-5 w-5" />
-          <span className="leading-6">ติดสำรอง</span>
+          <span className="flex flex-row leading-6">
+            ติดสำรอง ลำดับที่ {data.position} จาก {data.fromPos}
+            {data.section && (
+              <span className="ml-1 flex flex-row items-center justify-between">
+                <span>- ส่วน {data.section}</span>
+                <span className="relative ml-2 cursor-pointer">
+                  <span
+                    onClick={() => {
+                      setShow(true)
+                    }}
+                  >
+                    <InformationCircleIcon className="h-5 w-5 text-TUCMC-gray-400" />
+                  </span>
+                  {show && (
+                    <>
+                      <div
+                        onClick={() => {
+                          setShow(false)
+                        }}
+                        className="fixed top-0 min-h-screen w-full"
+                      />
+                      <Tooltip type={"top-right"} className="absolute top-[20px] left-[-285px] z-[10] w-[320px]">
+                        <div>
+                          <span className="text-sm font-bold">ส่วนในชมรมคืออะไร</span> <br /> ลำดับที่ {data.position}{" "}
+                          จาก {data.fromPos} หมายถึงนักเรียนได้ลำดับสำรองที่ {data.position} จากทั้งหมด {data.fromPos}{" "}
+                          คน ในส่วน {data.section} ของชมรมนี้
+                        </div>
+                        <br />
+                        <div>
+                          <span className="font-bold">หากมีนักเรียน</span>ในส่วน {data.section}{" "}
+                          สละสิทธิ์ระบบจำเรียกลำดับสำรองในลำดับถัดไปในส่วน {data.section} ขึ้นมา
+                        </div>
+                      </Tooltip>
+                    </>
+                  )}
+                </span>
+              </span>
+            )}
+          </span>
         </div>
       )
       interaction = <></>

@@ -33,6 +33,22 @@ export const Tooltip = ({ children, className = "", type = "left" }) => {
         }}
       />
     </div>
+  ) : type === "top-right" ? (
+    <div className={classnames(className, "absolute flex flex-col items-end")}>
+      <div
+        className="mr-4 border-TUCMC-pink-400"
+        style={{
+          width: "0",
+          height: "0",
+          borderStyle: "solid",
+          borderWidth: "0px 10px 10px 10px",
+          borderColor: "transparent transparent rgb(246, 135, 179) transparent",
+        }}
+      />
+      <div className="rounded-md bg-TUCMC-pink-400 px-4 py-1.5 text-xs font-medium text-white">
+        <p>{children}</p>
+      </div>
+    </div>
   ) : (
     <div className={classnames(className, "absolute flex flex-col items-start")}>
       <div

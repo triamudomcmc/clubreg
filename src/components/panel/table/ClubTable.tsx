@@ -586,6 +586,7 @@ export const ClubCommitteeTable: FC<{
 
       <div className="flex flex-col space-y-6">
         {committee?.map((user) => {
+          if (!user) return
           return (
             <Fragment key={user.student_id}>
               <div className="flex flex-col items-start justify-between px-2 sm:flex-row sm:items-center sm:px-4">
