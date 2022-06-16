@@ -3,12 +3,15 @@ import { LockClosedIcon } from "@heroicons/react/solid"
 import { useAuth } from "@client/auth"
 import { useToast } from "@components/common/Toast/ToastContext"
 import { request } from "@client/utilities/request"
+import { AcademicCapIcon, EyeIcon } from "@heroicons/react/outline"
+import { motion } from "framer-motion"
 
 const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
   const { reFetch } = useAuth()
   const [ID, setID] = useState("")
   const [password, setPassword] = useState("")
   const [scode, setScode] = useState([])
+  const [type, setType] = useState(null)
   const seriesInput = useRef([])
   const { addToast, clearToast } = useToast()
 
@@ -179,58 +182,92 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
 
   return (
     <div className="mt-6 flex flex-col items-center pt-8">
-      <h1 className="text-4xl font-bold tracking-tight">เข้าสู่ระบบ</h1>
-      <div className="mt-2 text-center text-TUCMC-gray-600">
-        <p>ระบบลงทะเบียนชมรม</p>
-        <p>โรงเรียนเตรียมอุดมศึกษา ปีการศึกษา 2565</p>
-      </div>
-      <form className="w-full" onSubmit={onsubmit}>
-        <div className="mt-10 w-full space-y-7 px-6">
-          <div className="flex w-full flex-col -space-y-px">
-            <input
-              onChange={(event) => {
-                setID(event.target.value)
-              }}
-              type="text"
-              className="webkit-rounded-t-md appearance-none border border-gray-300 px-4 py-2 text-lg placeholder-gray-500 focus:z-10 focus:border-TUCMC-pink-500 focus:ring-TUCMC-pink-500"
-              placeholder="เลขประจำตัวนักเรียน"
-              required
-            />
-            <input
-              onChange={(event) => {
-                setPassword(event.target.value)
-              }}
-              type="password"
-              className="webkit-rounded-b-md appearance-none border border-gray-300 px-4 py-2 text-lg placeholder-gray-500 focus:z-10 focus:border-TUCMC-pink-500 focus:ring-TUCMC-pink-500"
-              placeholder="รหัสผ่าน"
-              required
-            />
+      {!type ? (
+        <div>
+          <h1 className="text-center text-4xl font-bold tracking-tight">เข้าสู่ระบบ</h1>
+          <div className="mt-4 mb-8 text-center text-lg leading-tight tracking-wide text-TUCMC-gray-600">
+            <p>เลือกรูปแบบของบัญชี</p>
+            <p>ที่คุณต้องการเข้าสู่ระบบลงทะเบียนชมรม</p>
           </div>
-          <div className="flex w-full flex-row justify-between">
-            <div className="flex flex-row">
-              <input className="mr-2 h-5 w-5 rounded-md border border-gray-200 ring-0" type="checkbox" />
-              <span className="whitespace-nowrap">จดจำฉันไว้ในระบบ</span>
-            </div>
-            <span onClick={secAction} className="cursor-pointer text-TUCMC-pink-400">
-              ลืมรหัสผ่าน
-            </span>
-          </div>
-          <div className="flex w-full flex-col items-center">
-            <button
-              type="submit"
-              className="relative flex w-full items-center justify-center rounded-md bg-TUCMC-pink-400 py-2 text-white"
+          <div className="flex space-x-4">
+            <motion.div
+              onClick={() => {
+                setType("student")
+              }}
+              whileHover={{ scale: 1.02 }}
+              className="flex h-[140px] w-[140px] cursor-pointer flex-col items-center justify-center rounded-2xl bg-TUCMC-pink-400 text-white shadow-md"
             >
-              <div className="absolute left-4">
-                <LockClosedIcon className="h-5 w-5" />
-              </div>
-              <span>ล็อกอิน</span>
-            </button>
-            <a onClick={primaryAction} className="mt-2 cursor-pointer whitespace-nowrap font-normal text-gray-600">
-              สร้างบัญชีใหม่
-            </a>
+              <AcademicCapIcon className="h-12 w-12" />
+              <h1 className="mt-1 font-semibold">นักเรียน</h1>
+            </motion.div>
+            <motion.div
+              onClick={() => {
+                setType("teacher")
+              }}
+              whileHover={{ scale: 1.02 }}
+              className="flex h-[140px] w-[140px] cursor-pointer flex-col items-center justify-center rounded-2xl bg-TUCMC-pink-400 text-white shadow-md"
+            >
+              <EyeIcon className="h-12 w-12" />
+              <h1 className="mt-1 font-semibold">ครูที่ปรึกษา</h1>
+            </motion.div>
           </div>
         </div>
-      </form>
+      ) : (
+        <>
+          <h1 className="text-4xl font-bold tracking-tight">เข้าสู่ระบบ</h1>
+          <div className="mt-2 text-center text-TUCMC-gray-600">
+            <p>ระบบลงทะเบียนชมรม</p>
+            <p>โรงเรียนเตรียมอุดมศึกษา ปีการศึกษา 2565</p>
+          </div>
+          <form className="w-full" onSubmit={onsubmit}>
+            <div className="mt-10 w-full space-y-7 px-6">
+              <div className="flex w-full flex-col -space-y-px">
+                <input
+                  onChange={(event) => {
+                    setID(event.target.value)
+                  }}
+                  type="text"
+                  className="webkit-rounded-t-md appearance-none border border-gray-300 px-4 py-2 text-lg placeholder-gray-500 focus:z-10 focus:border-TUCMC-pink-500 focus:ring-TUCMC-pink-500"
+                  placeholder={type === "student" ? "เลขประจำตัวนักเรียน" : "รหัสชมรม (ก30XXX)"}
+                  required
+                />
+                <input
+                  onChange={(event) => {
+                    setPassword(event.target.value)
+                  }}
+                  type="password"
+                  className="webkit-rounded-b-md appearance-none border border-gray-300 px-4 py-2 text-lg placeholder-gray-500 focus:z-10 focus:border-TUCMC-pink-500 focus:ring-TUCMC-pink-500"
+                  placeholder="รหัสผ่าน"
+                  required
+                />
+              </div>
+              <div className="flex w-full flex-row justify-between">
+                <div className="flex flex-row">
+                  <input className="mr-2 h-5 w-5 rounded-md border border-gray-200 ring-0" type="checkbox" />
+                  <span className="whitespace-nowrap">จดจำฉันไว้ในระบบ</span>
+                </div>
+                <span onClick={secAction} className="cursor-pointer text-TUCMC-pink-400">
+                  ลืมรหัสผ่าน
+                </span>
+              </div>
+              <div className="flex w-full flex-col items-center">
+                <button
+                  type="submit"
+                  className="relative flex w-full items-center justify-center rounded-md bg-TUCMC-pink-400 py-2 text-white"
+                >
+                  <div className="absolute left-4">
+                    <LockClosedIcon className="h-5 w-5" />
+                  </div>
+                  <span>ล็อกอิน</span>
+                </button>
+                <a onClick={primaryAction} className="mt-2 cursor-pointer whitespace-nowrap font-normal text-gray-600">
+                  สร้างบัญชีใหม่
+                </a>
+              </div>
+            </div>
+          </form>
+        </>
+      )}
     </div>
   )
 }
