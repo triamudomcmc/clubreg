@@ -138,9 +138,12 @@ export const Card = ({ width, userData, clubData, customURL = "" }) => {
         <canvas id="qrCode" className={css.qrCode}></canvas>
       </div>
       <div className="flex w-full flex-col items-center bg-TUCMC-gray-100">
-        <h1 className={classnames(css.text138, "text-TUCMC-700 w-full text-center tracking-tight", css.px17, css.mt18)}>
-          ชมรม{clubMap[userData.club]}
-        </h1>
+        <div
+          className={classnames(css.text138, "text-TUCMC-700 w-full text-center tracking-tight", css.px17, css.mt18)}
+        >
+          <p className="text-sm font-normal text-TUCMC-gray-600">ปีการศึกษา 2565</p>
+          <h1>ชมรม{clubMap[userData.club]}</h1>
+        </div>
         <span className={classnames(css.greenbutt, "rounded-full bg-TUCMC-green-400 tracking-tight text-white")}>
           ลงทะเบียนสำเร็จ
         </span>
