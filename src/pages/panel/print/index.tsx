@@ -10,6 +10,7 @@ import html2canvas from "html2canvas"
 import pdfMake from "pdfmake"
 import { sliceArrayIntoGroups, sliceArrN } from "@utilities/array"
 import { request } from "@handlers/client/utilities/request"
+import { Ellipsis } from "@vectors/Loaders/Ellipsis"
 
 const fetchMemberData = async (
   panelID: string,
@@ -82,7 +83,12 @@ const Page = () => {
   const [current, setCurrentID] = useState("")
   const [count, setCount] = useState(0)
   const page = useRef([])
-  const [display, setDisplay] = useState(<h1 className="animate-pulse">กำลังเตรียมไฟล์...</h1>)
+  const [display, setDisplay] = useState(
+    <div className="flex flex-col space-y-6">
+      <Ellipsis className="h-6 w-[2.4rem]" />
+      <h1 className="animate-pulse">กำลังเตรียมไฟล์...</h1>
+    </div>
+  )
   const [storedPDF, setStoredPDF] = useState<HTMLAnchorElement | null>(null)
 
   const [initmember, setInitMember] = useState(false)
