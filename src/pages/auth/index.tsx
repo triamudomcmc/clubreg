@@ -14,7 +14,7 @@ import { useTimer } from "@utilities/timers"
 const Auth = ({ query }) => {
   const { onReady, signout } = useAuth()
   const { addToast } = useToast()
-  const [action, setAction] = useState("register" in query ? "register" : "login")
+  const [action, setAction] = useState("register" in query ? "register" : "forgot" in query ? "forgot" : "login")
   const [loader, setLoader] = useState(false)
   const timer = useTimer(startOldClub)
 
@@ -62,6 +62,18 @@ const Auth = ({ query }) => {
       { shallow: true }
     )
     setAction("register")
+  }
+
+  const goForgot = () => {
+    Router.push(
+      {
+        pathname: "",
+        query: "forgot",
+      },
+      undefined,
+      { shallow: true }
+    )
+    setAction("forgot")
   }
 
   useEffect(() => {
@@ -143,20 +155,13 @@ const Auth = ({ query }) => {
             ต้องยืนยันตัวตนและสร้างบัญชีใหม่ทั้งหมด เนื่องจากมีการออกแบบระบบใหม่
           </p>
         </DefaultCard> */}
-         <DefaultCard>
+        <DefaultCard>
           <p className="font-normal">
             นักเรียน ม.5 และ ม.6 ในปีการศึกษา 2565 ที่เข้ามายืนยันสิทธิ์ชมรมเดิม จะต้องใช้บัญชีเดิมในการเข้าสู่ระบบ
           </p>
         </DefaultCard>
         {action == "login" && (
-          <LoginSection
-            query={query}
-            primaryAction={goRegister}
-            secAction={() => {
-              setAction("forgot")
-            }}
-            setLoader={setLoader}
-          />
+          <LoginSection query={query} primaryAction={goRegister} secAction={goForgot} setLoader={setLoader} />
         )}
         {action == "waiting" && (
           <div className="mt-6 flex flex-col items-center pt-8">
@@ -195,12 +200,7 @@ const Auth = ({ query }) => {
               ระบบจะเปิดให้เข้าสู่ระบบเพื่อยืนยันสิทธิ์ชมรมเดิมพร้อมกันในวันที่ 5 พ.ค. 2565 เวลา 11.30 น.
             </p>
             <div className="mt-2 flex w-full flex-row justify-center">
-              <span
-                onClick={() => {
-                  setAction("forgot")
-                }}
-                className="cursor-pointer text-TUCMC-pink-400"
-              >
+              <span onClick={goForgot} className="cursor-pointer text-TUCMC-pink-400">
                 ลืมรหัสผ่าน
               </span>
             </div>
