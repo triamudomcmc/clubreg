@@ -48,3 +48,9 @@ export const getMembers = async (req) => {
 
   return filterMembersData(members.docs, req)
 }
+
+export const getAllMembers = async (req) => {
+  const members = await initialisedDB.collection("data").where(`club`, "==", req.body.panelID).get()
+
+  return filterMembersData(members.docs, req)
+}

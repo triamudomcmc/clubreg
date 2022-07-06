@@ -10,6 +10,12 @@ export const fetchMembers = async (
   return await request("database/panel", "fetchMembers", { panelID: panelID, audition: audition })
 }
 
+export const fetchAllMembers = async (
+  panelID
+): Promise<{ status: boolean; report: string; data: Array<LooseTypeObject<any>> }> => {
+  return await request("database/panel", "fetchAllMembers", { panelID: panelID })
+}
+
 export const submitPending = async (panelID, tasks): Promise<{ status: boolean; report: string }> => {
   return await request("database/panel", "submitPending", { panelID: panelID, tasks: tasks })
 }

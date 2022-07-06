@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
-import { fetchMembers } from "@client/fetcher/panel"
+import { fetchAllMembers, fetchMembers } from "@client/fetcher/panel"
 import { useAuth } from "@client/auth"
 import { useToast } from "@components/common/Toast/ToastContext"
 import Router from "next/router"
@@ -20,7 +20,7 @@ const fetchMemberData = async (
   setInitMem,
   setCount
 ) => {
-  const data = await fetchMembers(panelID, false)
+  const data = await fetchAllMembers(panelID)
 
   let sorted = {
     m4: [],

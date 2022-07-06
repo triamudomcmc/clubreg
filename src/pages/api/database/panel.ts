@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import initialisedDB from "@server/firebase-admin"
-import { fetchPanel } from "@server/fetchers/panel"
+import { fetchPanel, fetchtAllMembers } from "@server/fetchers/panel"
 import { submitPending } from "@server/panel/submitPending"
 import { updatePosition } from "@server/panel/updatePosition"
 import { updateUser } from "@server/panel/updateUser"
@@ -22,6 +22,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       switch (req.body.action) {
         case "fetchMembers": {
           const output = await fetchPanel(req, res)
+          res.json(output)
+          break
+        }
+        case "fetchAllMembers": {
+          const output = await fetchtAllMembers(req, res)
           res.json(output)
           break
         }
