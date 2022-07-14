@@ -25,6 +25,7 @@ import {
   CheckCircleIcon,
 } from "@heroicons/react/outline"
 import { ChevronDownIcon, StarIcon } from "@heroicons/react/solid"
+import { BeakerIcon } from "@heroicons/react/outline"
 import Modal from "@components/common/Modals"
 import { isEmpty } from "@utilities/object"
 
@@ -120,8 +121,8 @@ const Navigation = () => {
               <Link passHref href="/">
                 <a className="text-white">หน้าแรก</a>
               </Link>
-              <Link passHref href="/instructions">
-                <a className="text-white">วิธีใช้</a>
+              <Link passHref href="/dummy">
+                <a className="text-white">ทดลองเล่นระบบ</a>
               </Link>
               <Link passHref href="/clubs">
                 <a className="text-white">ชมรม</a>
@@ -129,7 +130,7 @@ const Navigation = () => {
               <Link passHref href="/FAQ">
                 <a className="text-white">FAQ</a>
               </Link>
-              <Link passHref href="/TUCMC">
+              <Link passHref href="https://clubs.triamudom.ac.th">
                 <a className="text-white">กช.</a>
               </Link>
               <Link passHref href="/contact">
@@ -249,6 +250,17 @@ const Navigation = () => {
             <span className={getClass("/", "font")}>หน้าแรก</span>
           </a>
         </Link>
+        <Link passHref href="/dummy">
+          <a
+            className={classnames(
+              "flex flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8",
+              getClass("/dummy/select", "bg")
+            )}
+          >
+            <BeakerIcon className={classnames("h-7 w-7", getClass("/dummy/select", "icon"))} />{" "}
+            <span className={getClass("/dummy/select", "font")}>ทดลองเล่นระบบ</span>
+          </a>
+        </Link>
         {!logged ? (
           <Link passHref href="/auth">
             <a
@@ -354,7 +366,7 @@ const Navigation = () => {
             <span className={getClass("/clubs", "font")}>รายชื่อชมรม</span>
           </a>
         </Link>
-        <Link passHref href="/instructions">
+        <Link passHref href="/dummy">
           <a
             className={classnames(
               "flex flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8",
@@ -362,7 +374,7 @@ const Navigation = () => {
             )}
           >
             <CalendarIcon className={classnames("h-7 w-7", getClass("/instructions", "icon"))} />{" "}
-            <span className={getClass("/info", "font")}>วิธีลงทะเบียน</span>
+            <span className={getClass("/info", "font")}>ระบบจำลอง</span>
           </a>
         </Link>
         <Link passHref href="/FAQ">
@@ -376,15 +388,15 @@ const Navigation = () => {
             <span className={getClass("/FAQ", "font")}>คำถามที่พบบ่อย</span>
           </a>
         </Link>
-        <Link passHref href="/TUCMC">
+        <Link passHref href="https://clubs.triamudom.ac.th">
           <a
             className={classnames(
               "flex flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8",
-              getClass("/TUCMC", "bg")
+              getClass("https://clubs.triamudom.ac.th", "bg")
             )}
           >
-            <LogoIcon className={classnames("h-7 w-7", getClass("/TUCMC", "icon"))} />{" "}
-            <span className={getClass("/TUCMC", "font")}>ทำความรู้จัก กช.</span>
+            <LogoIcon className={classnames("h-7 w-7", getClass("https://clubs.triamudom.ac.th", "icon"))} />{" "}
+            <span className={getClass("https://clubs.triamudom.ac.th", "font")}>ทำความรู้จัก กช.</span>
           </a>
         </Link>
         <Link passHref href="/contact">

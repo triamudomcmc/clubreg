@@ -32,7 +32,7 @@ const DataModal = ({ state, setLoader, TriggerDep, closeFunc, refetcher, mode = 
     try {
       let res
       if (action === "register") {
-        res = await regClub(phone, password, state.data.clubID, !!state.data.oldClubConfirm)
+        res = await regClub(phone, password, state.data.clubID, false)
       }
       if (action === "confirm") {
         res = await confirmClub(phone, password, state.data.clubID)
@@ -130,6 +130,14 @@ const DataModal = ({ state, setLoader, TriggerDep, closeFunc, refetcher, mode = 
               icon: "cross",
               title: "ขออภัยคุณได้เลือกชมรมนี้ไปแล้ว",
               text: "กรุณาเลือกชมรมอื่นที่ยังว่างอยู่ในตอนนี้",
+            })
+            break
+          case "concurrent":
+            addToast({
+              theme: "modern",
+              icon: "cross",
+              title: "มีคำขอจำนวนมากถูกส่งเข้าสู่ระบบ",
+              text: "ขณะนี้มีคำขอที่ถูกส่งมาจำนวนมากในระบบ รบกวนกดส่งอีกครั้ง หากยังเจอข้อความนี้อีกให้ลองกดส่งอีกครั้ง",
             })
             break
           case "in_audition":

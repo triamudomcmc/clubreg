@@ -87,8 +87,8 @@ const PendingSection = ({
       <div className="space-y-2">
         <h1 className="text-center text-4xl">รอการตอบรับ</h1>
         <p className="text-center text-TUCMC-gray-700">
-          สามารถรับสมาชิกใหม่ได้ทั้งหมด {clubData.new_count_limit} คน (เหลืออีก{" "}
-          {clubData.new_count_limit - memberData.passed.length} คน)
+          สามารถรับสมาชิกใหม่ได้ทั้งหมด {clubData.new_count_limit} คน จากผู้สมัคร {memberData?.waiting?.length} คน
+          (เหลืออีก {clubData.new_count_limit - memberData.passed.length} คน)
         </p>
       </div>
       <div className="w-full max-w-6xl">

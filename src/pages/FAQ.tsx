@@ -1,7 +1,7 @@
 import PageContainer from "@components/common/PageContainer"
 import { FAQSplash } from "@vectors/decorations/FAQSplash"
 import Footer from "@components/common/Footer"
-import { AnimateSharedLayout, motion } from "framer-motion"
+import { motion } from "framer-motion"
 import React, { useEffect, useState } from "react"
 import { GetStaticProps } from "next"
 import * as fs from "fs"
@@ -11,6 +11,7 @@ import Router, { useRouter } from "next/router"
 import { FAQCategory } from "@components/FAQ/FAQCategory"
 import { GroupSearch } from "@components/common/Inputs/Search"
 import { searchKeyword } from "@utilities/object"
+import { DescribeRoute } from "@components/common/Meta/OpenGraph"
 
 const objToArr = (obj: any) => {
   return Object.keys(obj).map((key) => {
@@ -85,8 +86,12 @@ const FAQ = ({ data }) => {
   }, [searchContext])
 
   return (
-    <PageContainer footer={false}>
-      <AnimateSharedLayout>
+    <DescribeRoute
+      title="คำถามที่พบบ่อย"
+      description="หากมีข้อสงสัยเพิ่มเติม กรุณาติดต่องานกิจกรรมพัฒนาผู้เรียน (กช.)"
+      imgURL="/assets/meta/index.jpg"
+    >
+      <PageContainer footer={false}>
         <div className="mx-auto max-w-6xl space-y-6 py-10 px-6 md:py-16 md:pb-24">
           <motion.div layout="position" className="flex w-full flex-col items-center space-y-8">
             <h1 className="text-center text-2xl font-semibold">คำถามที่พบบ่อย</h1>
@@ -119,16 +124,23 @@ const FAQ = ({ data }) => {
 
                 if (Object.keys(item.data).length === 0) return
 
-                return <FAQCategory key={item.group} title={item.group} questions={item.data} />
+                return (
+                  <FAQCategory
+                    searchContext={searchContext}
+                    key={item.group}
+                    title={item.group}
+                    questions={item.data}
+                  />
+                )
               })}
             </div>
           </div>
         </div>
-        <motion.div layout="position" transition={{ delay: 0.05, duration: 0.2 }}>
+        <motion.div>
           <Footer />
         </motion.div>
-      </AnimateSharedLayout>
-    </PageContainer>
+      </PageContainer>
+    </DescribeRoute>
   )
 }
 

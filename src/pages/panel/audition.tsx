@@ -1,5 +1,12 @@
 import PageContainer from "@components/common/PageContainer"
-import { ArrowLeftIcon, CheckIcon, DocumentTextIcon, ExclamationIcon, SelectorIcon, UserGroupIcon } from "@heroicons/react/solid"
+import {
+  ArrowLeftIcon,
+  CheckIcon,
+  DocumentTextIcon,
+  ExclamationIcon,
+  SelectorIcon,
+  UserGroupIcon,
+} from "@heroicons/react/solid"
 import { FilterSearch } from "@components/common/Inputs/Search"
 import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react"
 import { PassedSection } from "@components/panel/sections/PassedSection"
@@ -22,7 +29,14 @@ import PendingSection from "@components/panel/sections/PendingSection"
 import { CatLoader } from "@components/common/CatLoader"
 import { AnimatePresence, motion } from "framer-motion"
 import { WaitingScreen } from "@components/common/WaitingScreen"
-import { announceTime, breakLowerBound, breakUpperBound, editDataTime } from "@config/time"
+import {
+  announceTime,
+  breakLowerBound,
+  breakUpperBound,
+  editDataTime,
+  endAnnounceTime,
+  firstRoundTime,
+} from "@config/time"
 import { Listbox, Transition } from "@headlessui/react"
 import classNames from "classnames"
 
@@ -57,25 +71,29 @@ const fetchMemberData = async (
 
       if ("position" in oitem) {
         item = { ...oitem, id: oitem.position }
-        reservedPos[item.section] = {
-          ...reservedPos[item.section],
-          [item.dataRefID]: item.position
+
+        if (section !== null) {
+          reservedPos[item.section] = {
+            ...reservedPos[item.section],
+            [item.dataRefID]: item.position,
+          }
+        } else {
+          reservedPos[item.dataRefID] = item.position
         }
       }
 
-      if (section !== null && section && oitem.section !== section) {
-
-        if (item.status === "confirmed" || item.status === "rejected") return aobj["passed"].push(item)
-
+      if (item.status === "confirmed" || item.status === "rejected") {
+        aobj["passed"].push(item)
+      } else {
         aobj[item.status].push(item)
-      }else{
+      }
+
+      if ((section !== null && section && oitem.section === section) || section === null) {
         if (item.status === "confirmed" || item.status === "rejected") return obj["passed"].push(item)
 
         obj[item.status].push(item)
       }
     })
-
-    console.log(obj)
 
     setMemberData(obj)
     setAllMembers(aobj)
@@ -139,22 +157,26 @@ const Audition = () => {
   const [pendingUpdate, setPendingUpdate] = useState({})
   const [reservedPos, setReservedPos] = useState({})
   const [clubData, setClubData] = useState({ new_count: 0, new_count_limit: 0, call_count: 0, sections: null })
-  const [clubSectionList, setClubSectionList] = useState([
-    { id: 1, name: null }
-  ])
+  const [clubSectionList, setClubSectionList] = useState([{ id: 1, name: null }])
 
   const [clubSection, setClubSection] = useState(clubSectionList[0])
   const [editing, setEditing] = useState({})
   const [editDep, setEditDep] = useState(false)
   const [pending, setPending] = useState(false)
 
-  const upperBound = breakUpperBound,
-    lowerBound = breakLowerBound
+  // const editable = false
+  const editable = !(new Date().getTime() > editDataTime)
 
-  const editable = true
-  // const editable = !(new Date().getTime() > announceTime)
+  const timer = useTimer(editDataTime)
 
-  const timer = useTimer(lowerBound)
+  useEffect(() => {
+    const curr = new Date().getTime()
+    if (editDataTime > curr) {
+      setTimeout(() => {
+        Router.reload()
+      }, editDataTime - curr)
+    }
+  }, [])
 
   const userData = onReady((logged, userData) => {
     if (!logged) {
@@ -170,39 +192,57 @@ const Audition = () => {
 
   useEffect(() => {
     const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
-    fetchMemberData(currentID, setMemberData, setReservedPos, addToast, reFetch, setInitMember, clubSection.name, setAllMemberData)
+    fetchMemberData(
+      currentID,
+      setMemberData,
+      setReservedPos,
+      addToast,
+      reFetch,
+      setInitMember,
+      clubSection.name,
+      setAllMemberData
+    )
 
     if (clubSection.name === null) return
     localStorage.setItem("selClubSec", JSON.stringify(clubSection))
-
   }, [clubSection.name])
 
   useEffect(() => {
-    
     if (!clubData.sections || clubData.sections.length <= 0) return
 
-    setClubSectionList(clubData.sections.map((e,k) => ({
-      id: k +1,
-      name: e
-    })))
+    setClubSectionList(
+      clubData.sections.map((e, k) => ({
+        id: k + 1,
+        name: e,
+      }))
+    )
 
-
-    const sectionData = JSON.parse(localStorage.getItem("selClubSec")|| "{}")
-      if (sectionData.name) {
-        setClubSection(sectionData)
-      }else{
-        setClubSection(clubData.sections.map((e,k) => ({
-          id: k +1,
-          name: e
-        }))[0])
-      }
-
-  },[ clubData.sections ])
+    const sectionData = JSON.parse(localStorage.getItem("selClubSec") || "{}")
+    if (sectionData.name) {
+      setClubSection(sectionData)
+    } else {
+      setClubSection(
+        clubData.sections.map((e, k) => ({
+          id: k + 1,
+          name: e,
+        }))[0]
+      )
+    }
+  }, [clubData.sections])
 
   const refetch = () => {
     const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
 
-    fetchMemberData(currentID, setMemberData, setReservedPos, addToast, reFetch, setInitMember, clubSection.name, setAllMemberData)
+    fetchMemberData(
+      currentID,
+      setMemberData,
+      setReservedPos,
+      addToast,
+      reFetch,
+      setInitMember,
+      clubSection.name,
+      setAllMemberData
+    )
     fetchClubData(currentID, setClubData)
   }
 
@@ -252,13 +292,12 @@ const Audition = () => {
       addToast({
         theme: "modern",
         icon: "cross",
-        title: "ไม่มีข้อมูลที่จะอัพเดท",
+        title: "ไม่มีข้อมูลที่จะอัปเดท",
         text: "กรุณาเลือกสถานะให้ผู้สมัครก่อนกดส่งข้อมูล",
       })
       setPending(false)
       return
     }
-
 
     const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
     const res = await submitPending(currentID, pendingUpdate)
@@ -267,8 +306,8 @@ const Audition = () => {
       addToast({
         theme: "modern",
         icon: "tick",
-        title: "อัพเดทข้อมูลสำเร็จแล้ว",
-        text: "ข้อมูลที่ถูกส่งไป ได้รับการอัพเดทบนฐานข้อมูลแล้ว",
+        title: "อัปเดทข้อมูลสำเร็จแล้ว",
+        text: "ข้อมูลที่ถูกส่งไป ได้รับการอัปเดทบนฐานข้อมูลแล้ว",
       })
     } else {
       switch (res.report) {
@@ -302,7 +341,7 @@ const Audition = () => {
           addToast({
             theme: "modern",
             icon: "cross",
-            title: "ไม่มีข้อมูลที่จะอัพเดท",
+            title: "ไม่มีข้อมูลที่จะอัปเดท",
             text: "กรุณาเลือกสถานะให้ผู้สมัครก่อนกดส่งข้อมูล",
           })
           break
@@ -337,7 +376,7 @@ const Audition = () => {
     description = (
       <div className="mt-6 mb-8 text-center tracking-tight">
         <p>สรุปผลการ Audition ให้เสร็จสิ้น </p>
-        <p>ภายในวันที่ 14 มิ.ย. เวลา 23.59 น. </p>
+        <p>ภายในวันที่ 25 มิ.ย. เวลา 6.00 น. </p>
         <p>
           (เหลืออีก {timer.day} วัน {timer.hour} ชั่วโมง {timer.min} นาที)
         </p>
@@ -370,6 +409,7 @@ const Audition = () => {
         <p>ระบบจะสละสิทธิ์ให้อัตโนมัติ</p>
       </div>
     )
+    //w
 
     button = (
       <div className="flex items-center space-x-4 rounded-md border border-TUCMC-gray-600 border-opacity-90 px-6 py-4">
@@ -384,7 +424,7 @@ const Audition = () => {
     )
   }
 
-  return new Date().getTime() > upperBound || new Date().getTime() < lowerBound ? (
+  return (
     <PageContainer hide={!initmember}>
       <Editor
         userData={editing}
@@ -432,74 +472,79 @@ const Audition = () => {
                 {button}
               </div>
               <div className="mt-14 flex flex-col px-3">
-              <div className="flex justify-left mb-6 px-2">
-                  <div className="flex items-center space-x-3">
-                    <h1>ส่วนที่กำลังแก้ไข : </h1>
-                    <div className="">
-            <Listbox value={clubSection} onChange={setClubSection}>
-              {({ open }) => (
-                <>
-                  <div className="relative mt-1 z-20">
-                    <Listbox.Button className="focus:outline-none relative w-full cursor-default rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 text-left text-lg shadow-sm focus:border-TUCMC-pink-500 focus:ring-1 focus:ring-TUCMC-pink-500">
-                      <span className="block truncate">{clubSection?.name}</span>
-                      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                        <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                      </span>
-                    </Listbox.Button>
-
-                    <Transition
-                      show={open}
-                      as={Fragment}
-                      leave="transition ease-in duration-100"
-                      leaveFrom="opacity-100"
-                      leaveTo="opacity-0"
-                    >
-                      <Listbox.Options
-                        static
-                        className="focus:outline-none absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-lg shadow-lg ring-1 ring-black ring-opacity-5"
-                      >
-                        {clubSectionList.map((person) => (
-                          <Listbox.Option
-                            key={person.id}
-                            className={({ active }) =>
-                              classNames(
-                                active ? "bg-TUCMC-pink-600 text-white" : "text-gray-900",
-                                "relative cursor-default select-none py-2 pl-3 pr-9"
-                              )
-                            }
-                            value={person}
-                          >
-                            {({ selected, active }) => (
-                              <>
-                                <span
-                                  className={classNames(selected ? "font-semibold" : "font-normal", "block truncate")}
-                                >
-                                  {person.name}
-                                </span>
-
-                                {selected ? (
-                                  <span
-                                    className={classNames(
-                                      active ? "text-white" : "text-TUCMC-pink-600",
-                                      "absolute inset-y-0 right-0 flex items-center pr-4"
-                                    )}
-                                  >
-                                    <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                {clubSectionList[0].name !== null && (
+                  <div className="justify-left mb-6 flex px-2">
+                    <div className="flex items-center space-x-3">
+                      <h1>ส่วนที่กำลังแก้ไข : </h1>
+                      <div className="">
+                        <Listbox value={clubSection} onChange={setClubSection}>
+                          {({ open }) => (
+                            <>
+                              <div className="relative z-20 mt-1">
+                                <Listbox.Button className="focus:outline-none relative w-full cursor-default rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 text-left text-lg shadow-sm focus:border-TUCMC-pink-500 focus:ring-1 focus:ring-TUCMC-pink-500">
+                                  <span className="block truncate">{clubSection?.name}</span>
+                                  <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                                    <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                                   </span>
-                                ) : null}
-                              </>
-                            )}
-                          </Listbox.Option>
-                        ))}
-                      </Listbox.Options>
-                    </Transition>
-                  </div>
-                </>
-              )}
-            </Listbox>
+                                </Listbox.Button>
+
+                                <Transition
+                                  show={open}
+                                  as={Fragment}
+                                  leave="transition ease-in duration-100"
+                                  leaveFrom="opacity-100"
+                                  leaveTo="opacity-0"
+                                >
+                                  <Listbox.Options
+                                    static
+                                    className="focus:outline-none absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-lg shadow-lg ring-1 ring-black ring-opacity-5"
+                                  >
+                                    {clubSectionList.map((person) => (
+                                      <Listbox.Option
+                                        key={person.id}
+                                        className={({ active }) =>
+                                          classNames(
+                                            active ? "bg-TUCMC-pink-600 text-white" : "text-gray-900",
+                                            "relative cursor-default select-none py-2 pl-3 pr-9"
+                                          )
+                                        }
+                                        value={person}
+                                      >
+                                        {({ selected, active }) => (
+                                          <>
+                                            <span
+                                              className={classNames(
+                                                selected ? "font-semibold" : "font-normal",
+                                                "block truncate"
+                                              )}
+                                            >
+                                              {person.name}
+                                            </span>
+
+                                            {selected ? (
+                                              <span
+                                                className={classNames(
+                                                  active ? "text-white" : "text-TUCMC-pink-600",
+                                                  "absolute inset-y-0 right-0 flex items-center pr-4"
+                                                )}
+                                              >
+                                                <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                              </span>
+                                            ) : null}
+                                          </>
+                                        )}
+                                      </Listbox.Option>
+                                    ))}
+                                  </Listbox.Options>
+                                </Transition>
+                              </div>
+                            </>
+                          )}
+                        </Listbox>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
                 <div className="flex w-full px-3 font-medium text-TUCMC-gray-400">
                   <div
                     onClick={() => {
@@ -557,7 +602,7 @@ const Audition = () => {
                   display={section === "reserved"}
                   editable={editable}
                   editFunc={edit}
-                  callCount={clubData.call_count}
+                  callCount={clubSection.name === null ? clubData.call_count : 0}
                 />
                 <FailedSection
                   userData={section === "failed" ? sortedData : []}
@@ -591,8 +636,6 @@ const Audition = () => {
         )}
       </AnimatePresence>
     </PageContainer>
-  ) : (
-    <WaitingScreen target={upperBound} />
   )
 }
 

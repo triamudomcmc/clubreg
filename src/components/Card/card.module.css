@@ -2,7 +2,7 @@
   --width: 400px;
   --ratio: calc(var(--width) / 329);
   width: var(--width);
-  height: calc(var(--width) * 570 / 329);
+  height: calc(var(--width) * 600 / 329);
   border-radius: calc(var(--ratio) * 6);
 }
 
@@ -12,6 +12,10 @@
 
 .text138 {
   font-size: calc(var(--ratio) * 13.8);
+}
+
+.textyear {
+  font-size: calc(var(--ratio) * 12);
 }
 
 .px17 {
@@ -77,4 +81,9 @@
   position: absolute;
   bottom: calc(var(--ratio) * 14);
   padding-right: calc(var(--ratio) * 13);
+}
+.mt2-left {
+  position: absolute;
+  bottom: calc(var(--ratio) * 14);
+  padding-left: calc(var(--ratio) * 13);
 }

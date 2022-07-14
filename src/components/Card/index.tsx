@@ -104,15 +104,24 @@ export const CustomCard = ({ width, clubData, panelID }) => {
   )
 }
 
-export const Card = ({ width, userData, clubData }) => {
+export const Card = ({ width, userData, clubData, customURL = "" }) => {
   useEffect(() => {
-    if (userData && userData.cardID) {
+    if ((userData && userData.cardID) || customURL !== "") {
       const canvas = document.getElementById("qrCode")
-      QRCode.toCanvas(canvas, `https://register.clubs.triamudom.ac.th/card/${userData.cardID}`, {
-        errorCorrectionLevel: "L",
-        margin: 1.2,
-      })
+      if (customURL !== "") {
+        QRCode.toCanvas(canvas, customURL, {
+          errorCorrectionLevel: "L",
+          margin: 1.2,
+        })
+      } else {
+        QRCode.toCanvas(canvas, `https://register.clubs.triamudom.ac.th/card/${userData.cardID}`, {
+          errorCorrectionLevel: "L",
+          margin: 1.2,
+        })
+      }
     }
+
+    console.log(clubData)
   }, [userData])
 
   return (
@@ -129,9 +138,12 @@ export const Card = ({ width, userData, clubData }) => {
         <canvas id="qrCode" className={css.qrCode}></canvas>
       </div>
       <div className="flex w-full flex-col items-center bg-TUCMC-gray-100">
-        <h1 className={classnames(css.text138, "text-TUCMC-700 w-full text-center tracking-tight", css.px17, css.mt18)}>
-          ชมรม{clubMap[userData.club]}
-        </h1>
+        <div
+          className={classnames(css.text138, "text-TUCMC-700 w-full text-center tracking-tight", css.px17, css.mt18)}
+        >
+          <p className={classnames(css.textyear, "font-normal text-TUCMC-gray-600")}>ปีการศึกษา 2565</p>
+          <h1>ชมรม{clubMap[userData.club]}</h1>
+        </div>
         <span className={classnames(css.greenbutt, "rounded-full bg-TUCMC-green-400 tracking-tight text-white")}>
           ลงทะเบียนสำเร็จ
         </span>

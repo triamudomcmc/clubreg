@@ -13,8 +13,9 @@ import classnames from "classnames"
 import { useEffect, useRef, useState } from "react"
 import { isEmpty } from "@utilities/object"
 import Image from "next/image"
+import { IClubListData } from "pages/select"
 
-const ClubModal = ({ state, userData, closeAction, action, thumbPaths, confirmOldClub }) => {
+const ClubModal = ({ state, userData, closeAction, action, clubList, confirmOldClub }) => {
   const ref = useRef(null)
   const [hidden, setHidden] = useState(true)
   const [dataState, setDataState] = useState(state.data)
@@ -91,21 +92,8 @@ const ClubModal = ({ state, userData, closeAction, action, thumbPaths, confirmOl
     </div>
   )
 
-  if (userData && userData.old_club === dataState.clubID && dataState.old_count < dataState.old_count_limit) {
-    notAuButt = (
-      <div
-        onClick={confirmOldClub}
-        className="flex cursor-pointer items-center justify-center space-x-2 rounded-lg bg-TUCMC-green-400 py-4 text-lg text-white"
-      >
-        <CheckCircleIcon className="h-5 w-5" />
-        <span>ยืนยันสิทธิ์ชมรมเดิม</span>
-      </div>
-    )
-  }
-
-  const imagePath =
-    dataState.clubID &&
-    (dataState.clubID.includes("_") ? `${dataState.clubID.split("_")[0]}.jpg` : `${dataState.clubID}.jpg`)
+  const imageID =
+    dataState.clubID && (dataState.clubID.includes("_") ? `${dataState.clubID.split("_")[0]}` : `${dataState.clubID}`)
 
   const dataURL =
     dataState.clubID &&
@@ -145,18 +133,18 @@ const ClubModal = ({ state, userData, closeAction, action, thumbPaths, confirmOl
           <div className="flex w-full flex-col bg-white">
             {
               //preload thumbnails with Image tag
-              thumbPaths.map((val) => {
+              (clubList as IClubListData[]).map((val) => {
                 return (
-                  <div key={`div${val}`} className={classnames(imagePath === val ? "block" : "hidden")}>
+                  <div key={`div${val}`} className={classnames(imageID === val.clubID ? "block" : "hidden")}>
                     <Image
                       priority={true}
-                      key={val}
+                      key={val.clubID}
                       className="w-full object-cover"
                       width="448"
                       height="252"
-                      src={`/assets/thumbnails/${val}`}
+                      src={val.imageURL}
                       placeholder="blur"
-                      blurDataURL={`/assets/thumbnails/${val}`}
+                      blurDataURL={val.imageURL}
                     />
                   </div>
                 )

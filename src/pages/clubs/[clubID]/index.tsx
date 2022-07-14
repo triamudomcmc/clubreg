@@ -18,6 +18,7 @@ import { ClubDisplay } from "@interfaces/clubDisplay"
 import initialisedDB from "@server/firebase-admin"
 import { ClubDisplaySection } from "@components/clubs/ClubDisplay"
 import { AnimateSharedLayout } from "framer-motion"
+import { DescribeRoute } from "@components/common/Meta/OpenGraph"
 
 const parseText = (text) => {
   return "<p>" + text.replace(/\n{2,}/g, "</p><p>").replace(/\n/g, "<br>")
@@ -93,20 +94,28 @@ const Page = ({ data, clubID, clubList, clubDisplay }) => {
   // }
 
   return (
-    <PageContainer>
-      <AnimateSharedLayout>
-        <ClubDisplaySection
-          clubID={clubID}
-          clubDisplay={clubDisplay}
-          suggestions={allowedSugg}
-          imgLoading={imgLoading}
-        />
-      </AnimateSharedLayout>
-    </PageContainer>
+    <DescribeRoute
+      title={`ชมรม${clubDisplay.nameTH}`}
+      /* clean up html tags*/
+      description={clubDisplay.description.replace(/<\/?[^>]+(>|$)/g, "")}
+      imgURL={clubDisplay?.images?.mainImage || `/assets/thumbnails/${clubID}.jpg`}
+    >
+      <PageContainer>
+        <AnimateSharedLayout>
+          <ClubDisplaySection
+            clubID={clubID}
+            clubDisplay={clubDisplay}
+            suggestions={allowedSugg}
+            imgLoading={imgLoading}
+          />
+        </AnimateSharedLayout>
+      </PageContainer>
+    </DescribeRoute>
   )
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  // const clubDisplayDocs = await initialisedDB.collection("clubDisplayPending").get()
   const clubDisplayDocs = await initialisedDB.collection("clubDisplay").get()
 
   // const files = fs.readdirSync("./_map/clubs/")

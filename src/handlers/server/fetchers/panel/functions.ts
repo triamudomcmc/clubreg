@@ -39,11 +39,18 @@ const filterMembersData = (members, req) => {
 
 export const getMembers = async (req) => {
   let members
+
   if (req.body.audition) {
     members = await initialisedDB.collection("data").where(`audition.${req.body.panelID}`, "!=", "").get()
   } else {
     members = await initialisedDB.collection("data").where(`club`, "==", req.body.panelID).get()
   }
+
+  return filterMembersData(members.docs, req)
+}
+
+export const getAllMembers = async (req) => {
+  const members = await initialisedDB.collection("data").where(`club`, "==", req.body.panelID).get()
 
   return filterMembersData(members.docs, req)
 }

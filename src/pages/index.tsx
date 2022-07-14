@@ -1,25 +1,27 @@
 import IndexSplash from "@vectors/decorations/IndexSplash"
 import React, { useEffect, useState } from "react"
 import PageContainer from "@components/common/PageContainer"
-import { InformationCircleIcon } from "@heroicons/react/solid"
+import { ChevronDoubleDownIcon, ExclamationIcon, InformationCircleIcon } from "@heroicons/react/solid"
 import { Button } from "@components/common/Inputs/Button"
 import Timeline from "@components/index/Timeline"
 import FAQ from "@components/index/FAQ"
 import Clubs from "@components/index/Clubs"
 import Footer from "@components/common/Footer"
-import { AnimateSharedLayout, motion } from "framer-motion"
+import { motion } from "framer-motion"
 import { useTimer } from "@utilities/timers"
 import Router from "next/router"
 import { endLastRound, endOldClub, endRegClubTime, openTime, startOldClub } from "@config/time"
 import Image from "next/image"
 import { useAuth } from "@client/auth"
 import { Data } from "framer"
+import { DescribeRoute } from "@components/common/Meta/OpenGraph"
 
 const Index = () => {
   // const goal = openTime
-  const goal = startOldClub
+  const goal = openTime
 
   const timer = useTimer(goal)
+  const [changeAlert, setChangeAlert] = useState(false)
   const { onReady } = useAuth()
 
   const [button, setButton] = useState(new Date().getTime() >= goal)
@@ -29,7 +31,10 @@ const Index = () => {
       // Router.push("/auth")
       return "no_login"
     } else if (userData.club === "") {
-      // Router.push("/select")
+      if (new Date().getTime() >= openTime) {
+        Router.push("/select")
+        return "no_club"
+      }
       // return userData
       if (new Date().getTime() < endOldClub && new Date().getTime() > startOldClub) {
         //  not during old club time
@@ -44,19 +49,13 @@ const Index = () => {
     // return userData
   })
 
-  useEffect(() => {
-    const currentTime = new Date().getTime()
-
-    if (currentTime < goal) {
-      setTimeout(() => {
-        Router.reload()
-      }, goal - currentTime)
-    }
-  }, [])
-
   return (
-    <PageContainer footer={false}>
-      <AnimateSharedLayout>
+    <DescribeRoute
+      title="ระบบลงทะเบียนชมรม โรงเรียนเตรียมอุดมศึกษา"
+      description="ระบบจะเปิดให้ลงทะเบียนชมรมในวันที่ 17 พ.ค. 2565 เวลา 12.00 น."
+      imgURL="/assets/meta/index.jpg"
+    >
+      <PageContainer footer={false}>
         <div className="h-full bg-TUCMC-pink-400">
           <div className="flex justify-center">
             <div className="mx-8 flex flex-col items-center px-8 md:w-full md:max-w-6xl md:flex-row-reverse md:justify-between md:py-0 lg:py-20 xl:px-0">
@@ -142,8 +141,8 @@ const Index = () => {
                   <p>ในวันที่ 7 มิ.ย. 2564 เวลา 12.30 น.</p>
                 </div> */}
                 <div className="hidden px-1 font-medium text-white md:block">
-                  <p>ระบบจะเปิดให้ยืนยันสิทธิ์ชมรมเดิม</p>
-                  <p>ในวันที่ 5 พ.ค. 2565 เวลา 11.30 น.</p>
+                  <p>ระบบจะเปิดให้ลงทะเบียนชมรม</p>
+                  <p>ในวันที่ 17 พ.ค. 2565 เวลา 12.00 น.</p>
                 </div>
               </div>
             </div>
@@ -221,8 +220,8 @@ const Index = () => {
                   <p>ในวันที่ 7 มิ.ย. 2564 เวลา 12.30 น.</p>
                 </div> */}
                 <div className="font-medium">
-                  <p>ระบบจะเปิดให้ยืนยันสิทธิ์ชมรมเดิม</p>
-                  <p>ในวันที่ 5 พ.ค. 2565 เวลา 11.30 น.</p>
+                  <p>ระบบจะเปิดให้ลงทะเบียนชมรม</p>
+                  <p>ในวันที่ 17 พ.ค. 2565 เวลา 12.00 น.</p>
                 </div>
               </div>
             </div>
@@ -252,11 +251,11 @@ const Index = () => {
                     </Button>
                     <Button
                       type="div"
-                      href="/instructions"
+                      href="/dummy"
                       className="flex flex-row items-center justify-between rounded-xl bg-white px-7 py-5 shadow-lg md:rounded-lg"
                     >
                       <div className="w-1/2 flex-shrink-0">
-                        <h1 className="text-5xl font-bold tracking-tighter text-TUCMC-pink-400">วิธีใช้</h1>
+                        <h1 className="text-5xl font-bold tracking-tighter text-TUCMC-pink-400">ลองใช้</h1>
                       </div>
                       <img className="w-36 md:w-32" src="/assets/images/menu2.png" />
                     </Button>
@@ -294,12 +293,12 @@ const Index = () => {
         <motion.div layout="position">
           <Footer />
         </motion.div>
-      </AnimateSharedLayout>
-      {/*inject Image for preloading*/}
-      <div className="hidden">
-        <Image priority={true} src="/assets/loaders/cat.gif" width={85} height={69} />
-      </div>
-    </PageContainer>
+        {/*inject Image for preloading*/}
+        <div className="hidden">
+          <Image priority={true} src="/assets/loaders/cat.gif" width={85} height={69} />
+        </div>
+      </PageContainer>
+    </DescribeRoute>
   )
 }
 

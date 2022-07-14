@@ -50,6 +50,7 @@ export const Accordion: FC<{ defaultExpanded?: boolean; title: string; id?: stri
       <motion.div
         role="region"
         id={id ? `${id}-panel` : null}
+        layoutId="FAQ"
         aria-labelledby={id ? `${id}-header` : null}
         animate={expanded ? "active" : "hidden"}
         variants={DivVariants}

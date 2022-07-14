@@ -6,7 +6,7 @@ export const fetchClubDisplayAction = async (
   res
 ): Promise<{ status: boolean; report?: string; data?: ClubDisplay }> => {
   try {
-    const clubDisplayDoc = initialisedDB.collection("clubDisplay").doc(req.body.clubID)
+    const clubDisplayDoc = initialisedDB.collection("clubDisplayPending").doc(req.body.clubID)
     const out = await clubDisplayDoc.get()
 
     if (!out.exists) {

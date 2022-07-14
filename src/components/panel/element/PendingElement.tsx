@@ -48,6 +48,11 @@ function arrayMax(arr) {
   }, 0)
 }
 
+function arrayMin(arr) {
+  return arr.reduce(function (p, v) {
+    return p < v ? p : v
+  }, 0)
+}
 export const PendingElement = ({
   userData,
   pendingUpdate,
@@ -88,22 +93,38 @@ export const PendingElement = ({
 
   useEffect(() => {
     setWarning(false)
-    setReservedPos((prev) => {
-      delete prev[userData.dataRefID]
-      return prev
-    })
+    if (section.name !== null) {
+      setReservedPos((prev) => {
+        if (!prev[section.name]) return prev
+        delete prev[section.name][userData.dataRefID]
+        return prev
+      })
+    } else {
+      setReservedPos((prev) => {
+        delete prev[userData.dataRefID]
+        return prev
+      })
+    }
 
-    console.log(reservedPos)
     if (pos > 0) {
-      if (
-        !(section.name in reservedPos) ||
-        (!Object.values(reservedPos[section.name]).includes(pos) &&
-          arrayMax(Object.values(reservedPos[section.name])) + 1 >= pos)
-      ) {
-        setAction({ action: "reserved", pos: pos, section: section.name })
-        setReservedPos((prev) => ({ ...prev, [section.name]: { ...prev[section.name], [userData.dataRefID]: pos } }))
+      if (section.name !== null) {
+        if (
+          !(section.name in reservedPos) ||
+          (!Object.values(reservedPos[section.name]).includes(pos) &&
+            arrayMax(Object.values(reservedPos[section.name])) + 1 >= pos)
+        ) {
+          setAction({ action: "reserved", pos: pos, section: section.name })
+          setReservedPos((prev) => ({ ...prev, [section.name]: { ...prev[section.name], [userData.dataRefID]: pos } }))
+        } else {
+          setWarning(true)
+        }
       } else {
-        setWarning(true)
+        if (!Object.values(reservedPos).includes(pos) && arrayMax(Object.values(reservedPos)) + 1 >= pos) {
+          setAction({ action: "reserved", pos: pos })
+          setReservedPos((prev) => ({ ...prev, [userData.dataRefID]: pos }))
+        } else {
+          setWarning(true)
+        }
       }
     } else {
       if (action.action === "reserved") {
@@ -152,12 +173,12 @@ export const PendingElement = ({
   return (
     <div className="flex flex-col rounded-lg bg-white p-5 shadow-md md:flex-row md:items-center md:justify-between">
       <div className="flex flex-shrink-0 flex-col md:flex-row md:items-center">
-        <div className="relative flex flex-row justify-between md:items-center">
-          <h1>
-            {userData.title}
-            {userData.firstname} {userData.lastname}
-          </h1>
-          <div className="absolute right-0 ml-3">
+        <h1>
+          {userData.title}
+          {userData.firstname} {userData.lastname}
+        </h1>
+        {sections !== null && (
+          <div className="ml-3">
             <Listbox value={section} onChange={setSection}>
               {({ open }) => (
                 <>
@@ -178,7 +199,7 @@ export const PendingElement = ({
                     >
                       <Listbox.Options
                         static
-                        className="focus:outline-none absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-lg shadow-lg ring-1 ring-black ring-opacity-5"
+                        className="focus:outline-none absolute z-[10] mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-lg shadow-lg ring-1 ring-black ring-opacity-5"
                       >
                         {people.map((person) => (
                           <Listbox.Option
@@ -220,7 +241,7 @@ export const PendingElement = ({
               )}
             </Listbox>
           </div>
-        </div>
+        )}
         <span className="text-TUCMC-gray-600 md:hidden">
           {userData.student_id} | ม.{userData.level}/{userData.room}
         </span>

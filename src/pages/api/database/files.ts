@@ -3,6 +3,7 @@ import initialisedDB from "@server/firebase-admin"
 import { fetchFiles } from "@server/attendance/fetchFiles"
 import { deleteFile } from "@server/attendance/deleteFile"
 import { getFile } from "@server/attendance/getFile"
+import { printReport } from "@handlers/server/panel/printReport"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req
@@ -24,6 +25,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
         case "getFileTempURL": {
           const data = await getFile(req, res)
+          res.json(data)
+          break
+        }
+        case "printReport": {
+          const data = await printReport(req, res)
           res.json(data)
           break
         }
