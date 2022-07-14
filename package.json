@@ -6,7 +6,8 @@
     "dev": "next dev -p 57823",
     "build": "next build",
     "start": "next start",
-    "format": "prettier . --check --write"
+    "format": "prettier . --check --write",
+    "prepare": "husky install"
   },
   "dependencies": {
     "3d-react-carousal": "^3.1.0",
@@ -74,6 +75,7 @@
     "prettier-plugin-tailwindcss": "^0.1.8",
     "sass": "^1.49.11",
     "tailwindcss": "^2.1.1",
-    "typescript": "^4.2.4"
+    "typescript": "^4.2.4",
+    "husky": "^8.0.0"
   }
 }
