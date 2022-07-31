@@ -21,7 +21,7 @@ export const performUpload = async (req, ID) => {
   }
 
   await initialisedDB.collection("files").add({
-    timestamp: new Date().getTime(),
+    timestamp: req.body.targetTime,
     owner: req.body.panelID,
     filename: decodeURI(req.body.file),
     bucketName: tempFileName,

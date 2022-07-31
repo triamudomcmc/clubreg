@@ -35,8 +35,8 @@ import { getPrevMonday, getRecentMondays } from "@config/time"
 import { convertMiliseconds } from "@utilities/timers"
 import { Listbox, Transition } from "@headlessui/react"
 
-const fetchFilesData = async (fileUpdate, panelID, addToast, reFetch, query) => {
-  const data = await fetchFiles(panelID, query.access || undefined)
+const fetchFilesData = async (fileUpdate, panelID, addToast, reFetch, query, targetTime) => {
+  const data = await fetchFiles(panelID, query.access || undefined, targetTime)
   if (data["status"]) {
     fileUpdate(data["data"].sort((a, b) => a.timestamp - b.timestamp))
   } else {
@@ -101,10 +101,20 @@ const fetchMemberData = async (
   }
 }
 
-const fetchCheckData = async (panelID: string, setCheckData, addToast, reFetch, setInit, query) => {
-  const data = await fetchChecks(panelID, query.access || undefined)
+const fetchCheckData = async (
+  panelID: string,
+  setCheckData,
+  addToast,
+  reFetch,
+  setInit,
+  query,
+  targetTime,
+  setCurtain
+) => {
+  setCurtain(true)
+  const data = await fetchChecks(panelID, query.access || undefined, targetTime)
   if (data.status) {
-    setCheckData(data.data)
+    setCheckData(data.data || {})
     setInit(true)
   } else {
     switch (data.report) {
@@ -128,9 +138,12 @@ const fetchCheckData = async (panelID: string, setCheckData, addToast, reFetch, 
         break
     }
   }
+  setCurtain(false)
 }
 
-const PastMondays = getRecentMondays().map((item, index) => ({ id: index + 1, name: item }))
+const PastMondays = getRecentMondays()
+  .filter((item) => item >= 1653843600000)
+  .map((item, index) => ({ id: index + 1, name: item }))
 
 const Attendance = ({ query }) => {
   const { onReady, reFetch } = useAuth()
@@ -146,6 +159,7 @@ const Attendance = ({ query }) => {
   const { addToast } = useToast()
   const [rawSorted, setRawSorted] = useState([])
   const [sortedData, setSortedData] = useState([])
+  const [curtain, setCurtain] = useState(false)
   const [del, setDel] = useState([])
   const [pending, setPending] = useState(false)
   const [checkData, setCheckData] = useState({})
@@ -220,7 +234,11 @@ const Attendance = ({ query }) => {
     const file = e.target.files[0]
     const filename = encodeURIComponent(file.name)
     const currentID = query.route || localStorage.getItem("currentPanel") || userData.panelID[0]
-    const res = await request("uploader", "uploadFile", { panelID: currentID, file: filename })
+    const res = await request("uploader", "uploadFile", {
+      panelID: currentID,
+      file: filename,
+      targetTime: selected.name,
+    })
 
     const { url, fields } = res.data
     const formData = new FormData()
@@ -247,8 +265,9 @@ const Attendance = ({ query }) => {
 
   const refetch = () => {
     const currentID = query.route || localStorage.getItem("currentPanel") || userData.panelID[0]
-    fetchFilesData(setFiles, currentID, addToast, reFetch, query)
-    fetchCheckData(currentID, setCheckData, addToast, reFetch, setInitClub, query)
+    fetchFilesData(setFiles, currentID, addToast, reFetch, query, selected.name)
+
+    fetchCheckData(currentID, setCheckData, addToast, reFetch, setInitClub, query, selected.name, setCurtain)
   }
 
   useEffect(() => {
@@ -261,7 +280,7 @@ const Attendance = ({ query }) => {
 
   useEffect(() => {
     refetch()
-  }, [selected])
+  }, [selected.name])
 
   const deleteID = async (id) => {
     const currentID = query.route || localStorage.getItem("currentPanel") || userData.panelID[0]
@@ -293,6 +312,8 @@ const Attendance = ({ query }) => {
   useEffect(() => {
     if (!isEmpty(checkData)) {
       setPendingUpdate(checkData)
+    } else {
+      setPendingUpdate({})
     }
   }, [checkData])
 
@@ -322,7 +343,7 @@ const Attendance = ({ query }) => {
       return
     }
 
-    const res = await submitChecks(currentID, pendingUpdate, query.access || undefined)
+    const res = await submitChecks(currentID, pendingUpdate, query.access || undefined, selected.name)
     if (res.status) {
       addToast({
         theme: "modern",
@@ -433,6 +454,11 @@ const Attendance = ({ query }) => {
 
   return (
     <PageContainer hide={!initClub}>
+      {curtain && (
+        <div className="fixed top-0 left-0 z-20 flex min-h-screen w-full items-center justify-center bg-gray-800 bg-opacity-40 backdrop-blur backdrop-filter">
+          <Ellipsis className="h-24" />
+        </div>
+      )}
       {query.access && query.route && query.targetTime && (
         <div className="fixed top-0 left-[50vw] z-[100] mx-auto ml-[-137px]">
           <div className="flex items-center space-x-2 rounded-md bg-TUCMC-red-600 py-2 pl-4 pr-6 shadow-md">
@@ -492,21 +518,21 @@ const Attendance = ({ query }) => {
           <div className="relative bg-TUCMC-gray-100 pt-10 pb-14">
             <h1 className="text-center text-4xl text-TUCMC-gray-900">รายงาน</h1>
 
-            <section className="w-full absolute">
-              <div className="mb-10 max-w-[420px] md:max-w-[720px] mx-auto w-full">
+            <section className="absolute w-full">
+              <div className="z-10 mx-auto mb-10 w-full px-8 md:max-w-[500px]">
                 <Listbox value={selected} onChange={setSelected}>
                   {({ open }) => (
                     <>
-                      <Listbox.Label className="block text-gray-700">ช่วงวันที่ต้องการตรวจสอบ</Listbox.Label>
+                      <Listbox.Label className="block text-gray-700">&nbsp;</Listbox.Label>
                       <div className="relative mt-1">
-                        <Listbox.Button className="focus:outline-none relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left text-lg shadow-sm focus:border-TUCMC-pink-500 focus:ring-1 focus:ring-TUCMC-pink-500">
+                        <Listbox.Button className="focus:outline-none relative flex w-full cursor-default justify-center rounded-md border border-gray-300 bg-TUCMC-gray-700 bg-white py-2 pl-3 pr-10 text-left text-lg text-white shadow-sm focus:border-TUCMC-pink-500 focus:ring-1 focus:ring-TUCMC-pink-500">
                           <span className="block truncate">
                             วันจันทร์ที่ {new Date(selected.name).getDate()}{" "}
                             {month[new Date(selected.name).getMonth() + 1]}{" "}
                             {new Date(selected.name).getFullYear() + 543}
                           </span>
                           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                            <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                            <SelectorIcon className="h-5 w-5 text-white" aria-hidden="true" />
                           </span>
                         </Listbox.Button>
 
