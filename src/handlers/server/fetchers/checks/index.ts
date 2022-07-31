@@ -6,13 +6,17 @@ import { getPrevMonday } from "@config/time"
 const performFetchChecks = async (req, res) => {
   let lastmonday = getPrevMonday()
 
-  if (req.body.accessId) {
-    const accessData = await initialisedDB.collection("temp-tasks").doc(req.body.accessId).get()
-    if (accessData.get("expire") > new Date().getTime()) {
-      lastmonday = accessData.get("targetTime")
-    } else {
-      accessData.ref.delete()
-    }
+  // if (req.body.accessId) {
+  //   const accessData = await initialisedDB.collection("temp-tasks").doc(req.body.accessId).get()
+  //   if (accessData.get("expire") > new Date().getTime()) {
+  //     lastmonday = accessData.get("targetTime")
+  //   } else {
+  //     accessData.ref.delete()
+  //   }
+  // }
+
+  if (req.body.targetTime) {
+    lastmonday = req.body.targetTime
   }
 
   const checks = await initialisedDB.collection("attendance").doc(lastmonday.toString()).get()

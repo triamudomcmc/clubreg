@@ -3,7 +3,7 @@ import { getPrevMonday } from "@config/time"
 
 export const performFetchFiles = async (req, ID) => {
   const files = await initialisedDB.collection("files").where("owner", "==", req.body.panelID).get()
-  let prevMon = getPrevMonday()
+  let prevMon = req.body.targetTime
 
   if (req.body.accessId) {
     const accessData = await initialisedDB.collection("temp-tasks").doc(req.body.accessId).get()

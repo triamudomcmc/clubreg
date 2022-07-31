@@ -6,7 +6,7 @@ import Modal from "@components/common/Modals"
 import { Button } from "@components/common/Inputs/Button"
 import { isEmpty, searchKeyword, sortNumber, sortThaiDictionary } from "@utilities/object"
 import { CatLoader } from "@components/common/CatLoader"
-import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
+import React, { Dispatch, Fragment, SetStateAction, useEffect, useRef, useState } from "react"
 import {
   ArrowCircleDownIcon,
   ArrowLeftIcon,
@@ -18,7 +18,7 @@ import {
   RefreshIcon,
   XCircleIcon,
 } from "@heroicons/react/solid"
-import { XCircleIcon as XOutline } from "@heroicons/react/outline"
+import { CheckIcon, SelectorIcon, XCircleIcon as XOutline } from "@heroicons/react/outline"
 import { FilterSearch } from "@components/common/Inputs/Search"
 import { useAuth } from "@client/auth"
 import Router from "next/router"
@@ -31,11 +31,12 @@ import { CheckElement } from "@components/panel/element/CheckElement"
 import { isNumeric } from "@utilities/texts"
 import { Ellipsis } from "@vectors/Loaders/Ellipsis"
 import { fetchChecks, submitChecks } from "@client/fetcher/checks"
-import { getPrevMonday } from "@config/time"
+import { getPrevMonday, getRecentMondays } from "@config/time"
 import { convertMiliseconds } from "@utilities/timers"
+import { Listbox, Transition } from "@headlessui/react"
 
-const fetchFilesData = async (fileUpdate, panelID, addToast, reFetch, query) => {
-  const data = await fetchFiles(panelID, query.access || undefined)
+const fetchFilesData = async (fileUpdate, panelID, addToast, reFetch, query, targetTime) => {
+  const data = await fetchFiles(panelID, query.access || undefined, targetTime)
   if (data["status"]) {
     fileUpdate(data["data"].sort((a, b) => a.timestamp - b.timestamp))
   } else {
@@ -100,10 +101,20 @@ const fetchMemberData = async (
   }
 }
 
-const fetchCheckData = async (panelID: string, setCheckData, addToast, reFetch, setInit, query) => {
-  const data = await fetchChecks(panelID, query.access || undefined)
+const fetchCheckData = async (
+  panelID: string,
+  setCheckData,
+  addToast,
+  reFetch,
+  setInit,
+  query,
+  targetTime,
+  setCurtain
+) => {
+  setCurtain(true)
+  const data = await fetchChecks(panelID, query.access || undefined, targetTime)
   if (data.status) {
-    setCheckData(data.data)
+    setCheckData(data.data || {})
     setInit(true)
   } else {
     switch (data.report) {
@@ -127,7 +138,12 @@ const fetchCheckData = async (panelID: string, setCheckData, addToast, reFetch, 
         break
     }
   }
+  setCurtain(false)
 }
+
+const PastMondays = getRecentMondays()
+  .filter((item) => item >= 1653843600000)
+  .map((item, index) => ({ id: index + 1, name: item }))
 
 const Attendance = ({ query }) => {
   const { onReady, reFetch } = useAuth()
@@ -143,12 +159,14 @@ const Attendance = ({ query }) => {
   const { addToast } = useToast()
   const [rawSorted, setRawSorted] = useState([])
   const [sortedData, setSortedData] = useState([])
+  const [curtain, setCurtain] = useState(false)
   const [del, setDel] = useState([])
   const [pending, setPending] = useState(false)
   const [checkData, setCheckData] = useState({})
   const [previewURL, setPreviewURL] = useState("")
   const [openPre, setOpenPre] = useState(false)
   const [previewName, setPreviewName] = useState("")
+  const [selected, setSelected] = useState(PastMondays[0])
 
   const userData = onReady((logged, userData) => {
     if (!logged) return Router.push("/auth")
@@ -216,7 +234,11 @@ const Attendance = ({ query }) => {
     const file = e.target.files[0]
     const filename = encodeURIComponent(file.name)
     const currentID = query.route || localStorage.getItem("currentPanel") || userData.panelID[0]
-    const res = await request("uploader", "uploadFile", { panelID: currentID, file: filename })
+    const res = await request("uploader", "uploadFile", {
+      panelID: currentID,
+      file: filename,
+      targetTime: selected.name,
+    })
 
     const { url, fields } = res.data
     const formData = new FormData()
@@ -243,8 +265,9 @@ const Attendance = ({ query }) => {
 
   const refetch = () => {
     const currentID = query.route || localStorage.getItem("currentPanel") || userData.panelID[0]
-    fetchFilesData(setFiles, currentID, addToast, reFetch, query)
-    fetchCheckData(currentID, setCheckData, addToast, reFetch, setInitClub, query)
+    fetchFilesData(setFiles, currentID, addToast, reFetch, query, selected.name)
+
+    fetchCheckData(currentID, setCheckData, addToast, reFetch, setInitClub, query, selected.name, setCurtain)
   }
 
   useEffect(() => {
@@ -254,6 +277,10 @@ const Attendance = ({ query }) => {
       fetchMemberData(currentID, setMemberData, addToast, reFetch, setInitMember)
     }
   }, [userData])
+
+  useEffect(() => {
+    refetch()
+  }, [selected.name])
 
   const deleteID = async (id) => {
     const currentID = query.route || localStorage.getItem("currentPanel") || userData.panelID[0]
@@ -285,6 +312,8 @@ const Attendance = ({ query }) => {
   useEffect(() => {
     if (!isEmpty(checkData)) {
       setPendingUpdate(checkData)
+    } else {
+      setPendingUpdate({})
     }
   }, [checkData])
 
@@ -314,7 +343,7 @@ const Attendance = ({ query }) => {
       return
     }
 
-    const res = await submitChecks(currentID, pendingUpdate, query.access || undefined)
+    const res = await submitChecks(currentID, pendingUpdate, query.access || undefined, selected.name)
     if (res.status) {
       addToast({
         theme: "modern",
@@ -425,6 +454,11 @@ const Attendance = ({ query }) => {
 
   return (
     <PageContainer hide={!initClub}>
+      {curtain && (
+        <div className="fixed top-0 left-0 z-20 flex min-h-screen w-full items-center justify-center bg-gray-800 bg-opacity-40 backdrop-blur backdrop-filter">
+          <Ellipsis className="h-24" />
+        </div>
+      )}
       {query.access && query.route && query.targetTime && (
         <div className="fixed top-0 left-[50vw] z-[100] mx-auto ml-[-137px]">
           <div className="flex items-center space-x-2 rounded-md bg-TUCMC-red-600 py-2 pl-4 pr-6 shadow-md">
@@ -483,7 +517,84 @@ const Attendance = ({ query }) => {
           </Modal>
           <div className="relative bg-TUCMC-gray-100 pt-10 pb-14">
             <h1 className="text-center text-4xl text-TUCMC-gray-900">รายงาน</h1>
-            <div className="absolute -bottom-5 w-full px-4">
+
+            <section className="absolute w-full">
+              <div className="z-10 mx-auto mb-10 w-full px-8 md:max-w-[500px]">
+                <Listbox value={selected} onChange={setSelected}>
+                  {({ open }) => (
+                    <>
+                      <Listbox.Label className="block text-gray-700">&nbsp;</Listbox.Label>
+                      <div className="relative mt-1">
+                        <Listbox.Button className="focus:outline-none relative flex w-full cursor-default justify-center rounded-md border border-gray-300 bg-TUCMC-gray-700 bg-white py-2 pl-3 pr-10 text-left text-lg text-white shadow-sm focus:border-TUCMC-pink-500 focus:ring-1 focus:ring-TUCMC-pink-500">
+                          <span className="block truncate">
+                            วันจันทร์ที่ {new Date(selected.name).getDate()}{" "}
+                            {month[new Date(selected.name).getMonth() + 1]}{" "}
+                            {new Date(selected.name).getFullYear() + 543}
+                          </span>
+                          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                            <SelectorIcon className="h-5 w-5 text-white" aria-hidden="true" />
+                          </span>
+                        </Listbox.Button>
+
+                        <Transition
+                          show={open}
+                          as={Fragment}
+                          leave="transition ease-in duration-100"
+                          leaveFrom="opacity-100"
+                          leaveTo="opacity-0"
+                        >
+                          <Listbox.Options
+                            static
+                            className="focus:outline-none absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-lg shadow-lg ring-1 ring-black ring-opacity-5"
+                          >
+                            {PastMondays.map((PastMonday) => (
+                              <Listbox.Option
+                                key={PastMonday.id}
+                                className={({ active }) =>
+                                  classnames(
+                                    active ? "bg-TUCMC-pink-600 text-white" : "text-gray-900",
+                                    "relative cursor-default select-none py-2 pl-3 pr-9"
+                                  )
+                                }
+                                value={PastMonday}
+                              >
+                                {({ selected, active }) => (
+                                  <>
+                                    <span
+                                      className={classnames(
+                                        selected ? "font-semibold" : "font-normal",
+                                        "block truncate"
+                                      )}
+                                    >
+                                      วันจันทร์ที่ {new Date(PastMonday.name).getDate()}{" "}
+                                      {month[new Date(PastMonday.name).getMonth() + 1]}{" "}
+                                      {new Date(PastMonday.name).getFullYear() + 543}
+                                    </span>
+
+                                    {selected ? (
+                                      <span
+                                        className={classnames(
+                                          active ? "text-white" : "text-TUCMC-pink-600",
+                                          "absolute inset-y-0 right-0 flex items-center pr-4"
+                                        )}
+                                      >
+                                        <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                      </span>
+                                    ) : null}
+                                  </>
+                                )}
+                              </Listbox.Option>
+                            ))}
+                          </Listbox.Options>
+                        </Transition>
+                      </div>
+                    </>
+                  )}
+                </Listbox>
+              </div>
+            </section>
+
+            {/* <div className="absolute -bottom-5 w-full px-4">
               <div className="relative mx-auto flex max-w-md justify-center rounded-lg border border-gray-300 bg-white shadow-sm">
                 <div className="flex h-full w-full justify-end rounded-lg bg-TUCMC-gray-700">
                   <div className="flex w-full justify-center overflow-hidden overflow-clip py-[0.54rem]">
@@ -494,7 +605,7 @@ const Attendance = ({ query }) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="mx-auto max-w-4xl px-4 pt-14 pb-10">
             <div className="space-y-1">
