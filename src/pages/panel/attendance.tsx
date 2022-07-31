@@ -6,7 +6,7 @@ import Modal from "@components/common/Modals"
 import { Button } from "@components/common/Inputs/Button"
 import { isEmpty, searchKeyword, sortNumber, sortThaiDictionary } from "@utilities/object"
 import { CatLoader } from "@components/common/CatLoader"
-import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
+import React, { Dispatch, Fragment, SetStateAction, useEffect, useRef, useState } from "react"
 import {
   ArrowCircleDownIcon,
   ArrowLeftIcon,
@@ -18,7 +18,7 @@ import {
   RefreshIcon,
   XCircleIcon,
 } from "@heroicons/react/solid"
-import { XCircleIcon as XOutline } from "@heroicons/react/outline"
+import { CheckIcon, SelectorIcon, XCircleIcon as XOutline } from "@heroicons/react/outline"
 import { FilterSearch } from "@components/common/Inputs/Search"
 import { useAuth } from "@client/auth"
 import Router from "next/router"
@@ -31,8 +31,9 @@ import { CheckElement } from "@components/panel/element/CheckElement"
 import { isNumeric } from "@utilities/texts"
 import { Ellipsis } from "@vectors/Loaders/Ellipsis"
 import { fetchChecks, submitChecks } from "@client/fetcher/checks"
-import { getPrevMonday } from "@config/time"
+import { getPrevMonday, getRecentMondays } from "@config/time"
 import { convertMiliseconds } from "@utilities/timers"
+import { Listbox, Transition } from "@headlessui/react"
 
 const fetchFilesData = async (fileUpdate, panelID, addToast, reFetch, query) => {
   const data = await fetchFiles(panelID, query.access || undefined)
@@ -129,6 +130,8 @@ const fetchCheckData = async (panelID: string, setCheckData, addToast, reFetch, 
   }
 }
 
+const PastMondays = getRecentMondays().map((item, index) => ({ id: index + 1, name: item }))
+
 const Attendance = ({ query }) => {
   const { onReady, reFetch } = useAuth()
   const [initClub, setInitClub] = useState(false)
@@ -149,6 +152,7 @@ const Attendance = ({ query }) => {
   const [previewURL, setPreviewURL] = useState("")
   const [openPre, setOpenPre] = useState(false)
   const [previewName, setPreviewName] = useState("")
+  const [selected, setSelected] = useState(PastMondays[0])
 
   const userData = onReady((logged, userData) => {
     if (!logged) return Router.push("/auth")
@@ -254,6 +258,10 @@ const Attendance = ({ query }) => {
       fetchMemberData(currentID, setMemberData, addToast, reFetch, setInitMember)
     }
   }, [userData])
+
+  useEffect(() => {
+    refetch()
+  }, [selected])
 
   const deleteID = async (id) => {
     const currentID = query.route || localStorage.getItem("currentPanel") || userData.panelID[0]
@@ -483,7 +491,84 @@ const Attendance = ({ query }) => {
           </Modal>
           <div className="relative bg-TUCMC-gray-100 pt-10 pb-14">
             <h1 className="text-center text-4xl text-TUCMC-gray-900">รายงาน</h1>
-            <div className="absolute -bottom-5 w-full px-4">
+
+            <section className="w-full absolute">
+              <div className="mb-10 max-w-[420px] md:max-w-[720px] mx-auto w-full">
+                <Listbox value={selected} onChange={setSelected}>
+                  {({ open }) => (
+                    <>
+                      <Listbox.Label className="block text-gray-700">ช่วงวันที่ต้องการตรวจสอบ</Listbox.Label>
+                      <div className="relative mt-1">
+                        <Listbox.Button className="focus:outline-none relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left text-lg shadow-sm focus:border-TUCMC-pink-500 focus:ring-1 focus:ring-TUCMC-pink-500">
+                          <span className="block truncate">
+                            วันจันทร์ที่ {new Date(selected.name).getDate()}{" "}
+                            {month[new Date(selected.name).getMonth() + 1]}{" "}
+                            {new Date(selected.name).getFullYear() + 543}
+                          </span>
+                          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                            <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                          </span>
+                        </Listbox.Button>
+
+                        <Transition
+                          show={open}
+                          as={Fragment}
+                          leave="transition ease-in duration-100"
+                          leaveFrom="opacity-100"
+                          leaveTo="opacity-0"
+                        >
+                          <Listbox.Options
+                            static
+                            className="focus:outline-none absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-lg shadow-lg ring-1 ring-black ring-opacity-5"
+                          >
+                            {PastMondays.map((PastMonday) => (
+                              <Listbox.Option
+                                key={PastMonday.id}
+                                className={({ active }) =>
+                                  classnames(
+                                    active ? "bg-TUCMC-pink-600 text-white" : "text-gray-900",
+                                    "relative cursor-default select-none py-2 pl-3 pr-9"
+                                  )
+                                }
+                                value={PastMonday}
+                              >
+                                {({ selected, active }) => (
+                                  <>
+                                    <span
+                                      className={classnames(
+                                        selected ? "font-semibold" : "font-normal",
+                                        "block truncate"
+                                      )}
+                                    >
+                                      วันจันทร์ที่ {new Date(PastMonday.name).getDate()}{" "}
+                                      {month[new Date(PastMonday.name).getMonth() + 1]}{" "}
+                                      {new Date(PastMonday.name).getFullYear() + 543}
+                                    </span>
+
+                                    {selected ? (
+                                      <span
+                                        className={classnames(
+                                          active ? "text-white" : "text-TUCMC-pink-600",
+                                          "absolute inset-y-0 right-0 flex items-center pr-4"
+                                        )}
+                                      >
+                                        <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                      </span>
+                                    ) : null}
+                                  </>
+                                )}
+                              </Listbox.Option>
+                            ))}
+                          </Listbox.Options>
+                        </Transition>
+                      </div>
+                    </>
+                  )}
+                </Listbox>
+              </div>
+            </section>
+
+            {/* <div className="absolute -bottom-5 w-full px-4">
               <div className="relative mx-auto flex max-w-md justify-center rounded-lg border border-gray-300 bg-white shadow-sm">
                 <div className="flex h-full w-full justify-end rounded-lg bg-TUCMC-gray-700">
                   <div className="flex w-full justify-center overflow-hidden overflow-clip py-[0.54rem]">
@@ -494,7 +579,7 @@ const Attendance = ({ query }) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="mx-auto max-w-4xl px-4 pt-14 pb-10">
             <div className="space-y-1">

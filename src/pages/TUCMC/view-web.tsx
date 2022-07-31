@@ -14,7 +14,6 @@ import { ClubData } from "@interfaces/clubData"
 import { CheckIcon, XIcon } from "@heroicons/react/solid"
 import { SelectClub } from "@components/clubs/view-web/SelectClub"
 import { ModalSection } from "@components/clubs/view-web/ModalSection"
-import { delBasePath } from "next/dist/shared/lib/router/router"
 
 const BaseData: ClubData = {
   new_count: 0,
