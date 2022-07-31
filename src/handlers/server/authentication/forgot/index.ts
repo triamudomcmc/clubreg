@@ -35,72 +35,126 @@ export const forgot = async (req, res) => {
   sendSmtpEmail.to = [{ email: `${req.body.email}` }]
   sendSmtpEmail.subject = "มีการขอเปลี่ยนรหัสผ่าน"
   sendSmtpEmail.htmlContent = `
-  <!doctype html>
-<html lang="en-US">
-<head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-    <title>เปลี่ยนรหัสผ่าน</title>
-    <meta name="description" content="เปลี่ยนรหัสผ่าน">
-    <style type="text/css">
-        a:hover {text-decoration: underline !important;}
-    </style>
-</head>
-<body marginheight="0" topmargin="0" marginwidth="0" style="margin: 0px; background-color: #f2f3f8;" leftmargin="0">
-    <!--100% body table-->
-    <table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="#f2f3f8"
-        style="@import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700); font-family: 'Open Sans', sans-serif;">
-        <tr>
-            <td>
-                <table style="background-color: #f2f3f8; max-width:670px;  margin:0 auto;" width="100%" border="0"
-                    align="center" cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td style="height:80px;">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td style="height:20px;">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0"
-                                style="max-width:670px;background:#fff; border-radius:3px; text-align:center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);">
-                                <tr>
-                                    <td style="height:40px;">&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding:0 35px;">
-                                        <h1 style="color:#1e1e2d; font-weight:600; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">มีคำขอแก้ไขรหัสผ่าน</h1>
-                                        <span
-                                            style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
-                                        <p style="color:#718096; font-size:15px;line-height:24px; margin:0;">
-                                            บัญชีของคุณมีคำขอในการแก้ไขรหัสผ่าน หากต้องการดำเนินการต่อกดที่ด้านล่างช้อความนี้เพื่อดำเนินการในขั้นต่อไป คำขอนี้จะมีอายุ 1 ชั่วโมง
-                                        </p>
-                                        <a href="${url}"
-                                            style="background:#f687b3;text-decoration:none !important; font-weight:600; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">เปลี่ยนรหัสผ่าน</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="height:40px;">&nbsp;</td>
-                                </tr>
-                            </table>
-                        </td>
-                    <tr>
-                        <td style="height:20px;">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:center;">
-                            <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;"><strong>งานกิจกรรมพัฒนาผู้เรียน โรงเรียนเตรียมอุดมศึกษา</strong></p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="height:80px;">&nbsp;</td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-    <!--/100% body table-->
-</body>
-</html>
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="utf-8" />
+      <style>
+        * {
+          font-family: "Prompt";
+        }
+      </style>
+    </head>
+    <body style="width: 100%; @import url(https://fonts.googleapis.com/css?family=Prompt:200,300,400,600&display=swap); font-family: 'Prompt', sans-serif;">
+      <div style="margin: auto; width: 360px">
+        <div
+          style="
+            min-width: 440px;
+            max-width: 440px;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #f7fafc;
+            padding: 46px 0 0 0;
+          "
+        >
+          <h1 style="font-weight: bold; color: #4a5568; font-size: 28px; margin: 0; letter-spacing: -0.01em">
+            นักเรียนได้แจ้งลืมรหัสผ่าน
+          </h1>
+          <p style="color: #4a5568; font-weight: 300; margin: 2px 0 0; letter-spacing: -0.025em">
+            กรุณากดปุ่มด้านล่างเพื่อรีเซ็ตรหัสผ่านบัญชี
+          </p>
+          <a
+            href="${url}"
+            style="
+              background-color: #f687b3;
+              text-decoration: none;
+              padding: 15px 90px;
+              border-radius: 9999px;
+              margin: 34px 0;
+            "
+          >
+            <span style="font-weight: 200; color: white">รีเซ็ตรหัสผ่าน</span>
+          </a>
+          <div
+            style="
+              color: #4a5568;
+              font-weight: 300;
+              margin: 2px 0 0;
+              padding: 0 60px;
+              letter-spacing: -0.025em;
+              text-align: center;
+            "
+          >
+            <p style="margin: 0">
+              ปุ่มนี้จะหมดอายุภายในเวลา 1 ชั่วโมง หากเลยเวลา ที่กำหนดแล้ว กรุณากลับไปที่หน้าเว็บไซต์
+            </p>
+            <p style="margin: 0">เพื่อดำเนินการส่งคำขอเปลี่ยนรหัสผ่านอีกครั้ง</p>
+          </div>
+          <div
+            style="
+              width: 100%;
+              background: #edf2f7;
+              color: #4a5568;
+              font-weight: 300;
+              margin: 32px 0 0;
+              padding: 34px 0;
+              letter-spacing: -0.025em;
+              text-align: center;
+            "
+          >
+            <p style="font-weight: 600; margin: 0">ขอแสดงความนับถือ</p>
+            <p style="margin: 0">งานกิจกรรมพัฒนาผู้เรียน (กช.)</p>
+          </div>
+          <div
+            style="
+              width: 100%;
+              background: #1a202c;
+              color: #4a5568;
+              font-weight: 300;
+              padding: 10px 0px;
+              letter-spacing: -0.025em;
+              display: flex;
+              justify-content: space-between;
+            "
+          >
+            <div style="display: flex; align-items: center; padding: 0px 30px">
+              <span style="color: white; font-size: 38px; font-weight: 600; border-width: 1px">กช.</span>
+              <span style="width: 1.5px; background: white; margin-top: 2px; height: 22px; margin-left: 5px" />
+              <div style="margin-left: 6px">
+                <h1
+                  style="
+                    color: white;
+                    font-size: 11px;
+                    white-space: nowrap;
+                    font-weight: 500;
+                    margin: 0;
+                    line-height: 10px;
+                  "
+                >
+                  งานกิจกรรมพัฒนาผู้เรียน
+                </h1>
+                <h1 style="color: white; font-size: 11px; white-space: nowrap; font-weight: 300; margin: 0">
+                  โรงเรียนเตรียมอุดมศึกษา
+                </h1>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; padding: 0px 30px">
+              <a style="display: flex" href="https://www.facebook.com/triamudomclubs">
+                <img style="margin-right: 12px" src="https://register.clubs.triamudom.ac.th/assets/fb.png" />
+              </a>
+              <a style="display: flex" href="https://instagram.com/tucmc_official">
+                <img src="https://register.clubs.triamudom.ac.th/assets/ig.png" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+  </html>
+  
 `
 
   api.sendTransacEmail(sendSmtpEmail).then(
