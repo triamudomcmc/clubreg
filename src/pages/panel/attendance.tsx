@@ -237,7 +237,7 @@ const Attendance = ({ query }) => {
     const res = await request("uploader", "uploadFile", {
       panelID: currentID,
       file: filename,
-      targetTime: selected.name,
+      targetTime: selected.name + 1000,
     })
 
     const { url, fields } = res.data
