@@ -7,6 +7,7 @@ import initialiseDB from "@server/firebase-admin"
 import { getUNIXTimeStamp } from "@config/time"
 import cryptoRandomString from "crypto-random-string"
 const SibApiV3Sdk = require("sib-api-v3-sdk")
+import speakeasy from "speakeasy"
 
 const sendEmail = (email: string, code: string) => {
   const defaultClient = SibApiV3Sdk.ApiClient.instance
@@ -109,33 +110,29 @@ export const checkCredentials = async (stdID, password, fingerPrint, userCollect
   let verified = false
 
   if (req.body.verify && req.body.verify !== "") {
-    const task = await initialiseDB.collection("tasks").doc(req.body.verify).get()
-    if (task.exists) {
-      if (task.get("code") !== req.body.code) return { status: false, report: "incorrectCode" }
+    const validated = speakeasy.totp.verify({
+      secret: userDoc.get("2FA")["base32"],
+      encoding: 'base32',
+      token: req.body.code,
+    })
 
-      if (task.get("expire") > getUNIXTimeStamp() && task.get("userID") === userDoc.id) {
-        verified = true
-      }
-      await task.ref.delete()
+    if (validated) {
+      verified = true
     }
   }
 
   if (userDoc.get("safeMode") === true && !verified) {
+
+    if (!userDoc.get("2FA")) {
+      await userDoc.ref.update({safeMode: false})
+      return { status: false, report: "notAuthorised", data: {  } }
+    }
+
     const auData = userDoc.data()
     if (!("authorised" in auData)) return { status: false, report: "notAuthorised" }
     const authorisedField: LooseTypeObject<{ fingerPrint: string }> = auData.authorised
     if (!Object.values(authorisedField).some((val) => val.fingerPrint === fingerPrint)) {
-      const code = cryptoRandomString({ type: "numeric", length: 6 })
-
-      const task = await initialiseDB.collection("tasks").add({
-        type: "bypass",
-        expire: getUNIXTimeStamp() + 2 * 60 * 1000,
-        userID: userDoc.id,
-        code: code,
-      })
-
-      sendEmail(userDoc.get("email"), code)
-      return { status: false, report: "notAuthorised", data: { taskId: task.id } }
+      return { status: false, report: "notAuthorised", data: {  } }
     }
   }
 
@@ -155,6 +152,7 @@ export const destroyActiveSessions = async (sessionsColl, userDoc) => {
     doc.ref.delete()
   })
 }
+
 
 export const appendSession = async (sessionsColl, userDoc, fingerPrint, live, req, res) => {
   const expires = generateExpireTime(live)
