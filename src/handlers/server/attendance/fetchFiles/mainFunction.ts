@@ -14,7 +14,9 @@ export const performFetchFiles = async (req, ID) => {
     }
   }
 
-  const res = files.docs.filter((i) => i.get("timestamp") >= prevMon)
+  const res = files.docs.filter(
+    (i) => i.get("timestamp") >= prevMon && i.get("timestamp") - prevMon < 7 * 24 * 60 * 60 * 1000
+  )
 
   return res.map((snap) => ({ ...snap.data(), id: snap.id }))
 }
