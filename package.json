@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 57823",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "format": "prettier . --check --write",
