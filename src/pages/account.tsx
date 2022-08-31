@@ -3,6 +3,7 @@ import { useAuth } from "@client/auth"
 import Router from "next/router"
 import { useEffect, useRef, useState } from "react"
 import { fetchUserCred } from "@client/fetcher/user"
+import QRCode from "qrcode"
 import { useToast } from "@components/common/Toast/ToastContext"
 import {
   ClipboardCheckIcon,
@@ -27,9 +28,12 @@ import { useUserCred } from "handlers/hooks/useUserCred"
 const Account = () => {
   const { onReady, reFetch } = useAuth()
   const [oldPass, setOldPass] = useState("")
+  const qrCodeRef = useRef(null)
   const [betaAlert, setBetaAlert] = useState(false)
   const [whitelistMode, setWhitelistMode] = useState(false)
   const [closeDep, setCloseDep] = useState(false)
+  const [qrData, setQr] = useState("")
+  const [qrModal, setQrModal] = useState(false)
   const [rememberedCalls, setRCalls] = useState({ call: () => {} })
   const auTrigger = useRef(null)
   const { userCred, reFetchCred } = useUserCred()
@@ -70,6 +74,17 @@ const Account = () => {
         break
     }
   }
+
+  useEffect(() => {
+    console.log(qrData)
+    if (qrData) {
+      setQrModal(true)
+      QRCode.toCanvas(qrCodeRef.current, qrData, {
+        errorCorrectionLevel: "L",
+        margin: 1.2,
+      })
+    }
+  }, [qrData])
 
   useEffect(() => {
     reFetchCred()
@@ -115,6 +130,10 @@ const Account = () => {
     const res = await toggleSafeMode(whitelistMode)
     if (res.status) {
       reFetchCred()
+      if (res.data) {
+        console.log(res.data)
+        setQr(res.data.otpauthUrl)
+      }
     } else {
       commonError(res.report)
     }
@@ -198,6 +217,14 @@ const Account = () => {
         </div>
       </Modal>
       <div className="relative bg-TUCMC-gray-100 pt-10 pb-14">
+        {<div onClick={() => {setQrModal(false)}} className={classnames("flex justify-center items-center min-h-screen w-full top-0 left-0 z-[9999]", qrModal ? "fixed" : "hidden")}>
+          <div className="bg-white shadow-md rounded-md p-6 border border-gray-600 border-opacity-40">
+            <h1 className="font-semibold">Open Google Authenticator</h1>
+            <div className="flex justify-center mt-4">
+              <canvas id="qrCode" ref={qrCodeRef} className={css.qrCode}></canvas>
+            </div>
+          </div>
+        </div>}
         <h1 className="text-center text-2xl font-medium">จัดการบัญชีผู้ใช้</h1>
         <div className="absolute -bottom-5 w-full px-4">
           <div className="mx-auto flex max-w-xl justify-center rounded-lg border border-gray-300 bg-white p-[0.54rem] shadow-sm">
