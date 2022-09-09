@@ -4,6 +4,9 @@ import { addBrowser } from "@server/account/addBrowser"
 import { toggleSafeMode } from "@server/account/toggleSafeMode"
 import { removeBrowser } from "@server/account/removeBrowser"
 import { toggleBeta } from "@server/account/toggleBeta"
+import { generate2FA } from "@handlers/server/account/generate2FA"
+import { verify2FA } from "@handlers/server/account/verify2FA"
+
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req
@@ -25,6 +28,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
         case "toggleSafeMode": {
           const output = await toggleSafeMode(req, res)
+          res.json(output)
+          break
+        }
+        case "generate2FA": {
+          const output = await generate2FA(req, res)
+          res.json(output)
+          break
+        }
+        case "verify2FA": {
+          const output = await verify2FA(req, res)
           res.json(output)
           break
         }

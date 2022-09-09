@@ -54,6 +54,12 @@
     z-index: 60;
   }
 
+  input.webkit-none::-webkit-outer-spin-button,
+  input.webkit-none::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
   .circle-clip {
     clip-path: circle(50% at 50% 50%);
     transform: translate(0%, -50%);
