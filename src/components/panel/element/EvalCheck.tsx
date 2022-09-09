@@ -44,7 +44,7 @@ export const EvalCheck = ({ userData, pendingUpdate, setPendingUpdate }) => {
   }
 
   return (
-    <div className="flex flex-shrink-0 space-x-2">
+    <div key={`check${userData.student_id}`} className="flex flex-shrink-0 space-x-2">
       <div
         onClick={() => {
           action.action !== "passed" ? clickAction("passed") : reset()
