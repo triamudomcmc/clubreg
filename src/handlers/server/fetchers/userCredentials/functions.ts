@@ -29,6 +29,5 @@ export const getUserCredentialsFromID = async (userID, req) => {
     verified2FA: !!userData.get("2FA")?.verified
   }
 
-  console.log(userCredentials)
   return { userCredentials }
 }

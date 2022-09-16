@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 import { LockClosedIcon } from "@heroicons/react/solid"
 import { useAuth } from "@client/auth"
 import { useToast } from "@components/common/Toast/ToastContext"
@@ -10,10 +10,24 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
   const { reFetch } = useAuth()
   const [ID, setID] = useState("")
   const [password, setPassword] = useState("")
-  const [scode, setScode] = useState([])
   const [type, setType] = useState(null)
+  const [atDigit, setAtDigit] = useState(0)
+  const [rawOTP, setRawOTP] = useState({0: "", 1: "", 2: "", 3: "", 4: "", 5: ""})
   const seriesInput = useRef([])
   const { addToast, clearToast } = useToast()
+
+  useEffect(() => {
+    if (atDigit >= 0 && atDigit <= 5) {
+      document.getElementById(`otp${atDigit + 1}`)?.focus()
+    }
+  }, [atDigit])
+
+  useEffect(() => {
+    const otp = Object.values(rawOTP).join("")
+    if (otp.length === 6) {
+      sendCode(otp)
+    }
+  }, [rawOTP[5]])
 
   const sendCode = async (code) => {
     const loaderTimeout = setTimeout(() => {
@@ -52,6 +66,8 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
             title: "รหัสไม่ถูกต้อง",
             text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือ กดเข้าสู่ระบบเพื่อรับรหัสผ่านใหม่อีกรอบ",
           })
+          setRawOTP({0: "", 1: "", 2: "", 3: "", 4: "", 5: ""})
+          setAtDigit(0)
           break
         case "invalid_password":
           addToast({
@@ -83,12 +99,7 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
     setLoader(false)
   }
 
-  useEffect(() => {
-    const joined = scode.join("")
-    if (joined.length === 6) {
-      sendCode(joined)
-    }
-  }, [scode])
+  const getrawOTP = useCallback(() => {return rawOTP}, [rawOTP])
 
   const onsubmit = async (event) => {
     event.preventDefault()
@@ -114,6 +125,15 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
             text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง",
           })
           break
+        case "disabled2FA":
+          addToast({
+            theme: "modern",
+            icon: "warning",
+            title: "ทำการปิด 2FA ชั่วคราว",
+            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง และตั้งค่า 2FA อีกครั้งได้ที่ บัญชี > จัดการบัญชี > ความปลอดภัย > เปิดใช้งาน 2FA",
+            lifeSpan: 100000,
+          })
+          break
         case "invalid_password":
           addToast({
             theme: "modern",
@@ -132,30 +152,23 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
               <div>
                 <p>กรุณาลองตรวจสอบ Email เพื่ออนุญาตเบราว์เซอร์นี้ให้เข้าสู่ระบบได้ชั่วคราว</p>
                 <div className="mt-2 flex w-full justify-center space-x-1">
-                  {[...Array(6)].map((_, i) => (
-                    <input
-                      key={`si-${i}`}
-                      ref={(e) => {
-                        seriesInput.current[i] = e
-                      }}
-                      onChange={(e) => {
-                        if (e.target.value.length >= 1 && i < 5) {
-                          seriesInput.current[i + 1].focus()
-                        }
-                        setScode((prev) => {
-                          const newI = [...prev]
-                          newI[i] = e.target.value
-                          return newI
-                        })
-                      }}
-                      maxLength={1}
-                      className="h-8 w-8 appearance-none rounded-md border text-center text-2xl"
-                    />
-                  ))}
+                <div className="flex space-x-4">
+                <div className="flex space-x-1">
+                  <input type="number" value={getrawOTP[0]} min={0} max={9} onChange={(e) => {e.target.value !== "" && setAtDigit(prev => (1));e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 1: e.target.value}));setAtDigit(1)} : setRawOTP(prev => ({...prev, 0: e.target.value}))}}id="otp1" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
+                  <input type="number" value={getrawOTP[1]} min={0} max={9} onChange={(e) => {e.target.value === "" ? setAtDigit(prev => (0)) : setAtDigit(2);e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 2: e.target.value}));setAtDigit(2)} : setRawOTP(prev => ({...prev, 1: e.target.value}))}} id="otp2" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
+                  <input type="number" value={getrawOTP[2]} min={0} max={9} onChange={(e) => {e.target.value === "" ? setAtDigit(prev => (1)) : setAtDigit(3);e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 3: e.target.value}));setAtDigit(3)} : setRawOTP(prev => ({...prev, 2: e.target.value}))}} id="otp3" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
+                </div>
+                <div className="flex space-x-1">
+                  <input type="number" value={getrawOTP[3]} min={0} max={9}  onChange={(e) => {e.target.value === "" ? setAtDigit(prev => (2)) : setAtDigit(4);e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 4: e.target.value}));setAtDigit(4)} : setRawOTP(prev => ({...prev, 3: e.target.value}))}} id="otp4" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
+                  <input type="number" value={getrawOTP[4]} min={0} max={9}  onChange={(e) => {e.target.value === "" ? setAtDigit(prev => (3)) : setAtDigit(5);e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 5: e.target.value}));setAtDigit(5)} : setRawOTP(prev => ({...prev, 4: e.target.value}))}} id="otp5" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
+                  <input type="number" value={getrawOTP[5]} min={0} max={9}  onChange={(e) => {e.target.value === "" && setAtDigit(prev => (4));setRawOTP(prev => ({...prev, 5: e.target.value}))}} id="otp6" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
+                </div>
+              </div>
                 </div>
               </div>
             ),
           })
+          setTimeout(() => {          document.getElementById(`otp1`)?.focus()}, 500)
           localStorage.setItem("verify", result.data.taskId)
           break
         case "invalid_user":

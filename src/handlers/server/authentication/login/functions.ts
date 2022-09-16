@@ -118,6 +118,8 @@ export const checkCredentials = async (stdID, password, fingerPrint, userCollect
 
     if (validated) {
       verified = true
+    }else{
+      return {status:false, report: "incorrectCode"}
     }
   }
 
@@ -125,7 +127,7 @@ export const checkCredentials = async (stdID, password, fingerPrint, userCollect
 
     if (!userDoc.get("2FA")) {
       await userDoc.ref.update({safeMode: false})
-      return { status: false, report: "notAuthorised", data: {  } }
+      return { status: false, report: "disabled2FA", data: {  } }
     }
 
     const auData = userDoc.data()

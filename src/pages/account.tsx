@@ -84,7 +84,6 @@ const Account = () => {
   }
 
   useEffect(() => {
-    console.log(qrData)
     if (qrData) {
       setQrModal(true)
       QRCode.toCanvas(qrCodeRef.current, qrData, {
@@ -139,8 +138,7 @@ const Account = () => {
     if (userCred.authorised.length <= 0) {
       setWhitelistMode(false)
     }
-    console.log(userCred)
-    setAllows(userCred.verifiedFA)
+    setAllows(userCred.verified2FA)
   }, [userCred])
 
   useEffect(() => {
@@ -160,7 +158,6 @@ const Account = () => {
 
   const generate2FACred = async () => {
     const res = await generate2FA()
-    console.log(res)
     if (res.status) {
       setReg2FA(true)
       setQr(res.data.otpauthUrl)
