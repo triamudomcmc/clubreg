@@ -156,7 +156,24 @@ export const destroyActiveSessions = async (sessionsColl, userDoc) => {
 }
 
 
-export const appendSession = async (sessionsColl, userDoc, fingerPrint, live, req, res) => {
+export const appendSession = async (sessionsColl, userDoc, fingerPrint, remember, req, res) => {
+
+  let live = 60 * 60 * 1000 // default - 1 hour session live span
+
+  if (remember) {
+    live = 4 * 60 * 60 * 1000 // not trusted client - 4 hour session live span
+    
+    if (userDoc.get("safeMode") === true) {
+      const auData = userDoc.data()
+      if (("authorised" in auData)) {
+        const authorisedField: LooseTypeObject<{ fingerPrint: string }> = auData.authorised
+        if (Object.values(authorisedField).some((val) => val.fingerPrint === fingerPrint)) {
+          live = 6 * 30 * 24 * 60 * 60 * 1000 // trusted client - 6 months session live span
+        }
+      }
+    }
+  }
+
   const expires = generateExpireTime(live)
 
   //append session to db

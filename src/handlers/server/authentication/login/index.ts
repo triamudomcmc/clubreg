@@ -3,7 +3,7 @@ import { update } from "@server/tracker"
 import { appendSession, checkCredentials, destroyActiveSessions } from "@server/authentication/login/functions"
 import { generateCard } from "@server/userActions/sharedFunctions"
 
-export const login = async (stdID, password, live, fingerPrint, req, res) => {
+export const login = async (stdID, password, remember, fingerPrint, req, res) => {
   //initialise collections
   const userCollection = initialisedDB.collection("users"),
     sessionsColl = initialisedDB.collection("sessions")
@@ -16,7 +16,7 @@ export const login = async (stdID, password, live, fingerPrint, req, res) => {
   // destroy all active session
   await destroyActiveSessions(sessionsColl, userDoc)
 
-  await appendSession(sessionsColl, userDoc, fingerPrint, live, req, res)
+  await appendSession(sessionsColl, userDoc, fingerPrint, remember, req, res)
 
   const dataDoc = await initialisedDB.collection("data").doc(userDoc.get("dataRefID")).get()
 

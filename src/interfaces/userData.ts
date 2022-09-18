@@ -13,5 +13,6 @@ export default interface UserData {
   admin?: boolean
   safeMode?: boolean
   conTasks?: {}
-  tucmc?: boolean
+  tucmc?: boolean,
+  expires?: number
 }

@@ -23,21 +23,51 @@ import {
   HeartIcon,
   LibraryIcon,
   CheckCircleIcon,
+  InformationCircleIcon,
 } from "@heroicons/react/outline"
-import { ChevronDownIcon, StarIcon } from "@heroicons/react/solid"
+import { BadgeCheckIcon, ChevronDownIcon, StarIcon } from "@heroicons/react/solid"
 import { BeakerIcon } from "@heroicons/react/outline"
 import Modal from "@components/common/Modals"
 import { isEmpty } from "@utilities/object"
+import { addZero, convertMiliseconds } from "@utilities/timers"
+
+const useTimer = (countTo) => {
+  const [timer, setTime] = useState({})
+
+  useEffect(() => {
+    console.log(countTo)
+    if (countTo && countTo !== 0) {
+      setInterval(() => {
+        const ts = countTo - new Date().getTime()
+        const t = convertMiliseconds(ts)
+        setTime({
+          [countTo]: {
+            day: addZero(t.d),
+            hour: addZero(t.h),
+            min: addZero(t.m),
+            sec: addZero(t.s),
+          },
+        })
+      }, 1000)
+    }
+  }, [countTo])
+
+  return timer[countTo] || { day: "00", hour: "00", min: "00", sec: "00" }
+}
+
 
 const Navigation = () => {
   const { onReady, signout } = useAuth()
-
+ 
   const { logged, userData } = onReady((logged, userData) => {
     return { logged, userData }
   })
 
+
   const [reveal, setReaveal] = useState(false)
   const [toggle, setToggle] = useState(false)
+  const [sinfo, setSInfo] = useState(false)
+  const [infoHover, setInfoHover] = useState(false)
   const [animation, setAnimation] = useState(false)
   const [load, setLoad] = useState(true)
   const [initial, setInitial] = useState(true)
@@ -46,7 +76,7 @@ const Navigation = () => {
   const [path, setPath] = useState("/")
 
   detectOuside(panel, reveal, () => {
-    setReaveal(false)
+   setReaveal(false)
   })
 
   useEffect(() => {
@@ -59,6 +89,8 @@ const Navigation = () => {
       setInitial(false)
     }
   }, [toggle])
+
+  const cd = useTimer(userData?.expires)
 
   useEffect(() => {
     setPath(Router.pathname)
@@ -106,6 +138,7 @@ const Navigation = () => {
 
   return (
     <>
+      {sinfo && <div onClick={() => {setSInfo(false)}}className="fixed min-h-screen w-full top-0 left-0 z-[100]"/>}
       <motion.div
         animate={reveal ? "open" : "closed"}
         className="sticky top-0 z-50 flex h-16 flex-row items-center justify-center bg-TUCMC-gray-900 px-6"
@@ -145,7 +178,21 @@ const Navigation = () => {
                     {logged && (
                       <div className="rounded-t-lg bg-TUCMC-gray-100 px-7 py-2 font-normal">
                         <h1 className="text-TUCMC-gray-900">{`${userData.title}${userData.firstname} ${userData.lastname}`}</h1>
-                        <h1 className="text-sm tracking-tight text-TUCMC-gray-700">{`${userData.student_id} | ${userData.room} / ${userData.number}`}</h1>
+                        <div className="flex items-center space-x-2">
+                          <h1 onClick={() => {setSInfo(false)}} className="text-sm tracking-tight text-TUCMC-gray-700">{`${userData.student_id} | ${userData.room} / ${userData.number}`}</h1>
+                          <div className="w-5 h-5">
+                            <motion.div onClick={() => {setSInfo(true)}} onHoverStart={() => {setInfoHover(true)}} onHoverEnd={() => {setInfoHover(false)}} animate={sinfo ? {height: "260%",width:"500%", borderRadius: "6px"}: {width:"100%", height: "100%", borderRadius: "20px"}} whileTap={!sinfo ? {width: "200%", height: "140%"}: {}} whileHover={!sinfo ? {width: "200%"} : {}} className={classnames("cursor-pointer flex relative shadow-sm w-5 h-5 bg-TUCMC-green-400")}>
+                              <BadgeCheckIcon className="w-3.5 h-3.5 text-white ml-[3px] mt-[3px]"/>
+                              <motion.div animate={sinfo ? {clipPath: "inset(0 1% 1% 0)"} : infoHover ? {clipPath: "inset(0 60% 60% 0)"} : {clipPath: "inset(0 100% 60% 0)"}} className="flex flex-col absolute text-[11px] font-bold text-white">
+                                <h1 className="ml-5 mt-[2px]">ข้อมูล session</h1>
+                                <p className="ml-4 px-2 text-[10px] font-semibold text-center text-TUCMC-gray-100">เหลือเวลาอีก
+                                <br/>
+                                {cd.day !== "00" ? `${cd.day}:` : ""}{cd.hour}:{cd.min}:{cd.sec}
+                                </p>
+                              </motion.div>
+                            </motion.div>
+                          </div>
+                        </div>
                       </div>
                     )}
                     <div
@@ -236,7 +283,21 @@ const Navigation = () => {
         {logged && (
           <div className="my-4 bg-TUCMC-gray-100 px-6 py-2">
             <h1 className="text-TUCMC-gray-900">{`${userData.title}${userData.firstname} ${userData.lastname}`}</h1>
-            <h1 className="tracking-tight text-TUCMC-gray-700">{`${userData.student_id} | ${userData.room} / ${userData.number}`}</h1>
+            <div className="flex items-center space-x-2">
+                          <h1 onClick={() => {setSInfo(false)}} className="text-sm tracking-tight text-TUCMC-gray-700">{`${userData.student_id} | ${userData.room} / ${userData.number}`}</h1>
+                          <div className="w-5 h-5">
+                            <motion.div onClick={() => {setSInfo(true)}} onHoverStart={() => {setInfoHover(true)}} onHoverEnd={() => {setInfoHover(false)}} animate={sinfo ? {height: "260%",width:"500%", borderRadius: "6px"}: {width:"100%", height: "100%", borderRadius: "20px"}} whileTap={!sinfo ? {width: "200%", height: "140%"}: {}} whileHover={!sinfo ? {width: "200%"} : {}} className={classnames("cursor-pointer flex relative shadow-sm w-5 h-5 bg-TUCMC-green-400")}>
+                              <BadgeCheckIcon className="w-3.5 h-3.5 text-white ml-[3px] mt-[3px]"/>
+                              <motion.div animate={sinfo ? {clipPath: "inset(0 1% 1% 0)"} : infoHover ? {clipPath: "inset(0 55% 60% 0)"} : {clipPath: "inset(0 100% 60% 0)"}} className="flex flex-col absolute text-[11px] font-bold text-white">
+                                <h1 className="ml-5 mt-[2px]">ข้อมูล session</h1>
+                                <p className="ml-4 px-2 text-[10px] font-semibold text-center text-TUCMC-gray-100">เหลือเวลาอีก
+                                <br/>
+                                {cd.day !== "00" ? `${cd.day}:` : ""}{cd.hour}:{cd.min}:{cd.sec}
+                                </p>
+                              </motion.div>
+                            </motion.div>
+                          </div>
+                        </div>
           </div>
         )}
         <Link passHref href="/">

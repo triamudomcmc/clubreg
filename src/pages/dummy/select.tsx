@@ -106,7 +106,7 @@ const Select: NextPage<{ clubList: IClubListData[] }> = ({ clubList }) => {
   const { addToast } = useToast()
 
   const auTrigger = useRef(null)
-  const noAu = new Date().getTime() > lastround
+  const noAu = false
   const time = endLastRound
 
   const reFetch = () => {
@@ -374,7 +374,7 @@ const Select: NextPage<{ clubList: IClubListData[] }> = ({ clubList }) => {
   }, [isCon])
 
   return (
-    new Date().getTime() < time && (
+
       <PageContainer hide={!initclub}>
         <div className={classnames("fixed top-0 z-[98] mx-auto flex w-full justify-center", completeHide && "hidden")}>
           <motion.div
@@ -742,7 +742,7 @@ const Select: NextPage<{ clubList: IClubListData[] }> = ({ clubList }) => {
           )}
         </AnimatePresence>
       </PageContainer>
-    )
+    
   )
 }
 

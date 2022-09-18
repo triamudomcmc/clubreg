@@ -44,7 +44,7 @@ function useProvideAuth() {
   const reFetch = async (cause: string = "") => {
     const data = await fetchUser()
     cause !== "" && localStorage.setItem("beforeExit", cause)
-    setUserData(data.userData)
+    setUserData({...data.userData, expires: data.expires || 0})
     setTracker(await new Tracker().setUserID(data.userID).init())
   }
 
