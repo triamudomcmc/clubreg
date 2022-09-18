@@ -11,9 +11,12 @@ export const fetchUser = async (): Promise<{ userID: string; userData: {}, expir
 
   if (res.data.logged) {
     //auto fetching after expired
-    setTimeout(() => {
-      Router.reload()
-    }, res.data.expires - new Date().getTime() + 1000)
+
+    if ((res.data.expires - new Date().getTime() + 1000) < 5 * 60 * 60 * 1000) {
+          setTimeout(() => {
+    Router.reload()
+     }, res.data.expires - new Date().getTime() + 1000)
+    }
 
     return { userID: res.data.userID, userData: res.data.userData, expires: res.data.expires }
   }
