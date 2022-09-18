@@ -1,7 +1,7 @@
 import Router from "next/router"
 import { request } from "@client/utilities/request"
 
-export const fetchUser = async (): Promise<{ userID: string; userData: {} }> => {
+export const fetchUser = async (): Promise<{ userID: string; userData: {}, expires?: number }> => {
   const res = await request("database/user", "fetchUser", {})
 
   if (!res.status) {
@@ -15,7 +15,7 @@ export const fetchUser = async (): Promise<{ userID: string; userData: {} }> => 
       Router.reload()
     }, res.data.expires - new Date().getTime() + 1000)
 
-    return { userID: res.data.userID, userData: res.data.userData }
+    return { userID: res.data.userID, userData: res.data.userData, expires: res.data.expires }
   }
 
   return { userID: null, userData: {} }

@@ -11,6 +11,7 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
   const [ID, setID] = useState("")
   const [password, setPassword] = useState("")
   const [type, setType] = useState(null)
+  const [remember, setRemember] = useState(false)
   const [atDigit, setAtDigit] = useState(0)
   const [rawOTP, setRawOTP] = useState({0: "", 1: "", 2: "", 3: "", 4: "", 5: ""})
   const seriesInput = useRef([])
@@ -40,6 +41,7 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
       password: password,
       verify: verify || "",
       code: code,
+      remember
     })
 
     clearToast()
@@ -109,7 +111,7 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
     }, 1000)
 
     localStorage.setItem("verify", "")
-    const result = await request("database/auth", "login", { stdID: ID, password: password })
+    const result = await request("database/auth", "login", { stdID: ID, password: password, remember })
 
     if (result.status) {
       localStorage.setItem("currentPanel", "")
@@ -256,7 +258,7 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
               </div>
               <div className="flex w-full flex-row justify-between">
                 <div className="flex flex-row">
-                  <input className="mr-2 h-5 w-5 rounded-md border border-gray-200 ring-0" type="checkbox" />
+                  <input onChange={(e) =>{setRemember(e.target.checked)}} className="mr-2 h-5 w-5 rounded-md border border-gray-200 ring-0" type="checkbox" />
                   <span className="whitespace-nowrap">จดจำฉันไว้ในระบบ</span>
                 </div>
                 <span onClick={secAction} className="cursor-pointer text-TUCMC-pink-400">
