@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { useAuth } from "@handlers/client/auth"
 import { fetchUserCred } from "@handlers/client/fetcher/user"
 
-const defaultCred = { email: "", phone: "", authorised: [], safeMode: false, beta: [] }
+const defaultCred = { email: "", phone: "", authorised: [], safeMode: false, beta: [], verified2FA: false }
 
 export const useUserCred = () => {
   const [userCred, setUserCred] = useState(defaultCred)
