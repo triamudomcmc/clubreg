@@ -109,6 +109,14 @@ export const checkCredentials = async (stdID, password, fingerPrint, userCollect
 
   let verified = false
 
+  // password checking guard clause
+  if (!(await bcrypt.compare(password, userDoc.get("password"))))
+    return {
+      status: false,
+      report: "invalid_password",
+    }
+
+  // otp checking
   if (req.body.verify && req.body.verify !== "") {
     const validated = speakeasy.totp.verify({
       secret: userDoc.get("2FA")["base32"],
@@ -123,6 +131,7 @@ export const checkCredentials = async (stdID, password, fingerPrint, userCollect
     }
   }
 
+  // check authorised devices
   if (userDoc.get("safeMode") === true && !verified) {
 
     if (!userDoc.get("2FA")) {
@@ -137,13 +146,6 @@ export const checkCredentials = async (stdID, password, fingerPrint, userCollect
       return { status: false, report: "notAuthorised", data: {  } }
     }
   }
-
-  //password checking guard clause
-  if (!(await bcrypt.compare(password, userDoc.get("password"))))
-    return {
-      status: false,
-      report: "invalid_password",
-    }
 
   return { status: true, userDoc }
 }

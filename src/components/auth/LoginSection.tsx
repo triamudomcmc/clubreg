@@ -12,6 +12,7 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
   const [password, setPassword] = useState("")
   const [type, setType] = useState(null)
   const [remember, setRemember] = useState(false)
+  const [otpBox, setOTPBox] = useState(false)
   const [atDigit, setAtDigit] = useState(0)
   const [rawOTP, setRawOTP] = useState({0: "", 1: "", 2: "", 3: "", 4: "", 5: ""})
   const seriesInput = useRef([])
@@ -68,6 +69,18 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
             title: "รหัสไม่ถูกต้อง",
             text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือ กดเข้าสู่ระบบเพื่อรับรหัสผ่านใหม่อีกรอบ",
           })
+          // @ts-ignore
+          document.getElementById("otp1").value = ""
+          // @ts-ignore
+          document.getElementById("otp2").value = ""
+          // @ts-ignore
+          document.getElementById("otp3").value = ""
+          // @ts-ignore
+          document.getElementById("otp4").value = ""
+          // @ts-ignore
+          document.getElementById("otp5").value = ""
+          // @ts-ignore
+          document.getElementById("otp6").value = ""
           setRawOTP({0: "", 1: "", 2: "", 3: "", 4: "", 5: ""})
           setAtDigit(0)
           break
@@ -145,32 +158,8 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
           })
           break
         case "notAuthorised":
-          addToast({
-            theme: "modern",
-            icon: "cross",
-            title: "บัญชี้นี้ไม่ได้อนุญาตให้ใช้เบราว์เซอร์นี้เข้าสู่ระบบ",
-            lifeSpan: 100000,
-            text: (
-              <div>
-                <p>กรุณาลองตรวจสอบ Email เพื่ออนุญาตเบราว์เซอร์นี้ให้เข้าสู่ระบบได้ชั่วคราว</p>
-                <div className="mt-2 flex w-full justify-center space-x-1">
-                <div className="flex space-x-4">
-                <div className="flex space-x-1">
-                  <input type="number" value={getrawOTP[0]} min={0} max={9} onChange={(e) => {e.target.value !== "" && setAtDigit(prev => (1));e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 1: e.target.value}));setAtDigit(1)} : setRawOTP(prev => ({...prev, 0: e.target.value}))}}id="otp1" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
-                  <input type="number" value={getrawOTP[1]} min={0} max={9} onChange={(e) => {e.target.value === "" ? setAtDigit(prev => (0)) : setAtDigit(2);e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 2: e.target.value}));setAtDigit(2)} : setRawOTP(prev => ({...prev, 1: e.target.value}))}} id="otp2" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
-                  <input type="number" value={getrawOTP[2]} min={0} max={9} onChange={(e) => {e.target.value === "" ? setAtDigit(prev => (1)) : setAtDigit(3);e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 3: e.target.value}));setAtDigit(3)} : setRawOTP(prev => ({...prev, 2: e.target.value}))}} id="otp3" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
-                </div>
-                <div className="flex space-x-1">
-                  <input type="number" value={getrawOTP[3]} min={0} max={9}  onChange={(e) => {e.target.value === "" ? setAtDigit(prev => (2)) : setAtDigit(4);e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 4: e.target.value}));setAtDigit(4)} : setRawOTP(prev => ({...prev, 3: e.target.value}))}} id="otp4" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
-                  <input type="number" value={getrawOTP[4]} min={0} max={9}  onChange={(e) => {e.target.value === "" ? setAtDigit(prev => (3)) : setAtDigit(5);e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 5: e.target.value}));setAtDigit(5)} : setRawOTP(prev => ({...prev, 4: e.target.value}))}} id="otp5" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
-                  <input type="number" value={getrawOTP[5]} min={0} max={9}  onChange={(e) => {e.target.value === "" && setAtDigit(prev => (4));setRawOTP(prev => ({...prev, 5: e.target.value}))}} id="otp6" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
-                </div>
-              </div>
-                </div>
-              </div>
-            ),
-          })
-          setTimeout(() => {          document.getElementById(`otp1`)?.focus()}, 500)
+          setOTPBox(true)
+          setTimeout(() => {          document.getElementById(`otp1`)?.focus()}, 300)
           localStorage.setItem("verify", result.data.taskId)
           break
         case "invalid_user":
@@ -197,6 +186,27 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
 
   return (
     <div className="mt-6 flex flex-col items-center pt-8">
+      {otpBox && <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.1}} className="min-h-screen w-full fixed top-0 left-0 z-[99] flex justify-center items-center backdrop-blur-sm bg-gray-800 bg-opacity-20">
+          <div className={"bg-white rounded-md px-6 pt-4 pb-4 max-w-[290px]"}>
+              <h1 className={"font-bold text-lg text-TUCMC-gray-800"}>2FA Authentication</h1>
+              <p className={"text-gray-600 leading-5 text-sm"}>กรุณากรอกรหัสจากแอพ Authenticator เพื่อเข้าสู่ระบบสำหรับเบราว์เซอร์นี้</p>
+              <div className="mt-4 flex w-full justify-center space-x-1">
+                  <div className="flex space-x-4">
+                      <div className="flex space-x-1">
+                          <input type="number" value={rawOTP[0]} min={0} max={9} onChange={(e) => {e.target.value !== "" && setAtDigit(prev => (1));e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 1: e.target.value}));setAtDigit(1)} : setRawOTP(prev => ({...prev, 0: e.target.value}))}}id="otp1" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
+                          <input type="number" value={rawOTP[1]} min={0} max={9} onChange={(e) => {e.target.value === "" ? setAtDigit(prev => (0)) : setAtDigit(2);e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 2: e.target.value}));setAtDigit(2)} : setRawOTP(prev => ({...prev, 1: e.target.value}))}} id="otp2" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
+                          <input type="number" value={rawOTP[2]} min={0} max={9} onChange={(e) => {e.target.value === "" ? setAtDigit(prev => (1)) : setAtDigit(3);e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 3: e.target.value}));setAtDigit(3)} : setRawOTP(prev => ({...prev, 2: e.target.value}))}} id="otp3" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
+                      </div>
+                      <div className="flex space-x-1">
+                          <input type="number" value={rawOTP[3]} min={0} max={9}  onChange={(e) => {e.target.value === "" ? setAtDigit(prev => (2)) : setAtDigit(4);e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 4: e.target.value}));setAtDigit(4)} : setRawOTP(prev => ({...prev, 3: e.target.value}))}} id="otp4" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
+                          <input type="number" value={rawOTP[4]} min={0} max={9}  onChange={(e) => {e.target.value === "" ? setAtDigit(prev => (3)) : setAtDigit(5);e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 5: e.target.value}));setAtDigit(5)} : setRawOTP(prev => ({...prev, 4: e.target.value}))}} id="otp5" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
+                          <input type="number" value={rawOTP[5]} min={0} max={9}  onChange={(e) => {e.target.value === "" && setAtDigit(prev => (4));setRawOTP(prev => ({...prev, 5: e.target.value}))}} id="otp6" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
+                      </div>
+                  </div>
+              </div>
+              <h1 className="text-gray-600 text-xs text-center mt-3 hover:underline cursor-pointer">ไม่สามารถเข้าสู่ระบบ</h1>
+          </div>
+      </motion.div>}
       {!type ? (
         <div>
           <h1 className="text-center text-4xl font-bold tracking-tight">เข้าสู่ระบบ</h1>
