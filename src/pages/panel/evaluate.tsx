@@ -196,7 +196,7 @@ const Evaluate = () => {
       <div className="flex min-h-screen w-full flex-col items-center py-10 px-6">
         <h1 className="mb-2 text-center text-4xl text-TUCMC-gray-900">ประเมินผล</h1>
         <p className="text-center text-TUCMC-gray-700">กรรมการชมรมจะต้องประเมินผลนักเรียนทุกคนให้เสร็จ</p>
-        <p className="mb-2 text-center text-TUCMC-gray-700">ภายในวันพฤหัสบดี ที่ 15 กันยายน 2565</p>
+        <p className="mb-2 text-center text-TUCMC-gray-700">ภายในวันพฤหัสบดี ที่ 3 มีนาคม 2566</p>
         <div className="mb-10 w-full max-w-[400px]">
           <div
             ref={box}
@@ -318,7 +318,7 @@ const Evaluate = () => {
             </div>
             {checks.map((data) => {
               const date = new Date(parseInt(data.date))
-              if (data.date === "1638723600000" || data.date === "1641142800000") {
+              if (data.date === "1672592400000") {
                 return (
                   <div className="flex w-16 flex-shrink-0 flex-col">
                     <h1 className="border-t border-b bg-gray-100 py-2 font-medium">
@@ -367,7 +367,7 @@ const Evaluate = () => {
             })}
             <div className="flex flex-shrink-0 flex-col">
               <h1 className="border-t border-b bg-gray-100 py-2 text-center font-medium ">
-                สรุป ({checks.length})
+                สรุป ({checks.length - 1})
               </h1>
               {member.map((people) => {
                 return (
