@@ -198,7 +198,7 @@ const Evaluate = () => {
       <div className="flex min-h-screen w-full flex-col items-center py-10 px-6">
         <h1 className="mb-2 text-center text-4xl text-TUCMC-gray-900">ประเมินผล</h1>
         <p className="text-center text-TUCMC-gray-700">กรรมการชมรมจะต้องประเมินผลนักเรียนทุกคนให้เสร็จ</p>
-        <p className="mb-2 text-center text-TUCMC-gray-700">ภายในวันพฤหัสบดี ที่ 3 มีนาคม 2566</p>
+        <p className="mb-2 text-center text-TUCMC-gray-700">ภายในวันอังคาร ที่ 28 กุมภาพันธ์ 2566</p>
         <div className="mb-10 w-full max-w-[400px]">
           <div
             ref={box}
