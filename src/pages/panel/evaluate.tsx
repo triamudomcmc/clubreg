@@ -47,6 +47,8 @@ const Evaluate = () => {
     // Router.push("/panel")
   }, [])
 
+  const ignored = ["1672592400000", "1670173200000", "1670778000000"]
+
   const month = {
     1: "ม.ค.",
     2: "ก.พ.",
@@ -318,13 +320,13 @@ const Evaluate = () => {
             </div>
             {checks.map((data) => {
               const date = new Date(parseInt(data.date))
-              if (data.date === "1672592400000") {
+              if (ignored.includes(data.date)) {
                 return (
                   <div className="flex w-16 flex-shrink-0 flex-col">
                     <h1 className="border-t border-b bg-gray-100 py-2 font-medium">
                       {date.getDate()} {month[date.getMonth() + 1]}
                     </h1>
-                    {member.map((people) => {
+                    {member.map(() => {
                       return (
                         <span className="flex h-10 items-center justify-center border-b">
                           {" "}
@@ -367,7 +369,7 @@ const Evaluate = () => {
             })}
             <div className="flex flex-shrink-0 flex-col">
               <h1 className="border-t border-b bg-gray-100 py-2 text-center font-medium ">
-                สรุป ({checks.length - 1})
+                สรุป ({checks.length - ignored.length})
               </h1>
               {member.map((people) => {
                 return (
