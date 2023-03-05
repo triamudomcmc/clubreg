@@ -248,7 +248,7 @@ const Account = () => {
         title: "อัปโหลดเอกสารสำเร็จ",
         text: "การอัปโหลดเอกสารสำเร็จแล้ว",
       })
-      localStorage.setItem("submitted2", "true")
+      localStorage.setItem("submitted25652", "true")
       setDisplay(false)
     } else {
       addToast({
@@ -271,7 +271,7 @@ const Account = () => {
     if (userData) {
       if (userData.student_id) {
         if (userData.student_id.includes("ก") && !userData.student_id.includes("-")) {
-          const summited = localStorage.getItem("submitted2")
+          const summited = localStorage.getItem("submitted25652")
           setT(true)
           if (summited === "true") return
           setDisplay(true)
@@ -304,7 +304,7 @@ const Account = () => {
               }}
               className="absolute top-5 right-6 h-5 w-5 cursor-pointer text-gray-700 hover:text-TUCMC-red-500"
             />
-            <h1 className="mb-4 text-xl font-medium text-gray-800">เอกสารสรุปผลการประเมินชมรม 2/2564</h1>
+            <h1 className="mb-4 text-xl font-medium text-gray-800">เอกสารสรุปผลการประเมินชมรม 2/2565</h1>
             <div className="flex flex-col">
               <div className="">
                 <a
