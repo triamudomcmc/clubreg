@@ -208,7 +208,7 @@ const Account = () => {
 
   const downloadFile = async () => {
     const a = document.createElement("a")
-    let currPanel = userData.student_id
+    let currPanel = userData.student_id === "ก30952" ? "ก30952-3": userData.student_id
     const response = await request("uploader", "getFile", { id: currPanel })
 
     if (response.status) {
