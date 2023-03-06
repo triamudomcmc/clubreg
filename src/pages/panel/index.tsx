@@ -270,7 +270,8 @@ const Account = () => {
   useEffect(() => {
     if (userData) {
       if (userData.student_id) {
-        if (userData.student_id.includes("ก") && !userData.student_id.includes("-")) {
+        const whitelist = ["ก30952-2", "ก30952-3", "ก30952-4", "ก30952-5", "ก30952-6", "ก30952-7"]
+        if (userData.student_id.includes("ก") && (!userData.student_id.includes("-") || whitelist.includes(userData.student_id))) {
           const summited = localStorage.getItem("submitted25652")
           setT(true)
           if (summited === "true") return
