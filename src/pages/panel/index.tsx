@@ -62,6 +62,7 @@ const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateActio
   //@ts-ignore
   const st: { status: any } = await fetchClub(nid)
 
+  console.log("ew")
   setClubData({ ...data, status: st.status })
   setInitClub(true)
 }
@@ -132,6 +133,7 @@ const Account = () => {
 
     return currPanel
   }
+
 
   const reFetchCred = () => {
     const currPanel = getCurrPanel()

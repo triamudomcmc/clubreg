@@ -5,7 +5,7 @@ import Modal from "@components/common/Modals"
 import { useToast } from "@components/common/Toast/ToastContext"
 import { useAuth } from "@handlers/client/auth"
 import { ExclamationIcon, TrashIcon } from "@heroicons/react/outline"
-import { CheckCircleIcon } from "@heroicons/react/solid"
+import {CheckCircleIcon, LockClosedIcon} from "@heroicons/react/solid"
 import { ClubData } from "@interfaces/clubData"
 import UserData from "@interfaces/userData"
 import { useWindowDimensions } from "@utilities/document"
@@ -14,6 +14,9 @@ import { FC, Fragment, MouseEvent, useEffect, useState } from "react"
 import { stringify } from "remark"
 import { TableContactRow, TableRow, TableWebDataRow } from "./TableRow"
 import { IContactType } from "./valueTypes"
+import {useTimer} from "@utilities/timers"
+import { editInitData } from "@config/time"
+import classnames from "classnames"
 
 export type TUpdateFieldFunction = (field: string, data: any) => Promise<{ status: boolean; report: string }>
 
@@ -105,6 +108,11 @@ interface IProportion {
   committee_count: number
 }
 
+const Counter: FC<{target: number}> = ({target}) => {
+  const counter = useTimer(target)
+  return                <span className="text-sm text-center mt-1">(อีก {counter.day} วัน {counter.hour} ชั่วโมง {counter.min} นาที)</span>
+}
+
 export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldFunction }> = ({
   data,
   updateField,
@@ -112,58 +120,72 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
   // fetch value from api as intialValue
   // then every accept just upxate the api and then update the v alues idk just find a way to update the values as the apis update
 
+  const disable = new Date().getTime() < editInitData
+
   return (
     <div>
       <h1 className="border-b border-gray-200 pb-4 text-xl">สัดส่วนชมรม</h1>
 
-      <TableRow
-        field="teacher_count"
-        title="จำนวนครูที่ปรึกษาชมรม"
-        initialData={{ type: "number", value: data.teacher_count }}
-        updateField={updateField}
-        validateFunc={() => {
-          return null
-        }}
-      />
+      <div className="relative">
+        {disable && <div className="w-full h-full flex justify-center items-center absolute backdrop-blur-[2px]">
+            <div className="flex flex-col items-center shadow-md rounded-lg w-full px-8 py-6 bg-white text-gray-900">
+                <h1 className="text-lg">ส่วนแก้ไขสัดส่วนจำนวนนักเรียน</h1>
+                <h1 className="text-lg">จะเปิดให้แก้ไขในวันที่ <span className="font-medium">17 เมษายน 2566</span></h1>
+                <Counter target={editInitData}/>
+            </div>
+        </div>}
+        <TableRow
+          field="teacher_count"
+          title="จำนวนครูที่ปรึกษาชมรม"
+          editable={!disable}
+          initialData={{ type: "number", value: data.teacher_count }}
+          updateField={updateField}
+          validateFunc={() => {
+            return null
+          }}
+        />
 
-      <TableRow
-        field="count_limit"
-        title="จำนวนนักเรียนในชมรมสูงสุด"
-        description="จำนวนนักเรียนทั้งหมดในชมรม รวมถึงนักเรียนเก่าและกรรมการชมรม"
-        initialData={{ type: "number", value: data.count_limit }}
-        updateField={updateField}
-        validateFunc={(c) => {
-          if (data.teacher_count === 0 || c.value / data.teacher_count < 26.5) {
-            return { reason: "teacher_to_student" }
-          } else return null
-        }}
-      />
-      <div className="grid grid-cols-1 border-b border-gray-200 py-4 md:grid-cols-[2fr,3fr] md:items-center md:py-6">
-        <p className="text-TUCMC-gray-600">จำนวนสมาชิกใหม่ที่จะรับเข้าชมรม</p>
-        <div className="flex items-start space-x-2">
-          <div className="block">{data.count_limit - data.old_count_limit - data.committee_count}</div>
+        <TableRow
+          field="count_limit"
+          title="จำนวนนักเรียนในชมรมสูงสุด"
+          editable={!disable}
+          description="จำนวนนักเรียนทั้งหมดในชมรม รวมถึงนักเรียนเก่าและกรรมการชมรม"
+          initialData={{ type: "number", value: data.count_limit }}
+          updateField={updateField}
+          validateFunc={(c) => {
+            if (data.teacher_count === 0 || c.value / data.teacher_count < 26.5) {
+              return { reason: "teacher_to_student" }
+            } else return null
+          }}
+        />
+        <div className="grid grid-cols-1 border-b border-gray-200 py-4 md:grid-cols-[2fr,3fr] md:items-center md:py-6">
+          <p className="text-TUCMC-gray-600">จำนวนสมาชิกใหม่ที่จะรับเข้าชมรม</p>
+          <div className="flex items-start space-x-2">
+            <div className="block">{data.count_limit - data.old_count_limit - data.committee_count}</div>
+          </div>
         </div>
-      </div>
-      <TableRow
-        field="old_count_limit"
-        title="จำนวนสมาชิกเก่าที่สามารถยืนยันสิทธิ์ชมรมเดิมได้"
-        description="จำนวนสมาชิกเก่าในชมรม ไม่รวมจำนวนกรรมการชมรม"
-        initialData={{ type: "number", value: data.old_count_limit }}
-        updateField={updateField}
-        declineVal={true}
-        validateFunc={(c) => {
-          if (c.value > Math.ceil((33 * data.count_limit) / 100)) {
-            return { reason: "limit_exceded" }
-          } else return null
-        }}
-      />
-      {/* <div className="grid grid-cols-1 border-b border-gray-200 py-4 md:grid-cols-[2fr,3fr] md:items-center md:py-6">
+        <TableRow
+          field="old_count_limit"
+          title="จำนวนสมาชิกเก่าที่สามารถยืนยันสิทธิ์ชมรมเดิมได้"
+          description="จำนวนสมาชิกเก่าในชมรม ไม่รวมจำนวนกรรมการชมรม"
+          initialData={{ type: "number", value: data.old_count_limit }}
+          updateField={updateField}
+          editable={!disable}
+          declineVal={true}
+          validateFunc={(c) => {
+            if (c.value > Math.ceil((33 * data.count_limit) / 100)) {
+              return { reason: "limit_exceded" }
+            } else return null
+          }}
+        />
+        {/* <div className="grid grid-cols-1 border-b border-gray-200 py-4 md:grid-cols-[2fr,3fr] md:items-center md:py-6">
         <p className="text-TUCMC-gray-600">จำนวนสมาชิกใหม่ที่จะรับเข้าชมรม</p>
 
         <div className="flex items-start space-x-2">
           <div className="block">{data.new_count_limit}</div>
         </div>
       </div> */}
+      </div>
     </div>
   )
 }
@@ -185,16 +207,20 @@ export const ClubCommitteeTable: FC<{
   const [studentID, setStudentID] = useState("44444")
   const [studentData, setStudentData] = useState<null | UserData>(null)
 
+  const disable = new Date().getTime() < editInitData
+
   const { addToast } = useToast()
   const { onReady } = useAuth()
 
   const userData = onReady((logged, userData) => userData)
 
   const enableModal = (e: MouseEvent<HTMLButtonElement>) => {
+    if (disable) return
     setModalState(true)
   }
 
   const nextSection = async () => {
+    if (disable) return
     const studentContext = await getStudentID(studentID)
 
     if (studentContext.status) {
@@ -228,6 +254,7 @@ export const ClubCommitteeTable: FC<{
   }
 
   const submitData = async () => {
+    if (disable) return
     const out = await addCommittee(studentID, password)
 
     if (out.status) {
@@ -299,6 +326,7 @@ export const ClubCommitteeTable: FC<{
   }
 
   const removeCommitteeData = async (committeeID) => {
+    if (disable) return
     const out = await removeCommittee(committeeID, password)
 
     if (out.status) {
@@ -379,6 +407,7 @@ export const ClubCommitteeTable: FC<{
   }
 
   const enableRemoveModal = async (committeeID) => {
+    if (disable) return
     const studentContext = await getStudentID(committeeID)
 
     if (studentContext.status) {
@@ -569,57 +598,72 @@ export const ClubCommitteeTable: FC<{
         </div>
       </Modal>
 
-      <div className="flex flex-col items-center justify-between sm:flex-row">
-        <div>
-          <h1 className="text-xl">กรรมการชมรม</h1>
-          <p className="text-sm text-TUCMC-gray-600">กรรมการชมรม เช่น ประธานชมรม รองประธานชมรม เลขานุการ</p>
+      <div className="relative">
+        <div className="flex flex-col items-center justify-between sm:flex-row">
+          <div>
+            <h1 className="text-xl">กรรมการชมรม</h1>
+            <p className="text-sm text-TUCMC-gray-600">กรรมการชมรม เช่น ประธานชมรม รองประธานชมรม เลขานุการ</p>
+          </div>
+          <button
+            onClick={enableModal}
+            className={classnames("mt-3 min-w-[200px] rounded-full px-8 py-2 text-white transition-colors sm:mt-0", disable ? "bg-TUCMC-gray-400 cursor-not-allowed": "bg-TUCMC-pink-400 hover:bg-TUCMC-pink-500")}
+          >
+            เพิ่มกรรมการชมรม
+          </button>
         </div>
-        {/* <button
-          onClick={enableModal}
-          className="mt-3 min-w-[200px] rounded-full bg-TUCMC-pink-400 px-8 py-2 text-white transition-colors hover:bg-TUCMC-pink-500 sm:mt-0"
-        >
-          เพิ่มกรรมการชมรม
-        </button> */}
-      </div>
 
-      <hr className="my-6" />
+        <hr className="my-6" />
 
-      <div className="flex flex-col space-y-6">
-        {committee?.map((user) => {
-          if (!user) return
-          return (
-            <Fragment key={user.student_id}>
-              <div className="flex flex-col items-start justify-between px-2 sm:flex-row sm:items-center sm:px-4">
-                <div>
-                  <p>
-                    {user.title}
-                    {user.firstname} {user.lastname}
-                  </p>
-                </div>
-                <div className="flex items-center justify-between space-x-12">
-                  <p>{user.student_id}</p>
-
-                  <p>ม.{user.level}</p>
-
-                  <p>{user.room}</p>
-
-                  {/* {userData.student_id === user.student_id ? (
-                    <div className="w-24"></div>
-                  ) : (
-                    <button
-                      onClick={() => enableRemoveModal(user.student_id)}
-                      className="w-24 rounded-md border border-gray-300 bg-white py-2 text-gray-600 transition-colors hover:bg-gray-100"
-                    >
-                      ลบ
-                    </button>
-                  )} */}
-                </div>
+        <div className="relative">
+          {disable && <div className="w-full h-full flex justify-center items-center absolute backdrop-blur-[2px]">
+              <div className="flex flex-col items-center shadow-md rounded-lg w-full px-8 py-6 bg-white text-gray-900">
+                  <h1 className="text-lg">ส่วนแก้ไขรายชื่อกรรมการชมรม</h1>
+                  <h1 className="text-lg">จะเปิดให้แก้ไขในวันที่ <span className="font-medium">17 เมษายน 2566</span></h1>
+                  <Counter target={editInitData}/>
               </div>
+          </div>}
+          <div className="flex flex-col space-y-6">
+            {committee?.map((user) => {
+              if (!user) return
+              return (
+                <Fragment key={user.student_id}>
+                  <div className="flex flex-col items-start justify-between px-2 sm:flex-row sm:items-center sm:px-4">
+                    <div>
+                      <p>
+                        {user.title}
+                        {user.firstname} {user.lastname}
+                      </p>
+                    </div>
+                    <div className="flex items-center justify-between space-x-12">
+                      <p className="">{user.student_id}</p>
 
-              <hr className="my-2" />
-            </Fragment>
-          )
-        })}
+                      <p>ม.{user.level}</p>
+
+                      <p className="w-[28px] text-center">{user.room}</p>
+
+                      {userData.student_id === user.student_id ? (
+                        <button
+                          className="w-24 rounded-md border border-gray-300 bg-gray-100 py-2 text-gray-600 transition-colors cursor-not-allowed"
+                        >
+                          ลบ
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => enableRemoveModal(user.student_id)}
+                          className="w-24 rounded-md border border-gray-300 bg-white py-2 text-gray-600 transition-colors hover:bg-gray-100"
+                        >
+                          ลบ
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  <hr className="my-2" />
+                </Fragment>
+              )
+            })}
+          </div>
+        </div>
       </div>
     </div>
   )

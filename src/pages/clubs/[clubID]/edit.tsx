@@ -1,8 +1,8 @@
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next"
 import * as fs from "fs"
 import path from "path"
-import { FC, KeyboardEvent, useEffect, useRef, useState } from "react"
-import { ChevronDownIcon, ClipboardCopyIcon, StarIcon } from "@heroicons/react/solid"
+import React, { FC, KeyboardEvent, useEffect, useRef, useState } from "react"
+import {ChevronDownIcon, ClipboardCopyIcon, CloudIcon, CloudUploadIcon, StarIcon} from "@heroicons/react/solid"
 import PageContainer from "@components/common/PageContainer"
 import Image from "next/image"
 import { CameraIcon, CheckIcon, GlobeAltIcon, PlusIcon, TrashIcon, UserIcon, XIcon } from "@heroicons/react/outline"
@@ -669,6 +669,47 @@ const Review = ({ revContent, index, onLoad, clubID, setReviews, setImageReview,
     </div>
   )
 }
+const getMime = (data: string) => {
+  return data.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/)[1]
+}
+
+const uploadImage = async (uploadPoli: any, file: any) => {
+  const { url, fields } = uploadPoli
+  const formData = new FormData()
+  Object.entries({ ...fields, file }).forEach(([key, value]) => {
+    // @ts-ignore
+    formData.append(key, value)
+  })
+
+  const upload = await fetch(url, {
+    mode: "cors",
+    method: "POST",
+    body: formData,
+  })
+
+  if (upload.ok) {
+    console.log("goud")
+  } else {
+    console.error("Upload failed.")
+  }
+}
+
+function dataURLtoFile(dataurl, filename) {
+
+  console.log(dataurl)
+  var arr = dataurl.split(','),
+    mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+
+  while(n--){
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+
+  return new File([u8arr], filename, {type:mime});
+}
+
 
 const Page = ({ data, clubID, images, clubData, newImages }) => {
   const { onReady } = useAuth()
@@ -688,7 +729,8 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
 
   const [reviews, setReviews] = useState(data.reviews)
   const [mainArt, setMainArt] = useState(data.description)
-
+  const [uploadTask, setUploadTask] = useState({all: 0, done: 0})
+  const [uploadErr, setUploadErr] = useState([])
   const [contactData, setContactData] = useState({
     contact: data.contact,
     contact2: isEmpty(data.contact2) ? { type: "ไม่มี", context: "แก้ไขข้อมูล" } : data.contact2,
@@ -698,6 +740,7 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
   const [imageHead, setImageHead] = useState<string | null>(null)
   const [imageS, setImageS] = useState({})
   const [imageReview, setImageReview] = useState({})
+  const [cancel, setCancel] = useState(false)
 
   const getAllPart = async () => {
     const safeContact = {}
@@ -709,12 +752,24 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
         safeContact[k] = contactData[k]
       }
     })
+
+    const formattedS = {}
+    Object.keys(imageS).forEach((k) => {
+      if (imageS[k] !== null) {
+        formattedS[k] = {type: getMime(imageS[k])}
+      }else{
+        formattedS[k] = null
+      }
+    })
+
+    const formattedReview = reviews.map(d => ({...d, profile: d.profile.includes("data:image") ? {type: getMime(d.profile)} :  d.profile}))
+
     const res = await request("database/editWeb", "submitChanges", {
       panelID: clubID,
-      reviews: reviews,
+      reviews: formattedReview,
       main: mainArt,
       contact: contactData,
-      images: { mainImage: imageHead, ...imageS },
+      images: { mainImage: imageHead ? getMime(imageHead) : null, ...formattedS},
     })
 
     const awaitTimeout = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
@@ -728,6 +783,71 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
         title: "ส่งการแก้ไขข้อมูลสำเร็จ",
         text: "ระบบอาจะใช้เวลาถึง 2 นาทีในการประมวลผลข้อมูล หาก refresh หน้าจอแล้วการเปลี่ยนแปลงหายไปให้ลอง refresh ใหม่",
       })
+
+
+      const policies = res.data.policies
+      setUploadTask({all: policies.length, done: 0})
+
+      console.log(policies)
+      policies.forEach((p) => {
+        const {key, content} = p
+        switch (key) {
+          case "mainImage" :
+            uploadImage(content, dataURLtoFile(imageHead,"test")).catch((e) => {
+              setUploadErr(prev => ([...prev, `ไม่สามารถ upload รูปภาพหลัก กรุณาลองใหม่อีกครั้ง`]))
+            }).then(() => {
+              setUploadTask(prev => ({...prev, done: prev.done + 1}))
+            })
+            break
+          case "picture-1" :
+            uploadImage(content, dataURLtoFile(imageS["picture-1"],"test")).catch((e) => {
+              setUploadErr(prev => ([...prev, `ไม่สามารถ upload รูปภาพรูปที่ 1 กรุณาลองใหม่อีกครั้ง`]))
+            }).then(() => {
+              setUploadTask(prev => ({...prev, done: prev.done + 1}))
+            })
+            break
+          case "picture-2" :
+            uploadImage(content, dataURLtoFile(imageS["picture-2"],"test")).catch((e) => {
+              setUploadErr(prev => ([...prev, `ไม่สามารถ upload รูปภาพรูปที่ 2 กรุณาลองใหม่อีกครั้ง`]))
+            }).then(() => {
+              setUploadTask(prev => ({...prev, done: prev.done + 1}))
+            })
+            break
+          case "picture-3" :
+            uploadImage(content, dataURLtoFile(imageS["picture-3"],"test")).catch((e) => {
+              setUploadErr(prev => ([...prev, `ไม่สามารถ upload รูปภาพรูปที่ 3 กรุณาลองใหม่อีกครั้ง`]))
+            }).then(() => {
+              setUploadTask(prev => ({...prev, done: prev.done + 1}))
+            })
+            break
+          case "review-0" :
+            uploadImage(content, dataURLtoFile(reviews[0].profile,"test")).catch((e) => {
+              setUploadErr(prev => ([...prev, `ไม่สามารถ upload รูปโปรไฟล์รูปที่ 1 กรุณาลองใหม่อีกครั้ง`]))
+            }).then(() => {
+              setUploadTask(prev => ({...prev, done: prev.done + 1}))
+            })
+            break
+          case "review-1" :
+            uploadImage(content, dataURLtoFile(reviews[1].profile,"test")).catch((e) => {
+              setUploadErr(prev => ([...prev, `ไม่สามารถ upload รูปโปรไฟล์รูปที่ 2 กรุณาลองใหม่อีกครั้ง`]))
+            }).then(() => {
+              setUploadTask(prev => ({...prev, done: prev.done + 1}))
+            })
+            break
+          case "review-2" :
+            uploadImage(content, dataURLtoFile(reviews[2].profile,"test")).catch((e) => {
+              setUploadErr(prev => ([...prev, `ไม่สามารถ upload รูปโปรไฟล์รูปที่ 3 กรุณาลองใหม่อีกครั้ง`]))
+            }).then(() => {
+              setUploadTask(prev => ({...prev, done: prev.done + 1}))
+            })
+            break
+        }
+      })
+
+      setTimeout(() => {
+        setCancel(true)
+      }, 1000 * 6)
+
     } else {
       addToast({
         theme: "modern",
@@ -771,6 +891,21 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
 
   return (
     <PageContainer>
+      {uploadTask.all > 0 && uploadTask.done - uploadTask.all !== 0 && <div className={"flex justify-center items-center min-h-screen w-full fixed top-0 left-0 z-[999] backdrop-blur-md"}>
+        <div className="flex flex-col items-center">
+          <CloudIcon className="w-16 h-16 animate-pulse text-gray-600"/>
+        <h1 className="text-xl font-medium">กำลังประมวลผลรูปภาพ</h1>
+          <span className="font-semibold text-TUCMC-red-500">ห้ามออกจากหน้านี้ ในขณะนี้</span>
+        <span className="mt-2 text-sm">ทั้งหมด {uploadTask.all} เสร็จสิ้น {uploadTask.done}</span>
+          {
+            cancel && <a onClick={() => {
+              setUploadErr([])
+              setUploadTask({all: 0, done: 0})
+              setRerender(true)
+            }} className="text-sm mt-4 underline cursor-pointer hover:text-TUCMC-red-500 text-TUCMC-gray-600">ยกเลิกการประมวลผล</a>
+          }
+      </div>
+      </div>}
       {rerender && <div className="hidden">s</div>}
       <div className={classnames(loadingCount > 0 && "absolute opacity-0")}>
         <div className="mx-auto max-w-[1100px]">

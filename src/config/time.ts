@@ -30,6 +30,8 @@ export const positionUpdateTime = editDataTime
 export const lastround = +new Date("2022-05-28T12:00:00.000+07:00")
 export const endLastRound = +new Date("2022-05-29T00:00:00.000+07:00")
 
+export const editInitData = +new Date("2023-04-17T00:00:00.000+07:00")
+
 export const getUNIXTimeStamp = () => {
   return moment().unix() * 1000
 }

@@ -124,7 +124,6 @@ export const ModalSection: FC<{
           dep: closeState,
           revert: () => {
             setCloseState(false)
-            setAction(null)
           },
         }}
         TriggerDep={{

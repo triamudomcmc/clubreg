@@ -1,4 +1,4 @@
-import { Storage } from "@google-cloud/storage"
+import {SignedPostPolicyV4Output, Storage} from "@google-cloud/storage"
 import { getUNIXTimeStamp } from "@config/time"
 import {
   executeWithPermission,
@@ -7,30 +7,18 @@ import {
 } from "@handlers/server/utilities/permission"
 import initialisedDB from "@server/firebase-admin"
 
-const upload = async (image: string, storage, tempFileName) => {
-  const base64EncodedImageString = image.replace(/^data:image\/\w+;base64,/, ""),
-    mimeType = image.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/)[1],
-    imageBuffer = Buffer.from(base64EncodedImageString, "base64")
+const upload = async (type: string, storage, tempFileName): Promise<SignedPostPolicyV4Output> => {
 
   const bucket = storage.bucket("clwimages")
   const file = bucket.file(tempFileName)
 
-  const res = await file
-    .save(imageBuffer, {
-      metadata: { contentType: mimeType },
-      public: true,
-      validation: "md5",
-    })
-    .then(function (err) {
-      if (err && err.length != 0) {
-        console.error("The file is not saved", err)
-        return false
-      } else {
-        return true
-      }
-    })
+  const options = {
+    expires: Date.now() + 1 * 60 * 1000, //  1 minute,
+  }
 
-  return res
+  const [response] = await file.generateSignedPostPolicyV4(options)
+
+  return response
 }
 
 const performUpload = async (req, ID) => {
@@ -46,11 +34,13 @@ const performUpload = async (req, ID) => {
   const nim = {}
 
   try {
+    const policies = []
     for (let k of Object.keys(images)) {
       if (images[k] !== null) {
         const tempFileName = `userUpload-${new Date().getTime()}-${Math.floor(Math.random() * 400)}`
         const res = await upload(images[k], storage, tempFileName)
         if (res) {
+          policies.push({key: k, content: res})
           nim[k] = `https://storage.googleapis.com/clwimages/${tempFileName}`
         }
       }
@@ -58,14 +48,17 @@ const performUpload = async (req, ID) => {
 
     let reviews = []
 
+    let ind = 0
     for (let rev of req.body.reviews) {
-      if (rev.profile.includes("data:image")) {
+      if (Object.keys(rev.profile).includes("type")) {
         const tempFileName = `userUpload-${new Date().getTime()}-${Math.floor(Math.random() * 400)}`
         const res = await upload(rev.profile, storage, tempFileName)
+        policies.push({key: `review-${ind}`, content: res})
         reviews.push({ ...rev, profile: `https://storage.googleapis.com/clwimages/${tempFileName}` })
       } else {
         reviews.push(rev)
       }
+      ind++
     }
 
     const clubDataDoc = await initialisedDB.collection("clubs").doc("mainData").get()
@@ -89,7 +82,7 @@ const performUpload = async (req, ID) => {
 
     const dat = await initialisedDB.collection("clubDisplayPending").doc(req.body.panelID).get()
     await initialisedDB
-      .collection("clubDisplay")
+      .collection("clubDisplayPending")
       .doc(req.body.panelID)
       .set(
         {
@@ -114,18 +107,18 @@ const performUpload = async (req, ID) => {
       },
     })
 
-    return true
+    return policies
   } catch (error) {
     console.error(error)
-    return false
+    return null
   }
 }
 
 const main = async (req, ID) => {
-  const status = performUpload(req, ID)
+  const status = await performUpload(req, ID)
 
   if (status) {
-    return { status: true, report: "success", data: { url: "" } }
+    return { status: true, report: "success", data: {policies: status} }
   } else {
     return { status: false, report: "unexpected_error" }
   }
