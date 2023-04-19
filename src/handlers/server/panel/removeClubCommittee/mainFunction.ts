@@ -45,7 +45,7 @@ export const removeClubCommitteeAction = async (req, res, ID) => {
       if (clubData?.committees?.map((v) => (v.toString())).includes(req.body.studentID)) {
         // remove
         await clubDoc.update({
-          [`${req.body.panelID}.committees`]: clubData.committees.filter((e) => e !== req.body.studentID),
+          [`${req.body.panelID}.committees`]: clubData.committees.map((v) => (v.toString())).filter((e) => e !== req.body.studentID),
         })
 
         update(
