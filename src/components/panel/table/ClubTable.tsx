@@ -120,20 +120,21 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
   // fetch value from api as intialValue
   // then every accept just upxate the api and then update the v alues idk just find a way to update the values as the apis update
 
-  const disable = new Date().getTime() < editInitData
+  // const disable = new Date().getTime() < editInitData
+  const disable =true
 
   return (
     <div>
       <h1 className="border-b border-gray-200 pb-4 text-xl">สัดส่วนชมรม</h1>
 
       <div className="relative">
-        {disable && <div className="w-full h-full flex justify-center items-center absolute backdrop-blur-[2px]">
-            <div className="flex flex-col items-center shadow-md rounded-lg w-full px-8 py-6 bg-white text-gray-900">
-                <h1 className="text-lg">ส่วนแก้ไขสัดส่วนจำนวนนักเรียน</h1>
-                <h1 className="text-lg">จะเปิดให้แก้ไขในวันที่ <span className="font-medium">17 เมษายน 2566</span></h1>
-                <Counter target={editInitData}/>
-            </div>
-        </div>}
+        {/*{disable && <div className="w-full h-full flex justify-center items-center absolute backdrop-blur-[2px]">*/}
+        {/*    <div className="flex flex-col items-center shadow-md rounded-lg w-full px-8 py-6 bg-white text-gray-900">*/}
+        {/*        <h1 className="text-lg">ส่วนแก้ไขสัดส่วนจำนวนนักเรียน</h1>*/}
+        {/*        <h1 className="text-lg">จะเปิดให้แก้ไขในวันที่ <span className="font-medium">17 เมษายน 2566</span></h1>*/}
+        {/*        <Counter target={editInitData}/>*/}
+        {/*    </div>*/}
+        {/*</div>}*/}
         <TableRow
           field="teacher_count"
           title="จำนวนครูที่ปรึกษาชมรม"
@@ -207,7 +208,7 @@ export const ClubCommitteeTable: FC<{
   const [studentID, setStudentID] = useState("44444")
   const [studentData, setStudentData] = useState<null | UserData>(null)
 
-  const disable = new Date().getTime() < editInitData
+  const disable = true
 
   const { addToast } = useToast()
   const { onReady } = useAuth()
@@ -615,13 +616,13 @@ export const ClubCommitteeTable: FC<{
         <hr className="my-6" />
 
         <div className="relative">
-          {disable && <div className="w-full h-full flex justify-center items-center absolute backdrop-blur-[2px]">
-              <div className="flex flex-col items-center shadow-md rounded-lg w-full px-8 py-6 bg-white text-gray-900">
-                  <h1 className="text-lg">ส่วนแก้ไขรายชื่อกรรมการชมรม</h1>
-                  <h1 className="text-lg">จะเปิดให้แก้ไขในวันที่ <span className="font-medium">17 เมษายน 2566</span></h1>
-                  <Counter target={editInitData}/>
-              </div>
-          </div>}
+          {/*{disable && <div className="w-full h-full flex justify-center items-center absolute backdrop-blur-[2px]">*/}
+          {/*    <div className="flex flex-col items-center shadow-md rounded-lg w-full px-8 py-6 bg-white text-gray-900">*/}
+          {/*        <h1 className="text-lg">ส่วนแก้ไขรายชื่อกรรมการชมรม</h1>*/}
+          {/*        <h1 className="text-lg">จะเปิดให้แก้ไขในวันที่ <span className="font-medium">17 เมษายน 2566</span></h1>*/}
+          {/*        <Counter target={editInitData}/>*/}
+          {/*    </div>*/}
+          {/*</div>}*/}
           <div className="flex flex-col space-y-6">
             {committee?.map((user) => {
               if (!user) return
@@ -641,20 +642,20 @@ export const ClubCommitteeTable: FC<{
 
                       <p className="w-[28px] text-center">{user.room}</p>
 
-                      {userData.student_id === user.student_id ? (
-                        <button
-                          className="w-24 rounded-md border border-gray-300 bg-gray-100 py-2 text-gray-600 transition-colors cursor-not-allowed"
-                        >
-                          ลบ
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => enableRemoveModal(user.student_id)}
-                          className="w-24 rounded-md border border-gray-300 bg-white py-2 text-gray-600 transition-colors hover:bg-gray-100"
-                        >
-                          ลบ
-                        </button>
-                      )}
+                      {/*{userData.student_id === user.student_id ? (*/}
+                      {/*  <button*/}
+                      {/*    className="w-24 rounded-md border border-gray-300 bg-gray-100 py-2 text-gray-600 transition-colors cursor-not-allowed"*/}
+                      {/*  >*/}
+                      {/*    ลบ*/}
+                      {/*  </button>*/}
+                      {/*) : (*/}
+                      {/*  <button*/}
+                      {/*    onClick={() => enableRemoveModal(user.student_id)}*/}
+                      {/*    className="w-24 rounded-md border border-gray-300 bg-white py-2 text-gray-600 transition-colors hover:bg-gray-100"*/}
+                      {/*  >*/}
+                      {/*    ลบ*/}
+                      {/*  </button>*/}
+                      {/*)}*/}
                     </div>
                   </div>
 
