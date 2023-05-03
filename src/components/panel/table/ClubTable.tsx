@@ -121,7 +121,14 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
   // then every accept just upxate the api and then update the v alues idk just find a way to update the values as the apis update
 
   // const disable = new Date().getTime() < editInitData
-  const disable =true
+  const [exception, setException] = useState(false)
+  useEffect(() => {
+    const id = localStorage.getItem("currentPanel")
+    const EXCEPT = ["ก30903-3_1", "ก30903-3_2", "ก30905-2_1","ก30905-2_2","ก30905-2_6","ก30905-2_7","ก30905-2_9","ก30915_1","ก30915_2","ก30915_4"]
+
+    setException(EXCEPT.includes(id))
+  }, [data])
+  const disable = !exception
 
   return (
     <div>
@@ -207,8 +214,15 @@ export const ClubCommitteeTable: FC<{
 
   const [studentID, setStudentID] = useState("44444")
   const [studentData, setStudentData] = useState<null | UserData>(null)
+  const [exception, setException] = useState(false)
+  useEffect(() => {
+    const id = localStorage.getItem("currentPanel")
+    const EXCEPT = ["ก30903-3_1", "ก30903-3_2", "ก30905-2_1","ก30905-2_2","ก30905-2_6","ก30905-2_7","ก30905-2_9","ก30915_1","ก30915_2","ก30915_4"]
 
-  const disable = true
+    setException(EXCEPT.includes(id))
+  }, [committee])
+
+  const disable = !exception
 
   const { addToast } = useToast()
   const { onReady } = useAuth()
@@ -642,20 +656,20 @@ export const ClubCommitteeTable: FC<{
 
                       <p className="w-[28px] text-center">{user.room}</p>
 
-                      {/*{userData.student_id === user.student_id ? (*/}
-                      {/*  <button*/}
-                      {/*    className="w-24 rounded-md border border-gray-300 bg-gray-100 py-2 text-gray-600 transition-colors cursor-not-allowed"*/}
-                      {/*  >*/}
-                      {/*    ลบ*/}
-                      {/*  </button>*/}
-                      {/*) : (*/}
-                      {/*  <button*/}
-                      {/*    onClick={() => enableRemoveModal(user.student_id)}*/}
-                      {/*    className="w-24 rounded-md border border-gray-300 bg-white py-2 text-gray-600 transition-colors hover:bg-gray-100"*/}
-                      {/*  >*/}
-                      {/*    ลบ*/}
-                      {/*  </button>*/}
-                      {/*)}*/}
+                      {userData.student_id === user.student_id || disable ? (
+                        <button
+                          className="w-24 rounded-md border border-gray-300 bg-gray-100 py-2 text-gray-600 transition-colors cursor-not-allowed"
+                        >
+                          ลบ
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => enableRemoveModal(user.student_id)}
+                          className="w-24 rounded-md border border-gray-300 bg-white py-2 text-gray-600 transition-colors hover:bg-gray-100"
+                        >
+                          ลบ
+                        </button>
+                      )}
                     </div>
                   </div>
 

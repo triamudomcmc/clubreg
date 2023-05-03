@@ -123,9 +123,12 @@ const Index = () => {
                       </Button>
                     )}
                     {regState === "before_old_club" && (
-                      <div className="font-semibold bg-white shadow-md px-4 py-3 mb-6 rounded-lg">
-                        <h1 className="text-lg text-center">ระบบจะเปิดให้ยืนยันสิทธิ์ชมรมเดิม</h1>
-                        <h1 className="text-TUCMC-gray-700">ในวันที่ 5 พฤษภาคม 2566 เวลา 11.30 น.</h1>
+                      <div className="flex text-gray-900 items-center space-x-4 font-semibold bg-white shadow-lg pl-4 pr-5 py-3 mb-6 rounded-lg">
+                        <ExclamationIcon className="w-10 h-10 text-yellow-500 mt-1"/>
+                        <div>
+                          <h1 className="text-lg text-left">ระบบจะเปิดให้ยืนยันสิทธิ์ชมรมเดิม</h1>
+                          <h1 className="text-TUCMC-gray-700 font-medium">ในวันที่ 5 พฤษภาคม 2566 เวลา 11.30 น.</h1>
+                        </div>
                       </div>
                     )}
                     {regState === "no_club" && (
@@ -211,6 +214,15 @@ const Index = () => {
                   >
                     <span>เลือกชมรม</span>
                   </Button>
+                )}
+                {regState === "before_old_club" && (
+                  <div className="flex text-gray-900 items-center space-x-4 font-semibold bg-white shadow-lg pl-4 pr-5 py-3 mb-6 rounded-lg">
+                    <ExclamationIcon className="w-10 h-10 text-yellow-500 mt-1"/>
+                    <div>
+                      <h1 className="text-lg text-left">ระบบจะเปิดให้ยืนยันสิทธิ์ชมรมเดิม</h1>
+                      <h1 className="text-TUCMC-gray-700 font-medium">ในวันที่ 5 พฤษภาคม 2566 เวลา 11.30 น.</h1>
+                    </div>
+                  </div>
                 )}
                 {regState === "old_club" && (
                   <Button
