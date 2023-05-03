@@ -15,7 +15,7 @@ import { stringify } from "remark"
 import { TableContactRow, TableRow, TableWebDataRow } from "./TableRow"
 import { IContactType } from "./valueTypes"
 import {useTimer} from "@utilities/timers"
-import { editInitData } from "@config/time"
+import {editInitData, EXCEPT} from "@config/time"
 import classnames from "classnames"
 
 export type TUpdateFieldFunction = (field: string, data: any) => Promise<{ status: boolean; report: string }>
@@ -112,8 +112,6 @@ const Counter: FC<{target: number}> = ({target}) => {
   const counter = useTimer(target)
   return                <span className="text-sm text-center mt-1">(อีก {counter.day} วัน {counter.hour} ชั่วโมง {counter.min} นาที)</span>
 }
-
-const EXCEPT = ["ก30903-3_1", "ก30903-3_2", "ก30905-2_1","ก30905-2_2","ก30905-2_6","ก30905-2_7","ก30905-2_9","ก30915_1","ก30915_2","ก30915_4","ก30902","ก30921_1","ก30921_1","ก30952-2","ก30902"]
 
 export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldFunction }> = ({
   data,
