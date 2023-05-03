@@ -197,7 +197,7 @@ const Auth = ({ query }) => {
               </div>
             </div>
             <p className="mt-8 max-w-[300px] text-TUCMC-gray-700">
-              ระบบจะเปิดให้เข้าสู่ระบบเพื่อยืนยันสิทธิ์ชมรมเดิมพร้อมกันในวันที่ 5 พ.ค. 2565 เวลา 11.30 น.
+              ระบบจะเปิดให้เข้าสู่ระบบเพื่อยืนยันสิทธิ์ชมรมเดิมพร้อมกันในวันที่ 5 พ.ค. 2566 เวลา 11.30 น.
             </p>
             <div className="mt-2 flex w-full flex-row justify-center">
               <span onClick={goForgot} className="cursor-pointer text-TUCMC-pink-400">

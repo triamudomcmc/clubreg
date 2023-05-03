@@ -268,7 +268,7 @@ const Confirm: NextPage = () => {
             <div className="md:max-w-xs">
               <div className="flex flex-col items-center">
                 <h1 className="text-4xl font-medium">ยืนยันสิทธิ์ชมรมเดิม</h1>
-                <span className="text-sm tracking-tight">ภายในวันที่ 6 พ.ค. 65</span>
+                <span className="text-sm tracking-tight">ภายในวันที่ 5 พ.ค. 66 เวลา 23:59 น.</span>
               </div>
               <div className="mt-6 w-full min-w-[300px] px-8">
                 <SelectSplash />

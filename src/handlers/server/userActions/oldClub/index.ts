@@ -4,6 +4,7 @@ import { fetchSession } from "@server/fetchers/session"
 import { update } from "@server/tracker"
 import initialisedDB from "@server/firebase-admin"
 import { endLastRound, endOldClub, endRegClubTime, lastround, startOldClub } from "@config/time"
+import {DocumentData, DocumentReference} from "firebase-admin/lib/firestore"
 
 export const oldClub = async (req, res) => {
   if (!(new Date().getTime() < endOldClub && new Date().getTime() >= startOldClub))
@@ -22,29 +23,22 @@ export const oldClub = async (req, res) => {
   if (!checkInputResult.status) return { status: false, report: checkInputResult.report }
 
   try {
+    // Perform all actions in a single transaction.
 
+    const clubData = await updateClub(<DocumentReference<DocumentData>>clubRef, req, dataRef, dataDoc, ID)
 
-    const clubData = await updateClub(clubRef, req)
+    return clubData
 
-    // confirm or not audition
-    const cardRef = await generateCard(dataDoc, clubData, req)
-    const currentData = await initialisedDB.collection("data").doc(ID.dataRefID).get()
-
-    if (currentData.get("club") !== "") {
-      return { status: false, report: "in_club" }
-    }
-
-    // TODO investigate
-    if (currentData.get("old_club") !== req.body.clubID && currentData.get("old_club") !== "ก30921") {
-      return { status: false, report: "not_old_club" }
-    }
-
-    await dataRef.update({ club: req.body.clubID, audition: {}, cardID: cardRef.id })
-
-    update("system", `regClub-${"oc"}-${clubData.audition ? "au" : "nu"}-${req.body.clubID}`, req.body.fp, userData.id)
-
-    return { status: true, report: clubData.audition ? "success_audition" : "success_notAudition" }
   } catch (e) {
+
+    const error = <{code:number}> e
+
+    // Listen for concurrent related rejections.
+
+    if (error.code == 10) {
+      return { status: false, report: "concurrent" }
+    }
+
     return { status: false, report: e }
   }
 }

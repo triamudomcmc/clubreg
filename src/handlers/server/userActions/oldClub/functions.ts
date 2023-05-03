@@ -1,6 +1,8 @@
 import bcrypt from "bcryptjs"
 import initialisedDB from "@server/firebase-admin"
 import { DocumentReference } from "firebase-admin/lib/firestore"
+import {generateCard} from "@server/userActions/sharedFunctions"
+import {update} from "@server/tracker"
 
 export const checkInputs = async (dataDoc, userData, req, clubRef) => {
   if (dataDoc.get("club") !== "") return { status: false, report: "in_club" }
@@ -14,20 +16,62 @@ export const checkInputs = async (dataDoc, userData, req, clubRef) => {
   return { status: true, report: "" }
 }
 
-export const updateClub = async (clubRef: DocumentReference, req) => {
+export const updateClub = async (clubRef: DocumentReference, req: any, dataRef: DocumentReference, dataDoc: any, ID: any) => {
   return await initialisedDB.runTransaction(async (t) => {
+
     const doc = await t.get(clubRef)
-    // 1 read
     const data = doc.get(req.body.clubID)
-    const newOCount = data.old_count + 1
 
-    // confirm old club
-    if (data.old_count < data.old_count_limit) {
-      await t.update(clubRef, { [req.body.clubID]: { old_count: newOCount } })
 
-      return data
-    } else {
-      throw "club_full"
-    }
+    const clubData = data
+
+
+      /*
+        Not audition section
+        --------------------
+        Second check if the request was already in a certain club.
+      */
+
+      const currentData = await t.get(dataRef)
+
+      if (typeof currentData.get("club") !== "string" ) {
+        return {status:false, report: "unexpected"}
+      }
+
+      if (currentData.get("club") !== "") {
+        return { status: false, report: "in_club" }
+      }
+
+      if (currentData.get("old_club") !== req.body.clubID) {
+        return { status: false, report: "not_old_club" }
+      }
+
+      /*
+        Update club's data collection.
+      */
+
+      if (data.old_count >= data.old_count_limit) throw "club_full"
+      const updatedOldCount = data.old_count + 1
+      t.set(clubRef, { [req.body.clubID]: { old_count: updatedOldCount } }, { merge: true })
+
+
+      /*
+        Generate card and update user's data
+      */
+
+      const cardRef = await generateCard(dataDoc, clubData, req)
+
+      t.update(dataRef, { club: req.body.clubID, audition: {}, cardID: cardRef.id })
+
+
+    update(
+      "system",
+      `regClub-oc-${clubData.audition ? "au" : "nu"}-${req.body.clubID}`,
+      req.body.fp,
+      ID.userID
+    )
+
+    return { status: true, report: "success" }
   })
 }
+

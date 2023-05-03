@@ -10,7 +10,7 @@ import Footer from "@components/common/Footer"
 import { motion } from "framer-motion"
 import { useTimer } from "@utilities/timers"
 import Router from "next/router"
-import { endLastRound, endOldClub, endRegClubTime, openTime, startOldClub } from "@config/time"
+import {beforeOldClub, endLastRound, endOldClub, endRegClubTime, openTime, startOldClub} from "@config/time"
 import Image from "next/image"
 import { useAuth } from "@client/auth"
 import { Data } from "framer"
@@ -24,9 +24,9 @@ const Index = () => {
   const [changeAlert, setChangeAlert] = useState(false)
   const { onReady } = useAuth()
 
-  const [button, setButton] = useState(new Date().getTime() >= goal)
+  const [button, setButton] = useState(new Date().getTime() >= goal || new Date().getTime() < endOldClub)
 
-  const regState: "no_login" | "no_club" | "club" | "old_club" | "" = onReady((logged, userData) => {
+  const regState: "no_login" | "no_club" | "club" | "old_club" | "" | "before_old_club" = onReady((logged, userData) => {
     if (!logged) {
       // Router.push("/auth")
       return "no_login"
@@ -41,6 +41,10 @@ const Index = () => {
         return "old_club"
       } else if (new Date().getTime() < endRegClubTime && new Date().getTime() > openTime) {
         return "no_club"
+      }
+
+      if (new Date().getTime() > beforeOldClub) {
+        return "before_old_club"
       }
     } else {
       return "club"
@@ -117,6 +121,12 @@ const Index = () => {
                       >
                         <span>ดูชมรมของคุณ</span>
                       </Button>
+                    )}
+                    {regState === "before_old_club" && (
+                      <div className="font-semibold bg-white shadow-md px-4 py-3 mb-6 rounded-lg">
+                        <h1 className="text-lg text-center">ระบบจะเปิดให้ยืนยันสิทธิ์ชมรมเดิม</h1>
+                        <h1 className="text-TUCMC-gray-700">ในวันที่ 5 พฤษภาคม 2566 เวลา 11.30 น.</h1>
+                      </div>
                     )}
                     {regState === "no_club" && (
                       <Button
