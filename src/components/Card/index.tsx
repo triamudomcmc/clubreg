@@ -141,7 +141,7 @@ export const Card = ({ width, userData, clubData, customURL = "" }) => {
         <div
           className={classnames(css.text138, "text-TUCMC-700 w-full text-center tracking-tight", css.px17, css.mt18)}
         >
-          <p className={classnames(css.textyear, "font-normal text-TUCMC-gray-600")}>ปีการศึกษา 2565</p>
+          <p className={classnames(css.textyear, "font-normal text-TUCMC-gray-600")}>ปีการศึกษา 2566</p>
           <h1>ชมรม{clubMap[userData.club]}</h1>
         </div>
         <span className={classnames(css.greenbutt, "rounded-full bg-TUCMC-green-400 tracking-tight text-white")}>
