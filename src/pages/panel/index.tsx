@@ -445,11 +445,10 @@ const Account = () => {
               </Button>
 
               <Button
-                href="/panel/report"
                 disabled={true}
                 type="div"
                 className={classNames(
-                  "cursor-pointer",
+                  "cursor-not-allowed",
                   "bg-TUCMC-white flex cursor-pointer items-center justify-center space-x-2 rounded-lg px-4 py-3.5 text-TUCMC-gray-600 shadow-md",
                   "w-full"
                 )}
