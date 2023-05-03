@@ -217,7 +217,7 @@ export const ClubCommitteeTable: FC<{
   const [exception, setException] = useState(false)
   useEffect(() => {
     const id = localStorage.getItem("currentPanel")
-    const EXCEPT = ["ก30903-3_1", "ก30903-3_2", "ก30905-2_1","ก30905-2_2","ก30905-2_6","ก30905-2_7","ก30905-2_9","ก30915_1","ก30915_2","ก30915_4","ก30902","ก30921"]
+    const EXCEPT = ["ก30903-3_1", "ก30903-3_2", "ก30905-2_1","ก30905-2_2","ก30905-2_6","ก30905-2_7","ก30905-2_9","ก30915_1","ก30915_2","ก30915_4","ก30902","ก30921_1","ก30921_1"]
 
     setException(EXCEPT.includes(id))
   }, [committee])
