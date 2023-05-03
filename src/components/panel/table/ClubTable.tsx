@@ -656,7 +656,7 @@ export const ClubCommitteeTable: FC<{
 
                       <p className="w-[28px] text-center">{user.room}</p>
 
-                      {userData.student_id === user.student_id || disable ? (
+                      {disable ? (
                         <button
                           className="w-24 rounded-md border border-gray-300 bg-gray-100 py-2 text-gray-600 transition-colors cursor-not-allowed"
                         >
