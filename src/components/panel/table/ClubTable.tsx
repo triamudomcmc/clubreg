@@ -154,7 +154,7 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
 
         <TableRow
           field="count_limit"
-          title="จำนวนนักเรียนในชมรมสูงสุด"
+          title="จำนวนนักเรียนทั้งหมดที่คาดว่าจะรับ"
           editable={!disable}
           description="จำนวนนักเรียนทั้งหมดในชมรม รวมถึงนักเรียนเก่าและกรรมการชมรม"
           initialData={{ type: "number", value: data.count_limit }}
