@@ -50,7 +50,7 @@ export const CustomCard = ({ width, clubData, panelID }) => {
         <div className={classnames("flex items-start", css.subContainer)}>
           <LocationMarkerIcon className={classnames(css.icon, "flex-shrink-0 text-TUCMC-gray-700")} />
           <span className={classnames(css.text1155, "text-TUCMC-gray-700")}>
-            สถานที่เรียนชมรม <span className="text-TUCMC-gray-500">{clubData.place}</span>
+            สถานที่เรียนชมรม <span className="text-TUCMC-gray-400">รอการอัพเดทภายหลัง</span>
           </span>
         </div>
         <div className={classnames("flex items-start", css.subContainer)}>
