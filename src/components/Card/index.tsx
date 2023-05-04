@@ -141,7 +141,7 @@ export const Card = ({ width, userData, clubData, customURL = "" }) => {
         <div
           className={classnames(css.text138, "text-TUCMC-700 w-full text-center tracking-tight", css.px17, css.mt18)}
         >
-          <p className={classnames(css.textyear, "font-normal text-TUCMC-gray-600")}>ปีการศึกษา 2565</p>
+          <p className={classnames(css.textyear, "font-normal text-TUCMC-gray-600")}>ปีการศึกษา 2566</p>
           <h1>ชมรม{clubMap[userData.club]}</h1>
         </div>
         <span className={classnames(css.greenbutt, "rounded-full bg-TUCMC-green-400 tracking-tight text-white")}>
@@ -152,7 +152,7 @@ export const Card = ({ width, userData, clubData, customURL = "" }) => {
         <div className={classnames("flex items-start", css.subContainer)}>
           <LocationMarkerIcon className={classnames(css.icon, "flex-shrink-0 text-TUCMC-gray-700")} />
           <span className={classnames(css.text1155, "text-TUCMC-gray-700")}>
-            สถานที่เรียนชมรม <span className="text-TUCMC-gray-500">{clubData.place}</span>
+            สถานที่เรียนชมรม <span className="text-TUCMC-gray-500">รอการอัพเดทภายหลัง</span>
           </span>
         </div>
         <div className={classnames("flex items-start", css.subContainer)}>
