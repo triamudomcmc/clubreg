@@ -141,16 +141,16 @@ const Navigation = () => {
       {sinfo && <div onClick={() => {setSInfo(false)}}className="fixed min-h-screen w-full top-0 left-0 z-[100]"/>}
       <motion.div
         animate={reveal ? "open" : "closed"}
-        className="sticky top-0 z-50 flex h-16 flex-row items-center justify-center bg-TUCMC-gray-900 px-6"
+        className="sticky top-0 z-50 flex flex-row items-center justify-center h-16 px-6 bg-TUCMC-gray-900"
       >
-        <div className="flex w-full max-w-6xl flex-row items-center justify-between">
+        <div className="flex flex-row items-center justify-between w-full max-w-6xl">
           <Link passHref href="/">
             <a>
               <WhiteLogo />
             </a>
           </Link>
           <div className="flex flex-row">
-            <div className="hidden flex-row space-x-10 whitespace-nowrap font-medium md:flex">
+            <div className="flex-row hidden space-x-10 font-medium whitespace-nowrap md:flex">
               <Link passHref href="/">
                 <a className="text-white">หน้าแรก</a>
               </Link>
@@ -170,13 +170,13 @@ const Navigation = () => {
                 <a className="text-white">ติดต่อ</a>
               </Link>
               <div className={classnames(isEmpty(userData) && "hidden")}>
-                <h1 ref={accRef} className="flex cursor-pointer items-center space-x-1 text-white">
-                  บัญชี <ChevronDownIcon className="h-5 w-5" />
+                <h1 ref={accRef} className="flex items-center space-x-1 text-white cursor-pointer">
+                  บัญชี <ChevronDownIcon className="w-5 h-5" />
                 </h1>
-                <Modal className="flex w-full justify-end" TriggerRef={accRef}>
+                <Modal className="flex justify-end w-full" TriggerRef={accRef}>
                   <div className="absolute mt-2">
                     {logged && (
-                      <div className="rounded-t-lg bg-TUCMC-gray-100 px-7 py-2 font-normal">
+                      <div className="py-2 font-normal rounded-t-lg bg-TUCMC-gray-100 px-7">
                         <h1 className="text-TUCMC-gray-900">{`${userData.title}${userData.firstname} ${userData.lastname}`}</h1>
                         <div className="flex items-center space-x-2">
                           <h1 onClick={() => {setSInfo(false)}} className="text-sm tracking-tight text-TUCMC-gray-700">{`${userData.student_id} | ${userData.room} / ${userData.number}`}</h1>
@@ -205,7 +205,7 @@ const Navigation = () => {
                         </Link>
                       )}
                       {logged && userData.panelID &&
-                      <Link passHref href="/panel/evaluate"><h1 className="flex space-x-1 items-center font-medium text-TUCMC-orange-500 cursor-pointer hover:text-blue-600 hover:underline"><span>ประเมินผล</span> <StarIcon className="w-4 h-4 animate-pulse"/></h1>
+                      <Link passHref href="/panel/evaluate"><h1 className="flex items-center space-x-1 font-medium cursor-pointer text-TUCMC-orange-500 hover:text-blue-600 hover:underline"><span>ประเมินผล</span> <StarIcon className="w-4 h-4 animate-pulse"/></h1>
                       </Link>}
                       {logged && userData.panelID && (
                         <Link passHref href="/panel">
@@ -241,10 +241,10 @@ const Navigation = () => {
               <div className={classnames(!isEmpty(userData) && "hidden")}>
                 {!logged ? (
                   <Link passHref href="/auth">
-                    <h1 className="cursor-pointer text-white">เข้าสู่ระบบ</h1>
+                    <h1 className="text-white cursor-pointer">เข้าสู่ระบบ</h1>
                   </Link>
                 ) : (
-                  <h1 onClick={signout} className="cursor-pointer text-white">
+                  <h1 onClick={signout} className="text-white cursor-pointer">
                     ออกจากระบบ
                   </h1>
                 )}
@@ -273,7 +273,7 @@ const Navigation = () => {
         variants={variants}
         className={classnames("fixed top-0 z-50 h-full min-w-[280px] bg-white", load && "hidden")}
       >
-        <div className="bg-TUCMC-gray-800 p-4">
+        <div className="p-4 bg-TUCMC-gray-800">
           <Link passHref href="/">
             <a>
               <WhiteLogo />
@@ -281,7 +281,7 @@ const Navigation = () => {
           </Link>
         </div>
         {logged && (
-          <div className="my-4 bg-TUCMC-gray-100 px-6 py-2">
+          <div className="px-6 py-2 my-4 bg-TUCMC-gray-100">
             <h1 className="text-TUCMC-gray-900">{`${userData.title}${userData.firstname} ${userData.lastname}`}</h1>
             <div className="flex items-center space-x-2">
                           <h1 onClick={() => {setSInfo(false)}} className="text-sm tracking-tight text-TUCMC-gray-700">{`${userData.student_id} | ${userData.room} / ${userData.number}`}</h1>
@@ -427,7 +427,7 @@ const Navigation = () => {
             <span className={getClass("/clubs", "font")}>รายชื่อชมรม</span>
           </a>
         </Link>
-        <Link passHref href="/dummy">
+        {/* <Link passHref href="/dummy">
           <a
             className={classnames(
               "flex flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8",
@@ -437,7 +437,7 @@ const Navigation = () => {
             <CalendarIcon className={classnames("h-7 w-7", getClass("/instructions", "icon"))} />{" "}
             <span className={getClass("/info", "font")}>ระบบจำลอง</span>
           </a>
-        </Link>
+        </Link> */}
         <Link passHref href="/FAQ">
           <a
             className={classnames(

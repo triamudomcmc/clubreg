@@ -112,7 +112,7 @@ const Announce = () => {
       const values = Object.values(userData.audition)
       if (values.includes("passed")) {
         setDesc(
-          <div className="mt-12 px-6 text-center md:mt-20">
+          <div className="px-6 mt-12 text-center md:mt-20">
             <p className="text-TUCMC-gray-700">
               กดยืนยันสิทธิ์หรือสละสิทธิ์ชมรมที่ผ่านการ คัดเลือกภายในวันนี้ (เหลือเวลาอีก {timer.hour} ชั่วโมง{" "}
               {timer.min} นาที)
@@ -129,8 +129,8 @@ const Announce = () => {
         !values.includes("reserved")
       ) {
         setBottomDesc(
-          <p className="mx-auto mt-20 max-w-md px-16 text-center text-TUCMC-gray-700">
-            กรุณารอเลือกเข้าชมรมที่ไม่มีการ Audition และยังมีที่นั่งว่างอยู่ ในวันที่ 28 พ.ค. 65
+          <p className="max-w-md px-16 mx-auto mt-20 text-center text-TUCMC-gray-700">
+            กรุณารอเลือกเข้าชมรมที่ไม่มีการ Audition และยังมีที่นั่งว่างอยู่ ในวันที่ 2 มิ.ย. 66
           </p>
         )
       }
@@ -146,7 +146,7 @@ const Announce = () => {
         setDesc((prevState) => (
           <>
             {prevState}
-            <div className="mt-6 flex flex-col items-center space-y-2 px-6">
+            <div className="flex flex-col items-center px-6 mt-6 space-y-2">
               <p className="text-TUCMC-gray-700">รอลุ้นลำดับสำรอง 2 รอบ</p>
               <div>
                 <div className="flex items-center space-x-1">
@@ -159,7 +159,7 @@ const Announce = () => {
                     1
                   </div>
                   <span className={classnames(reserved ? "text-TUCMC-gray-700" : "text-TUCMC-gray-500")}>
-                    26 พ.ค. 65 เวลา 07.30 น.
+                    31 พ.ค. 66 เวลา 07.30 น.
                   </span>
                 </div>
                 <div className="flex items-center space-x-1">
@@ -172,7 +172,7 @@ const Announce = () => {
                     2
                   </div>
                   <span className={classnames(reserved2 ? "text-TUCMC-gray-700" : "text-TUCMC-gray-500")}>
-                    27 พ.ค. 65 เวลา 07.30 น.
+                    1 มิ.ย. 66 เวลา 07.30 น.
                   </span>
                 </div>
               </div>
@@ -204,9 +204,9 @@ const Announce = () => {
               }, 9000)
             setCompHide(hideA)
           }}
-          className="flex cursor-pointer items-center space-x-2 rounded-md bg-TUCMC-orange-500 py-2 pl-4 pr-6 shadow-md"
+          className="flex items-center py-2 pl-4 pr-6 space-x-2 rounded-md shadow-md cursor-pointer bg-TUCMC-orange-500"
         >
-          <ExclamationIcon className="mt-2 h-10 w-10 animate-pulse text-white" />
+          <ExclamationIcon className="w-10 h-10 mt-2 text-white animate-pulse" />
           <div>
             <div className="flex items-center space-x-2 font-medium text-white">
               <h1>คุณกำลังอยู่ในโหมดระบบจำลอง</h1>
@@ -223,9 +223,9 @@ const Announce = () => {
           onClick={() => {
             Router.push("/dummy/select")
           }}
-          className="mt-1 flex cursor-pointer items-center space-x-2 rounded-full bg-TUCMC-pink-400 px-6 py-2 font-medium text-white sm:mt-0"
+          className="flex items-center px-6 py-2 mt-1 space-x-2 font-medium text-white rounded-full cursor-pointer bg-TUCMC-pink-400 sm:mt-0"
         >
-          <ArrowLeftIcon className="h-5 w-5" />
+          <ArrowLeftIcon className="w-5 h-5" />
           <h1>กลับสู่ช่วงเลือกชมรม</h1>
         </div>
         {isOverr && (
@@ -234,10 +234,10 @@ const Announce = () => {
               localStorage.setItem("dummyExState", "{}")
               reFetch()
             }}
-            className="flex cursor-pointer items-center space-x-2 rounded-full bg-TUCMC-pink-400 px-6 py-2 font-medium text-white"
+            className="flex items-center px-6 py-2 space-x-2 font-medium text-white rounded-full cursor-pointer bg-TUCMC-pink-400"
           >
             <h1>ย้อนกลับสถานะ</h1>
-            <RefreshIcon className="h-5 w-5" />
+            <RefreshIcon className="w-5 h-5" />
           </div>
         )}
       </div>
@@ -268,21 +268,21 @@ const Announce = () => {
         }}
         mode={select.mode}
       />
-      <div className="flex min-h-screen flex-col items-center pt-14 md:pt-20">
+      <div className="flex flex-col items-center min-h-screen pt-14 md:pt-20">
         <div className="max-w-md px-4">
           <div className="flex flex-col items-center">
             {!before && <h1 className="text-4xl font-medium text-TUCMC-gray-700">ประกาศผล</h1>}
           </div>
-          <div className="mt-10 w-full px-14 minClubs:px-20">
+          <div className="w-full mt-10 px-14 minClubs:px-20">
             <AnnounceSplash className="w-full" />
           </div>
           {!before ? (
             desc
           ) : (
-            <div className="mb-20 space-y-8 pt-10">
+            <div className="pt-10 mb-20 space-y-8">
               <div className="flex flex-col items-center text-TUCMC-gray-700">
                 <h1 className="text-4xl">รอประกาศผล</h1>
-                <h1 className="text-xl">25 พ.ค. 2565 เวลา 7.30 น.</h1>
+                <h1 className="text-xl">30 พ.ค. 2566 เวลา 7.30 น.</h1>
               </div>
               <div className="flex flex-row justify-center space-x-2 text-TUCMC-gray-700">
                 <div className="flex flex-col items-center">
@@ -308,8 +308,8 @@ const Announce = () => {
           )}
         </div>
         {!before && (
-          <div className="mt-16 w-full bg-TUCMC-gray-100 pb-20 pt-12">
-            <div className="mx-auto max-w-md space-y-4 px-4">
+          <div className="w-full pt-12 pb-20 mt-16 bg-TUCMC-gray-100">
+            <div className="max-w-md px-4 mx-auto space-y-4">
               {!before && userData.audition && !isEmpty(userData.audition) ? (
                 Object.keys(userData.audition).map((key) => {
                   return (

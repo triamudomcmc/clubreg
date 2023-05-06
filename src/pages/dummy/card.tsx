@@ -114,9 +114,9 @@ const Page = ({ links }) => {
               }, 9000)
             setCompHide(hideA)
           }}
-          className="flex cursor-pointer items-center space-x-2 rounded-md bg-TUCMC-orange-500 py-2 pl-4 pr-6 shadow-md"
+          className="flex items-center py-2 pl-4 pr-6 space-x-2 rounded-md shadow-md cursor-pointer bg-TUCMC-orange-500"
         >
-          <ExclamationIcon className="mt-2 h-10 w-10 animate-pulse text-white" />
+          <ExclamationIcon className="w-10 h-10 mt-2 text-white animate-pulse" />
           <div>
             <div className="flex items-center space-x-2 font-medium text-white">
               <h1>คุณกำลังอยู่ในโหมดระบบจำลอง</h1>
@@ -128,7 +128,7 @@ const Page = ({ links }) => {
         </motion.div>
       </div>
       <div className="overflow-hidden">
-        {/* <div className="mx-auto mt-10 flex max-w-md flex-col space-y-3 px-7">
+        {/* <div className="flex flex-col max-w-md mx-auto mt-10 space-y-3 px-7">
           <Button
             disabled={link === ""}
             href={link}
@@ -170,7 +170,7 @@ const Page = ({ links }) => {
               เย่ ! ลงทะเบียนชมรมสำเร็จแล้ว <br /> แต่ว่านี่
               <span className="font-bold">เป็นเพียงแค่การจำลองเท่านั้น</span> <br /> น้อง ๆ อย่าลืม ลงทะเบียนในวันจริง
               <br />
-              วันที่ 17 พ.ค. 2565 เวลา 12.00 น. ด้วยนะ
+              วันที่ 16 พ.ค. 2566 เวลา 12.00 น. ด้วยนะ
             </Tooltip>
           </motion.div>
           <Image src="/assets/dummy/astro-4.png" width={289} height={200} />
@@ -179,9 +179,9 @@ const Page = ({ links }) => {
           onClick={() => {
             Router.push("/dummy/select")
           }}
-          className="fixed  left-4 bottom-4 flex cursor-pointer items-center space-x-2 rounded-full bg-TUCMC-pink-400 px-6 py-2 font-semibold text-white"
+          className="fixed flex items-center px-6 py-2 space-x-2 font-semibold text-white rounded-full cursor-pointer left-4 bottom-4 bg-TUCMC-pink-400"
         >
-          <ArrowLeftIcon className="h-5 w-5" />
+          <ArrowLeftIcon className="w-5 h-5" />
           <h1>กลับสู่หน้าเลือกชมรมอีกครั้ง</h1>
         </div>
       </div>

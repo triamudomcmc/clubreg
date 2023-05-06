@@ -127,9 +127,9 @@ const Auth = ({ query }) => {
               }, 9000)
             setCompHide(hideA)
           }}
-          className="flex cursor-pointer items-center space-x-2 rounded-md bg-TUCMC-orange-500 py-2 pl-4 pr-6 shadow-md"
+          className="flex items-center py-2 pl-4 pr-6 space-x-2 rounded-md shadow-md cursor-pointer bg-TUCMC-orange-500"
         >
-          <ExclamationIcon className="mt-2 h-10 w-10 animate-pulse text-white" />
+          <ExclamationIcon className="w-10 h-10 mt-2 text-white animate-pulse" />
           <div>
             <div className="flex items-center space-x-2 font-medium text-white">
               <h1>คุณกำลังอยู่ในโหมดระบบจำลอง</h1>
@@ -141,7 +141,7 @@ const Auth = ({ query }) => {
         </motion.div>
       </div>
       <Loader display={loader} />
-      <div style={{ maxWidth: "26rem" }} className="mx-auto my-6 mb-16 min-h-screen space-y-8 md:my-10 md:mb-10">
+      <div style={{ maxWidth: "26rem" }} className="min-h-screen mx-auto my-6 mb-16 space-y-8 md:my-10 md:mb-10">
         {/* <DefaultCard>
           <p className="font-normal">
             นักเรียน ม.5 และ ม.6 จะไม่สามารถล็อกอินเข้าสู่ระบบด้วยบัญชีเดิมในปีการศึกษาที่ผ่านมาได้
@@ -150,14 +150,14 @@ const Auth = ({ query }) => {
         </DefaultCard> */}
         <DefaultCard>
           <p className="font-normal">
-            นักเรียน ม.5 และ ม.6 ในปีการศึกษา 2565 ที่เข้ามายืนยันสิทธิ์ชมรมเดิม จะต้องใช้บัญชีเดิมในการเข้าสู่ระบบ
+            นักเรียน ม.5 และ ม.6 ในปีการศึกษา 2566 ที่เข้ามายืนยันสิทธิ์ชมรมเดิม จะต้องใช้บัญชีเดิมในการเข้าสู่ระบบ
           </p>
         </DefaultCard>
         {action == "login" && (
           <LoginSection query={query} primaryAction={goRegister} secAction={() => {}} setLoader={setLoader} />
         )}
         {action == "waiting" && (
-          <div className="mt-6 flex flex-col items-center pt-8">
+          <div className="flex flex-col items-center pt-8 mt-6">
             <h1 className="text-4xl font-bold tracking-tight">เข้าสู่ระบบ</h1>
             <div className="mt-2 mb-6 text-center text-TUCMC-gray-600">
               <p>ระบบลงทะเบียนชมรม</p>
@@ -190,9 +190,9 @@ const Auth = ({ query }) => {
               </div>
             </div>
             <p className="mt-8 max-w-[300px] text-TUCMC-gray-700">
-              ระบบจะเปิดให้เข้าสู่ระบบเพื่อยืนยันสิทธิ์ชมรมเดิมพร้อมกันในวันที่ 5 พ.ค. 2565 เวลา 11.30 น.
+              ระบบจะเปิดให้เข้าสู่ระบบเพื่อยืนยันสิทธิ์ชมรมเดิมพร้อมกันในวันที่ 5 พ.ค. 2566 เวลา 11.30 น.
             </p>
-            <div className="mt-2 flex w-full flex-row justify-center">
+            <div className="flex flex-row justify-center w-full mt-2">
               <span
                 onClick={() => {
                   setAction("forgot")
