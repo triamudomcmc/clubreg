@@ -98,7 +98,7 @@ const Clubs: FC = ({ clubs }: InferGetStaticPropsType<typeof getStaticProps>) =>
         const escaped = searchContext.replace("ชมรม", "")
         if (escaped !== "") {
           const searchResult = searchKeywordOtimised(rawSorted, escaped, (obj) => obj.name)
-          if(Math.abs(searchResult.length - sortedData.length) > 15) {
+          if(Math.abs(searchResult.length - sortedData.length) > 40) {
             setSortedData([])
           }
           setSortedData(searchResult)
@@ -134,7 +134,7 @@ const Clubs: FC = ({ clubs }: InferGetStaticPropsType<typeof getStaticProps>) =>
           <AnimateSharedLayout>
           <div className="mt-5 flex w-full max-w-5xl flex-wrap justify-center px-0 marg:px-[0.35rem]">
             {sortedData.length > 0 && rawSorted.map((item, index) => {
-              return <motion.div key={`club-${index}`} layout={true} animate={false} style={{display: sortedData.includes(item.clubID) ? "block" : "none"}}><ClubCard data={item} /></motion.div>
+              return <motion.div key={`club-${index}`} layout={"position"} animate={false} style={{display: sortedData.includes(item.clubID) ? "block" : "none"}}><ClubCard data={item} /></motion.div>
             })}
           </div>
           </AnimateSharedLayout>
