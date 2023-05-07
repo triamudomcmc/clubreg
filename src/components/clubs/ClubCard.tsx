@@ -21,19 +21,20 @@ export const ClubCard = ({ data, imageLoadAction = null }) => {
             height="143"
             quality={75}
             placeholder="blur"
-            blurDataURL={data.imageURL}
-            src={data.imageURL}
+            blurDataURL={data.imageURL?.replace("https://storage.googleapis.com/","/assets/images/")}
+            src={data.imageURL?.replace("https://storage.googleapis.com/","/assets/images/")}
           />
         ) : (
           <Image
+            priority={false}
             className="w-full rounded-t-lg object-cover"
             width="185"
             height="102"
             quality={75}
             onLoad={imageLoadAction}
             placeholder="blur"
-            blurDataURL={data.imageURL}
-            src={data.imageURL}
+            blurDataURL={data.imageURL?.replace("https://storage.googleapis.com/","/assets/images/")}
+            src={data.imageURL?.replace("https://storage.googleapis.com/","/assets/images/")}
           />
         )}
         <div className="space-y-2.5 rounded-b-lg bg-white px-2 py-2">

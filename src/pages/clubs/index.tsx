@@ -27,6 +27,7 @@ export const getStaticProps: GetStaticProps = async (): Promise<
   const clubs = clubDisplayDocs.docs.map((club) => {
     const data = club.data() as ClubDisplay
 
+
     return {
       name: data.nameTH,
       audition: data.audition,
@@ -48,7 +49,7 @@ const Clubs: FC = ({ clubs }: InferGetStaticPropsType<typeof getStaticProps>) =>
   const [query, setQuery] = useState(setTimeout(() => {}, 10))
   const [rawSorted, setRawSorted] = useState([])
   const [sortedData, setSortedData] = useState([])
-  const [loadingCount, setLoadingCount] = useState(1)
+  const [loadingCount, setLoadingCount] = useState(0)
 
   const apply = () => {
     const dataArr = [...clubs]
@@ -83,12 +84,6 @@ const Clubs: FC = ({ clubs }: InferGetStaticPropsType<typeof getStaticProps>) =>
     apply()
   }, [sortMode, clubs])
 
-  useEffect(() => {
-    setLoadingCount(20)
-    setTimeout(() => {
-      setLoadingCount(0)
-    }, 10000)
-  }, [])
 
   const loaded = () => {
     setLoadingCount((prevState) => prevState - 1)
@@ -132,7 +127,7 @@ const Clubs: FC = ({ clubs }: InferGetStaticPropsType<typeof getStaticProps>) =>
           </div>
           <div className="mt-5 flex w-full max-w-5xl flex-wrap justify-center px-0 marg:px-[0.35rem]">
             {sortedData.map((item, index) => {
-              if (index < 70) return <ClubCard key={`club-${index}`} data={item} imageLoadAction={loaded} />
+              return <ClubCard key={`club-${index}`} data={item} />
             })}
           </div>
         </div>

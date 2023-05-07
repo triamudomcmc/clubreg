@@ -98,7 +98,7 @@ const Page = ({ data, clubID, clubList, clubDisplay }) => {
       title={`ชมรม${clubDisplay.nameTH}`}
       /* clean up html tags*/
       description={clubDisplay.description.replace(/<\/?[^>]+(>|$)/g, "")}
-      imgURL={clubDisplay?.images?.mainImage || `/assets/thumbnails/${clubID}.jpg`}
+      imgURL={clubDisplay?.images?.mainImage?.replace("https://storage.googleapis.com/","/assets/images/") || `/assets/thumbnails/${clubID}.jpg`}
     >
       <PageContainer>
         <AnimateSharedLayout>
