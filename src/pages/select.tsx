@@ -260,7 +260,7 @@ const Select = ({ clubList }) => {
               <div className="md:max-w-xs">
                 <div className="flex flex-col items-center">
                   <h1 className="text-4xl font-medium">เลือกชมรม</h1>
-                  <span className="text-sm tracking-tight">ภายในวันที่ 24 พ.ค. 66</span>
+                  <span className="text-sm tracking-tight">ภายในวันที่ 29 พ.ค. 66</span>
                 </div>
                 <div className="mt-6 w-full min-w-[300px] px-8">
                   <SelectSplash />
