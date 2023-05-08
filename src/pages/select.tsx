@@ -260,7 +260,7 @@ const Select = ({ clubList }) => {
               <div className="md:max-w-xs">
                 <div className="flex flex-col items-center">
                   <h1 className="text-4xl font-medium">เลือกชมรม</h1>
-                  <span className="text-sm tracking-tight">ภายในวันที่ 24 พ.ค. 65</span>
+                  <span className="text-sm tracking-tight">ภายในวันที่ 24 พ.ค. 66</span>
                 </div>
                 <div className="mt-6 w-full min-w-[300px] px-8">
                   <SelectSplash />
@@ -271,7 +271,7 @@ const Select = ({ clubList }) => {
                       <h1 className="text-lg font-medium tracking-tight">คุณได้ลงชื่อ Audition ชมรมไว้</h1>
                       <p className="tracking-tight text-gray-600">
                         ให้ไปทำการ Audition ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนด โดยติดตามรายละเอียดการ Audition
-                        จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง และรอการประกาศผลในวันที่ 25 พ.ค. 2565 เวลา 7.30 น.
+                        จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง และรอการประกาศผลในวันที่ 25 พ.ค. 2566 เวลา 7.30 น.
                       </p>
                       <div className="relative md:hidden">
                         <a ref={auTrigger} className="cursor-pointer tracking-tight text-TUCMC-pink-500">
