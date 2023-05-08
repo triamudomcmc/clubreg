@@ -150,10 +150,10 @@ const Page = ({ links }) => {
           />
         </div>
         <motion.div
-          initial={{ y: -200, x: 250 }}
+          initial={{ y: -200, x: 300 }}
           animate={enter ? { x: 40 } : { x: -width - 250, y: -300 }}
           transition={{ duration: 1, delay: enter ? 1 : 1 }}
-          className="fixed bottom-0 right-0"
+          className="fixed bottom-0 right-10"
         >
           <motion.div
             initial={{ opacity: 0 }}
@@ -166,14 +166,14 @@ const Page = ({ links }) => {
                 }, 15000)
             }}
           >
-            <Tooltip type="right" className="top-[75px] left-[-180px]">
-              เย่ ! ลงทะเบียนชมรมสำเร็จแล้ว <br /> แต่ว่านี่
+            <Tooltip type="right" className="top-[50px] left-[-250px]">
+              เย่ ! ลงทะเบียนชมรมสำเร็จแล้ว <br /> แต่ว่านี
               <span className="font-bold">เป็นเพียงแค่การจำลองเท่านั้น</span> <br /> น้อง ๆ อย่าลืม ลงทะเบียนในวันจริง
               <br />
-              วันที่ 16 พ.ค. 2566 เวลา 12.00 น. ด้วยนะ
+              วันที่ 22 พ.ค. 2566 เวลา 12.00 น. ด้วยนะ
             </Tooltip>
           </motion.div>
-          <Image src="/assets/dummy/astro-4.png" width={289} height={200} />
+          <Image src="/assets/dummy/duck.png" width={108} height={144} />
         </motion.div>
         <div
           onClick={() => {
