@@ -157,7 +157,7 @@ const Auth = ({ query }) => {
         </DefaultCard> */}
         <DefaultCard>
           <p className="font-normal">
-            นักเรียน ม.5 และ ม.6 ในปีการศึกษา 2565 ที่เข้ามายืนยันสิทธิ์ชมรมเดิม จะต้องใช้บัญชีเดิมในการเข้าสู่ระบบ
+            นักเรียน ม.5 และ ม.6 ในปีการศึกษา 2566 ที่เข้ามายืนยันสิทธิ์ชมรมเดิม จะต้องใช้บัญชีเดิมในการเข้าสู่ระบบ
           </p>
         </DefaultCard>
         {action == "login" && (
@@ -168,7 +168,7 @@ const Auth = ({ query }) => {
             <h1 className="text-4xl font-bold tracking-tight">เข้าสู่ระบบ</h1>
             <div className="mt-2 mb-6 text-center text-TUCMC-gray-600">
               <p>ระบบลงทะเบียนชมรม</p>
-              <p>โรงเรียนเตรียมอุดมศึกษา ปีการศึกษา 2565</p>
+              <p>โรงเรียนเตรียมอุดมศึกษา ปีการศึกษา 2566</p>
             </div>
             <div className="flex flex-row justify-center space-x-2 text-TUCMC-gray-900">
               <div className="flex flex-col items-center">

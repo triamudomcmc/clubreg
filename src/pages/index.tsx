@@ -56,7 +56,7 @@ const Index = () => {
   return (
     <DescribeRoute
       title="ระบบลงทะเบียนชมรม โรงเรียนเตรียมอุดมศึกษา"
-      description="ระบบจะเปิดให้ลงทะเบียนชมรมในวันที่ 17 พ.ค. 2565 เวลา 12.00 น."
+      description="ระบบจะเปิดให้ลงทะเบียนชมรมในวันที่ 22 พ.ค. 2566 เวลา 12.00 น."
       imgURL="/assets/meta/index.jpg"
     >
       <PageContainer footer={false}>
@@ -73,7 +73,7 @@ const Index = () => {
                     โรงเรียนเตรียมอุดมศึกษา
                   </h1>
                   <p className="mt-2 tracking-tight text-white md:mt-2 md:text-xl lg:mt-4 lg:text-3xl">
-                    ปีการศึกษา 2565
+                    ปีการศึกษา 2566
                   </p>
                 </div>
                 {!button && (
@@ -155,7 +155,7 @@ const Index = () => {
                 </div> */}
                 <div className="hidden px-1 font-medium text-white md:block">
                   <p>ระบบจะเปิดให้ลงทะเบียนชมรม</p>
-                  <p>ในวันที่ 17 พ.ค. 2565 เวลา 12.00 น.</p>
+                  <p>ในวันที่ 22 พ.ค. 2566 เวลา 12.00 น.</p>
                 </div>
               </div>
             </div>
@@ -243,7 +243,7 @@ const Index = () => {
                 </div> */}
                 <div className="font-medium">
                   <p>ระบบจะเปิดให้ลงทะเบียนชมรม</p>
-                  <p>ในวันที่ 17 พ.ค. 2565 เวลา 12.00 น.</p>
+                  <p>ในวันที่ 22 พ.ค. 2566 เวลา 12.00 น.</p>
                 </div>
               </div>
             </div>
