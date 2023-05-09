@@ -17,17 +17,17 @@ const Index = () => {
   return (
     <PageContainer>
       {zoomOverlay}
-      <div className="mx-auto max-w-6xl pt-8 pb-16 relative">
-        <div className="absolute w-full h-full bg-gray-100 bg-opacity-30 z-20 backdrop-filter backdrop-blur">
-          <div className="fixed w-full min-h-screen left-0 top-0 flex items-center justify-center">
-          <div className="flex flex-col items-center space-y-2 mt-10">
+      <div className="relative max-w-6xl pt-8 pb-16 mx-auto">
+        <div className="absolute z-20 w-full h-full bg-gray-100 bg-opacity-30 backdrop-filter backdrop-blur">
+          <div className="fixed top-0 left-0 flex items-center justify-center w-full min-h-screen">
+          <div className="flex flex-col items-center mt-10 space-y-2">
             <ClockIcon className="w-12 h-12 text-TUCMC-gray-700 animate-pulse"/>
-          <p className="font-bold text-2xl text-center text-TUCMC-gray-800">รอติดตามวิธีใช้ระบบลงทะเบียนชมรม<br/>อย่างละเอียดในภายหลัง</p>
+          <p className="text-2xl font-bold text-center text-TUCMC-gray-800">รอติดตามวิธีใช้ระบบลงทะเบียนชมรม<br/>อย่างละเอียดในภายหลัง</p>
           </div>
           </div>
         </div>
-        <h1 className="mb-6 text-center text-2xl font-bold md:my-12">วิธีลงทะเบียน</h1>
-        <div className="flex flex-col items-center space-y-8 px-8 font-texts text-TUCMC-gray-700">
+        <h1 className="mb-6 text-2xl font-bold text-center md:my-12">วิธีลงทะเบียน</h1>
+        <div className="flex flex-col items-center px-8 space-y-8 font-texts text-TUCMC-gray-700">
           <div className="flex w-[100vw] max-w-[400px] justify-center md:w-full md:max-w-[unset] md:space-x-6">
             <Swiper
               slidesPerView={1}
@@ -93,7 +93,7 @@ const Index = () => {
               <h1>2.</h1>
               <p>เมื่อเข้าสู่ระบบแล้ว จะเจอหน้าเลือกชมรม</p>
             </div>
-            <div className="mx-auto flex space-x-1">
+            <div className="flex mx-auto space-x-1">
               <div className="max-w-[300px] shadow-md">
                 <Image src="/assets/images/instruction/screen1.jpg" width="1080" height="3498" />
               </div>
@@ -156,7 +156,7 @@ const Index = () => {
                 <p className="text-TUCMC-green-500">โดยนักเรียนสามารถตรวจสอบผลได้หลังจากเข้าสู่ระบบแล้ว</p>
               </div>
             </div>
-            <div className="mx-auto flex">
+            <div className="flex mx-auto">
               <div className="max-w-[300px] shadow-md">
                 <Image src="/assets/images/instruction/screen3.jpg" width="1080" height="3581" />
               </div>
@@ -186,12 +186,12 @@ const Index = () => {
             <div className="flex space-x-4">
               <h1>5.</h1>
               <p>
-                การประกาศผลสำรองจะมีทั้งหมด 2 รอบ รอบแรกในวันที่ 31 พ.ค. 2566 2564 เวลา 7.30 น. และรอบ 2 ในวันที่ 1 มิ.ย.
-                2564 เวลา 7.30 น.{" "}
+                การประกาศผลสำรองจะมีทั้งหมด 2 รอบ รอบแรกในวันที่ 31 พ.ค. 2566 เวลา 7.30 น. และรอบ 2 ในวันที่ 2 มิ.ย.
+                2566 เวลา 7.30 น.{" "}
                 <span className="text-TUCMC-green-500">โดยนักเรียนสามารถตรวจสอบผลได้หลังจากเข้าสู่ระบบแล้ว</span>
               </p>
             </div>
-            <div className="mx-auto flex">
+            <div className="flex mx-auto">
               <div className="max-w-[300px] shadow-md">
                 <Image src="/assets/images/instruction/screen4.jpg" width="1080" height="3500" />
               </div>
@@ -235,7 +235,7 @@ const Index = () => {
                 ให้เลือกเข้าชมรมที่ไม่มีการ Audition และยังมีที่ว่างเหลืออยู่{" "}
               </p>
             </div>
-            <div className="mx-auto flex">
+            <div className="flex mx-auto">
               <div className="max-w-[300px] shadow-md">
                 <Image src="/assets/images/instruction/screen6.jpg" width="1080" height="2818" />
               </div>
@@ -261,7 +261,7 @@ const Index = () => {
                 ให้ดาวน์โหลดรูปภาพหรือถ่ายภาพหน้าจอเก็บไว้เป็นหลักฐาน
               </p>
             </div>
-            <div className="mx-auto flex">
+            <div className="flex mx-auto">
               <div className="max-w-[300px] shadow-md">
                 <Image src="/assets/images/instruction/screen5.jpg" width="1080" height="2641" />
               </div>

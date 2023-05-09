@@ -271,7 +271,7 @@ const Select = ({ clubList }) => {
                       <h1 className="text-lg font-medium tracking-tight">คุณได้ลงชื่อ Audition ชมรมไว้</h1>
                       <p className="tracking-tight text-gray-600">
                         ให้ไปทำการ Audition ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนด โดยติดตามรายละเอียดการ Audition
-                        จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง และรอการประกาศผลในวันที่ 25 พ.ค. 2566 เวลา 7.30 น.
+                        จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง และรอการประกาศผลในวันที่ 31 พ.ค. 2566 เวลา 7.30 น.
                       </p>
                       <div className="relative md:hidden">
                         <a ref={auTrigger} className="cursor-pointer tracking-tight text-TUCMC-pink-500">

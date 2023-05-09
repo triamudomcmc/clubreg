@@ -140,16 +140,16 @@ const Timeline = () => {
               <TimelineTag date="30 พ.ค. 66" time="07.30 น." title="ประกาศผลการ Audition">
                 <TimelineTag.Desc>นักเรียนที่ผ่านการ Audition เลือกกดยืนยันสิทธิ์หรือสละสิทธิ์</TimelineTag.Desc>
               </TimelineTag>
-              <TimelineTag date="26 พ.ค. 66" time="07.30 น.">
+              <TimelineTag date="31 พ.ค. 66" time="07.30 น.">
                 <TimelineTag.Desc>เรียกลำดับสำรอง รอบที่ 1</TimelineTag.Desc>
               </TimelineTag>
-              <TimelineTag date="27 พ.ค. 66" time="07.30 น.">
+              <TimelineTag date="1 มิ.ย. 66" time="07.30 น.">
                 <TimelineTag.Desc>เรียกลำดับสำรอง รอบที่ 2</TimelineTag.Desc>
               </TimelineTag>
-              <TimelineTag date="28 พ.ค. 66" time="12.00 น." subTitle="(เฉพาะนักเรียนที่ Audition ไม่ผ่าน)">
+              <TimelineTag date="2 มิ.ย. 66" time="12.00 น." subTitle="(เฉพาะนักเรียนที่ Audition ไม่ผ่าน)">
                 <TimelineTag.Desc>เลือกเข้าชมรมที่ไม่มีการ Audition และยังมีที่นั่งว่างอยู่</TimelineTag.Desc>
               </TimelineTag>
-              <TimelineTag date="30 พ.ค. 66" last={true} title="เริ่มเรียนชมรมคาบแรก">
+              <TimelineTag date="12 มิ.ย. 66" last={true} title="เริ่มเรียนชมรมคาบแรก">
                 <TimelineTag.Desc>{""}</TimelineTag.Desc>
               </TimelineTag>
             </div>
@@ -194,7 +194,7 @@ const Timeline = () => {
                   นักเรียนที่ไม่ได้เข้ามาเลือก ลงทะเบียนชมรมใดในช่วงเวลานี้ เลย จะถูกสุ่มชมรมให้อัตโนมัติ
                 </TimelineTag.Desc>
               </TimelineTag>
-              <TimelineTag date="30 พ.ค. 66" last={true} title="เริ่มเรียนชมรมคาบแรก">
+              <TimelineTag date="12 มิ.ย. 66" last={true} title="เริ่มเรียนชมรมคาบแรก">
                 <TimelineTag.Desc>{""}</TimelineTag.Desc>
               </TimelineTag>
             </div>

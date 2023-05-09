@@ -80,7 +80,7 @@ const FAQ = () => {
               <Accordion Icon={AccordionIcon.Chevron} id="q8" title="ถ้าลงทะเบียนชมรมไม่ทันจะต้องทำอย่างไร">
                 <Accordion.Answer>
                   หากไม่ได้เลือกลงชื่อ Audition หรือลงทะเบียนชมรมที่ไม่มีการ Audition เลย ระบบจะทำการสุ่มชมรมให้ในวันที่
-                  29 พ.ค. 2566 ทันที
+                  3 มิ.ย. 66 ทันที
                 </Accordion.Answer>
               </Accordion>
             </div>
