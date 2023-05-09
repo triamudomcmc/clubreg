@@ -26,7 +26,7 @@ const PageContainer = ({ children, footer = true, hide = false }) => {
       <div className={classnames(hide && "hidden")}>
         <Navigation />
       </div>
-      <motion.div initial="initial" animate="animate" variants={variants} key={router.pathname}>
+      <motion.div initial="initial" animate="animate" className="min-h-screen" variants={variants} key={router.pathname}>
         {children}
       </motion.div>
       {footer && (

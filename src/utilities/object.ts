@@ -77,6 +77,25 @@ export const searchKeyword = (arr: any, keyword: string, keySelector: (obj: any)
   return [...topPrimary, ...topSecondary, ...bottom]
 }
 
+export const searchKeywordOtimised = (arr: any, keyword: string, keySelector: (obj: any) => string) => {
+  let topPrimary = [],
+    topSecondary = [],
+    bottom = []
+  const keyLength = keyword.length
+  arr.forEach((val) => {
+    if (fixGrammar(keyword.toLowerCase()) === fixGrammar(keySelector(val)?.slice(0, keyLength).toLowerCase()))
+      // top primary
+      return topPrimary.push(val.clubID)
+    if (fixGrammar(keySelector(val)?.toLowerCase())?.includes(fixGrammar(keyword.toLowerCase())))
+      // top secondary
+      return topSecondary.push(val.clubID)
+
+    // bottom - maybe remove
+    // return bottom.push(val)
+  })
+  return [...topPrimary, ...topSecondary, ...bottom]
+}
+
 export const objToArr = (obj: any, filter = (val) => val) => {
   return Object.keys(obj)
     .map((key) => {
