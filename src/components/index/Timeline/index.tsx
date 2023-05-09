@@ -126,15 +126,14 @@ const Timeline = () => {
                 subTitle="เข้าสู่ระบบ หรือสร้างบัญชี (เฉพาะ ม.4) แล้วลงชื่อ Audition ชมรมที่ต้องการ"
               >
                 <TimelineTag.Desc>
-                  ให้ไปทำการ Audition ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนดโดยติดตามรายละเอียด การ audition
+                  ให้ไปทำการ Audition ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนดโดยติดตามรายละเอียด การ Audition
                   จากช่องทางประชาสัมพันธ์ ของชมรมนั้นโดยตรง
                 </TimelineTag.Desc>
                 <TimelineTag.ExtraDescription>ภายในวันที่ 29 พ.ค. 66 เวลา 23.59 น.</TimelineTag.ExtraDescription>
               </TimelineTag>
               <TimelineTag date="29 พ.ค. 66" time="23.59 น." title="สิ้นสุดการสมัครและ Audition">
                 <TimelineTag.Desc>
-                  หากไม่ดำเนินการลงชื่อชมรมใด ๆ เลยก่อนสิ้นสุดระยะเวลาการสมัคร และ Audition ระบบจะทำการสุ่ม
-                  ชมรมให้อัตโนมัติ
+                  หากไม่ดำเนินการลงชื่อชมรมใด ๆ เลยภายในระยะเวลาการสมัคร และ Audition ระบบจะทำการสุ่มชมรมให้อัตโนมัติ
                 </TimelineTag.Desc>
               </TimelineTag>
               <TimelineTag date="30 พ.ค. 66" time="07.30 น." title="ประกาศผลการ Audition">
@@ -178,7 +177,7 @@ const Timeline = () => {
                 padding="items-start h-2/5 md:h-3/5"
               >
                 <TimelineTag.Desc>
-                  เข้าสู่ระบบ หรือสร้างบัญชี (เฉพาะ ม.4) แล้วลงทะเบียน ชมรมที่ไม่มีการ audition
+                  เข้าสู่ระบบ หรือสร้างบัญชี (เฉพาะ ม.4) แล้วลงทะเบียน ชมรมที่ไม่มีการ Audition
                 </TimelineTag.Desc>
                 <TimelineTag.ExtraDescription>ภายในวันที่ 29 พ.ค. 66 เวลา 23.59 น.</TimelineTag.ExtraDescription>
               </TimelineTag>
