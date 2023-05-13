@@ -7,25 +7,30 @@ export const addZero = (inum) => {
     num = 0
   }
 
-  return ("0" + num).slice(-2)
+  return `0${num}`.slice(-2)
 }
 
 export function convertMiliseconds(miliseconds) {
-  let days, hours, minutes, seconds, total_hours, total_minutes, total_seconds
+  const totalSeconds = Math.floor(miliseconds / 1000)
+  const totalMinutes = Math.floor(totalSeconds / 60)
+  const totalHours = Math.floor(totalMinutes / 60)
+  const days = Math.floor(totalHours / 24).toFixed(0)
 
-  total_seconds = Math.floor(miliseconds / 1000)
-  total_minutes = Math.floor(total_seconds / 60)
-  total_hours = Math.floor(total_minutes / 60)
-  days = Math.floor(total_hours / 24).toFixed(0)
-
-  seconds = (total_seconds % 60).toFixed(0)
-  minutes = (total_minutes % 60).toFixed(0)
-  hours = (total_hours % 24).toFixed(0)
+  const seconds = (totalSeconds % 60).toFixed(0)
+  const minutes = (totalMinutes % 60).toFixed(0)
+  const hours = (totalHours % 24).toFixed(0)
 
   return { d: days, h: hours, m: minutes, s: seconds }
 }
 
-export const useTimer = (countTo) => {
+export interface Timer {
+  day: string
+  hour: string
+  min: string
+  sec: string
+}
+
+export const useTimer = (countTo): Timer => {
   const [timer, setTime] = useState({})
 
   useEffect(() => {
@@ -37,8 +42,8 @@ export const useTimer = (countTo) => {
           day: addZero(t.d),
           hour: addZero(t.h),
           min: addZero(t.m),
-          sec: addZero(t.s),
-        },
+          sec: addZero(t.s)
+        }
       })
     }, 1000)
   }, [])

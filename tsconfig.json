@@ -57,5 +57,5 @@
     "**/*.ts",
     "**/*.tsx"
   ],
-  "exclude": ["node_modules", "functions"]
+  "exclude": ["./out/**/*", "./node_modules/**/*", "**/*.cy.ts"],
 }
