@@ -132,6 +132,14 @@ const RegisterSection = ({ swapFunction, setLoader }) => {
             text: "รหัสผ่านจะต้องมีความยาวไม่ต่ำกว่า 8 ตัวอักษร กรุณาลองใหม่อีกครั้ง",
           })
           break
+        case "break":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "รหัสประจำตัวนักเรียนดังกล่าวไม่สามารถใช้สร้างบัญชีได้",
+            text: "กรุณาติดต่อทาง กช. เพื่อขอตรวจสอบข้อมูล",
+          })
+          break
         case "password_mismatch":
           addToast({
             theme: "modern",
