@@ -4,7 +4,7 @@ import {
   isValidEmail,
   isValidPassword,
 } from "@server/authentication/register/dataChecking"
-import { isNumeric, textMatch } from "@utilities/texts"
+import {fixGrammar, isNumeric, similarity} from "@utilities/texts"
 import bcrypt from "bcryptjs"
 import { openTime } from "@config/time"
 import initialisedDB from "@server/firebase-admin"
@@ -23,11 +23,18 @@ export const checkCredentials = async (userColl, req, ref) => {
   const inputLastname = req.body.lastname
   const refLastname = refDB.docs[0].get("lastname") || ""
 
-  if (refDB.docs[0].get("firstname") === "any" || !(textMatch(refLastname, inputLastname) > 80))
+  if (refDB.docs[0].get("firstname") === "any" || !(similarity(fixGrammar(refLastname), fixGrammar(inputLastname)) > 0.8))
     return {
       status: false,
       report: "mismatch_data",
     }
+
+  if (refDB.docs[0].get("break")) {
+    return {
+      status: false,
+      report: "break"
+    }
+  }
 
   if (!isValidEmail(req.body.email) || !isNumeric(req.body.phone))
     return {

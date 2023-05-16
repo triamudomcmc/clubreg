@@ -1,7 +1,7 @@
 import { Input } from "@components/auth/Input"
 import { Listbox, Transition } from "@headlessui/react"
 import { ArrowLeftIcon, CheckIcon, SelectorIcon } from "@heroicons/react/solid"
-import React, { Fragment, useState } from "react"
+import React, {Fragment, useEffect, useState} from "react"
 import Router from "next/router"
 import { Button } from "@components/common/Inputs/Button"
 import { useToast } from "@components/common/Toast/ToastContext"
@@ -130,6 +130,14 @@ const RegisterSection = ({ swapFunction, setLoader }) => {
             icon: "cross",
             title: "รหัสผ่านไม่เหมาะสม",
             text: "รหัสผ่านจะต้องมีความยาวไม่ต่ำกว่า 8 ตัวอักษร กรุณาลองใหม่อีกครั้ง",
+          })
+          break
+        case "break":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "รหัสประจำตัวนักเรียนดังกล่าวไม่สามารถใช้สร้างบัญชีได้",
+            text: "กรุณาติดต่อทาง กช. เพื่อขอตรวจสอบข้อมูล",
           })
           break
         case "password_mismatch":
