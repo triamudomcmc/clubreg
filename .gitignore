@@ -37,7 +37,7 @@ yarn-error.log*
 .env
 .idea
 
-public/sw.js.map
 public/sw.js
+public/workbox-*.js
 
 src/pages/api/do.tsx

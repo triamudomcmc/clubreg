@@ -24,7 +24,7 @@ import Modal from "@components/common/Modals"
 import { addBrowser, generate2FA, removeBrowser, toggleBeta, toggleSafeMode, verify2FA } from "@client/accManagement"
 import { clubMap } from "../config/clubMap"
 import { isEmpty } from "@utilities/object"
-import { ExclamationIcon } from "@heroicons/react/outline"
+import { ExclamationIcon } from "@heroicons/react/solid"
 import { useUserCred } from "handlers/hooks/useUserCred"
 import { GAIcon } from "@vectors/icons/GA"
 
@@ -368,7 +368,11 @@ const Account = () => {
       <div className="mx-auto max-w-6xl px-4 pt-8 pb-20">
         <div className="mt-14 flex flex-col space-y-14 px-2 md:px-4">
           <div>
-            <h1 className="border-b border-gray-200 pb-4 text-xl">ข้อมูลผู้ใช้งาน</h1>
+            <h1 className="text-xl">ข้อมูลผู้ใช้งาน</h1>
+            <div className="flex items-center space-x-1 border-b border-gray-200 pb-4 text-TUCMC-red-500 font-medium">
+              <ExclamationIcon className="w-5 h-5"/>
+              <span>หากข้อมูลไม่ถูกต้อง กรุณาติดต่อ กช. เพื่อแก้ไขข้อมูล</span>
+            </div>
             <div className="space-y-1 border-b border-gray-200 py-4 md:flex md:items-center md:space-y-0 md:space-x-52 md:py-6">
               <h1 className="text-TUCMC-gray-500">ชื่อ นามสกุล</h1>
               <h1>

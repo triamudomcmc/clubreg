@@ -8,7 +8,15 @@ import RegisterSection from "@components/auth/RegisterSection"
 import { Loader } from "@components/common/Loader"
 import { useToast } from "@components/common/Toast/ToastContext"
 import { ForgotSection } from "@components/auth/ForgotSection"
-import { endLastRound, endOldClub, lastround, openTime, startOldClub, startOldClubCountdown } from "@config/time"
+import {
+  endLastRound,
+  endOldClub,
+  lastround,
+  openRegisterTime,
+  openTime,
+  startOldClub,
+  startOldClubCountdown
+} from "@config/time"
 import { useTimer } from "@utilities/timers"
 
 const Auth = ({ query }) => {
@@ -17,6 +25,17 @@ const Auth = ({ query }) => {
   const [action, setAction] = useState("register" in query ? "register" : "forgot" in query ? "forgot" : "login")
   const [loader, setLoader] = useState(false)
   const timer = useTimer(startOldClub)
+  const regTimer = useTimer(openRegisterTime)
+
+  useEffect(() => {
+    if (openRegisterTime < new Date().getTime()) {
+      return
+    }
+
+    if (action === "register") {
+      setAction("r-waiting")
+    }
+  },[action])
 
   onReady((logged, userData) => {
     if (logged) {
@@ -43,6 +62,8 @@ const Auth = ({ query }) => {
         if (new Date().getTime() < endOldClub && new Date().getTime() > startOldClub) {
           return Router.push("/confirm")
         }
+
+        Router.push("/account")
       }
 
       return Router.push("/")
@@ -62,6 +83,18 @@ const Auth = ({ query }) => {
       { shallow: true }
     )
     setAction("register")
+  }
+
+  const goLogin = () => {
+    Router.push(
+      {
+        pathname: "",
+        query: "",
+      },
+      undefined,
+      { shallow: true }
+    )
+    setAction("login")
   }
 
   const goForgot = () => {
@@ -143,6 +176,12 @@ const Auth = ({ query }) => {
         break
     }
     localStorage.setItem("beforeExit", "")
+
+    if (openRegisterTime > new Date().getTime()) {
+      setTimeout(() => {
+        Router.reload()
+      }, openRegisterTime - new Date().getTime())
+    }
   }, [])
 
   return (
@@ -202,6 +241,49 @@ const Auth = ({ query }) => {
             <div className="mt-2 flex w-full flex-row justify-center">
               <span onClick={goForgot} className="cursor-pointer text-TUCMC-pink-400">
                 ลืมรหัสผ่าน
+              </span>
+            </div>
+          </div>
+        )}
+        {action == "r-waiting" && (
+          <div className="mt-6 flex flex-col items-center pt-8">
+            <h1 className="text-4xl font-bold tracking-tight">สร้างบัญชี</h1>
+            <div className="mt-2 mb-6 text-center text-TUCMC-gray-600">
+              <p>ระบบลงทะเบียนชมรม</p>
+              <p>โรงเรียนเตรียมอุดมศึกษา ปีการศึกษา 2566</p>
+            </div>
+            <div className="flex flex-row justify-center space-x-2 text-TUCMC-gray-900">
+              <div className="flex flex-col items-center">
+                <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
+                  {regTimer.day}
+                </span>
+                <span className="mt-2 text-xs font-bold text-gray-800">DAY</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
+                  {regTimer.hour}
+                </span>
+                <span className="mt-2 text-xs font-bold text-gray-800">HOUR</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
+                  {regTimer.min}
+                </span>
+                <span className="mt-2 text-xs font-bold text-gray-800">MIN</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
+                  {regTimer.sec}
+                </span>
+                <span className="mt-2 text-xs font-bold text-gray-800">SEC</span>
+              </div>
+            </div>
+            <p className="mt-8 max-w-[300px] text-TUCMC-gray-700 text-center">
+              ระบบจะเปิดให้นักเรียนสร้างบัญชีใหม่ในวันที่ 16 พฤษภาคม 2566 เวลา 12.00 น.
+            </p>
+            <div className="mt-2 flex w-full flex-row justify-center">
+              <span onClick={goLogin} className="cursor-pointer text-TUCMC-pink-400">
+                เข้าสู่ระบบ
               </span>
             </div>
           </div>
