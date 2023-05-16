@@ -210,7 +210,7 @@ export const ClubDisplaySection: FC<{
                     priority={true}
                     onLoad={loaded}
                     className="rounded-lg object-cover"
-                    src={clubDisplay?.images?.["picture-1"]?.replace("https://storage.googleapis.com/","/assets/images/")}
+                    src={clubDisplay?.images?.["picture-1"]}
                     width={768}
                     height={432}
                     updateOverlay={setZoomOverlay}
@@ -224,7 +224,7 @@ export const ClubDisplaySection: FC<{
                     priority={true}
                     onLoad={loaded}
                     className="rounded-lg object-cover"
-                    src={clubDisplay?.images?.["picture-2"]?.replace("https://storage.googleapis.com/","/assets/images/")}
+                    src={clubDisplay?.images?.["picture-2"]}
                     width={768}
                     height={432}
                     updateOverlay={setZoomOverlay}
@@ -238,7 +238,7 @@ export const ClubDisplaySection: FC<{
                     priority={true}
                     onLoad={loaded}
                     className="rounded-lg object-cover"
-                    src={clubDisplay?.images?.["picture-3"]?.replace("https://storage.googleapis.com/","/assets/images/")}
+                    src={clubDisplay?.images?.["picture-3"]}
                     width={768}
                     height={432}
                     updateOverlay={setZoomOverlay}
@@ -265,9 +265,9 @@ export const ClubDisplaySection: FC<{
                               priority={true}
                               onLoad={loaded}
                               quality={50}
-                              src={clubDisplay.reviews[index]?.profile?.replace("https://storage.googleapis.com/","/assets/images/")}
+                              src={clubDisplay.reviews[index]?.profile}
                               placeholder="blur"
-                              blurDataURL={clubDisplay.reviews[index]?.profile?.replace("https://storage.googleapis.com/","/assets/images/")}
+                              blurDataURL={clubDisplay.reviews[index]?.profile}
                               width="128"
                               height="128"
                               className="rounded-lg object-cover"
