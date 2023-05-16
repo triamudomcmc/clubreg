@@ -1,51 +1,56 @@
-import { ClipboardCopyIcon, StarIcon, UserGroupIcon, UserIcon } from "@heroicons/react/solid"
 import TimelineTag from "@components/index/Timeline/TimelineTag"
-import React, { useEffect, useRef, useState } from "react"
-import classnames from "classnames"
-import { AnimatePresence, motion } from "framer-motion"
+import {
+  ClipboardCopyIcon,
+  StarIcon,
+  UserGroupIcon,
+  UserIcon
+} from "@heroicons/react/solid"
 import { useWindowDimensions } from "@utilities/document"
+import classnames from "classnames"
+import { motion } from "framer-motion"
+import React, { useEffect, useRef, useState } from "react"
+
+const selectionBarVariant = {
+  initial: {
+    clipPath: "inset(0% 0% 0% 0%)"
+  },
+  animate: {
+    clipPath: "inset(0% 0% 0% 100%)"
+  },
+  revinitial: {
+    clipPath: "inset(0% 0% 0% 0%)"
+  },
+  revanimate: {
+    clipPath: "inset(0% 100% 0% 0%)"
+  }
+}
 
 const Timeline = () => {
   const [section, setSection] = useState("notAu")
   const [isReverse, setReverse] = useState(false)
-  const [conHeight, setConHeight] = useState(500)
+  const [preferredHeight, setPreferredHeight] = useState(500)
 
-  const ref1 = useRef(null)
-  const ref2 = useRef(null)
+  const notAuditionContainerRef = useRef(null)
+  const auditionContainerRef = useRef(null)
 
   const { width } = useWindowDimensions()
 
-  const variants = {
+  const timelineContainerVariant = {
     animate: {
       opacity: 1,
-      x: 0,
+      x: 0
     },
     exit: {
       opacity: width >= 768 ? 1 : 0,
-      x: 24 * (isReverse ? -1 : 1),
-    },
-  }
-
-  const slide = {
-    initial: {
-      clipPath: "inset(0% 0% 0% 0%)",
-    },
-    animate: {
-      clipPath: "inset(0% 0% 0% 100%)",
-    },
-    revinitial: {
-      clipPath: "inset(0% 0% 0% 0%)",
-    },
-    revanimate: {
-      clipPath: "inset(0% 100% 0% 0%)",
-    },
+      x: 24 * (isReverse ? -1 : 1)
+    }
   }
 
   useEffect(() => {
-    if (!ref1.current) return
-
-    setConHeight(ref1.current.clientHeight)
-  }, [ref1, width])
+    if (!notAuditionContainerRef.current) return
+    // register preferred height from the longest element
+    setPreferredHeight(notAuditionContainerRef.current.clientHeight)
+  }, [notAuditionContainerRef, width])
 
   return (
     <div className="md:flex md:justify-center">
@@ -59,7 +64,7 @@ const Timeline = () => {
             className="relative w-1/2 cursor-pointer"
           >
             <motion.span
-              variants={slide}
+              variants={selectionBarVariant}
               transition={{ duration: 0.5 }}
               animate={section === "notAu" ? "initial" : "animate"}
               className={classnames(
@@ -81,7 +86,7 @@ const Timeline = () => {
             }}
           >
             <motion.span
-              variants={slide}
+              variants={selectionBarVariant}
               transition={{ duration: 0.5 }}
               animate={section === "au" ? "revinitial" : "revanimate"}
               className={classnames(
@@ -98,22 +103,31 @@ const Timeline = () => {
           </div>
         </div>
         <motion.div
-          style={width < 768 && { height: section === "notAu" ? conHeight : ref2.current?.clientHeight }}
+          style={
+            width < 768 && {
+              height:
+                section === "notAu"
+                  ? preferredHeight
+                  : auditionContainerRef.current?.clientHeight
+            }
+          }
           className="relative md:mt-12 md:flex md:flex-row md:justify-between md:space-x-16"
         >
           <motion.div
-            ref={ref1}
+            ref={notAuditionContainerRef}
             transition={{ duration: 0.5 }}
             onAnimationComplete={() => {
               setReverse(false)
             }}
-            variants={variants}
+            variants={timelineContainerVariant}
             initial={false}
-            animate={section == "notAu" ? "animate" : "exit"}
-            className={classnames("absolute bg-white md:relative md:w-1/2 md:max-w-xl")}
+            animate={section === "notAu" ? "animate" : "exit"}
+            className={classnames(
+              "absolute bg-white md:relative md:w-1/2 md:max-w-xl"
+            )}
           >
             <div className="my-12 flex flex-row items-end space-x-4 px-5">
-              <UserGroupIcon className="w-14 flex-shrink-0" />
+              <UserGroupIcon className="w-14 shrink-0" />
               <div className="tracking-tight">
                 <p>สำหรับนักเรียนที่ต้องการเข้าชมรมที่มีการ Audition</p>
               </div>
@@ -126,18 +140,32 @@ const Timeline = () => {
                 subTitle="เข้าสู่ระบบ หรือสร้างบัญชี (เฉพาะ ม.4) แล้วลงชื่อ Audition ชมรมที่ต้องการ"
               >
                 <TimelineTag.Desc>
-                  ให้ไปทำการ Audition ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนดโดยติดตามรายละเอียด การ Audition
-                  จากช่องทางประชาสัมพันธ์ ของชมรมนั้นโดยตรง
+                  ให้ไปทำการ Audition ตามเวลาและสถานที่ที่ชมรมนั้น ๆ
+                  กำหนดโดยติดตามรายละเอียด การ Audition จากช่องทางประชาสัมพันธ์
+                  ของชมรมนั้นโดยตรง
                 </TimelineTag.Desc>
-                <TimelineTag.ExtraDescription>ภายในวันที่ 29 พ.ค. 66 เวลา 23.59 น.</TimelineTag.ExtraDescription>
+                <TimelineTag.ExtraDescription>
+                  ภายในวันที่ 29 พ.ค. 66 เวลา 23.59 น.
+                </TimelineTag.ExtraDescription>
               </TimelineTag>
-              <TimelineTag date="29 พ.ค. 66" time="23.59 น." title="สิ้นสุดการสมัครและ Audition">
+              <TimelineTag
+                date="29 พ.ค. 66"
+                time="23.59 น."
+                title="สิ้นสุดการสมัครและ Audition"
+              >
                 <TimelineTag.Desc>
-                  หากไม่ดำเนินการลงชื่อชมรมใด ๆ เลยภายในระยะเวลาการสมัคร และ Audition ระบบจะทำการสุ่มชมรมให้อัตโนมัติ
+                  หากไม่ดำเนินการลงชื่อชมรมใด ๆ เลยภายในระยะเวลาการสมัคร และ
+                  Audition ระบบจะทำการสุ่มชมรมให้อัตโนมัติ
                 </TimelineTag.Desc>
               </TimelineTag>
-              <TimelineTag date="30 พ.ค. 66" time="07.30 น." title="ประกาศผลการ Audition">
-                <TimelineTag.Desc>นักเรียนที่ผ่านการ Audition เลือกกดยืนยันสิทธิ์หรือสละสิทธิ์</TimelineTag.Desc>
+              <TimelineTag
+                date="30 พ.ค. 66"
+                time="07.30 น."
+                title="ประกาศผลการ Audition"
+              >
+                <TimelineTag.Desc>
+                  นักเรียนที่ผ่านการ Audition เลือกกดยืนยันสิทธิ์หรือสละสิทธิ์
+                </TimelineTag.Desc>
               </TimelineTag>
               <TimelineTag date="31 พ.ค. 66" time="07.30 น.">
                 <TimelineTag.Desc>เรียกลำดับสำรอง รอบที่ 1</TimelineTag.Desc>
@@ -145,24 +173,36 @@ const Timeline = () => {
               <TimelineTag date="1 มิ.ย. 66" time="07.30 น.">
                 <TimelineTag.Desc>เรียกลำดับสำรอง รอบที่ 2</TimelineTag.Desc>
               </TimelineTag>
-              <TimelineTag date="2 มิ.ย. 66" time="12.00 น." subTitle="(เฉพาะนักเรียนที่ Audition ไม่ผ่าน)">
-                <TimelineTag.Desc>เลือกเข้าชมรมที่ไม่มีการ Audition และยังมีที่นั่งว่างอยู่</TimelineTag.Desc>
+              <TimelineTag
+                date="2 มิ.ย. 66"
+                time="12.00 น."
+                subTitle="(เฉพาะนักเรียนที่ Audition ไม่ผ่าน)"
+              >
+                <TimelineTag.Desc>
+                  เลือกเข้าชมรมที่ไม่มีการ Audition และยังมีที่นั่งว่างอยู่
+                </TimelineTag.Desc>
               </TimelineTag>
-              <TimelineTag date="12 มิ.ย. 66" last={true} title="เริ่มเรียนชมรมคาบแรก">
+              <TimelineTag
+                date="12 มิ.ย. 66"
+                last={true}
+                title="เริ่มเรียนชมรมคาบแรก"
+              >
                 <TimelineTag.Desc>{""}</TimelineTag.Desc>
               </TimelineTag>
             </div>
           </motion.div>
           <motion.div
-            ref={ref2}
+            ref={auditionContainerRef}
             transition={{ duration: 0.5 }}
-            variants={variants}
+            variants={timelineContainerVariant}
             initial={false}
-            animate={section == "au" ? "animate" : "exit"}
-            className={classnames("absolute flex-col bg-white md:relative md:flex md:w-1/2 md:max-w-xl")}
+            animate={section === "au" ? "animate" : "exit"}
+            className={classnames(
+              "absolute flex-col bg-white md:relative md:flex md:w-1/2 md:max-w-xl"
+            )}
           >
             <div className="my-12 flex flex-row items-end space-x-4 px-5">
-              <UserIcon className="w-14 flex-shrink-0" />
+              <UserIcon className="w-14 shrink-0" />
               <div className="tracking-tight">
                 <p>สำหรับนักเรียนที่ต้องการเข้าชมรมที่ไม่มีการ Audition</p>
               </div>
@@ -177,9 +217,12 @@ const Timeline = () => {
                 padding="items-start h-2/5 md:h-3/5"
               >
                 <TimelineTag.Desc>
-                  เข้าสู่ระบบ หรือสร้างบัญชี (เฉพาะ ม.4) แล้วลงทะเบียน ชมรมที่ไม่มีการ Audition
+                  เข้าสู่ระบบ หรือสร้างบัญชี (เฉพาะ ม.4) แล้วลงทะเบียน
+                  ชมรมที่ไม่มีการ Audition
                 </TimelineTag.Desc>
-                <TimelineTag.ExtraDescription>ภายในวันที่ 29 พ.ค. 66 เวลา 23.59 น.</TimelineTag.ExtraDescription>
+                <TimelineTag.ExtraDescription>
+                  ภายในวันที่ 29 พ.ค. 66 เวลา 23.59 น.
+                </TimelineTag.ExtraDescription>
               </TimelineTag>
               <TimelineTag
                 date="29 พ.ค. 66"
@@ -190,10 +233,15 @@ const Timeline = () => {
                 padding="items-start h-2/5 md:h-1/4"
               >
                 <TimelineTag.Desc>
-                  นักเรียนที่ไม่ได้เข้ามาเลือก ลงทะเบียนชมรมใดในช่วงเวลานี้ เลย จะถูกสุ่มชมรมให้อัตโนมัติ
+                  นักเรียนที่ไม่ได้เข้ามาเลือก ลงทะเบียนชมรมใดในช่วงเวลานี้ เลย
+                  จะถูกสุ่มชมรมให้อัตโนมัติ
                 </TimelineTag.Desc>
               </TimelineTag>
-              <TimelineTag date="12 มิ.ย. 66" last={true} title="เริ่มเรียนชมรมคาบแรก">
+              <TimelineTag
+                date="12 มิ.ย. 66"
+                last={true}
+                title="เริ่มเรียนชมรมคาบแรก"
+              >
                 <TimelineTag.Desc>{""}</TimelineTag.Desc>
               </TimelineTag>
             </div>
