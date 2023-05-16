@@ -1,38 +1,54 @@
-import Navigation from "@components/common/Navigation"
+import { useAuth } from "@client/auth"
 import Footer from "@components/common/Footer"
+import Navigation from "@components/common/Navigation"
+import classnames from "classnames"
 import { motion } from "framer-motion"
 import { useRouter } from "next/router"
-import { useAuth } from "@client/auth"
-import classnames from "classnames"
+import type { FC } from "react"
 
-const PageContainer = ({ children, footer = true, hide = false }) => {
-  const router = useRouter()
-  const { isInit } = useAuth()
-
-  const variants = {
+const animationVariantsGenerator = (isInit: boolean) => {
+  return {
     initial: !isInit ? { y: -20, opacity: 0 } : {},
     animate: {
       y: 0,
       opacity: 1,
       transition: {
         duration: 0.7,
-        ease: [0.6, -0.05, 0.01, 0.99],
-      },
-    },
+        ease: [0.6, -0.05, 0.01, 0.99]
+      }
+    }
   }
+}
+
+interface PageContainerProps {
+  footer?: boolean
+  hide?: boolean
+}
+
+const PageContainer: FC<PageContainerProps> = (props) => {
+  const { children, footer = true, hide = false } = props
+  const router = useRouter()
+  const { isInit } = useAuth()
 
   return (
     <div className="font-display">
       <div className={classnames(hide && "hidden")}>
         <Navigation />
       </div>
-      <motion.div initial="initial" animate="animate" className="min-h-screen" variants={variants} key={router.pathname}>
+      <motion.div
+        initial="initial"
+        animate="animate"
+        className="min-h-screen"
+        variants={animationVariantsGenerator(isInit)}
+        key={router.pathname}
+      >
         {children}
       </motion.div>
+      {/* Conditional rendering footer */}
       {footer && (
-        <div className={classnames(hide && "hidden")}>
+        <motion.div layout="position" className={classnames(hide && "hidden")}>
           <Footer />
-        </div>
+        </motion.div>
       )}
     </div>
   )

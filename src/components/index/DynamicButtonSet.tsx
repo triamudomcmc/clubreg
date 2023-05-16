@@ -1,11 +1,11 @@
 import { Button } from "@components/common/Inputs/Button"
 import { ExclamationIcon } from "@heroicons/react/solid"
-import type { PageRenderingType } from "@interfaces/index/PageRenderingType"
+import type { IndexPageRenderingType } from "@interfaces/index/IndexPageRenderingType"
 import type { FC } from "react"
 import React from "react"
 
 interface DynamicButtonSetProps {
-  type: PageRenderingType
+  type: IndexPageRenderingType
   small?: boolean
 }
 

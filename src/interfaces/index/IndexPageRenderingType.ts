@@ -1,4 +1,4 @@
-export type PageRenderingType =
+export type IndexPageRenderingType =
   | "no_login"
   | "no_club"
   | "club"

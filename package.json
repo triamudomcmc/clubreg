@@ -71,10 +71,10 @@
     "workbox-expiration": "^6.5.4",
     "workbox-precaching": "^6.5.4",
     "workbox-routing": "^6.5.4",
-    "workbox-strategies": "^6.5.4"
+    "workbox-strategies": "^6.5.4",
+    "@heroicons/react": "^1.0.1"
   },
   "devDependencies": {
-    "@heroicons/react": "^1.0.1",
     "@types/node": "^14.14.37",
     "@types/react": "^17.0.3",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
