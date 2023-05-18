@@ -23,13 +23,10 @@ const ClubHeader: FC<{ clubID: string; clubDisplay: ClubDisplay; loaded: () => v
     <div className="md:mx-6 md:mt-20 md:mb-2 md:flex md:space-x-8 md:rounded-2xl md:bg-white md:shadow-md">
       <div>
         <div className="relative mb-[-6.5px] md:max-w-[512px]">
-          <Image
-            priority={true}
+          <img
             onLoad={loaded}
-            blurDataURL={clubDisplay?.images?.mainImage || `/assets/thumbnails/${clubID}.jpg`}
             src={clubDisplay?.images?.mainImage || `/assets/thumbnails/${clubID}.jpg`}
             placeholder="blur"
-            quality={75}
             width="768"
             height="432"
             className={classNames("object-cover md:rounded-l-2xl")}
@@ -261,13 +258,10 @@ export const ClubDisplaySection: FC<{
                       <div className="flex flex-wrap-reverse md:flex-row md:flex-nowrap">
                         <div className="mt-6 ml-4 flex flex-row md:mt-0 md:flex-col">
                           <div className="h-20 w-20 md:h-24 md:w-24">
-                            <Image
-                              priority={true}
+                            <img
                               onLoad={loaded}
-                              quality={50}
                               src={clubDisplay.reviews[index]?.profile}
                               placeholder="blur"
-                              blurDataURL={clubDisplay.reviews[index]?.profile}
                               width="128"
                               height="128"
                               className="rounded-lg object-cover"

@@ -75,14 +75,11 @@ export const Zoomable = ({
             >
               <XIcon className="h-4 w-4 cursor-pointer text-white" />
             </div>
-            <Image
-              priority={priority}
+            <img
               onLoad={onLoad}
               placeholder="blur"
-              blurDataURL={src}
               className={className}
               src={src}
-              layout="intrinsic"
               width={actualZoomedWidth}
               height={(actualZoomedWidth * height) / width}
               alt={alt}
@@ -108,11 +105,9 @@ export const Zoomable = ({
             >
               <XIcon className="h-4 w-4 cursor-pointer text-white" />
             </div>
-            <Image
-              priority={priority}
+            <img
               onLoad={onLoad}
               placeholder="blur"
-              blurDataURL={src}
               className={className}
               src={src}
               alt={alt}
@@ -129,11 +124,8 @@ export const Zoomable = ({
         }}
         className={classnames(sqPercent < 80 && "cursor-magnify")}
       >
-        <Image
-          priority={priority}
-          quality={50}
+        <img
           placeholder="blur"
-          blurDataURL={src}
           onLoad={onLoad}
           className={className}
           src={src}
