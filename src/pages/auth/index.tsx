@@ -63,6 +63,10 @@ const Auth = ({ query }) => {
           return Router.push("/confirm")
         }
 
+        if (new Date().getTime() > openTime) {
+          return Router.push("/select")
+        }
+
         Router.push("/account")
       }
 
