@@ -955,12 +955,14 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const images = getImages(params.clubID.toString())
   const clubDisplayData = data.data()
 
-  const clubDataDoc = await initialisedDB.collection("clubs").doc("mainData").get()
+  const clubDataDoc = await initialisedDB.collection("clubs").doc(params.clubID.toString()).get()
 
-  let clubData = clubDataDoc?.get(params.clubID.toString())
+  let clubData = clubDataDoc?.data()
 
   if (!clubData) {
-    clubData = clubDataDoc?.get(`${params.clubID.toString()}_1`)
+    const clubDataDoc = await initialisedDB.collection("clubs").doc(`${params.clubID.toString()}_1`).get()
+
+    let clubData = clubDataDoc?.data()
     if (!clubData) {
       if (params.clubID.toString().includes("ก30920")) {
         clubData = clubDataDoc?.get(`ก30920-1`)

@@ -50,8 +50,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           if (!logged) {
             res.json({ status: false, report: "sessionError" })
           } else {
-            const clubDoc = await initialisedDB.collection("clubs").doc("mainData").get()
-            const data = clubDoc.get(req.body.clubID)
+            const clubDoc = await initialisedDB.collection("clubs").doc(req.body.clubID).get()
+            const data = clubDoc.data()
             res.json(data)
           }
           break

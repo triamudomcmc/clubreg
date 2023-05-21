@@ -12,7 +12,7 @@ export const checkInputs = async (dataDoc, userData, req, clubRef) => {
   const clubData = await clubRef.get()
 
   // Check phone number and password for non-audition actions.
-  if (!clubData.get(req.body.clubID).audition) {
+  if (!clubData.data().audition) {
 
     // if (userData.get("phone") !== req.body.phone) return { status: false, report: "invalid_phone" }
 
@@ -31,7 +31,7 @@ export const updateClub = async (clubRef: DocumentReference, req: any, dataRef: 
   return await initialisedDB.runTransaction(async (t) => {
 
     const doc = await t.get(clubRef)
-    const data = doc.get(req.body.clubID)
+    const data = doc.data()
     
 
     const clubData = data
@@ -69,7 +69,7 @@ export const updateClub = async (clubRef: DocumentReference, req: any, dataRef: 
 
       if (data.new_count >= data.new_count_limit) throw "club_full"
       const newCount = data.new_count + 1
-      t.set(clubRef, { [req.body.clubID]: { new_count: newCount } }, { merge: true }) 
+      t.set(clubRef, { new_count: newCount }, { merge: true })
 
 
       /* 

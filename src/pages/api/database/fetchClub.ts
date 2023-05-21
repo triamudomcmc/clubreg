@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next"
 import initialisedDB from "@server/firebase-admin"
 import { fetchClubDisplay } from "@handlers/server/club/fetchClubDisplay"
 import { fetchAllClubData } from "@handlers/server/club/fetchAllClubData"
+import {transformClubsCollection} from "@utilities/object"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req
@@ -12,13 +13,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.setHeader("Content-Type", `application/json`)
       switch (req.body.action) {
         case "fetchClub": {
-          const data = await initialisedDB.collection("clubs").doc("mainData").get()
-          res.json(data.data())
+          const data = await initialisedDB.collection("clubs").get()
+          res.json(transformClubsCollection(data))
           break
         }
         case "fetchAClub": {
-          const clubDoc = await initialisedDB.collection("clubs").doc("mainData").get()
-          const data = clubDoc.get(req.body.clubID)
+          const clubDoc = await initialisedDB.collection("clubs").doc(req.body.clubID).get()
+          const data = clubDoc.data()
           res.json({
             place: data.place,
             contact: data.contact,

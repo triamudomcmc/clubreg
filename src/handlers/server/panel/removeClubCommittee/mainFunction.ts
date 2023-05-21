@@ -30,22 +30,22 @@ export const removeClubCommitteeAction = async (req, res, ID) => {
 
     const studentData = await studentOut.docs[0].data()
 
-    const clubDoc = initialisedDB.collection("clubs").doc("mainData")
+    const clubDoc = initialisedDB.collection("clubs").doc(req.body.panelID)
     const clubOut = await clubDoc.get()
 
-    const clubData = clubOut.get(req.body.panelID)
+    const clubData = clubOut.data()
 
     if (isEmpty(clubData)) {
       return { status: false, report: "club_not_found" }
     }
 
     if (!clubData.hasOwnProperty("committees")) {
-      await clubDoc.update({ [`${req.body.panelID}.committees`]: [] })
+      await clubDoc.update({ committees: [] })
     } else {
       if (clubData?.committees?.map((v) => (v.toString())).includes(req.body.studentID)) {
         // remove
         await clubDoc.update({
-          [`${req.body.panelID}.committees`]: clubData.committees.map((v) => (v.toString())).filter((e) => e !== req.body.studentID),
+          committees: clubData.committees.map((v) => (v.toString())).filter((e) => e !== req.body.studentID),
         })
 
         update(

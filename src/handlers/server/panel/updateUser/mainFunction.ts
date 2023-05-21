@@ -18,8 +18,8 @@ export const updateUserAction = async (req, res, ID) => {
 
     if (req.body.task.action === "passed") {
       // check if passed is full
-      const clubData = await initialisedDB.collection("clubs").doc("mainData").get()
-      const currentClubLimit = clubData.get(req.body.panelID).new_count_limit
+      const clubData = await initialisedDB.collection("clubs").doc(req.body.panelID).get()
+      const currentClubLimit = clubData.data().new_count_limit
       const currentPassed = await initialisedDB
         .collection("data")
         .where(`audition.${req.body.panelID}`, "==", "passed")

@@ -11,7 +11,7 @@ export const rejectClub = async (req, res) => {
   if (!logged) return { status: false, report: "sessionError" }
 
   // DB init
-  const { userData, dataRef, dataDoc, clubRef } = await initData(ID.userID, ID.dataRefID)
+  const { userData, dataRef, dataDoc, clubRef } = await initData(ID.userID, ID.dataRefID,true, req.body.clubID)
 
   // check inputs
   const checkInputResult = await checkInputs(dataDoc, userData, req)
@@ -23,8 +23,8 @@ export const rejectClub = async (req, res) => {
 
     await dataRef.update({ audition: updatedItem })
     const prevCall = await clubRef.get()
-    const prevCount = prevCall.get(req.body.clubID)["call_count"] || 0
-    await clubRef.set({ [req.body.clubID]: { call_count: prevCount + 1 } }, { merge: true })
+    const prevCount = prevCall.get("call_count") || 0
+    await clubRef.set({call_count: prevCount + 1}, { merge: true })
 
     return { status: true, report: "success" }
   } catch (e) {

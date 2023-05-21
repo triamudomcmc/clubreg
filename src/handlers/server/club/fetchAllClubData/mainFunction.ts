@@ -5,13 +5,12 @@ import initialisedDB from "@server/firebase-admin"
 export const fetchAllClubDataAction = async (
   req,
   res
-): Promise<{ status: boolean; report?: string; data?: (ClubData & { clubID: string })[] }> => {
+): Promise<{ status: boolean; report?: string; data?: any }> => {
   try {
-    const clubDataDocs = await initialisedDB.collection("clubs").doc("mainData").get()
-    const allClubData = clubDataDocs.data()
+    const clubDataDocs = await initialisedDB.collection("clubs").get()
 
-    const parsedData = Object.keys(allClubData).map((clubID) => {
-      return { clubID, ...allClubData[clubID] }
+    const parsedData = clubDataDocs.docs.map((doc) => {
+      return { clubID: doc.id, ...doc.data() }
     })
 
     return { status: true, report: "success", data: parsedData }

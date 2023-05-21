@@ -1,6 +1,8 @@
 import { clubMap } from "../config/clubMap"
 import LooseTypeObject from "@interfaces/LooseTypeObject"
 import { fixGrammar } from "@utilities/texts"
+import {firestore} from "firebase-admin"
+import QuerySnapshot = firestore.QuerySnapshot
 
 export const isEmpty = (obj: LooseTypeObject<any> | undefined | null) => {
   return !obj || Object.keys(obj).length == 0
@@ -106,4 +108,13 @@ export const objToArr = (obj: any, filter = (val) => val) => {
 
 export const translateClubID = (id: string) => {
   return id in clubMap && clubMap[id]
+}
+
+export const transformClubsCollection = (coll: QuerySnapshot) => {
+  const obd = {}
+  coll.docs.forEach((d) => {
+    obd[d.id] = d.data()
+  })
+
+  return obd
 }

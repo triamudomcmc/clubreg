@@ -20,7 +20,7 @@ export const updateClub = async (clubRef: DocumentReference, req: any, dataRef: 
   return await initialisedDB.runTransaction(async (t) => {
 
     const doc = await t.get(clubRef)
-    const data = doc.get(req.body.clubID)
+    const data = doc.data()
 
 
     const clubData = data
@@ -52,7 +52,7 @@ export const updateClub = async (clubRef: DocumentReference, req: any, dataRef: 
 
       if (data.old_count >= data.old_count_limit) throw "club_full"
       const updatedOldCount = data.old_count + 1
-      t.set(clubRef, { [req.body.clubID]: { old_count: updatedOldCount } }, { merge: true })
+      t.set(clubRef, { old_count: updatedOldCount }, { merge: true })
 
 
       /*

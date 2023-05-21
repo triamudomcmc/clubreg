@@ -100,7 +100,7 @@ const Select = ({ clubList }) => {
       if (userData.club !== "") {
         Router.push("/card")
       } else {
-        if (Object.keys(userData.audition).length <= 0 || new Date().getTime() > endLastRound) {
+        if ((Object.keys(userData.audition).length <= 0 || new Date().getTime() > endLastRound) && new Date().getTime() > endRegClubTime) {
           localStorage.setItem("alert", "denied")
           return Router.push("/account")
         }

@@ -236,8 +236,6 @@ const Confirm: NextPage = () => {
         Router.push("/card")
       } else if (userData?.old_club === "" || !userData?.old_club) {
         Router.push("/")
-      } else if (["ก30921"].includes(userData?.old_club)) {
-        Router.push("/confirm/special")
       }
     }
     return { userData }

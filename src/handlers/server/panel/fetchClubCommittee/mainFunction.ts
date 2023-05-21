@@ -3,10 +3,10 @@ import { isEmpty } from "@utilities/object"
 
 export const fetchClubCommitteeAction = async (req, res, ID) => {
   try {
-    const clubDoc = initialisedDB.collection("clubs").doc("mainData")
+    const clubDoc = initialisedDB.collection("clubs").doc(req.body.panelID)
     const clubOut = await clubDoc.get()
 
-    const clubData = clubOut.get(req.body.panelID)
+    const clubData = clubOut.data()
 
     if (isEmpty(clubData)) {
       return { status: false, report: "club_not_found" }

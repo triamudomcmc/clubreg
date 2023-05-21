@@ -31,8 +31,6 @@ import { AnimatePresence, motion } from "framer-motion"
 import { WaitingScreen } from "@components/common/WaitingScreen"
 import {
   announceTime,
-  breakLowerBound,
-  breakUpperBound,
   editDataTime,
   endAnnounceTime,
   firstRoundTime,
@@ -376,7 +374,7 @@ const Audition = () => {
     description = (
       <div className="mt-6 mb-8 text-center tracking-tight">
         <p>สรุปผลการ Audition ให้เสร็จสิ้น </p>
-        <p>ภายในวันที่ 25 มิ.ย. เวลา 6.00 น. </p>
+        <p>ภายในวันที่ 29 พ.ค. เวลา 23.59 น. </p>
         <p>
           (เหลืออีก {timer.day} วัน {timer.hour} ชั่วโมง {timer.min} นาที)
         </p>

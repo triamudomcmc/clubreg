@@ -21,14 +21,14 @@ export const updateClub = async (clubRef: DocumentReference, req, dataRef, dataD
   return await initialisedDB.runTransaction(async (t) => {
     const doc = await t.get(clubRef)
     // 1 read
-    const data = doc.get(req.body.clubID)
+    const data = doc.data()
 
     if (!data.audition) throw "invalid_club_type"
     if (data.new_count >= data.new_count_limit) throw "club_full"
     const newCount = data.new_count + 1
 
     // 1 write
-    t.set(clubRef, { [req.body.clubID]: { new_count: newCount } }, { merge: true })
+    t.set(clubRef, { new_count: newCount } , { merge: true })
     
     const cardRef = await generateCard(dataDoc, data, req)
 
@@ -50,9 +50,9 @@ export const createNewAuditionData = async (dataDoc, req, clubRef, t) => {
         newAuditionData[key] = "failed"
       } else {
         if (updatedItem[key] === "passed") {
-          const prevCall = await clubRef.get()
-          const prevCount = prevCall.get(key)["call_count"] || 0
-         t.set(clubRef, { [key]: { call_count: prevCount + 1 } }, { merge: true })
+          const prevCall = await initialisedDB.collection("clubs").doc(key).get()
+          const prevCount = prevCall.get("call_count") || 0
+         t.set(initialisedDB.collection("clubs").doc(key), { call_count: prevCount + 1 }, { merge: true })
         }
         newAuditionData[key] = "rejected"
       }

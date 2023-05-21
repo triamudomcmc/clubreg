@@ -3,8 +3,8 @@ import initialisedDB from "@server/firebase-admin"
 
 export const updateClubFieldAction = async (req, res, ID) => {
   try {
-    const clubDoc = initialisedDB.collection("clubs").doc("mainData")
-    const out = await clubDoc.update({ [`${req.body.panelID}.${req.body.field}`]: req.body.data.value })
+    const clubDoc = initialisedDB.collection("clubs").doc(req.body.panelID)
+    const out = await clubDoc.update({[req.body.field]: req.body.data.value})
 
     update(
       "system",

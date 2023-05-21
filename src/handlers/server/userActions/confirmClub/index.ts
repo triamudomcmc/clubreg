@@ -12,7 +12,7 @@ export const confirmClub = async (req, res) => {
   if (!logged) return { status: false, report: "sessionError" }
 
   // init DB
-  const { userData, dataRef, clubRef, dataDoc } = await initData(ID.userID, ID.dataRefID)
+  const { userData, dataRef, clubRef, dataDoc } = await initData(ID.userID, ID.dataRefID, true,req.body.clubID)
 
   // check inputs
   const checkInputResult = await checkInputs(dataDoc, userData, req)

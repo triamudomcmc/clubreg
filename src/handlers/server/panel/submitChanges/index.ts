@@ -61,9 +61,9 @@ const performUpload = async (req, ID) => {
       ind++
     }
 
-    const clubDataDoc = await initialisedDB.collection("clubs").doc("mainData").get()
+    const clubDataDoc = await initialisedDB.collection("clubs").doc(req.body.panelID).get()
     const panelid: string = req.body.panelID
-    let clubData = clubDataDoc?.get(panelid)
+    let clubData = clubDataDoc.data()
     let pid = panelid
 
     if (!clubData) {

@@ -13,8 +13,6 @@ import classnames from "classnames"
 import { fetchAllClubData } from "@handlers/client/fetcher/club"
 import {
   announceTime,
-  breakLowerBound,
-  breakUpperBound,
   endAnnounceTime,
   endFirstRoundTime,
   endLastRound,

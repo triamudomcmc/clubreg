@@ -16,13 +16,13 @@ export const generateCard = async (dataDoc, clubData, req) => {
   })
 }
 
-export const initData = async (userID, dataRefID, clubData = true) => {
+export const initData = async (userID, dataRefID, clubData = true, clubID: string = null) => {
   const collections = initCollections(
     clubData
       ? [
           { coll: "users", doc: userID },
           { coll: "data", doc: dataRefID },
-          { coll: "clubs", doc: "mainData" },
+          { coll: "clubs", doc: clubID },
         ]
       : [
           { coll: "users", doc: userID },

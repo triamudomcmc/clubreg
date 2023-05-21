@@ -20,11 +20,11 @@ const changeClubDisplayStatusAction = async (req, res, ID): Promise<{ status: bo
         report: "invalid_password",
       }
 
-    const clubDoc = await initialisedDB.collection("clubs").doc("mainData")
-    const out = await clubDoc.update({ [`${req.body.clubID}.status`]: req.body.status })
+    const clubDoc = await initialisedDB.collection("clubs").doc(req.body.clubID)
+    const out = await clubDoc.update({ status: req.body.status })
 
     if (req.body.status === "declined") {
-      const out2 = await clubDoc.update({ [`${req.body.clubID}.reason`]: req.body.reason })
+      const out2 = await clubDoc.update({ reason: req.body.reason })
     }
 
     await initialisedDB.collection("clubDisplayPending").doc(req.body.clubID).update({
