@@ -14,12 +14,14 @@ import { Button } from "@components/common/Inputs/Button"
 import classnames from "classnames"
 import { useAuth } from "@client/auth"
 import { DataBox } from "@components/admin/DataBox"
-import { fieldUpdate, query as doQuery, rollback } from "@client/admin/query"
+import {fieldUpdate, getUserIDfromCardID, query as doQuery, rollback} from "@client/admin/query"
 import Router from "next/router"
 import { Input } from "@components/auth/Input"
 import { useToast } from "@components/common/Toast/ToastContext"
 import { Ellipsis } from "@vectors/Loaders/Ellipsis"
 import { useUserCred } from "handlers/hooks/useUserCred"
+import Modal from "@components/common/Modals"
+import dynamic from "next/dynamic"
 
 const Database = () => {
   const { onReady } = useAuth()
@@ -28,6 +30,9 @@ const Database = () => {
   const [isValid, setValidity] = useState(false)
   const [clear, setClear] = useState(false)
   const [display, setDisplay] = useState({})
+  const [close, setClose] = useState(false)
+  const [scanner, setScanner] = useState(false)
+  const [reader, setReader] = useState(<></>)
   const [querying, setQuerying] = useState(false)
   const [updating, setUpdating] = useState(false)
   const [edit, setEdit] = useState({ refID: "", field: "", data: "" })
@@ -75,6 +80,45 @@ const Database = () => {
 
     setQuerying(false)
   }
+
+  const handleScan = (data) => {
+    if (data) {
+      const code = data.replace("https://register.clubs.triamudom.ac.th/card/", "")
+      if (code.length == 20) {
+        getUserIDfromCardID(code).then((response) => {
+          if (response.status) {
+            setQuery({
+              field: "student_id",
+              operator: "==",
+              context: response.data.stdID
+            })
+            performQuery()
+          }
+        })
+        setClose(true)
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (scanner) {
+      const QrReader = dynamic(() => import("modern-react-qr-reader"), { ssr: false })
+      setTimeout(() => {
+        setReader(
+          <QrReader
+            // @ts-ignore
+            delay={300}
+            facingMode="environment"
+            showViewFinder={false}
+            onScan={handleScan}
+            style={{ width: "100%" }}
+          />
+        )
+      }, 500)
+    } else {
+      setReader(<></>)
+    }
+  }, [scanner])
 
   const clearEdit = () => {
     setEdit({ refID: "", field: "", data: "" })
@@ -127,6 +171,26 @@ const Database = () => {
 
   return (
     <PageContainer>
+      <Modal
+        reloadChildren={true}
+        CloseDep={{
+          dep: close,
+          revert: () => {
+            setClose(false)
+          },
+        }}
+        overlayClassName="fixed w-screen min-h-screen top-0 left-0 bg-TUCMC-gray-600 bg-opacity-50 flex items-center justify-center px-8"
+        className="w-full max-w-[382px] rounded-md bg-white py-4"
+        TriggerDep={{
+          dep: scanner,
+          revert: () => {
+            setScanner(false)
+          },
+        }}
+      >
+        <div className="height-[80vw] mx-8 max-w-sm border border-TUCMC-gray-600">{reader}</div>
+      </Modal>
+
       {userCred.safeMode ? (
         <>
           <div
@@ -196,6 +260,15 @@ const Database = () => {
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
+                    <Button className="rounded-md border border-gray-300 bg-white px-4 py-1">
+                      <QrcodeIcon
+                        onClick={() => {
+                          setScanner(true)
+                        }}
+                        className="h-6 w-6 text-gray-400"
+                        aria-hidden="true"
+                      />
+                    </Button>
                     <Button onClick={clearQuery} className="rounded-md border border-gray-300 bg-white px-4 py-1">
                       Clear
                     </Button>

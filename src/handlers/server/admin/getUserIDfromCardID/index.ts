@@ -9,7 +9,7 @@ export const getUserIDfromCardID = (req, res) => {
       if (dataRef.empty) return { status: false, report: "invalid_cardID" }
       const data = await initialisedDB.collection("users").where("dataRefID", "==", dataRef.docs[0].id).get()
       if (data.empty) return { status: false, report: "invalid_cardID" }
-      return { status: true, report: "success", data: { userID: data.docs[0].id } }
+      return { status: true, report: "success", data: { userID: data.docs[0].id, stdID: data.docs[0].get("stdID") } }
     } else {
       return { status: false, report: "invalid_cardID" }
     }
