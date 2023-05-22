@@ -67,7 +67,6 @@ const Auth = ({ query }) => {
           return Router.push("/select")
         }
 
-        Router.push("/account")
       }
 
       return Router.push("/")
