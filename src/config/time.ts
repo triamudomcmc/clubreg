@@ -17,7 +17,7 @@ export const endOldClub = +new Date("2023-05-06T00:00:00.000+07:00")
 
 export const openRegisterTime = +new Date("2023-05-16T12:00:00.000+07:00")
 export const openTime = +new Date("2023-05-22T12:00:00.000+07:00")
-export const editDataTime = +new Date("2023-05-30T00:00:00.000+07:00")
+export const editDataTime = +new Date("2023-05-30T01:24:00.000+07:00")
 export const endRegClubTime = +new Date("2023-05-30T00:00:00.000+07:00")
 export const announceTime = +new Date("2023-05-30T07:30:00.000+07:00") //
 export const endAnnounceTime = +new Date("2023-05-31T00:00:00.000+07:00") //

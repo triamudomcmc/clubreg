@@ -34,15 +34,16 @@ export const ReservedSection = ({ display, refetch, userData, editable, editFunc
     let ulist = []
     let nitem = items
 
-    nitem.forEach((val) => {
+    nitem.forEach((val, index) => {
       const obj = userData.find((i) => i.dataRefID === val.dataRefID)
-      if (obj.position !== val.position) {
+      if (obj.position !== index + 1) {
         setPrev((prev) => {
           const prevData = prev.find((i) => i.dataRefID === val.dataRefID)
           if (prevData) {
-            if (prevData.position === val.position) return prev
+            if (prevData.position === index + 1) return prev
           }
-          ulist.push({ dataRefID: obj.dataRefID, position: val.position })
+          ulist.push({ dataRefID: obj.dataRefID, position: index + 1 })
+          obj.position = index + 1
           return prev
         })
       }
