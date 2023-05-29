@@ -426,7 +426,7 @@ const Audition = () => {
     <PageContainer hide={!initmember}>
       <Editor
         userData={editing}
-        reservedPos={reservedPos[clubSection.name]}
+        reservedPos={clubSection?.name ? reservedPos[clubSection.name] : reservedPos}
         setReservedPos={setReservedPos}
         refetch={refetch}
         TriggerDep={{
