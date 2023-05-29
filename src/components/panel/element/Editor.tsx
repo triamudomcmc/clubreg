@@ -85,7 +85,7 @@ export const Editor = ({
         ? Number(
             Object.values(reservedPos).reduce((a, b) => {
               return Math.max(Number(a), Number(b))
-            })
+            }, 0)
           )
         : 0
       if (pos <= highest + 1) {
