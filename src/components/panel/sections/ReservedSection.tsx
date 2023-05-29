@@ -43,10 +43,11 @@ export const ReservedSection = ({ display, refetch, userData, editable, editFunc
             if (prevData.position === index + 1) return prev
           }
           ulist.push({ dataRefID: obj.dataRefID, position: index + 1 })
-          obj.position = index + 1
           return prev
         })
       }
+
+      obj.position = index + 1
     })
 
     if (ulist.length > 0) {
@@ -68,7 +69,7 @@ export const ReservedSection = ({ display, refetch, userData, editable, editFunc
     console.log(tasks)
     const res = await updatePosition(localStorage.getItem("currentPanel"), tasks)
     if (res.status) {
-      setBRrender(true)
+      // setBRrender(true)
       refetch()
     } else {
     }
