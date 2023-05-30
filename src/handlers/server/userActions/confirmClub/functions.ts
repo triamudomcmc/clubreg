@@ -27,12 +27,12 @@ export const updateClub = async (clubRef: DocumentReference, req, dataRef, dataD
     if (data.new_count >= data.new_count_limit) throw "club_full"
     const newCount = data.new_count + 1
 
+    const newAuditionData = await createNewAuditionData(dataDoc, req, clubRef, t)
+
     // 1 write
     t.set(clubRef, { new_count: newCount } , { merge: true })
-    
-    const cardRef = await generateCard(dataDoc, data, req)
 
-    const newAuditionData = await createNewAuditionData(dataDoc, req, clubRef, t)
+    const cardRef = await generateCard(dataDoc, data, req)
 
     t.update(dataRef, { club: req.body.clubID, audition: newAuditionData, cardID: cardRef.id })
   })
