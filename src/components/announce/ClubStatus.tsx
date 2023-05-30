@@ -121,7 +121,7 @@ const ClubStatus = ({ data, action, selectTrigger }) => {
     default:
       status = (
         <div className="flex space-x-1 text-TUCMC-red-400">
-          <InformationCircleIcon className="mt-0.5 h-5 w-5" />
+          <XCircleIcon className="mt-0.5 h-5 w-5" />
           <span className="leading-6">ไม่ผ่านการ Audition</span>
         </div>
       )
