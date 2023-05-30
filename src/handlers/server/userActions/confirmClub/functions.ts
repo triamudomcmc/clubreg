@@ -50,9 +50,9 @@ export const createNewAuditionData = async (dataDoc, req, clubRef, t) => {
         newAuditionData[key] = "failed"
       } else {
         if (updatedItem[key] === "passed") {
-          const prevCall = await t.get(initialisedDB.collection("clubs").doc(key))
+          const prevCall = await initialisedDB.collection("clubs").doc(key).get()
           const prevCount = prevCall.get("call_count") || 0
-         t.set(initialisedDB.collection("clubs").doc(key), { call_count: prevCount + 1 }, { merge: true })
+          await initialisedDB.collection("clubs").doc(key).update("call_count", prevCount + 1)
         }
         newAuditionData[key] = "rejected"
       }
