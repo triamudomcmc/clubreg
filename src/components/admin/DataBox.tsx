@@ -3,7 +3,7 @@ import { ChevronDownIcon, TrashIcon } from "@heroicons/react/solid"
 export const DataBox = ({ data, setEdit }) => {
   return (
     <div className="rounded-md bg-white px-4 py-4 text-sm shadow-md">
-      <span className="text-[10px] text-TUCMC-gray-700">ID: {data.userID}</span>
+      <span className="text-[10px] text-TUCMC-gray-700">ID: {data.refID}</span>
       <div className="flex space-x-2">
         <div className="flex items-center">
           <span className="font-medium">audition</span>
