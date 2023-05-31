@@ -55,8 +55,8 @@ const Timeline = () => {
   return (
     <div className="md:flex md:justify-center">
       <div className="mx-8 py-14 md:w-full md:max-w-6xl md:py-32">
-        <h1 className="text-center text-2xl font-bold">Timeline</h1>
-        <div className="mt-12 flex w-full flex-row tracking-tight md:hidden">
+        <h1 className="text-2xl font-bold text-center">Timeline</h1>
+        <div className="flex flex-row w-full mt-12 tracking-tight md:hidden">
           <div
             onClick={() => {
               setSection("notAu")
@@ -71,11 +71,11 @@ const Timeline = () => {
                 "absolute flex w-full items-center justify-center border-b border-TUCMC-red-400 text-TUCMC-red-400"
               )}
             >
-              <StarIcon className="h-5 w-5" />
+              <StarIcon className="w-5 h-5" />
               <span className="pl-1">มีการ Audition</span>
             </motion.span>
             <span className="flex items-center justify-center border-b border-TUCMC-gray-400 text-TUCMC-gray-400">
-              <StarIcon className="h-5 w-5" />
+              <StarIcon className="w-5 h-5" />
               <span className="pl-1">มีการ Audition</span>
             </span>
           </div>
@@ -93,11 +93,11 @@ const Timeline = () => {
                 "absolute flex w-full items-center justify-center border-b border-TUCMC-blue-400 text-TUCMC-blue-400"
               )}
             >
-              <ClipboardCopyIcon className="h-5 w-5" />
+              <ClipboardCopyIcon className="w-5 h-5" />
               <span className="pl-1">ไม่มีการ Audition</span>
             </motion.span>
             <span className="flex items-center justify-center border-b border-TUCMC-gray-400 text-TUCMC-gray-400">
-              <ClipboardCopyIcon className="h-5 w-5" />
+              <ClipboardCopyIcon className="w-5 h-5" />
               <span className="pl-1">ไม่มีการ Audition</span>
             </span>
           </div>
@@ -126,7 +126,7 @@ const Timeline = () => {
               "absolute bg-white md:relative md:w-1/2 md:max-w-xl"
             )}
           >
-            <div className="my-12 flex flex-row items-end space-x-4 px-5">
+            <div className="flex flex-row items-end px-5 my-12 space-x-4">
               <UserGroupIcon className="w-14 shrink-0" />
               <div className="tracking-tight">
                 <p>สำหรับนักเรียนที่ต้องการเข้าชมรมที่มีการ Audition</p>
@@ -175,7 +175,7 @@ const Timeline = () => {
               </TimelineTag>
               <TimelineTag
                 date="2 มิ.ย. 66"
-                time="12.00 น."
+                time="14.00 น."
                 subTitle="(เฉพาะนักเรียนที่ Audition ไม่ผ่าน)"
               >
                 <TimelineTag.Desc>
@@ -201,7 +201,7 @@ const Timeline = () => {
               "absolute flex-col bg-white md:relative md:flex md:w-1/2 md:max-w-xl"
             )}
           >
-            <div className="my-12 flex flex-row items-end space-x-4 px-5">
+            <div className="flex flex-row items-end px-5 my-12 space-x-4">
               <UserIcon className="w-14 shrink-0" />
               <div className="tracking-tight">
                 <p>สำหรับนักเรียนที่ต้องการเข้าชมรมที่ไม่มีการ Audition</p>
