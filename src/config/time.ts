@@ -28,7 +28,7 @@ export const endSecondRoundTime = +new Date("2023-06-02T00:00:00.000+07:00")
 
 export const positionUpdateTime = editDataTime
 
-export const lastround = +new Date("2023-06-02T12:00:00.000+07:00")
+export const lastround = +new Date("2023-06-02T14:00:00.000+07:00")
 export const endLastRound = +new Date("2023-06-03T00:00:00.000+07:00")
 
 export const editInitData = +new Date("2023-04-17T00:00:00.000+07:00")
