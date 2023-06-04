@@ -46,7 +46,7 @@ const Page = ({ printData, meta }) => {
   }, [printData])
 
   return (
-    <div className="space-y-24 px-14 pt-10">
+    <div className="space-y-36 px-14 pt-10">
       {memberData.map((chunk, chunckc) => {
         return (
           <div
