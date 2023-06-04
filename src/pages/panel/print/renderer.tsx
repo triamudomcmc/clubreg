@@ -75,7 +75,7 @@ const Page = ({ printData, meta }) => {
               {chunk.map((item, index) => {
                 return (
                   <tr className="border-t-[1px] border-b-[1px] border-TUCMC-gray-900 text-center text-[18px]">
-                    <td>{index + 1 + 35 * chunckc}</td>
+                    <td>{index + 1 + 30 * chunckc}</td>
                     <td>{item.student_id}</td>
                     <td className="text-left">{item.title.replace("เด็กหญิง", "ด.ญ.").replace("เด็กชาย", "ด.ช.")}</td>
                     <td className="text-left">{item.firstname}</td>

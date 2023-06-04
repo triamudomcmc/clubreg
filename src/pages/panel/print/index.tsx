@@ -47,7 +47,7 @@ const fetchMemberData = async (
       })
     })
 
-    const slcied = sliceArrayIntoGroups([...sorted.m4, ...sorted.m5, ...sorted.m6], 35)
+    const slcied = sliceArrayIntoGroups([...sorted.m4, ...sorted.m5, ...sorted.m6], 30)
     setMemberData(slcied)
     setCount([...sorted.m4, ...sorted.m5, ...sorted.m6].length)
     setInitMem(true)
