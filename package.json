@@ -9,7 +9,7 @@
     "format": "prettier . --check --write",
     "prepare": "husky install",
     "doppler-build": "doppler run --command='next build'",
-    "doppler-start": "doppler run --command='next start'"
+    "doppler-start": "doppler run --command='next start -p 5182'"
   },
   "dependencies": {
     "3d-react-carousal": "^3.1.0",
