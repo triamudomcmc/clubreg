@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "format": "prettier . --check --write",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "doppler-build": "doppler run --command='next build'",
+    "doppler-start": "doppler run --command='next start'"
   },
   "dependencies": {
     "3d-react-carousal": "^3.1.0",
