@@ -47,7 +47,7 @@ const Evaluate = () => {
     // Router.push("/panel")
   }, [])
 
-  const ignored = ["1672592400000", "1670173200000", "1670778000000"]
+  const ignored = ['1691946000000']
 
   const month = {
     1: "ม.ค.",

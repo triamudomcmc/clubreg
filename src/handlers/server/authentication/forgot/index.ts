@@ -2,6 +2,7 @@ import initialisedDB from "@server/firebase-admin"
 import path from "path"
 import fs from "fs"
 import { update } from "@server/tracker"
+import {initSmtpAPIService, sendEmail} from "@server/utilities/smtpAPI";
 const SibApiV3Sdk = require("sib-api-v3-sdk")
 
 const Reset = (actionID: string): string => {
@@ -25,16 +26,12 @@ export const forgot = async (req, res) => {
 
   const url = `https://register.clubs.triamudom.ac.th/auth/reset${action.id}`
 
-  const defaultClient = SibApiV3Sdk.ApiClient.instance
+  const smtpServ = initSmtpAPIService(process.env.SMTP_API_KEY)
 
-  const apiKey = defaultClient.authentications["api-key"]
-  apiKey.apiKey = process.env.MAIL_KEY
-  const api = new SibApiV3Sdk.TransactionalEmailsApi()
-  const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail()
-  sendSmtpEmail.sender = { name: "Triam Udom Clubs Registration System", email: "no-reply@triamudom.club" }
-  sendSmtpEmail.to = [{ email: `${req.body.email}` }]
-  sendSmtpEmail.subject = "มีการขอเปลี่ยนรหัสผ่าน"
-  sendSmtpEmail.htmlContent = `
+  const from = `Triam Udom Clubs Registration System <no-reply@clubs.triamudom.ac.th>`
+  const to = [req.body.email]
+  const subject = "มีการขอเปลี่ยนรหัสผ่าน"
+  const htmlContent = `
   <!doctype html>
 <html lang="en-US">
 <head>
@@ -103,20 +100,17 @@ export const forgot = async (req, res) => {
 </html>
 `
 
-  api.sendTransacEmail(sendSmtpEmail).then(
-    function (data: any) {
-      console.log("API called successfully. Returned data: " + data)
-    },
-    function (error: any) {
-      console.error(error)
-    }
-  )
+  const err = await sendEmail(smtpServ, {
+    to,
+    from,
+    sender: "no-reply@clubs.triamudom.ac.th",
+    subject,
+    html_body: htmlContent,
+    plain_body: `มีการขอเปลี่ยนรหัสผ่านบนระบบ กรุณาใช้ลิงก์นี้ ${url}`
+  })
 
-  const msg = {
-    to: req.body.email,
-    from: { email: "no-reply@triamudom.club", name: "TUCMC Account" },
-    subject: "การขอเปลี่ยนรหัสผ่าน",
-    text: `แก้ไขรหัสผ่านได้ที่ https://register.clubs.triamudom.ac.th/auth/reset${action.id}`,
+  if (err) {
+    return { status: false, report: "mailServiceError" }
   }
 
   update("system", "forgot", req.body.fp, user.docs[0].id)
