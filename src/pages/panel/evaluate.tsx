@@ -47,7 +47,7 @@ const Evaluate = () => {
     // Router.push("/panel")
   }, [])
 
-  const ignored = ["1672592400000", "1670173200000", "1670778000000"]
+  const ignored = ["1702227600", "1703437200", "1704042000"]
 
   const month = {
     1: "ม.ค.",
@@ -398,7 +398,12 @@ const Evaluate = () => {
               {member.map((people, i) => {
                 return (
                   <span key={`check${i}`} className="flex h-10 items-center justify-center border-b border-r px-4">
-                    <EvalCheck key={`checke${i}`} userData={people} pendingUpdate={pendingUpdate} setPendingUpdate={setPendingUpdate} />
+                    <EvalCheck
+                      key={`checke${i}`}
+                      userData={people}
+                      pendingUpdate={pendingUpdate}
+                      setPendingUpdate={setPendingUpdate}
+                    />
                   </span>
                 )
               })}
