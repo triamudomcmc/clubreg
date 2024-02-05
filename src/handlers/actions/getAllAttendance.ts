@@ -5,7 +5,7 @@ export const getAllAttendance = getAllAttendanceData.helper.createAction(async (
   const checks = await initialisedDB.collection("attendance").get()
 
   const start = 1699203600000
-  const end = 1707152400000
+  const end = 1707220800000
 
   const res = checks.docs
     .filter((doc) => (parseInt(doc.id) >= start && parseInt(doc.id) <= end))
