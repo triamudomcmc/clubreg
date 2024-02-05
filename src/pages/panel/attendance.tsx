@@ -142,7 +142,7 @@ const fetchCheckData = async (
 }
 
 const PastMondays = getRecentMondays()
-  .filter((item) => item >= 1653843600000)
+  .filter((item) => item >= 1686502800000)
   .map((item, index) => ({ id: index + 1, name: item }))
 
 const Attendance = ({ query }) => {

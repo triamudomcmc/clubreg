@@ -16,12 +16,23 @@ export const ForgotSection = ({ swapFunction, setLoader }) => {
 
     const res = await forgot(email)
     if (!res.status) {
-      addToast({
-        theme: "modern",
-        icon: "cross",
-        title: "ไม่พบอีเมลนี้บนฐานข้อมูล",
-        text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช. เพื่อขอตรวจสอบข้อมูล",
-      })
+      switch (res.report) {
+        case "missingEmail":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "ไม่พบอีเมลนี้บนฐานข้อมูล",
+            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช. เพื่อขอตรวจสอบข้อมูล",
+          })
+          break
+        case "mailServiceError":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "ไม่สามารถส่งอีเมลได้ในขณะนี้",
+            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช. เพื่อขอตรวจสอบข้อมูล",
+          })
+      }
     } else {
       addToast({
         theme: "modern",
