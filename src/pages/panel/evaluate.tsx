@@ -47,7 +47,7 @@ const Evaluate = () => {
     // Router.push("/panel")
   }, [])
 
-  const ignored = ['1691946000000']
+  const ignored = ["1702227600000", "1703437200000", "1704042000000"]
 
   const month = {
     1: "ม.ค.",
@@ -198,7 +198,7 @@ const Evaluate = () => {
       <div className="flex min-h-screen w-full flex-col items-center py-10 px-6">
         <h1 className="mb-2 text-center text-4xl text-TUCMC-gray-900">ประเมินผล</h1>
         <p className="text-center text-TUCMC-gray-700">กรรมการชมรมจะต้องประเมินผลนักเรียนทุกคนให้เสร็จ</p>
-        <p className="mb-2 text-center text-TUCMC-gray-700">ภายในวันอังคาร ที่ 28 กุมภาพันธ์ 2566</p>
+        <p className="mb-2 text-center text-TUCMC-gray-700">ภายในวันจันทร์ ที่ 5 กุมภาพันธ์ 2567</p>
         <div className="mb-10 w-full max-w-[400px]">
           <div
             ref={box}
@@ -398,7 +398,12 @@ const Evaluate = () => {
               {member.map((people, i) => {
                 return (
                   <span key={`check${i}`} className="flex h-10 items-center justify-center border-b border-r px-4">
-                    <EvalCheck key={`checke${i}`} userData={people} pendingUpdate={pendingUpdate} setPendingUpdate={setPendingUpdate} />
+                    <EvalCheck
+                      key={`checke${i}`}
+                      userData={people}
+                      pendingUpdate={pendingUpdate}
+                      setPendingUpdate={setPendingUpdate}
+                    />
                   </span>
                 )
               })}
