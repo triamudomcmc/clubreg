@@ -6,5 +6,5 @@ export const toBase64 = file => new Promise((resolve, reject) => {
 });
 
 export const convertToStaticFileUri = (old: string) => {
-    return old.replaceAll("storage.googleapis.com", "static-clubreg.tucm.cc")
+    return old.replace("storage.googleapis.com", "static-clubreg.tucm.cc")
 }

@@ -7,7 +7,7 @@ export interface SmtpAPIService {
 
 export const initSmtpAPIService = (apiKey: string): SmtpAPIService => {
     return {
-        providerUrl: "https://postal-esxi60-node.tucmc.dev/api/v1",
+        providerUrl: "https://postal-esxi60-node.tucm.cc/api/v1",
         key: apiKey
     }
 }
