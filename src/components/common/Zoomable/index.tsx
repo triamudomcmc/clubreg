@@ -105,9 +105,8 @@ export const Zoomable = ({
             >
               <XIcon className="h-4 w-4 cursor-pointer text-white" />
             </div>
-            <img
+            <Image
               onLoad={onLoad}
-              placeholder="blur"
               className={className}
               src={src}
               alt={alt}
@@ -124,8 +123,7 @@ export const Zoomable = ({
         }}
         className={classnames(sqPercent < 80 && "cursor-magnify")}
       >
-        <img
-          placeholder="blur"
+        <Image
           onLoad={onLoad}
           className={className}
           src={src}

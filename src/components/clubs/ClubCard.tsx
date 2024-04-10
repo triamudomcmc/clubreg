@@ -13,21 +13,25 @@ export const ClubCard = ({ data, imageLoadAction = null }) => {
         className="minClubs2:w-175px minClubs:w-185px my-[0.35rem] mx-10 flex w-full max-w-[260px] cursor-pointer flex-col rounded-lg shadow-lg marg:mx-[0.35rem]"
       >
         {imageLoadAction ? (
-          <img
+            <Image
+                priority={false}
             onLoad={imageLoadAction}
             className="w-full rounded-t-lg object-cover"
             width="260"
             height="143"
             placeholder="blur"
+                blurDataURL={data.imageURL}
             src={data.imageURL}
           />
         ) : (
-          <img
+            <Image
+                priority={false}
             className="w-full rounded-t-lg object-cover"
             width="185"
             height="102"
             onLoad={imageLoadAction}
             placeholder="blur"
+                blurDataURL={data.imageURL}
             src={data.imageURL}
           />
         )}
