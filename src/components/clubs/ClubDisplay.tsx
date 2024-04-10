@@ -11,6 +11,7 @@ import { Zoomable } from "@components/common/Zoomable"
 import { QuillEditor } from "@components/common/TextEdit/Quill"
 import { ForwardRefComponent } from "framer-motion"
 import { ClubCard } from "./ClubCard"
+import {convertToStaticFileUri} from "@utilities/files";
 
 const ClubHeader: FC<{ clubID: string; clubDisplay: ClubDisplay; loaded: () => void }> = ({
   clubID,
@@ -25,7 +26,7 @@ const ClubHeader: FC<{ clubID: string; clubDisplay: ClubDisplay; loaded: () => v
         <div className="relative mb-[-6.5px] md:max-w-[512px]">
           <img
             onLoad={loaded}
-            src={clubDisplay?.images?.mainImage || `/assets/thumbnails/${clubID}.jpg`}
+            src={convertToStaticFileUri(clubDisplay?.images?.mainImage || `/assets/thumbnails/${clubID}.jpg`)}
             placeholder="blur"
             width="768"
             height="432"
@@ -207,7 +208,7 @@ export const ClubDisplaySection: FC<{
                     priority={true}
                     onLoad={loaded}
                     className="rounded-lg object-cover"
-                    src={clubDisplay?.images?.["picture-1"]}
+                    src={convertToStaticFileUri(clubDisplay?.images?.["picture-1"])}
                     width={768}
                     height={432}
                     updateOverlay={setZoomOverlay}
@@ -221,7 +222,7 @@ export const ClubDisplaySection: FC<{
                     priority={true}
                     onLoad={loaded}
                     className="rounded-lg object-cover"
-                    src={clubDisplay?.images?.["picture-2"]}
+                    src={convertToStaticFileUri(clubDisplay?.images?.["picture-2"])}
                     width={768}
                     height={432}
                     updateOverlay={setZoomOverlay}
@@ -235,7 +236,7 @@ export const ClubDisplaySection: FC<{
                     priority={true}
                     onLoad={loaded}
                     className="rounded-lg object-cover"
-                    src={clubDisplay?.images?.["picture-3"]}
+                    src={convertToStaticFileUri(clubDisplay?.images?.["picture-3"])}
                     width={768}
                     height={432}
                     updateOverlay={setZoomOverlay}
@@ -260,7 +261,7 @@ export const ClubDisplaySection: FC<{
                           <div className="h-20 w-20 md:h-24 md:w-24">
                             <img
                               onLoad={loaded}
-                              src={clubDisplay.reviews[index]?.profile}
+                              src={convertToStaticFileUri(clubDisplay.reviews[index]?.profile)}
                               placeholder="blur"
                               width="128"
                               height="128"
