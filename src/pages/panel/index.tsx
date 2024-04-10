@@ -250,7 +250,7 @@ const Account = () => {
         title: "อัปโหลดเอกสารสำเร็จ",
         text: "การอัปโหลดเอกสารสำเร็จแล้ว",
       })
-      localStorage.setItem("submitted25652", "true")
+      localStorage.setItem("submitted25662", "true")
       setDisplay(false)
     } else {
       addToast({
@@ -274,7 +274,7 @@ const Account = () => {
       if (userData.student_id) {
         const whitelist = ["ก30952-2", "ก30952-3", "ก30952-4", "ก30952-5", "ก30952-6", "ก30952-7"]
         if (userData.student_id.includes("ก") && (!userData.student_id.includes("-") || whitelist.includes(userData.student_id))) {
-          const summited = localStorage.getItem("submitted25652")
+          const summited = localStorage.getItem("submitted25662")
           setT(true)
           if (summited === "true") return
           setDisplay(true)

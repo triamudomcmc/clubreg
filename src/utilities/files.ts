@@ -4,3 +4,7 @@ export const toBase64 = file => new Promise((resolve, reject) => {
     reader.onload = () => resolve(reader.result);
     reader.onerror = error => reject(error);
 });
+
+export const convertToStaticFileUri = (old: string) => {
+    return old.replaceAll("storage.googleapis.com", "static-clubreg.tucm.cc")
+}

@@ -12,6 +12,7 @@ import initialisedDB from "@server/firebase-admin"
 import { ClubDisplay } from "@interfaces/clubDisplay"
 import { DescribeRoute } from "@components/common/Meta/OpenGraph"
 import {AnimateSharedLayout, motion} from "framer-motion"
+import {convertToStaticFileUri} from "@utilities/files";
 
 export const getStaticProps: GetStaticProps = async (): Promise<
   GetStaticPropsResult<{ clubs: { name: string; audition: boolean; clubID: string; imageURL: string }[] }>
@@ -33,7 +34,7 @@ export const getStaticProps: GetStaticProps = async (): Promise<
       name: data.nameTH,
       audition: data.audition,
       clubID: club.id,
-      imageURL: data?.images?.mainImage || `/assets/thumbnails/${club.id}.jpg`,
+      imageURL: convertToStaticFileUri(data?.images?.mainImage || `/assets/thumbnails/${club.id}.jpg`),
     }
   })
 

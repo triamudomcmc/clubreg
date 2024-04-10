@@ -19,6 +19,7 @@ import initialisedDB from "@server/firebase-admin"
 import { ClubDisplaySection } from "@components/clubs/ClubDisplay"
 import { AnimateSharedLayout } from "framer-motion"
 import { DescribeRoute } from "@components/common/Meta/OpenGraph"
+import {convertToStaticFileUri} from "@utilities/files";
 
 const parseText = (text) => {
   return "<p>" + text.replace(/\n{2,}/g, "</p><p>").replace(/\n/g, "<br>")
@@ -98,7 +99,7 @@ const Page = ({ data, clubID, clubList, clubDisplay }) => {
       title={`ชมรม${clubDisplay.nameTH}`}
       /* clean up html tags*/
       description={clubDisplay.description.replace(/<\/?[^>]+(>|$)/g, "")}
-      imgURL={clubDisplay?.images?.mainImage || `/assets/thumbnails/${clubID}.jpg`}
+      imgURL={convertToStaticFileUri(clubDisplay?.images?.mainImage || `/assets/thumbnails/${clubID}.jpg`)}
     >
       <PageContainer>
         <AnimateSharedLayout>
@@ -147,7 +148,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       name: data.nameTH,
       audition: data.audition,
       clubID: club.id,
-      imageURL: data?.images?.mainImage || `/assets/thumbnails/${club.id}.jpg`,
+      imageURL: convertToStaticFileUri(data?.images?.mainImage || `/assets/thumbnails/${club.id}.jpg`),
     }
   })
 
