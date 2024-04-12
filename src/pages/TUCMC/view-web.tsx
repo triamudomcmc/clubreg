@@ -140,8 +140,7 @@ const WebDisplayPage: NextPage = () => {
     <PageContainer>
       <ModalSection
         refetch={() => {
-          setClubID("")
-          refetchData()
+          fetchAllClubDataAction(clubID, setAllClubData, setClubID)
         }}
         clubID={clubID}
         setAction={setAction}
@@ -188,6 +187,7 @@ const WebDisplayPage: NextPage = () => {
             clubID={clubID}
             clubDisplay={clubDisplay}
             imgLoading={imgLoading}
+            isStatic={false}
           />
         </div>
       </div>

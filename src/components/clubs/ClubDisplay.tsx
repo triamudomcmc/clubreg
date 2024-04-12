@@ -11,12 +11,13 @@ import { Zoomable } from "@components/common/Zoomable"
 import { QuillEditor } from "@components/common/TextEdit/Quill"
 import { ForwardRefComponent } from "framer-motion"
 import { ClubCard } from "./ClubCard"
-import {convertToStaticFileUri} from "@utilities/files";
+import {convertToStaticFileUriC} from "@utilities/files";
 
-const ClubHeader: FC<{ clubID: string; clubDisplay: ClubDisplay; loaded: () => void }> = ({
+const ClubHeader: FC<{ clubID: string; clubDisplay: ClubDisplay; loaded: () => void; isStatic?: boolean }> = ({
   clubID,
   clubDisplay,
   loaded,
+    isStatic = true
 }) => {
   const contactRef = useRef(null)
 
@@ -26,9 +27,9 @@ const ClubHeader: FC<{ clubID: string; clubDisplay: ClubDisplay; loaded: () => v
         <div className="relative mb-[-6.5px] md:max-w-[512px]">
           <Image
             onLoad={loaded}
-            src={convertToStaticFileUri(clubDisplay?.images?.mainImage || `/assets/thumbnails/${clubID}.jpg`)}
+            src={convertToStaticFileUriC(isStatic,clubDisplay?.images?.mainImage || `/assets/thumbnails/${clubID}.jpg`)}
             placeholder="blur"
-            blurDataURL={convertToStaticFileUri(clubDisplay?.images?.mainImage || `/assets/thumbnails/${clubID}.jpg`)}
+            blurDataURL={convertToStaticFileUriC(isStatic,clubDisplay?.images?.mainImage || `/assets/thumbnails/${clubID}.jpg`)}
             width="768"
             height="432"
             className={classNames("object-cover md:rounded-l-2xl")}
@@ -144,8 +145,9 @@ export const ClubDisplaySection: FC<{
   imgLoading: boolean
   editable?: boolean
   onDataChange?: (data: { reviews: any[]; description: string }) => void
-  suggestions?: any[]
-}> = ({ clubDisplay, clubID, imgLoading, editable, onDataChange, suggestions }) => {
+  suggestions?: any[],
+  isStatic?: boolean
+}> = ({ clubDisplay, clubID, imgLoading, editable, onDataChange, suggestions, isStatic = true }) => {
   const [loadingCount, setLoadingCount] = useState(1)
 
   const [reviews, setReviews] = useState(clubDisplay.reviews)
@@ -181,7 +183,7 @@ export const ClubDisplaySection: FC<{
       {zoomOverlay}
       <div className="mx-auto max-w-[1100px]">
         <div className={classNames(loadingCount > 0 && "absolute opacity-0")}>
-          <ClubHeader clubDisplay={clubDisplay} clubID={clubID} loaded={loaded} />
+          <ClubHeader clubDisplay={clubDisplay} clubID={clubID} loaded={loaded} isStatic={isStatic}/>
           <hr className="w-full border-b border-TUCMC-gray-300 md:hidden" />
 
           <main className="space-y-12 px-6 pb-24 pt-11 md:space-y-16 md:pt-12">
@@ -209,7 +211,7 @@ export const ClubDisplaySection: FC<{
                     priority={true}
                     onLoad={loaded}
                     className="rounded-lg object-cover"
-                    src={convertToStaticFileUri(clubDisplay?.images?.["picture-1"])}
+                    src={convertToStaticFileUriC(isStatic,clubDisplay?.images?.["picture-1"])}
                     width={768}
                     height={432}
                     updateOverlay={setZoomOverlay}
@@ -223,7 +225,7 @@ export const ClubDisplaySection: FC<{
                     priority={true}
                     onLoad={loaded}
                     className="rounded-lg object-cover"
-                    src={convertToStaticFileUri(clubDisplay?.images?.["picture-2"])}
+                    src={convertToStaticFileUriC(isStatic,clubDisplay?.images?.["picture-2"])}
                     width={768}
                     height={432}
                     updateOverlay={setZoomOverlay}
@@ -237,7 +239,7 @@ export const ClubDisplaySection: FC<{
                     priority={true}
                     onLoad={loaded}
                     className="rounded-lg object-cover"
-                    src={convertToStaticFileUri(clubDisplay?.images?.["picture-3"])}
+                    src={convertToStaticFileUriC(isStatic,clubDisplay?.images?.["picture-3"])}
                     width={768}
                     height={432}
                     updateOverlay={setZoomOverlay}
@@ -262,8 +264,8 @@ export const ClubDisplaySection: FC<{
                           <div className="h-20 w-20 md:h-24 md:w-24">
                             <Image
                               onLoad={loaded}
-                              src={convertToStaticFileUri(clubDisplay.reviews[index]?.profile)}
-                              blurDataURL={convertToStaticFileUri(clubDisplay.reviews[index]?.profile)}
+                              src={convertToStaticFileUriC(isStatic,clubDisplay.reviews[index]?.profile)}
+                              blurDataURL={convertToStaticFileUriC(isStatic,clubDisplay.reviews[index]?.profile)}
                               placeholder="blur"
                               width="128"
                               height="128"

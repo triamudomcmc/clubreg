@@ -51,10 +51,14 @@ export const ModalSection: FC<{
         title: "แก้ไขสถานะข้อมูลชมรมดังกล่าวเรียบร้อย",
         text: "",
       })
-      refetch()
 
-      setCloseState(true)
+      if (action === "declined") {
+        setCloseState(true)
+      }
+
       setCloseState2(true)
+
+      refetch()
     } else {
       switch (out.report) {
         case "user_not_found":

@@ -78,7 +78,7 @@ const performUpload = async (req, ID) => {
       }
     }
 
-    const out = await clubDataDoc.ref.update({ [`${pid}.status`]: "pending" })
+    const out = await clubDataDoc.ref.update({ "status": "pending" })
 
     const dat = await initialisedDB.collection("clubDisplayPending").doc(req.body.panelID).get()
     await initialisedDB
@@ -94,6 +94,7 @@ const performUpload = async (req, ID) => {
         { merge: true }
       )
 
+    // Sus orphan collection ???
     const clubDisplayRequestDoc = initialisedDB.collection("clubDisplayRequests").doc()
     const cDisplayRequestOut = await clubDisplayRequestDoc.create({
       clubID: req.body.panelID,
