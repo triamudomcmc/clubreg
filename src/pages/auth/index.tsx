@@ -182,7 +182,7 @@ const Auth = ({ query }) => {
 
     if (openRegisterTime > currentTime) {
       const to = openRegisterTime - currentTime
-      if (to && (to > 0) & (to < 2147483647)) {
+      if (to && (to > 0) && (to < 2147483647)) {
         setTimeout(() => {
           window.location.reload()
         }, to)
