@@ -134,7 +134,7 @@ const Timeline = () => {
             </div>
             <div className="space-y-8">
               <TimelineTag
-                date="22 พ.ค. 66"
+                date="17 พ.ค. 67"
                 time="12.00 น."
                 title="สมัครและ Audition"
                 subTitle="เข้าสู่ระบบ หรือสร้างบัญชี (เฉพาะ ม.4) แล้วลงชื่อ Audition ชมรมที่ต้องการ"
@@ -145,11 +145,11 @@ const Timeline = () => {
                   ของชมรมนั้นโดยตรง
                 </TimelineTag.Desc>
                 <TimelineTag.ExtraDescription>
-                  ภายในวันที่ 29 พ.ค. 66 เวลา 23.59 น.
+                  ภายในวันที่ 24 พ.ค. 67 เวลา 23.59 น.
                 </TimelineTag.ExtraDescription>
               </TimelineTag>
               <TimelineTag
-                date="29 พ.ค. 66"
+                date="24 พ.ค. 67"
                 time="23.59 น."
                 title="สิ้นสุดการสมัครและ Audition"
               >
@@ -159,23 +159,23 @@ const Timeline = () => {
                 </TimelineTag.Desc>
               </TimelineTag>
               <TimelineTag
-                date="30 พ.ค. 66"
-                time="07.30 น."
+                date="27 พ.ค. 67"
+                time="08.00 น."
                 title="ประกาศผลการ Audition"
               >
                 <TimelineTag.Desc>
                   นักเรียนที่ผ่านการ Audition เลือกกดยืนยันสิทธิ์หรือสละสิทธิ์
                 </TimelineTag.Desc>
               </TimelineTag>
-              <TimelineTag date="31 พ.ค. 66" time="07.30 น.">
+              <TimelineTag date="28 พ.ค. 67" time="08.00 น.">
                 <TimelineTag.Desc>เรียกลำดับสำรอง รอบที่ 1</TimelineTag.Desc>
               </TimelineTag>
-              <TimelineTag date="1 มิ.ย. 66" time="07.30 น.">
+              <TimelineTag date="29 พ.ค. 67" time="08.00 น.">
                 <TimelineTag.Desc>เรียกลำดับสำรอง รอบที่ 2</TimelineTag.Desc>
               </TimelineTag>
               <TimelineTag
-                date="2 มิ.ย. 66"
-                time="14.00 น."
+                date="30 พ.ค. 67"
+                time="08.00 น."
                 subTitle="(เฉพาะนักเรียนที่ Audition ไม่ผ่าน)"
               >
                 <TimelineTag.Desc>
@@ -183,7 +183,7 @@ const Timeline = () => {
                 </TimelineTag.Desc>
               </TimelineTag>
               <TimelineTag
-                date="12 มิ.ย. 66"
+                date="10 มิ.ย. 67"
                 last={true}
                 title="เริ่มเรียนชมรมคาบแรก"
               >
@@ -209,7 +209,7 @@ const Timeline = () => {
             </div>
             <div className="flex h-[600px] flex-col justify-between md:h-full">
               <TimelineTag
-                date="22 พ.ค. 66"
+                date="17 พ.ค. 67"
                 time="12.00 น."
                 title="เลือกชมรมที่ต้องการ"
                 color="bg-TUCMC-blue-400"
@@ -221,11 +221,11 @@ const Timeline = () => {
                   ชมรมที่ไม่มีการ Audition
                 </TimelineTag.Desc>
                 <TimelineTag.ExtraDescription>
-                  ภายในวันที่ 29 พ.ค. 66 เวลา 23.59 น.
+                  ภายในวันที่ 24 พ.ค. 67 เวลา 23.59 น.
                 </TimelineTag.ExtraDescription>
               </TimelineTag>
               <TimelineTag
-                date="29 พ.ค. 66"
+                date="24 พ.ค. 67"
                 time="23.59 น."
                 title="สิ้นสุดการลงทะเบียน"
                 color="bg-TUCMC-blue-400"
@@ -238,7 +238,7 @@ const Timeline = () => {
                 </TimelineTag.Desc>
               </TimelineTag>
               <TimelineTag
-                date="12 มิ.ย. 66"
+                date="10 มิ.ย. 67"
                 last={true}
                 title="เริ่มเรียนชมรมคาบแรก"
               >

@@ -111,6 +111,8 @@ const Report = () => {
       Router.push("/select")
       return userData
     }
+
+    Router.push("/panel")
     return userData
   })
 

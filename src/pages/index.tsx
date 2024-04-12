@@ -56,7 +56,7 @@ const Index = () => {
   return (
     <DescribeRoute
       title="ระบบลงทะเบียนชมรม โรงเรียนเตรียมอุดมศึกษา"
-      description="ระบบจะเปิดให้ลงทะเบียนชมรมในวันที่ 22 พ.ค. 2566 เวลา 12.00 น."
+      description="ระบบจะเปิดให้ลงทะเบียนชมรมในวันที่ 20 พ.ค. 2567 เวลา 12.00 น."
       imgURL="/assets/meta/index.jpg"
     >
       <PageContainer footer={false}>
@@ -73,7 +73,7 @@ const Index = () => {
                     โรงเรียนเตรียมอุดมศึกษา
                   </h1>
                   <p className="mt-2 tracking-tight text-white md:mt-2 md:text-xl lg:mt-4 lg:text-3xl">
-                    ปีการศึกษา 2566
+                    ปีการศึกษา 2567
                   </p>
                 </div>
                 {!button && (
@@ -127,7 +127,7 @@ const Index = () => {
                         <ExclamationIcon className="w-10 h-10 text-yellow-500 mt-1"/>
                         <div>
                           <h1 className="text-lg text-left">ระบบจะเปิดให้ยืนยันสิทธิ์ชมรมเดิม</h1>
-                          <h1 className="text-TUCMC-gray-700 font-medium">ในวันที่ 5 พฤษภาคม 2566 เวลา 11.30 น.</h1>
+                          <h1 className="text-TUCMC-gray-700 font-medium">ในวันที่ 3 พฤษภาคม 2567 เวลา 08.00 น.</h1>
                         </div>
                       </div>
                     )}
@@ -155,7 +155,7 @@ const Index = () => {
                 </div> */}
                 <div className="hidden px-1 font-medium text-white md:block">
                   <p>ระบบจะเปิดให้ลงทะเบียนชมรม</p>
-                  <p>ในวันที่ 22 พ.ค. 2566 เวลา 12.00 น.</p>
+                  <p>ในวันที่ 17 พ.ค. 2567 เวลา 12.00 น.</p>
                 </div>
               </div>
             </div>
@@ -220,7 +220,7 @@ const Index = () => {
                     <ExclamationIcon className="w-10 h-10 text-yellow-500 mt-1"/>
                     <div>
                       <h1 className="text-lg text-left">ระบบจะเปิดให้ยืนยันสิทธิ์ชมรมเดิม</h1>
-                      <h1 className="text-TUCMC-gray-700 font-medium">ในวันที่ 5 พฤษภาคม 2566 เวลา 11.30 น.</h1>
+                      <h1 className="text-TUCMC-gray-700 font-medium">ในวันที่ 3 พฤษภาคม 2567 เวลา 08.00 น.</h1>
                     </div>
                   </div>
                 )}
@@ -243,7 +243,7 @@ const Index = () => {
                 </div> */}
                 <div className="font-medium">
                   <p>ระบบจะเปิดให้ลงทะเบียนชมรม</p>
-                  <p>ในวันที่ 22 พ.ค. 2566 เวลา 12.00 น.</p>
+                  <p>ในวันที่ 17 พ.ค. 2567 เวลา 12.00 น.</p>
                 </div>
               </div>
             </div>

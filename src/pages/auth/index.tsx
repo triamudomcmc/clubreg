@@ -180,10 +180,13 @@ const Auth = ({ query }) => {
     }
     localStorage.setItem("beforeExit", "")
 
-    if (openRegisterTime > new Date().getTime()) {
-      setTimeout(() => {
-        Router.reload()
-      }, openRegisterTime - new Date().getTime())
+    if (openRegisterTime > currentTime) {
+      const to = openRegisterTime - currentTime
+      if (to && (to > 0) && (to < 2147483647)) {
+        setTimeout(() => {
+          window.location.reload()
+        }, to)
+      }
     }
   }, [])
 
@@ -199,7 +202,7 @@ const Auth = ({ query }) => {
         </DefaultCard> */}
         <DefaultCard>
           <p className="font-normal">
-            นักเรียน ม.5 และ ม.6 ในปีการศึกษา 2566 ที่เข้ามายืนยันสิทธิ์ชมรมเดิม จะต้องใช้บัญชีเดิมในการเข้าสู่ระบบ
+            นักเรียน ม.5 และ ม.6 ในปีการศึกษา 2567 ที่เข้ามายืนยันสิทธิ์ชมรมเดิม จะต้องใช้บัญชีเดิมในการเข้าสู่ระบบ
           </p>
         </DefaultCard>
         {action == "login" && (
@@ -210,7 +213,7 @@ const Auth = ({ query }) => {
             <h1 className="text-4xl font-bold tracking-tight">เข้าสู่ระบบ</h1>
             <div className="mt-2 mb-6 text-center text-TUCMC-gray-600">
               <p>ระบบลงทะเบียนชมรม</p>
-              <p>โรงเรียนเตรียมอุดมศึกษา ปีการศึกษา 2566</p>
+              <p>โรงเรียนเตรียมอุดมศึกษา ปีการศึกษา 2567</p>
             </div>
             <div className="flex flex-row justify-center space-x-2 text-TUCMC-gray-900">
               <div className="flex flex-col items-center">
@@ -239,7 +242,7 @@ const Auth = ({ query }) => {
               </div>
             </div>
             <p className="mt-8 max-w-[300px] text-TUCMC-gray-700">
-              ระบบจะเปิดให้เข้าสู่ระบบเพื่อยืนยันสิทธิ์ชมรมเดิมพร้อมกันในวันที่ 5 พ.ค. 2566 เวลา 11.30 น.
+              ระบบจะเปิดให้เข้าสู่ระบบเพื่อยืนยันสิทธิ์ชมรมเดิมพร้อมกันในวันที่ 3 พ.ค. 2567 เวลา 8.00 น.
             </p>
             <div className="mt-2 flex w-full flex-row justify-center">
               <span onClick={goForgot} className="cursor-pointer text-TUCMC-pink-400">
@@ -253,7 +256,7 @@ const Auth = ({ query }) => {
             <h1 className="text-4xl font-bold tracking-tight">สร้างบัญชี</h1>
             <div className="mt-2 mb-6 text-center text-TUCMC-gray-600">
               <p>ระบบลงทะเบียนชมรม</p>
-              <p>โรงเรียนเตรียมอุดมศึกษา ปีการศึกษา 2566</p>
+              <p>โรงเรียนเตรียมอุดมศึกษา ปีการศึกษา 2567</p>
             </div>
             <div className="flex flex-row justify-center space-x-2 text-TUCMC-gray-900">
               <div className="flex flex-col items-center">
@@ -282,7 +285,7 @@ const Auth = ({ query }) => {
               </div>
             </div>
             <p className="mt-8 max-w-[300px] text-TUCMC-gray-700 text-center">
-              ระบบจะเปิดให้นักเรียนสร้างบัญชีใหม่ในวันที่ 16 พฤษภาคม 2566 เวลา 12.00 น.
+              ระบบจะเปิดให้นักเรียนสร้างบัญชีใหม่ในวันที่ 8 พฤษภาคม 2567 เวลา 12.00 น.
             </p>
             <div className="mt-2 flex w-full flex-row justify-center">
               <span onClick={goLogin} className="cursor-pointer text-TUCMC-pink-400">

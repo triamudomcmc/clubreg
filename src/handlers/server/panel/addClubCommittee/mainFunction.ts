@@ -24,11 +24,9 @@ export const addClubCommitteeAction = async (req, res, ID) => {
 
     if (studentOut.empty || studentOut.size === 0) {
       return { status: false, report: "student_not_found" }
-    } 
-
-/* else if (studentOut.size > 0 && ID.studentID === req.body.studentID) {
+    } else if (studentOut.size > 0 && ID.studentID === req.body.studentID) {
       return { status: false, report: "cannot_add_self" }
-    } */
+    }
 
     const studentData = await studentOut.docs[0].data()
 
