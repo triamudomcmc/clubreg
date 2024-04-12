@@ -115,7 +115,7 @@ const Clubs: FC = ({ clubs }: InferGetStaticPropsType<typeof getStaticProps>) =>
   return (
     <DescribeRoute
       title="ชมรม"
-      description="รายชื่อชมรมโรงเรียนเตรียมอุดมศึกษา ประจำปีการศึกษา 2566"
+      description="รายชื่อชมรมโรงเรียนเตรียมอุดมศึกษา ประจำปีการศึกษา 2567"
       imgURL="/assets/meta/index.jpg"
     >
       <PageContainer>

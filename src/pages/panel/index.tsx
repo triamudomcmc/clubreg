@@ -436,6 +436,7 @@ const Account = () => {
 
               <Button
                 href="/panel/report"
+                disabled={true}
                 type="div"
                 className={classNames(
                   "cursor-pointer",

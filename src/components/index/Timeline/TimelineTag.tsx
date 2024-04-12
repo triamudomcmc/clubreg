@@ -31,8 +31,8 @@ const TimelineTag = ({
   return (
     <div className={`flex flex-row space-x-4 ${padding}`}>
       <div className={`shrink-0 ${className}`}>
-        <div className="mt-2 flex flex-col items-center bg-white pt-3">
-          <p className="text-sm leading-4">{date}</p>
+        <div className="mt-2 flex flex-col items-center bg-white pt-3 text-center">
+          <p className="text-sm leading-4 w-20">{date}</p>
           <p className="text-xs">{time}</p>
         </div>
         {!last && <Line length="h-full" color={color} />}

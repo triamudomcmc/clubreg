@@ -48,9 +48,9 @@ export const Button = ({
       <motion.div
         onClick={() => {
           trackedClick()
-          Router.push(href)
+          !disabled && Router.push(href)
         }}
-        className={classnames(className, defaultAttributes)}
+        className={classnames(className, defaultAttributes, disabled && "cursor-not-allowed")}
         whileHover={!disabled && { scale: 1.05 }}
         whileTap={!disabled && { scale: 0.95 }}
       >

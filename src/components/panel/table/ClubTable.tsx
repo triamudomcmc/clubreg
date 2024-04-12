@@ -15,7 +15,7 @@ import { stringify } from "remark"
 import { TableContactRow, TableRow, TableWebDataRow } from "./TableRow"
 import { IContactType } from "./valueTypes"
 import {useTimer} from "@utilities/timers"
-import {editInitData, EXCEPT} from "@config/time"
+import { editInitData, endEditInitData, EXCEPT, THAI_MONTH } from "@config/time"
 import classnames from "classnames"
 
 export type TUpdateFieldFunction = (field: string, data: any) => Promise<{ status: boolean; report: string }>
@@ -108,9 +108,13 @@ interface IProportion {
   committee_count: number
 }
 
-const Counter: FC<{target: number}> = ({target}) => {
+const Counter: FC<{ target: number }> = ({ target }) => {
   const counter = useTimer(target)
-  return                <span className="text-sm text-center mt-1">(อีก {counter.day} วัน {counter.hour} ชั่วโมง {counter.min} นาที)</span>
+  return (
+    <span className="mt-1 text-center text-sm">
+      (อีก {counter.day} วัน {counter.hour} ชั่วโมง {counter.min} นาที)
+    </span>
+  )
 }
 
 export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldFunction }> = ({
@@ -127,20 +131,28 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
 
     setException(EXCEPT.includes(id))
   }, [data])
-  const disable = !exception
+  const disable = !(exception || (new Date().getTime() < endEditInitData && new Date().getTime() >= editInitData))
 
   return (
     <div>
       <h1 className="border-b border-gray-200 pb-4 text-xl">สัดส่วนชมรม</h1>
 
       <div className="relative">
-        {/*{disable && <div className="w-full h-full flex justify-center items-center absolute backdrop-blur-[2px]">*/}
-        {/*    <div className="flex flex-col items-center shadow-md rounded-lg w-full px-8 py-6 bg-white text-gray-900">*/}
-        {/*        <h1 className="text-lg">ส่วนแก้ไขสัดส่วนจำนวนนักเรียน</h1>*/}
-        {/*        <h1 className="text-lg">จะเปิดให้แก้ไขในวันที่ <span className="font-medium">17 เมษายน 2566</span></h1>*/}
-        {/*        <Counter target={editInitData}/>*/}
-        {/*    </div>*/}
-        {/*</div>}*/}
+        {disable && new Date().getTime() < editInitData && (
+          <div className="absolute flex h-full w-full items-center justify-center backdrop-blur-[2px]">
+            <div className="flex w-full flex-col items-center rounded-lg bg-white px-8 py-6 text-gray-900 shadow-md">
+              <h1 className="text-lg">ส่วนแก้ไขสัดส่วนจำนวนนักเรียน</h1>
+              <h1 className="text-lg">
+                จะเปิดให้แก้ไขในวันที่{" "}
+                <span className="font-medium">
+                  {new Date(editInitData).getDate()} {THAI_MONTH[new Date(editInitData).getMonth()]}{" "}
+                  {new Date(editInitData).getFullYear() + 543}
+                </span>
+              </h1>
+              <Counter target={editInitData} />
+            </div>
+          </div>
+        )}
         <TableRow
           field="teacher_count"
           title="จำนวนครูที่ปรึกษาชมรม"
@@ -220,7 +232,7 @@ export const ClubCommitteeTable: FC<{
     setException(EXCEPT.includes(id))
   }, [committee])
 
-  const disable = !exception
+  const disable = !(exception || (new Date().getTime() < endEditInitData && new Date().getTime() >= editInitData))
 
   const { addToast } = useToast()
   const { onReady } = useAuth()
@@ -619,7 +631,10 @@ export const ClubCommitteeTable: FC<{
           </div>
           <button
             onClick={enableModal}
-            className={classnames("mt-3 min-w-[200px] rounded-full px-8 py-2 text-white transition-colors sm:mt-0", disable ? "bg-TUCMC-gray-400 cursor-not-allowed": "bg-TUCMC-pink-400 hover:bg-TUCMC-pink-500")}
+            className={classnames(
+              "mt-3 min-w-[200px] rounded-full px-8 py-2 text-white transition-colors sm:mt-0",
+              disable ? "cursor-not-allowed bg-TUCMC-gray-400" : "bg-TUCMC-pink-400 hover:bg-TUCMC-pink-500"
+            )}
           >
             เพิ่มกรรมการชมรม
           </button>
@@ -628,13 +643,21 @@ export const ClubCommitteeTable: FC<{
         <hr className="my-6" />
 
         <div className="relative">
-          {/*{disable && <div className="w-full h-full flex justify-center items-center absolute backdrop-blur-[2px]">*/}
-          {/*    <div className="flex flex-col items-center shadow-md rounded-lg w-full px-8 py-6 bg-white text-gray-900">*/}
-          {/*        <h1 className="text-lg">ส่วนแก้ไขรายชื่อกรรมการชมรม</h1>*/}
-          {/*        <h1 className="text-lg">จะเปิดให้แก้ไขในวันที่ <span className="font-medium">17 เมษายน 2566</span></h1>*/}
-          {/*        <Counter target={editInitData}/>*/}
-          {/*    </div>*/}
-          {/*</div>}*/}
+          {disable && new Date().getTime() < editInitData && (
+            <div className="absolute flex h-full w-full items-center justify-center backdrop-blur-[2px]">
+              <div className="flex w-full flex-col items-center rounded-lg bg-white px-8 py-6 text-gray-900 shadow-md">
+                <h1 className="text-lg">ส่วนแก้ไขรายชื่อกรรมการชมรม</h1>
+                <h1 className="text-lg">
+                  จะเปิดให้แก้ไขในวันที่{" "}
+                  <span className="font-medium">
+                    {new Date(editInitData).getDate()} {THAI_MONTH[new Date(editInitData).getMonth()]}{" "}
+                    {new Date(editInitData).getFullYear() + 543}
+                  </span>
+                </h1>
+                <Counter target={editInitData} />
+              </div>
+            </div>
+          )}
           <div className="flex flex-col space-y-6">
             {committee?.map((user) => {
               if (!user) return
@@ -655,9 +678,7 @@ export const ClubCommitteeTable: FC<{
                       <p className="w-[28px] text-center">{user.room}</p>
 
                       {disable ? (
-                        <button
-                          className="w-24 rounded-md border border-gray-300 bg-gray-100 py-2 text-gray-600 transition-colors cursor-not-allowed"
-                        >
+                        <button className="w-24 cursor-not-allowed rounded-md border border-gray-300 bg-gray-100 py-2 text-gray-600 transition-colors">
                           ลบ
                         </button>
                       ) : (
