@@ -9,13 +9,15 @@ import { Loader } from "@components/common/Loader"
 import { useToast } from "@components/common/Toast/ToastContext"
 import { ForgotSection } from "@components/auth/ForgotSection"
 import {
+  schoolYear,
   endLastRound,
   endOldClub,
   lastround,
   openRegisterTime,
   openTime,
   startOldClub,
-  startOldClubCountdown
+  startOldClubCountdown,
+  THAI_MONTH_INITIALS,
 } from "@config/time"
 import { useTimer } from "@utilities/timers"
 
@@ -25,6 +27,7 @@ const Auth = ({ query }) => {
   const [action, setAction] = useState("register" in query ? "register" : "forgot" in query ? "forgot" : "login")
   const [loader, setLoader] = useState(false)
   const timer = useTimer(startOldClub)
+  const year = (new Date(schoolYear).getFullYear()) + 543
   const regTimer = useTimer(openRegisterTime)
 
   useEffect(() => {
@@ -35,7 +38,7 @@ const Auth = ({ query }) => {
     if (action === "register") {
       setAction("r-waiting")
     }
-  },[action])
+  }, [action])
 
   onReady((logged, userData) => {
     if (logged) {
@@ -66,7 +69,6 @@ const Auth = ({ query }) => {
         if (new Date().getTime() > openTime) {
           return Router.push("/select")
         }
-
       }
 
       return Router.push("/")
@@ -182,7 +184,7 @@ const Auth = ({ query }) => {
 
     if (openRegisterTime > currentTime) {
       const to = openRegisterTime - currentTime
-      if (to && (to > 0) && (to < 2147483647)) {
+      if (to && to > 0 && to < 2147483647) {
         setTimeout(() => {
           window.location.reload()
         }, to)
@@ -202,7 +204,7 @@ const Auth = ({ query }) => {
         </DefaultCard> */}
         <DefaultCard>
           <p className="font-normal">
-            นักเรียน ม.5 และ ม.6 ในปีการศึกษา 2567 ที่เข้ามายืนยันสิทธิ์ชมรมเดิม จะต้องใช้บัญชีเดิมในการเข้าสู่ระบบ
+            นักเรียน ม.5 และ ม.6 ในปีการศึกษา {year} ที่เข้ามายืนยันสิทธิ์ชมรมเดิม จะต้องใช้บัญชีเดิมในการเข้าสู่ระบบ
           </p>
         </DefaultCard>
         {action == "login" && (
@@ -213,7 +215,7 @@ const Auth = ({ query }) => {
             <h1 className="text-4xl font-bold tracking-tight">เข้าสู่ระบบ</h1>
             <div className="mt-2 mb-6 text-center text-TUCMC-gray-600">
               <p>ระบบลงทะเบียนชมรม</p>
-              <p>โรงเรียนเตรียมอุดมศึกษา ปีการศึกษา 2567</p>
+              <p>โรงเรียนเตรียมอุดมศึกษา ปีการศึกษา {year}</p>
             </div>
             <div className="flex flex-row justify-center space-x-2 text-TUCMC-gray-900">
               <div className="flex flex-col items-center">
@@ -242,7 +244,11 @@ const Auth = ({ query }) => {
               </div>
             </div>
             <p className="mt-8 max-w-[300px] text-TUCMC-gray-700">
-              ระบบจะเปิดให้เข้าสู่ระบบเพื่อยืนยันสิทธิ์ชมรมเดิมพร้อมกันในวันที่ 3 พ.ค. 2567 เวลา 8.00 น.
+              ระบบจะเปิดให้เข้าสู่ระบบเพื่อยืนยันสิทธิ์ชมรมเดิมพร้อมกันในวันที่ {new Date(startOldClub).getDate()}{" "}
+              {THAI_MONTH_INITIALS[new Date(startOldClub).getMonth()]}{" "}
+              {(new Date(startOldClub).getFullYear() % 100) + 43} เวลา{" "}
+              {new Date(startOldClub).getHours().toString().padStart(2, "0")}.
+              {new Date(startOldClub).getMinutes().toString().padStart(2, "0")} น.
             </p>
             <div className="mt-2 flex w-full flex-row justify-center">
               <span onClick={goForgot} className="cursor-pointer text-TUCMC-pink-400">
@@ -256,7 +262,7 @@ const Auth = ({ query }) => {
             <h1 className="text-4xl font-bold tracking-tight">สร้างบัญชี</h1>
             <div className="mt-2 mb-6 text-center text-TUCMC-gray-600">
               <p>ระบบลงทะเบียนชมรม</p>
-              <p>โรงเรียนเตรียมอุดมศึกษา ปีการศึกษา 2567</p>
+              <p>โรงเรียนเตรียมอุดมศึกษา ปีการศึกษา {year}</p>
             </div>
             <div className="flex flex-row justify-center space-x-2 text-TUCMC-gray-900">
               <div className="flex flex-col items-center">
@@ -284,8 +290,12 @@ const Auth = ({ query }) => {
                 <span className="mt-2 text-xs font-bold text-gray-800">SEC</span>
               </div>
             </div>
-            <p className="mt-8 max-w-[300px] text-TUCMC-gray-700 text-center">
-              ระบบจะเปิดให้นักเรียนสร้างบัญชีใหม่ในวันที่ 8 พฤษภาคม 2567 เวลา 12.00 น.
+            <p className="mt-8 max-w-[300px] text-center text-TUCMC-gray-700">
+              ระบบจะเปิดให้นักเรียนสร้างบัญชีใหม่ในวันที่ {new Date(openRegisterTime).getDate()}{" "}
+              {THAI_MONTH_INITIALS[new Date(openRegisterTime).getMonth()]}{" "}
+              {(new Date(openRegisterTime).getFullYear() % 100) + 43} เวลา{" "}
+              {new Date(openRegisterTime).getHours().toString().padStart(2, "0")}.
+              {new Date(openRegisterTime).getMinutes().toString().padStart(2, "0")} น.
             </p>
             <div className="mt-2 flex w-full flex-row justify-center">
               <span onClick={goLogin} className="cursor-pointer text-TUCMC-pink-400">

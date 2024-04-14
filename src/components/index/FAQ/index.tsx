@@ -4,6 +4,12 @@ import Router from "next/router"
 import Link from "next/link"
 import { Accordion } from "@components/common/Accordion"
 import { AccordionIcon } from "@components/common/Accordion/Icons"
+import {
+  endLastRound,
+  endOldClub,
+  getFullDate,
+  startOldClub,
+} from "@config/time"
 
 const FAQ = () => {
   return (
@@ -32,7 +38,7 @@ const FAQ = () => {
                 title="นักเรียน ม.5 และ ม.6 หากต้องการอยู่ชมรมเดิมต้องทำอย่างไร"
               >
                 <Accordion.Answer>
-                  {`หากต้องการอยู่ชมรมเดิม ให้กดปุ่มยืนยันสิทธิ์ชมรมเดิมในวันที่ 5 พ.ค. 66 ถึงวันที่ 6 พ.ค. 66 <a href="/FAQ?req=a"><strong>ดูรายละเอียดเกี่ยวกับโควตายืนยันสิทธิ์ชมรมเดิมได้ที่นี่</strong></a> สำหรับชมรมที่ไม่มีโควตายืนยันสิทธิ์ ก็ยังสามารถลงชื่อ Audition/ลงทะเบียนเข้าชมรมเดิมได้`}
+                  {`หากต้องการอยู่ชมรมเดิม ให้กดปุ่มยืนยันสิทธิ์ชมรมเดิมในวันที่ ${getFullDate(startOldClub)} ถึงวันที่ ${getFullDate(endOldClub)} <a href="/FAQ?req=a"><strong>ดูรายละเอียดเกี่ยวกับโควตายืนยันสิทธิ์ชมรมเดิมได้ที่นี่</strong></a> สำหรับชมรมที่ไม่มีโควตายืนยันสิทธิ์ ก็ยังสามารถลงชื่อ Audition/ลงทะเบียนเข้าชมรมเดิมได้`}
                 </Accordion.Answer>
               </Accordion>
               <Accordion
@@ -79,8 +85,7 @@ const FAQ = () => {
               </Accordion>
               <Accordion Icon={AccordionIcon.Chevron} id="q8" title="ถ้าลงทะเบียนชมรมไม่ทันจะต้องทำอย่างไร">
                 <Accordion.Answer>
-                  หากไม่ได้เลือกลงชื่อ Audition หรือลงทะเบียนชมรมที่ไม่มีการ Audition เลย ระบบจะทำการสุ่มชมรมให้ในวันที่
-                  3 มิ.ย. 66 ทันที
+                  {`หากไม่ได้เลือกลงชื่อ Audition หรือลงทะเบียนชมรมที่ไม่มีการ Audition เลย ระบบจะทำการสุ่มชมรมให้ในวันที่ ${getFullDate(endLastRound,false)} ทันที`}
                 </Accordion.Answer>
               </Accordion>
             </div>

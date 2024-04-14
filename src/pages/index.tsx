@@ -10,7 +10,15 @@ import Footer from "@components/common/Footer"
 import { motion } from "framer-motion"
 import { useTimer } from "@utilities/timers"
 import Router from "next/router"
-import {beforeOldClub, endLastRound, endOldClub, endRegClubTime, openTime, startOldClub} from "@config/time"
+import {
+  schoolYear,
+  beforeOldClub,
+  endOldClub,
+  endRegClubTime,
+  openTime,
+  startOldClub,
+  getFullDate
+} from "@config/time"
 import Image from "next/image"
 import { useAuth } from "@client/auth"
 import { Data } from "framer"
@@ -26,37 +34,39 @@ const Index = () => {
 
   const [button, setButton] = useState(new Date().getTime() >= goal || new Date().getTime() < endOldClub)
 
-  const regState: "no_login" | "no_club" | "club" | "old_club" | "" | "before_old_club" = onReady((logged, userData) => {
-    if (!logged) {
-      // Router.push("/auth")
-      return "no_login"
-    } else if (userData.club === "") {
-      if (new Date().getTime() >= openTime) {
-        Router.push("/select")
-        return "no_club"
+  const regState: "no_login" | "no_club" | "club" | "old_club" | "" | "before_old_club" = onReady(
+    (logged, userData) => {
+      if (!logged) {
+        // Router.push("/auth")
+        return "no_login"
+      } else if (userData.club === "") {
+        if (new Date().getTime() >= openTime) {
+          Router.push("/select")
+          return "no_club"
+        }
+        // return userData
+        if (new Date().getTime() < endOldClub && new Date().getTime() > startOldClub) {
+          //  not during old club time
+          return "old_club"
+        } else if (new Date().getTime() < endRegClubTime && new Date().getTime() > openTime) {
+          return "no_club"
+        }
+
+        if (new Date().getTime() > beforeOldClub) {
+          return "before_old_club"
+        }
+      } else {
+        return "club"
       }
+
       // return userData
-      if (new Date().getTime() < endOldClub && new Date().getTime() > startOldClub) {
-        //  not during old club time
-        return "old_club"
-      } else if (new Date().getTime() < endRegClubTime && new Date().getTime() > openTime) {
-        return "no_club"
-      }
-
-      if (new Date().getTime() > beforeOldClub) {
-        return "before_old_club"
-      }
-    } else {
-      return "club"
     }
-
-    // return userData
-  })
+  )
 
   return (
     <DescribeRoute
       title="ระบบลงทะเบียนชมรม โรงเรียนเตรียมอุดมศึกษา"
-      description="ระบบจะเปิดให้ลงทะเบียนชมรมในวันที่ 20 พ.ค. 2567 เวลา 12.00 น."
+      description={"ระบบจะเปิดให้ลงทะเบียนชมรมในวันที่ "+ getFullDate(openTime)}
       imgURL="/assets/meta/index.jpg"
     >
       <PageContainer footer={false}>
@@ -73,7 +83,7 @@ const Index = () => {
                     โรงเรียนเตรียมอุดมศึกษา
                   </h1>
                   <p className="mt-2 tracking-tight text-white md:mt-2 md:text-xl lg:mt-4 lg:text-3xl">
-                    ปีการศึกษา 2567
+                    ปีการศึกษา {new Date(schoolYear).getFullYear() + 543}
                   </p>
                 </div>
                 {!button && (
@@ -123,11 +133,13 @@ const Index = () => {
                       </Button>
                     )}
                     {regState === "before_old_club" && (
-                      <div className="flex text-gray-900 items-center space-x-4 font-semibold bg-white shadow-lg pl-4 pr-5 py-3 mb-6 rounded-lg">
-                        <ExclamationIcon className="w-10 h-10 text-yellow-500 mt-1"/>
+                      <div className="mb-6 flex items-center space-x-4 rounded-lg bg-white py-3 pl-4 pr-5 font-semibold text-gray-900 shadow-lg">
+                        <ExclamationIcon className="mt-1 h-10 w-10 text-yellow-500" />
                         <div>
-                          <h1 className="text-lg text-left">ระบบจะเปิดให้ยืนยันสิทธิ์ชมรมเดิม</h1>
-                          <h1 className="text-TUCMC-gray-700 font-medium">ในวันที่ 3 พฤษภาคม 2567 เวลา 08.00 น.</h1>
+                          <h1 className="text-left text-lg">ระบบจะเปิดให้ยืนยันสิทธิ์ชมรมเดิม</h1>
+                          <h1 className="font-medium text-TUCMC-gray-700">
+                            ในวันที่ {getFullDate(startOldClub)}
+                          </h1>
                         </div>
                       </div>
                     )}
@@ -155,7 +167,9 @@ const Index = () => {
                 </div> */}
                 <div className="hidden px-1 font-medium text-white md:block">
                   <p>ระบบจะเปิดให้ลงทะเบียนชมรม</p>
-                  <p>ในวันที่ 17 พ.ค. 2567 เวลา 12.00 น.</p>
+                  <p>
+                    ในวันที่ {getFullDate(openTime)}
+                  </p>
                 </div>
               </div>
             </div>
@@ -216,11 +230,13 @@ const Index = () => {
                   </Button>
                 )}
                 {regState === "before_old_club" && (
-                  <div className="flex text-gray-900 items-center space-x-4 font-semibold bg-white shadow-lg pl-4 pr-5 py-3 mb-6 rounded-lg">
-                    <ExclamationIcon className="w-10 h-10 text-yellow-500 mt-1"/>
+                  <div className="mb-6 flex items-center space-x-4 rounded-lg bg-white py-3 pl-4 pr-5 font-semibold text-gray-900 shadow-lg">
+                    <ExclamationIcon className="mt-1 h-10 w-10 text-yellow-500" />
                     <div>
-                      <h1 className="text-lg text-left">ระบบจะเปิดให้ยืนยันสิทธิ์ชมรมเดิม</h1>
-                      <h1 className="text-TUCMC-gray-700 font-medium">ในวันที่ 3 พฤษภาคม 2567 เวลา 08.00 น.</h1>
+                      <h1 className="text-left text-lg">ระบบจะเปิดให้ยืนยันสิทธิ์ชมรมเดิม</h1>
+                      <h1 className="font-medium text-TUCMC-gray-700">
+                        ในวันที่ {getFullDate(openTime)}
+                      </h1>
                     </div>
                   </div>
                 )}
@@ -243,7 +259,9 @@ const Index = () => {
                 </div> */}
                 <div className="font-medium">
                   <p>ระบบจะเปิดให้ลงทะเบียนชมรม</p>
-                  <p>ในวันที่ 17 พ.ค. 2567 เวลา 12.00 น.</p>
+                  <p>
+                    ในวันที่ {getFullDate(openTime)}
+                  </p>
                 </div>
               </div>
             </div>
