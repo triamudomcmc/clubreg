@@ -12,6 +12,20 @@ import { FAQCategory } from "@components/FAQ/FAQCategory"
 import { GroupSearch } from "@components/common/Inputs/Search"
 import { searchKeyword } from "@utilities/object"
 import { DescribeRoute } from "@components/common/Meta/OpenGraph"
+import {
+  schoolYear,
+  endLastRound,
+  endOldClub,
+  endRegClubTime,
+  openTime,
+  startOldClub,
+  getFullDate,
+  announceTime,
+  firstRoundTime,
+  secondRoundTime,
+  endAnnounceTime,
+  lastround,
+} from "@config/time"
 
 const objToArr = (obj: any) => {
   return Object.keys(obj).map((key) => {
@@ -20,7 +34,23 @@ const objToArr = (obj: any) => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const raw = fs.readFileSync("./_map/faq.json").toString()
+  const raw = fs
+    .readFileSync("./_map/faq.json")
+    .toString()
+    .replace(/\$startOldClub\$/g, getFullDate(startOldClub))
+    .replace(/\$endOldClub\$/g, getFullDate(endOldClub))
+    .replace(/\$opendate\$/g, getFullDate(openTime))
+    .replace(/\$endRegClubDate\$/g, getFullDate(endRegClubTime, false))
+    .replace(/\$endRegClubTime\$/g, getFullDate(endRegClubTime))
+    .replace(/\$registerClubPeroid\$/g, `${new Date(openTime).getDate()}-${getFullDate(endRegClubTime, false)}`)
+    .replace(/\$announceTime\$/g, getFullDate(announceTime))
+    .replace(/\$endAnnounceTime\$/g, getFullDate(endAnnounceTime))
+    .replace(/\$firstRoundDate\$/g, getFullDate(firstRoundTime, false))
+    .replace(/\$secondRoundDate\$/g, getFullDate(secondRoundTime, false))
+    .replace(/\$lastround\$/g, getFullDate(lastround, false))
+    .replace(/\$endLastRound\$/, getFullDate(endLastRound, false))
+    .replace(/\$year\$/g, `${new Date(schoolYear).getFullYear() + 543}`)
+
   const parsed = JSON.parse(raw)
 
   return {
@@ -84,7 +114,7 @@ const FAQ = ({ data }) => {
       }, 0)
     )
   }, [searchContext])
-
+  console.log(getFullDate(openTime))
   return (
     <DescribeRoute
       title="คำถามที่พบบ่อย"

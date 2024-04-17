@@ -2,17 +2,18 @@ import PageContainer from "@components/common/PageContainer"
 import ClubSplash from "@vectors/decorations/ClubSplash"
 import { FilterSearch } from "@components/common/Inputs/Search"
 import { ClubCard } from "@components/clubs/ClubCard"
-import {Dispatch, FC, SetStateAction, useEffect, useMemo, useState} from "react"
+import { Dispatch, FC, SetStateAction, useEffect, useMemo, useState } from "react"
 import { GetStaticProps, GetStaticPropsResult, InferGetStaticPropsType } from "next"
 import * as fs from "fs"
-import {objToArr, searchKeyword, searchKeywordOtimised, sortAudition, sortThaiDictionary} from "@utilities/object"
+import { objToArr, searchKeyword, searchKeywordOtimised, sortAudition, sortThaiDictionary } from "@utilities/object"
 import classnames from "classnames"
 import ClubIndexSkeleton from "@components/clubs/ClubIndexSkeleton"
 import initialisedDB from "@server/firebase-admin"
 import { ClubDisplay } from "@interfaces/clubDisplay"
 import { DescribeRoute } from "@components/common/Meta/OpenGraph"
-import {AnimateSharedLayout, motion} from "framer-motion"
-import {convertToStaticFileUri} from "@utilities/files";
+import { AnimateSharedLayout, motion } from "framer-motion"
+import { convertToStaticFileUri } from "@utilities/files"
+import { schoolYear } from "@config/time"
 
 export const getStaticProps: GetStaticProps = async (): Promise<
   GetStaticPropsResult<{ clubs: { name: string; audition: boolean; clubID: string; imageURL: string }[] }>
@@ -28,7 +29,6 @@ export const getStaticProps: GetStaticProps = async (): Promise<
   const clubDisplayDocs = await initialisedDB.collection("clubDisplay").get()
   const clubs = clubDisplayDocs.docs.map((club) => {
     const data = club.data() as ClubDisplay
-
 
     return {
       name: data.nameTH,
@@ -86,7 +86,6 @@ const Clubs: FC = ({ clubs }: InferGetStaticPropsType<typeof getStaticProps>) =>
     apply()
   }, [sortMode, clubs])
 
-
   const loaded = () => {
     setLoadingCount((prevState) => prevState - 1)
   }
@@ -99,13 +98,13 @@ const Clubs: FC = ({ clubs }: InferGetStaticPropsType<typeof getStaticProps>) =>
         const escaped = searchContext.replace("ชมรม", "")
         if (escaped !== "") {
           const searchResult = searchKeywordOtimised(rawSorted, escaped, (obj) => obj.name)
-          if(Math.abs(searchResult.length - sortedData.length) > 40) {
+          if (Math.abs(searchResult.length - sortedData.length) > 40) {
             setSortedData([])
           }
           setSortedData(searchResult)
         } else {
           setSortedData([])
-          setSortedData(rawSorted.map(d => (d.clubID)))
+          setSortedData(rawSorted.map((d) => d.clubID))
         }
         // }, 900)
       }, 200)
@@ -115,7 +114,7 @@ const Clubs: FC = ({ clubs }: InferGetStaticPropsType<typeof getStaticProps>) =>
   return (
     <DescribeRoute
       title="ชมรม"
-      description="รายชื่อชมรมโรงเรียนเตรียมอุดมศึกษา ประจำปีการศึกษา 2567"
+      description={"รายชื่อชมรมโรงเรียนเตรียมอุดมศึกษา ประจำปีการศึกษา " + `${new Date(schoolYear).getFullYear() + 543}`}
       imgURL="/assets/meta/index.jpg"
     >
       <PageContainer>
@@ -133,11 +132,21 @@ const Clubs: FC = ({ clubs }: InferGetStaticPropsType<typeof getStaticProps>) =>
           </div>
 
           <AnimateSharedLayout>
-          <div className="mt-5 flex w-full max-w-5xl flex-wrap justify-center px-0 marg:px-[0.35rem]">
-            {sortedData.length > 0 && rawSorted.map((item, index) => {
-              return <motion.div key={`club-${index}`} layout={"position"} animate={false} style={{display: sortedData.includes(item.clubID) ? "block" : "none"}}><ClubCard data={item} /></motion.div>
-            })}
-          </div>
+            <div className="mt-5 flex w-full max-w-5xl flex-wrap justify-center px-0 marg:px-[0.35rem]">
+              {sortedData.length > 0 &&
+                rawSorted.map((item, index) => {
+                  return (
+                    <motion.div
+                      key={`club-${index}`}
+                      layout={"position"}
+                      animate={false}
+                      style={{ display: sortedData.includes(item.clubID) ? "block" : "none" }}
+                    >
+                      <ClubCard data={item} />
+                    </motion.div>
+                  )
+                })}
+            </div>
           </AnimateSharedLayout>
         </div>
         <ClubIndexSkeleton clubs={clubs} className={classnames(loadingCount <= 0 && "hidden")} />

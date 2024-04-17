@@ -11,7 +11,7 @@ import { ExclamationIcon } from "@heroicons/react/solid"
 import { Loader } from "@components/common/Loader"
 import { useTimer } from "@utilities/timers"
 import classnames from "classnames"
-import { announceTime, endLastRound, endRegClubTime, lastround } from "@config/time"
+import { announceTime, endLastRound, endRegClubTime, lastround, THAI_MONTH_INITIALS } from "@config/time"
 import { WaitingScreen } from "@components/common/WaitingScreen"
 import { ArrowLeftIcon, RefreshIcon, LogoutIcon } from "@heroicons/react/outline"
 import { motion } from "framer-motion"
@@ -278,7 +278,10 @@ const Announce = () => {
           <div className="pt-10 mb-20 space-y-8">
             <div className="flex flex-col items-center text-TUCMC-gray-700">
               <h1 className="text-4xl">รอประกาศผล</h1>
-              <h1 className="text-xl">30 พ.ค. 2566 เวลา 7.30 น.</h1>
+              <h1 className="text-xl">{new Date(announceTime).getDate()} {THAI_MONTH_INITIALS[new Date(announceTime).getMonth()]}
+                    {new Date(announceTime).getFullYear() + 543} เวลา
+                    {new Date(announceTime).getHours().toString().padStart(2, "0")}.
+                    {new Date(announceTime).getMinutes().toString().padStart(2, "0")} น.</h1>
             </div>
             <div className="flex flex-row justify-center space-x-2 text-TUCMC-gray-700">
               <div className="flex flex-col items-center">
