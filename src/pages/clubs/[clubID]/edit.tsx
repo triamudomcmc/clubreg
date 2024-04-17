@@ -964,7 +964,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
     let clubData = clubDataDoc?.data()
     if (!clubData) {
-      if (params.clubID.toString().includes("ก30920")) {
+      const clubID = params.clubID.toString()
+      if (clubID.includes("ก30920") && clubID !== "ก30920-8" && clubID !== "ก30920-9") {
         clubData = clubDataDoc?.get(`ก30920-1`)
         clubData = { ...clubData, count_limit: "__" }
       }
