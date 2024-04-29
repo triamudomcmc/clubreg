@@ -34,17 +34,26 @@ const objToArr = (obj: any) => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
+
+  const StartOldClub = getFullDate(startOldClub)
+  const EndOldClub = getFullDate(endOldClub)
+  const Opendate = getFullDate(openTime)
+  const EndRegClubTime = getFullDate(endRegClubTime)
+  const registerClubPeroid = `${new Date(openTime).getDate()}-${getFullDate(endRegClubTime, false)}`
+  const AnnounceTime = getFullDate(announceTime)
+  const EndAnnounceTime = getFullDate(endAnnounceTime)
+  
   const raw = fs
     .readFileSync("./_map/faq.json")
     .toString()
-    .replace(/\$startOldClub\$/g, getFullDate(startOldClub))
-    .replace(/\$endOldClub\$/g, getFullDate(endOldClub))
-    .replace(/\$opendate\$/g, getFullDate(openTime))
+    .replace(/\$startOldClub\$/g, StartOldClub)
+    .replace(/\$endOldClub\$/g, EndOldClub)
+    .replace(/\$opendate\$/g, Opendate)
     .replace(/\$endRegClubDate\$/g, getFullDate(endRegClubTime, false))
-    .replace(/\$endRegClubTime\$/g, getFullDate(endRegClubTime))
-    .replace(/\$registerClubPeroid\$/g, `${new Date(openTime).getDate()}-${getFullDate(endRegClubTime, false)}`)
-    .replace(/\$announceTime\$/g, getFullDate(announceTime))
-    .replace(/\$endAnnounceTime\$/g, getFullDate(endAnnounceTime))
+    .replace(/\$endRegClubTime\$/g, EndRegClubTime)
+    .replace(/\$registerClubPeroid\$/g, registerClubPeroid)
+    .replace(/\$announceTime\$/g, AnnounceTime)
+    .replace(/\$endAnnounceTime\$/g, EndAnnounceTime)
     .replace(/\$firstRoundDate\$/g, getFullDate(firstRoundTime, false))
     .replace(/\$secondRoundDate\$/g, getFullDate(secondRoundTime, false))
     .replace(/\$lastround\$/g, getFullDate(lastround, false))

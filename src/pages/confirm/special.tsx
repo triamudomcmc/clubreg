@@ -1,5 +1,5 @@
 import PageContainer from "@components/common/PageContainer"
-import { endOldClub, startOldClub } from "@config/time"
+import { endOldClub, getFullDate, startOldClub } from "@config/time"
 import { useAuth } from "@handlers/client/auth"
 import { fetchClub } from "@client/fetcher/panel"
 import { ClubData } from "@interfaces/clubData"
@@ -273,7 +273,7 @@ const Confirm: NextPage = () => {
             <div className="md:max-w-xs">
               <div className="flex flex-col items-center">
                 <h1 className="text-4xl font-medium">ยืนยันสิทธิ์ชมรมเดิม</h1>
-                <span className="text-sm tracking-tight">ภายในวันที่ 6 พ.ค. 66</span>
+                <span className="text-sm tracking-tight">ภายในวันที่ {getFullDate(endOldClub)}</span>
               </div>
               <div className="mt-6 w-full min-w-[300px] px-8">
                 <SelectSplash />
