@@ -33,45 +33,46 @@ const objToArr = (obj: any) => {
   })
 }
 
-const setGMT = (date: string) => {
-  let parts = date.split(" ");
-  let time = parts[0];
+const setGMT = (_date: string) => {
+  //24 พ.ค. 2567 เวลา 23.59 น.
+  console.log(_date)
+  const [date, time] = _date.split(" เวลา ")
 
-  let timeParts = time.split(":");
-  let hours = parseInt(timeParts[0]);
-  let minutes = parseInt(timeParts[1]);
+  const [day, month, year] = date.split(" ")
+  const [hours, minutes] = time.split(".").map(part => parseInt(part, 10))
 
-  hours = (hours + 7) % 24;
-  const formattedTime = hours.toString().padStart(2, '0') + ":" + minutes.toString().padStart(2, '0');
-  return formattedTime + " น.";
+  let newHours = (hours + 7) % 24
+  let newDay = Number(day)
+
+  const fmtDate = `${newDay.toString().padStart(2, "0")} ${month} ${year}`
+  const fmtTime = `${newHours.toString().padStart(2, "0")}.${minutes.toString().padStart(2, '0')} น.`
+
+  return `${fmtDate} เวลา ${fmtTime}`;
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-
   const StartOldClub = getFullDate(startOldClub)
   const EndOldClub = getFullDate(endOldClub)
   const Opendate = getFullDate(openTime)
   const EndRegClubTime = getFullDate(endRegClubTime)
-  const registerClubPeroid = `${new Date(openTime).getDate()}-${getFullDate(endRegClubTime, false)}`
   const AnnounceTime = getFullDate(announceTime)
   const EndAnnounceTime = getFullDate(endAnnounceTime)
-  
-  const raw = fs
-    .readFileSync("./_map/faq.json")
-    .toString()
 
-    const _raw = raw.replace(/\$startOldClub\$/g, StartOldClub)
-    .replace(/\$endOldClub\$/g, EndOldClub)
-    .replace(/\$opendate\$/g, Opendate)
-    .replace(/\$endRegClubDate\$/g, setGMT(getFullDate(endRegClubTime, false)))
-    .replace(/\$endRegClubTime\$/g, EndRegClubTime)
-    .replace(/\$registerClubPeroid\$/g, registerClubPeroid)
-    .replace(/\$announceTime\$/g, AnnounceTime)
-    .replace(/\$endAnnounceTime\$/g, EndAnnounceTime)
-    .replace(/\$firstRoundDate\$/g, setGMT(getFullDate(firstRoundTime, false)))
-    .replace(/\$secondRoundDate\$/g, setGMT(getFullDate(secondRoundTime, false)))
-    .replace(/\$lastround\$/g, setGMT(getFullDate(lastround, false)))
-    .replace(/\$endLastRound\$/, setGMT(getFullDate(endLastRound, false)))
+  const raw = fs.readFileSync("./_map/faq.json").toString()
+
+  const _raw = raw
+    .replace(/\$startOldClub\$/g, setGMT(StartOldClub))
+    .replace(/\$endOldClub\$/g, setGMT(EndOldClub))
+    .replace(/\$opendate\$/g, setGMT(Opendate))
+    .replace(/\$endRegClubDate\$/g, getFullDate(endRegClubTime, false))
+    .replace(/\$endRegClubTime\$/g, setGMT(EndRegClubTime))
+    .replace(/\$registerClubPeroid\$/g, `${new Date(openTime).getDate()}-${getFullDate(endRegClubTime, false)}`)
+    .replace(/\$announceTime\$/g, setGMT(AnnounceTime))
+    .replace(/\$endAnnounceTime\$/g, setGMT(EndAnnounceTime))
+    .replace(/\$firstRoundDate\$/g, getFullDate(firstRoundTime, false))
+    .replace(/\$secondRoundDate\$/g, getFullDate(secondRoundTime, false))
+    .replace(/\$lastround\$/g, getFullDate(lastround, false))
+    .replace(/\$endLastRound\$/, getFullDate(endLastRound, false))
     .replace(/\$year\$/g, `${new Date(schoolYear).getFullYear() + 543}`)
   const parsed = JSON.parse(_raw)
 
