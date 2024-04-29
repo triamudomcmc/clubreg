@@ -22,7 +22,7 @@ import { clubMap } from "../../config/clubMap"
 import { regClub } from "@client/userAction"
 import { CatLoader } from "@components/common/CatLoader"
 import { AnimatePresence, motion } from "framer-motion"
-import { endLastRound, endRegClubTime, lastround } from "@config/time"
+import { endLastRound, endRegClubTime, lastround, getFullDate, openTime, announceTime } from "@config/time"
 import { useToast } from "@components/common/Toast/ToastContext"
 import { Tooltip } from "@components/dummy/common/Tooltip"
 import { Helmet } from "react-helmet"
@@ -536,7 +536,7 @@ const Select: NextPage<{ clubList: IClubListData[] }> = ({ clubList }) => {
                       <h1 className="text-lg font-medium tracking-tight">คุณได้ลงชื่อ Audition ชมรมไว้</h1>
                       <p className="tracking-tight text-gray-600">
                         ให้ไปทำการ Audition ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนด โดยติดตามรายละเอียดการ Audition
-                        จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง และรอการประกาศผลในวันที่ 30 พ.ค. 2566 เวลา 7.30 น.
+                        จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง และรอการประกาศผลในวันที่ {getFullDate(announceTime)}
                       </p>
                       <div className="relative md:hidden">
                         <a ref={auTrigger} className="tracking-tight cursor-pointer text-TUCMC-pink-500">
@@ -674,7 +674,7 @@ const Select: NextPage<{ clubList: IClubListData[] }> = ({ clubList }) => {
                             <span className="font-semibold">ชมรมที่ไม่มีการ Audition</span> <br />{" "}
                             นักเรียนจะสามารถกดลงทะเบียนชมรมที่ไม่มีการ Audition ที่ยังว่างได้{" "}
                             <br className="hidden lg:block" />
-                            ตั้งแต่วันที่ 16 พ.ค. เวลา 12.00 - ภายในวันที่ 29 พ.ค. 2566
+                            ตั้งแต่วันที่ {getFullDate(openTime)} - ภายในวันที่ {getFullDate(endRegClubTime, false)}
                             <br className="hidden lg:block" /> เมื่อกดลงทะเบียนชมรมไปแล้วจะไม่สามารถย้ายชมรมได้อีก
                           </p>
                         </Tooltip>
@@ -723,7 +723,7 @@ const Select: NextPage<{ clubList: IClubListData[] }> = ({ clubList }) => {
                           <p>
                             <span className="font-semibold">ชมรมที่มีการ Audition</span> <br />{" "}
                             นักเรียนจะสามารถกดเลือกชมรมที่มีการ Audition กี่ชมรมก็ได้ <br className="hidden lg:block" />
-                            ตั้งแต่วันที่ 16 พ.ค. เวลา 12.00 - ภายในวันที่ 29 พ.ค. 66
+                            ตั้งแต่วันที่ {getFullDate(openTime)} - ภายในวันที่ {getFullDate(endRegClubTime, false)}
                             <br className="hidden lg:block" /> จากนั้นนักเรียนติดตามข่าวสารการจัดการ Audition{" "}
                             ผ่านทางช่องทางของชมรม
                           </p>

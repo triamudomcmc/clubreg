@@ -11,7 +11,7 @@ import Router from "next/router"
 import { Button } from "@components/common/Inputs/Button"
 import { GetStaticProps } from "next"
 import classnames from "classnames"
-import { endOldClub, startOldClub } from "@config/time"
+import { endOldClub, getFullDate, openTime, startOldClub } from "@config/time"
 import { ArrowLeftIcon } from "@heroicons/react/outline"
 import { motion } from "framer-motion"
 import Image from "next/image"
@@ -146,7 +146,7 @@ const Page = ({ links }) => {
             width={cardWidth}
             userData={userData}
             clubData={clubData}
-            customURL="https://www.facebook.com/triamudomclubs/"
+            customURL="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
           />
         </div>
         <motion.div
@@ -170,7 +170,7 @@ const Page = ({ links }) => {
               เย่ ! ลงทะเบียนชมรมสำเร็จแล้ว <br /> แต่ว่านี
               <span className="font-bold">เป็นเพียงแค่การจำลองเท่านั้น</span> <br /> น้อง ๆ อย่าลืม ลงทะเบียนในวันจริง
               <br />
-              วันที่ 22 พ.ค. 2566 เวลา 12.00 น. ด้วยนะ
+              วันที่ {getFullDate(openTime)} ด้วยนะ
             </Tooltip>
           </motion.div>
           <Image src="/assets/dummy/duck.png" width={108} height={144} />

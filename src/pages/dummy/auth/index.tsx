@@ -9,7 +9,7 @@ import { Loader } from "@components/common/Loader"
 import { useToast } from "@components/common/Toast/ToastContext"
 import { ExclamationIcon } from "@heroicons/react/solid"
 import { ForgotSection } from "@components/dummy/auth/ForgotSection"
-import { endLastRound, endOldClub, lastround, openTime, startOldClub, startOldClubCountdown } from "@config/time"
+import { endLastRound, endOldClub, lastround, openTime, schoolYear, startOldClub, startOldClubCountdown, THAI_MONTH_INITIALS } from "@config/time"
 import { useTimer } from "@utilities/timers"
 import { motion } from "framer-motion"
 import classnames from "classnames"
@@ -22,6 +22,7 @@ const Auth = ({ query }) => {
   const timer = useTimer(startOldClub)
   const [hideA, setHideA] = useState(false)
   const [completeHide, setCompHide] = useState(false)
+  const year = (new Date(schoolYear).getFullYear()) + 543
 
   onReady((logged, userData) => {
     // if (new Date().getTime() < openTime) {
@@ -150,7 +151,7 @@ const Auth = ({ query }) => {
         </DefaultCard> */}
         <DefaultCard>
           <p className="font-normal">
-            นักเรียน ม.5 และ ม.6 ในปีการศึกษา 2566 ที่เข้ามายืนยันสิทธิ์ชมรมเดิม จะต้องใช้บัญชีเดิมในการเข้าสู่ระบบ
+            นักเรียน ม.5 และ ม.6 ในปีการศึกษา {year} ที่เข้ามายืนยันสิทธิ์ชมรมเดิม จะต้องใช้บัญชีเดิมในการเข้าสู่ระบบ
           </p>
         </DefaultCard>
         {action == "login" && (
@@ -161,7 +162,7 @@ const Auth = ({ query }) => {
             <h1 className="text-4xl font-bold tracking-tight">เข้าสู่ระบบ</h1>
             <div className="mt-2 mb-6 text-center text-TUCMC-gray-600">
               <p>ระบบลงทะเบียนชมรม</p>
-              <p>โรงเรียนเตรียมอุดมศึกษา ปีการศึกษา 2566</p>
+              <p>โรงเรียนเตรียมอุดมศึกษา ปีการศึกษา {year}</p>
             </div>
             <div className="flex flex-row justify-center space-x-2 text-TUCMC-gray-900">
               <div className="flex flex-col items-center">
@@ -190,7 +191,11 @@ const Auth = ({ query }) => {
               </div>
             </div>
             <p className="mt-8 max-w-[300px] text-TUCMC-gray-700">
-              ระบบจะเปิดให้เข้าสู่ระบบเพื่อยืนยันสิทธิ์ชมรมเดิมพร้อมกันในวันที่ 5 พ.ค. 2566 เวลา 11.30 น.
+              ระบบจะเปิดให้เข้าสู่ระบบเพื่อยืนยันสิทธิ์ชมรมเดิมพร้อมกันในวันที่ {new Date(startOldClub).getDate()}{" "}
+              {THAI_MONTH_INITIALS[new Date(startOldClub).getMonth()]}{" "}
+              {(new Date(startOldClub).getFullYear() % 100) + 43} เวลา{" "}
+              {new Date(startOldClub).getHours().toString().padStart(2, "0")}.
+              {new Date(startOldClub).getMinutes().toString().padStart(2, "0")} น.
             </p>
             <div className="flex flex-row justify-center w-full mt-2">
               <span

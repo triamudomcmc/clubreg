@@ -34,8 +34,7 @@ const objToArr = (obj: any) => {
 }
 
 const setGMT = (_date: string) => {
-  //24 พ.ค. 2567 เวลา 23.59 น.
-  console.log(_date)
+  if (process.env.MODE !== "production") return _date
   const [date, time] = _date.split(" เวลา ")
 
   const [day, month, year] = date.split(" ")
