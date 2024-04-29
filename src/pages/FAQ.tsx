@@ -33,6 +33,20 @@ const objToArr = (obj: any) => {
   })
 }
 
+const setGMT = (date: string) {
+  let parts = date.split(" ");
+  let time = parts[0];
+  let period = parts[1];
+
+  let timeParts = time.split(":");
+  let hours = parseInt(timeParts[0]);
+  let minutes = parseInt(timeParts[1]);
+
+  hours = (hours + 7) % 24;
+  const formattedTime = hours.toString().padStart(2, '0') + ":" + minutes.toString().padStart(2, '0');
+  return formattedTime + " น.";
+}
+
 export const getStaticProps: GetStaticProps = async () => {
 
   const StartOldClub = getFullDate(startOldClub)
@@ -50,15 +64,15 @@ export const getStaticProps: GetStaticProps = async () => {
     const _raw = raw.replace(/\$startOldClub\$/g, StartOldClub)
     .replace(/\$endOldClub\$/g, EndOldClub)
     .replace(/\$opendate\$/g, Opendate)
-    .replace(/\$endRegClubDate\$/g, getFullDate(endRegClubTime, false))
+    .replace(/\$endRegClubDate\$/g, setGMT(getFullDate(endRegClubTime, false)))
     .replace(/\$endRegClubTime\$/g, EndRegClubTime)
     .replace(/\$registerClubPeroid\$/g, registerClubPeroid)
     .replace(/\$announceTime\$/g, AnnounceTime)
     .replace(/\$endAnnounceTime\$/g, EndAnnounceTime)
-    .replace(/\$firstRoundDate\$/g, getFullDate(firstRoundTime, false))
-    .replace(/\$secondRoundDate\$/g, getFullDate(secondRoundTime, false))
-    .replace(/\$lastround\$/g, getFullDate(lastround, false))
-    .replace(/\$endLastRound\$/, getFullDate(endLastRound, false))
+    .replace(/\$firstRoundDate\$/g, setGMT((firstRoundTime, false)))
+    .replace(/\$secondRoundDate\$/g, setGMT(getFullDate(secondRoundTime, false)))
+    .replace(/\$lastround\$/g, setGMT(getFullDate(lastround, false)))
+    .replace(/\$endLastRound\$/, setGMT(getFullDate(endLastRound, false)))
     .replace(/\$year\$/g, `${new Date(schoolYear).getFullYear() + 543}`)
   const parsed = JSON.parse(_raw)
 
