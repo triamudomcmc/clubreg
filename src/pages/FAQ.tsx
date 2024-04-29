@@ -46,7 +46,8 @@ export const getStaticProps: GetStaticProps = async () => {
   const raw = fs
     .readFileSync("./_map/faq.json")
     .toString()
-    .replace(/\$startOldClub\$/g, StartOldClub)
+
+    const _raw = raw.replace(/\$startOldClub\$/g, StartOldClub)
     .replace(/\$endOldClub\$/g, EndOldClub)
     .replace(/\$opendate\$/g, Opendate)
     .replace(/\$endRegClubDate\$/g, getFullDate(endRegClubTime, false))
@@ -59,8 +60,7 @@ export const getStaticProps: GetStaticProps = async () => {
     .replace(/\$lastround\$/g, getFullDate(lastround, false))
     .replace(/\$endLastRound\$/, getFullDate(endLastRound, false))
     .replace(/\$year\$/g, `${new Date(schoolYear).getFullYear() + 543}`)
-
-  const parsed = JSON.parse(raw)
+  const parsed = JSON.parse(_raw)
 
   return {
     props: {
