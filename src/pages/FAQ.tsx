@@ -33,10 +33,9 @@ const objToArr = (obj: any) => {
   })
 }
 
-const setGMT = (date: string) {
+const setGMT = (date: string) => {
   let parts = date.split(" ");
   let time = parts[0];
-  let period = parts[1];
 
   let timeParts = time.split(":");
   let hours = parseInt(timeParts[0]);
@@ -69,7 +68,7 @@ export const getStaticProps: GetStaticProps = async () => {
     .replace(/\$registerClubPeroid\$/g, registerClubPeroid)
     .replace(/\$announceTime\$/g, AnnounceTime)
     .replace(/\$endAnnounceTime\$/g, EndAnnounceTime)
-    .replace(/\$firstRoundDate\$/g, setGMT((firstRoundTime, false)))
+    .replace(/\$firstRoundDate\$/g, setGMT(getFullDate(firstRoundTime, false)))
     .replace(/\$secondRoundDate\$/g, setGMT(getFullDate(secondRoundTime, false)))
     .replace(/\$lastround\$/g, setGMT(getFullDate(lastround, false)))
     .replace(/\$endLastRound\$/, setGMT(getFullDate(endLastRound, false)))
