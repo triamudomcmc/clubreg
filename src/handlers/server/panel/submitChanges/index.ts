@@ -61,16 +61,15 @@ const performUpload = async (req, ID) => {
       ind++
     }
 
-    const clubDataDoc = await initialisedDB.collection("clubs").doc(req.body.panelID).get()
+    let clubDataDoc = await initialisedDB.collection("clubs").doc(req.body.panelID).get()
     const panelid: string = req.body.panelID
-    let clubData = clubDataDoc.data()
     let pid = panelid
 
-    if (!clubData) {
-      clubData = clubDataDoc?.get(`${panelid}_1`)
-      if (!clubData) {
+    if (!clubDataDoc.exists) {
+      clubDataDoc = await initialisedDB.collection("clubs").doc(`${panelid}_1`).get()
+      if (!clubDataDoc.exists) {
         if (panelid.includes("ก30920")) {
-          clubData = clubDataDoc?.get(`ก30920-1`)
+          clubDataDoc = await initialisedDB.collection("clubs").doc(`ก30920-1`).get()
           pid = "ก30920-1"
         }
       } else {
