@@ -235,7 +235,7 @@ const Index = () => {
                     <div>
                       <h1 className="text-left text-lg">ระบบจะเปิดให้ยืนยันสิทธิ์ชมรมเดิม</h1>
                       <h1 className="font-medium text-TUCMC-gray-700">
-                        ในวันที่ {getFullDate(openTime)}
+                        ในวันที่ {getFullDate(startOldClub)}
                       </h1>
                     </div>
                   </div>
