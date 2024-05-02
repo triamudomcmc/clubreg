@@ -25,7 +25,7 @@ export const endOldClub = +new Date("2024-05-03T23:59:00.000+07:00")
 // export const endOldClub = +new Date("2023-05-07T00:00:00.000+07:00")
 
 // start register time countdown (usually, this will be updated before PAE) *optional
-export const openRegisterTime = +new Date("2024-05-08T12:00:00.000+07:00")
+export const openRegisterTime = +new Date("2024-05-07T12:00:00.000+07:00")
 // registration open time
 export const openTime = +new Date("2024-05-17T11:00:00.000+07:00")
 // end of data editing time for updating positions and audition result.
