@@ -33,25 +33,47 @@ const objToArr = (obj: any) => {
   })
 }
 
+const setGMT = (_date: string) => {
+  if (process.env.MODE !== "production") return _date
+  const [date, time] = _date.split(" เวลา ")
+
+  const [day, month, year] = date.split(" ")
+  const [hours, minutes] = time.split(".").map(part => parseInt(part, 10))
+
+  let newHours = (hours + 7) % 24
+  let newDay = Number(day)
+
+  const fmtDate = `${newDay.toString().padStart(2, "0")} ${month} ${year}`
+  const fmtTime = `${newHours.toString().padStart(2, "0")}.${minutes.toString().padStart(2, '0')} น.`
+
+  return `${fmtDate} เวลา ${fmtTime}`;
+}
+
 export const getStaticProps: GetStaticProps = async () => {
-  const raw = fs
-    .readFileSync("./_map/faq.json")
-    .toString()
-    .replace(/\$startOldClub\$/g, getFullDate(startOldClub))
-    .replace(/\$endOldClub\$/g, getFullDate(endOldClub))
-    .replace(/\$opendate\$/g, getFullDate(openTime))
+  const StartOldClub = getFullDate(startOldClub)
+  const EndOldClub = getFullDate(endOldClub)
+  const Opendate = getFullDate(openTime)
+  const EndRegClubTime = getFullDate(endRegClubTime)
+  const AnnounceTime = getFullDate(announceTime)
+  const EndAnnounceTime = getFullDate(endAnnounceTime)
+
+  const raw = fs.readFileSync("./_map/faq.json").toString()
+
+  const _raw = raw
+    .replace(/\$startOldClub\$/g, setGMT(StartOldClub))
+    .replace(/\$endOldClub\$/g, setGMT(EndOldClub))
+    .replace(/\$opendate\$/g, setGMT(Opendate))
     .replace(/\$endRegClubDate\$/g, getFullDate(endRegClubTime, false))
-    .replace(/\$endRegClubTime\$/g, getFullDate(endRegClubTime))
+    .replace(/\$endRegClubTime\$/g, setGMT(EndRegClubTime))
     .replace(/\$registerClubPeroid\$/g, `${new Date(openTime).getDate()}-${getFullDate(endRegClubTime, false)}`)
-    .replace(/\$announceTime\$/g, getFullDate(announceTime))
-    .replace(/\$endAnnounceTime\$/g, getFullDate(endAnnounceTime))
+    .replace(/\$announceTime\$/g, setGMT(AnnounceTime))
+    .replace(/\$endAnnounceTime\$/g, setGMT(EndAnnounceTime))
     .replace(/\$firstRoundDate\$/g, getFullDate(firstRoundTime, false))
     .replace(/\$secondRoundDate\$/g, getFullDate(secondRoundTime, false))
     .replace(/\$lastround\$/g, getFullDate(lastround, false))
     .replace(/\$endLastRound\$/, getFullDate(endLastRound, false))
     .replace(/\$year\$/g, `${new Date(schoolYear).getFullYear() + 543}`)
-
-  const parsed = JSON.parse(raw)
+  const parsed = JSON.parse(_raw)
 
   return {
     props: {
