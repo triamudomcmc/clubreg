@@ -42,7 +42,7 @@
     "mobile-detect": "^1.4.5",
     "modern-react-qr-reader": "^1.0.12",
     "moment": "^2.29.1",
-    "next": "^12.0.0",
+    "next": "^12.3.4",
     "next-bridge": "^0.0.1",
     "next-pwa": "^5.5.2",
     "pdfmake": "^0.1.71",
