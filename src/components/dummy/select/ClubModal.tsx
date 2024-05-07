@@ -14,6 +14,7 @@ import { useEffect, useRef, useState } from "react"
 import { isEmpty } from "@utilities/object"
 import Image from "next/image"
 import { IClubListData } from "pages/dummy/select"
+import {convertToStaticFileUri} from "@utilities/files"
 
 const ClubModal = ({ state, userData, closeAction, action, clubList, confirmOldClub }) => {
   const ref = useRef(null)
@@ -154,9 +155,9 @@ const ClubModal = ({ state, userData, closeAction, action, clubList, confirmOldC
                       className="w-full object-cover"
                       width="448"
                       height="252"
-                      src={val.imageURL}
+                      src={convertToStaticFileUri(val.imageURL)}
                       placeholder="blur"
-                      blurDataURL={val.imageURL}
+                      blurDataURL={convertToStaticFileUri(val.imageURL)}
                     />
                   </div>
                 )

@@ -12,6 +12,7 @@ import { useState } from "react"
 import { SocialFacebook, SocialInstagram } from "@vectors/icons/Socials"
 import { Head } from "next/document"
 import { DescribeRoute } from "@components/common/Meta/OpenGraph"
+import {convertToStaticFileUri} from "@utilities/files";
 
 SwiperCore.use([Pagination])
 const TUCMC = () => {
@@ -32,9 +33,9 @@ const TUCMC = () => {
         <div className="bg-TUCMC-pink-500">
           <div className="flex flex-col items-center space-y-12 px-6 text-white md:space-y-16">
             <Image
-              src="/assets/images/TUCMC/bg.jpg"
+              src={convertToStaticFileUri("/assets/images/TUCMC/bg.jpg")}
               placeholder="blur"
-              blurDataURL="/assets/images/TUCMC/bg.jpg"
+              blurDataURL={convertToStaticFileUri("/assets/images/TUCMC/bg.jpg")}
               objectFit="cover"
               layout="fill"
             />

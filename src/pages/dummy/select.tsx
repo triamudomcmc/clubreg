@@ -31,6 +31,7 @@ import classnames from "classnames"
 import { Vacant } from "@vectors/texts/ClubStates"
 import initialisedDB from "@server/firebase-admin"
 import { ClubDisplay } from "@interfaces/clubDisplay"
+import {convertToStaticFileUri} from "@utilities/files";
 
 /*const blockContent = (dataObj) => {
   let newObj = {}
@@ -452,7 +453,7 @@ const Select: NextPage<{ clubList: IClubListData[] }> = ({ clubList }) => {
                   </Tooltip>
                 )}
               </motion.div>
-              <Image src="/assets/dummy/duck.png" width={120} height={162} />
+              <Image src={convertToStaticFileUri("/assets/dummy/duck.png")} width={120} height={162} />
             </motion.div>
             <motion.div
               initial={{ rotate: 45, y: 240, x: 0 }}
@@ -624,7 +625,7 @@ const Select: NextPage<{ clubList: IClubListData[] }> = ({ clubList }) => {
                   }}
                   className="absolute top-[-130px] right-2 cursor-pointer"
                 >
-                  <Image src="/assets/dummy/duck.png" width={90} height={122} />
+                  <Image src={convertToStaticFileUri("/assets/dummy/duck.png")} width={90} height={122} />
                 </motion.div>
                 {!isEmpty(userData.audition) && (
                   <div
