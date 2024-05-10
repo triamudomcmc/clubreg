@@ -93,7 +93,7 @@ const ClubHeaderCard = ({
               />
             ) : (
               <img
-                src={image}
+                src={convertToStaticFileUri(image)}
                 className={classnames("mb-[0px] h-[54vw] object-cover sm:h-[288px] md:rounded-l-2xl")}
                 width="768"
                 height="432"
@@ -562,7 +562,7 @@ const Review = ({ revContent, index, onLoad, clubID, setReviews, setImageReview,
               />
             ) : (
               <img
-                src={image}
+                src={convertToStaticFileUri(image)}
                 width="128px"
                 height="128px"
                 className="h-20 w-20 rounded-lg object-cover md:h-24 md:w-24"
