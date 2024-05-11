@@ -20,7 +20,7 @@ import { StatusText } from "@components/panel/table/TableRow"
 import { request } from "@handlers/client/utilities/request"
 import { motion } from "framer-motion"
 import { EditableZoomable } from "@components/common/Zoomable/editable"
-import { toBase64 } from "@utilities/files"
+import {convertToStaticFileUri, toBase64} from "@utilities/files"
 import initialisedDB from "@server/firebase-admin"
 import { removeItem } from "@utilities/array"
 import { Ellipsis } from "@vectors/Loaders/Ellipsis"
@@ -83,9 +83,9 @@ const ClubHeaderCard = ({
               <Image
                 priority={true}
                 onLoad={onLoad}
-                src={"mainImage" in newImages ? newImages["mainImage"] : `/assets/thumbnails/${clubID}.jpg`}
+                src={convertToStaticFileUri("mainImage" in newImages ? newImages["mainImage"] : `/assets/thumbnails/${clubID}.jpg`)}
                 placeholder="blur"
-                blurDataURL={"mainImage" in newImages ? newImages["mainImage"] : `/assets/thumbnails/${clubID}.jpg`}
+                blurDataURL={convertToStaticFileUri("mainImage" in newImages ? newImages["mainImage"] : `/assets/thumbnails/${clubID}.jpg`)}
                 width="768"
                 height="432"
                 quality={75}
@@ -93,7 +93,7 @@ const ClubHeaderCard = ({
               />
             ) : (
               <img
-                src={image}
+                src={convertToStaticFileUri(image)}
                 className={classnames("mb-[0px] h-[54vw] object-cover sm:h-[288px] md:rounded-l-2xl")}
                 width="768"
                 height="432"
@@ -552,17 +552,17 @@ const Review = ({ revContent, index, onLoad, clubID, setReviews, setImageReview,
               <Image
                 priority={true}
                 onLoad={onLoad}
-                src={`${revContent.profile}`}
+                src={convertToStaticFileUri(`${revContent.profile}`)}
                 placeholder="blur"
                 quality={50}
-                blurDataURL={`${revContent.profile}`}
+                blurDataURL={convertToStaticFileUri(`${revContent.profile}`)}
                 width="128"
                 height="128"
                 className="rounded-lg object-cover"
               />
             ) : (
               <img
-                src={image}
+                src={convertToStaticFileUri(image)}
                 width="128px"
                 height="128px"
                 className="h-20 w-20 rounded-lg object-cover md:h-24 md:w-24"

@@ -4,6 +4,7 @@ import { detectOuside, useWindowDimensions } from "@utilities/document"
 import { XIcon } from "@heroicons/react/solid"
 import classnames from "classnames"
 import { SM } from "@utilities/constants"
+import {convertToStaticFileUri} from "@utilities/files";
 
 export const Zoomable = ({
   src,
@@ -79,7 +80,7 @@ export const Zoomable = ({
               onLoad={onLoad}
               placeholder="blur"
               className={className}
-              src={src}
+              src={convertToStaticFileUri(src)}
               width={actualZoomedWidth}
               height={(actualZoomedWidth * height) / width}
               alt={alt}
@@ -108,7 +109,7 @@ export const Zoomable = ({
             <Image
               onLoad={onLoad}
               className={className}
-              src={src}
+              src={convertToStaticFileUri(src)}
               alt={alt}
               width={zoomedWidth}
               height={(zoomedWidth * height) / width}
@@ -126,7 +127,7 @@ export const Zoomable = ({
         <Image
           onLoad={onLoad}
           className={className}
-          src={src}
+          src={convertToStaticFileUri(src)}
           width={width}
           height={height}
           alt={alt}

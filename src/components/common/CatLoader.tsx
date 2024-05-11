@@ -1,5 +1,6 @@
 import { motion } from "framer-motion"
 import Image from "next/image"
+import {convertToStaticFileUri} from "@utilities/files";
 
 export const CatLoader = () => {
   return (
@@ -10,7 +11,7 @@ export const CatLoader = () => {
         transition={{ type: "tween", duration: 0.15 }}
         className="flex flex-col items-center"
       >
-        <Image priority={true} src="/assets/loaders/black_duck.gif" width={124} height={124} />
+        <Image priority={true} src={convertToStaticFileUri("/assets/loaders/black_duck.gif")} width={124} height={124} />
         <h1 className="font-semibold text-TUCMC-gray-800">Loading...</h1>
       </motion.div>
     </div>

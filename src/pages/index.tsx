@@ -23,6 +23,7 @@ import Image from "next/image"
 import { useAuth } from "@client/auth"
 import { Data } from "framer"
 import { DescribeRoute } from "@components/common/Meta/OpenGraph"
+import {convertToStaticFileUri} from "@utilities/files";
 
 const Index = () => {
   // const goal = openTime
@@ -335,7 +336,7 @@ const Index = () => {
         </motion.div>
         {/*inject Image for preloading*/}
         <div className="hidden">
-          <Image priority={true} src="/assets/loaders/cat.gif" width={85} height={69} />
+          <Image priority={true} src={convertToStaticFileUri("/assets/loaders/cat.gif")} width={85} height={69} />
         </div>
       </PageContainer>
     </DescribeRoute>

@@ -7,6 +7,7 @@ import "swiper/swiper-bundle.css"
 import { Zoomable } from "@components/common/Zoomable"
 import { useRef, useState } from "react"
 import { ClockIcon } from "@heroicons/react/solid"
+import {convertToStaticFileUri} from "@utilities/files";
 
 // install Swiper modules
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y])
@@ -95,10 +96,10 @@ const Index = () => {
             </div>
             <div className="flex mx-auto space-x-1">
               <div className="max-w-[300px] shadow-md">
-                <Image src="/assets/images/instruction/screen1.jpg" width="1080" height="3498" />
+                <Image src={convertToStaticFileUri("/assets/images/instruction/screen1.jpg")} width="1080" height="3498" />
               </div>
               <div className="max-w-[300px] shadow-md">
-                <Image src="/assets/images/instruction/screen2.jpg" width="1080" height="3498" />
+                <Image src={convertToStaticFileUri("/assets/images/instruction/screen2.jpg")} width="1080" height="3498" />
               </div>
             </div>
             <div className="flex space-x-4">
@@ -158,7 +159,7 @@ const Index = () => {
             </div>
             <div className="flex mx-auto">
               <div className="max-w-[300px] shadow-md">
-                <Image src="/assets/images/instruction/screen3.jpg" width="1080" height="3581" />
+                <Image src={convertToStaticFileUri("/assets/images/instruction/screen3.jpg")} width="1080" height="3581" />
               </div>
             </div>
             <div className="flex space-x-4">
@@ -193,7 +194,7 @@ const Index = () => {
             </div>
             <div className="flex mx-auto">
               <div className="max-w-[300px] shadow-md">
-                <Image src="/assets/images/instruction/screen4.jpg" width="1080" height="3500" />
+                <Image src={convertToStaticFileUri("/assets/images/instruction/screen4.jpg")} width="1080" height="3500" />
               </div>
             </div>
             <div className="flex space-x-4">
@@ -237,7 +238,7 @@ const Index = () => {
             </div>
             <div className="flex mx-auto">
               <div className="max-w-[300px] shadow-md">
-                <Image src="/assets/images/instruction/screen6.jpg" width="1080" height="2818" />
+                <Image src={convertToStaticFileUri("/assets/images/instruction/screen6.jpg")} width="1080" height="2818" />
               </div>
             </div>
             <div className="flex space-x-4">
@@ -263,7 +264,7 @@ const Index = () => {
             </div>
             <div className="flex mx-auto">
               <div className="max-w-[300px] shadow-md">
-                <Image src="/assets/images/instruction/screen5.jpg" width="1080" height="2641" />
+                <Image src={convertToStaticFileUri("/assets/images/instruction/screen5.jpg")} width="1080" height="2641" />
               </div>
             </div>
             <div className="flex space-x-4">

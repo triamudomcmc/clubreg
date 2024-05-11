@@ -5,7 +5,7 @@ import { XIcon } from "@heroicons/react/solid"
 import classnames from "classnames"
 import { motion } from "framer-motion"
 import { CameraIcon } from "@heroicons/react/outline"
-import { toBase64 } from "@utilities/files"
+import {convertToStaticFileUri, toBase64} from "@utilities/files"
 
 export const EditableZoomable = ({
   src,
@@ -82,9 +82,9 @@ export const EditableZoomable = ({
               priority={priority}
               onLoad={onLoad}
               placeholder="blur"
-              blurDataURL={src}
+              blurDataURL={convertToStaticFileUri(src)}
               className={className}
-              src={src}
+              src={convertToStaticFileUri(src)}
               width={zoomedWidth}
               height={(zoomedWidth * height) / width}
             />
@@ -110,16 +110,16 @@ export const EditableZoomable = ({
             priority={priority}
             quality={50}
             placeholder="blur"
-            blurDataURL={src}
+            blurDataURL={convertToStaticFileUri(src)}
             onLoad={onLoad}
             className={classnames(className)}
-            src={src}
+            src={convertToStaticFileUri(src)}
             width={width}
             height={height}
           />
         ) : (
           <img
-            src={image}
+            src={convertToStaticFileUri(src)}
             width={width}
             height={height}
             className={classnames(className, "h-[52vw] md:h-[18vw] lg:h-[200px]")}

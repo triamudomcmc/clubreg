@@ -34,6 +34,7 @@ import { fetchChecks, submitChecks } from "@client/fetcher/checks"
 import { getPrevMonday, getRecentMondays } from "@config/time"
 import { convertMiliseconds } from "@utilities/timers"
 import { Listbox, Transition } from "@headlessui/react"
+import {convertToStaticFileUri} from "@utilities/files";
 
 const fetchFilesData = async (fileUpdate, panelID, addToast, reFetch, query, targetTime) => {
   const data = await fetchFiles(panelID, query.access || undefined, targetTime)
@@ -512,7 +513,7 @@ const Attendance = ({ query }) => {
               <XOutline id="closePreview" className="h-6 w-6 cursor-pointer text-white" />
             </div>
             <div className="px-2">
-              <img src={previewURL} />
+              <img src={convertToStaticFileUri(previewURL)} />
             </div>
           </Modal>
           <div className="relative bg-TUCMC-gray-100 pt-10 pb-14">

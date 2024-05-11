@@ -3,6 +3,7 @@ import Image from "next/image"
 import LinesEllipsis from "react-lines-ellipsis"
 import { motion } from "framer-motion"
 import Link from "next/link"
+import {convertToStaticFileUri} from "@utilities/files";
 
 export const ClubCard = ({ data, imageLoadAction = null }) => {
   return (
@@ -20,8 +21,8 @@ export const ClubCard = ({ data, imageLoadAction = null }) => {
             width="260"
             height="143"
             placeholder="blur"
-                blurDataURL={data.imageURL}
-            src={data.imageURL}
+                blurDataURL={convertToStaticFileUri(data.imageURL)}
+            src={convertToStaticFileUri(data.imageURL)}
           />
         ) : (
             <Image
@@ -31,8 +32,8 @@ export const ClubCard = ({ data, imageLoadAction = null }) => {
             height="102"
             onLoad={imageLoadAction}
             placeholder="blur"
-                blurDataURL={data.imageURL}
-            src={data.imageURL}
+                blurDataURL={convertToStaticFileUri(data.imageURL)}
+                src={convertToStaticFileUri(data.imageURL)}
           />
         )}
         <div className="space-y-2.5 rounded-b-lg bg-white px-2 py-2">

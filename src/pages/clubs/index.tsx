@@ -18,14 +18,6 @@ import { schoolYear } from "@config/time"
 export const getStaticProps: GetStaticProps = async (): Promise<
   GetStaticPropsResult<{ clubs: { name: string; audition: boolean; clubID: string; imageURL: string }[] }>
 > => {
-  // const data = fs.readFileSync("./_map/clubs.json")
-  // const clubs = JSON.parse(data.toString())
-
-  // name
-  // audition
-  // clubID
-
-  // const clubDisplayDocs = await initialisedDB.collection("clubDisplayPending").get()
   const clubDisplayDocs = await initialisedDB.collection("clubDisplay").get()
   const clubs = clubDisplayDocs.docs.map((club) => {
     const data = club.data() as ClubDisplay

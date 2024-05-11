@@ -16,6 +16,7 @@ import { ArrowLeftIcon } from "@heroicons/react/outline"
 import { motion } from "framer-motion"
 import Image from "next/image"
 import { Tooltip } from "@components/dummy/common/Tooltip"
+import {convertToStaticFileUri} from "@utilities/files";
 
 export const getStaticProps: GetStaticProps = async () => {
   const data = fs.readFileSync("./_map/links.json")
@@ -173,7 +174,7 @@ const Page = ({ links }) => {
               วันที่ {getFullDate(openTime)} ด้วยนะ
             </Tooltip>
           </motion.div>
-          <Image src="/assets/dummy/duck.png" width={108} height={144} />
+          <Image src={convertToStaticFileUri("/assets/dummy/duck.png")} width={108} height={144} />
         </motion.div>
         <div
           onClick={() => {

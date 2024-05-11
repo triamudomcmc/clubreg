@@ -34,7 +34,7 @@ const objToArr = (obj: any) => {
 }
 
 const setGMT = (_date: string) => {
-  if (process.env.MODE !== "production") return _date
+  if (process.env.VERCEL_ENV !== "production") return _date
   const [date, time] = _date.split(" เวลา ")
 
   const [day, month, year] = date.split(" ")
