@@ -103,16 +103,16 @@ const Page = ({ links }) => {
           <div className="flex flex-row space-x-3 rounded-md bg-TUCMC-green-100 p-4 text-TUCMC-gray-700">
             <StarIcon className="h-5 w-5 flex-shrink-0" />
             <div className="text-sm">
-              <p>กรุณาดาวน์โหลดรูปภาพหรือถ่ายภาพหน้าจอเก็บไว้เป็นหลักฐาน</p>
+              <p>กรุณาถ่ายภาพหน้าจอเก็บไว้เป็นหลักฐาน</p>
             </div>
           </div>
-          <div
+          {/* <div
             onClick={download}
             className="flex cursor-pointer items-center justify-center space-x-2 rounded-md border border-gray-300 bg-white p-5 text-TUCMC-gray-700"
           >
             <ArrowCircleDownIcon className="h-5 w-5" />
             <span>ดาวน์โหลด</span>
-          </div>
+          </div> */}
         </div>
       </div>
     </PageContainer>
