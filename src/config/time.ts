@@ -14,7 +14,7 @@ export const endEditInitData = +new Date("2024-04-28T00:00:00.000+07:00")
 // initiate the dialogue before old club confirmation starts
 export const beforeOldClub = +new Date("2024-05-02T00:00:00.000+07:00")
 // starts old club confirmation
-export const startOldClub = +new Date("2024-05-03T00:00:00.000+07:00")
+export const startOldClub = +new Date("2024-05-03T08:00:00.000+07:00")
 // start counting down before old club confirmation
 export const startOldClubCountdown = +new Date("2024-05-03T00:00:00.000+07:00")
 // end old clun confirmation
