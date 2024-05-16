@@ -58,7 +58,7 @@ export const endSecondRoundTime = +new Date("2024-05-29T23:59:00.000+07:00")
 export const positionUpdateTime = editDataTime
 
 export const lastround = +new Date("2024-05-30T07:30:00.000+07:00")
-export const endLastRound = +new Date("2024-05-31T00:00:00.000+07:00")
+export const endLastRound = +new Date("2024-05-31")
 export const firstClubPeroid = +new Date("2024-06-10")
 
 export const getUNIXTimeStamp = () => {
@@ -138,4 +138,21 @@ export const getFullDate = (date, showTime = true) => {
       `${new Date(date).getMinutes().toString().padStart(2, "0")}` +
       " น.":""
   }`
+}
+
+
+export const setGMT = (_date: string) => {
+  if (process.env.VERCEL_ENV !== "production") return _date
+  const [date, time] = _date.split(" เวลา ")
+
+  const [day, month, year] = date.split(" ")
+  const [hours, minutes] = time.split(".").map(part => parseInt(part, 10))
+
+  let newHours = (hours + 7) % 24
+  let newDay = Number(day)
+
+  const fmtDate = `${newDay.toString().padStart(2, "0")} ${month} ${year}`
+  const fmtTime = `${newHours.toString().padStart(2, "0")}.${minutes.toString().padStart(2, '0')} น.`
+
+  return `${fmtDate} เวลา ${fmtTime}`;
 }

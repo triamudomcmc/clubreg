@@ -25,6 +25,7 @@ import {
   secondRoundTime,
   endAnnounceTime,
   lastround,
+  setGMT
 } from "@config/time"
 
 const objToArr = (obj: any) => {
@@ -33,21 +34,6 @@ const objToArr = (obj: any) => {
   })
 }
 
-const setGMT = (_date: string) => {
-  if (process.env.VERCEL_ENV !== "production") return _date
-  const [date, time] = _date.split(" เวลา ")
-
-  const [day, month, year] = date.split(" ")
-  const [hours, minutes] = time.split(".").map(part => parseInt(part, 10))
-
-  let newHours = (hours + 7) % 24
-  let newDay = Number(day)
-
-  const fmtDate = `${newDay.toString().padStart(2, "0")} ${month} ${year}`
-  const fmtTime = `${newHours.toString().padStart(2, "0")}.${minutes.toString().padStart(2, '0')} น.`
-
-  return `${fmtDate} เวลา ${fmtTime}`;
-}
 
 export const getStaticProps: GetStaticProps = async () => {
   const StartOldClub = getFullDate(startOldClub)
@@ -93,7 +79,6 @@ const FAQ = ({ data }) => {
   const [sortedData, setSortedData] = useState<{ data: any; group: string }[]>([])
 
   const router = useRouter()
-
   useEffect(() => {
     if ("req" in router.query) {
       if ((router.query.req = "a")) {
@@ -136,7 +121,7 @@ const FAQ = ({ data }) => {
       }, 0)
     )
   }, [searchContext])
-  console.log(getFullDate(openTime))
+
   return (
     <DescribeRoute
       title="คำถามที่พบบ่อย"

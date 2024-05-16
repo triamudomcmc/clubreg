@@ -17,13 +17,14 @@ import {
   endRegClubTime,
   openTime,
   startOldClub,
-  getFullDate
+  getFullDate,
+  setGMT,
 } from "@config/time"
 import Image from "next/image"
 import { useAuth } from "@client/auth"
 import { Data } from "framer"
 import { DescribeRoute } from "@components/common/Meta/OpenGraph"
-import {convertToStaticFileUri} from "@utilities/files";
+import { convertToStaticFileUri } from "@utilities/files"
 
 const Index = () => {
   // const goal = openTime
@@ -67,7 +68,7 @@ const Index = () => {
   return (
     <DescribeRoute
       title="ระบบลงทะเบียนชมรม โรงเรียนเตรียมอุดมศึกษา"
-      description={"ระบบจะเปิดให้ลงทะเบียนชมรมในวันที่ "+ getFullDate(openTime)}
+      description={"ระบบจะเปิดให้ลงทะเบียนชมรมในวันที่ " +setGMT(getFullDate(openTime))}
       imgURL="/assets/meta/index.jpg"
     >
       <PageContainer footer={false}>
@@ -138,9 +139,7 @@ const Index = () => {
                         <ExclamationIcon className="mt-1 h-10 w-10 text-yellow-500" />
                         <div>
                           <h1 className="text-left text-lg">ระบบจะเปิดให้ยืนยันสิทธิ์ชมรมเดิม</h1>
-                          <h1 className="font-medium text-TUCMC-gray-700">
-                            ในวันที่ {getFullDate(startOldClub)}
-                          </h1>
+                          <h1 className="font-medium text-TUCMC-gray-700">ในวันที่ {getFullDate(startOldClub)}</h1>
                         </div>
                       </div>
                     )}
@@ -168,9 +167,7 @@ const Index = () => {
                 </div> */}
                 <div className="hidden px-1 font-medium text-white md:block">
                   <p>ระบบจะเปิดให้ลงทะเบียนชมรม</p>
-                  <p>
-                    ในวันที่ {getFullDate(openTime)}
-                  </p>
+                  <p>ในวันที่ {getFullDate(openTime)}</p>
                 </div>
               </div>
             </div>
@@ -235,9 +232,7 @@ const Index = () => {
                     <ExclamationIcon className="mt-1 h-10 w-10 text-yellow-500" />
                     <div>
                       <h1 className="text-left text-lg">ระบบจะเปิดให้ยืนยันสิทธิ์ชมรมเดิม</h1>
-                      <h1 className="font-medium text-TUCMC-gray-700">
-                        ในวันที่ {getFullDate(startOldClub)}
-                      </h1>
+                      <h1 className="font-medium text-TUCMC-gray-700">ในวันที่ {getFullDate(startOldClub)}</h1>
                     </div>
                   </div>
                 )}
@@ -260,9 +255,7 @@ const Index = () => {
                 </div> */}
                 <div className="font-medium">
                   <p>ระบบจะเปิดให้ลงทะเบียนชมรม</p>
-                  <p>
-                    ในวันที่ {getFullDate(openTime)}
-                  </p>
+                  <p>ในวันที่ {getFullDate(openTime)}</p>
                 </div>
               </div>
             </div>
