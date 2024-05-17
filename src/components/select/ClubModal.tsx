@@ -135,6 +135,7 @@ const ClubModal = ({ state, userData, closeAction, action, clubList, confirmOldC
             {
               //preload thumbnails with Image tag
               (clubList as IClubListData[]).map((val) => {
+                if (!val) return
                 return (
                   <div key={`div${val}`} className={classnames(imageID === val.clubID ? "block" : "hidden")}>
                     <Image
