@@ -61,7 +61,7 @@ export const getStaticProps: GetStaticProps = async () => {
       }
     
   })
-
+  
   return {
     props: {
       clubList: clubList,
@@ -165,7 +165,7 @@ const Select = ({ clubList }) => {
     const load = async () => {
       const value = await fetchClub()
       setClubData(value)
-      setInitclub(true)
+      setInitclub(true) 
     }
 
     userData && Object.keys(userData).length > 2 && load()
