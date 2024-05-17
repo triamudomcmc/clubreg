@@ -51,12 +51,13 @@ export const getStaticProps: GetStaticProps = async () => {
   const clubDisplayDocs = await initialisedDB.collection("clubDisplay").get()
   const clubList = clubDisplayDocs.docs.map((club) => {
     const data = club.data() as ClubDisplay
-
-    return {
+    if (club.id !== "ก30901") {
+      return {
       name: data.nameTH,
       audition: data.audition,
       clubID: club.id,
       imageURL: data?.images?.mainImage || `/assets/thumbnails/${club.id}.jpg`,
+    }
     }
   })
 
