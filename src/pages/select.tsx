@@ -59,7 +59,7 @@ export const getStaticProps: GetStaticProps = async () => {
       imageURL: data?.images?.mainImage || `/assets/thumbnails/${club.id}.jpg`,
     }
   })
-
+  
   return {
     props: {
       clubList: clubList,
@@ -163,7 +163,7 @@ const Select = ({ clubList }) => {
     const load = async () => {
       const value = await fetchClub()
       setClubData(value)
-      setInitclub(true)
+      setInitclub(true) 
     }
 
     userData && Object.keys(userData).length > 2 && load()
