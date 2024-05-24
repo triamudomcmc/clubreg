@@ -19,6 +19,7 @@ import {
   endRegClubTime,
   endSecondRoundTime,
   firstRoundTime,
+  getFullDate,
   lastround,
   secondRoundTime,
 } from "@config/time"
@@ -121,13 +122,13 @@ const Announce = () => {
         )
       }
       if (
-        (values.includes("rejected") || values.includes("failed")) &&
+        (values.includes("rejected") || values.includes("failed") || values.includes("waiting")) &&
         !values.includes("passed") &&
         !values.includes("reserved")
       ) {
         setBottomDesc(
           <p className="mx-auto mt-20 max-w-md px-16 text-center text-TUCMC-gray-700">
-            กรุณารอเลือกเข้าชมรมที่ไม่มีการ Audition และยังมีที่นั่งว่างอยู่ ในวันที่ 2 มิ.ย. 66
+            กรุณารอเลือกเข้าชมรมที่ไม่มีการ Audition และยังมีที่นั่งว่างอยู่ ในวันที่ {getFullDate(lastround, false)}
           </p>
         )
       }
@@ -160,7 +161,7 @@ const Announce = () => {
                       new Date().getTime() >= firstRoundTime ? "text-TUCMC-gray-700" : "text-TUCMC-gray-500"
                     )}
                   >
-                    31 พ.ค. 66 เวลา 07.30 น.
+                    {getFullDate(firstRoundTime)}
                   </span>
                 </div>
                 <div className="flex items-center space-x-1">
@@ -177,7 +178,7 @@ const Announce = () => {
                       new Date().getTime() >= secondRoundTime ? "text-TUCMC-gray-700" : "text-TUCMC-gray-500"
                     )}
                   >
-                    1 มิ.ย. 66 เวลา 07.30 น.
+                    {getFullDate(secondRoundTime)}
                   </span>
                 </div>
               </div>
@@ -245,9 +246,15 @@ const Announce = () => {
             <div className="mb-20 space-y-8 pt-10">
               <div className="flex flex-col items-center text-TUCMC-gray-700">
                 <h1 className="text-4xl">รอประกาศผล</h1>
-                <h1 className="text-xl">31 พ.ค. 2566 เวลา 7.30 น.</h1>
+                <h1 className="text-xl">{getFullDate(announceTime)}</h1>
               </div>
               <div className="flex flex-row justify-center space-x-2 text-TUCMC-gray-700">
+              <div className="flex flex-col items-center">
+                  <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
+                    {openTimer.day}
+                  </span>
+                  <span className="mt-2 text-xs font-bold text-TUCMC-gray-600">DAY</span>
+                </div>
                 <div className="flex flex-col items-center">
                   <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
                     {openTimer.hour}

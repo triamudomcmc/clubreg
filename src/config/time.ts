@@ -29,7 +29,7 @@ export const openRegisterTime = +new Date("2024-05-07T12:00:00.000+07:00")
 // registration open time
 export const openTime = +new Date("2024-05-17T11:00:00.000+07:00")
 // end of data editing time for updating positions and audition result.
-export const editDataTime = +new Date("2024-05-25T07:00:00.000+07:00")
+export const editDataTime = +new Date("2024-05-26T23:59:00.000+07:00")
 // registration close 1st round.
 export const endRegClubTime = +new Date("2024-05-24T23:59:00.000+07:00")
 // announce audition result. (user can select either to accept or reject)

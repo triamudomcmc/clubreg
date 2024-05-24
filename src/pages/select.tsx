@@ -21,7 +21,7 @@ import { clubMap } from "../config/clubMap"
 import { regClub } from "@client/userAction"
 import { CatLoader } from "@components/common/CatLoader"
 import { AnimatePresence, motion } from "framer-motion"
-import { endLastRound, endRegClubTime, lastround, openTime } from "@config/time"
+import { endLastRound, endRegClubTime, lastround, openTime, getFullDate, announceTime } from "@config/time"
 import { useToast } from "@components/common/Toast/ToastContext"
 import initialisedDB from "@server/firebase-admin"
 import { ClubDisplay } from "@interfaces/clubDisplay"
@@ -262,7 +262,7 @@ const Select = ({ clubList }) => {
               <div className="md:max-w-xs">
                 <div className="flex flex-col items-center">
                   <h1 className="text-4xl font-medium">เลือกชมรม</h1>
-                  <span className="text-sm tracking-tight">ภายในวันที่ 29 พ.ค. 66</span>
+                  <span className="text-sm tracking-tight">ภายในวันที่ {getFullDate(endRegClubTime,false)}</span>
                 </div>
                 <div className="mt-6 w-full min-w-[300px] px-8">
                   <SelectSplash />
@@ -273,7 +273,7 @@ const Select = ({ clubList }) => {
                       <h1 className="text-lg font-medium tracking-tight">คุณได้ลงชื่อ Audition ชมรมไว้</h1>
                       <p className="tracking-tight text-gray-600">
                         ให้ไปทำการ Audition ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนด โดยติดตามรายละเอียดการ Audition
-                        จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง และรอการประกาศผลในวันที่ 31 พ.ค. 2566 เวลา 7.30 น.
+                        จากช่องทางประชาสัมพันธ์ของชมรมนั้นโดยตรง และรอการประกาศผลในวันที่ {getFullDate(announceTime)}
                       </p>
                       <div className="relative md:hidden">
                         <a ref={auTrigger} className="cursor-pointer tracking-tight text-TUCMC-pink-500">
