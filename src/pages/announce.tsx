@@ -122,7 +122,7 @@ const Announce = () => {
         )
       }
       if (
-        (values.includes("rejected") || values.includes("failed")) &&
+        (values.includes("rejected") || values.includes("failed") || values.includes("waiting")) &&
         !values.includes("passed") &&
         !values.includes("reserved")
       ) {
@@ -249,6 +249,12 @@ const Announce = () => {
                 <h1 className="text-xl">{getFullDate(announceTime)}</h1>
               </div>
               <div className="flex flex-row justify-center space-x-2 text-TUCMC-gray-700">
+              <div className="flex flex-col items-center">
+                  <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
+                    {openTimer.day}
+                  </span>
+                  <span className="mt-2 text-xs font-bold text-TUCMC-gray-600">DAY</span>
+                </div>
                 <div className="flex flex-col items-center">
                   <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
                     {openTimer.hour}
