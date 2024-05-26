@@ -58,7 +58,7 @@ const ClubStatus = ({ data, action, selectTrigger }) => {
         <div className="flex space-x-1 text-TUCMC-orange-400">
           <DotsCircleHorizontalIcon className="mt-0.5 h-5 w-5" />
           <span className="flex flex-row leading-6">
-            ติดสำรอง ลำดับที่ {data.position} จาก {data.fromPos}
+            ติดสำรอง ลำดับที่ {data.position}
             {data.section && (
               <span className="ml-1 flex flex-row items-center justify-between">
                 <span>- ส่วน {data.section}</span>
@@ -81,8 +81,8 @@ const ClubStatus = ({ data, action, selectTrigger }) => {
                       <Tooltip type={"top-right"} className="absolute top-[20px] left-[-285px] z-[10] w-[320px]">
                         <div>
                           <span className="text-sm font-bold">ส่วนในชมรมคืออะไร</span> <br /> ลำดับที่ {data.position}{" "}
-                          จาก {data.fromPos} หมายถึงนักเรียนได้ลำดับสำรองที่ {data.position} จากทั้งหมด {data.fromPos}{" "}
-                          คน ในส่วน {data.section} ของชมรมนี้
+                          นักเรียนได้ลำดับสำรองที่ {data.position}
+                          ในส่วน {data.section} ของชมรมนี้
                         </div>
                         <br />
                         <div>
