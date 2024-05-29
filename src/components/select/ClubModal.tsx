@@ -137,7 +137,7 @@ const ClubModal = ({ state, userData, closeAction, action, clubList, confirmOldC
               (clubList as IClubListData[]).map((val) => {
                 if (!val) return
                 return (
-                  <div key={`div${val}`} className={classnames(imageID === val.clubID ? "block" : "hidden")}>
+                  <div key={`div${val.clubID}`} className={classnames(imageID === val.clubID ? "block" : "hidden")}>
                     <Image
                       priority={true}
                       key={val.clubID}

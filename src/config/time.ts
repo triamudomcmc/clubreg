@@ -58,7 +58,7 @@ export const endSecondRoundTime = +new Date("2024-05-29T23:59:00.000+07:00")
 export const positionUpdateTime = editDataTime
 
 export const lastround = +new Date("2024-05-30T07:30:00.000+07:00")
-export const endLastRound = +new Date("2024-05-31")
+export const endLastRound = +new Date("2024-05-30T23:59:59.000+07:00")
 export const firstClubPeroid = +new Date("2024-06-10")
 
 export const getUNIXTimeStamp = () => {

@@ -36,6 +36,7 @@ export const getUserDataFromSessionData = async (sessionData) => {
   })
 
   const hide = new Date().getTime() < announceTime
+
   let isAdmin = false,
     safeMode: false,
     isTeacher = false,

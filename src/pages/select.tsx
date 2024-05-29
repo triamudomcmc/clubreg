@@ -52,7 +52,6 @@ export const getStaticProps: GetStaticProps = async () => {
   const clubList = clubDisplayDocs.docs.map((club) => {
     const data = club.data() as ClubDisplay
     if (club.id === "ก30901") return null
-    console.log(club)
       return {
         name: data.nameTH,
         audition: data.audition,
@@ -262,7 +261,7 @@ const Select = ({ clubList }) => {
               <div className="md:max-w-xs">
                 <div className="flex flex-col items-center">
                   <h1 className="text-4xl font-medium">เลือกชมรม</h1>
-                  <span className="text-sm tracking-tight">ภายในวันที่ {getFullDate(endRegClubTime,false)}</span>
+                  <span className="text-sm tracking-tight">ภายในวันที่ {getFullDate(new Date().getTime() > endRegClubTime ? endLastRound : endRegClubTime,false)}</span>
                 </div>
                 <div className="mt-6 w-full min-w-[300px] px-8">
                   <SelectSplash />

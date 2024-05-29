@@ -101,6 +101,12 @@ const Announce = () => {
         Router.reload()
       }, elimit - currentTime)
     }
+
+    if (before) {
+      setTimeout(() => {
+        reFetch()
+      }, announceTime - currentTime)
+    }
   }, [])
 
   useEffect(() => {
