@@ -415,20 +415,27 @@ const Account = () => {
           </div>
           <div className="mx-auto max-w-6xl px-4 pt-8 pb-20">
             <div className="mx-auto grid max-w-xl grid-cols-2 gap-1">
-              {clubData.audition ?   <Button
+              {/* {clubData.audition ?   <Button
               type="div"href="/panel/audition"className="flex items-center justify-center space-x-2 rounded-lg bg-TUCMC-pink-400 px-4 py-3.5 text-white shadow-sm"
               ><ClipboardCheckIcon className="h-5 w-5" /><span>ผลการ Audition</span>
               </Button> :
                 <Button
                   href="/panel/attendance"
                   type="div"
-                  disabled={true}
                   className="flex cursor-pointer items-center justify-center space-x-2 rounded-lg bg-TUCMC-pink-400 px-4 py-3.5 text-white shadow-sm transition-all hover:scale-105"
                 >
                   <ClipboardCheckIcon className="h-6 w-6" />
                   <span>รายงานการเข้าเรียน</span>
                 </Button>
-            }
+            } */}
+            <Button
+                  href="/panel/attendance"
+                  type="div"
+                  className="flex cursor-pointer items-center justify-center space-x-2 rounded-lg bg-TUCMC-pink-400 px-4 py-3.5 text-white shadow-sm transition-all hover:scale-105"
+                >
+                  <ClipboardCheckIcon className="h-6 w-6" />
+                  <span>รายงานการเข้าเรียน</span>
+                </Button>
 
               <Button
                 href="/panel/report"
