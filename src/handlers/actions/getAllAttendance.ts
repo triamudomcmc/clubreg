@@ -4,8 +4,8 @@ import initialisedDB from "@server/firebase-admin"
 export const getAllAttendance = getAllAttendanceData.helper.createAction(async (ApiParams, parameters) => {
   const checks = await initialisedDB.collection("attendance").get()
 
-  const start = 1699203600000
-  const end = 1707220800000
+  const start = new Date('2024-06-10T00:00:00.00').getTime()
+  const end = new Date('2024-09-09T00:00:00.00').getTime()
 
   const res = checks.docs
     .filter((doc) => (parseInt(doc.id) >= start && parseInt(doc.id) <= end))
