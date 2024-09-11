@@ -47,7 +47,12 @@ const Evaluate = () => {
     // Router.push("/panel")
   }, [])
 
-  const ignored = ["1702227600000", "1703437200000", "1704042000000"]
+  const ignored = [
+    new Date("2024-07-15T00:00:00.00").getTime().toString(),
+    new Date("2024-07-22T00:00:00.00").getTime().toString(),
+    new Date("2024-07-29T00:00:00.00").getTime().toString(),
+    new Date("2024-08-12T00:00:00.00").getTime().toString(),
+  ]
 
   const month = {
     1: "ม.ค.",
@@ -57,11 +62,11 @@ const Evaluate = () => {
     5: "พ.ค.",
     6: "มิ.ย.",
     7: "ก.ค.",
-    8: "ส.ค",
-    9: "ก.ย",
-    10: "ต.ค",
+    8: "ส.ค.",
+    9: "ก.ย.",
+    10: "ต.ค.",
     11: "พ.ย.",
-    12: "ธ.ค",
+    12: "ธ.ค.",
   }
 
   const userData = onReady((logged, userData) => {
@@ -198,7 +203,7 @@ const Evaluate = () => {
       <div className="flex min-h-screen w-full flex-col items-center py-10 px-6">
         <h1 className="mb-2 text-center text-4xl text-TUCMC-gray-900">ประเมินผล</h1>
         <p className="text-center text-TUCMC-gray-700">กรรมการชมรมจะต้องประเมินผลนักเรียนทุกคนให้เสร็จ</p>
-        <p className="mb-2 text-center text-TUCMC-gray-700">ภายในวันศุกร์ ที่ 9 กุมภาพันธ์ 2567</p>
+        <p className="mb-2 text-center text-TUCMC-gray-700">ภายในวันจันทร์ ที่ 23 กันยายน 2567</p>
         <div className="mb-10 w-full max-w-[400px]">
           <div
             ref={box}
@@ -376,13 +381,18 @@ const Evaluate = () => {
                   <span className="flex h-10 items-center justify-center border-b">
                     {checks.reduce((prev, curr) => {
                       let cons = 0
+                      let status = false;
 
-                      if (curr.data) {
-                        if (people.student_id in curr.data) {
-                          if (curr.data[people.student_id].action === "passed") {
-                            cons = 1
-                          }
+                      if (curr.data && people.student_id in curr.data) {
+                        if (curr.data[people.student_id].action === "passed") {
+                          cons = 1;
+                          status = true; // Set status to true if "passed"
                         }
+                      }
+              
+                      // If date is ignored and status is true, deduct from count
+                      if (ignored.includes(curr.date) && status) {
+                        return prev + cons - 1; // Subtract 1 if the date is ignored and the status is true
                       }
 
                       return prev + cons
