@@ -79,19 +79,33 @@ export const getPrevMonday = (offset = 0) => {
 }
 
 export const getRecentMondays = () => {
-  const lowest = 1624208400000
+  const lowest = new Date("2024-10-28T00:00:00.000+07:00").getTime();
+  const highest = new Date("2025-02-03T00:00:00.000+07:00").getTime();
   let prev = getPrevMonday(),
-    round = 1
-  let arr = [prev]
+    round = 1;
+  let arr = [];
 
-  while (prev > lowest) {
-    prev = getPrevMonday(round * (7 * 24 * 60 * 60 * 1000))
-    arr.push(prev)
-    round++
+  // Convert ignored dates to a Set for faster lookup
+  const ignored = new Set([
+    new Date("2024-11-04T00:00:00.000+07:00").getTime(),
+    new Date("2024-12-16T00:00:00.000+07:00").getTime(),
+    new Date("2024-12-23T00:00:00.000+07:00").getTime(),
+    new Date("2024-12-30T00:00:00.000+07:00").getTime(),
+    new Date("2025-01-27T00:00:00.000+07:00").getTime(),
+    new Date("2025-02-10T00:00:00.000+07:00").getTime(),
+  ]);
+
+  while (prev >= lowest) {
+    if (prev <= highest && !ignored.has(prev)) {
+      arr.push(prev);
+    }
+    prev = getPrevMonday(round * (7 * 24 * 60 * 60 * 1000));
+    round++;
   }
 
-  return arr
-}
+  return arr;
+};
+
 
 // export const EXCEPT = ["ก30903-3_1", "ก30903-3_2", "ก30905-2_1","ก30905-2_2","ก30905-2_6","ก30905-2_7","ก30905-2_9","ก30915_1","ก30915_2","ก30915_4","ก30902","ก30921_1","ก30921_1","ก30952-2","ก30902"]
 

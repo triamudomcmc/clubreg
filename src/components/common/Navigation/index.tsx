@@ -55,6 +55,8 @@ const useTimer = (countTo) => {
   return timer[countTo] || { day: "00", hour: "00", min: "00", sec: "00" }
 }
 
+const acceptedDate = new Date("2024-10-28T00:00:00.000+07:00").getTime()
+
 
 const Navigation = () => {
   const { onReady, signout } = useAuth()
@@ -204,7 +206,7 @@ const Navigation = () => {
                           <a className="block text-black hover:text-blue-600 hover:underline">Dashboard</a>
                         </Link>
                       )}
-                      {logged && userData.panelID && new Date().getTime() > 1739120400000 &&
+                      {logged && userData.panelID && new Date().getTime() > acceptedDate &&
                       <Link passHref href="/panel/evaluate"><h1 className="flex items-center space-x-1 font-medium cursor-pointer text-TUCMC-orange-500 hover:text-blue-600 hover:underline"><span>ประเมินผล</span> <StarIcon className="w-4 h-4 animate-pulse"/></h1>
                       </Link>}
                       {logged && userData.panelID && (
@@ -383,7 +385,7 @@ const Navigation = () => {
             </a>
           </Link>
         )}
-        {(logged && userData.panelID)&& new Date().getTime() > 1739120400000  && <Link passHref href="/panel/evaluate">
+        {(logged && userData.panelID)&& new Date().getTime() > acceptedDate  && <Link passHref href="/panel/evaluate">
           <div
            className={classnames("flex flex-row border-l-2 border-TUCMC-orange-500 items-center space-x-4 pl-4 py-3 pr-8", getClass("/panel/evaluate", "bg"))}>
           <AcademicCapIcon className={classnames("w-7 h-7 animate-pulse text-TUCMC-orange-500", getClass("/panel/evaluate", "icon"))}/> <span
