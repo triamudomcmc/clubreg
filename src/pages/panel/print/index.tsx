@@ -134,7 +134,7 @@ const Page = () => {
       },
     })
 
-    if (!res.status) {
+    if (!res.data) {
       setDisplay(
         <div className="flex flex-col items-center">
           <h1 className="text-TUCMC-gray-800">พบข้อผิดพลาด</h1>
@@ -146,24 +146,80 @@ const Page = () => {
       return
     }
 
-    const a = document.createElement("a")
-    a.href = `/api/printTable?path=${res.data.path}`
-    a.download = `report-${current}.png`
-    document.body.appendChild(a)
-    a.click()
-    a.id = "download"
-
     setDisplay(
       <div className="flex flex-col items-center">
-        <h1 className="text-TUCMC-gray-800">สร้างเอกสารเสร็จสมบูรณ์</h1>
-        <p className="text-TUCMC-gray-600">
-          หากเอกสารยังไม่ถูกดาวน์โหลด{" "}
-          <a onClick={redownload} className="cursor-pointer underline hover:text-TUCMC-pink-400">
-            กดที่นี่
-          </a>
-        </p>
+        <h1 className="text-TUCMC-gray-800">กำลังดาวน์โหลดไฟล์...</h1>
+        <p className="text-TUCMC-gray-600">โปรดรอสักครู่</p>
       </div>
     )
+
+    fetch(`/api/printTable?path=${res.data.path}`)
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.blob();
+      })
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `members-${current}.pdf`;
+        a.id = "download";
+        document.body.appendChild(a);
+        a.click();
+
+        window.URL.revokeObjectURL(url);
+
+        setDisplay(
+          <div className="flex flex-col items-center">
+            <h1 className="text-TUCMC-gray-800">สร้างเอกสารเสร็จสมบูรณ์</h1>
+            <p className="text-TUCMC-gray-600">
+              หากเอกสารยังไม่ถูกดาวน์โหลด{" "}
+              <a onClick={redownload} className="cursor-pointer underline hover:text-TUCMC-pink-400">
+                กดที่นี่
+              </a>
+            </p>
+          </div>
+        );
+      })
+      .catch(error => {
+        console.error('Download failed:', error);
+        setDisplay(
+          <div className="flex flex-col items-center">
+            <h1 className="text-TUCMC-gray-800">พบข้อผิดพลาด</h1>
+            <p className="text-TUCMC-gray-600">
+              ไม่สามารถดาวน์โหลดไฟล์ได้ กรุณาลองใหม่อีกครั้ง หรือติดต่อ กช.
+            </p>
+            <button
+              onClick={downloadpdf}
+              className="mt-4 rounded bg-TUCMC-pink-400 px-4 py-2 text-white hover:bg-TUCMC-pink-500"
+            >
+              ลองอีกครั้ง
+            </button>
+          </div>
+        );
+      });
+
+    // const a = document.createElement("a")
+    // a.href = `/api/printTable?path=${res.data.path}`
+    // a.download = `members-${current}.pdf`
+    // document.body.appendChild(a)
+    // a.click()
+    // a.id = "download"
+
+    // setTimeout(() => {
+    //   setDisplay(
+    //     <div className="flex flex-col items-center">
+    //       <h1 className="text-TUCMC-gray-800">สร้างเอกสารเสร็จสมบูรณ์</h1>
+    //       <p className="text-TUCMC-gray-600">
+    //         หากเอกสารยังไม่ถูกดาวน์โหลด{" "}
+    //         <a onClick={redownload} className="cursor-pointer underline hover:text-TUCMC-pink-400">
+    //           กดที่นี่
+    //         </a>
+    //       </p>
+    //     </div>
+    //   )
+    // }, 8000)
   }
 
   useEffect(() => {
