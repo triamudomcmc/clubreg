@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { savePDF } from "@utilities/savePDF"
 
-export const maxDuration = 15
+export const maxDuration = 60
 export const dynamic = "force-dynamic"
 
 const allowCors = fn => async (req, res) => {
