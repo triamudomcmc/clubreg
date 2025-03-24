@@ -124,7 +124,7 @@ const Page = () => {
   const downloadpdf = async () => {
     const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
 
-    const e = await request("database/files", "printReport", {
+    const res = await request("database/files", "printReport", {
       panelID: currentID,
       data: memberData,
       meta: {
@@ -134,23 +134,24 @@ const Page = () => {
       },
     })
 
-    if (!e.status) return
+    if (!res.status) {
+      setDisplay(
+        <div className="flex flex-col items-center">
+          <h1 className="text-TUCMC-gray-800">พบข้อผิดพลาด</h1>
+          <p className="text-TUCMC-gray-600">
+            กรุณาติดต่อผู้ดูแลระบบหรือติดต่อ กช.
+          </p>
+        </div>
+      )
+      return
+    }
 
-    const res = await fetch(`https://api.club-reg.tucm.cc/api/printTable?path=${e.data.path}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/pdf",
-      },
-    })
-
-    const file = await res.blob()
-    const blobUrl = URL.createObjectURL(file)
-    let link = document.createElement("a") // Or maybe get it from the current document
-    link.href = blobUrl
-    link.download = `report-${current}.pdf`
-    document.body.appendChild(link)
-    link.click()
-    link.id = "download"
+    const a = document.createElement("a")
+    a.href = `/api/printTable?path=${res.data.path}`
+    a.download = `report-${current}.png`
+    document.body.appendChild(a)
+    a.click()
+    a.id = "download"
 
     setDisplay(
       <div className="flex flex-col items-center">
