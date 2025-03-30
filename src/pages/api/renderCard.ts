@@ -1,6 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import screenshot from "@utilities/screenshot"
 
+export const maxDuration = 60
+export const dynamic = "force-dynamic"
+
 const allowCors = fn => async (req, res) => {
   res.setHeader('Access-Control-Allow-Credentials', false)
   res.setHeader('Access-Control-Allow-Origin', "*");
