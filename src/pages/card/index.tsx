@@ -76,7 +76,7 @@ const Page = ({ links }) => {
   }
 
   const download = async () => {
-    const res = await fetch(`https://api.club-reg.tucm.cc/api/renderCard?id=${userData.cardID}`, {
+    const res = await fetch(`/api/renderCard?id=${userData.cardID}`, {
       method: "GET",
       headers: {
         "Content-Type": "image/png",
@@ -106,13 +106,13 @@ const Page = ({ links }) => {
               <p>กรุณาถ่ายภาพหน้าจอเก็บไว้เป็นหลักฐาน</p>
             </div>
           </div>
-          {/* <div
+          <div
             onClick={download}
             className="flex cursor-pointer items-center justify-center space-x-2 rounded-md border border-gray-300 bg-white p-5 text-TUCMC-gray-700"
           >
             <ArrowCircleDownIcon className="h-5 w-5" />
             <span>ดาวน์โหลด</span>
-          </div> */}
+          </div>
         </div>
       </div>
     </PageContainer>
