@@ -1,7 +1,7 @@
 import CardSplash from "@vectors/decorations/CardSplash"
 import css from "./card.module.css"
 import classnames from "classnames"
-import { CalendarIcon, LocationMarkerIcon, SpeakerphoneIcon } from "@heroicons/react/solid"
+import { CalendarIcon, LocationMarkerIcon, SpeakerphoneIcon, UserIcon } from "@heroicons/react/solid"
 import { LogoDarkIcon } from "@vectors/Logo"
 import { clubMap } from "../../config/clubMap"
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
@@ -39,7 +39,7 @@ export const CustomCard = ({ width, clubData, panelID }) => {
         <CardSplash className={css.vector} />
         <canvas ref={qrCodeRef} id="qrCode" className={css.qrCode}></canvas>
       </div>
-      <div className="flex flex-col items-center w-full bg-TUCMC-gray-100">
+      <div className="flex w-full flex-col items-center bg-TUCMC-gray-100">
         <h1 className={classnames(css.text138, "text-TUCMC-700 w-full text-center tracking-tight", css.px17, css.mt18)}>
           ชมรม{clubMap[panelID]}
         </h1>
@@ -130,7 +130,9 @@ export const Card = ({ width, userData, clubData, customURL = "" }) => {
       style={{ ["--width" as string]: `${width}px` }}
       className={classnames(css.container, "relative flex flex-col items-center bg-white shadow-lg")}
     >
-      <div className={classnames("text-center text-TUCMC-gray-700", css.mt18)}>
+      <div className={classnames("text-center text-TUCMC-gray-700",
+        //  css.mt18
+         )}>
         <h1 className={css.text14}>{`${userData.title}${userData.firstname} ${userData.lastname}`}</h1>
         <h1 className={css.text12}>ห้อง {userData.room}</h1>
       </div>
@@ -138,11 +140,13 @@ export const Card = ({ width, userData, clubData, customURL = "" }) => {
         <CardSplash className={css.vector} />
         <canvas id="qrCode" className={css.qrCode}></canvas>
       </div>
-      <div className="flex flex-col items-center w-full bg-TUCMC-gray-100">
+      <div className="flex w-full flex-col items-center bg-TUCMC-gray-100">
         <div
           className={classnames(css.text138, "text-TUCMC-700 w-full text-center tracking-tight", css.px17, css.mt18)}
         >
-          <p className={classnames(css.textyear, "font-normal text-TUCMC-gray-600")}>ปีการศึกษา {new Date(schoolYear).getFullYear() + 543}</p>
+          <p className={classnames(css.textyear, "font-normal text-TUCMC-gray-600")}>
+            ปีการศึกษา {new Date(schoolYear).getFullYear() + 543}
+          </p>
           <h1>ชมรม{clubMap[userData.club]}</h1>
         </div>
         <span className={classnames(css.greenbutt, "rounded-full bg-TUCMC-green-400 tracking-tight text-white")}>
@@ -196,6 +200,32 @@ export const Card = ({ width, userData, clubData, customURL = "" }) => {
               )}
             >
               {clubData.contact3?.type} : {clubData.contact3?.context}
+            </p>
+          </div>
+        </div>
+        <div className={classnames("flex items-start", css.subContainer)}>
+          <UserIcon className={classnames(css.icon, "flex-shrink-0 text-TUCMC-gray-700")} />
+          <div className="flex flex-col">
+            <span className={classnames(css.text1155, "text-TUCMC-gray-700")}>ครูที่ปรึกษาชมรม</span>
+            <p
+              className={classnames(
+                css.text1155,
+                "text-TUCMC-gray-500",
+                css.mt55,
+                isEmpty(clubData.contact) && "hidden"
+              )}
+            >
+              {clubData.contact?.type} : {clubData.contact?.context}
+            </p>
+            <p
+              className={classnames(
+                css.text1155,
+                "text-TUCMC-gray-500",
+                css.mt55,
+                isEmpty(clubData.contact) && "hidden"
+              )}
+            >
+              {clubData.contact?.type} : {clubData.contact?.context}
             </p>
           </div>
         </div>

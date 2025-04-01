@@ -96,7 +96,7 @@ const Page = ({ links }) => {
   return (
     <PageContainer>
       <div>
-        <div className="flex justify-center py-10">
+        <div className="flex justify-center py-8">
           <Card width={cardWidth} userData={userData} clubData={clubData} />
         </div>
         <div className="mx-auto mb-10 flex max-w-md flex-col space-y-3 px-7">
