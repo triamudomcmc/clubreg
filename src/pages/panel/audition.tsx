@@ -29,12 +29,7 @@ import PendingSection from "@components/panel/sections/PendingSection"
 import { CatLoader } from "@components/common/CatLoader"
 import { AnimatePresence, motion } from "framer-motion"
 import { WaitingScreen } from "@components/common/WaitingScreen"
-import {
-  announceTime,
-  editDataTime,
-  endAnnounceTime,
-  firstRoundTime,
-} from "@config/time"
+import { announceTime, editDataTime, endSecondRoundTime, getFullDate } from "@config/time"
 import { Listbox, Transition } from "@headlessui/react"
 import classNames from "classnames"
 
@@ -370,58 +365,6 @@ const Audition = () => {
     }
   }, [searchContext, rawSorted])
 
-  let heading = <h1 className="text-4xl tracking-tight">ผลการ Audition</h1>,
-    description = (
-      <div className="mt-6 mb-8 text-center tracking-tight">
-        <p>สรุปผลการ Audition ให้เสร็จสิ้น </p>
-        <p>ภายในวันที่ 29 พ.ค. เวลา 23.59 น. </p>
-        <p>
-          (เหลืออีก {timer.day} วัน {timer.hour} ชั่วโมง {timer.min} นาที)
-        </p>
-      </div>
-    ),
-    button = (
-      <div
-        onClick={() => {
-          setPage("pending")
-        }}
-        className="flex cursor-pointer items-center space-x-1 rounded-full bg-TUCMC-pink-400 px-14 py-3.5 text-white shadow-md"
-      >
-        <DocumentTextIcon className="h-5 w-5" />
-        <span>รอการตอบรับ</span>
-      </div>
-    )
-
-  if (!editable) {
-    heading = (
-      <div className="flex flex-col items-center">
-        <h1 className="text-2xl">ประกาศผลการ Audition</h1>
-        <h1 className="text-lg">รอการตอบรับจากนักเรียน</h1>
-      </div>
-    )
-
-    description = (
-      <div className="mt-6 mb-8 text-center">
-        <p>ระบบได้ประกาศผลให้ตามรายชื่อที่เลือกไว้แล้ว</p>
-        <p>หากนักเรียนไม่เลือกยืนยันสิทธิ์หรือสละสิทธิ์ภายในวันน</p>
-        <p>ระบบจะสละสิทธิ์ให้อัตโนมัติ</p>
-      </div>
-    )
-    //w
-
-    button = (
-      <div className="flex items-center space-x-4 rounded-md border border-TUCMC-gray-600 border-opacity-90 px-6 py-4">
-        <UserGroupIcon className="h-9 w-9" />
-        <div>
-          <p>สามารถรับสมาชิกใหม่ได้ทั้งหมด {clubData.new_count_limit} คน</p>
-          <p>
-            (ยืนยันสิทธิ์แล้ว {clubData.new_count} คน เหลืออีก {clubData.new_count_limit - clubData.new_count} คน)
-          </p>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <PageContainer hide={!initmember}>
       <Editor
@@ -464,10 +407,47 @@ const Audition = () => {
                   </div>
                 </div>
               </div>
-              <div className="my-10 flex flex-col items-center text-TUCMC-gray-700">
-                {heading}
-                {description}
-                {button}
+              <div className="mb-10 mt-5 flex flex-col items-center text-TUCMC-gray-700">
+                {editable ? (
+                  <>
+                    <h1 className="text-4xl tracking-tight">ผลการ Audition</h1>{" "}
+                    <div className="mt-6 mb-8 text-center tracking-tight">
+                      <p className="text-lg">สรุปผลการ Audition ให้เสร็จสิ้น </p>
+                      <p className="text-lg">ภายในวันที่ {getFullDate(endSecondRoundTime)}</p>
+                    </div>{" "}
+                    <div
+                      onClick={() => {
+                        setPage("pending")
+                      }}
+                      className="flex cursor-pointer items-center space-x-1 rounded-full bg-TUCMC-pink-400 px-14 py-3.5 text-white shadow-md"
+                    >
+                      <DocumentTextIcon className="h-5 w-5" />
+                      <span>รอการตอบรับ</span>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex flex-col items-center">
+                      <h1 className="text-2xl">ประกาศผลการ Audition</h1>
+                      <h1 className="text-lg">รอการตอบรับจากนักเรียน</h1>
+                    </div>
+                    <div className="mt-6 mb-8 text-center">
+                      <p>ระบบได้ประกาศผลให้ตามรายชื่อที่เลือกไว้แล้ว</p>
+                      <p>หากนักเรียนไม่เลือกยืนยันสิทธิ์หรือสละสิทธิ์ภายในวันน</p>
+                      <p>ระบบจะสละสิทธิ์ให้อัตโนมัติ</p>
+                    </div>
+                    <div className="flex items-center space-x-4 rounded-md border border-TUCMC-gray-600 border-opacity-90 px-6 py-4">
+                      <UserGroupIcon className="h-9 w-9" />
+                      <div>
+                        <p>สามารถรับสมาชิกใหม่ได้ทั้งหมด {clubData.new_count_limit} คน</p>
+                        <p>
+                          (ยืนยันสิทธิ์แล้ว {clubData.new_count} คน เหลืออีก{" "}
+                          {clubData.new_count_limit - clubData.new_count} คน)
+                        </p>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
               <div className="mt-14 flex flex-col px-3">
                 {clubSectionList[0].name !== null && (
