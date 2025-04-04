@@ -55,11 +55,11 @@ export const CustomCard = ({ width, clubData, panelID }) => {
             สถานที่เรียนชมรม <span className="text-TUCMC-gray-500">{clubData.place}</span>
           </span>
         </div>
-        <div className={classnames("flex items-start", css.subContainer)}>
+        <div className={classnames("flex items-start w-full", css.subContainer)}>
           <SpeakerphoneIcon className={classnames(css.icon, "flex-shrink-0 text-TUCMC-gray-700")} />
-          <div className="flex flex-col">
+          <div className="flex flex-col w-[90%]">
             <span className={classnames(css.text1155, "text-TUCMC-gray-700")}>ข้อความจากชมรม</span>
-            <p className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55)}>{clubData.message}</p>
+            <p className={classnames(css.text1155, "text-TUCMC-gray-500 break-words overflow-wrap-anywhere", css.mt55)}>{clubData.message}</p>
           </div>
         </div>
         <div className={classnames("flex items-start", css.subContainer)}>
