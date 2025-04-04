@@ -5,13 +5,12 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { ArrowCircleDownIcon, ClipboardCopyIcon, StarIcon } from "@heroicons/react/solid"
 import { useAuth } from "@client/auth"
 import * as fs from "fs"
-import { fetchAClub } from "@client/fetcher/club"
+import { fetchAClub, getClubTeacher } from "@client/fetcher/club"
 import Router from "next/router"
 import { Button } from "@components/common/Inputs/Button"
 import { GetStaticProps } from "next"
 import classnames from "classnames"
 import { endOldClub, startOldClub } from "@config/time"
-import { async } from "crypto-random-string"
 
 export const getStaticProps: GetStaticProps = async () => {
   const data = fs.readFileSync("./_map/links.json")
@@ -29,6 +28,11 @@ const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateActio
   setClubData(data)
 }
 
+const fetchClubTeacher = async (clubID: string, setTeacher: Dispatch<SetStateAction<{}>>) => {
+  const res = await getClubTeacher(clubID)
+  setTeacher(res.data)
+}
+
 const Page = ({ links }) => {
   const { width } = useWindowDimensions()
   const { onReady } = useAuth()
@@ -40,6 +44,14 @@ const Page = ({ links }) => {
     message: "",
   })
 
+  const [clubTeacher, setClubTeacher] = useState([
+    {
+      title: "",
+      firstname: "",
+      lastname: "",
+    }
+  ])
+  
   const [link, setLink] = useState("")
 
   const userData = onReady((logged, userData) => {
@@ -61,6 +73,7 @@ const Page = ({ links }) => {
   useEffect(() => {
     if (userData && userData.club) {
       fetchClubData(userData.club, setClubData)
+      fetchClubTeacher(userData.club, setClubTeacher)
       setLink(links[userData.club] || "")
     }
   }, [userData])
@@ -85,7 +98,7 @@ const Page = ({ links }) => {
 
     const file = await res.blob()
     const blobUrl = URL.createObjectURL(file)
-    let link = document.createElement("a") // Or maybe get it from the current document
+    let link = document.createElement("a")
     link.href = blobUrl
     link.download = `card.png`
     document.body.appendChild(link)
@@ -97,7 +110,7 @@ const Page = ({ links }) => {
     <PageContainer>
       <div>
         <div className="flex justify-center py-8">
-          <Card width={cardWidth} userData={userData} clubData={clubData} />
+          <Card width={cardWidth} userData={userData} clubData={clubData} teacherData={clubTeacher} />
         </div>
         <div className="mx-auto mb-10 flex max-w-md flex-col space-y-3 px-7">
           <div className="flex flex-row space-x-3 rounded-md bg-TUCMC-green-100 p-4 text-TUCMC-gray-700">
