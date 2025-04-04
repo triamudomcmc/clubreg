@@ -51,8 +51,9 @@ const Page = ({ links }) => {
       lastname: "",
     }
   ])
-  
+
   const [link, setLink] = useState("")
+  const [downloadState, setDownloadState] = useState(false)
 
   const userData = onReady((logged, userData) => {
     if (!logged) {
@@ -89,6 +90,7 @@ const Page = ({ links }) => {
   }
 
   const download = async () => {
+    setDownloadState(true)
     const res = await fetch(`/api/renderCard?id=${userData.cardID}`, {
       method: "GET",
       headers: {
@@ -104,6 +106,7 @@ const Page = ({ links }) => {
     document.body.appendChild(link)
     link.click()
     link.id = "download"
+    setDownloadState(false)
   }
 
   return (
@@ -121,10 +124,20 @@ const Page = ({ links }) => {
           </div>
           <div
             onClick={download}
-            className="flex cursor-pointer items-center justify-center space-x-2 rounded-md border border-gray-300 bg-white p-5 text-TUCMC-gray-700"
+            className={classnames(
+              "flex cursor-pointer items-center justify-center space-x-2 rounded-md border border-gray-300 bg-white p-5 text-TUCMC-gray-700 transition-all duration-200",
+              downloadState ? "cursor-not-allowed opacity-50" : "hover:bg-gray-100",
+              userData.club === "" ? "cursor-not-allowed opacity-50" : "hover:bg-gray-100",
+            )}
           >
             <ArrowCircleDownIcon className="h-5 w-5" />
-            <span>ดาวน์โหลด</span>
+            {downloadState ? (
+              <div className="text-sm text-gray-500 animate-pulse">
+                กำลังดาวน์โหลด...
+              </div>
+            ) : (
+              <p className="text-sm text-gray-500">ดาวน์โหลด</p>
+            )}
           </div>
         </div>
       </div>
