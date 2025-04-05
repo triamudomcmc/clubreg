@@ -27,7 +27,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const file = await screenshot(
     `${getProtocol(req)}://${req.headers.host}/renderer/card?id=${id}`,
     990,
-    1800
+    1925
   )
 
   res.setHeader("Content-Type", `image/png`)
