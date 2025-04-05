@@ -49,8 +49,9 @@ const Page = ({ links }) => {
       title: "",
       firstname: "",
       lastname: "",
-    }
+    },
   ])
+  const [isLoading, setIsLoading] = useState(false)
 
   const [link, setLink] = useState("")
   const [downloadState, setDownloadState] = useState(false)
@@ -73,9 +74,11 @@ const Page = ({ links }) => {
 
   useEffect(() => {
     if (userData && userData.club) {
+      setIsLoading(true)
       fetchClubData(userData.club, setClubData)
       fetchClubTeacher(userData.club, setClubTeacher)
       setLink(links[userData.club] || "")
+      setIsLoading(false)
     }
   }, [userData])
 
@@ -113,7 +116,13 @@ const Page = ({ links }) => {
     <PageContainer>
       <div>
         <div className="flex justify-center py-8">
-          <Card width={cardWidth} userData={userData} clubData={clubData} teacherData={clubTeacher} />
+          <Card
+            width={cardWidth}
+            userData={userData}
+            clubData={clubData}
+            teacherData={clubTeacher}
+            isLoading={isLoading}
+          />
         </div>
         <div className="mx-auto mb-10 flex max-w-md flex-col space-y-3 px-7">
           <div className="flex flex-row space-x-3 rounded-md bg-TUCMC-green-100 p-4 text-TUCMC-gray-700">
@@ -127,14 +136,12 @@ const Page = ({ links }) => {
             className={classnames(
               "flex cursor-pointer items-center justify-center space-x-2 rounded-md border border-gray-300 bg-white p-5 text-TUCMC-gray-700 transition-all duration-200",
               downloadState ? "cursor-not-allowed opacity-50" : "hover:bg-gray-100",
-              userData.club === "" ? "cursor-not-allowed opacity-50" : "hover:bg-gray-100",
+              userData.club === "" ? "cursor-not-allowed opacity-50" : "hover:bg-gray-100"
             )}
           >
             <ArrowCircleDownIcon className="h-5 w-5" />
             {downloadState ? (
-              <div className="text-sm text-gray-500 animate-pulse">
-                กำลังดาวน์โหลด...
-              </div>
+              <div className="animate-pulse text-sm text-gray-500">กำลังดาวน์โหลด...</div>
             ) : (
               <p className="text-sm text-gray-500">ดาวน์โหลด</p>
             )}

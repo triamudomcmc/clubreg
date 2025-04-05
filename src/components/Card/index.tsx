@@ -55,11 +55,13 @@ export const CustomCard = ({ width, clubData, panelID }) => {
             สถานที่เรียนชมรม <span className="text-TUCMC-gray-500">{clubData.place}</span>
           </span>
         </div>
-        <div className={classnames("flex items-start w-full", css.subContainer)}>
+        <div className={classnames("flex w-full items-start", css.subContainer)}>
           <SpeakerphoneIcon className={classnames(css.icon, "flex-shrink-0 text-TUCMC-gray-700")} />
-          <div className="flex flex-col w-[90%]">
+          <div className="flex w-[90%] flex-col">
             <span className={classnames(css.text1155, "text-TUCMC-gray-700")}>ข้อความจากชมรม</span>
-            <p className={classnames(css.text1155, "text-TUCMC-gray-500 break-words overflow-wrap-anywhere", css.mt55)}>{clubData.message}</p>
+            <p className={classnames(css.text1155, "overflow-wrap-anywhere break-words text-TUCMC-gray-500", css.mt55)}>
+              {clubData.message}
+            </p>
           </div>
         </div>
         <div className={classnames("flex items-start", css.subContainer)}>
@@ -106,7 +108,7 @@ export const CustomCard = ({ width, clubData, panelID }) => {
   )
 }
 
-export const Card = ({ width, userData, clubData, customURL = "", teacherData }) => {
+export const Card = ({ width, userData, clubData, customURL = "", teacherData, isLoading }) => {
   useEffect(() => {
     if ((userData && userData.cardID) || customURL !== "") {
       const canvas = document.getElementById("qrCode")
@@ -122,7 +124,6 @@ export const Card = ({ width, userData, clubData, customURL = "", teacherData })
         })
       }
     }
-
   }, [userData])
 
   const teacher: UserData = teacherData[0] || teacherData
@@ -132,9 +133,12 @@ export const Card = ({ width, userData, clubData, customURL = "", teacherData })
       style={{ ["--width" as string]: `${width}px` }}
       className={classnames(css.container, "relative flex flex-col items-center bg-white shadow-lg")}
     >
-      <div className={classnames("text-center text-TUCMC-gray-700",
-        //  css.mt18
-         )}>
+      <div
+        className={classnames(
+          "text-center text-TUCMC-gray-700"
+          //  css.mt18
+        )}
+      >
         <h1 className={css.text14}>{`${userData.title}${userData.firstname} ${userData.lastname}`}</h1>
         <h1 className={css.text12}>ห้อง {userData.room}</h1>
       </div>
@@ -209,15 +213,19 @@ export const Card = ({ width, userData, clubData, customURL = "", teacherData })
           <UserIcon className={classnames(css.icon, "flex-shrink-0 text-TUCMC-gray-700")} />
           <div className="flex flex-col">
             <span className={classnames(css.text1155, "text-TUCMC-gray-700")}>ครูที่ปรึกษาชมรม</span>
-            <p
-              className={classnames(
-                css.text1155,
-                "text-TUCMC-gray-500",
-                css.mt55,
-                isEmpty(teacher) && "hidden"
+            <p className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55, isEmpty(teacher) && "hidden")}>
+              {isLoading ? (
+                <div className="flex animate-pulse space-x-2">
+                  <div className="h-2 w-2 rounded bg-gray-300" />
+                  <div className="h-2 w-2 rounded bg-gray-300" />
+                  <div className="h-2 w-2 rounded bg-gray-300" />
+                </div>
+              ) : (
+                <p>
+                  {teacher.title}
+                  {teacher.firstname} {teacher.lastname}
+                </p>
               )}
-            >
-              {teacher.title}{teacher.firstname} {teacher.lastname}
             </p>
           </div>
         </div>
