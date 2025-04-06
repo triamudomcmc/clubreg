@@ -34,12 +34,9 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 const Page = ({ printData, meta }) => {
   const [memberData, setMemberData] = useState([])
   const page = useRef([])
-  const [display, setDisplay] = useState(
-    <div className="animate-pulse">
-      กำลังเตรียมไฟล์...
-    </div>
-  )
+  const [display, setDisplay] = useState(<h1 className="animate-pulse">กำลังเตรียมไฟล์...</h1>)
   const [storedPDF, setStoredPDF] = useState()
+
   const [initmember, setInitMember] = useState(false)
 
   useEffect(() => {

@@ -2,7 +2,7 @@
   --width: 400px;
   --ratio: calc(var(--width) / 329);
   width: var(--width);
-  height: calc(var(--width) * 640 / 329);
+  height: calc(var(--width) * 600 / 329);
   border-radius: calc(var(--ratio) * 6);
 }
 

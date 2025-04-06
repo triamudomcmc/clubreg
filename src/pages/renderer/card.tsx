@@ -8,14 +8,10 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 
   if (id) {
     data = await initialisedDB.collection("cards").doc(id).get()
-    const userSnapshot = (await initialisedDB.collection("data").where("club", "==", data.data().club).get())
-    const teacher = userSnapshot.docs.find(doc => doc.data().level === "9" && doc.data().room === "111" && doc.data().title === "ครู")
-
-    if (data.exists && teacher.exists) {
+    if (data.exists) {
       return {
         props: {
           cardData: { ...data.data(), ...{ cardID: id } },
-          teacherData: teacher.data()
         },
       }
     }
@@ -24,15 +20,14 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   return {
     props: {
       cardData: null,
-      teacherData: null,
     },
   }
 }
 
-const CardRender = ({ cardData, teacherData }) => {
+const CardRender = ({ cardData }) => {
   return (
     <div className="font-display">
-      <Card width={990} userData={cardData} clubData={cardData} teacherData={teacherData} />
+      <Card width={990} userData={cardData} clubData={cardData} />
     </div>
   )
 }
