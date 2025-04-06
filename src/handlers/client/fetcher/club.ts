@@ -1,7 +1,6 @@
 import { request } from "@client/utilities/request"
 import { ClubData } from "@interfaces/clubData"
 import { ClubDisplay } from "@interfaces/clubDisplay"
-import UserData from "@interfaces/userData"
 
 export const fetchClub = async (): Promise<{}> => {
   return await request("database/fetchClub", "fetchClub", {})
@@ -31,8 +30,4 @@ export const changeClubDisplayStatus = async (
   reason?: string
 ): Promise<{ status: boolean; report?: string }> => {
   return await request("database/editWeb", "changeClubDisplayStatus", { clubID, status, reason, password, newData })
-}
-
-export const getClubTeacher = async (clubID: string): Promise<{ status: boolean; report?: string; data?: UserData[] }> => {
-  return await request("database/club", "getClubTeacher", { clubID })
 }
