@@ -11,10 +11,21 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
   if (id) {
     data = await initialisedDB.collection("cards").doc(id).get()
-    if (data.exists) {
+    if (!data.exists) {
+      return {
+        props: {
+          cardData: null,
+          teacherData: null,
+        }
+      }
+    }
+    const userSnapshot = (await initialisedDB.collection("data").where("club", "==", data.data().club).get())
+    const teacher = userSnapshot.docs.find(doc => doc.data().level === "9" && doc.data().room === "111" && doc.data().title === "ครู")
+    if (data.exists && teacher.exists) {
       return {
         props: {
           cardData: { ...data.data(), ...{ cardID: id } },
+          teacherData: teacher.data()
         },
       }
     }
@@ -23,11 +34,12 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   return {
     props: {
       cardData: null,
+      teacherData: null,
     },
   }
 }
 
-const Page = ({ cardData }) => {
+const Page = ({ cardData, teacherData }) => {
   const { width } = useWindowDimensions()
 
   let cardWidth,
@@ -43,10 +55,11 @@ const Page = ({ cardData }) => {
   if (cardData == null) {
     return <Error statusCode={404} />
   }
+
   return (
     <div className="font-display">
       <div className="flex justify-center py-10">
-        <Card width={cardWidth} userData={cardData} clubData={cardData} />
+        <Card width={cardWidth} userData={cardData} clubData={cardData} teacherData={teacherData} />
       </div>
     </div>
   )

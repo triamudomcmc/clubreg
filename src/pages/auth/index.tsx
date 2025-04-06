@@ -128,7 +128,7 @@ const Auth = ({ query }) => {
 
     if (currentTime < startOldClub) {
       setTimeout(() => {
-        Router.reload()
+        //Router.reload()
       }, startOldClub - currentTime)
     }
 
@@ -195,7 +195,7 @@ const Auth = ({ query }) => {
   return (
     <PageContainer footer={false}>
       <Loader display={loader} />
-      <div style={{ maxWidth: "26rem" }} className="mx-auto my-6 mb-16 min-h-screen space-y-8 md:my-10 md:mb-10">
+      <div style={{ maxWidth: "26rem" }} className="min-h-screen mx-auto my-6 mb-16 space-y-8 md:my-10 md:mb-10">
         {/* <DefaultCard>
           <p className="font-normal">
             นักเรียน ม.5 และ ม.6 จะไม่สามารถล็อกอินเข้าสู่ระบบด้วยบัญชีเดิมในปีการศึกษาที่ผ่านมาได้
@@ -211,7 +211,7 @@ const Auth = ({ query }) => {
           <LoginSection query={query} primaryAction={goRegister} secAction={goForgot} setLoader={setLoader} />
         )}
         {action == "waiting" && (
-          <div className="mt-6 flex flex-col items-center pt-8">
+          <div className="flex flex-col items-center pt-8 mt-6">
             <h1 className="text-4xl font-bold tracking-tight">เข้าสู่ระบบ</h1>
             <div className="mt-2 mb-6 text-center text-TUCMC-gray-600">
               <p>ระบบลงทะเบียนชมรม</p>
@@ -250,7 +250,7 @@ const Auth = ({ query }) => {
               {new Date(startOldClub).getHours().toString().padStart(2, "0")}.
               {new Date(startOldClub).getMinutes().toString().padStart(2, "0")} น.
             </p>
-            <div className="mt-2 flex w-full flex-row justify-center">
+            <div className="flex flex-row justify-center w-full mt-2">
               <span onClick={goForgot} className="cursor-pointer text-TUCMC-pink-400">
                 ลืมรหัสผ่าน
               </span>
@@ -258,7 +258,7 @@ const Auth = ({ query }) => {
           </div>
         )}
         {action == "r-waiting" && (
-          <div className="mt-6 flex flex-col items-center pt-8">
+          <div className="flex flex-col items-center pt-8 mt-6">
             <h1 className="text-4xl font-bold tracking-tight">สร้างบัญชี</h1>
             <div className="mt-2 mb-6 text-center text-TUCMC-gray-600">
               <p>ระบบลงทะเบียนชมรม</p>
@@ -297,7 +297,7 @@ const Auth = ({ query }) => {
               {new Date(openRegisterTime).getHours().toString().padStart(2, "0")}.
               {new Date(openRegisterTime).getMinutes().toString().padStart(2, "0")} น.
             </p>
-            <div className="mt-2 flex w-full flex-row justify-center">
+            <div className="flex flex-row justify-center w-full mt-2">
               <span onClick={goLogin} className="cursor-pointer text-TUCMC-pink-400">
                 เข้าสู่ระบบ
               </span>

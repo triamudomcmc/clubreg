@@ -56,13 +56,13 @@ const Auth = ({ query }) => {
 
     if (currentTime < startOldClub) {
       setTimeout(() => {
-        Router.reload()
+        //Router.reload()
       }, startOldClub - currentTime)
     }
 
     if (currentTime < startOldClubCountdown) {
       setTimeout(() => {
-        signout()
+        //signout()
       }, startOldClubCountdown - currentTime)
     }
 
