@@ -5,7 +5,7 @@ import Modal from "@components/common/Modals"
 import { useToast } from "@components/common/Toast/ToastContext"
 import { useAuth } from "@handlers/client/auth"
 import { ExclamationIcon, TrashIcon } from "@heroicons/react/outline"
-import {CheckCircleIcon, LockClosedIcon} from "@heroicons/react/solid"
+import { CheckCircleIcon, LockClosedIcon } from "@heroicons/react/solid"
 import { ClubData } from "@interfaces/clubData"
 import UserData from "@interfaces/userData"
 import { useWindowDimensions } from "@utilities/document"
@@ -14,7 +14,7 @@ import { FC, Fragment, MouseEvent, useEffect, useState } from "react"
 import { stringify } from "remark"
 import { TableContactRow, TableRow, TableWebDataRow } from "./TableRow"
 import { IContactType } from "./valueTypes"
-import {useTimer} from "@utilities/timers"
+import { useTimer } from "@utilities/timers"
 import { editInitData, endEditInitData, EXCEPT, THAI_MONTH } from "@config/time"
 import classnames from "classnames"
 
@@ -663,35 +663,31 @@ export const ClubCommitteeTable: FC<{
               if (!user) return
               return (
                 <Fragment key={user.student_id}>
-                  <div className="flex flex-col items-start justify-between px-2 sm:flex-row sm:items-center sm:px-4">
-                    <div>
-                      <p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-col items-start justify-center space-y-1 sm:flex-row sm:justify-between sm:w-full sm:mr-10">
+                      <p className="text-lg">
                         {user.title}
                         {user.firstname} {user.lastname}
                       </p>
+                      <div className="flex justify-center w-44 sm:w-2/5">
+                        <p className="flex w-1/3 justify-center">{user.student_id}</p>
+                        <p className="flex w-1/3 justify-center">ม.{user.level}</p>
+                        <p className="flex w-1/3 justify-center ">{user.room}</p>
+                      </div>
                     </div>
-                    <div className="flex items-center justify-between space-x-12">
-                      <p className="">{user.student_id}</p>
-
-                      <p>ม.{user.level}</p>
-
-                      <p className="w-[28px] text-center">{user.room}</p>
-
-                      {disable ? (
-                        <button className="w-24 cursor-not-allowed rounded-md border border-gray-300 bg-gray-100 py-2 text-gray-600 transition-colors">
-                          ลบ
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => enableRemoveModal(user.student_id)}
-                          className="w-24 rounded-md border border-gray-300 bg-white py-2 text-gray-600 transition-colors hover:bg-gray-100"
-                        >
-                          ลบ
-                        </button>
-                      )}
-                    </div>
+                    {disable ? (
+                      <button className="w-24 cursor-not-allowed rounded-md border border-gray-300 bg-gray-100 py-2 text-gray-600 transition-colors">
+                        ลบ
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => enableRemoveModal(user.student_id)}
+                        className="w-24 rounded-md border border-gray-300 bg-white py-2 text-gray-600 transition-colors hover:bg-gray-100"
+                      >
+                        ลบ
+                      </button>
+                    )}
                   </div>
-
                   <hr className="my-2" />
                 </Fragment>
               )

@@ -18,6 +18,8 @@
     "@headlessui/react": "^1.0.0",
     "@popmotion/popcorn": "^0.4.4",
     "@sendgrid/mail": "^7.4.4",
+    "@sparticuz/chromium": "^131.0.1",
+    "@sparticuz/chromium-min": "^131.0.1",
     "@tailwindcss/forms": "^0.3.2",
     "@tailwindcss/typography": "^0.4.1",
     "@types/speakeasy": "^2.0.7",
@@ -46,7 +48,8 @@
     "next-bridge": "^0.0.1",
     "next-pwa": "^5.5.2",
     "pdfmake": "^0.1.71",
-    "puppeteer-core": "^9.0.0",
+    "puppeteer": "^23.11.0",
+    "puppeteer-core": "^23.11.0",
     "qrcode": "^1.4.4",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -86,5 +89,6 @@
     "sass": "^1.49.11",
     "tailwindcss": "^2.1.1",
     "typescript": "^4.2.4"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
