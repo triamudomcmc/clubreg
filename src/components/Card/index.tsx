@@ -120,7 +120,7 @@ export const Card = ({ width, userData, clubData, customURL = "", teacherData, i
     }
   }, [userData])
 
-  const teacher: UserData = teacherData[0] || teacherData
+  const teacher: UserData = teacherData[0] || teacherData || null
 
   return (
     <div
@@ -203,26 +203,28 @@ export const Card = ({ width, userData, clubData, customURL = "", teacherData, i
             </p>
           </div>
         </div>
-        <div className={classnames("flex items-start", css.subContainer)}>
-          <UserIcon className={classnames(css.icon, "flex-shrink-0 text-TUCMC-gray-700")} />
-          <div className="flex flex-col">
-            <span className={classnames(css.text1155, "text-TUCMC-gray-700")}>ครูที่ปรึกษาชมรม</span>
-            <p className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55, isEmpty(teacher) && "hidden")}>
-              {isLoading ? (
-                <div className="flex animate-pulse space-x-2">
-                  <div className="h-2 w-2 rounded bg-gray-300" />
-                  <div className="h-2 w-2 rounded bg-gray-300" />
-                  <div className="h-2 w-2 rounded bg-gray-300" />
-                </div>
-              ) : (
-                <p>
-                  {teacher.title}
-                  {teacher.firstname} {teacher.lastname}
-                </p>
-              )}
-            </p>
+        {teacher && (
+          <div className={classnames("flex items-start", css.subContainer)}>
+            <UserIcon className={classnames(css.icon, "flex-shrink-0 text-TUCMC-gray-700")} />
+            <div className="flex flex-col">
+              <span className={classnames(css.text1155, "text-TUCMC-gray-700")}>ครูที่ปรึกษาชมรม</span>
+              <p className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55, isEmpty(teacher) && "hidden")}>
+                {isLoading ? (
+                  <div className="flex animate-pulse space-x-2">
+                    <div className="h-2 w-2 rounded bg-gray-300" />
+                    <div className="h-2 w-2 rounded bg-gray-300" />
+                    <div className="h-2 w-2 rounded bg-gray-300" />
+                  </div>
+                ) : (
+                  <p>
+                    {teacher.title}
+                    {teacher.firstname} {teacher.lastname}
+                  </p>
+                )}
+              </p>
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <div className={classnames("flex w-full justify-end", css.mt2)}>
         <LogoDarkIcon className={classnames(css.logo, "text-TUCMC-gray-600")} />
