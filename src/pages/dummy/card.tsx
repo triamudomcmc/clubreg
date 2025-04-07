@@ -153,6 +153,7 @@ const Page = ({ links }) => {
               firstname: "ที่ปรึกษา",
               lastname: "ของชมรม",
             }}
+            isLoading={false}
           />
         </div>
         <motion.div

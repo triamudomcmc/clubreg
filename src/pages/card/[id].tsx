@@ -1,31 +1,51 @@
 import { GetServerSideProps } from "next"
 import initialisedDB from "@server/firebase-admin"
 import { Card } from "@components/Card"
-import React, { useState } from "react"
 import { useWindowDimensions } from "@utilities/document"
 import Error from "next/error"
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const id = params?.id?.toString() || null
-  let data = null
 
   if (id) {
-    data = await initialisedDB.collection("cards").doc(id).get()
-    if (!data.exists) {
+    try {
+      const cardDoc = await initialisedDB.collection("cards").doc(id).get()
+
+      if (!cardDoc.exists) {
+        return {
+          props: {
+            cardData: null,
+            teacherData: null,
+            isLoading: false,
+          }
+        }
+      }
+
+      const cardData = cardDoc.data()
+      const userSnapshot = await initialisedDB.collection("data").where("club", "==", cardData.club).get()
+
+      const teacher = userSnapshot.docs.find(doc => {
+        const userData = doc.data()
+        return userData.level === "9" && userData.room === "111" && userData.title === "ครู"
+      })
+
+      if (teacher) {
+        return {
+          props: {
+            cardData: { ...cardData, cardID: id },
+            teacherData: teacher.data(),
+            isLoading: false,
+          },
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching card data:", error)
       return {
         props: {
           cardData: null,
           teacherData: null,
-        }
-      }
-    }
-    const userSnapshot = (await initialisedDB.collection("data").where("club", "==", data.data().club).get())
-    const teacher = userSnapshot.docs.find(doc => doc.data().level === "9" && doc.data().room === "111" && doc.data().title === "ครู")
-    if (data.exists && teacher.exists) {
-      return {
-        props: {
-          cardData: { ...data.data(), ...{ cardID: id } },
-          teacherData: teacher.data()
+          isLoading: false,
+          error: "Failed to fetch data"
         },
       }
     }
@@ -35,11 +55,12 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     props: {
       cardData: null,
       teacherData: null,
+      isLoading: false,
     },
   }
 }
 
-const Page = ({ cardData, teacherData }) => {
+const Page = ({ cardData, teacherData, isLoading }) => {
   const { width } = useWindowDimensions()
 
   let cardWidth,
@@ -59,7 +80,13 @@ const Page = ({ cardData, teacherData }) => {
   return (
     <div className="font-display">
       <div className="flex justify-center py-10">
-        <Card width={cardWidth} userData={cardData} clubData={cardData} teacherData={teacherData} />
+        <Card
+          width={cardWidth}
+          userData={cardData}
+          clubData={cardData}
+          teacherData={teacherData}
+          isLoading={isLoading}
+        />
       </div>
     </div>
   )
