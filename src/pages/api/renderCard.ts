@@ -1,8 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import screenshot from "@utilities/screenshot"
 
-export const maxDuration = 60
-export const dynamic = "force-dynamic"
 
 const allowCors = fn => async (req, res) => {
   res.setHeader('Access-Control-Allow-Credentials', false)
@@ -24,17 +22,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     query: { id },
   } = req
 
-  const file = await screenshot(
-    `${getProtocol(req)}://${req.headers.host}/renderer/card?id=${id}`,
-    990,
-    1925
-  )
+  
+
+  // console.log(id)
+
+  const file = await screenshot(`${getProtocol(req)}://${req.headers.host}/renderer/card?id=${id}`)
 
   res.setHeader("Content-Type", `image/png`)
   res.setHeader("Cache-Control", `public, immutable, no-transform, s-maxage=31536000, max-age=31536000`)
   res.statusCode = 200
   res.end(file)
 }
+
 
 export default allowCors(handler)
 
