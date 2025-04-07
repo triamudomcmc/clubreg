@@ -52,35 +52,25 @@ export const ListElement = ({
       <div className="flex items-center">
         {index > 0 && <div className="-mr-2 h-6 w-6 rounded-full bg-black text-center text-white">{index}</div>}
         <div className="ml-6 flex flex-col items-start">
-          <div className="flex justify-between">
+          <h1>
             {userData.title}
             {userData.firstname} {userData.lastname}
-          </div>
+          </h1>
           <span className="text-TUCMC-gray-600 md:hidden">
             {userData.student_id} | ม.{userData.level}/{userData.room}
           </span>
           {!noStatus && !editable && <div className="mt-1 -ml-[2px] md:hidden">{statusBar}</div>}
         </div>
       </div>
-      <div className="md:hidden">
+      <div className="flex text-TUCMC-gray-600">
+        <div className="mr-28 hidden space-x-16 md:block">
+          <span>{userData.student_id}</span>
+          <span>ม.{userData.level}</span>
+          <span>{userData.room}</span>
+        </div>
         {editable && (
           <span
-            className="z-40 text-TUCMC-gray-600 flex w-1/4 cursor-pointer justify-center underline transition-all hover:no-underline hover:opacity-70 text-sm"
-            onClick={() => {
-              editFunc(userData)
-            }}
-          >
-            เปลี่ยน
-          </span>
-        )}
-      </div>
-      <div className="hidden text-TUCMC-gray-600 md:flex md:w-2/5">
-        <div className={`flex w-1/3 justify-center ${editable ? "w-1/4" : "w-1/3"}`}>{userData.student_id}</div>
-        <div className={`flex w-1/3 justify-center ${editable ? "w-1/4" : "w-1/3"}`}>{userData.level}</div>
-        <div className={`flex w-1/3 justify-center ${editable ? "w-1/4" : "w-1/3"}`}>{userData.room}</div>
-        {editable && (
-          <span
-            className="z-40 flex w-1/4 cursor-pointer justify-center underline transition-all hover:no-underline hover:opacity-70"
+            className="z-40 cursor-pointer"
             onClick={() => {
               editFunc(userData)
             }}
