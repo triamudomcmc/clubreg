@@ -19,7 +19,7 @@ const Index = () => {
     <PageContainer>
       {zoomOverlay}
       <div className="relative max-w-6xl pt-8 pb-16 mx-auto">
-        <div className="absolute z-20 w-full h-full bg-gray-100 bg-opacity-30 backdrop-filter backdrop-blur">
+        <div className="absolute z-20 w-full h-full -mt-8 bg-gray-100 bg-opacity-30 backdrop-filter backdrop-blur">
           <div className="fixed top-0 left-0 flex items-center justify-center w-full min-h-screen">
           <div className="flex flex-col items-center mt-10 space-y-2">
             <ClockIcon className="w-12 h-12 text-TUCMC-gray-700 animate-pulse"/>

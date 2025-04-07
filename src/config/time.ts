@@ -5,37 +5,37 @@ import moment from "moment"
 // export const startOldClubTest = +new Date("2022-05-03T11:30:00.000+07:00")
 // export const endOldClubTest = +new Date("2022-05-05T00:00:00.000+07:00")
 
-export const schoolYear = +new Date("2024")
+export const schoolYear = +new Date("2025")
 // all club data update start
-export const editInitData = +new Date("2024-04-14T00:00:00.000+07:00")
+export const editInitData = +new Date("2025-04-07T00:00:00.000+07:00")
 // all club data update deadline
-export const endEditInitData = +new Date("2024-04-28T00:00:00.000+07:00")
+export const endEditInitData = +new Date("2025-04-18T23:59:00.000+07:00")
 
 // initiate the dialogue before old club confirmation starts
-export const beforeOldClub = +new Date("2024-05-02T00:00:00.000+07:00")
+export const beforeOldClub = +new Date("2025-05-02T00:00:00.000+07:00")
 // starts old club confirmation
-export const startOldClub = +new Date("2024-05-03T08:00:00.000+07:00")
+export const startOldClub = +new Date("2025-05-06T08:00:00.000+07:00")
 // start counting down before old club confirmation
-export const startOldClubCountdown = +new Date("2024-05-03T00:00:00.000+07:00")
-// end old clun confirmation
-export const endOldClub = +new Date("2024-05-03T23:59:00.000+07:00")
+export const startOldClubCountdown = +new Date("2025-05-06T00:00:00.000+07:00")
+// end old club confirmation
+export const endOldClub = +new Date("2025-05-06T20:00:00.000+07:00")
 
 // export const startOldClub = +new Date("2023-05-05T11:30:00.000+07:00")
 // export const startOldClubCountdown = +new Date("2023-05-05T10:30:00.000+07:00")
 // export const endOldClub = +new Date("2023-05-07T00:00:00.000+07:00")
 
 // start register time countdown (usually, this will be updated before PAE) *optional
-export const openRegisterTime = +new Date("2024-05-07T12:00:00.000+07:00")
+export const openRegisterTime = +new Date("2025-05-14T14:00:00.000+07:00")
 // registration open time
-export const openTime = +new Date("2024-05-17T11:00:00.000+07:00")
+export const openTime = +new Date("2025-05-16T12:00:00.000+07:00")
 // end of data editing time for updating positions and audition result.
-export const editDataTime = +new Date("2024-05-26T23:59:00.000+07:00")
+export const editDataTime = +new Date("2025-05-25T23:59:00.000+07:00")
 // registration close 1st round.
-export const endRegClubTime = +new Date("2024-05-24T23:59:00.000+07:00")
+export const endRegClubTime = +new Date("2025-05-23T23:59:00.000+07:00")
 // announce audition result. (user can select either to accept or reject)
-export const announceTime = +new Date("2024-05-27T07:30:00.000+07:00")
+export const announceTime = +new Date("2025-05-26T07:30:00.000+07:00")
 // end announce time. Dicisions are no longer accepted
-export const endAnnounceTime = +new Date("2024-05-27T23:59:00.000+07:00")
+export const endAnnounceTime = +new Date("2025-05-26T23:59:00.000+07:00")
 /*
 Maintainance Break
 (usually, 00.00 - 08.00)
@@ -46,20 +46,20 @@ Maintainance Break
 */
 
 // announce first round audition result. (user can select either to accept or reject)
-export const firstRoundTime = +new Date("2024-05-28T07:30:00.000+07:00")
+export const firstRoundTime = +new Date("2025-05-27T07:30:00.000+07:00")
 // end announce time. Dicisions are no longer accepted
-export const endFirstRoundTime = +new Date("2024-05-28T23:59:00.000+07:00")
+export const endFirstRoundTime = +new Date("2025-05-27T23:59:00.000+07:00")
 // announce second round audition result. (user can select either to accept or reject)
-export const secondRoundTime = +new Date("2024-05-29T07:30:00.000+07:00")
+export const secondRoundTime = +new Date("2025-05-28T07:30:00.000+07:00")
 // end announce time. Dicisions are no longer accepted
-export const endSecondRoundTime = +new Date("2024-05-29T23:59:00.000+07:00")
+export const endSecondRoundTime = +new Date("2025-05-28T23:59:00.000+07:00")
 
 // position update time (club admin might be able to update the position after exceeded editDataTime)
 export const positionUpdateTime = editDataTime
 
-export const lastround = +new Date("2024-05-30T07:30:00.000+07:00")
-export const endLastRound = +new Date("2024-05-30T23:59:59.000+07:00")
-export const firstClubPeroid = +new Date("2024-06-10")
+export const lastround = +new Date("2025-05-29T07:30:00.000+07:00")
+export const endLastRound = +new Date("2025-05-29T23:59:59.000+07:00")
+export const firstClubPeroid = +new Date("2025-06-09")
 
 export const getUNIXTimeStamp = () => {
   return moment().unix() * 1000
@@ -79,19 +79,33 @@ export const getPrevMonday = (offset = 0) => {
 }
 
 export const getRecentMondays = () => {
-  const lowest = 1624208400000
+  const lowest = new Date("2024-10-28T00:00:00.000+07:00").getTime();
+  const highest = new Date("2025-02-03T00:00:00.000+07:00").getTime();
   let prev = getPrevMonday(),
-    round = 1
-  let arr = [prev]
+    round = 1;
+  let arr = [];
 
-  while (prev > lowest) {
-    prev = getPrevMonday(round * (7 * 24 * 60 * 60 * 1000))
-    arr.push(prev)
-    round++
+  // Convert ignored dates to a Set for faster lookup
+  const ignored = new Set([
+    new Date("2024-11-04T00:00:00.000+07:00").getTime(),
+    new Date("2024-12-16T00:00:00.000+07:00").getTime(),
+    new Date("2024-12-23T00:00:00.000+07:00").getTime(),
+    new Date("2024-12-30T00:00:00.000+07:00").getTime(),
+    new Date("2025-01-27T00:00:00.000+07:00").getTime(),
+    new Date("2025-02-10T00:00:00.000+07:00").getTime(),
+  ]);
+
+  while (prev >= lowest) {
+    if (prev <= highest && !ignored.has(prev)) {
+      arr.push(prev);
+    }
+    prev = getPrevMonday(round * (7 * 24 * 60 * 60 * 1000));
+    round++;
   }
 
-  return arr
-}
+  return arr;
+};
+
 
 // export const EXCEPT = ["ก30903-3_1", "ก30903-3_2", "ก30905-2_1","ก30905-2_2","ก30905-2_6","ก30905-2_7","ก30905-2_9","ก30915_1","ก30915_2","ก30915_4","ก30902","ก30921_1","ก30921_1","ก30952-2","ก30902"]
 

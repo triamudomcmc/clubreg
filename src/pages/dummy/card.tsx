@@ -147,7 +147,13 @@ const Page = ({ links }) => {
             width={cardWidth}
             userData={userData}
             clubData={clubData}
-            customURL="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            customURL="https://www.youtube.com/watch?v=0GeQVtZ6Rd4"
+            teacherData={{
+              title: "ครู",
+              firstname: "ที่ปรึกษา",
+              lastname: "ของชมรม",
+            }}
+            isLoading={false}
           />
         </div>
         <motion.div
