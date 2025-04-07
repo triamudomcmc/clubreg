@@ -6,14 +6,8 @@ import { LogoDarkIcon } from "@vectors/Logo"
 import { clubMap } from "../../config/clubMap"
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 import QRCode from "qrcode"
-import { fetchAClub } from "@client/fetcher/club"
 import { isEmpty } from "@utilities/object"
 import { schoolYear } from "@config/time"
-
-const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>) => {
-  const data = await fetchAClub(clubID)
-  setClubData(data)
-}
 
 export const CustomCard = ({ width, clubData, panelID }) => {
   const qrCodeRef = useRef(null)
