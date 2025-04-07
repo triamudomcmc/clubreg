@@ -101,6 +101,7 @@ const Report = () => {
     count_limit: 0,
     committees: [],
   })
+  // console.log(clubData)
 
   const userData = onReady((logged, userData) => {
     if (!logged) {
@@ -186,14 +187,14 @@ const Report = () => {
       <AnimatePresence>
         {initmember ? (
           <>
-            <div className="mx-auto max-w-6xl pt-10 pb-14">
-              <h1 className="text-center text-2xl font-medium">สมาชิกชมรม</h1>
+            <div className="max-w-6xl pt-10 mx-auto pb-14">
+              <h1 className="text-2xl font-medium text-center">สมาชิกชมรม</h1>
               <div className="flex justify-center">
                 <div className="absolute w-full px-4 pt-8">
-                  <div className="mx-auto flex max-w-xl justify-center rounded-lg border border-gray-300 bg-white shadow-md ">
-                    <div className="flex h-full w-full justify-end">
+                  <div className="flex justify-center max-w-xl mx-auto bg-white border border-gray-300 rounded-lg shadow-md ">
+                    <div className="flex justify-end w-full h-full">
                       <div className="flex w-full justify-center overflow-hidden overflow-clip py-[0.54rem]">
-                        <h1 className="whitespace-nowrap text-xl text-TUCMC-gray-600">
+                        <h1 className="text-xl whitespace-nowrap text-TUCMC-gray-600">
                           {userData && "panelID" in userData && clubMap[localStorage.getItem("currentPanel")]}
                         </h1>
                       </div>
@@ -202,15 +203,15 @@ const Report = () => {
                 </div>
               </div>
             </div>
-            <div className="mx-auto w-screen bg-TUCMC-gray-100 px-4 pt-16 pb-20">
-              <div className="mx-auto flex flex-col space-y-4 md:max-w-4xl">
+            <div className="w-screen px-4 pt-16 pb-20 mx-auto bg-TUCMC-gray-100">
+              <div className="flex flex-col mx-auto space-y-4 md:max-w-4xl">
                 <div className="flex flex-col space-y-4 md:w-full md:flex-row md:justify-center md:space-y-0 md:space-x-4">
                   <div className="flex flex-col items-center justify-center rounded-lg bg-white px-4 py-3.5 text-xl text-TUCMC-gray-600 shadow-md md:w-1/3">
                     <div className="flex flex-col items-center justify-center space-y-2">
                       <div className="flex items-center space-x-2">
                         <span>สมาชิกทั้งหมด</span>
-                        <div className="relative h-5 w-5">
-                          <div className="absolute z-30 h-5 w-5 opacity-0 hover:opacity-100">
+                        {/* <div className="relative w-5 h-5">
+                          <div className="absolute z-30 w-5 h-5 opacity-0 hover:opacity-100">
                             <div className="absolute -top-9 left-[-8.13rem]">
                               <div
                                 className={classnames(
@@ -223,10 +224,10 @@ const Report = () => {
                                 </h1>
                               </div>
                             </div>
-                            <QuestionMarkCircleIcon className="h-5 w-5 text-TUCMC-gray-600" />
+                            <QuestionMarkCircleIcon className="w-5 h-5 text-TUCMC-gray-600" />
                           </div>
                           <QuestionMarkCircleIcon className="absolute z-[29] h-5 w-5 text-TUCMC-gray-600" />
-                        </div>
+                        </div> */}
                       </div>
                       <div className="flex flex-row items-end">
                         <h1 className="text-3xl font-bold text-TUCMC-gray-900">
@@ -238,12 +239,12 @@ const Report = () => {
                     </div>
                   </div>
                   <div className="flex flex-row items-center  justify-center divide-x-2 divide-gray-300 rounded-lg bg-white px-4  py-3.5 text-xl text-TUCMC-gray-600 shadow-md md:w-2/3">
-                    <div className="flex w-full items-center justify-center py-2 ">
+                    <div className="flex items-center justify-center w-full py-2 ">
                       <div className="flex flex-col items-center justify-center space-y-2">
                         <div className="flex items-center space-x-2">
                           <span>สมาชิกเก่า</span>
-                          <div className="relative h-5 w-5">
-                            <div className="absolute z-30 h-5 w-5 opacity-0 hover:opacity-100">
+                          <div className="relative w-5 h-5">
+                            <div className="absolute z-30 w-5 h-5 opacity-0 hover:opacity-100">
                               <div className="absolute -top-9 left-[-8.13rem]">
                                 <div
                                   className={classnames(
@@ -252,23 +253,23 @@ const Report = () => {
                                   )}
                                 >
                                   <h1 className="text-center">
-                                    จำนวนนี้ไม่รวมกรรมการชมรม ({clubData?.committees?.length ?? 0} คน)
+                                    จำนวนนี้รวมกรรมการชมรม ({clubData?.committees?.length ?? 0} คน)
                                   </h1>
                                 </div>
                               </div>
-                              <ExclamationCircleIcon className="h-5 w-5 text-TUCMC-gray-600" />
+                              <QuestionMarkCircleIcon className="w-5 h-5 text-TUCMC-gray-600" />
                             </div>
-                            <ExclamationCircleIcon className="absolute z-[29] h-5 w-5 text-TUCMC-gray-600" />
+                            <QuestionMarkCircleIcon className="absolute z-[29] h-5 w-5 text-TUCMC-gray-600" />
                           </div>
                         </div>
                         <div className="flex flex-row items-end">
-                          <h1 className="text-3xl font-bold text-TUCMC-gray-900">{clubData.old_count}</h1>
-                          <h2 className="text-TUCMC-gray-500">/{clubData.old_count_limit}</h2>
+                          <h1 className="text-3xl font-bold text-TUCMC-gray-900">{clubData.old_count + clubData.committees.length}</h1>
+                          <h2 className="text-TUCMC-gray-500">/{clubData.old_count_limit + clubData.committees.length}</h2>
                         </div>
                         <div>คน</div>
                       </div>
                     </div>
-                    <div className="flex w-full items-center justify-center py-2">
+                    <div className="flex items-center justify-center w-full py-2">
                       <div className="flex flex-col items-center justify-center space-y-2">
                         <div>สมาชิกใหม่</div>
                         <div className="flex flex-row items-end">
@@ -282,30 +283,24 @@ const Report = () => {
                 </div>
                 <div className="flex">
                   <div className="flex w-full flex-row items-center justify-center divide-x-2 divide-gray-300 rounded-lg bg-white px-4 py-3.5 text-xl text-TUCMC-gray-600 shadow-md">
-                    <div className="flex w-full items-center justify-center py-2">
+                    <div className="flex items-center justify-center w-full py-2">
                       <div className="flex flex-col items-center justify-center space-y-2">
                         <div>ม.4</div>
-                        <div className="flex ">
                           <h1 className="text-3xl font-bold text-TUCMC-gray-900">{memberData.m4.length}</h1>
-                        </div>
                         <div>คน</div>
                       </div>
                     </div>
-                    <div className="flex w-full items-center justify-center py-2">
+                    <div className="flex items-center justify-center w-full py-2">
                       <div className="flex flex-col items-center justify-center space-y-2">
                         <div>ม.5</div>
-                        <div className="flex ">
                           <h1 className="text-3xl font-bold text-TUCMC-gray-900">{memberData.m5.length}</h1>
-                        </div>
                         <div>คน</div>
                       </div>
                     </div>
-                    <div className="flex w-full items-center justify-center py-2">
+                    <div className="flex items-center justify-center w-full py-2">
                       <div className="flex flex-col items-center justify-center space-y-2">
                         <div>ม.6</div>
-                        <div className="flex">
                           <h1 className="text-3xl font-bold text-TUCMC-gray-900">{memberData.m6.length}</h1>
-                        </div>
                         <div>คน</div>
                       </div>
                     </div>
@@ -313,20 +308,20 @@ const Report = () => {
                 </div>
               </div>
             </div>
-            <div className="mx-auto max-w-6xl">
+            <div className="max-w-6xl mx-auto">
               <div className="relative flex justify-center">
-                <div className="absolute -top-8 w-full px-4 pb-8">
+                <div className="absolute w-full px-4 pb-8 -top-8">
                   <a href="/panel/print" target="_blank">
-                    <div className="mx-auto flex max-w-md cursor-pointer items-center justify-center space-x-2 rounded-md border border-gray-300 bg-white p-5 text-TUCMC-gray-700">
-                      <ArrowCircleDownIcon className="h-5 w-5" />
+                    <div className="flex items-center justify-center max-w-md p-5 mx-auto space-x-2 bg-white border border-gray-300 rounded-md cursor-pointer text-TUCMC-gray-700">
+                      <ArrowCircleDownIcon className="w-5 h-5" />
                       <span>ดาวน์โหลดรายชื่อสมาชิก</span>
                     </div>
                   </a>
                 </div>
               </div>
             </div>
-            <div className="mx-auto max-w-6xl pt-10 pb-14">
-              <h1 className="pt-16 pb-10 text-center text-xl text-TUCMC-gray-700">รายชื่อ</h1>
+            <div className="max-w-6xl pt-10 mx-auto pb-14">
+              <h1 className="pt-16 pb-10 text-xl text-center text-TUCMC-gray-700">รายชื่อ</h1>
               <div className="flex flex-col items-center">
                 <div className="w-full max-w-sm md:max-w-xl">
                   <FilterSearch
@@ -336,7 +331,7 @@ const Report = () => {
                     normal={false}
                   />
                 </div>
-                <div className="mt-6 mb-6 w-full max-w-5xl">
+                <div className="w-full max-w-5xl mt-6 mb-6">
                   {sortedData.map((item, index) => {
                     return (
                       <ListElement

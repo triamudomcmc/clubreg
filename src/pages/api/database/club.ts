@@ -3,6 +3,7 @@ import { regClub } from "@server/userActions/regClub"
 import { confirmClub } from "@server/userActions/confirmClub"
 import { rejectClub } from "@server/userActions/rejectClub"
 import { oldClub } from "@handlers/server/userActions/oldClub"
+import { getClubTeacher } from "@handlers/server/club/getClubTeacher"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req
@@ -29,6 +30,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
         case "rejectClub": {
           const output = await rejectClub(req, res)
+          res.json(output)
+          break
+        }
+        case "getClubTeacher": {
+          const output = await getClubTeacher(req, res)
           res.json(output)
           break
         }

@@ -9,8 +9,12 @@ module.exports = withPWA({
     buildExcludes: [/middleware-manifest.json$/],
     dest: 'public',
     disable: process.env.NODE_ENV === 'development',
-  },images: {
+  },
+  images: {
     unoptimized: true,
     domains: ["storage.googleapis.com", "static-clubreg.tucm.cc"]
+  },
+  experimental: {
+    serverComponentsExternalPackages: ['puppeteer-core', '@sparticuz/chromium']
   }
 })

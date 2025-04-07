@@ -16,7 +16,7 @@ import { ArrowLeftIcon } from "@heroicons/react/outline"
 import { motion } from "framer-motion"
 import Image from "next/image"
 import { Tooltip } from "@components/dummy/common/Tooltip"
-import {convertToStaticFileUri} from "@utilities/files";
+import { convertToStaticFileUri } from "@utilities/files";
 
 export const getStaticProps: GetStaticProps = async () => {
   const data = fs.readFileSync("./_map/links.json")
