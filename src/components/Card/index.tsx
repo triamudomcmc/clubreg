@@ -120,7 +120,10 @@ export const Card = ({ width, userData, clubData, customURL = "", teacherData, i
     }
   }, [userData])
 
-  const teacher: UserData = teacherData[0] || teacherData || null
+  const teacher: UserData | null =
+    Array.isArray(teacherData) && teacherData.length > 0
+      ? teacherData[0]
+      : (teacherData || null);
 
   return (
     <div
