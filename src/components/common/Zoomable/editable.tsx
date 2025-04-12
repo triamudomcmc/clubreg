@@ -119,7 +119,7 @@ export const EditableZoomable = ({
           />
         ) : (
           <img
-            src={convertToStaticFileUri(src)}
+            src={convertToStaticFileUri(image)}
             width={width}
             height={height}
             className={classnames(className, "h-[52vw] md:h-[18vw] lg:h-[200px]")}

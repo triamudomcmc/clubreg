@@ -7,7 +7,6 @@ export const toBase64 = file => new Promise((resolve, reject) => {
 
 export const convertToStaticFileUriC = (isStatic, old: string) => {
     if (!isStatic) {
-        console.log(old)
         return old
     }
     // seems like static-clubreg.tucm.cc storage is not working anymore
