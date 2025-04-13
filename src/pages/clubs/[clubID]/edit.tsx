@@ -47,6 +47,7 @@ const ClubHeaderCard = ({
   const [publishing, setPublishing] = useState(false)
   const [initialContact, setInitContact] = useState(contact)
   const uploader = useRef(null)
+
   const doUpload = async (e) => {
     const data = await toBase64(e.target.files[0])
     //@ts-ignore

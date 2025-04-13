@@ -9,9 +9,10 @@ export const convertToStaticFileUriC = (isStatic, old: string) => {
     if (!isStatic) {
         return old
     }
+    // seems like static-clubreg.tucm.cc storage is not working anymore
     return old.replace("storage.googleapis.com", "static-clubreg.tucm.cc").replace("/assets", "https://static-clubreg.tucm.cc/assets")
 }
 
 export const convertToStaticFileUri = (old: string) => {
-    return convertToStaticFileUriC(true, old)
+    return convertToStaticFileUriC(false, old)
 }

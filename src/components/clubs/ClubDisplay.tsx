@@ -211,7 +211,7 @@ export const ClubDisplaySection: FC<{
                     priority={true}
                     onLoad={loaded}
                     className="rounded-lg object-cover"
-                    src={convertToStaticFileUriC(isStatic,clubDisplay?.images?.["picture-1"])}
+                    src={convertToStaticFileUriC(isStatic,clubDisplay?.images?.["picture-1"]) || convertToStaticFileUriC(true, clubDisplay?.images?.["picture-1"])}
                     width={768}
                     height={432}
                     updateOverlay={setZoomOverlay}
@@ -225,7 +225,7 @@ export const ClubDisplaySection: FC<{
                     priority={true}
                     onLoad={loaded}
                     className="rounded-lg object-cover"
-                    src={convertToStaticFileUriC(isStatic,clubDisplay?.images?.["picture-2"])}
+                    src={convertToStaticFileUriC(isStatic, clubDisplay?.images?.["picture-2"]) || convertToStaticFileUriC(true, clubDisplay?.images?.["picture-2"])}
                     width={768}
                     height={432}
                     updateOverlay={setZoomOverlay}
@@ -239,7 +239,7 @@ export const ClubDisplaySection: FC<{
                     priority={true}
                     onLoad={loaded}
                     className="rounded-lg object-cover"
-                    src={convertToStaticFileUriC(isStatic,clubDisplay?.images?.["picture-3"])}
+                    src={convertToStaticFileUriC(isStatic, clubDisplay?.images?.["picture-3"]) || convertToStaticFileUriC(true, clubDisplay?.images?.["picture-3"])}
                     width={768}
                     height={432}
                     updateOverlay={setZoomOverlay}
