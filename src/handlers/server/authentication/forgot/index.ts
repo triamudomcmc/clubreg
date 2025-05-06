@@ -100,20 +100,20 @@ export const forgot = async (req, res) => {
 </html>
 `
 
-  const err = await sendEmail(smtpServ, {
-    to,
-    from,
-    sender: "no-reply@clubs.triamudom.ac.th",
-    subject,
-    html_body: htmlContent,
-    plain_body: `มีการขอเปลี่ยนรหัสผ่านบนระบบ กรุณาใช้ลิงก์นี้ ${url}`
-  })
+//   const err = await sendEmail(smtpServ, {
+//     to,
+//     from,
+//     sender: "no-reply@clubs.triamudom.ac.th",
+//     subject,
+//     html_body: htmlContent,
+//     plain_body: `มีการขอเปลี่ยนรหัสผ่านบนระบบ กรุณาใช้ลิงก์นี้ ${url}`
+//   })
 
-  if (err) {
-    return { status: false, report: "mailServiceError" }
-  }
+//   if (err) {
+//     return { status: false, report: "mailServiceError" }
+//   }
 
   update("system", "forgot", req.body.fp, user.docs[0].id)
 
-  return { status: true, report: "success" }
+  return { status: true, url, report: "success" }
 }

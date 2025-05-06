@@ -172,7 +172,7 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
           initialData={{ type: "number", value: data.count_limit }}
           updateField={updateField}
           validateFunc={(c) => {
-            if (data.teacher_count === 0 || c.value / data.teacher_count < 26.5) {
+            if (data.teacher_count === 0 || c.value / data.teacher_count < 28) {
               return { reason: "teacher_to_student" }
             } else return null
           }}

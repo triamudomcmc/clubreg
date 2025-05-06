@@ -733,7 +733,7 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
   const [uploadTask, setUploadTask] = useState({all: 0, done: 0})
   const [uploadErr, setUploadErr] = useState([])
   const [contactData, setContactData] = useState({
-    contact: data.contact,
+    contact: isEmpty(data.contact) ? { type: "ไม่มี", context: "แก้ไขข้อมูล" } : data.contact,
     contact2: isEmpty(data.contact2) ? { type: "ไม่มี", context: "แก้ไขข้อมูล" } : data.contact2,
     contact3: isEmpty(data.contact3) ? { type: "ไม่มี", context: "แก้ไขข้อมูล" } : data.contact3,
   })
@@ -784,7 +784,6 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
         title: "ส่งการแก้ไขข้อมูลสำเร็จ",
         text: "ระบบอาจะใช้เวลาถึง 2 นาทีในการประมวลผลข้อมูล หาก refresh หน้าจอแล้วการเปลี่ยนแปลงหายไปให้ลอง refresh ใหม่",
       })
-
 
       const policies = res.data.policies
       setUploadTask({all: policies.length, done: 0})

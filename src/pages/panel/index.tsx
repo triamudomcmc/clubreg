@@ -47,6 +47,7 @@ import { Ellipsis } from "@vectors/Loaders/Ellipsis"
 import { PencilAltIcon } from "@heroicons/react/outline"
 import { ClubCommitteeTable, ClubDataTable, ProportionTable } from "@components/panel/table/ClubTable"
 import classNames from "classnames"
+import { openTime } from "@config/time"
 
 const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>, setInitClub) => {
   const data = await fetchClub(clubID)
@@ -91,6 +92,7 @@ const Account = () => {
   const [t, setT] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [committee, setCommittee] = useState([])
+  const [isAuditionTime, setIsAuditionTime] = useState((new Date().getTime() > openTime))
 
   const { width } = useWindowDimensions()
 
@@ -210,7 +212,7 @@ const Account = () => {
 
   const downloadFile = async () => {
     const a = document.createElement("a")
-    let currPanel = userData.student_id === "ก30952" ? "ก30952-3": userData.student_id
+    let currPanel = userData.student_id === "ก30952" ? "ก30952-3" : userData.student_id
     const response = await request("uploader", "getFile", { id: currPanel })
 
     if (response.status) {
@@ -282,6 +284,14 @@ const Account = () => {
       }
     }
   }, [userData])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsAuditionTime((new Date().getTime() > openTime))
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [])
 
   return new Date().getTime() > 162418320000 ? (
     <PageContainer hide={!initClub}>
@@ -414,7 +424,7 @@ const Account = () => {
             </div>
           </div>
           <div className="mx-auto max-w-6xl px-4 pt-8 pb-20">
-            <div className="mx-auto grid max-w-xl grid-cols-2 gap-1">
+            <div className="mx-auto grid max-w-xl gap-y-2 grid-cols-2 gap-1">
               {/* {clubData.audition ?   <Button
               type="div"href="/panel/audition"className="flex items-center justify-center space-x-2 rounded-lg bg-TUCMC-pink-400 px-4 py-3.5 text-white shadow-sm"
               ><ClipboardCheckIcon className="h-5 w-5" /><span>ผลการ Audition</span>
@@ -428,14 +438,14 @@ const Account = () => {
                   <span>รายงานการเข้าเรียน</span>
                 </Button>
             } */}
-            <Button
-                  href="/panel/attendance"
-                  type="div"
-                  className="flex cursor-pointer items-center justify-center space-x-2 rounded-lg bg-TUCMC-pink-400 px-4 py-3.5 text-white shadow-sm transition-all hover:scale-105"
+              <Button
+                href="/panel/attendance"
+                type="div"
+                className="flex cursor-pointer items-center justify-center space-x-2 rounded-lg bg-TUCMC-pink-400 px-4 py-3.5 text-white shadow-sm transition-all hover:scale-105"
                 >
-                  <ClipboardCheckIcon className="h-6 w-6" />
-                  <span>รายงานการเข้าเรียน</span>
-                </Button>
+                <ClipboardCheckIcon className="h-6 w-6" />
+                <span>รายงานการเข้าเรียน</span>
+              </Button>
 
               <Button
                 href="/panel/report"
@@ -446,10 +456,19 @@ const Account = () => {
                   "bg-TUCMC-white flex cursor-pointer items-center justify-center space-x-2 rounded-lg px-4 py-3.5 text-TUCMC-gray-600 shadow-md",
                   "w-full"
                 )}
-              >
+                >
                 <UserGroupIcon className="h-6 w-6" />
                 <span>รายชื่อสมาชิก</span>
               </Button>
+                {(isAuditionTime && clubData.audition) && (
+                  <Button
+                    type="div" 
+                    href="/panel/audition" 
+                    className="flex items-center col-span-2 justify-center space-x-2 rounded-lg bg-TUCMC-pink-400 px-4 py-3.5 text-white shadow-sm"
+                  >
+                    <ClipboardCheckIcon className="h-5 w-5" /><span>แก้ไขผลการ Audition</span>
+                  </Button>
+                )}
             </div>
             <div className="mt-20 flex flex-col space-y-14 px-2 md:px-4">
               <ClubDataTable
