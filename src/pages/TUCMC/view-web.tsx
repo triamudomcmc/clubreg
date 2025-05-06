@@ -64,7 +64,8 @@ const fetchAllClubDataAction = async (
 
   const { data } = await fetchAllClubData(nid)
 
-  setClubData(data)
+  // @ts-expect-error
+  setClubData(data.filter(((d) => !d.report)))
 
   const availableData = data.filter((d) => d.status === "pending")
 
