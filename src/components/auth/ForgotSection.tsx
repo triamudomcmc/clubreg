@@ -41,7 +41,7 @@ export const ForgotSection = ({ swapFunction, setLoader }) => {
         text: "คำขอได้ถูกส่งแล้วกรุณาเช็คอีเมลที่ระบุเพื่อดำเนินการเปลี่ยนรหัสผ่านต่อไป หากยังไม่พบอีกเมลให้ลองส่งฟอร์มนี้ใหม่อีกรอบ",
       })
 
-      if (res.url && res.status) Router.push(res.url)
+      // if (res.url && res.status) Router.push(res.url)
       setEmail("")
     }
   }
