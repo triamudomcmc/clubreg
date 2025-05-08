@@ -104,6 +104,7 @@ const Select: NextPage<{ clubList: IClubListData[] }> = ({ clubList }) => {
   const [loader, setLoader] = useState(false)
   const [initclub, setInitclub] = useState(false)
   const [tab, setTab] = useState("all")
+  const [showToast, setShowToast] = useState(true)
   const { addToast } = useToast()
 
   const auTrigger = useRef(null)
@@ -168,11 +169,11 @@ const Select: NextPage<{ clubList: IClubListData[] }> = ({ clubList }) => {
     const load = async () => {
       const value = await fetchClub()
       const filteredValue = Object.keys(value)
-      .filter(key => value[key].report !== true)
-      .reduce((obj, key) => {
-        obj[key] = value[key]
-        return obj
-      }, {})
+        .filter(key => value[key].report !== true)
+        .reduce((obj, key) => {
+          obj[key] = value[key]
+          return obj
+        }, {})
       setClubData(filteredValue)
       setInitclub(true)
     }
@@ -380,16 +381,29 @@ const Select: NextPage<{ clubList: IClubListData[] }> = ({ clubList }) => {
     }
   }, [isCon])
 
+  const lastScrollY = useRef(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      if (currentScrollY > lastScrollY.current && currentScrollY > 20) {
+        setShowToast(false)
+      }
+      lastScrollY.current = currentScrollY
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
   return (
 
     <PageContainer hide={!initclub}>
-      <div className={classnames("fixed top-0 z-[98] mx-auto flex w-full justify-center", completeHide && "hidden")}>
+      <div className={classnames("fixed top-10 z-[98] mx-auto flex w-full justify-center", completeHide && "hidden")}>
         <motion.div
-          onClick={() => {
-            setHideA(true)
-          }}
-          animate={hideA ? { y: -80 } : { y: 0 }}
-          transition={{ duration: 0.8 }}
+          onClick={() => setHideA(true)}
+          animate={showToast && !hideA && !completeHide ? { y: 0, opacity: 1 } : { y: -80, opacity: 0 }}
+          transition={{ duration: 0.5 }}
           onAnimationComplete={() => {
             hideA &&
               setTimeout(() => {
