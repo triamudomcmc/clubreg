@@ -25,7 +25,7 @@ export const GroupSearch: FC<{ setSearchContext: Dispatch<SetStateAction<string>
   )
 }
 
-export const FilterSearch = ({ sortMode, setSortMode, setSearchContext, normal = true }) => {
+export const FilterSearch = ({ sortMode, setSortMode, setSearchContext, normal = true, disableNormal = false }) => {
   const buttonRef = useRef(null)
 
   return (
@@ -55,56 +55,58 @@ export const FilterSearch = ({ sortMode, setSortMode, setSearchContext, normal =
         </button>
         <Modal className="z-60 relative flex w-full justify-end" TriggerRef={buttonRef}>
           <div style={{ minWidth: "260px" }} className="absolute rounded-lg bg-white py-2 text-gray-700 shadow-md">
-            {normal ? (
-              <>
-                <h1
-                  onClick={() => {
-                    setSortMode("hasAudition")
-                  }}
-                  className={classnames(
-                    sortMode == "hasAudition" ? "bg-TUCMC-pink-100" : "hover:bg-gray-50",
-                    "cursor-pointer px-4 py-2"
-                  )}
-                >
-                  มีการ Audition
-                </h1>
-                <h1
-                  onClick={() => {
-                    setSortMode("notHasAudition")
-                  }}
-                  className={classnames(
-                    sortMode == "notHasAudition" ? "bg-TUCMC-pink-100" : "hover:bg-gray-50",
-                    "cursor-pointer px-4 py-2"
-                  )}
-                >
-                  ไม่มีการ Audition
-                </h1>
-              </>
-            ) : (
-              <>
-                <h1
-                  onClick={() => {
-                    setSortMode("nascending")
-                  }}
-                  className={classnames(
-                    sortMode == "nascending" ? "bg-TUCMC-pink-100" : "hover:bg-gray-50",
-                    "cursor-pointer px-4 py-2"
-                  )}
-                >
-                  เลขประจำตัวน้อยไปมาก
-                </h1>
-                <h1
-                  onClick={() => {
-                    setSortMode("ndescending")
-                  }}
-                  className={classnames(
-                    sortMode == "ndescending" ? "bg-TUCMC-pink-100" : "hover:bg-gray-50",
-                    "cursor-pointer px-4 py-2"
-                  )}
-                >
-                  เลขประจำตัวมากไปน้อย
-                </h1>
-              </>
+            {!disableNormal && (
+              normal ? (
+                <>
+                  <h1
+                    onClick={() => {
+                      setSortMode("hasAudition")
+                    }}
+                    className={classnames(
+                      sortMode == "hasAudition" ? "bg-TUCMC-pink-100" : "hover:bg-gray-50",
+                      "cursor-pointer px-4 py-2"
+                    )}
+                  >
+                    มีการ Audition
+                  </h1>
+                  <h1
+                    onClick={() => {
+                      setSortMode("notHasAudition")
+                    }}
+                    className={classnames(
+                      sortMode == "notHasAudition" ? "bg-TUCMC-pink-100" : "hover:bg-gray-50",
+                      "cursor-pointer px-4 py-2"
+                    )}
+                  >
+                    ไม่มีการ Audition
+                  </h1>
+                </>
+              ) : (
+                <>
+                  <h1
+                    onClick={() => {
+                      setSortMode("nascending")
+                    }}
+                    className={classnames(
+                      sortMode == "nascending" ? "bg-TUCMC-pink-100" : "hover:bg-gray-50",
+                      "cursor-pointer px-4 py-2"
+                    )}
+                  >
+                    เลขประจำตัวน้อยไปมาก
+                  </h1>
+                  <h1
+                    onClick={() => {
+                      setSortMode("ndescending")
+                    }}
+                    className={classnames(
+                      sortMode == "ndescending" ? "bg-TUCMC-pink-100" : "hover:bg-gray-50",
+                      "cursor-pointer px-4 py-2"
+                    )}
+                  >
+                    เลขประจำตัวมากไปน้อย
+                  </h1>
+                </>
+              )
             )}
             <h1
               onClick={() => {
