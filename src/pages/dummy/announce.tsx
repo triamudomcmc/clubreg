@@ -4,7 +4,7 @@ import ClubStatus from "@components/dummy/announce/ClubStatus"
 import { useAuth } from "@client/auth"
 import Router from "next/router"
 import { isEmpty } from "@utilities/object"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import ConfirmModal from "@components/dummy/select/ConfirmModal"
 import DataModal from "@components/dummy/select/DataModal"
 import { ExclamationIcon } from "@heroicons/react/solid"
@@ -39,10 +39,28 @@ const Announce = () => {
   const [completeHide, setCompHide] = useState(false)
   const [reserved2, setReserved2] = useState(false)
   const [loader, setLoader] = useState(false)
+  const [showToast, setShowToast] = useState(true)
 
   const reFetch = () => {
     setReload(true)
   }
+
+  const lastScrollY = useRef(0)
+  
+    useEffect(() => {
+      const handleScroll = () => {
+        const currentScrollY = window.scrollY
+        if (currentScrollY > lastScrollY.current && currentScrollY > 20) {
+          setShowToast(false)
+        } else {
+          setShowToast(true)
+        }
+        lastScrollY.current = currentScrollY
+      }
+  
+      window.addEventListener("scroll", handleScroll)
+      return () => window.removeEventListener("scroll", handleScroll)
+    }, [])
 
   useEffect(() => {
     const d = JSON.parse(localStorage.getItem("dummyData") || "{}")
@@ -188,13 +206,11 @@ const Announce = () => {
 
   return (
     <PageContainer>
-      <div className={classnames("fixed top-0 z-[98] mx-auto flex w-full justify-center", completeHide && "hidden")}>
-        <motion.div
-          onClick={() => {
-            setHideA(true)
-          }}
-          animate={hideA ? { y: -80 } : { y: 0 }}
-          transition={{ duration: 0.8 }}
+      <div className={classnames("fixed top-8 z-[98] mx-auto flex w-full justify-center", completeHide && "hidden")}>
+      <motion.div
+          onClick={() => setHideA(true)}
+          animate={showToast && !hideA && !completeHide ? { y: 0, opacity: 1 } : { y: -80, opacity: 0 }}
+          transition={{ duration: 0.5 }}
           onAnimationComplete={() => {
             hideA &&
               setTimeout(() => {
@@ -203,9 +219,9 @@ const Announce = () => {
               }, 9000)
             setCompHide(hideA)
           }}
-          className="flex cursor-pointer items-center space-x-2 rounded-md bg-TUCMC-orange-500 py-2 pl-4 pr-6 shadow-md"
+          className="flex items-center py-2 pl-4 pr-6 space-x-2 rounded-md shadow-md cursor-pointer bg-TUCMC-orange-500"
         >
-          <ExclamationIcon className="mt-2 h-10 w-10 animate-pulse text-white" />
+          <ExclamationIcon className="w-10 h-10 mt-2 text-white animate-pulse" />
           <div>
             <div className="flex items-center space-x-2 font-medium text-white">
               <h1>คุณกำลังอยู่ในโหมดระบบจำลอง</h1>

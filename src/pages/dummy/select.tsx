@@ -388,6 +388,8 @@ const Select: NextPage<{ clubList: IClubListData[] }> = ({ clubList }) => {
       const currentScrollY = window.scrollY
       if (currentScrollY > lastScrollY.current && currentScrollY > 20) {
         setShowToast(false)
+      } else {
+        setShowToast(true)
       }
       lastScrollY.current = currentScrollY
     }
@@ -399,7 +401,7 @@ const Select: NextPage<{ clubList: IClubListData[] }> = ({ clubList }) => {
   return (
 
     <PageContainer hide={!initclub}>
-      <div className={classnames("fixed top-10 z-[98] mx-auto flex w-full justify-center", completeHide && "hidden")}>
+      <div className={classnames("fixed top-8 z-[98] mx-auto flex w-full justify-center", completeHide && "hidden")}>
         <motion.div
           onClick={() => setHideA(true)}
           animate={showToast && !hideA && !completeHide ? { y: 0, opacity: 1 } : { y: -80, opacity: 0 }}

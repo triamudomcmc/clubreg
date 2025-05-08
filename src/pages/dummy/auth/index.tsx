@@ -1,5 +1,5 @@
 import PageContainer from "@components/common/PageContainer"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import { DefaultCard } from "@components/common/Cards"
 import Router from "next/router"
 import LoginSection from "@components/dummy/auth/LoginSection"
@@ -22,6 +22,7 @@ const Auth = ({ query }) => {
   const timer = useTimer(startOldClub)
   const [hideA, setHideA] = useState(false)
   const [completeHide, setCompHide] = useState(false)
+  const [showToast, setShowToast] = useState(false)
   const year = (new Date(schoolYear).getFullYear()) + 543
 
   onReady((logged, userData) => {
@@ -29,6 +30,24 @@ const Auth = ({ query }) => {
     //   Router.push("/")
     // }
   })
+
+  const lastScrollY = useRef(0)
+  
+    useEffect(() => {
+      const handleScroll = () => {
+        const currentScrollY = window.scrollY
+        if (currentScrollY > lastScrollY.current && currentScrollY > 20) {
+          setShowToast(false)
+        } else {
+          setShowToast(true)
+        }
+        lastScrollY.current = currentScrollY
+      }
+  
+      window.addEventListener("scroll", handleScroll)
+      return () => window.removeEventListener("scroll", handleScroll)
+    }, [])
+  
 
   const goRegister = () => {
     Router.push(
@@ -113,7 +132,7 @@ const Auth = ({ query }) => {
 
   return (
     <PageContainer footer={false}>
-      <div className={classnames("fixed top-0 z-[98] mx-auto flex w-full justify-center", completeHide && "hidden")}>
+      <div className={classnames("fixed top-8 z-[98] mx-auto flex w-full justify-center", completeHide && "hidden")}>
         <motion.div
           onClick={() => {
             setHideA(true)
