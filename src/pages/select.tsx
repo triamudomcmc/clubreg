@@ -152,7 +152,13 @@ const Select = ({ clubList }) => {
   useEffect(() => {
     const load = async () => {
       const value = await fetchClub()
-      setClubData(value)
+      const filteredValue = Object.keys(value)
+      .filter(key => value[key].report !== true)
+      .reduce((obj, key) => {
+        obj[key] = value[key]
+        return obj
+      }, {})
+      setClubData(filteredValue)
       setInitclub(true)
     }
 
@@ -391,7 +397,7 @@ const Select = ({ clubList }) => {
                   <div className="grid grid-cols-3 text-center border-b">
                     <div
                       className={classNames(
-                        "border-r pb-3 transition-colors duration-200 cursor-pointer",
+                        "pb-3 transition-colors duration-200 cursor-pointer",
                         tab === "all" ? "border-b-2 border-b-TUCMC-pink-400 font-semibold text-TUCMC-pink-400" : "text-gray-500"
                       )}
                       onClick={() => setTab("all")}
@@ -400,7 +406,7 @@ const Select = ({ clubList }) => {
                     </div>
                     <div
                       className={classNames(
-                        "border-r pb-3 transition-colors duration-200 cursor-pointer",
+                        "pb-3 transition-colors duration-200 cursor-pointer",
                         tab === "noAudition" ? "border-b-2 border-b-TUCMC-pink-400 font-semibold text-TUCMC-pink-400" : "text-gray-500"
                       )}
                       onClick={() => setTab("noAudition")}
