@@ -93,7 +93,6 @@ const Page = ({ data, clubID, clubList, clubDisplay }) => {
   //     setLoadingCount((prevState) => prevState - 1)
   //   }, 100)
   // }
-
   return (
     <DescribeRoute
       title={`ชมรม${clubDisplay.nameTH}`}

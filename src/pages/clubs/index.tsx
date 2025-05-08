@@ -98,7 +98,6 @@ const Clubs: FC = ({ clubs }: InferGetStaticPropsType<typeof getStaticProps>) =>
           setSortedData([])
           setSortedData(rawSorted.map((d) => d.clubID))
         }
-        // }, 900)
       }, 200)
     )
   }, [searchContext, rawSorted])

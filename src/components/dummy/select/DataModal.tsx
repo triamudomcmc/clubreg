@@ -189,7 +189,7 @@ const DataModal = ({ state, setLoader, TriggerDep, closeFunc, refetcher, mode = 
     >
       <div className={classnames(pending && "hidden", "flex items-center space-x-2")}>
         <CheckCircleIcon className="h-5 w-5" />
-        <span>เข้าร่วมชมรม</span>
+        <span>ยืนยัน</span>
       </div>
       <Ellipsis className={classnames("h-10 w-[3rem]", !pending && "hidden")} />
     </div>
