@@ -168,10 +168,10 @@ const DataModal = ({ state, setLoader, TriggerDep, closeFunc, refetcher, mode = 
 
   let headingText = (
     <div className="mx-10 pt-3 pb-5 md:mx-12">
-      <h1 className="text-center text-[20px] font-medium">ลงทะเบียนชมรม{data.title}</h1>
+      <h1 className="text-center text-[20px] font-medium">เข้าร่วมชมรม{data.title}</h1>
       <div className="mt-2 text-sm">
         <p className="text-center text-gray-500">
-          หากลงทะเบียนแล้ว จะถือว่านักเรียนอยู่ชมรมนี้แล้ว จะไม่สามารถขอเปลี่ยนชมรม
+          หากเข้าร่วมแล้ว จะถือว่านักเรียนอยู่ชมรมนี้แล้ว จะไม่สามารถขอเปลี่ยนชมรม
         </p>
         <p className="text-center text-gray-500">หรือไป Audition ชมรมอื่นได้อีก</p>
       </div>
@@ -183,13 +183,13 @@ const DataModal = ({ state, setLoader, TriggerDep, closeFunc, refetcher, mode = 
         !pending && submit("register")
       }}
       className={classnames(
-        "flex items-center justify-center space-x-2 rounded-md bg-TUCMC-green-400 text-lg text-white",
+        "flex items-center justify-center space-x-2 rounded-md bg-TUCMC-green-400 text-lg text-white hover:bg-TUCMC-green-400/80 transition-colors duration-200",
         pending ? "cursor-default py-[1px]" : "cursor-pointer py-2"
       )}
     >
       <div className={classnames(pending && "hidden", "flex items-center space-x-2")}>
         <CheckCircleIcon className="h-5 w-5" />
-        <span>ลงทะเบียน</span>
+        <span>เข้าร่วมชมรม</span>
       </div>
       <Ellipsis className={classnames("h-10 w-[3rem]", !pending && "hidden")} />
     </div>
@@ -319,7 +319,7 @@ const DataModal = ({ state, setLoader, TriggerDep, closeFunc, refetcher, mode = 
               {actionButt}
               <div
                 id="dataModalClose"
-                className="flex cursor-pointer justify-center rounded-md border border-gray-300 bg-white py-2 text-gray-700"
+                className="flex cursor-pointer justify-center rounded-md border bg-TUCMC-red-400 py-2 text-white hover:bg-TUCMC-red-400/80 transition-colors duration-200"
               >
                 <span>ยกเลิก</span>
               </div>
