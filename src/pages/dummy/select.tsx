@@ -66,6 +66,20 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   })
 
+  clubList.push({
+    title: "ชมรมคนรักแมว",
+    audition: false,
+    clubID: "ก40000",
+    imageURL: "/assets/dummy/catlover_club.jpg",
+  })
+
+  clubList.push({
+    title: "ชมรมคนขี้สงสัย",
+    audition: false,
+    clubID: "ก40001",
+    imageURL: "/assets/dummy/curious_club.jpg",
+  })
+
   return {
     props: {
       clubList: clubList,
@@ -123,12 +137,12 @@ const Select: NextPage<{ clubList: IClubListData[] }> = ({ clubList }) => {
       Router.push("/dummy/auth")
     }
 
-    if (!aud.includes("ก40000")) {
-      aud.push("ก40000")
-    }
-    if (!aud.includes("ก40001")) {
-      aud.push("ก40001")
-    }
+    // if (!aud.includes("ก40000")) {
+    //   aud.push("ก40000")
+    // }
+    // if (!aud.includes("ก40001")) {
+    //   aud.push("ก40001")
+    // }
     if (!aud.includes("ก40002")) {
       aud.push("ก40002")
     }
@@ -174,6 +188,37 @@ const Select: NextPage<{ clubList: IClubListData[] }> = ({ clubList }) => {
           obj[key] = value[key]
           return obj
         }, {})
+      filteredValue["ก40000"] = {
+        clubID: "ก40000",
+        title: "คนรักแมว",
+        audition: false,
+        new_count: 0,
+        new_count_limit: 100,
+        blocked: false,
+        contact: {
+          context: "MeowMeow Club",
+          type: "FB"
+        },
+        contact2: {
+          context: "@Meowwwwwwwwwwclub",
+          type: "IG"
+        },
+      }
+      filteredValue["ก40001"] = {
+        title: "คนขี้สงสัย",
+        audition: true,
+        new_count: 0,
+        new_count_limit: 100,
+        blocked: false,
+        contact: {
+          context: "Kon Kee Song Sai Club",
+          type: "FB"
+        },
+        contact2: {
+          context: "@KKSSClub",
+          type: "IG"
+        },
+      }
       setClubData(filteredValue)
       setInitclub(true)
     }
@@ -334,9 +379,26 @@ const Select: NextPage<{ clubList: IClubListData[] }> = ({ clubList }) => {
 
   const splitIntoColumns = (arr, columns = 2) => {
     const result = Array.from({ length: columns }, () => []);
-    arr.forEach((item, idx) => {
+    
+    const priorityClubs = {
+      "ก40000": 0,
+      "ก40001": 1 
+    };
+    
+    const remaining = [...arr];
+    
+    Object.entries(priorityClubs).forEach(([clubID, columnIndex]) => {
+      const index = remaining.findIndex(club => club.clubID === clubID);
+      if (index !== -1) {
+        const [priorityClub] = remaining.splice(index, 1);
+        result[columnIndex].unshift(priorityClub);
+      }
+    });
+    
+    remaining.forEach((item, idx) => {
       result[idx % columns].push(item);
     });
+    
     return result;
   };
 
@@ -850,9 +912,12 @@ const Select: NextPage<{ clubList: IClubListData[] }> = ({ clubList }) => {
                           />
                         </div>
                       )}
-
+                      {/* Tutorial ClubList */}
                       {sortedData[colIdx]?.map((club, idx) => (
-                        <ClubList key={club.clubID || idx} data={club} action={setModalState} />
+                        <ClubList
+                          key={club.clubID || idx}
+                          data={club}
+                          action={setModalState} />
                       ))}
                     </div>
                   ))}
