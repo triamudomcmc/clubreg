@@ -123,7 +123,7 @@ const Clubs: FC = ({ clubs }: InferGetStaticPropsType<typeof getStaticProps>) =>
           </div>
 
           <AnimateSharedLayout>
-            <div className="mt-5 flex w-full max-w-5xl flex-wrap justify-center px-0 marg:px-[0.35rem]">
+            <div className="mt-5 flex w-full max-w-5xl flex-wrap gap-x-2 justify-center px-0 marg:px-[0.35rem]">
               {sortedData.length > 0 &&
                 rawSorted.map((item, index) => {
                   return (
