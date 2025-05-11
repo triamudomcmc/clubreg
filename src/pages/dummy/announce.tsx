@@ -46,21 +46,21 @@ const Announce = () => {
   }
 
   const lastScrollY = useRef(0)
-  
-    useEffect(() => {
-      const handleScroll = () => {
-        const currentScrollY = window.scrollY
-        if (currentScrollY > lastScrollY.current && currentScrollY > 20) {
-          setShowToast(false)
-        } else {
-          setShowToast(true)
-        }
-        lastScrollY.current = currentScrollY
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      if (currentScrollY > lastScrollY.current && currentScrollY > 20) {
+        setShowToast(false)
+      } else {
+        setShowToast(true)
       }
-  
-      window.addEventListener("scroll", handleScroll)
-      return () => window.removeEventListener("scroll", handleScroll)
-    }, [])
+      lastScrollY.current = currentScrollY
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   useEffect(() => {
     const d = JSON.parse(localStorage.getItem("dummyData") || "{}")
@@ -69,11 +69,23 @@ const Announce = () => {
 
     if (!aud.includes("ก40002")) {
       aud.unshift("ก40002")
+    } else if (aud.includes("ก40002")) {
+      const index = aud.indexOf("ก40002")
+      aud.splice(index, 1)
+      aud.unshift("ก40002")
     }
     if (!aud.includes("ก40000")) {
       aud.unshift("ก40000")
+    } else {
+      const index = aud.indexOf("ก40000")
+      aud.splice(index, 1)
+      aud.unshift("ก40000")
     }
     if (!aud.includes("ก40001")) {
+      aud.unshift("ก40001")
+    } else {
+      const index = aud.indexOf("ก40001")
+      aud.splice(index, 1)
       aud.unshift("ก40001")
     }
 
@@ -89,7 +101,7 @@ const Announce = () => {
         return
       }
       audobj[e] = "passed"
-      
+
       if (i === 0) audobj[e] = "passed"
       if (i === 1) audobj[e] = "failed"
       if (i === 2) audobj[e] = "reserved"
@@ -106,21 +118,11 @@ const Announce = () => {
     new Date().getTime() < 1623776400000
       ? 1623776400000
       : new Date().getTime() < 1623862800000
-      ? 1623862800000
-      : 1623949200000
+        ? 1623862800000
+        : 1623949200000
 
   const timer = useTimer(limit)
   const openTimer = useTimer(announceTime)
-
-  // useEffect(() => {
-  //   const currentTime = new Date().getTime()
-
-  //   if (currentTime < lastround) {
-  //     setTimeout(() => {
-  //       Router.push("/select")
-  //     }, lastround - currentTime)
-  //   }
-  // }, [])
 
   useEffect(() => {
     if (userData.audition && !isEmpty(userData.audition)) {
@@ -207,7 +209,7 @@ const Announce = () => {
   return (
     <PageContainer>
       <div className={classnames("fixed top-8 z-[98] mx-auto flex w-full justify-center", completeHide && "hidden")}>
-      <motion.div
+        <motion.div
           onClick={() => setHideA(true)}
           animate={showToast && !hideA && !completeHide ? { y: 0, opacity: 1 } : { y: -80, opacity: 0 }}
           transition={{ duration: 0.5 }}
@@ -286,73 +288,38 @@ const Announce = () => {
       <div className="flex min-h-screen flex-col items-center pt-14 md:pt-20">
         <div className="max-w-md px-4">
           <div className="flex flex-col items-center">
-            {!before && <h1 className="text-4xl font-medium text-TUCMC-gray-700">ประกาศผล</h1>}
+            <h1 className="text-4xl font-medium text-TUCMC-gray-700">ประกาศผล</h1>
           </div>
           <div className="mt-10 w-full px-14 minClubs:px-20">
             <AnnounceSplash className="w-full" />
           </div>
-          {!before ? (
-            desc
-          ) : (
-            <div className="mb-20 space-y-8 pt-10">
-              <div className="flex flex-col items-center text-TUCMC-gray-700">
-                <h1 className="text-4xl">รอประกาศผล</h1>
-                <h1 className="text-xl">
-                  {new Date(announceTime).getDate()} {THAI_MONTH_INITIALS[new Date(announceTime).getMonth()]}
-                  {new Date(announceTime).getFullYear() + 543} เวลา
-                  {new Date(announceTime).getHours().toString().padStart(2, "0")}.
-                  {new Date(announceTime).getMinutes().toString().padStart(2, "0")} น.
-                </h1>
-              </div>
-              <div className="flex flex-row justify-center space-x-2 text-TUCMC-gray-700">
-                <div className="flex flex-col items-center">
-                  <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
-                    {openTimer.hour}
-                  </span>
-                  <span className="mt-2 text-xs font-bold text-TUCMC-gray-600">HOUR</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
-                    {openTimer.min}
-                  </span>
-                  <span className="mt-2 text-xs font-bold text-TUCMC-gray-600">MIN</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
-                    {openTimer.sec}
-                  </span>
-                  <span className="mt-2 text-xs font-bold text-TUCMC-gray-600">SEC</span>
-                </div>
-              </div>
-            </div>
-          )}
+          {desc}
         </div>
-        {!before && (
-          <div className="mt-16 w-full bg-TUCMC-gray-100 pt-12 pb-20">
-            <div className="mx-auto max-w-md space-y-4 px-4">
-              {!before && userData.audition && !isEmpty(userData.audition) ? (
-                Object.keys(userData.audition).map((key) => {
-                  return (
-                    <ClubStatus
-                      selectTrigger={setSelect}
-                      action={setModalState}
-                      key={key}
-                      data={{
-                        clubID: key,
-                        status: userData.audition[key],
-                      }}
-                    />
-                  )
-                })
-              ) : (
-                <div className="flex justify-center">
-                  <h1 className="mt-5 text-TUCMC-gray-700">ไม่มีชมรมที่เลือก Audition</h1>
-                </div>
-              )}
-            </div>
-            {!before && bottomDesc}
+        <div className="mt-16 w-full bg-TUCMC-gray-100 pt-12 pb-20">
+          <div className="mx-auto max-w-md space-y-4 px-4">
+            {!before && userData.audition && !isEmpty(userData.audition) ? (
+              Object.keys(userData.audition).map((key) => {
+                return (
+                  <ClubStatus
+                    selectTrigger={setSelect}
+                    action={setModalState}
+                    key={key}
+                    data={{
+                      clubID: key,
+                      status: userData.audition[key],
+                    }}
+                  />
+                )
+              })
+            ) : (
+              <div className="flex justify-center">
+                <h1 className="mt-5 text-TUCMC-gray-700">ไม่มีชมรมที่เลือก Audition</h1>
+              </div>
+            )}
           </div>
-        )}
+          {!before && bottomDesc}
+        </div>
+        )
       </div>
     </PageContainer>
   )
