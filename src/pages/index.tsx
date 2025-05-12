@@ -89,7 +89,7 @@ const Index = () => {
                   </p>
                 </div>
                 {!button && (
-                  <div className="flex flex-row justify-center mt-4 space-x-2 md:mb-4 -4 text-TUCMC-gray-900">
+                  <div className="hidden md:flex flex-row justify-center mt-4 space-x-2 md:mb-4 -4 text-TUCMC-gray-900">
                     <div className="flex flex-col items-center">
                       <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
                         {timer.day}

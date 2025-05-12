@@ -4,7 +4,7 @@ import ClubStatus from "@components/dummy/announce/ClubStatus"
 import { useAuth } from "@client/auth"
 import Router from "next/router"
 import { isEmpty } from "@utilities/object"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import ConfirmModal from "@components/dummy/select/ConfirmModal"
 import DataModal from "@components/dummy/select/DataModal"
 import { ExclamationIcon } from "@heroicons/react/solid"
@@ -39,10 +39,28 @@ const Announce = () => {
   const [completeHide, setCompHide] = useState(false)
   const [reserved2, setReserved2] = useState(false)
   const [loader, setLoader] = useState(false)
+  const [showToast, setShowToast] = useState(true)
 
   const reFetch = () => {
     setReload(true)
   }
+
+  const lastScrollY = useRef(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      if (currentScrollY > lastScrollY.current && currentScrollY > 20) {
+        setShowToast(false)
+      } else {
+        setShowToast(true)
+      }
+      lastScrollY.current = currentScrollY
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   useEffect(() => {
     const d = JSON.parse(localStorage.getItem("dummyData") || "{}")
@@ -51,11 +69,23 @@ const Announce = () => {
 
     if (!aud.includes("ก40002")) {
       aud.unshift("ก40002")
+    } else if (aud.includes("ก40002")) {
+      const index = aud.indexOf("ก40002")
+      aud.splice(index, 1)
+      aud.unshift("ก40002")
     }
     if (!aud.includes("ก40000")) {
       aud.unshift("ก40000")
+    } else {
+      const index = aud.indexOf("ก40000")
+      aud.splice(index, 1)
+      aud.unshift("ก40000")
     }
     if (!aud.includes("ก40001")) {
+      aud.unshift("ก40001")
+    } else {
+      const index = aud.indexOf("ก40001")
+      aud.splice(index, 1)
       aud.unshift("ก40001")
     }
 
@@ -71,7 +101,7 @@ const Announce = () => {
         return
       }
       audobj[e] = "passed"
-      
+
       if (i === 0) audobj[e] = "passed"
       if (i === 1) audobj[e] = "failed"
       if (i === 2) audobj[e] = "reserved"
@@ -88,21 +118,11 @@ const Announce = () => {
     new Date().getTime() < 1623776400000
       ? 1623776400000
       : new Date().getTime() < 1623862800000
-      ? 1623862800000
-      : 1623949200000
+        ? 1623862800000
+        : 1623949200000
 
   const timer = useTimer(limit)
   const openTimer = useTimer(announceTime)
-
-  // useEffect(() => {
-  //   const currentTime = new Date().getTime()
-
-  //   if (currentTime < lastround) {
-  //     setTimeout(() => {
-  //       Router.push("/select")
-  //     }, lastround - currentTime)
-  //   }
-  // }, [])
 
   useEffect(() => {
     if (userData.audition && !isEmpty(userData.audition)) {
@@ -188,13 +208,11 @@ const Announce = () => {
 
   return (
     <PageContainer>
-      <div className={classnames("fixed top-0 z-[98] mx-auto flex w-full justify-center", completeHide && "hidden")}>
+      <div className={classnames("fixed top-8 z-[98] mx-auto flex w-full justify-center", completeHide && "hidden")}>
         <motion.div
-          onClick={() => {
-            setHideA(true)
-          }}
-          animate={hideA ? { y: -80 } : { y: 0 }}
-          transition={{ duration: 0.8 }}
+          onClick={() => setHideA(true)}
+          animate={showToast && !hideA && !completeHide ? { y: 0, opacity: 1 } : { y: -80, opacity: 0 }}
+          transition={{ duration: 0.5 }}
           onAnimationComplete={() => {
             hideA &&
               setTimeout(() => {
@@ -203,9 +221,9 @@ const Announce = () => {
               }, 9000)
             setCompHide(hideA)
           }}
-          className="flex cursor-pointer items-center space-x-2 rounded-md bg-TUCMC-orange-500 py-2 pl-4 pr-6 shadow-md"
+          className="flex items-center py-2 pl-4 pr-6 space-x-2 rounded-md shadow-md cursor-pointer bg-TUCMC-orange-500"
         >
-          <ExclamationIcon className="mt-2 h-10 w-10 animate-pulse text-white" />
+          <ExclamationIcon className="w-10 h-10 mt-2 text-white animate-pulse" />
           <div>
             <div className="flex items-center space-x-2 font-medium text-white">
               <h1>คุณกำลังอยู่ในโหมดระบบจำลอง</h1>
@@ -270,73 +288,37 @@ const Announce = () => {
       <div className="flex min-h-screen flex-col items-center pt-14 md:pt-20">
         <div className="max-w-md px-4">
           <div className="flex flex-col items-center">
-            {!before && <h1 className="text-4xl font-medium text-TUCMC-gray-700">ประกาศผล</h1>}
+            <h1 className="text-4xl font-medium text-TUCMC-gray-700">ประกาศผล</h1>
           </div>
           <div className="mt-10 w-full px-14 minClubs:px-20">
             <AnnounceSplash className="w-full" />
           </div>
-          {!before ? (
-            desc
-          ) : (
-            <div className="mb-20 space-y-8 pt-10">
-              <div className="flex flex-col items-center text-TUCMC-gray-700">
-                <h1 className="text-4xl">รอประกาศผล</h1>
-                <h1 className="text-xl">
-                  {new Date(announceTime).getDate()} {THAI_MONTH_INITIALS[new Date(announceTime).getMonth()]}
-                  {new Date(announceTime).getFullYear() + 543} เวลา
-                  {new Date(announceTime).getHours().toString().padStart(2, "0")}.
-                  {new Date(announceTime).getMinutes().toString().padStart(2, "0")} น.
-                </h1>
-              </div>
-              <div className="flex flex-row justify-center space-x-2 text-TUCMC-gray-700">
-                <div className="flex flex-col items-center">
-                  <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
-                    {openTimer.hour}
-                  </span>
-                  <span className="mt-2 text-xs font-bold text-TUCMC-gray-600">HOUR</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
-                    {openTimer.min}
-                  </span>
-                  <span className="mt-2 text-xs font-bold text-TUCMC-gray-600">MIN</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
-                    {openTimer.sec}
-                  </span>
-                  <span className="mt-2 text-xs font-bold text-TUCMC-gray-600">SEC</span>
-                </div>
-              </div>
-            </div>
-          )}
+          {desc}
         </div>
-        {!before && (
-          <div className="mt-16 w-full bg-TUCMC-gray-100 pt-12 pb-20">
-            <div className="mx-auto max-w-md space-y-4 px-4">
-              {!before && userData.audition && !isEmpty(userData.audition) ? (
-                Object.keys(userData.audition).map((key) => {
-                  return (
-                    <ClubStatus
-                      selectTrigger={setSelect}
-                      action={setModalState}
-                      key={key}
-                      data={{
-                        clubID: key,
-                        status: userData.audition[key],
-                      }}
-                    />
-                  )
-                })
-              ) : (
-                <div className="flex justify-center">
-                  <h1 className="mt-5 text-TUCMC-gray-700">ไม่มีชมรมที่เลือก Audition</h1>
-                </div>
-              )}
-            </div>
-            {!before && bottomDesc}
+        <div className="mt-16 w-full bg-TUCMC-gray-100 pt-12 pb-20">
+          <div className="mx-auto max-w-md space-y-4 px-4">
+            {!before && userData.audition && !isEmpty(userData.audition) ? (
+              Object.keys(userData.audition).map((key) => {
+                return (
+                  <ClubStatus
+                    selectTrigger={setSelect}
+                    action={setModalState}
+                    key={key}
+                    data={{
+                      clubID: key,
+                      status: userData.audition[key],
+                    }}
+                  />
+                )
+              })
+            ) : (
+              <div className="flex justify-center">
+                <h1 className="mt-5 text-TUCMC-gray-700">ไม่มีชมรมที่เลือก Audition</h1>
+              </div>
+            )}
           </div>
-        )}
+          {!before && bottomDesc}
+        </div>
       </div>
     </PageContainer>
   )

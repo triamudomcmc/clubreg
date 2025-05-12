@@ -4,7 +4,7 @@ import { isEmpty } from "@utilities/object"
 import { regClub } from "@client/userAction"
 import { useToast } from "@components/common/Toast/ToastContext"
 
-const ConfirmModal = ({ TriggerDep, clubData, onAgree, mode = "default", refetcher = () => {}, setLoader = null }) => {
+const ConfirmModal = ({ TriggerDep, clubData, onAgree, mode = "default", refetcher = () => { }, setLoader = null }) => {
   const [data, setData] = useState(clubData.data)
   const { addToast } = useToast()
 
@@ -74,19 +74,20 @@ const ConfirmModal = ({ TriggerDep, clubData, onAgree, mode = "default", refetch
         <div className="mx-12 pt-6 pb-5">
           <h1 className="text-center">
             {mode === "default" && !clubData.data.oldClubConfirm
-              ? `ต้องการลงชื่อ${auditionText} ชมรม${data.title} ใช่หรือไม่ ?`
-              : `ต้องการ${confirmText} ชมรม${data.title} ใช่หรือไม่ ?`}
+              ? `ยืนยันการ${auditionText} ชมรม${data.title}`
+              : `ต้องการ${confirmText} ชมรม${data.title}`
+            }
           </h1>
         </div>
         <div className="rounded-b-lg bg-gray-50 py-3 px-3">
           <div className="flex space-x-1 font-medium" id="confirmClose">
             <div
               onClick={confirm}
-              className="flex w-1/2 cursor-pointer justify-center rounded-lg bg-TUCMC-green-400 py-2 text-white"
+              className="flex w-1/2 cursor-pointer justify-center rounded-lg bg-TUCMC-green-400 py-2 text-white hover:bg-TUCMC-green-400/80 transition-colors duration-200"
             >
               <span>ยืนยัน</span>
             </div>
-            <div className="flex w-1/2 cursor-pointer justify-center rounded-lg border border-gray-300 bg-white py-2 text-gray-700">
+            <div className="flex w-1/2 cursor-pointer justify-center rounded-lg border bg-TUCMC-red-400 py-2 text-white hover:bg-TUCMC-red-400/80 transition-colors duration-200">
               <span>ยกเลิก</span>
             </div>
           </div>

@@ -1,7 +1,7 @@
 import PageContainer from "@components/common/PageContainer"
 import { Card } from "@components/Card"
 import { useWindowDimensions } from "@utilities/document"
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react"
+import React, { useRef, useEffect, useState } from "react"
 import { ArrowCircleDownIcon, ClipboardCopyIcon, StarIcon } from "@heroicons/react/solid"
 import { ExclamationIcon } from "@heroicons/react/solid"
 import { useAuth } from "@client/auth"
@@ -51,7 +51,7 @@ const Page = ({ links }) => {
   const [userData, setUserData] = useState<any>({})
   const [hideA, setHideA] = useState(false)
   const [completeHide, setCompHide] = useState(false)
-
+  const [showToast, setShowToast] = useState(false)
   const [link, setLink] = useState("")
 
   const reFetch = () => {
@@ -70,6 +70,23 @@ const Page = ({ links }) => {
 
     setReload(false)
   }, [reload])
+
+  const lastScrollY = useRef(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      if (currentScrollY > lastScrollY.current && currentScrollY > 20) {
+        setShowToast(false)
+      } else {
+        setShowToast(true)
+      }
+      lastScrollY.current = currentScrollY
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   useEffect(() => {
     if (userData && userData.club) {
@@ -100,13 +117,11 @@ const Page = ({ links }) => {
 
   return (
     <PageContainer>
-      <div className={classnames("fixed top-0 z-[98] mx-auto flex w-full justify-center", completeHide && "hidden")}>
-        <motion.div
-          onClick={() => {
-            setHideA(true)
-          }}
-          animate={hideA ? { y: -80 } : { y: 0 }}
-          transition={{ duration: 0.8 }}
+      <div className={classnames("fixed top-8 z-[98] mx-auto flex w-full justify-center", completeHide && "hidden")}>
+      <motion.div
+          onClick={() => setHideA(true)}
+          animate={showToast && !hideA && !completeHide ? { y: 0, opacity: 1 } : { y: -80, opacity: 0 }}
+          transition={{ duration: 0.5 }}
           onAnimationComplete={() => {
             hideA &&
               setTimeout(() => {

@@ -51,7 +51,7 @@ const ClubModal = ({ state, userData, closeAction, action, clubList, confirmOldC
   }, [ref, state.open])
 
   const notAuditionDesc = (
-    <p className="font-normal">ชมรมนี้ไม่มีการ Audition สามารถกดปุ่มลงทะเบียนด้านล่างเพื่อเข้าร่วมชมรมได้ทันที</p>
+    <p className="font-normal">ชมรมนี้ไม่มีการ Audition สามารถกดปุ่มเข้าร่วมชมรมด้านล่างเพื่อเข้าร่วมชมรมได้ทันที</p>
   )
 
   let auditionDesc = (
@@ -89,7 +89,7 @@ const ClubModal = ({ state, userData, closeAction, action, clubList, confirmOldC
       className="flex cursor-pointer items-center justify-center space-x-2 rounded-lg bg-TUCMC-green-400 py-4 text-lg text-white"
     >
       <CheckCircleIcon className="h-5 w-5" />
-      <span>ลงทะเบียน</span>
+      <span>เข้าร่วมชมรม</span>
     </div>
   )
 

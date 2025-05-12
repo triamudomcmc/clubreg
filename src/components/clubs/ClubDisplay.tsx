@@ -63,7 +63,11 @@ const ClubHeader: FC<{ clubID: string; clubDisplay: ClubDisplay; loaded: () => v
                 <UserIcon className="h-6 w-6" />
                 <span>สมาชิก {clubDisplay.count} คน</span>
               </div>
-              <div className="flex space-x-2 text-TUCMC-gray-600">
+              <div className={classNames(
+                "flex space-x-2 text-TUCMC-gray-600",
+                // @ts-ignore
+                isEmpty(clubDisplay.contact) && isEmpty(clubDisplay.contact2) && isEmpty(clubDisplay.contact3) && "hidden"
+                )}>
                 <GlobeAltIcon className="h-6 w-6" />
                 <div className="hidden md:block lg:hidden">
                   <a ref={contactRef} className="flex cursor-pointer items-center space-x-2">
@@ -100,7 +104,9 @@ const ClubHeader: FC<{ clubID: string; clubDisplay: ClubDisplay; loaded: () => v
                     </div>
                   </Modal>
                 </div>
-                <div className="flex flex-col md:hidden lg:flex">
+                <div className={classNames(
+                  "flex flex-col md:hidden lg:flex",
+                  )}>
                   {/* @ts-ignore */}
                   {!isEmpty(clubDisplay.contact) && clubDisplay?.contact?.type !== "ไม่มี" && (
                     <span>
@@ -147,7 +153,7 @@ export const ClubDisplaySection: FC<{
   onDataChange?: (data: { reviews: any[]; description: string }) => void
   suggestions?: any[],
   isStatic?: boolean
-}> = ({ clubDisplay, clubID, imgLoading, editable, onDataChange, suggestions, isStatic = true }) => {
+}> = ({ clubDisplay, clubID, imgLoading, editable, onDataChange, suggestions, isStatic = false }) => {
   const [loadingCount, setLoadingCount] = useState(1)
 
   const [reviews, setReviews] = useState(clubDisplay.reviews)

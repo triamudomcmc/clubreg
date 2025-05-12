@@ -4,27 +4,25 @@ import { XIcon } from "@heroicons/react/solid"
 import ClubList from "@components/select/ClubList"
 import ClubModal from "@components/select/ClubModal"
 import { useEffect, useRef, useState } from "react"
-import { FilterSearch } from "@components/common/Inputs/Search"
 import Modal from "@components/common/Modals"
 import ConfirmModal from "@components/select/ConfirmModal"
 import DataModal from "@components/select/DataModal"
 import { useAuth } from "@client/auth"
 import Router from "next/router"
-import { GetServerSideProps, GetStaticProps } from "next"
-import * as fs from "fs"
+import { GetStaticProps } from "next"
 import { useWindowDimensions } from "@utilities/document"
 import { fetchClub } from "@client/fetcher/club"
 import { Loader } from "@components/common/Loader"
 import { isEmpty, objToArr, searchKeyword, sortAudition, sortThaiDictionary } from "@utilities/object"
-import { sliceArr } from "@utilities/array"
-import { clubMap } from "../config/clubMap"
-import { regClub } from "@client/userAction"
 import { CatLoader } from "@components/common/CatLoader"
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence } from "framer-motion"
 import { endLastRound, endRegClubTime, lastround, openTime, getFullDate, announceTime } from "@config/time"
 import { useToast } from "@components/common/Toast/ToastContext"
 import initialisedDB from "@server/firebase-admin"
 import { ClubDisplay } from "@interfaces/clubDisplay"
+import classNames from "classnames"
+import { SearchIcon } from "@heroicons/react/outline"
+import { FilterSearch } from "@components/common/Inputs/Search"
 
 /*const blockContent = (dataObj) => {
   let newObj = {}
@@ -52,15 +50,15 @@ export const getStaticProps: GetStaticProps = async () => {
   const clubList = clubDisplayDocs.docs.map((club) => {
     const data = club.data() as ClubDisplay
     if (club.id === "ก30901") return null
-      return {
-        name: data.nameTH,
-        audition: data.audition,
-        clubID: club.id,
-        imageURL: data?.images?.mainImage || `/assets/thumbnails/${club.id}.jpg`,
-      }
-    
+    return {
+      name: data.nameTH,
+      audition: data.audition,
+      clubID: club.id,
+      imageURL: data?.images?.mainImage || `/assets/thumbnails/${club.id}.jpg`,
+    }
+
   })
-  
+
   return {
     props: {
       clubList: clubList,
@@ -69,7 +67,7 @@ export const getStaticProps: GetStaticProps = async () => {
 }
 
 const Select = ({ clubList }) => {
-  const { onReady, tracker, reFetch } = useAuth()
+  const { onReady, reFetch } = useAuth()
   const { width } = useWindowDimensions()
 
   const [modalState, setModalState] = useState({ open: false, data: {} })
@@ -80,9 +78,10 @@ const Select = ({ clubList }) => {
   const [searchContext, setSearchContext] = useState("")
   const [rawSorted, setRawSorted] = useState([])
   const [clubData, setClubData] = useState({})
-  const [auditionList, setAuditionList] = useState(<></>)
+  const [auditionList, setAuditionList] = useState<string[]>([])
   const [loader, setLoader] = useState(false)
   const [initclub, setInitclub] = useState(false)
+  const [tab, setTab] = useState("all")
   const { addToast } = useToast()
 
   const auTrigger = useRef(null)
@@ -93,27 +92,27 @@ const Select = ({ clubList }) => {
     if (!logged) {
       Router.push("/auth")
     } else {
-      if (new Date().getTime() < openTime) {
-        Router.push("/")
-        return { userData }
-      }
+      // if (new Date().getTime() < openTime) {
+      //   Router.push("/")
+      //   return { userData }
+      // }
 
-      if (userData.club !== "") {
-        Router.push("/card")
-      } else {
-        if ((Object.keys(userData.audition).length <= 0 || new Date().getTime() > endLastRound) && new Date().getTime() > endRegClubTime) {
-          localStorage.setItem("alert", "denied")
-          return Router.push("/account")
-        }
-      }
+      // if (userData.club !== "") {
+      //   Router.push("/card")
+      // } else {
+      //   if ((Object.keys(userData.audition).length <= 0 || new Date().getTime() > endLastRound) && new Date().getTime() > endRegClubTime) {
+      //     localStorage.setItem("alert", "denied")
+      //     return Router.push("/account")
+      //   }
+      // }
 
-      if (
-        new Date().getTime() > endRegClubTime &&
-        !(new Date().getTime() > lastround && new Date().getTime() < endLastRound)
-      ) {
-        Router.push("/announce")
-        return { userData }
-      }
+      // if (
+      //   new Date().getTime() > endRegClubTime &&
+      //   !(new Date().getTime() > lastround && new Date().getTime() < endLastRound)
+      // ) {
+      //   Router.push("/announce")
+      //   return { userData }
+      // }
     }
     return { userData }
   })
@@ -147,24 +146,20 @@ const Select = ({ clubList }) => {
           setRawSorted(sorted)
         }
         break
-      case "hasAudition":
-        {
-          const sorted = sortAudition(dataArr)
-          setRawSorted(sorted)
-        }
-        break
-      case "notHasAudition": {
-        const sorted = sortAudition(dataArr, true)
-        setRawSorted(sorted)
-      }
     }
   }
 
   useEffect(() => {
     const load = async () => {
       const value = await fetchClub()
-      setClubData(value)
-      setInitclub(true) 
+      const filteredValue = Object.keys(value)
+      .filter(key => value[key].report !== true)
+      .reduce((obj, key) => {
+        obj[key] = value[key]
+        return obj
+      }, {})
+      setClubData(filteredValue)
+      setInitclub(true)
     }
 
     userData && Object.keys(userData).length > 2 && load()
@@ -174,32 +169,42 @@ const Select = ({ clubList }) => {
     userData &&
       "audition" in userData &&
       Object.keys(clubData).length > 0 &&
-      setAuditionList(
-        <>
-          {Object.keys(userData.audition).map((val) => {
-            return (
-              <h1 key={val} className="border-t py-4 px-4">
-                {clubData[val].title}
-              </h1>
-            )
-          })}
-        </>
-      )
+      setAuditionList(Object.keys(userData.audition).map((value) => {
+        return value
+      }))
   }, [clubData, userData])
 
   useEffect(() => {
     apply()
   }, [sortMode, clubData, width])
 
+  const splitIntoColumns = (arr, columns = 2) => {
+    const result = Array.from({ length: columns }, () => []);
+    arr.forEach((item, idx) => {
+      result[idx % columns].push(item);
+    });
+    return result;
+  };
+
   useEffect(() => {
-    const escaped = searchContext.replace("ชมรม", "")
-    if (escaped !== "") {
-      const searchResult = searchKeyword(rawSorted, escaped, (obj) => obj.title)
-      setSortedData(sliceArr(searchResult, width))
-    } else {
-      setSortedData(sliceArr(rawSorted, width))
+    let filtered = rawSorted;
+    if (tab === "noAudition") {
+      filtered = rawSorted.filter((club) => !club.audition);
+    } else if (tab === "hasAudition") {
+      filtered = rawSorted.filter((club) => club.audition);
     }
-  }, [searchContext, rawSorted])
+
+    const searchTerm = searchContext.replace("ชมรม", "").trim();
+    if (searchTerm !== "") {
+      filtered = searchKeyword(filtered, searchTerm, (obj) => obj.title);
+    }
+
+    if (width > 768) {
+      setSortedData(splitIntoColumns(filtered, 2));
+    } else {
+      setSortedData([filtered]);
+    }
+  }, [tab, searchContext, rawSorted, width]);
 
   const clearState = () => {
     setModalState({ open: false, data: {} })
@@ -261,7 +266,7 @@ const Select = ({ clubList }) => {
               <div className="md:max-w-xs">
                 <div className="flex flex-col items-center">
                   <h1 className="text-4xl font-medium">เลือกชมรม</h1>
-                  <span className="text-sm tracking-tight">ภายในวันที่ {getFullDate(new Date().getTime() > endRegClubTime ? endLastRound : endRegClubTime,false)}</span>
+                  <span className="text-sm tracking-tight">ภายในวันที่ {getFullDate(new Date().getTime() > endRegClubTime ? endLastRound : endRegClubTime, false)}</span>
                 </div>
                 <div className="mt-6 w-full min-w-[300px] px-8">
                   <SelectSplash />
@@ -287,7 +292,31 @@ const Select = ({ clubList }) => {
                             <h1 className="mt-1">รายชื่อชมรมที่ลงชื่อ Audition ไว้</h1>
                             <XIcon id="audiClose" className="h-7 w-7 cursor-pointer text-TUCMC-gray-400" />
                           </div>
-                          <div className="rounded-b-lg bg-white">{auditionList}</div>
+                          <div className="rounded-b-lg bg-white">
+                            {auditionList.map((clubID) => {
+                              const _clubData = clubData[clubID]
+                              return (
+                                <div
+                                  key={clubID}
+                                  className="border-t py-4 px-4 cursor-pointer hover:bg-gray-100 transition-colors duration-100"
+                                >
+                                  <div
+                                    onClick={() => {
+                                      setModalState({
+                                        open: true,
+                                        data: {
+                                          ..._clubData,
+                                          clubID
+                                        },
+                                      })
+                                    }}
+                                  >
+                                    ชมรม{_clubData.title}
+                                  </div>
+                                </div>
+                              )
+                            })}
+                          </div>
                         </Modal>
                       </div>
                     </div>
@@ -297,7 +326,31 @@ const Select = ({ clubList }) => {
                       <div className="flex items-start justify-between rounded-t-lg bg-gray-50 py-2 px-4 text-sm text-gray-500">
                         <h1 className="mt-1">รายชื่อชมรมที่ลงชื่อ Audition ไว้</h1>
                       </div>
-                      <div className="rounded-b-lg bg-white">{auditionList}</div>
+                      <div className="rounded-b-lg bg-white">
+                      {auditionList.map((clubID) => {
+                        const _clubData = clubData[clubID]
+                        return (
+                          <div
+                            key={clubID}
+                            className="border-t py-4 px-4 cursor-pointer hover:bg-gray-100 transition-colors duration-100"
+                          >
+                            <div
+                              onClick={() => {
+                                setModalState({
+                                  open: true,
+                                  data: {
+                                    ..._clubData,
+                                    clubID
+                                  },
+                                })
+                              }}
+                            >
+                              ชมรม{_clubData.title}
+                            </div>
+                          </div>
+                        )
+                      })}
+                      </div>
                     </div>
                   )}
 
@@ -340,21 +393,47 @@ const Select = ({ clubList }) => {
                 </div>
               </div>
               <div style={width > 768 ? { width: width - 376, maxWidth: 952 } : {}} className="mt-16 md:mt-0">
-                <div className="mx-4 border-b pb-5">
-                  <div>
-                    <FilterSearch setSearchContext={setSearchContext} sortMode={sortMode} setSortMode={setSortMode} />
+                <div className="flex flex-col gap-y-6">
+                  <div className="grid grid-cols-3 text-center border-b">
+                    <div
+                      className={classNames(
+                        "pb-3 transition-colors duration-200 cursor-pointer",
+                        tab === "all" ? "border-b-2 border-b-TUCMC-pink-400 font-semibold text-TUCMC-pink-400" : "text-gray-500"
+                      )}
+                      onClick={() => setTab("all")}
+                    >
+                      ทั้งหมด
+                    </div>
+                    <div
+                      className={classNames(
+                        "pb-3 transition-colors duration-200 cursor-pointer",
+                        tab === "noAudition" ? "border-b-2 border-b-TUCMC-pink-400 font-semibold text-TUCMC-pink-400" : "text-gray-500"
+                      )}
+                      onClick={() => setTab("noAudition")}
+                    >
+                      ไม่มีการ Audition
+                    </div>
+                    <div
+                      className={classNames(
+                        "pb-3 transition-colors duration-200 cursor-pointer",
+                        tab === "hasAudition" ? "border-b-2 border-b-TUCMC-pink-400 font-semibold text-TUCMC-pink-400" : "text-gray-500"
+                      )}
+                      onClick={() => setTab("hasAudition")}
+                    >
+                      มีการ Audition
+                    </div>
                   </div>
+                  <FilterSearch setSearchContext={setSearchContext} sortMode={sortMode} setSortMode={setSortMode} disableNormal={true} />
                 </div>
-                <div className="mt-6 flex flex-col md:flex-row md:space-x-4">
-                  <div className="space-y-2 md:w-1/2">
-                    {sortedData[0]?.map((val) => {
-                      return <ClubList key={val.clubID} data={val} action={setModalState} />
-                    })}
-                  </div>
-                  <div className="mt-2 space-y-2 md:mt-0 md:w-1/2">
-                    {sortedData[1]?.map((val) => {
-                      return <ClubList key={val.clubID} data={val} action={setModalState} />
-                    })}
+                <div className="space-y-2 w-full">
+                  <div className="grid grid-cols-1 mt-6 md:grid-cols-2 md:space-x-4">
+                    {[0, 1].map((colIdx) => (
+                      <div key={colIdx} className="space-y-2 w-full">
+                        {sortedData[colIdx]?.map((club, idx) => (
+                          <ClubList key={club.clubID || idx} data={club} action={setModalState} />
+                        ))}
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>

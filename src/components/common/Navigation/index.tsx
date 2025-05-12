@@ -30,6 +30,7 @@ import { BeakerIcon } from "@heroicons/react/outline"
 import Modal from "@components/common/Modals"
 import { isEmpty } from "@utilities/object"
 import { addZero, convertMiliseconds } from "@utilities/timers"
+import { endRegClubTime, openTime } from "@config/time"
 
 const useTimer = (countTo) => {
   const [timer, setTime] = useState({})
@@ -60,13 +61,14 @@ const acceptedDate = new Date("2024-10-28T00:00:00.000+07:00").getTime()
 
 const Navigation = () => {
   const { onReady, signout } = useAuth()
- 
+
   const { logged, userData } = onReady((logged, userData) => {
     return { logged, userData }
   })
 
 
   const [reveal, setReaveal] = useState(false)
+  const [isRegClub, setIsRegClub] = useState(false)
   const [toggle, setToggle] = useState(false)
   const [sinfo, setSInfo] = useState(false)
   const [infoHover, setInfoHover] = useState(false)
@@ -78,7 +80,7 @@ const Navigation = () => {
   const [path, setPath] = useState("/")
 
   detectOuside(panel, reveal, () => {
-   setReaveal(false)
+    setReaveal(false)
   })
 
   useEffect(() => {
@@ -138,9 +140,23 @@ const Navigation = () => {
     }
   }
 
+  useEffect(() => {
+    const checkRegTime = () => {
+      const currentTime = new Date().getTime()
+      const isWithinRegPeriod = currentTime > openTime && currentTime < endRegClubTime
+      setIsRegClub(isWithinRegPeriod)
+    }
+
+    checkRegTime()
+
+    const intervalId = setInterval(checkRegTime, 60000)
+
+    return () => clearInterval(intervalId)
+  }, [])
+
   return (
     <>
-      {sinfo && <div onClick={() => {setSInfo(false)}}className="fixed min-h-screen w-full top-0 left-0 z-[100]"/>}
+      {sinfo && <div onClick={() => { setSInfo(false) }} className="fixed min-h-screen w-full top-0 left-0 z-[100]" />}
       <motion.div
         animate={reveal ? "open" : "closed"}
         className="sticky top-0 z-50 flex flex-row items-center justify-center h-16 px-6 bg-TUCMC-gray-900"
@@ -156,8 +172,13 @@ const Navigation = () => {
               <Link passHref href="/">
                 <a className="text-white">หน้าแรก</a>
               </Link>
+              {isRegClub && userData && userData.club === "" && (
+                <Link passHref href="/select">
+                  <a className="text-white">ลงทะเบียนชมรม</a>
+                </Link>
+              )}
               <Link passHref href="/dummy">
-                <a className="text-white">ทดลองเล่นระบบ</a>
+                <a className="text-white">ระบบจำลอง</a>
               </Link>
               <Link passHref href="/clubs">
                 <a className="text-white">ชมรม</a>
@@ -168,9 +189,9 @@ const Navigation = () => {
               <Link passHref href="https://clubs.triamudom.ac.th">
                 <a className="text-white">กช.</a>
               </Link>
-              <Link passHref href="/contact">
+              {/* <Link passHref href="/contact">
                 <a className="text-white">ติดต่อ</a>
-              </Link>
+              </Link> */}
               <div className={classnames(isEmpty(userData) && "hidden")}>
                 <h1 ref={accRef} className="flex items-center space-x-1 text-white cursor-pointer">
                   บัญชี <ChevronDownIcon className="w-5 h-5" />
@@ -181,15 +202,15 @@ const Navigation = () => {
                       <div className="py-2 font-normal rounded-t-lg bg-TUCMC-gray-100 px-7">
                         <h1 className="text-TUCMC-gray-900">{`${userData.title}${userData.firstname} ${userData.lastname}`}</h1>
                         <div className="flex items-center space-x-2">
-                          <h1 onClick={() => {setSInfo(false)}} className="text-sm tracking-tight text-TUCMC-gray-700">{`${userData.student_id} | ${userData.room} / ${userData.number}`}</h1>
+                          <h1 onClick={() => { setSInfo(false) }} className="text-sm tracking-tight text-TUCMC-gray-700">{`${userData.student_id} | ${userData.room} / ${userData.number}`}</h1>
                           <div className="w-5 h-5">
-                            <motion.div onClick={() => {setSInfo(true)}} onHoverStart={() => {setInfoHover(true)}} onHoverEnd={() => {setInfoHover(false)}} animate={sinfo ? {height: "260%",width:"500%", borderRadius: "6px"}: {width:"100%", height: "100%", borderRadius: "20px"}} whileTap={!sinfo ? {width: "200%", height: "140%"}: {}} whileHover={!sinfo ? {width: "200%"} : {}} className={classnames("cursor-pointer flex relative shadow-sm w-5 h-5 bg-TUCMC-green-400")}>
-                              <BadgeCheckIcon className="w-3.5 h-3.5 text-white ml-[3px] mt-[3px]"/>
-                              <motion.div animate={sinfo ? {clipPath: "inset(0 1% 1% 0)"} : infoHover ? {clipPath: "inset(0 60% 60% 0)"} : {clipPath: "inset(0 100% 60% 0)"}} className="flex flex-col absolute text-[11px] font-bold text-white">
+                            <motion.div onClick={() => { setSInfo(true) }} onHoverStart={() => { setInfoHover(true) }} onHoverEnd={() => { setInfoHover(false) }} animate={sinfo ? { height: "260%", width: "500%", borderRadius: "6px" } : { width: "100%", height: "100%", borderRadius: "20px" }} whileTap={!sinfo ? { width: "200%", height: "140%" } : {}} whileHover={!sinfo ? { width: "200%" } : {}} className={classnames("cursor-pointer flex relative shadow-sm w-5 h-5 bg-TUCMC-green-400")}>
+                              <BadgeCheckIcon className="w-3.5 h-3.5 text-white ml-[3px] mt-[3px]" />
+                              <motion.div animate={sinfo ? { clipPath: "inset(0 1% 1% 0)" } : infoHover ? { clipPath: "inset(0 60% 60% 0)" } : { clipPath: "inset(0 100% 60% 0)" }} className="flex flex-col absolute text-[11px] font-bold text-white">
                                 <h1 className="ml-5 mt-[2px]">ข้อมูล session</h1>
                                 <p className="ml-4 px-2 text-[10px] font-semibold text-center text-TUCMC-gray-100">เหลือเวลาอีก
-                                <br/>
-                                {cd.day !== "00" ? `${cd.day}:` : ""}{cd.hour}:{cd.min}:{cd.sec}
+                                  <br />
+                                  {cd.day !== "00" ? `${cd.day}:` : ""}{cd.hour}:{cd.min}:{cd.sec}
                                 </p>
                               </motion.div>
                             </motion.div>
@@ -207,8 +228,8 @@ const Navigation = () => {
                         </Link>
                       )}
                       {logged && userData.panelID && new Date().getTime() > acceptedDate &&
-                      <Link passHref href="/panel/evaluate"><h1 className="flex items-center space-x-1 font-medium cursor-pointer text-TUCMC-orange-500 hover:text-blue-600 hover:underline"><span>ประเมินผล</span> <StarIcon className="w-4 h-4 animate-pulse"/></h1>
-                      </Link>}
+                        <Link passHref href="/panel/evaluate"><h1 className="flex items-center space-x-1 font-medium cursor-pointer text-TUCMC-orange-500 hover:text-blue-600 hover:underline"><span>ประเมินผล</span> <StarIcon className="w-4 h-4 animate-pulse" /></h1>
+                        </Link>}
                       {logged && userData.panelID && (
                         <Link passHref href="/panel">
                           <a className="block text-black hover:text-blue-600 hover:underline">แผงควบคุม</a>
@@ -286,20 +307,20 @@ const Navigation = () => {
           <div className="px-6 py-2 my-4 bg-TUCMC-gray-100">
             <h1 className="text-TUCMC-gray-900">{`${userData.title}${userData.firstname} ${userData.lastname}`}</h1>
             <div className="flex items-center space-x-2">
-                          <h1 onClick={() => {setSInfo(false)}} className="text-sm tracking-tight text-TUCMC-gray-700">{`${userData.student_id} | ${userData.room} / ${userData.number}`}</h1>
-                          <div className="w-5 h-5">
-                            <motion.div onClick={() => {setSInfo(true)}} onHoverStart={() => {setInfoHover(true)}} onHoverEnd={() => {setInfoHover(false)}} animate={sinfo ? {height: "260%",width:"500%", borderRadius: "6px"}: {width:"100%", height: "100%", borderRadius: "20px"}} whileTap={!sinfo ? {width: "200%", height: "140%"}: {}} whileHover={!sinfo ? {width: "200%"} : {}} className={classnames("cursor-pointer flex relative shadow-sm w-5 h-5 bg-TUCMC-green-400")}>
-                              <BadgeCheckIcon className="w-3.5 h-3.5 text-white ml-[3px] mt-[3px]"/>
-                              <motion.div animate={sinfo ? {clipPath: "inset(0 1% 1% 0)"} : infoHover ? {clipPath: "inset(0 55% 60% 0)"} : {clipPath: "inset(0 100% 60% 0)"}} className="flex flex-col absolute text-[11px] font-bold text-white">
-                                <h1 className="ml-5 mt-[2px]">ข้อมูล session</h1>
-                                <p className="ml-4 px-2 text-[10px] font-semibold text-center text-TUCMC-gray-100">เหลือเวลาอีก
-                                <br/>
-                                {cd.day !== "00" ? `${cd.day}:` : ""}{cd.hour}:{cd.min}:{cd.sec}
-                                </p>
-                              </motion.div>
-                            </motion.div>
-                          </div>
-                        </div>
+              <h1 onClick={() => { setSInfo(false) }} className="text-sm tracking-tight text-TUCMC-gray-700">{`${userData.student_id} | ${userData.room} / ${userData.number}`}</h1>
+              <div className="w-5 h-5">
+                <motion.div onClick={() => { setSInfo(true) }} onHoverStart={() => { setInfoHover(true) }} onHoverEnd={() => { setInfoHover(false) }} animate={sinfo ? { height: "260%", width: "500%", borderRadius: "6px" } : { width: "100%", height: "100%", borderRadius: "20px" }} whileTap={!sinfo ? { width: "200%", height: "140%" } : {}} whileHover={!sinfo ? { width: "200%" } : {}} className={classnames("cursor-pointer flex relative shadow-sm w-5 h-5 bg-TUCMC-green-400")}>
+                  <BadgeCheckIcon className="w-3.5 h-3.5 text-white ml-[3px] mt-[3px]" />
+                  <motion.div animate={sinfo ? { clipPath: "inset(0 1% 1% 0)" } : infoHover ? { clipPath: "inset(0 55% 60% 0)" } : { clipPath: "inset(0 100% 60% 0)" }} className="flex flex-col absolute text-[11px] font-bold text-white">
+                    <h1 className="ml-5 mt-[2px]">ข้อมูล session</h1>
+                    <p className="ml-4 px-2 text-[10px] font-semibold text-center text-TUCMC-gray-100">เหลือเวลาอีก
+                      <br />
+                      {cd.day !== "00" ? `${cd.day}:` : ""}{cd.hour}:{cd.min}:{cd.sec}
+                    </p>
+                  </motion.div>
+                </motion.div>
+              </div>
+            </div>
           </div>
         )}
         <Link passHref href="/">
@@ -321,9 +342,23 @@ const Navigation = () => {
             )}
           >
             <BeakerIcon className={classnames("h-7 w-7", getClass("/dummy/select", "icon"))} />{" "}
-            <span className={getClass("/dummy/select", "font")}>ทดลองเล่นระบบ</span>
+            <span className={getClass("/dummy/select", "font")}>ระบบจำลอง</span>
           </a>
         </Link>
+        {isRegClub && userData && userData.club === "" &&
+          (
+            <Link passHref href="/select">
+              <a
+                className={classnames(
+                  "flex flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8",
+                  getClass("/select", "bg")
+                )}
+              >
+                <HeartIcon className={classnames("h-7 w-7", getClass("/select", "icon"))} />{" "}
+                <span className={getClass("/select", "font")}>ลงทะเบียนชมรม</span>
+              </a>
+            </Link>
+          )}
         {!logged ? (
           <Link passHref href="/auth">
             <a
@@ -340,7 +375,7 @@ const Navigation = () => {
           <button
             onClick={signout}
             className={classnames(
-              "flex flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8",
+              "flex flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8 w-full",
               getClass("/auth", "bg")
             )}
           >
@@ -348,17 +383,6 @@ const Navigation = () => {
             <span className={getClass("/auth", "font")}>ออกจากระบบ</span>
           </button>
         )}
-        <Link passHref href="/select">
-          <a
-            className={classnames(
-              "flex flex-row items-center space-x-4 border-l-2 py-3 pl-4 pr-8",
-              getClass("/select", "bg")
-            )}
-          >
-            <HeartIcon className={classnames("h-7 w-7", getClass("/select", "icon"))} />{" "}
-            <span className={getClass("/select", "font")}>ลงทะเบียนชมรม</span>
-          </a>
-        </Link>
         {logged && userData.admin && (
           <Link passHref href="/admin">
             <a
@@ -385,11 +409,11 @@ const Navigation = () => {
             </a>
           </Link>
         )}
-        {(logged && userData.panelID)&& new Date().getTime() > acceptedDate  && <Link passHref href="/panel/evaluate">
+        {(logged && userData.panelID) && new Date().getTime() > acceptedDate && <Link passHref href="/panel/evaluate">
           <div
-           className={classnames("flex flex-row border-l-2 border-TUCMC-orange-500 items-center space-x-4 pl-4 py-3 pr-8", getClass("/panel/evaluate", "bg"))}>
-          <AcademicCapIcon className={classnames("w-7 h-7 animate-pulse text-TUCMC-orange-500", getClass("/panel/evaluate", "icon"))}/> <span
-            className={classnames("text-TUCMC-orange-500", getClass("/panel/evaluate", "font"))}>ประเมินผล</span>
+            className={classnames("flex flex-row border-l-2 border-TUCMC-orange-500 items-center space-x-4 pl-4 py-3 pr-8", getClass("/panel/evaluate", "bg"))}>
+            <AcademicCapIcon className={classnames("w-7 h-7 animate-pulse text-TUCMC-orange-500", getClass("/panel/evaluate", "icon"))} /> <span
+              className={classnames("text-TUCMC-orange-500", getClass("/panel/evaluate", "font"))}>ประเมินผล</span>
           </div>
         </Link>}
         {logged && userData.panelID && (
