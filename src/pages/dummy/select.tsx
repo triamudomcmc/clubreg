@@ -868,7 +868,7 @@ const Select: NextPage<{ clubList: IClubListData[] }> = ({ clubList }) => {
                       )}
 
                       {/* Tutorial ClubList: คนรักนกพิราบ (scene 4, 5) */}
-                      {tutorial && colIdx === 1 && (scene === 4 || scene === 5) && (<div className="relative z-[100]">
+                      {tutorial && ((width <= 768 && colIdx === 0) || (width > 768 && colIdx === 1)) && (scene === 4 || scene === 5) && (<div className="relative z-[100]">
                         <div ref={auRef} className="absolute w-full h-full" >
                           <ClubList
                             key={"2"}
