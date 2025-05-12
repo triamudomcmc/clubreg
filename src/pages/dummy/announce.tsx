@@ -319,7 +319,6 @@ const Announce = () => {
           </div>
           {!before && bottomDesc}
         </div>
-        )
       </div>
     </PageContainer>
   )
