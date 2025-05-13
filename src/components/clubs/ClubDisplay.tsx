@@ -265,7 +265,7 @@ export const ClubDisplaySection: FC<{
                 {reviews.map((revContent, index) => {
                   return (
                     <div key={`review-${index}`}>
-                      <div className="flex flex-wrap-reverse md:flex-row md:flex-nowrap">
+                      <div className="flex flex-wrap md:flex-row md:flex-nowrap">
                         <div className="mt-6 ml-4 flex flex-row md:mt-0 md:flex-col">
                           <div className="h-20 w-20 md:h-24 md:w-24">
                             <Image
