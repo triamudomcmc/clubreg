@@ -265,7 +265,7 @@ export const ClubDisplaySection: FC<{
                 {reviews.map((revContent, index) => {
                   return (
                     <div key={`review-${index}`}>
-                      <div className="flex flex-wrap md:flex-row md:flex-nowrap">
+                      <div className="flex flex-wrap md:flex-row md:flex-nowrap shadow-xl rounded-xl">
                         <div className="mt-6 ml-4 flex flex-row md:mt-0 md:flex-col">
                           <div className="h-20 w-20 md:h-24 md:w-24">
                             <Image
@@ -288,7 +288,7 @@ export const ClubDisplaySection: FC<{
                           <div className="relative">
                             <span className="absolute top-2 left-2 md:left-10 md:top-6 text-7xl text-gray-300">“</span>
                           </div>
-                          <div className="bg-whtie rounded-xl px-6 py-10 shadow-lg md:px-16 md:pt-12 md:pb-16">
+                          <div className="bg-whtie px-6 py-10 md:px-16 md:pt-12 md:pb-16">
                             {/* <div className="h-12 pt-2 text-center text-6xl text-gray-300 md:hidden">
                               <span className="absolute">“</span>
                             </div> */}
