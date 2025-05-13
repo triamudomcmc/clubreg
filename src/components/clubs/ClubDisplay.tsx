@@ -285,13 +285,13 @@ export const ClubDisplaySection: FC<{
                           </div>
                         </div>
                         <div className="flex flex-col md:ml-8">
-                          <div className="relative hidden md:block">
-                            <span className="absolute left-10 top-6 text-7xl text-gray-300">“</span>
+                          <div className="relative">
+                            <span className="absolute top-2 left-2 md:left-10 md:top-6 text-7xl text-gray-300">“</span>
                           </div>
-                          <div className="bg-whtie rounded-xl px-6 shadow-lg md:px-16 md:pt-12 md:pb-16">
-                            <div className="h-12 pt-2 text-center text-6xl text-gray-300 md:hidden">
+                          <div className="bg-whtie rounded-xl px-6 py-10 shadow-lg md:px-16 md:pt-12 md:pb-16">
+                            {/* <div className="h-12 pt-2 text-center text-6xl text-gray-300 md:hidden">
                               <span className="absolute">“</span>
-                            </div>
+                            </div> */}
                             {editable ? (
                               <QuillEditor
                                 value={revContent.context}
@@ -309,10 +309,10 @@ export const ClubDisplaySection: FC<{
                                 className="club-article ql-container ql-editor font-texts text-[1.05rem] text-gray-500"
                               ></article>
                             )}
-                            <p className="mt-4 h-14 w-full text-center text-6xl text-gray-300 md:hidden">”</p>
+                            {/* <p className="mt-4 h-14 w-full text-center text-6xl text-gray-300 md:hidden">”</p> */}
                           </div>
-                          <div className="relative hidden md:block">
-                            <span className="absolute right-16 -top-16 text-7xl text-gray-300">”</span>
+                          <div className="relative ">
+                            <span className="absolute right-2 md:right-16 -top-10 md:-top-16 text-7xl text-gray-300">”</span>
                           </div>
                         </div>
                       </div>
