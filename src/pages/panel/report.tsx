@@ -308,7 +308,7 @@ const Report = () => {
                 </div>
               </div>
             </div>
-            <div className="max-w-6xl mx-auto">
+            {/* <div className="max-w-6xl mx-auto">
               <div className="relative flex justify-center">
                 <div className="absolute w-full px-4 pb-8 -top-8">
                   <a href="/panel/print" target="_blank">
@@ -319,7 +319,7 @@ const Report = () => {
                   </a>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div className="max-w-6xl pt-10 mx-auto pb-14">
               <h1 className="pt-16 pb-10 text-xl text-center text-TUCMC-gray-700">รายชื่อ</h1>
               <div className="flex flex-col items-center">

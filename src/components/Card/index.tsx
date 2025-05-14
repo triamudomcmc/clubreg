@@ -137,7 +137,7 @@ export const Card = ({ width, userData, clubData, customURL = "", teacherData, i
         )}
       >
         <h1 className={css.text14}>{`${userData.title}${userData.firstname} ${userData.lastname}`}</h1>
-        <h1 className={css.text12}>ห้อง {userData.room}</h1>
+        {/* <h1 className={css.text12}>ห้อง {userData.room}</h1> */}
       </div>
       <div className="relative">
         <CardSplash className={css.vector} />

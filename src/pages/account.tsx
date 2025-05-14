@@ -380,7 +380,7 @@ const Account = () => {
                 {userData.firstname} {userData.lastname}
               </h1>
             </div>
-            <div className="flex items-center space-x-8 border-b border-gray-200 py-4 md:flex-col md:items-start md:space-x-0 md:space-y-1 md:py-6">
+            {/* <div className="flex items-center space-x-8 border-b border-gray-200 py-4 md:flex-col md:items-start md:space-x-0 md:space-y-1 md:py-6">
               <div className="space-y-1 md:flex md:items-center md:space-y-0 md:space-x-52">
                 <h1 className="text-TUCMC-gray-500">รหัสนักเรียน</h1>
                 <h1>{userData.student_id}</h1>
@@ -389,8 +389,8 @@ const Account = () => {
                 <h1 className="text-TUCMC-gray-500">เลขที่</h1>
                 <h1>{userData.number}</h1>
               </div>
-            </div>
-            <div className="hidden items-center space-x-[3.8rem] border-b border-gray-200 py-4 md:flex md:py-6">
+            </div> */}
+            {/* <div className="hidden items-center space-x-[3.8rem] border-b border-gray-200 py-4 md:flex md:py-6">
               <div className="flex items-center space-x-48">
                 <h1 className="text-TUCMC-gray-500">ระดับชั้น / ห้อง</h1>
                 <h1>
@@ -407,7 +407,7 @@ const Account = () => {
                 <h1 className="text-TUCMC-gray-500">ห้อง</h1>
                 <h1>{userData.room}</h1>
               </div>
-            </div>
+            </div> */}
             <div className="space-y-1 border-b border-gray-200 py-4 md:flex md:space-y-0 md:space-x-[11.5rem] md:py-6">
               <h1 className="flex-shrink-0 text-TUCMC-gray-500">Email address</h1>
               <div className="flex w-full justify-start">
