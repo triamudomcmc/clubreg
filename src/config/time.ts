@@ -28,10 +28,14 @@ export const endOldClub = +new Date("2025-05-06T20:00:00.000+07:00")
 export const openRegisterTime = +new Date("2025-05-14T14:00:00.000+07:00")
 // registration open time
 export const openTime = +new Date("2025-05-16T12:00:00.000+07:00")
+// start audition time *optional
+export const auditionTime = +new Date("2025-05-19T08:00:00.000+07:00")
+// end audition time
+export const endAuditionTime = +new Date("2025-05-23T20:00:00.000+07:00")
 // end of data editing time for updating positions and audition result.
 export const editDataTime = +new Date("2025-05-25T23:59:00.000+07:00")
 // registration close 1st round.
-export const endRegClubTime = +new Date("2025-05-23T23:59:00.000+07:00")
+export const endRegClubTime = +new Date("2025-05-21T23:59:00.000+07:00")
 // announce audition result. (user can select either to accept or reject)
 export const announceTime = +new Date("2025-05-26T07:30:00.000+07:00")
 // end announce time. Dicisions are no longer accepted
@@ -109,7 +113,7 @@ export const getRecentMondays = () => {
 
 // export const EXCEPT = ["ก30903-3_1", "ก30903-3_2", "ก30905-2_1","ก30905-2_2","ก30905-2_6","ก30905-2_7","ก30905-2_9","ก30915_1","ก30915_2","ก30915_4","ก30902","ก30921_1","ก30921_1","ก30952-2","ก30902"]
 
-export const EXCEPT = []
+export const EXCEPT = ['ก30929']
 
 export const THAI_MONTH = Object.values({
   1: "มกราคม",

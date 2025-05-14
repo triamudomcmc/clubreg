@@ -25,15 +25,16 @@ export const getSessionData = async (sessionID, cookies, req, res, fingerprint) 
 
 export const getUserDataFromSessionData = async (sessionData) => {
   const docData = await initialisedDB.collection("data").doc(sessionData.get("dataRefID")).get()
-
   if (!docData.exists) return { status: false, data: { userData: {} }, report: "userNotFound" }
 
   const d = docData.data()
   let esc = {}
 
-  Object.keys(d.audition).forEach((k) => {
-    return (esc[k] = "waiting")
-  })
+  if (d.audition) {
+    Object.keys(d.audition).forEach((k) => {
+      return (esc[k] = "waiting")
+    })
+  }
 
   const hide = new Date().getTime() < announceTime
 
@@ -71,6 +72,7 @@ export const getUserDataFromSessionData = async (sessionData) => {
       ...(isTeacher && { conTasks: annData }),
     },
   }
+
 
   return { status: true, userData }
 }

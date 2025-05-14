@@ -5,6 +5,8 @@ import {
   openTime,
   announceTime,
   firstRoundTime,
+  auditionTime,
+  endAuditionTime,
   secondRoundTime,
   lastround,
   firstClubPeroid,
@@ -135,16 +137,16 @@ const Timeline = () => {
             <div className="space-y-8">
               <TimelineTag
                 date={new Date(openTime)}
-                title="สมัครและ Audition"
+                title="เปิดลงทะเบียนชมรม"
                 subTitle="เข้าสู่ระบบ หรือสร้างบัญชี (เฉพาะ ม.4) แล้วลงชื่อ Audition ชมรมที่ต้องการ"
               >
                 <TimelineTag.Desc>
-                  ให้ไปทำการ Audition ตามเวลาและสถานที่ที่ชมรมนั้น ๆ กำหนดโดยติดตามรายละเอียด การ Audition
+                  ให้ไปทำการ Audition ตามวัน เวลา และสถานที่ที่ชมรมนั้น ๆ กำหนดโดยติดตามรายละเอียด การ Audition
                   จากช่องทางประชาสัมพันธ์ ของชมรมนั้นโดยตรง
                 </TimelineTag.Desc>
                 <TimelineTag.ExtraDescription>ภายในวันที่ {getFullDate(endRegClubTime)}</TimelineTag.ExtraDescription>
               </TimelineTag>
-              <TimelineTag date={new Date(endRegClubTime)} title="สิ้นสุดการสมัครและ Audition">
+              <TimelineTag date={new Date(endRegClubTime)} title="สิ้นสุดการลงทะเบียน">
                 <TimelineTag.Desc>
                   หากไม่ดำเนินการลงชื่อชมรมใด ๆ เลยภายในระยะเวลาการสมัคร และ Audition ระบบจะทำการสุ่มชมรมให้อัตโนมัติ
                 </TimelineTag.Desc>
@@ -189,7 +191,7 @@ const Timeline = () => {
                 padding="items-start h-2/5 md:h-3/5"
               >
                 <TimelineTag.Desc>
-                  เข้าสู่ระบบ หรือสร้างบัญชี (เฉพาะ ม.4) แล้วลงทะเบียน ชมรมที่ไม่มีการ Audition
+                  เข้าสู่ระบบ หรือสร้างบัญชี (เฉพาะ ม.4) แล้วเข้าร่วมชมรมที่ไม่มีการ Audition
                 </TimelineTag.Desc>
                 <TimelineTag.ExtraDescription>ภายในวันที่ {getFullDate(endRegClubTime)}</TimelineTag.ExtraDescription>
               </TimelineTag>
@@ -201,7 +203,7 @@ const Timeline = () => {
                 padding="items-start h-2/5 md:h-1/4"
               >
                 <TimelineTag.Desc>
-                  นักเรียนที่ไม่ได้เข้ามาเลือก ลงทะเบียนชมรมใดในช่วงเวลานี้ เลย จะถูกสุ่มชมรมให้อัตโนมัติ
+                  นักเรียนที่ไม่ได้เข้าร่วมชมรมใด จะถูกสุ่มชมรมให้อัตโนมัติ
                 </TimelineTag.Desc>
               </TimelineTag>
               <TimelineTag date={new Date(firstClubPeroid)} last={true} title="เริ่มเรียนชมรมคาบแรก">

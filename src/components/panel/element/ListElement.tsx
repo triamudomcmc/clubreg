@@ -48,17 +48,20 @@ export const ListElement = ({
   }
 
   return (
-    <div className="flex items-center justify-between border-b border-TUCMC-gray-300 bg-white py-5 pr-4 md:py-8">
-      <div className="flex items-center">
+    // <div className="flex items-center justify-between border-b border-TUCMC-gray-300 bg-white py-5 pr-4 md:py-8">
+    <div className="text-center border-b border-TUCMC-gray-300 bg-white py-5 pr-4 md:py-8">
+      {/* <div className="flex items-center"> */}
+      <div className="text-center w-full">
         {index > 0 && <div className="-mr-2 h-6 w-6 rounded-full bg-black text-center text-white">{index}</div>}
-        <div className="ml-6 flex flex-col items-start">
+        {/* <div className="ml-6 flex flex-col items-start"> */}
+        <div className="flex justify-center">
           <div className="flex justify-between">
             {userData.title}
             {userData.firstname} {userData.lastname}
           </div>
-          <span className="text-TUCMC-gray-600 md:hidden">
+          {/* <span className="text-TUCMC-gray-600 md:hidden">
             {userData.student_id} | ม.{userData.level}/{userData.room}
-          </span>
+          </span> */}
           {!noStatus && !editable && <div className="mt-1 -ml-[2px] md:hidden">{statusBar}</div>}
         </div>
       </div>
@@ -75,9 +78,9 @@ export const ListElement = ({
         )}
       </div>
       <div className="hidden text-TUCMC-gray-600 md:flex md:w-2/5">
-        <div className={`flex w-1/3 justify-center ${editable ? "w-1/4" : "w-1/3"}`}>{userData.student_id}</div>
+        {/* <div className={`flex w-1/3 justify-center ${editable ? "w-1/4" : "w-1/3"}`}>{userData.student_id}</div>
         <div className={`flex w-1/3 justify-center ${editable ? "w-1/4" : "w-1/3"}`}>{userData.level}</div>
-        <div className={`flex w-1/3 justify-center ${editable ? "w-1/4" : "w-1/3"}`}>{userData.room}</div>
+        <div className={`flex w-1/3 justify-center ${editable ? "w-1/4" : "w-1/3"}`}>{userData.room}</div> */}
         {editable && (
           <span
             className="z-40 flex w-1/4 cursor-pointer justify-center underline transition-all hover:no-underline hover:opacity-70"

@@ -173,7 +173,8 @@ const RegisterSection = ({ swapFunction, setLoader }) => {
       <form onSubmit={onsubmit} className="mt-8 w-full space-y-6">
         <Input title="ชื่อ (หากมีชื่อกลาง ให้กรอกในช่องนี้)" stateUpdate={setFirstname} required={true} />
         <Input title="นามสกุล" stateUpdate={setLastname} required={true} />
-        <Input title="เลขประจำตัวนักเรียน" stateUpdate={setStdID} required={true} />
+        {/* <Input title="เลขประจำตัวนักเรียน" stateUpdate={setStdID} required={true} /> */}
+        <Input title="เลขประจำตัวประชาชน" stateUpdate={setStdID} required={true} />
         <div className="w-full">
           <Listbox value={selected} onChange={setSelected}>
             {({ open }) => (
@@ -238,7 +239,7 @@ const RegisterSection = ({ swapFunction, setLoader }) => {
             )}
           </Listbox>
         </div>
-        <Input title="ห้องเรียน" stateUpdate={setRoom} required={true} />
+        {/* <Input title="ห้องเรียน" stateUpdate={setRoom} required={true} /> */}
         <Input title="Email (ไม่เป็นจำเป็นต้องใช้อีเมลโรงเรียน)" stateUpdate={setEmail} required={true} />
         <Input title="ยืนยัน Email" stateUpdate={setConEmail} required={true} />
         <div>

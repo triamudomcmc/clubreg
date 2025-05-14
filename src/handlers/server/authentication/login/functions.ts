@@ -100,11 +100,11 @@ const sendEmail = (email: string, code: string) => {
 
 export const checkCredentials = async (stdID, password, fingerPrint, userCollection, req) => {
   if (stdID === "" || password === "") return { status: false, report: "invalid_credentials" }
-
+  
   const userDB = await userCollection.where("stdID", "==", stdID).get()
-
+  
   if (userDB.docs.length <= 0) return { status: false, report: "invalid_user" }
-
+  
   const userDoc = userDB.docs[0]
 
   let verified = false
@@ -146,6 +146,7 @@ export const checkCredentials = async (stdID, password, fingerPrint, userCollect
       return { status: false, report: "notAuthorised", data: {  } }
     }
   }
+
 
   return { status: true, userDoc }
 }
