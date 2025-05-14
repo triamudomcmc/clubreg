@@ -26,98 +26,98 @@ export const forgot = async (req, res) => {
 
     const url = `https://register.clubs.triamudom.ac.th/auth/reset${action.id}`
 
-    const smtpServ = initSmtpAPIService(process.env.SMTP_API_KEY)
+//     const smtpServ = initSmtpAPIService(process.env.SMTP_API_KEY)
 
-    const from = `Triam Udom Clubs Registration System <no-reply@clubs.triamudom.ac.th>`
-    const to = [req.body.email]
-    const subject = "มีการขอเปลี่ยนรหัสผ่าน"
-    const htmlContent = `
-<!doctype html>
-<html lang="en-US">
-<head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-    <title>เปลี่ยนรหัสผ่าน</title>
-    <meta name="description" content="เปลี่ยนรหัสผ่าน">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&display=swap" rel="stylesheet">
-    <style type="text/css">
-        body, table, td, h1, p, a, span {
-            font-family: 'Noto Sans Thai', 'Open Sans', Arial, sans-serif !important;
-        }
-        a:hover {text-decoration: underline !important;}
-    </style>
-</head>
-<body marginheight="0" topmargin="0" marginwidth="0" style="margin: 0px; background-color: #f2f3f8;" leftmargin="0">
-    <!--100% body table-->
-    <table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="#f2f3f8"
-        style="font-family: 'Noto Sans Thai', 'Open Sans', Arial, sans-serif;">
-        <tr>
-            <td>
-                <table style="background-color: #f2f3f8; max-width:670px;  margin:0 auto;" width="100%" border="0"
-                    align="center" cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td style="height:80px;">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td style="height:20px;">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0"
-                                style="max-width:670px;background:#fff; border-radius:3px; text-align:center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);">
-                                <tr>
-                                    <td style="height:40px;">&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding:0 35px;">
-                                        <h1 style="color:#1e1e2d; font-weight:600; margin:0;font-size:32px;font-family:'Noto Sans Thai', 'Open Sans', Arial, sans-serif;">มีคำขอแก้ไขรหัสผ่าน</h1>
-                                        <span
-                                            style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
-                                        <p style="color:#718096; font-size:15px;line-height:24px; margin:0;">
-                                            บัญชีของคุณมีคำขอในการแก้ไขรหัสผ่าน หากต้องการดำเนินการต่อกดที่ด้านล่างช้อความนี้เพื่อดำเนินการในขั้นต่อไป คำขอนี้จะมีอายุ 1 ชั่วโมง
-                                        </p>
-                                        <a href="${url}"
-                                            style="background:#f687b3;text-decoration:none !important; font-weight:600; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;font-family:'Noto Sans Thai', 'Open Sans', Arial, sans-serif;">เปลี่ยนรหัสผ่าน</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="height:40px;">&nbsp;</td>
-                                </tr>
-                            </table>
-                        </td>
-                    <tr>
-                        <td style="height:20px;">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:center;">
-                            <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;font-family:'Noto Sans Thai', 'Open Sans', Arial, sans-serif;"><strong>งานกิจกรรมพัฒนาผู้เรียน โรงเรียนเตรียมอุดมศึกษา</strong></p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="height:80px;">&nbsp;</td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-    <!--/100% body table-->
-</body>
-</html>
-`
-    const err = await sendEmail(smtpServ, {
-        to,
-        from,
-        sender: "no-reply@clubs.triamudom.ac.th",
-        subject,
-        html_body: htmlContent,
-        plain_body: `มีการขอเปลี่ยนรหัสผ่านบนระบบ กรุณาใช้ลิงก์นี้ ${url}`
-    })
+//     const from = `Triam Udom Clubs Registration System <no-reply@clubs.triamudom.ac.th>`
+//     const to = [req.body.email]
+//     const subject = "มีการขอเปลี่ยนรหัสผ่าน"
+//     const htmlContent = `
+// <!doctype html>
+// <html lang="en-US">
+// <head>
+//     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+//     <title>เปลี่ยนรหัสผ่าน</title>
+//     <meta name="description" content="เปลี่ยนรหัสผ่าน">
+//     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&display=swap" rel="stylesheet">
+//     <style type="text/css">
+//         body, table, td, h1, p, a, span {
+//             font-family: 'Noto Sans Thai', 'Open Sans', Arial, sans-serif !important;
+//         }
+//         a:hover {text-decoration: underline !important;}
+//     </style>
+// </head>
+// <body marginheight="0" topmargin="0" marginwidth="0" style="margin: 0px; background-color: #f2f3f8;" leftmargin="0">
+//     <!--100% body table-->
+//     <table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="#f2f3f8"
+//         style="font-family: 'Noto Sans Thai', 'Open Sans', Arial, sans-serif;">
+//         <tr>
+//             <td>
+//                 <table style="background-color: #f2f3f8; max-width:670px;  margin:0 auto;" width="100%" border="0"
+//                     align="center" cellpadding="0" cellspacing="0">
+//                     <tr>
+//                         <td style="height:80px;">&nbsp;</td>
+//                     </tr>
+//                     <tr>
+//                         <td style="height:20px;">&nbsp;</td>
+//                     </tr>
+//                     <tr>
+//                         <td>
+//                             <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0"
+//                                 style="max-width:670px;background:#fff; border-radius:3px; text-align:center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);">
+//                                 <tr>
+//                                     <td style="height:40px;">&nbsp;</td>
+//                                 </tr>
+//                                 <tr>
+//                                     <td style="padding:0 35px;">
+//                                         <h1 style="color:#1e1e2d; font-weight:600; margin:0;font-size:32px;font-family:'Noto Sans Thai', 'Open Sans', Arial, sans-serif;">มีคำขอแก้ไขรหัสผ่าน</h1>
+//                                         <span
+//                                             style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
+//                                         <p style="color:#718096; font-size:15px;line-height:24px; margin:0;">
+//                                             บัญชีของคุณมีคำขอในการแก้ไขรหัสผ่าน หากต้องการดำเนินการต่อกดที่ด้านล่างช้อความนี้เพื่อดำเนินการในขั้นต่อไป คำขอนี้จะมีอายุ 1 ชั่วโมง
+//                                         </p>
+//                                         <a href="${url}"
+//                                             style="background:#f687b3;text-decoration:none !important; font-weight:600; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;font-family:'Noto Sans Thai', 'Open Sans', Arial, sans-serif;">เปลี่ยนรหัสผ่าน</a>
+//                                     </td>
+//                                 </tr>
+//                                 <tr>
+//                                     <td style="height:40px;">&nbsp;</td>
+//                                 </tr>
+//                             </table>
+//                         </td>
+//                     <tr>
+//                         <td style="height:20px;">&nbsp;</td>
+//                     </tr>
+//                     <tr>
+//                         <td style="text-align:center;">
+//                             <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;font-family:'Noto Sans Thai', 'Open Sans', Arial, sans-serif;"><strong>งานกิจกรรมพัฒนาผู้เรียน โรงเรียนเตรียมอุดมศึกษา</strong></p>
+//                         </td>
+//                     </tr>
+//                     <tr>
+//                         <td style="height:80px;">&nbsp;</td>
+//                     </tr>
+//                 </table>
+//             </td>
+//         </tr>
+//     </table>
+//     <!--/100% body table-->
+// </body>
+// </html>
+// `
+//     const err = await sendEmail(smtpServ, {
+//         to,
+//         from,
+//         sender: "no-reply@clubs.triamudom.ac.th",
+//         subject,
+//         html_body: htmlContent,
+//         plain_body: `มีการขอเปลี่ยนรหัสผ่านบนระบบ กรุณาใช้ลิงก์นี้ ${url}`
+//     })
 
-    if (err) {
-        return { status: false, report: "mailServiceError" }
-    }
+    // if (err) {
+    //     return { status: false, report: "mailServiceError" }
+    // }
 
     update("system", "forgot", req.body.fp, user.docs[0].id)
 
-    //return { status: true, url, report: "success" }
-    return { status: true, report: "success" }
+    return { status: true, url, report: "success" }
+    // return { status: true, report: "success" }
 }
