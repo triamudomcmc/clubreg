@@ -195,7 +195,7 @@ const Auth = ({ query }) => {
   return (
     <PageContainer footer={false}>
       <Loader display={loader} />
-      <div style={{ maxWidth: "26rem" }} className="min-h-screen mx-auto my-6 mb-16 space-y-8 md:my-10 md:mb-10">
+      <div style={{ maxWidth: "26rem" }} className="min-h-screen mx-auto my-6 mb-16 space-y-4 md:my-10 md:mb-10">
         {/* <DefaultCard>
           <p className="font-normal">
             นักเรียน ม.5 และ ม.6 จะไม่สามารถล็อกอินเข้าสู่ระบบด้วยบัญชีเดิมในปีการศึกษาที่ผ่านมาได้
@@ -206,6 +206,9 @@ const Auth = ({ query }) => {
           <p className="font-normal">
             นักเรียน ม.5 และ ม.6 ในปีการศึกษา {year} ที่เข้ามายืนยันสิทธิ์ชมรมเดิม จะต้องใช้บัญชีเดิมในการเข้าสู่ระบบ
           </p>
+        </DefaultCard>
+        <DefaultCard>
+          <p className="font-normal">นักเรียน ม.4 ให้ใช้เลขประจำตัวประชาชน 13 หลัก ในการเข้าสู่ระบบ</p>
         </DefaultCard>
         {action == "login" && (
           <LoginSection query={query} primaryAction={goRegister} secAction={goForgot} setLoader={setLoader} />
