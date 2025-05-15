@@ -153,7 +153,7 @@ export const ClubDisplaySection: FC<{
   onDataChange?: (data: { reviews: any[]; description: string }) => void
   suggestions?: any[],
   isStatic?: boolean
-}> = ({ clubDisplay, clubID, imgLoading, editable, onDataChange, suggestions, isStatic = false }) => {
+}> = ({ clubDisplay, clubID, imgLoading, editable, onDataChange, suggestions, isStatic = true }) => {
   const [loadingCount, setLoadingCount] = useState(1)
 
   const [reviews, setReviews] = useState(clubDisplay.reviews)
