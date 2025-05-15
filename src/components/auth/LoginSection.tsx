@@ -254,7 +254,7 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
                   }}
                   type="text"
                   className="webkit-rounded-t-md appearance-none border border-gray-300 px-4 py-2 text-lg placeholder-gray-500 focus:z-10 focus:border-TUCMC-pink-500 focus:ring-TUCMC-pink-500"
-                  placeholder={type === "student" ? "เลขประจำตัวนักเรียน" : "รหัสชมรม (ก30XXX)"}
+                  placeholder={type === "student" ? "เลขประจำตัวนักเรียน / ประชาชน" : "รหัสชมรม (ก30XXX)"}
                   required
                 />
                 <input
