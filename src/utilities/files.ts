@@ -14,5 +14,5 @@ export const convertToStaticFileUriC = (isStatic, old: string) => {
 }
 
 export const convertToStaticFileUri = (old: string) => {
-    return convertToStaticFileUriC(false, old)
+    return convertToStaticFileUriC(true, old)
 }
