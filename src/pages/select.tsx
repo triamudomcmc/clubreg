@@ -153,26 +153,32 @@ const Select = ({ clubList }) => {
     const load = async () => {
       const value = await fetchClub()
       const filteredValue = Object.keys(value)
-      .filter(key => value[key].report !== true)
-      .reduce((obj, key) => {
-        obj[key] = value[key]
-        return obj
-      }, {})
+        .filter(key => key !== "ก30901" && value[key].report !== true)
+        .reduce((obj, key) => {
+          obj[key] = value[key]
+          return obj
+        }, {})
+      console.log("filteredValue", filteredValue)
       setClubData(filteredValue)
       setInitclub(true)
     }
-
-    userData && Object.keys(userData).length > 2 && load()
+  
+    load()
   }, [userData])
+  
 
   useEffect(() => {
     userData &&
       "audition" in userData &&
       Object.keys(clubData).length > 0 &&
       setAuditionList(Object.keys(userData.audition).map((value) => {
+        console.log(value)
         return value
+        
       }))
+
   }, [clubData, userData])
+
 
   useEffect(() => {
     apply()
@@ -221,7 +227,7 @@ const Select = ({ clubList }) => {
     })
     setSelect(true)
   }
-
+  
   return (
     new Date().getTime() < time && (
       <PageContainer hide={!initclub}>
