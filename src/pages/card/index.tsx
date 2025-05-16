@@ -131,7 +131,7 @@ const Page = ({ links }) => {
               <p>กรุณาถ่ายภาพหน้าจอเก็บไว้เป็นหลักฐาน</p>
             </div>
           </div>
-          <div
+          {/* <div
             onClick={download}
             className={classnames(
               "flex cursor-pointer items-center justify-center space-x-2 rounded-md border border-gray-300 bg-white p-5 text-TUCMC-gray-700 transition-all duration-200",
@@ -145,7 +145,7 @@ const Page = ({ links }) => {
             ) : (
               <p className="text-sm text-gray-500">ดาวน์โหลด</p>
             )}
-          </div>
+          </div> */}
         </div>
       </div>
     </PageContainer>

@@ -242,13 +242,21 @@ export const PendingElement = ({
             </Listbox>
           </div>
         )}
-        <span className="text-TUCMC-gray-600 md:hidden">
+        {/* <span className="text-TUCMC-gray-600 md:hidden">
           {userData.student_id} | ม.{userData.level}/{userData.room}
+        </span> */}
+        <span className="text-TUCMC-gray-600 md:hidden">
+          ม.{userData.level}/{userData.room}
         </span>
       </div>
       <div className="flex items-center justify-between text-TUCMC-gray-600 md:ml-10 md:w-[620px]">
-        <div className="mr-14 hidden w-[200px] flex-shrink justify-between md:flex">
+        {/* <div className="mr-14 hidden w-[200px] flex-shrink justify-between md:flex">
           <span>{userData.student_id}</span>
+          <span>ม.{userData.level}</span>
+          <span>{userData.room}</span>
+        </div> */}
+        <div className="mr-14 hidden w-[200px] flex-shrink justify-between md:flex">
+          {/* <span>{userData.student_id}</span> */}
           <span>ม.{userData.level}</span>
           <span>{userData.room}</span>
         </div>
