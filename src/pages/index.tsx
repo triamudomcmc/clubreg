@@ -44,10 +44,13 @@ const Index = () => {
         // Router.push("/auth")
         return "no_login"
       } else if (userData.club === "") {
-        // if (new Date().getTime() >= openTime) {
-        //   Router.push("/select")
-        //   return "no_club"
-        // }
+        if (new Date().getTime() >= endRegClubTime) {
+          return "no_club"
+        }
+        if (new Date().getTime() >= openTime) {
+          Router.push("/select")
+          return "no_club"
+        }
         // return userData
         if (new Date().getTime() < endOldClub && new Date().getTime() > startOldClub) {
           //  not during old club time
