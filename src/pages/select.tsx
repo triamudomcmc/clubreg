@@ -92,27 +92,27 @@ const Select = ({ clubList }) => {
     if (!logged) {
       Router.push("/auth")
     } else {
-      // if (new Date().getTime() < openTime) {
-      //   Router.push("/")
-      //   return { userData }
-      // }
+      if (new Date().getTime() < openTime) {
+        Router.push("/")
+        return { userData }
+      }
 
-      // if (userData.club !== "") {
-      //   Router.push("/card")
-      // } else {
-      //   if ((Object.keys(userData.audition).length <= 0 || new Date().getTime() > endLastRound) && new Date().getTime() > endRegClubTime) {
-      //     localStorage.setItem("alert", "denied")
-      //     return Router.push("/account")
-      //   }
-      // }
+      if (userData.club !== "") {
+        Router.push("/card")
+      } else {
+        if ((Object.keys(userData.audition).length <= 0 || new Date().getTime() > endLastRound) && new Date().getTime() > endRegClubTime) {
+          localStorage.setItem("alert", "denied")
+          return Router.push("/account")
+        }
+      }
 
-      // if (
-      //   new Date().getTime() > endRegClubTime &&
-      //   !(new Date().getTime() > lastround && new Date().getTime() < endLastRound)
-      // ) {
-      //   Router.push("/announce")
-      //   return { userData }
-      // }
+      if (
+        new Date().getTime() > endRegClubTime &&
+        !(new Date().getTime() > lastround && new Date().getTime() < endLastRound)
+      ) {
+        Router.push("/announce")
+        return { userData }
+      }
     }
     return { userData }
   })
