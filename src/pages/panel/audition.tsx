@@ -32,6 +32,7 @@ import { WaitingScreen } from "@components/common/WaitingScreen"
 import { announceTime, editDataTime, endSecondRoundTime, getFullDate } from "@config/time"
 import { Listbox, Transition } from "@headlessui/react"
 import classNames from "classnames"
+import ReservedHandler from "@components/panel/element/ReservedHandler"
 
 const fetchMemberData = async (
   panelID: string,
@@ -365,6 +366,9 @@ const Audition = () => {
     }
   }, [searchContext, rawSorted])
 
+  const showReservedHandler =
+    memberData.reserved.length < Math.floor(clubData.new_count_limit * 0.2) && memberData.waiting.length !== 0
+
   return (
     <PageContainer hide={!initmember}>
       <Editor
@@ -540,11 +544,14 @@ const Audition = () => {
                       setSection("reserved")
                     }}
                     className={classnames(
-                      "w-1/3 cursor-pointer border-b border-TUCMC-gray-400 py-2 text-center",
+                      "w-1/3 cursor-pointer flex-col items-center justify-center space-x-2 border-b border-TUCMC-gray-400 py-2 md:flex md:flex-row",
                       section === "reserved" && "border-TUCMC-orange-500 bg-TUCMC-orange-100 text-TUCMC-orange-500"
                     )}
                   >
-                    สำรอง
+                    <div className="text-center">สำรอง</div>
+                    {showReservedHandler && (
+                      <ReservedHandler reserved={memberData.reserved} registered={clubData.new_count_limit} />
+                    )}
                   </div>
                   <div
                     onClick={() => {
