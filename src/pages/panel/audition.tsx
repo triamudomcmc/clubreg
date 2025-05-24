@@ -367,7 +367,7 @@ const Audition = () => {
   }, [searchContext, rawSorted])
 
   const showReservedHandler =
-    memberData.reserved.length < Math.floor(clubData.new_count_limit * 0.2) && memberData.waiting.length !== 0
+   ( memberData.passed.length + memberData.failed.length + memberData.reserved.length + memberData.waiting.length ) > clubData.new_count_limit * 1.2  && memberData.reserved.length < Math.floor(clubData.new_count_limit * 0.2) && memberData.waiting.length !== 0
 
   return (
     <PageContainer hide={!initmember}>
