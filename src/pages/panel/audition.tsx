@@ -29,7 +29,7 @@ import PendingSection from "@components/panel/sections/PendingSection"
 import { CatLoader } from "@components/common/CatLoader"
 import { AnimatePresence, motion } from "framer-motion"
 import { WaitingScreen } from "@components/common/WaitingScreen"
-import { announceTime, editDataTime, endSecondRoundTime, getFullDate } from "@config/time"
+import { announceTime, editDataTime, endFirstRoundTime, endSecondRoundTime, getFullDate } from "@config/time"
 import { Listbox, Transition } from "@headlessui/react"
 import classNames from "classnames"
 import ReservedHandler from "@components/panel/element/ReservedHandler"
@@ -367,7 +367,24 @@ const Audition = () => {
   }, [searchContext, rawSorted])
 
   const showReservedHandler =
-   ( memberData.passed.length + memberData.failed.length + memberData.reserved.length + memberData.waiting.length ) > clubData.new_count_limit * 1.2  && memberData.reserved.length < Math.floor(clubData.new_count_limit * 0.2) && memberData.waiting.length !== 0
+    memberData.passed.length + memberData.failed.length + memberData.reserved.length + memberData.waiting.length >
+      clubData.new_count_limit * 1.2 &&
+    memberData.reserved.length < Math.floor(clubData.new_count_limit * 0.2) &&
+    memberData.waiting.length !== 0
+
+  const [announce, setAnnounce] = useState<"announce" | "1round" | "2round">("2round")
+
+  const showAnnounceText = () => {
+    const now = new Date().getTime()
+
+    if (now < editDataTime) {
+      setAnnounce("announce")
+    } else if (now < endFirstRoundTime) {
+      setAnnounce("1round")
+    } else {
+      setAnnounce("2round")
+    }
+  }
 
   return (
     <PageContainer hide={!initmember}>
@@ -417,7 +434,11 @@ const Audition = () => {
                     <h1 className="text-4xl tracking-tight">ผลการ Audition</h1>{" "}
                     <div className="mt-6 mb-8 text-center tracking-tight">
                       <p className="text-lg">สรุปผลการ Audition ให้เสร็จสิ้น </p>
-                      <p className="text-lg">ภายในวันที่ {getFullDate(endSecondRoundTime)}</p>
+                      {announce === "announce" && (<p className="text-lg">ภายในวันที่ {getFullDate(editDataTime)}</p>)}
+                      {announce === "1round" && (
+                        <p className="text-lg">ภายในวันที่ {getFullDate(endFirstRoundTime)}</p>
+                      )}
+                      {announce === "2round" && (<p className="text-lg">ภายในวันที่ {getFullDate(endSecondRoundTime)}</p>)}
                     </div>{" "}
                     <div
                       onClick={() => {
