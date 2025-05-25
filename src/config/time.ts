@@ -33,6 +33,7 @@ export const auditionTime = +new Date("2025-05-19T08:00:00.000+07:00")
 // end audition time
 export const endAuditionTime = +new Date("2025-05-23T20:00:00.000+07:00")
 // end of data editing time for updating positions and audition result.
+// ! Spare time for a day for checking and validation process. 
 export const editDataTime = +new Date("2025-05-25T23:59:00.000+07:00")
 // registration close 1st round.
 export const endRegClubTime = +new Date("2025-05-21T23:59:00.000+07:00")
@@ -41,7 +42,7 @@ export const announceTime = +new Date("2025-05-26T07:30:00.000+07:00")
 // end announce time. Dicisions are no longer accepted
 export const endAnnounceTime = +new Date("2025-05-26T23:59:00.000+07:00")
 /*
-Maintainance Break
+Checking Process (Day by Day)
 (usually, 00.00 - 08.00)
 
 - auto reject

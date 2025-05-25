@@ -29,9 +29,10 @@ import PendingSection from "@components/panel/sections/PendingSection"
 import { CatLoader } from "@components/common/CatLoader"
 import { AnimatePresence, motion } from "framer-motion"
 import { WaitingScreen } from "@components/common/WaitingScreen"
-import { announceTime, editDataTime, endSecondRoundTime, getFullDate } from "@config/time"
+import { announceTime, editDataTime, endFirstRoundTime, endSecondRoundTime, getFullDate } from "@config/time"
 import { Listbox, Transition } from "@headlessui/react"
 import classNames from "classnames"
+import ReservedHandler from "@components/panel/element/ReservedHandler"
 
 const fetchMemberData = async (
   panelID: string,
@@ -158,7 +159,7 @@ const Audition = () => {
   const [pending, setPending] = useState(false)
 
   // const editable = false
-  const editable = !(new Date().getTime() > editDataTime)
+  const editable = (new Date().getTime() < editDataTime)
 
   const timer = useTimer(editDataTime)
 
@@ -365,6 +366,26 @@ const Audition = () => {
     }
   }, [searchContext, rawSorted])
 
+  const showReservedHandler =
+    memberData.passed.length + memberData.failed.length + memberData.reserved.length + memberData.waiting.length >
+      clubData.new_count_limit * 1.2 &&
+    memberData.reserved.length < Math.floor(clubData.new_count_limit * 0.2) &&
+    memberData.waiting.length !== 0
+
+  const [announce, setAnnounce] = useState<"announce" | "1round" | "2round">("2round")
+
+  useEffect(() => {
+    const now = new Date().getTime()
+
+    if (now < editDataTime) {
+      setAnnounce("announce")
+    } else if (now < endFirstRoundTime) {
+      setAnnounce("1round")
+    } else {
+      setAnnounce("2round")
+    }
+  }, [])
+
   return (
     <PageContainer hide={!initmember}>
       <Editor
@@ -410,16 +431,15 @@ const Audition = () => {
               <div className="mb-10 mt-5 flex flex-col items-center text-TUCMC-gray-700">
                 {editable ? (
                   <>
-                    <h1 className="text-4xl tracking-tight">ผลการ Audition</h1>{" "}
-                    <div className="mt-6 mb-8 text-center tracking-tight">
-                      <p className="text-lg">สรุปผลการ Audition ให้เสร็จสิ้น </p>
-                      <p className="text-lg">ภายในวันที่ {getFullDate(endSecondRoundTime)}</p>
-                    </div>{" "}
+                    <h1 className="text-4xl tracking-tight mb-6">ผลการ Audition</h1>{" "}
+                      {announce === "announce" &&<><p className="text-lg">สรุปผลการ Audition ให้เสร็จสิ้น</p> <p className="text-lg">ภายในวันที่ {getFullDate(editDataTime)}</p></>}
+                      {announce === "1round" && <><p className="text-lg">สรุปผลการเรียกสำรองรอบแรกให้เสร็จสิ้น</p> <p className="text-lg">ภายในวันที่ {getFullDate(endFirstRoundTime)}</p></>}
+                      {announce === "2round" && <><p className="text-lg">สรุปผลการเรียกสำรองรอบสองให้เสร็จสิ้น</p> <p className="text-lg">ภายในวันที่ {getFullDate(endSecondRoundTime)}</p></>}
                     <div
                       onClick={() => {
                         setPage("pending")
                       }}
-                      className="flex cursor-pointer items-center space-x-1 rounded-full bg-TUCMC-pink-400 px-14 py-3.5 text-white shadow-md"
+                      className="flex cursor-pointer items-center space-x-1 rounded-full bg-TUCMC-pink-400 px-14 py-3.5 text-white shadow-md mt-8"
                     >
                       <DocumentTextIcon className="h-5 w-5" />
                       <span>รอการตอบรับ</span>
@@ -540,11 +560,14 @@ const Audition = () => {
                       setSection("reserved")
                     }}
                     className={classnames(
-                      "w-1/3 cursor-pointer border-b border-TUCMC-gray-400 py-2 text-center",
+                      "w-1/3 cursor-pointer flex-col items-center justify-center space-x-2 border-b border-TUCMC-gray-400 py-2 md:flex md:flex-row",
                       section === "reserved" && "border-TUCMC-orange-500 bg-TUCMC-orange-100 text-TUCMC-orange-500"
                     )}
                   >
-                    สำรอง
+                    <div className="text-center">สำรอง</div>
+                    {showReservedHandler && (
+                      <ReservedHandler reserved={memberData.reserved} registered={clubData.new_count_limit} />
+                    )}
                   </div>
                   <div
                     onClick={() => {
