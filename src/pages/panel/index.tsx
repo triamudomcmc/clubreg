@@ -47,7 +47,7 @@ import { Ellipsis } from "@vectors/Loaders/Ellipsis"
 import { PencilAltIcon } from "@heroicons/react/outline"
 import { ClubCommitteeTable, ClubDataTable, ProportionTable } from "@components/panel/table/ClubTable"
 import classNames from "classnames"
-import { editDataTime, endRegClubTime, openTime } from "@config/time"
+import { editDataTime, endRegClubTime, endSecondRoundTime, openTime } from "@config/time"
 
 const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>, setInitClub) => {
   const data = await fetchClub(clubID)
@@ -92,7 +92,7 @@ const Account = () => {
   const [t, setT] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [committee, setCommittee] = useState([])
-  const [isAuditionTime, setIsAuditionTime] = useState((new Date().getTime() > openTime && new Date().getTime() < editDataTime))
+  const [isAuditionTime, setIsAuditionTime] = useState((new Date().getTime() > openTime && new Date().getTime() < endSecondRoundTime))
 
   const { width } = useWindowDimensions()
 
