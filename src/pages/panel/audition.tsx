@@ -159,7 +159,7 @@ const Audition = () => {
   const [pending, setPending] = useState(false)
 
   // const editable = false
-  const editable = !(new Date().getTime() > editDataTime)
+  const editable = (new Date().getTime() < editDataTime)
 
   const timer = useTimer(editDataTime)
 
@@ -431,20 +431,15 @@ const Audition = () => {
               <div className="mb-10 mt-5 flex flex-col items-center text-TUCMC-gray-700">
                 {editable ? (
                   <>
-                    <h1 className="text-4xl tracking-tight">ผลการ Audition</h1>{" "}
-                    <div className="mt-6 mb-8 text-center tracking-tight">
-                      <p className="text-lg">สรุปผลการ Audition ให้เสร็จสิ้น </p>
-                      {announce === "announce" && <p className="text-lg">ภายในวันที่ {getFullDate(editDataTime)}</p>}
-                      {announce === "1round" && <p className="text-lg">ภายในวันที่ {getFullDate(endFirstRoundTime)}</p>}
-                      {announce === "2round" && (
-                        <p className="text-lg">ภายในวันที่ {getFullDate(endSecondRoundTime)}</p>
-                      )}
-                    </div>{" "}
+                    <h1 className="text-4xl tracking-tight mb-6">ผลการ Audition</h1>{" "}
+                      {announce === "announce" &&<><p className="text-lg">สรุปผลการ Audition ให้เสร็จสิ้น</p> <p className="text-lg">ภายในวันที่ {getFullDate(editDataTime)}</p></>}
+                      {announce === "1round" && <><p className="text-lg">สรุปผลการเรียกสำรองรอบแรกให้เสร็จสิ้น</p> <p className="text-lg">ภายในวันที่ {getFullDate(endFirstRoundTime)}</p></>}
+                      {announce === "2round" && <><p className="text-lg">สรุปผลการเรียกสำรองรอบสองให้เสร็จสิ้น</p> <p className="text-lg">ภายในวันที่ {getFullDate(endSecondRoundTime)}</p></>}
                     <div
                       onClick={() => {
                         setPage("pending")
                       }}
-                      className="flex cursor-pointer items-center space-x-1 rounded-full bg-TUCMC-pink-400 px-14 py-3.5 text-white shadow-md"
+                      className="flex cursor-pointer items-center space-x-1 rounded-full bg-TUCMC-pink-400 px-14 py-3.5 text-white shadow-md mt-8"
                     >
                       <DocumentTextIcon className="h-5 w-5" />
                       <span>รอการตอบรับ</span>
