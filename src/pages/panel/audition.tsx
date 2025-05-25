@@ -374,7 +374,7 @@ const Audition = () => {
 
   const [announce, setAnnounce] = useState<"announce" | "1round" | "2round">("2round")
 
-  const showAnnounceText = () => {
+  useEffect(() => {
     const now = new Date().getTime()
 
     if (now < editDataTime) {
@@ -384,7 +384,7 @@ const Audition = () => {
     } else {
       setAnnounce("2round")
     }
-  }
+  }, [])
 
   return (
     <PageContainer hide={!initmember}>
@@ -434,11 +434,11 @@ const Audition = () => {
                     <h1 className="text-4xl tracking-tight">ผลการ Audition</h1>{" "}
                     <div className="mt-6 mb-8 text-center tracking-tight">
                       <p className="text-lg">สรุปผลการ Audition ให้เสร็จสิ้น </p>
-                      {announce === "announce" && (<p className="text-lg">ภายในวันที่ {getFullDate(editDataTime)}</p>)}
-                      {announce === "1round" && (
-                        <p className="text-lg">ภายในวันที่ {getFullDate(endFirstRoundTime)}</p>
+                      {announce === "announce" && <p className="text-lg">ภายในวันที่ {getFullDate(editDataTime)}</p>}
+                      {announce === "1round" && <p className="text-lg">ภายในวันที่ {getFullDate(endFirstRoundTime)}</p>}
+                      {announce === "2round" && (
+                        <p className="text-lg">ภายในวันที่ {getFullDate(endSecondRoundTime)}</p>
                       )}
-                      {announce === "2round" && (<p className="text-lg">ภายในวันที่ {getFullDate(endSecondRoundTime)}</p>)}
                     </div>{" "}
                     <div
                       onClick={() => {
