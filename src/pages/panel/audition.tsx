@@ -453,7 +453,7 @@ const Audition = () => {
                     </div>
                     <div className="mt-6 mb-8 text-center">
                       <p>ระบบได้ประกาศผลให้ตามรายชื่อที่เลือกไว้แล้ว</p>
-                      <p>หากนักเรียนไม่เลือกยืนยันสิทธิ์หรือสละสิทธิ์ภายในวันน</p>
+                      <p>หากนักเรียนไม่เลือกยืนยันสิทธิ์หรือสละสิทธิ์ภายในวันที่กำหนด</p>
                       <p>ระบบจะสละสิทธิ์ให้อัตโนมัติ</p>
                     </div>
                     <div className="flex items-center space-x-4 rounded-md border border-TUCMC-gray-600 border-opacity-90 px-6 py-4">
