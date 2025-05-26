@@ -287,7 +287,7 @@ const Account = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setIsAuditionTime((new Date().getTime() > openTime && new Date().getTime() < editDataTime))
+      setIsAuditionTime((new Date().getTime() > openTime && new Date().getTime() < endSecondRoundTime))
     }, 1000)
 
     return () => clearInterval(interval)
