@@ -54,7 +54,7 @@ export const ListElement = ({
       <div className="text-center w-full">
         {index > 0 && <div className="-mr-2 h-6 w-6 rounded-full bg-black text-center text-white">{index}</div>}
         {/* <div className="ml-6 flex flex-col items-start"> */}
-        <div className="flex justify-center">
+        <div className="flex justify-between items-center">
           <div className="flex justify-between">
             {userData.title}
             {userData.firstname} {userData.lastname}
@@ -62,7 +62,7 @@ export const ListElement = ({
           {/* <span className="text-TUCMC-gray-600 md:hidden">
             {userData.student_id} | ม.{userData.level}/{userData.room}
           </span> */}
-          {!noStatus && !editable && <div className="mt-1 -ml-[2px] md:hidden">{statusBar}</div>}
+          {!noStatus && !editable && <div className="mt-1 -ml-[2px] md:hidden w-1/3">{statusBar}</div>}
         </div>
       </div>
       <div className="md:hidden">
