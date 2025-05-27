@@ -8,6 +8,7 @@ import { getUNIXTimeStamp } from "@config/time"
 import cryptoRandomString from "crypto-random-string"
 const SibApiV3Sdk = require("sib-api-v3-sdk")
 import speakeasy from "speakeasy"
+import crypto from "crypto"
 
 const sendEmail = (email: string, code: string) => {
   const defaultClient = SibApiV3Sdk.ApiClient.instance
@@ -100,8 +101,14 @@ const sendEmail = (email: string, code: string) => {
 
 export const checkCredentials = async (stdID, password, fingerPrint, userCollection, req) => {
   if (stdID === "" || password === "") return { status: false, report: "invalid_credentials" }
-  
-  const userDB = await userCollection.where("stdID", "==", stdID).get()
+
+  let tempId = stdID
+
+  if (stdID.length >= 13) {
+    tempId = crypto.createHash("sha256").update(stdID).digest("base64")
+  }
+
+  const userDB = await userCollection.where("stdID", "==", tempId).get()
   
   if (userDB.docs.length <= 0) return { status: false, report: "invalid_user" }
   
