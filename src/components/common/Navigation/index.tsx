@@ -207,12 +207,12 @@ const Navigation = () => {
                     {logged && (
                       <div className="rounded-t-lg bg-TUCMC-gray-100 py-2 px-7 font-normal">
                           {/* <p className="text-TUCMC-gray-500 text-xs font-semibold mx-auto">warmest welcome !</p> */}
-                        <div className="flex items-center space-x-2">
-                          <UserCircleIcon className="h-7 w-7 text-TUCMC-gray-800" />
+                        <div className="flex items-center space-x-1">
+                          <UserCircleIcon className="h-5 w-5 text-TUCMC-gray-800" />
                           <h1 className="text-TUCMC-gray-900">{`${userData.title}${userData.firstname} ${userData.lastname}`}</h1>
                         </div>
                         <div className="flex items-center justify-between space-x-2">
-                          {/* <h1 onClick={() => { setSInfo(false) }} className="text-sm tracking-tight text-TUCMC-gray-700">{`${userData.student_id} | ${userData.room} / ${userData.number}`}</h1> */}
+                          {userData.room ? (<><h1 onClick={() => { setSInfo(false) }} className="text-sm tracking-tight text-TUCMC-gray-700">{`${userData.student_id} | ${userData.room} / ${userData.number}`}</h1></>) : (<><h1 onClick={() => { setSInfo(false) }} className="text-sm tracking-tight text-TUCMC-gray-700">{`${userData.student_id} | N/A`}</h1></>)}
                           <div className="h-5 w-5">
                             <motion.div
                               onClick={() => {
@@ -355,7 +355,7 @@ const Navigation = () => {
               <h1 className="text-TUCMC-gray-900">{`${userData.title}${userData.firstname} ${userData.lastname}`}</h1>
             </div>
             <div className="flex items-center space-x-2">
-              {/* <h1 onClick={() => { setSInfo(false) }} className="text-sm tracking-tight text-TUCMC-gray-700">{`${userData.student_id} | ${userData.room} / ${userData.number}`}</h1> */}
+              {userData.room ? (<h1 onClick={() => { setSInfo(false) }} className="text-sm tracking-tight text-TUCMC-gray-700">{`${userData.student_id} | ${userData.room} / ${userData.number}`}</h1>) : (<><h1 onClick={() => { setSInfo(false) }} className="text-sm tracking-tight text-TUCMC-gray-700">{`${userData.student_id} | N/A`}</h1></>)}
               <div className="h-5 w-5">
                 <motion.div
                   onClick={() => {

@@ -441,7 +441,7 @@ const Account = () => {
               <Button
                 href="/panel/attendance"
                 type="div"
-                className="flex cursor-pointer items-center justify-center space-x-2 rounded-lg bg-TUCMC-pink-400 px-4 py-3.5 text-white shadow-sm transition-all hover:scale-105"
+                className="flex cursor-pointer items-center justify-center space-x-2 rounded-lg bg-TUCMC-pink-400 px-[1.5] py-3.5 text-white shadow-sm transition-all hover:scale-105"
                 >
                 <ClipboardCheckIcon className="h-6 w-6" />
                 <span>รายงานการเข้าเรียน</span>
@@ -453,7 +453,7 @@ const Account = () => {
                 type="div"
                 className={classNames(
                   "cursor-pointer",
-                  "bg-TUCMC-white flex cursor-pointer items-center justify-center space-x-2 rounded-lg px-4 py-3.5 text-TUCMC-gray-600 shadow-md",
+                  "bg-TUCMC-white flex cursor-pointer items-center justify-center space-x-2 rounded-lg px-[1.5] py-3.5 text-TUCMC-gray-600 shadow-md",
                   "w-full"
                 )}
                 >
