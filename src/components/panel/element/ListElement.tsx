@@ -61,12 +61,16 @@ export const ListElement = ({
           >
             {userData.title}
             {userData.firstname} {userData.lastname}
-            <div className="mt-2 flex w-36 md:w-80 items-start justify-between text-TUCMC-gray-600">
+            <div className="mt-2 flex w-36 flex-row-reverse items-start justify-between text-TUCMC-gray-600 md:w-80 md:flex-row">
               <span className="flex w-1/3 justify-center">
                 {userData.student_id.toString().length < 6 ? <>{userData.student_id}</> : <>N/A</>}
               </span>
-              <span className="flex w-1/3 justify-center">{userData.level ? <>ม.{userData.level}</> : <>N/A</>}</span>
-              <span className="flex w-1/3 justify-center">{userData.room ? <>{userData.room}</> : <>N/A</>}</span>
+              <div className="flex w-2/3 items-center justify-center -space-x-2 md:space-x-0">
+                <span className="flex w-1/2 justify-center">{userData.level ? <>ม.{userData.level}</> : <>N/A</>}</span>
+                <span className="md:hidden">/</span>
+                <span className="flex w-1/2 justify-center">{userData.room ? <>{userData.room}</> : <>N/A</>}</span>
+                <span className="pl-1 md:hidden">|</span>
+              </div>
             </div>
           </div>
           {!noStatus && !editable && <div className="mt-1 -ml-[2px] w-28">{statusBar}</div>}
