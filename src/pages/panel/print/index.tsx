@@ -200,26 +200,26 @@ const Page = () => {
         );
       });
 
-    // const a = document.createElement("a")
-    // a.href = `/api/printTable?path=${res.data.path}`
-    // a.download = `members-${current}.pdf`
-    // document.body.appendChild(a)
-    // a.click()
-    // a.id = "download"
+    const a = document.createElement("a")
+    a.href = `/api/printTable?path=${res.data.path}`
+    a.download = `members-${current}.pdf`
+    document.body.appendChild(a)
+    a.click()
+    a.id = "download"
 
-    // setTimeout(() => {
-    //   setDisplay(
-    //     <div className="flex flex-col items-center">
-    //       <h1 className="text-TUCMC-gray-800">สร้างเอกสารเสร็จสมบูรณ์</h1>
-    //       <p className="text-TUCMC-gray-600">
-    //         หากเอกสารยังไม่ถูกดาวน์โหลด{" "}
-    //         <a onClick={redownload} className="cursor-pointer underline hover:text-TUCMC-pink-400">
-    //           กดที่นี่
-    //         </a>
-    //       </p>
-    //     </div>
-    //   )
-    // }, 8000)
+    setTimeout(() => {
+      setDisplay(
+        <div className="flex flex-col items-center">
+          <h1 className="text-TUCMC-gray-800">สร้างเอกสารเสร็จสมบูรณ์</h1>
+          <p className="text-TUCMC-gray-600">
+            หากเอกสารยังไม่ถูกดาวน์โหลด{" "}
+            <a onClick={redownload} className="cursor-pointer underline hover:text-TUCMC-pink-400">
+              กดที่นี่
+            </a>
+          </p>
+        </div>
+      )
+    }, 8000)
   }
 
   useEffect(() => {
