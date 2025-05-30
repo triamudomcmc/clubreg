@@ -5,7 +5,7 @@ import { useToast } from "@components/common/Toast/ToastContext"
 import { request } from "@client/utilities/request"
 import { AcademicCapIcon, EyeIcon } from "@heroicons/react/outline"
 import { motion } from "framer-motion"
-import { schoolYear } from "@config/time"
+import { schoolYear, endRegClubTime } from "@config/time"
 
 const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
   const { reFetch } = useAuth()
@@ -15,9 +15,10 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
   const [remember, setRemember] = useState(false)
   const [otpBox, setOTPBox] = useState(false)
   const [atDigit, setAtDigit] = useState(0)
-  const [rawOTP, setRawOTP] = useState({0: "", 1: "", 2: "", 3: "", 4: "", 5: ""})
+  const [rawOTP, setRawOTP] = useState({ 0: "", 1: "", 2: "", 3: "", 4: "", 5: "" })
   const seriesInput = useRef([])
   const { addToast, clearToast } = useToast()
+  const openRegister = new Date().getTime() < new Date(endRegClubTime).getTime()
 
   useEffect(() => {
     if (atDigit >= 0 && atDigit <= 5) {
@@ -43,7 +44,7 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
       password: password,
       verify: verify || "",
       code: code,
-      remember
+      remember,
     })
 
     clearToast()
@@ -82,7 +83,7 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
           document.getElementById("otp5").value = ""
           // @ts-ignore
           document.getElementById("otp6").value = ""
-          setRawOTP({0: "", 1: "", 2: "", 3: "", 4: "", 5: ""})
+          setRawOTP({ 0: "", 1: "", 2: "", 3: "", 4: "", 5: "" })
           setAtDigit(0)
           break
         case "invalid_password":
@@ -115,7 +116,9 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
     setLoader(false)
   }
 
-  const getrawOTP = useCallback(() => {return rawOTP}, [rawOTP])
+  const getrawOTP = useCallback(() => {
+    return rawOTP
+  }, [rawOTP])
 
   const onsubmit = async (event) => {
     event.preventDefault()
@@ -160,7 +163,9 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
           break
         case "notAuthorised":
           setOTPBox(true)
-          setTimeout(() => {          document.getElementById(`otp1`)?.focus()}, 300)
+          setTimeout(() => {
+            document.getElementById(`otp1`)?.focus()
+          }, 300)
           localStorage.setItem("verify", result.data.taskId)
           break
         case "invalid_user":
@@ -187,27 +192,129 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
 
   return (
     <div className="mt-6 flex flex-col items-center pt-8">
-      {otpBox && <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.1}} className="min-h-screen w-full fixed top-0 left-0 z-[99] flex justify-center items-center backdrop-blur-sm bg-gray-800 bg-opacity-20">
-          <div className={"bg-white rounded-md px-6 pt-4 pb-4 max-w-[290px]"}>
-              <h1 className={"font-bold text-lg text-TUCMC-gray-800"}>2FA Authentication</h1>
-              <p className={"text-gray-600 leading-5 text-sm"}>กรุณากรอกรหัสจากแอพ Authenticator เพื่อเข้าสู่ระบบสำหรับเบราว์เซอร์นี้</p>
-              <div className="mt-4 flex w-full justify-center space-x-1">
-                  <div className="flex space-x-4">
-                      <div className="flex space-x-1">
-                          <input type="number" value={rawOTP[0]} min={0} max={9} onChange={(e) => {e.target.value !== "" && setAtDigit(prev => (1));e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 1: e.target.value}));setAtDigit(1)} : setRawOTP(prev => ({...prev, 0: e.target.value}))}}id="otp1" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
-                          <input type="number" value={rawOTP[1]} min={0} max={9} onChange={(e) => {e.target.value === "" ? setAtDigit(prev => (0)) : setAtDigit(2);e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 2: e.target.value}));setAtDigit(2)} : setRawOTP(prev => ({...prev, 1: e.target.value}))}} id="otp2" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
-                          <input type="number" value={rawOTP[2]} min={0} max={9} onChange={(e) => {e.target.value === "" ? setAtDigit(prev => (1)) : setAtDigit(3);e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 3: e.target.value}));setAtDigit(3)} : setRawOTP(prev => ({...prev, 2: e.target.value}))}} id="otp3" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
-                      </div>
-                      <div className="flex space-x-1">
-                          <input type="number" value={rawOTP[3]} min={0} max={9}  onChange={(e) => {e.target.value === "" ? setAtDigit(prev => (2)) : setAtDigit(4);e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 4: e.target.value}));setAtDigit(4)} : setRawOTP(prev => ({...prev, 3: e.target.value}))}} id="otp4" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
-                          <input type="number" value={rawOTP[4]} min={0} max={9}  onChange={(e) => {e.target.value === "" ? setAtDigit(prev => (3)) : setAtDigit(5);e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 5: e.target.value}));setAtDigit(5)} : setRawOTP(prev => ({...prev, 4: e.target.value}))}} id="otp5" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
-                          <input type="number" value={rawOTP[5]} min={0} max={9}  onChange={(e) => {e.target.value === "" && setAtDigit(prev => (4));setRawOTP(prev => ({...prev, 5: e.target.value}))}} id="otp6" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
-                      </div>
-                  </div>
+      {otpBox && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.1 }}
+          className="fixed top-0 left-0 z-[99] flex min-h-screen w-full items-center justify-center bg-gray-800 bg-opacity-20 backdrop-blur-sm"
+        >
+          <div className={"max-w-[290px] rounded-md bg-white px-6 pt-4 pb-4"}>
+            <h1 className={"text-lg font-bold text-TUCMC-gray-800"}>2FA Authentication</h1>
+            <p className={"text-sm leading-5 text-gray-600"}>
+              กรุณากรอกรหัสจากแอพ Authenticator เพื่อเข้าสู่ระบบสำหรับเบราว์เซอร์นี้
+            </p>
+            <div className="mt-4 flex w-full justify-center space-x-1">
+              <div className="flex space-x-4">
+                <div className="flex space-x-1">
+                  <input
+                    type="number"
+                    value={rawOTP[0]}
+                    min={0}
+                    max={9}
+                    onChange={(e) => {
+                      e.target.value !== "" && setAtDigit((prev) => 1)
+                      e.target.value.length > 1
+                        ? () => {
+                            setRawOTP((prev) => ({ ...prev, 1: e.target.value }))
+                            setAtDigit(1)
+                          }
+                        : setRawOTP((prev) => ({ ...prev, 0: e.target.value }))
+                    }}
+                    id="otp1"
+                    className="webkit-none h-10 w-8 rounded-md border border-TUCMC-gray-800 border-opacity-50 p-0 text-center text-2xl font-bold"
+                  />
+                  <input
+                    type="number"
+                    value={rawOTP[1]}
+                    min={0}
+                    max={9}
+                    onChange={(e) => {
+                      e.target.value === "" ? setAtDigit((prev) => 0) : setAtDigit(2)
+                      e.target.value.length > 1
+                        ? () => {
+                            setRawOTP((prev) => ({ ...prev, 2: e.target.value }))
+                            setAtDigit(2)
+                          }
+                        : setRawOTP((prev) => ({ ...prev, 1: e.target.value }))
+                    }}
+                    id="otp2"
+                    className="webkit-none h-10 w-8 rounded-md border border-TUCMC-gray-800 border-opacity-50 p-0 text-center text-2xl font-bold"
+                  />
+                  <input
+                    type="number"
+                    value={rawOTP[2]}
+                    min={0}
+                    max={9}
+                    onChange={(e) => {
+                      e.target.value === "" ? setAtDigit((prev) => 1) : setAtDigit(3)
+                      e.target.value.length > 1
+                        ? () => {
+                            setRawOTP((prev) => ({ ...prev, 3: e.target.value }))
+                            setAtDigit(3)
+                          }
+                        : setRawOTP((prev) => ({ ...prev, 2: e.target.value }))
+                    }}
+                    id="otp3"
+                    className="webkit-none h-10 w-8 rounded-md border border-TUCMC-gray-800 border-opacity-50 p-0 text-center text-2xl font-bold"
+                  />
+                </div>
+                <div className="flex space-x-1">
+                  <input
+                    type="number"
+                    value={rawOTP[3]}
+                    min={0}
+                    max={9}
+                    onChange={(e) => {
+                      e.target.value === "" ? setAtDigit((prev) => 2) : setAtDigit(4)
+                      e.target.value.length > 1
+                        ? () => {
+                            setRawOTP((prev) => ({ ...prev, 4: e.target.value }))
+                            setAtDigit(4)
+                          }
+                        : setRawOTP((prev) => ({ ...prev, 3: e.target.value }))
+                    }}
+                    id="otp4"
+                    className="webkit-none h-10 w-8 rounded-md border border-TUCMC-gray-800 border-opacity-50 p-0 text-center text-2xl font-bold"
+                  />
+                  <input
+                    type="number"
+                    value={rawOTP[4]}
+                    min={0}
+                    max={9}
+                    onChange={(e) => {
+                      e.target.value === "" ? setAtDigit((prev) => 3) : setAtDigit(5)
+                      e.target.value.length > 1
+                        ? () => {
+                            setRawOTP((prev) => ({ ...prev, 5: e.target.value }))
+                            setAtDigit(5)
+                          }
+                        : setRawOTP((prev) => ({ ...prev, 4: e.target.value }))
+                    }}
+                    id="otp5"
+                    className="webkit-none h-10 w-8 rounded-md border border-TUCMC-gray-800 border-opacity-50 p-0 text-center text-2xl font-bold"
+                  />
+                  <input
+                    type="number"
+                    value={rawOTP[5]}
+                    min={0}
+                    max={9}
+                    onChange={(e) => {
+                      e.target.value === "" && setAtDigit((prev) => 4)
+                      setRawOTP((prev) => ({ ...prev, 5: e.target.value }))
+                    }}
+                    id="otp6"
+                    className="webkit-none h-10 w-8 rounded-md border border-TUCMC-gray-800 border-opacity-50 p-0 text-center text-2xl font-bold"
+                  />
+                </div>
               </div>
-              <h1 className="text-gray-600 text-xs text-center mt-3 hover:underline cursor-pointer">ไม่สามารถเข้าสู่ระบบ</h1>
+            </div>
+            <h1 className="mt-3 cursor-pointer text-center text-xs text-gray-600 hover:underline">
+              ไม่สามารถเข้าสู่ระบบ
+            </h1>
           </div>
-      </motion.div>}
+        </motion.div>
+      )}
       {!type ? (
         <div>
           <h1 className="text-center text-4xl font-bold tracking-tight">เข้าสู่ระบบ</h1>
@@ -269,7 +376,13 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
               </div>
               <div className="flex w-full flex-row justify-between">
                 <div className="flex flex-row">
-                  <input onChange={(e) =>{setRemember(e.target.checked)}} className="mr-2 h-5 w-5 rounded-md border border-gray-200 ring-0" type="checkbox" />
+                  <input
+                    onChange={(e) => {
+                      setRemember(e.target.checked)
+                    }}
+                    className="mr-2 h-5 w-5 rounded-md border border-gray-200 ring-0"
+                    type="checkbox"
+                  />
                   <span className="whitespace-nowrap">จดจำฉันไว้ในระบบ</span>
                 </div>
                 <span onClick={secAction} className="cursor-pointer text-TUCMC-pink-400">
@@ -286,9 +399,14 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
                   </div>
                   <span>ล็อกอิน</span>
                 </button>
-                <a onClick={primaryAction} className="mt-2 cursor-pointer whitespace-nowrap font-normal text-gray-600">
-                  สร้างบัญชีใหม่
-                </a>
+                {openRegister && (
+                  <a
+                    onClick={primaryAction}
+                    className="mt-2 cursor-pointer whitespace-nowrap font-normal text-gray-600"
+                  >
+                    สร้างบัญชีใหม่
+                  </a>
+                )}
               </div>
             </div>
           </form>
