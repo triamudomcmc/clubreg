@@ -53,10 +53,12 @@ Checking Process (Day by Day)
 // announce first round audition result. (user can select either to accept or reject)
 export const firstRoundTime = +new Date("2025-05-27T07:30:00.000+07:00")
 // end announce time. Dicisions are no longer accepted
+// ! Recommend to close confirmation time before 20:00 for our supervision.
 export const endFirstRoundTime = +new Date("2025-05-27T23:59:00.000+07:00")
 // announce second round audition result. (user can select either to accept or reject)
 export const secondRoundTime = +new Date("2025-05-28T07:30:00.000+07:00")
 // end announce time. Dicisions are no longer accepted
+// ! Recommend to close confirmation time before 20:00 for our supervision.
 export const endSecondRoundTime = +new Date("2025-05-28T23:59:00.000+07:00")
 
 // position update time (club admin might be able to update the position after exceeded editDataTime)
