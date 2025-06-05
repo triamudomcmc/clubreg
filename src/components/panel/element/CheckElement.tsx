@@ -52,11 +52,11 @@ export const CheckElement = ({ userData, pendingUpdate, setPendingUpdate }) => {
           {userData.student_id} | ม.{userData.level}/{userData.room}
         </span>
       </div>
-      <div className="flex items-center justify-between text-TUCMC-gray-600 md:ml-10 md:w-[620px]">
-        <div className="mr-14 hidden w-[200px] flex-shrink justify-between md:flex">
-          <span>{userData.student_id}</span>
-          <span>ม.{userData.level}</span>
-          <span>{userData.room}</span>
+      <div className="flex items-center justify-between text-TUCMC-gray-600 md:ml-10">
+        <div className="mr-14 hidden w-[240px] flex-shrink justify-between md:flex">
+          <span className="w-1/3 flex justify-center">{userData.student_id}</span>
+          <span className="w-1/3 flex justify-center">ม.{userData.level}</span>
+          <span className="w-1/3 flex justify-center">{userData.room}</span>
         </div>
         <div className="mt-3 flex flex-shrink-0 space-x-2 md:mt-0">
           <div
