@@ -207,9 +207,6 @@ const Auth = ({ query }) => {
             นักเรียน ม.5 และ ม.6 ในปีการศึกษา {year} ที่เข้ามายืนยันสิทธิ์ชมรมเดิม จะต้องใช้บัญชีเดิมในการเข้าสู่ระบบ
           </p>
         </DefaultCard>
-        <DefaultCard>
-          <p className="font-normal">นักเรียน ม.4 ให้ใช้เลขประจำตัวประชาชน 13 หลัก ในการเข้าสู่ระบบ</p>
-        </DefaultCard>
         {action == "login" && (
           <LoginSection query={query} primaryAction={goRegister} secAction={goForgot} setLoader={setLoader} />
         )}

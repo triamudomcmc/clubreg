@@ -121,10 +121,9 @@ export const Card = ({ width, userData, clubData, customURL = "", teacherData, i
   }, [userData])
 
   const teacher: UserData | null =
-    Array.isArray(teacherData) && teacherData.length > 0
-      ? teacherData[0]
-      : (teacherData || null);
+    Array.isArray(teacherData) && teacherData.length > 0 ? teacherData[0] : teacherData || null
 
+  console.log(userData.special)
   return (
     <div
       style={{ ["--width" as string]: `${width}px` }}
@@ -144,66 +143,86 @@ export const Card = ({ width, userData, clubData, customURL = "", teacherData, i
         <canvas id="qrCode" className={css.qrCode}></canvas>
       </div>
       <div className="flex w-full flex-col items-center bg-TUCMC-gray-100">
-        <div
-          className={classnames(css.text138, "text-TUCMC-700 w-full text-center tracking-tight", css.px17, css.mt18)}
-        >
-          <p className={classnames(css.textyear, "font-normal text-TUCMC-gray-600")}>
-            ปีการศึกษา {new Date(schoolYear).getFullYear() + 543}
-          </p>
-          <h1>ชมรม{clubMap[userData.club]}</h1>
-        </div>
-        <span className={classnames(css.greenbutt, "rounded-full bg-TUCMC-green-400 tracking-tight text-white")}>
-          ลงทะเบียนสำเร็จ
-        </span>
+        {!userData.special ? (
+          <>
+            <div
+              className={classnames(
+                css.text138,
+                "text-TUCMC-700 w-full text-center tracking-tight",
+                css.px17,
+                css.mt18
+              )}
+            >
+              <p className={classnames(css.textyear, "font-normal text-TUCMC-gray-600")}>
+                ปีการศึกษา {new Date(schoolYear).getFullYear() + 543}
+              </p>
+              <h1>ชมรม{clubMap[userData.club]}</h1>
+            </div>
+            <span className={classnames(css.greenbutt, "rounded-full bg-TUCMC-green-400 tracking-tight text-white")}>
+              ลงทะเบียนสำเร็จ
+            </span>
+          </>
+        ) : (
+          <div className="space-y-1 py-6 text-center font-bold text-TUCMC-gray-900">
+            <h1 className="text-lg">ข้อมูลในระบบไม่สมบูรณ์</h1>
+            <h3 className="text-sm">โปรดติดต่องานกิจกรรมพัฒนาผู้เรียนตึก 50 ปี</h3>
+          </div>
+        )}
       </div>
       <div className={classnames("flex w-full flex-col items-start", css.textContainer)}>
         <div className={classnames("flex items-start", css.subContainer)}>
           <LocationMarkerIcon className={classnames(css.icon, "flex-shrink-0 text-TUCMC-gray-700")} />
           <span className={classnames(css.text1155, "text-TUCMC-gray-700")}>
-            สถานที่เรียนชมรม <span className="text-TUCMC-gray-500">{clubData.place}</span>
+            สถานที่เรียนชมรม <span className="text-TUCMC-gray-500">{!userData.special && clubData.place}</span>
           </span>
         </div>
         <div className={classnames("flex items-start", css.subContainer)}>
           <SpeakerphoneIcon className={classnames(css.icon, "flex-shrink-0 text-TUCMC-gray-700")} />
           <div className="flex flex-col">
             <span className={classnames(css.text1155, "text-TUCMC-gray-700")}>ข้อความจากชมรม</span>
-            <p className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55)}>{clubData.message}</p>
+            <p className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55)}>
+              {!userData.special && clubData.message}
+            </p>
           </div>
         </div>
         <div className={classnames("flex items-start", css.subContainer)}>
           <SpeakerphoneIcon className={classnames(css.icon, "flex-shrink-0 text-TUCMC-gray-700")} />
           <div className="flex flex-col">
             <span className={classnames(css.text1155, "text-TUCMC-gray-700")}>ช่องทางการติดต่อชมรม</span>
-            <p
-              className={classnames(
-                css.text1155,
-                "text-TUCMC-gray-500",
-                css.mt55,
-                isEmpty(clubData.contact) && "hidden"
-              )}
-            >
-              {clubData.contact?.type} : {clubData.contact?.context}
-            </p>
-            <p
-              className={classnames(
-                css.text1155,
-                "text-TUCMC-gray-500",
-                css.mt55,
-                isEmpty(clubData.contact2) && "hidden"
-              )}
-            >
-              {clubData.contact2?.type} : {clubData.contact2?.context}
-            </p>
-            <p
-              className={classnames(
-                css.text1155,
-                "text-TUCMC-gray-500",
-                css.mt55,
-                isEmpty(clubData.contact3) && "hidden"
-              )}
-            >
-              {clubData.contact3?.type} : {clubData.contact3?.context}
-            </p>
+            {!userData.special && (
+              <>
+                <p
+                  className={classnames(
+                    css.text1155,
+                    "text-TUCMC-gray-500",
+                    css.mt55,
+                    isEmpty(clubData.contact) && "hidden"
+                  )}
+                >
+                  {clubData.contact?.type} : {clubData.contact?.context}
+                </p>
+                <p
+                  className={classnames(
+                    css.text1155,
+                    "text-TUCMC-gray-500",
+                    css.mt55,
+                    isEmpty(clubData.contact2) && "hidden"
+                  )}
+                >
+                  {clubData.contact2?.type} : {clubData.contact2?.context}
+                </p>
+                <p
+                  className={classnames(
+                    css.text1155,
+                    "text-TUCMC-gray-500",
+                    css.mt55,
+                    isEmpty(clubData.contact3) && "hidden"
+                  )}
+                >
+                  {clubData.contact3?.type} : {clubData.contact3?.context}
+                </p>
+              </>
+            )}
           </div>
         </div>
         {teacher && (
@@ -212,17 +231,21 @@ export const Card = ({ width, userData, clubData, customURL = "", teacherData, i
             <div className="flex flex-col">
               <span className={classnames(css.text1155, "text-TUCMC-gray-700")}>ครูที่ปรึกษาชมรม</span>
               <p className={classnames(css.text1155, "text-TUCMC-gray-500", css.mt55, isEmpty(teacher) && "hidden")}>
-                {isLoading ? (
-                  <div className="flex animate-pulse space-x-2">
-                    <div className="h-2 w-2 rounded bg-gray-300" />
-                    <div className="h-2 w-2 rounded bg-gray-300" />
-                    <div className="h-2 w-2 rounded bg-gray-300" />
-                  </div>
-                ) : (
-                  <p>
-                    {teacher.title}
-                    {teacher.firstname} {teacher.lastname}
-                  </p>
+                {!userData.special && (
+                  <>
+                    {isLoading ? (
+                      <div className="flex animate-pulse space-x-2">
+                        <div className="h-2 w-2 rounded bg-gray-300" />
+                        <div className="h-2 w-2 rounded bg-gray-300" />
+                        <div className="h-2 w-2 rounded bg-gray-300" />
+                      </div>
+                    ) : (
+                      <p>
+                        {teacher.title}
+                        {teacher.firstname} {teacher.lastname}
+                      </p>
+                    )}
+                  </>
                 )}
               </p>
             </div>
