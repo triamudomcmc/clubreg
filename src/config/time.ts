@@ -86,7 +86,7 @@ export const getPrevMonday = (offset = 0) => {
 }
 
 export const getRecentMondays = () => {
-  const lowest = new Date("2024-06-09T00:00:00.000+07:00").getTime();
+  const lowest = new Date("2025-06-09T00:00:00.000+07:00").getTime();
   const highest = new Date("2025-09-08T00:00:00.000+07:00").getTime();
   let prev = getPrevMonday(),
     round = 1;
@@ -94,12 +94,9 @@ export const getRecentMondays = () => {
 
   // Convert ignored dates to a Set for faster lookup
   const ignored = new Set([
-    // new Date("2024-11-04T00:00:00.000+07:00").getTime(),
-    // new Date("2024-12-16T00:00:00.000+07:00").getTime(),
-    // new Date("2024-12-23T00:00:00.000+07:00").getTime(),
-    // new Date("2024-12-30T00:00:00.000+07:00").getTime(),
-    // new Date("2025-01-27T00:00:00.000+07:00").getTime(),
-    // new Date("2025-02-10T00:00:00.000+07:00").getTime(),
+    new Date("2025-07-21T00:00:00.000+07:00").getTime(),
+    new Date("2025-07-28T00:00:00.000+07:00").getTime(),
+    new Date("2024-08-11T00:00:00.000+07:00").getTime(),
   ]);
 
   while (prev >= lowest) {

@@ -18,7 +18,7 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
   const [rawOTP, setRawOTP] = useState({ 0: "", 1: "", 2: "", 3: "", 4: "", 5: "" })
   const seriesInput = useRef([])
   const { addToast, clearToast } = useToast()
-  const openRegister = new Date().getTime() < new Date(endRegClubTime).getTime()
+  // const openRegister = new Date().getTime() < new Date(endRegClubTime).getTime()
 
   useEffect(() => {
     if (atDigit >= 0 && atDigit <= 5) {
@@ -399,14 +399,14 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
                   </div>
                   <span>ล็อกอิน</span>
                 </button>
-                {openRegister && (
+                {/* {openRegister && ( */}
                   <a
                     onClick={primaryAction}
                     className="mt-2 cursor-pointer whitespace-nowrap font-normal text-gray-600"
                   >
                     สร้างบัญชีใหม่
                   </a>
-                )}
+                {/* )} */}
               </div>
             </div>
           </form>
