@@ -25,7 +25,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   } = req
 
 
-  const file = await savePDF(`${getProtocol(req)}://${req.headers.host}/panel/print/renderer?path=${path}`)
+  const file = await savePDF(
+    `${getProtocol(req)}://${req.headers.host}/panel/print/renderer?path=${path}`,
+    {
+      margin: {
+        top: "25px"
+      }
+    }
+  )
 
   res.setHeader("Content-Type", `application/pdf`)
   res.setHeader("Cache-Control", `public, immutable, no-transform, s-maxage=31536000, max-age=31536000`)

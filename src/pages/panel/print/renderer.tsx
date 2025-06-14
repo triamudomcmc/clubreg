@@ -49,7 +49,7 @@ const Page = ({ printData, meta }) => {
   }, [printData])
 
   return (
-    <div className="space-y-36 px-14 pt-10">
+    <div className="space-y-60 px-14">
       {memberData.map((chunk, chunckc) => {
         return (
           <div
@@ -58,6 +58,9 @@ const Page = ({ printData, meta }) => {
             }}
             className="w-[660px] space-y-6 font-sarabun"
           >
+            {chunckc > 0 && (
+              <div className=""></div>
+            )}
             <div className="flex flex-col items-center">
               <h1 className="text-center text-[20px] font-semibold">รายชื่อนักเรียนชมรม {meta?.clubName}</h1>
               <p className="text-[20px]">
@@ -69,23 +72,28 @@ const Page = ({ printData, meta }) => {
                 <th></th>
                 <th></th>
                 <th></th>
-                <th className="text-left"></th>
-                <th className="text-left"></th>
+                {/* <th className="text-left"></th>
+                <th className="text-left"></th> */}
                 <th>ชั้น</th>
                 <th>ห้อง</th>
-                <th>เลขที่</th>
+                <th>เลขที่</th> 
+                <th>หมายเหตุ</th>
               </tr>
               {chunk.map((item, index) => {
                 return (
                   <tr className="border-t-[1px] border-b-[1px] border-TUCMC-gray-900 text-center text-[18px]">
                     <td>{index + 1 + 30 * chunckc}</td>
                     <td>{item.student_id}</td>
-                    <td className="text-left">{item.title.replace("เด็กหญิง", "ด.ญ.").replace("เด็กชาย", "ด.ช.")}</td>
-                    <td className="text-left">{item.firstname}</td>
-                    <td className="text-left">{item.lastname}</td>
+                    <td className="text-left">
+                      {item.title.replace("เด็กหญิง", "ด.ญ.").replace("เด็กชาย", "ด.ช.") + ' '}
+                      {item.firstname} {item.lastname}
+                    </td>
+                    {/* <td className="text-left">{item.firstname}</td>
+                    <td className="text-left">{item.lastname}</td> */}
                     <td>ม.{item.level}</td>
                     <td>{item.room}</td>
                     <td>{item.number}</td>
+                    <td></td>
                   </tr>
                 )
               })}
