@@ -1,5 +1,5 @@
-import {SignedPostPolicyV4Output, Storage} from "@google-cloud/storage"
-import { getUNIXTimeStamp } from "@config/time"
+import { SignedPostPolicyV4Output, Storage } from "@google-cloud/storage"
+import { endEditInitData, getUNIXTimeStamp } from "@config/time"
 import {
   executeWithPermission,
   executeWithPermissionEx,
@@ -40,7 +40,7 @@ const performUpload = async (req, ID) => {
         const tempFileName = `userUpload-${new Date().getTime()}-${Math.floor(Math.random() * 400)}`
         const res = await upload(images[k], storage, tempFileName)
         if (res) {
-          policies.push({key: k, content: res})
+          policies.push({ key: k, content: res })
           nim[k] = `https://storage.googleapis.com/clwimages/${tempFileName}`
         }
       }
@@ -53,7 +53,7 @@ const performUpload = async (req, ID) => {
       if (Object.keys(rev.profile).includes("type")) {
         const tempFileName = `userUpload-${new Date().getTime()}-${Math.floor(Math.random() * 400)}`
         const res = await upload(rev.profile, storage, tempFileName)
-        policies.push({key: `review-${ind}`, content: res})
+        policies.push({ key: `review-${ind}`, content: res })
         reviews.push({ ...rev, profile: `https://storage.googleapis.com/clwimages/${tempFileName}` })
       } else {
         reviews.push(rev)
@@ -115,10 +115,16 @@ const performUpload = async (req, ID) => {
 }
 
 const main = async (req, ID) => {
+
+  if (Date.now() >= endEditInitData) return {
+    status: false,
+    report: "edit_time_expired",
+  }
+
   const status = await performUpload(req, ID)
 
   if (status) {
-    return { status: true, report: "success", data: {policies: status} }
+    return { status: true, report: "success", data: { policies: status } }
   } else {
     return { status: false, report: "unexpected_error" }
   }

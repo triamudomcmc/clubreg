@@ -2,7 +2,7 @@ import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next"
 import * as fs from "fs"
 import path from "path"
 import React, { FC, KeyboardEvent, useEffect, useRef, useState } from "react"
-import {ChevronDownIcon, ClipboardCopyIcon, CloudIcon, CloudUploadIcon, StarIcon} from "@heroicons/react/solid"
+import { ChevronDownIcon, ClipboardCopyIcon, CloudIcon, CloudUploadIcon, StarIcon } from "@heroicons/react/solid"
 import PageContainer from "@components/common/PageContainer"
 import Image from "next/image"
 import { CameraIcon, CheckIcon, GlobeAltIcon, PlusIcon, TrashIcon, UserIcon, XIcon } from "@heroicons/react/outline"
@@ -20,7 +20,7 @@ import { StatusText } from "@components/panel/table/TableRow"
 import { request } from "@handlers/client/utilities/request"
 import { motion } from "framer-motion"
 import { EditableZoomable } from "@components/common/Zoomable/editable"
-import {convertToStaticFileUri, toBase64} from "@utilities/files"
+import { convertToStaticFileUri, toBase64 } from "@utilities/files"
 import initialisedDB from "@server/firebase-admin"
 import { removeItem } from "@utilities/array"
 import { Ellipsis } from "@vectors/Loaders/Ellipsis"
@@ -458,8 +458,8 @@ const SummaryImages = ({ images, onLoad, clubID, setImageS, newImages }) => {
                   `picture-${index + 1}` in newImages
                     ? newImages[`picture-${index + 1}`]
                     : name.includes("picture-")
-                    ? `/assets/images/clubs/${clubID}/${name}`
-                    : `${name}`
+                      ? `/assets/images/clubs/${clubID}/${name}`
+                      : `${name}`
                 }
                 updateImage={(d) => {
                   setImageS((prev) => {
@@ -704,11 +704,11 @@ function dataURLtoFile(dataurl, filename) {
     n = bstr.length,
     u8arr = new Uint8Array(n);
 
-  while(n--){
+  while (n--) {
     u8arr[n] = bstr.charCodeAt(n);
   }
 
-  return new File([u8arr], filename, {type:mime});
+  return new File([u8arr], filename, { type: mime });
 }
 
 
@@ -730,7 +730,7 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
 
   const [reviews, setReviews] = useState(data.reviews)
   const [mainArt, setMainArt] = useState(data.description)
-  const [uploadTask, setUploadTask] = useState({all: 0, done: 0})
+  const [uploadTask, setUploadTask] = useState({ all: 0, done: 0 })
   const [uploadErr, setUploadErr] = useState([])
   const [contactData, setContactData] = useState({
     contact: isEmpty(data.contact) ? { type: "ไม่มี", context: "แก้ไขข้อมูล" } : data.contact,
@@ -757,27 +757,49 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
     const formattedS = {}
     Object.keys(imageS).forEach((k) => {
       if (imageS[k] !== null) {
-        formattedS[k] = {type: getMime(imageS[k])}
-      }else{
+        formattedS[k] = { type: getMime(imageS[k]) }
+      } else {
         formattedS[k] = null
       }
     })
 
-    const formattedReview = reviews.map(d => ({...d, profile: d.profile.includes("data:image") ? {type: getMime(d.profile)} :  d.profile}))
+    const formattedReview = reviews.map(d => ({ ...d, profile: d.profile.includes("data:image") ? { type: getMime(d.profile) } : d.profile }))
 
     const res = await request("database/editWeb", "submitChanges", {
       panelID: clubID,
       reviews: formattedReview,
       main: mainArt,
       contact: contactData,
-      images: { mainImage: imageHead ? getMime(imageHead) : null, ...formattedS},
+      images: { mainImage: imageHead ? getMime(imageHead) : null, ...formattedS },
     })
 
     const awaitTimeout = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
 
     await awaitTimeout(8000)
 
+    if (!res.status) {
+      switch (res.report) {
+        case "edit_time_expired":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "หมดเวลาการแก้ไขข้อมูล",
+            text: "ข้อมูลที่แก้ไขจะไม่ถูกบันทึก กรุณารอวันเปิดการแก้ไขข้อมูลอีกครั้ง"
+          })
+          return false
+        case "unexpected_error":
+          addToast({
+            theme: "modern",
+            icon: "cross",
+            title: "พบข้อผิดพลาดระหว่างการแก้ไขข้อมูล",
+            text: "กรุณาลองแก้ไขข้อมูลใหม่อีกครั้ง หากปัญหายังคงอยู่ให้ติดต่อผู้ดูแลระบบ",
+          })
+          return false
+      }
+    }
+
     if (res.status) {
+
       addToast({
         theme: "modern",
         icon: "tick",
@@ -786,59 +808,58 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
       })
 
       const policies = res.data.policies
-      setUploadTask({all: policies.length, done: 0})
+      setUploadTask({ all: policies.length, done: 0 })
 
-      console.log(policies)
       policies.forEach((p) => {
-        const {key, content} = p
+        const { key, content } = p
         switch (key) {
-          case "mainImage" :
-            uploadImage(content, dataURLtoFile(imageHead,"test")).catch((e) => {
+          case "mainImage":
+            uploadImage(content, dataURLtoFile(imageHead, "test")).catch((e) => {
               setUploadErr(prev => ([...prev, `ไม่สามารถ upload รูปภาพหลัก กรุณาลองใหม่อีกครั้ง`]))
             }).then(() => {
-              setUploadTask(prev => ({...prev, done: prev.done + 1}))
+              setUploadTask(prev => ({ ...prev, done: prev.done + 1 }))
             })
             break
-          case "picture-1" :
-            uploadImage(content, dataURLtoFile(imageS["picture-1"],"test")).catch((e) => {
+          case "picture-1":
+            uploadImage(content, dataURLtoFile(imageS["picture-1"], "test")).catch((e) => {
               setUploadErr(prev => ([...prev, `ไม่สามารถ upload รูปภาพรูปที่ 1 กรุณาลองใหม่อีกครั้ง`]))
             }).then(() => {
-              setUploadTask(prev => ({...prev, done: prev.done + 1}))
+              setUploadTask(prev => ({ ...prev, done: prev.done + 1 }))
             })
             break
-          case "picture-2" :
-            uploadImage(content, dataURLtoFile(imageS["picture-2"],"test")).catch((e) => {
+          case "picture-2":
+            uploadImage(content, dataURLtoFile(imageS["picture-2"], "test")).catch((e) => {
               setUploadErr(prev => ([...prev, `ไม่สามารถ upload รูปภาพรูปที่ 2 กรุณาลองใหม่อีกครั้ง`]))
             }).then(() => {
-              setUploadTask(prev => ({...prev, done: prev.done + 1}))
+              setUploadTask(prev => ({ ...prev, done: prev.done + 1 }))
             })
             break
-          case "picture-3" :
-            uploadImage(content, dataURLtoFile(imageS["picture-3"],"test")).catch((e) => {
+          case "picture-3":
+            uploadImage(content, dataURLtoFile(imageS["picture-3"], "test")).catch((e) => {
               setUploadErr(prev => ([...prev, `ไม่สามารถ upload รูปภาพรูปที่ 3 กรุณาลองใหม่อีกครั้ง`]))
             }).then(() => {
-              setUploadTask(prev => ({...prev, done: prev.done + 1}))
+              setUploadTask(prev => ({ ...prev, done: prev.done + 1 }))
             })
             break
-          case "review-0" :
-            uploadImage(content, dataURLtoFile(reviews[0].profile,"test")).catch((e) => {
+          case "review-0":
+            uploadImage(content, dataURLtoFile(reviews[0].profile, "test")).catch((e) => {
               setUploadErr(prev => ([...prev, `ไม่สามารถ upload รูปโปรไฟล์รูปที่ 1 กรุณาลองใหม่อีกครั้ง`]))
             }).then(() => {
-              setUploadTask(prev => ({...prev, done: prev.done + 1}))
+              setUploadTask(prev => ({ ...prev, done: prev.done + 1 }))
             })
             break
-          case "review-1" :
-            uploadImage(content, dataURLtoFile(reviews[1].profile,"test")).catch((e) => {
+          case "review-1":
+            uploadImage(content, dataURLtoFile(reviews[1].profile, "test")).catch((e) => {
               setUploadErr(prev => ([...prev, `ไม่สามารถ upload รูปโปรไฟล์รูปที่ 2 กรุณาลองใหม่อีกครั้ง`]))
             }).then(() => {
-              setUploadTask(prev => ({...prev, done: prev.done + 1}))
+              setUploadTask(prev => ({ ...prev, done: prev.done + 1 }))
             })
             break
-          case "review-2" :
-            uploadImage(content, dataURLtoFile(reviews[2].profile,"test")).catch((e) => {
+          case "review-2":
+            uploadImage(content, dataURLtoFile(reviews[2].profile, "test")).catch((e) => {
               setUploadErr(prev => ([...prev, `ไม่สามารถ upload รูปโปรไฟล์รูปที่ 3 กรุณาลองใหม่อีกครั้ง`]))
             }).then(() => {
-              setUploadTask(prev => ({...prev, done: prev.done + 1}))
+              setUploadTask(prev => ({ ...prev, done: prev.done + 1 }))
             })
             break
         }
@@ -893,18 +914,18 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
     <PageContainer>
       {uploadTask.all > 0 && uploadTask.done - uploadTask.all !== 0 && <div className={"flex justify-center items-center min-h-screen w-full fixed top-0 left-0 z-[999] backdrop-blur-md"}>
         <div className="flex flex-col items-center">
-          <CloudIcon className="w-16 h-16 animate-pulse text-gray-600"/>
-        <h1 className="text-xl font-medium">กำลังประมวลผลรูปภาพ</h1>
+          <CloudIcon className="w-16 h-16 animate-pulse text-gray-600" />
+          <h1 className="text-xl font-medium">กำลังประมวลผลรูปภาพ</h1>
           <span className="font-semibold text-TUCMC-red-500">ห้ามออกจากหน้านี้ ในขณะนี้</span>
-        <span className="mt-2 text-sm">ทั้งหมด {uploadTask.all} เสร็จสิ้น {uploadTask.done}</span>
+          <span className="mt-2 text-sm">ทั้งหมด {uploadTask.all} เสร็จสิ้น {uploadTask.done}</span>
           {
             cancel && <a onClick={() => {
               setUploadErr([])
-              setUploadTask({all: 0, done: 0})
+              setUploadTask({ all: 0, done: 0 })
               setRerender(true)
             }} className="text-sm mt-4 underline cursor-pointer hover:text-TUCMC-red-500 text-TUCMC-gray-600">ยกเลิกการประมวลผล</a>
           }
-      </div>
+        </div>
       </div>}
       {rerender && <div className="hidden">s</div>}
       <div className={classnames(loadingCount > 0 && "absolute opacity-0")}>
