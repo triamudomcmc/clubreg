@@ -495,6 +495,7 @@ const Account = () => {
                   committee_count: committee?.length || 0,
                 }}
                 updateField={updateCurrpanelClubField}
+                clubData={clubData}
               />
               <ClubCommitteeTable
                 committee={committee}

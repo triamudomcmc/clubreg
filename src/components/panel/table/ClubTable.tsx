@@ -10,13 +10,14 @@ import { ClubData } from "@interfaces/clubData"
 import UserData from "@interfaces/userData"
 import { useWindowDimensions } from "@utilities/document"
 import { request } from "https"
-import { FC, Fragment, MouseEvent, useEffect, useState } from "react"
+import { FC, Fragment, MouseEvent, useEffect, useState, Dispatch, SetStateAction } from "react"
 import { stringify } from "remark"
 import { TableContactRow, TableRow, TableWebDataRow } from "./TableRow"
 import { IContactType } from "./valueTypes"
 import { useTimer } from "@utilities/timers"
-import { editInitData, endEditInitData, EXCEPT, THAI_MONTH } from "@config/time"
+import { editInitData, endEditInitData, endLastRound, EXCEPT, THAI_MONTH } from "@config/time"
 import classnames from "classnames"
+import { fetchMembers } from "@client/fetcher/panel"
 
 export type TUpdateFieldFunction = (field: string, data: any) => Promise<{ status: boolean; report: string }>
 
@@ -116,10 +117,85 @@ const Counter: FC<{ target: number }> = ({ target }) => {
     </span>
   )
 }
+const fetchMemberData = async (
+  panelID: string,
+  setMemberData: Dispatch<SetStateAction<{}>>,
+  setToast,
+  reFetch,
+  setInitMem
+) => {
+  const data = await fetchMembers(panelID, false)
 
-export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldFunction }> = ({
+  let sorted = {
+    m4: [],
+    m5: [],
+    m6: [],
+  }
+
+  if (data.status) {
+    data.data.forEach((item) => {
+      if (item.level.replace("ม.", "") === "4") {
+        sorted.m4.push(item)
+      }
+      if (item.level.replace("ม.", "") === "5") {
+        sorted.m5.push(item)
+      }
+      if (item.level.replace("ม.", "") === "6") {
+        sorted.m6.push(item)
+      }
+    })
+    setMemberData(sorted)
+    setInitMem(true)
+  } else {
+    switch (data.report) {
+      case "sessionError":
+        setToast({
+          theme: "modern",
+          icon: "cross",
+          title: "พบข้อผิดพลาดของเซสชั่น",
+          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
+          crossPage: true,
+        })
+        reFetch()
+        break
+      case "invalidPermission":
+        setToast({
+          theme: "modern",
+          icon: "cross",
+          title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
+          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
+        })
+        break
+    }
+  }
+}
+const ClubPortion: FC<{ text: string; value: number; first?: boolean }> = ({ text, value, first = false }) => {
+  return (
+    <>
+      <div className="md:hidden">
+        <div
+          className={`flex flex-col items-center justify-center ${
+            !first ? "h-28 w-28 bg-white text-TUCMC-pink-500 " : "h-[7.5rem] w-[7.5rem] bg-TUCMC-pink-500 text-white"
+          } rounded-xl shadow-xl`}
+        >
+          <p className="mb-1 font-semibold">{text}</p>
+          <p className="text-sm font-medium">{value} คน</p>
+        </div>
+      </div>
+      <div className="hidden md:block">
+        <div className="md: flex w-full space-x-2 items-center justify-start border-b border-gray-200 py-4 md:py-6">
+          <p className="text-TUCMC-gray-600">{text} : </p>
+          <p className="">{value}</p>
+        </div>
+      </div>
+    </>
+  )
+}
+
+export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldFunction; clubData: any }> = ({
   data,
   updateField,
+  clubData,
 }) => {
   // fetch value from api as intialValue
   // then every accept just upxate the api and then update the v alues idk just find a way to update the values as the apis update
@@ -132,7 +208,6 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
     setException(EXCEPT.includes(id))
   }, [data])
   const disable = !(exception || (new Date().getTime() < endEditInitData && new Date().getTime() >= editInitData))
-
   return (
     <div>
       <h1 className="border-b border-gray-200 pb-4 text-xl">สัดส่วนชมรม</h1>
@@ -153,50 +228,87 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
             </div>
           </div>
         )}
-        <TableRow
-          field="teacher_count"
-          title="จำนวนครูที่ปรึกษาชมรม"
-          editable={!disable}
-          initialData={{ type: "number", value: data.teacher_count }}
-          updateField={updateField}
-          validateFunc={() => {
-            return null
-          }}
-        />
+        {new Date().getTime() > endLastRound ? (
+          <>
+            <div className="md:hidden">
+              <div className="mt-4 flex flex-col items-center space-y-2">
+                <div className="flex space-x-2">
+                  <ClubPortion
+                    text="สมาชิกทั้งหมด"
+                    value={clubData.old_count + clubData.new_count + (clubData?.committees?.length ?? 0)}
+                    first={true}
+                  />
+                  <ClubPortion
+                    text="สมาชิกเก่า"
+                    // value={clubData.old_count + clubData.committees.length}
+                    value={10}
+                  />
+                  <ClubPortion text="สมาชิกใหม่" value={clubData.new_count} />
+                </div>
+                <div className="flex w-[95%] justify-center space-x-2">
+                  <ClubPortion text="ม.4" value={10} />
+                  <ClubPortion text="ม.5" value={10} />
+                  <ClubPortion text="ม.6" value={10} />
+                </div>
+              </div>
+            </div>
+              <div className="hidden md:block">
+                <ClubPortion text="สมาชิกทั้งหมด" value={10} />
+                <ClubPortion text="สมาชิกเก่า" value={10} />
+                <ClubPortion text="สมาชิกใหม่" value={10} />
+                <ClubPortion text="จำนวนสมาชิก ม.4" value={10} />
+                <ClubPortion text="จำนวนสมาชิก ม.5" value={10} />
+                <ClubPortion text="จำนวนสมาชิก ม.6" value={10} />
+              </div>
+          </>
+        ) : (
+          <>
+            <TableRow
+              field="teacher_count"
+              title="จำนวนครูที่ปรึกษาชมรม"
+              editable={!disable}
+              initialData={{ type: "number", value: data.teacher_count }}
+              updateField={updateField}
+              validateFunc={() => {
+                return null
+              }}
+            />
 
-        <TableRow
-          field="count_limit"
-          title="จำนวนนักเรียนทั้งหมดที่คาดว่าจะรับ"
-          editable={!disable}
-          description="จำนวนนักเรียนทั้งหมดในชมรม รวมถึงนักเรียนเก่าและกรรมการชมรม"
-          initialData={{ type: "number", value: data.count_limit }}
-          updateField={updateField}
-          validateFunc={(c) => {
-            if (data.teacher_count === 0 || c.value / data.teacher_count < 28) {
-              return { reason: "teacher_to_student" }
-            } else return null
-          }}
-        />
-        <div className="grid grid-cols-1 border-b border-gray-200 py-4 md:grid-cols-[2fr,3fr] md:items-center md:py-6">
-          <p className="text-TUCMC-gray-600">จำนวนสมาชิกใหม่ที่จะรับเข้าชมรม</p>
-          <div className="flex items-start space-x-2">
-            <div className="block">{data.count_limit - data.old_count_limit - data.committee_count}</div>
-          </div>
-        </div>
-        <TableRow
-          field="old_count_limit"
-          title="จำนวนสมาชิกเก่าที่สามารถยืนยันสิทธิ์ชมรมเดิมได้"
-          description="จำนวนสมาชิกเก่าในชมรม ไม่รวมจำนวนกรรมการชมรม"
-          initialData={{ type: "number", value: data.old_count_limit }}
-          updateField={updateField}
-          editable={!disable}
-          declineVal={true}
-          validateFunc={(c) => {
-            if (c.value > Math.ceil((33 * data.count_limit) / 100)) {
-              return { reason: "limit_exceded" }
-            } else return null
-          }}
-        />
+            <TableRow
+              field="count_limit"
+              title="จำนวนนักเรียนทั้งหมดที่คาดว่าจะรับ"
+              editable={!disable}
+              description="จำนวนนักเรียนทั้งหมดในชมรม รวมถึงนักเรียนเก่าและกรรมการชมรม"
+              initialData={{ type: "number", value: data.count_limit }}
+              updateField={updateField}
+              validateFunc={(c) => {
+                if (data.teacher_count === 0 || c.value / data.teacher_count < 28) {
+                  return { reason: "teacher_to_student" }
+                } else return null
+              }}
+            />
+            <div className="grid grid-cols-1 border-b border-gray-200 py-4 md:grid-cols-[2fr,3fr] md:items-center md:py-6">
+              <p className="text-TUCMC-gray-600">จำนวนสมาชิกใหม่ที่จะรับเข้าชมรม</p>
+              <div className="flex items-start space-x-2">
+                <div className="block">{data.count_limit - data.old_count_limit - data.committee_count}</div>
+              </div>
+            </div>
+            <TableRow
+              field="old_count_limit"
+              title="จำนวนสมาชิกเก่าที่สามารถยืนยันสิทธิ์ชมรมเดิมได้"
+              description="จำนวนสมาชิกเก่าในชมรม ไม่รวมจำนวนกรรมการชมรม"
+              initialData={{ type: "number", value: data.old_count_limit }}
+              updateField={updateField}
+              editable={!disable}
+              declineVal={true}
+              validateFunc={(c) => {
+                if (c.value > Math.ceil((33 * data.count_limit) / 100)) {
+                  return { reason: "limit_exceded" }
+                } else return null
+              }}
+            />
+          </>
+        )}
         {/* <div className="grid grid-cols-1 border-b border-gray-200 py-4 md:grid-cols-[2fr,3fr] md:items-center md:py-6">
         <p className="text-TUCMC-gray-600">จำนวนสมาชิกใหม่ที่จะรับเข้าชมรม</p>
 
@@ -664,12 +776,12 @@ export const ClubCommitteeTable: FC<{
               return (
                 <Fragment key={user.student_id}>
                   <div className="flex items-center justify-between">
-                    <div className="flex flex-col items-start justify-center space-y-1 sm:flex-row sm:justify-between sm:w-full sm:mr-10">
+                    <div className="flex flex-col items-start justify-center space-y-1 sm:mr-10 sm:w-full sm:flex-row sm:justify-between">
                       <p className="text-lg">
                         {user.title}
                         {user.firstname} {user.lastname}
                       </p>
-                      <div className="flex justify-center w-44 sm:w-2/5">
+                      <div className="flex w-44 justify-center sm:w-2/5">
                         <p className="flex w-1/3 justify-center">{user.student_id}</p>
                         <p className="flex w-1/3 justify-center">ม.{user.level}</p>
                         <p className="flex w-1/3 justify-center ">{user.room}</p>
