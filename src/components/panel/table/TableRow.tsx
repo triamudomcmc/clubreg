@@ -8,6 +8,7 @@ import { FC, Fragment, useEffect, useState } from "react"
 import { TUpdateFieldFunction } from "./ClubTable"
 import Link from "next/link"
 import { useRouter } from "next/router"
+import { endEditInitData } from "@config/time"
 
 const validateData = (data: TValueTypes) => {
   // if (value.type === "string" && value.value === "") return null
@@ -358,6 +359,7 @@ export const TableWebDataRow: FC<{
 }> = ({ status, getCurrPanel, reason }) => {
   const [currStatus, setStatus] = useState(status)
   const [currReason, setReason] = useState(reason)
+  const [isEditable, setEditable] = useState(false)
 
   const router = useRouter()
 
@@ -377,11 +379,15 @@ export const TableWebDataRow: FC<{
       </div>
       <div className="flex space-x-12">
         <button
+          disabled={Date.now() >= endEditInitData}
           onClick={() => {
             const currPanel = getCurrPanel()
             router.push(`/clubs/${removeSectionSlugs(currPanel)}/edit`)
           }}
-          className="rounded-md border border-gray-300 bg-white py-2 px-8 transition-colors hover:bg-gray-100"
+          className={classNames(
+            "rounded-md border border-gray-300 bg-white py-2 px-8 transition-colors hover:bg-gray-100",
+            Date.now() >= endEditInitData && "cursor-not-allowed opacity-50"
+          )}
         >
           แก้ไข
         </button>

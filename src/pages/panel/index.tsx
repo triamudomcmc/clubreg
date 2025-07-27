@@ -48,6 +48,7 @@ import { PencilAltIcon } from "@heroicons/react/outline"
 import { ClubCommitteeTable, ClubDataTable, ProportionTable } from "@components/panel/table/ClubTable"
 import classNames from "classnames"
 import { editDataTime, endRegClubTime, endSecondRoundTime, openTime } from "@config/time"
+import { fetchMembers } from "@client/fetcher/panel"
 
 const fetchClubData = async (clubID: string, setClubData: Dispatch<SetStateAction<{}>>, setInitClub) => {
   const data = await fetchClub(clubID)
@@ -109,6 +110,7 @@ const Account = () => {
   })
 
   const [clubData, setClubData] = useState({
+    committees: [],
     new_count: 0,
     new_count_limit: 0,
     old_count: 0,
@@ -284,6 +286,78 @@ const Account = () => {
       }
     }
   }, [userData])
+
+  const fetchMemberData = async (
+    panelID: string,
+    setMemberData: Dispatch<SetStateAction<{}>>,
+    setToast,
+    reFetch,
+    setInitMem
+  ) => {
+    const data = await fetchMembers(panelID, false)
+  
+    const sorted = {
+      m4: [],
+      m5: [],
+      m6: [],
+    }
+  
+    if (data.status) {
+      data.data.forEach((item) => {
+        if (item.level.replace("ม.", "") === "4") {
+          sorted.m4.push(item)
+        }
+        if (item.level.replace("ม.", "") === "5") {
+          sorted.m5.push(item)
+        }
+        if (item.level.replace("ม.", "") === "6") {
+          sorted.m6.push(item)
+        }
+      })
+      setMemberData(sorted)
+      setInitMem(true)
+    } else {
+      switch (data.report) {
+        case "sessionError":
+          setToast({
+            theme: "modern",
+            icon: "cross",
+            title: "พบข้อผิดพลาดของเซสชั่น",
+            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
+            crossPage: true,
+          })
+          reFetch()
+          break
+        case "invalidPermission":
+          setToast({
+            theme: "modern",
+            icon: "cross",
+            title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
+            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
+          })
+          break
+      }
+    }
+  }
+
+  const [initMember, setInitMember] = useState(false)
+  const [memberData, setMemberData] = useState({
+    m4: [],
+    m5: [],
+    m6: [],
+  })
+
+  const refetch = () => {
+    const currentID = localStorage.getItem("currentPanel") || userData.panelID[0]
+    fetchMemberData(currentID, setMemberData, addToast, reFetch, setInitMember)
+  }
+
+  useEffect(() => {
+    if (userData.panelID) {
+      refetch()
+    }
+  }, [userData])
+  
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -495,6 +569,8 @@ const Account = () => {
                   committee_count: committee?.length || 0,
                 }}
                 updateField={updateCurrpanelClubField}
+                memberData={memberData}
+                clubData={clubData}
               />
               <ClubCommitteeTable
                 committee={committee}
