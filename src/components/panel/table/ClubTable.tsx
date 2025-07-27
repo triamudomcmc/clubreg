@@ -117,58 +117,7 @@ const Counter: FC<{ target: number }> = ({ target }) => {
     </span>
   )
 }
-const fetchMemberData = async (
-  panelID: string,
-  setMemberData: Dispatch<SetStateAction<{}>>,
-  setToast,
-  reFetch,
-  setInitMem
-) => {
-  const data = await fetchMembers(panelID, false)
 
-  let sorted = {
-    m4: [],
-    m5: [],
-    m6: [],
-  }
-
-  if (data.status) {
-    data.data.forEach((item) => {
-      if (item.level.replace("ม.", "") === "4") {
-        sorted.m4.push(item)
-      }
-      if (item.level.replace("ม.", "") === "5") {
-        sorted.m5.push(item)
-      }
-      if (item.level.replace("ม.", "") === "6") {
-        sorted.m6.push(item)
-      }
-    })
-    setMemberData(sorted)
-    setInitMem(true)
-  } else {
-    switch (data.report) {
-      case "sessionError":
-        setToast({
-          theme: "modern",
-          icon: "cross",
-          title: "พบข้อผิดพลาดของเซสชั่น",
-          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
-          crossPage: true,
-        })
-        reFetch()
-        break
-      case "invalidPermission":
-        setToast({
-          theme: "modern",
-          icon: "cross",
-          title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
-          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
-        })
-        break
-    }
-  }
-}
 const ClubPortion: FC<{ text: string; value: number; first?: boolean }> = ({ text, value, first = false }) => {
   return (
     <>
@@ -192,22 +141,20 @@ const ClubPortion: FC<{ text: string; value: number; first?: boolean }> = ({ tex
   )
 }
 
-export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldFunction; clubData: any }> = ({
+export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldFunction; memberData: any, clubData: any }> = ({
   data,
   updateField,
+  memberData,
   clubData,
 }) => {
-  // fetch value from api as intialValue
-  // then every accept just upxate the api and then update the v alues idk just find a way to update the values as the apis update
-
-  // const disable = new Date().getTime() < editInitData
+  
   const [exception, setException] = useState(false)
   useEffect(() => {
     const id = localStorage.getItem("currentPanel")
-
     setException(EXCEPT.includes(id))
   }, [data])
   const disable = !(exception || (new Date().getTime() < endEditInitData && new Date().getTime() >= editInitData))
+
   return (
     <div>
       <h1 className="border-b border-gray-200 pb-4 text-xl">สัดส่วนชมรม</h1>
@@ -240,25 +187,24 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
                   />
                   <ClubPortion
                     text="สมาชิกเก่า"
-                    // value={clubData.old_count + clubData.committees.length}
-                    value={10}
+                    value={clubData.old_count + (clubData?.committees.length ?? 0)}
                   />
                   <ClubPortion text="สมาชิกใหม่" value={clubData.new_count} />
                 </div>
                 <div className="flex w-[95%] justify-center space-x-2">
-                  <ClubPortion text="ม.4" value={10} />
-                  <ClubPortion text="ม.5" value={10} />
-                  <ClubPortion text="ม.6" value={10} />
+                  <ClubPortion text="ม.4" value={memberData.m4.length} />
+                  <ClubPortion text="ม.5" value={memberData.m5.length} />
+                  <ClubPortion text="ม.6" value={memberData.m6.length} />
                 </div>
               </div>
             </div>
               <div className="hidden md:block">
-                <ClubPortion text="สมาชิกทั้งหมด" value={10} />
-                <ClubPortion text="สมาชิกเก่า" value={10} />
-                <ClubPortion text="สมาชิกใหม่" value={10} />
-                <ClubPortion text="จำนวนสมาชิก ม.4" value={10} />
-                <ClubPortion text="จำนวนสมาชิก ม.5" value={10} />
-                <ClubPortion text="จำนวนสมาชิก ม.6" value={10} />
+                <ClubPortion text="สมาชิกทั้งหมด" value={clubData.old_count + clubData.new_count + (clubData?.committees.length ?? 0)} />
+                <ClubPortion text="สมาชิกเก่า" value={clubData.old_count + (clubData?.committees.length ?? 0)} />
+                <ClubPortion text="สมาชิกใหม่" value={clubData.new_count} />
+                <ClubPortion text="จำนวนสมาชิก ม.4" value={memberData.m4.length} />
+                <ClubPortion text="จำนวนสมาชิก ม.5" value={memberData.m5.length} />
+                <ClubPortion text="จำนวนสมาชิก ม.6" value={memberData.m6.length} />
               </div>
           </>
         ) : (
