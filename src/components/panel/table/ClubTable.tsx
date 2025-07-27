@@ -120,24 +120,17 @@ const Counter: FC<{ target: number }> = ({ target }) => {
 
 const ClubPortion: FC<{ text: string; value: number; first?: boolean }> = ({ text, value, first = false }) => {
   return (
-    <>
-      <div className="md:hidden">
         <div
           className={`flex flex-col items-center justify-center ${
-            !first ? "h-28 w-28 bg-white text-TUCMC-pink-500 " : "h-[7.5rem] w-[7.5rem] bg-TUCMC-pink-500 text-white"
-          } rounded-xl shadow-xl`}
+            !first ? "h-28 md:h-36 w-28 md:w-36 bg-white text-TUCMC-pink-500 " : "h-[7.5rem] md:h-[10rem] md:w-[10rem] w-[7.5rem] bg-TUCMC-pink-500 text-white"
+          } rounded-xl shadow-xl hover:shadow-2xl transition-all duration-200 ease-in-out`}
         >
-          <p className="mb-1 font-semibold">{text}</p>
-          <p className="text-sm font-medium">{value} คน</p>
+          <p className="mb-1 font-semibold md:text-[1.2rem]">{text}</p>
+          <p className="text-sm font-medium md:text-lg">{value} คน</p>
+            <a href="/panel/report" className={`${!first ? "hidden" : "hidden md:block px-4 py-[0.2rem] mt-2 text-xs text-white border-white border-[0.01rem] rounded-full hover:text-TUCMC-pink-500 hover:bg-white transition-all duration-200 ease-in-out"}`}>
+              สมาชิกทั้งหมด
+            </a>
         </div>
-      </div>
-      <div className="hidden md:block">
-        <div className="md: flex w-full space-x-2 items-center justify-start border-b border-gray-200 py-4 md:py-6">
-          <p className="text-TUCMC-gray-600">{text} : </p>
-          <p className="">{value}</p>
-        </div>
-      </div>
-    </>
   )
 }
 
@@ -176,10 +169,8 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
           </div>
         )}
         {new Date().getTime() > endLastRound ? (
-          <>
-            <div className="md:hidden">
               <div className="mt-4 flex flex-col items-center space-y-2">
-                <div className="flex space-x-2">
+                <div className="flex space-x-2 md:space-x-5">
                   <ClubPortion
                     text="สมาชิกทั้งหมด"
                     value={clubData.old_count + clubData.new_count + (clubData?.committees?.length ?? 0)}
@@ -191,22 +182,12 @@ export const ProportionTable: FC<{ data: IProportion; updateField: TUpdateFieldF
                   />
                   <ClubPortion text="สมาชิกใหม่" value={clubData.new_count} />
                 </div>
-                <div className="flex w-[95%] justify-center space-x-2">
+                <div className="flex w-[95%] justify-center space-x-2 md:space-x-4">
                   <ClubPortion text="ม.4" value={memberData.m4.length} />
                   <ClubPortion text="ม.5" value={memberData.m5.length} />
                   <ClubPortion text="ม.6" value={memberData.m6.length} />
                 </div>
               </div>
-            </div>
-              <div className="hidden md:block">
-                <ClubPortion text="สมาชิกทั้งหมด" value={clubData.old_count + clubData.new_count + (clubData?.committees.length ?? 0)} />
-                <ClubPortion text="สมาชิกเก่า" value={clubData.old_count + (clubData?.committees.length ?? 0)} />
-                <ClubPortion text="สมาชิกใหม่" value={clubData.new_count} />
-                <ClubPortion text="จำนวนสมาชิก ม.4" value={memberData.m4.length} />
-                <ClubPortion text="จำนวนสมาชิก ม.5" value={memberData.m5.length} />
-                <ClubPortion text="จำนวนสมาชิก ม.6" value={memberData.m6.length} />
-              </div>
-          </>
         ) : (
           <>
             <TableRow
@@ -686,6 +667,7 @@ export const ClubCommitteeTable: FC<{
           <div>
             <h1 className="text-xl">กรรมการชมรม</h1>
             <p className="text-sm text-TUCMC-gray-600">กรรมการชมรม เช่น ประธานชมรม รองประธานชมรม เลขานุการ</p>
+            <p className="text-[0.7rem] text-TUCMC-gray-500">*(กรรมการชมรมจะถูกนับเป็นสมาชิกเก่า)</p>
           </div>
           <button
             onClick={enableModal}
