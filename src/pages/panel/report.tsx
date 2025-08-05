@@ -17,6 +17,7 @@ import { CatLoader } from "@components/common/CatLoader"
 import { AnimatePresence, motion } from "framer-motion"
 import { WaitingScreen } from "@components/common/WaitingScreen"
 import Link from "next/link"
+import { ArrowLeftIcon } from "@heroicons/react/outline"
 
 const fetchMemberData = async (
   panelID: string,
@@ -188,7 +189,16 @@ const Report = () => {
         {initmember ? (
           <>
             <div className="max-w-6xl pt-10 mx-auto pb-14">
-              <h1 className="text-2xl font-medium text-center">สมาชิกชมรม</h1>
+              <div className="flex justify-center items-center relative">
+                <button
+                  type="button"
+                  onClick={() => Router.push("/panel")}
+                  className="absolute hover:bg-TUCMC-gray-300 transition-colors left-10 rounded-lg border border-TUCMC-gray-600"
+                >
+                  <ArrowLeftIcon className="p-1 w-10 h-10 text-TUCMC-gray-600" />
+                </button>
+                <h1 className="text-2xl font-medium text-center">สมาชิกชมรม</h1>
+              </div>
               <div className="flex justify-center">
                 <div className="absolute w-full px-4 pt-8">
                   <div className="flex justify-center max-w-xl mx-auto bg-white border border-gray-300 rounded-lg shadow-md ">
@@ -230,10 +240,9 @@ const Report = () => {
                         </div> */}
                       </div>
                       <div className="flex flex-row items-end">
-                        <h1 className="text-3xl font-bold text-TUCMC-gray-900">
+                        <h1 className="text-3xl text-center font-bold text-TUCMC-gray-900">
                           {clubData.old_count + clubData.new_count + (clubData?.committees?.length ?? 0)}
                         </h1>
-                        <h2 className="text-TUCMC-gray-500">/{clubData.count_limit}</h2>
                       </div>
                       <div>คน</div>
                     </div>
@@ -264,7 +273,6 @@ const Report = () => {
                         </div>
                         <div className="flex flex-row items-end">
                           <h1 className="text-3xl font-bold text-TUCMC-gray-900">{clubData.old_count + clubData.committees.length}</h1>
-                          <h2 className="text-TUCMC-gray-500">/{clubData.old_count_limit + clubData.committees.length}</h2>
                         </div>
                         <div>คน</div>
                       </div>
@@ -274,7 +282,6 @@ const Report = () => {
                         <div>สมาชิกใหม่</div>
                         <div className="flex flex-row items-end">
                           <h1 className="text-3xl font-bold text-TUCMC-gray-900">{clubData.new_count}</h1>
-                          <h2 className="text-TUCMC-gray-500">/{clubData.new_count_limit}</h2>
                         </div>
                         <div>คน</div>
                       </div>
@@ -286,21 +293,21 @@ const Report = () => {
                     <div className="flex items-center justify-center w-full py-2">
                       <div className="flex flex-col items-center justify-center space-y-2">
                         <div>ม.4</div>
-                          <h1 className="text-3xl font-bold text-TUCMC-gray-900">{memberData.m4.length}</h1>
+                        <h1 className="text-3xl font-bold text-TUCMC-gray-900">{memberData.m4.length}</h1>
                         <div>คน</div>
                       </div>
                     </div>
                     <div className="flex items-center justify-center w-full py-2">
                       <div className="flex flex-col items-center justify-center space-y-2">
                         <div>ม.5</div>
-                          <h1 className="text-3xl font-bold text-TUCMC-gray-900">{memberData.m5.length}</h1>
+                        <h1 className="text-3xl font-bold text-TUCMC-gray-900">{memberData.m5.length}</h1>
                         <div>คน</div>
                       </div>
                     </div>
                     <div className="flex items-center justify-center w-full py-2">
                       <div className="flex flex-col items-center justify-center space-y-2">
                         <div>ม.6</div>
-                          <h1 className="text-3xl font-bold text-TUCMC-gray-900">{memberData.m6.length}</h1>
+                        <h1 className="text-3xl font-bold text-TUCMC-gray-900">{memberData.m6.length}</h1>
                         <div>คน</div>
                       </div>
                     </div>
@@ -338,7 +345,7 @@ const Report = () => {
                         key={`report-${index}`}
                         userData={item}
                         editable={false}
-                        editFunc={() => {}}
+                        editFunc={() => { }}
                         noStatus={true}
                       />
                     )
