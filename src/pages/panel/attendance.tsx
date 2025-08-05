@@ -34,7 +34,7 @@ import { fetchChecks, submitChecks } from "@client/fetcher/checks"
 import { getPrevMonday, getRecentMondays } from "@config/time"
 import { convertMiliseconds } from "@utilities/timers"
 import { Listbox, Transition } from "@headlessui/react"
-import {convertToStaticFileUri} from "@utilities/files";
+import { convertToStaticFileUri } from "@utilities/files";
 
 const fetchFilesData = async (fileUpdate, panelID, addToast, reFetch, query, targetTime) => {
   const data = await fetchFiles(panelID, query.access || undefined, targetTime)
@@ -517,7 +517,16 @@ const Attendance = ({ query }) => {
             </div>
           </Modal>
           <div className="relative bg-TUCMC-gray-100 pt-10 pb-14">
-            <h1 className="text-center text-4xl text-TUCMC-gray-900">รายงาน</h1>
+            <div className="flex justify-center items-center relative">
+              <button
+                type="button"
+                onClick={() => Router.push("/panel")}
+                className="absolute hover:bg-TUCMC-gray-300 transition-colors left-10 rounded-lg border border-TUCMC-gray-600"
+              >
+                <ArrowLeftIcon className="p-1 w-10 h-10 text-TUCMC-gray-600" />
+              </button>
+              <h1 className="text-center text-4xl text-TUCMC-gray-900">รายงาน</h1>
+            </div>
 
             <section className="absolute w-full">
               <div className="z-10 mx-auto mb-10 w-full px-8 md:max-w-[500px]">
