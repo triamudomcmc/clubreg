@@ -68,6 +68,14 @@ export const lastround = +new Date("2025-05-29T07:30:00.000+07:00")
 export const endLastRound = +new Date("2025-05-29T23:59:59.000+07:00")
 export const firstClubPeroid = +new Date("2025-06-09")
 
+// attendance period
+export const startAttendance = +new Date("2025-06-09T00:00:00.000+07:00")
+export const endAttendance = +new Date("2025-09-08T23:59:59.000+07:00")
+
+// evaluation period)
+export const startEval = +new Date("2025-09-17T00:00:00.000+07:00")
+export const endEval = +new Date("2025-09-25T23:59:59.000+07:00")
+
 export const getUNIXTimeStamp = () => {
   return moment().unix() * 1000
 }
@@ -86,17 +94,16 @@ export const getPrevMonday = (offset = 0) => {
 }
 
 export const getRecentMondays = () => {
-  const lowest = new Date("2025-06-09T00:00:00.000+07:00").getTime();
-  const highest = new Date("2025-09-08T00:00:00.000+07:00").getTime();
+  const lowest = startAttendance
+  const highest = endAttendance
   let prev = getPrevMonday(),
     round = 1;
   let arr = [];
 
-  // Convert ignored dates to a Set for faster lookup
   const ignored = new Set([
     new Date("2025-07-21T00:00:00.000+07:00").getTime(),
     new Date("2025-07-28T00:00:00.000+07:00").getTime(),
-    new Date("2024-08-11T00:00:00.000+07:00").getTime(),
+    new Date("2025-08-11T00:00:00.000+07:00").getTime(),
   ]);
 
   while (prev >= lowest) {
