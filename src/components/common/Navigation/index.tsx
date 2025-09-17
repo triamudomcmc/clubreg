@@ -31,7 +31,7 @@ import { BeakerIcon } from "@heroicons/react/outline"
 import Modal from "@components/common/Modals"
 import { isEmpty } from "@utilities/object"
 import { addZero, convertMiliseconds } from "@utilities/timers"
-import { endRegClubTime, openTime } from "@config/time"
+import { endEval, endRegClubTime, openTime, startEval } from "@config/time"
 
 const useTimer = (countTo) => {
   const [timer, setTime] = useState({})
@@ -56,8 +56,6 @@ const useTimer = (countTo) => {
 
   return timer[countTo] || { day: "00", hour: "00", min: "00", sec: "00" }
 }
-
-const acceptedDate = new Date("2024-10-28T00:00:00.000+07:00").getTime()
 
 const Navigation = () => {
   const { onReady, signout } = useAuth()
@@ -268,7 +266,7 @@ const Navigation = () => {
                           <a className="block text-black hover:text-blue-600 hover:underline">Dashboard</a>
                         </Link>
                       )}
-                      {logged && userData.panelID && new Date().getTime() > acceptedDate && (
+                      {logged && userData.panelID && Date.now() > startEval && Date.now() < endEval && (
                         <Link passHref href="/panel/evaluate">
                           <h1 className="flex cursor-pointer items-center space-x-1 font-medium text-TUCMC-orange-500 hover:text-blue-600 hover:underline">
                             <span>ประเมินผล</span> <StarIcon className="h-4 w-4 animate-pulse" />
@@ -485,7 +483,7 @@ const Navigation = () => {
             </a>
           </Link>
         )}
-        {logged && userData.panelID && new Date().getTime() > acceptedDate && (
+        {logged && userData.panelID && Date.now() > startEval && Date.now() < endEval && (
           <Link passHref href="/panel/evaluate">
             <div
               className={classnames(
