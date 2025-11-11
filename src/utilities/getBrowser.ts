@@ -1,4 +1,4 @@
-const CHROMIUM_PATH = "https://vomrghiulbmrfvmhlflk.supabase.co/storage/v1/object/public/chromium-pack/chromium-v123.0.0-pack.tar";
+const CHROMIUM_PATH = "https://github.com/Sparticuz/chromium/releases/download/v123.0.0/chromium-v123.0.0-pack.tar";
 
 export async function getBrowser() {
   if (
@@ -6,7 +6,7 @@ export async function getBrowser() {
     process.env.NODE_ENV === "production" || 
     process.env.MODE === "production"
   ) {
-    const chromium = await import("@sparticuz/chromium-min").then(
+    const chromium = await import("@sparticuz/chromium").then(
       (mod) => mod.default
     );
 
@@ -14,7 +14,7 @@ export async function getBrowser() {
       (mod) => mod.default
     );
 
-    const executablePath = await chromium.executablePath(CHROMIUM_PATH);
+    const executablePath = await chromium.executablePath();
 
     const browser = await puppeteerCore.launch({
       args: [...chromium.args, '--high-dpi-support=1'],
