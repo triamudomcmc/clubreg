@@ -93,7 +93,9 @@ const Account = () => {
   const [t, setT] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [committee, setCommittee] = useState([])
-  const [isAuditionTime, setIsAuditionTime] = useState((new Date().getTime() > openTime && new Date().getTime() < endSecondRoundTime))
+  const [isAuditionTime, setIsAuditionTime] = useState(
+    new Date().getTime() > openTime && new Date().getTime() < endSecondRoundTime
+  )
 
   const { width } = useWindowDimensions()
 
@@ -137,7 +139,6 @@ const Account = () => {
 
     return currPanel
   }
-
 
   const reFetchCred = () => {
     const currPanel = getCurrPanel()
@@ -260,7 +261,7 @@ const Account = () => {
       addToast({
         theme: "modern",
         icon: "cross",
-        title: "พบข้อผิดพลาดของเซสชั่น",
+        title: "พบข้อผิดพลาดของเซสชัน",
         text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
         crossPage: true,
       })
@@ -277,7 +278,10 @@ const Account = () => {
     if (userData) {
       if (userData.student_id) {
         const whitelist = ["ก30952-2", "ก30952-3", "ก30952-4", "ก30952-5", "ก30952-6", "ก30952-7"]
-        if (userData.student_id.includes("ก") && (!userData.student_id.includes("-") || whitelist.includes(userData.student_id))) {
+        if (
+          userData.student_id.includes("ก") &&
+          (!userData.student_id.includes("-") || whitelist.includes(userData.student_id))
+        ) {
           const summited = localStorage.getItem("submitted25662")
           setT(true)
           if (summited === "true") return
@@ -295,13 +299,13 @@ const Account = () => {
     setInitMem
   ) => {
     const data = await fetchMembers(panelID, false)
-  
+
     const sorted = {
       m4: [],
       m5: [],
       m6: [],
     }
-  
+
     if (data.status) {
       data.data.forEach((item) => {
         if (item.level.replace("ม.", "") === "4") {
@@ -322,7 +326,7 @@ const Account = () => {
           setToast({
             theme: "modern",
             icon: "cross",
-            title: "พบข้อผิดพลาดของเซสชั่น",
+            title: "พบข้อผิดพลาดของเซสชัน",
             text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
             crossPage: true,
           })
@@ -333,7 +337,7 @@ const Account = () => {
             theme: "modern",
             icon: "cross",
             title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
-            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
+            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง หรือหากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
           })
           break
       }
@@ -357,11 +361,10 @@ const Account = () => {
       refetch()
     }
   }, [userData])
-  
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setIsAuditionTime((new Date().getTime() > openTime && new Date().getTime() < endSecondRoundTime))
+      setIsAuditionTime(new Date().getTime() > openTime && new Date().getTime() < endSecondRoundTime)
     }, 1000)
 
     return () => clearInterval(interval)
@@ -498,7 +501,7 @@ const Account = () => {
             </div>
           </div>
           <div className="mx-auto max-w-6xl px-4 pt-8 pb-20">
-            <div className="mx-auto grid max-w-xl gap-y-2 grid-cols-2 gap-1">
+            <div className="mx-auto grid max-w-xl grid-cols-2 gap-1 gap-y-2">
               {/* {clubData.audition ?   <Button
               type="div"href="/panel/audition"className="flex items-center justify-center space-x-2 rounded-lg bg-TUCMC-pink-400 px-4 py-3.5 text-white shadow-sm"
               ><ClipboardCheckIcon className="h-5 w-5" /><span>ผลการ Audition</span>
@@ -516,7 +519,7 @@ const Account = () => {
                 href="/panel/attendance"
                 type="div"
                 className="flex cursor-pointer items-center justify-center space-x-2 rounded-lg bg-TUCMC-pink-400 px-[1.5] py-3.5 text-white shadow-sm transition-all hover:scale-105"
-                >
+              >
                 <ClipboardCheckIcon className="h-6 w-6" />
                 <span>รายงานการเข้าเรียน</span>
               </Button>
@@ -530,19 +533,20 @@ const Account = () => {
                   "bg-TUCMC-white flex cursor-pointer items-center justify-center space-x-2 rounded-lg px-[1.5] py-3.5 text-TUCMC-gray-600 shadow-md",
                   "w-full"
                 )}
-                >
+              >
                 <UserGroupIcon className="h-6 w-6" />
                 <span>รายชื่อสมาชิก</span>
               </Button>
-                {(isAuditionTime && clubData.audition) && (
-                  <Button
-                    type="div" 
-                    href="/panel/audition" 
-                    className="flex items-center col-span-2 justify-center space-x-2 rounded-lg bg-TUCMC-pink-400 px-4 py-3.5 text-white shadow-sm"
-                  >
-                    <ClipboardCheckIcon className="h-5 w-5" /><span>แก้ไขผลการ Audition</span>
-                  </Button>
-                )}
+              {isAuditionTime && clubData.audition && (
+                <Button
+                  type="div"
+                  href="/panel/audition"
+                  className="col-span-2 flex items-center justify-center space-x-2 rounded-lg bg-TUCMC-pink-400 px-4 py-3.5 text-white shadow-sm"
+                >
+                  <ClipboardCheckIcon className="h-5 w-5" />
+                  <span>แก้ไขผลการ Audition</span>
+                </Button>
+              )}
             </div>
             <div className="mt-20 flex flex-col space-y-14 px-2 md:px-4">
               <ClubDataTable

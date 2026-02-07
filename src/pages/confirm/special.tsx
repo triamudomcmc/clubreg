@@ -65,7 +65,7 @@ const ModalSection: FC<{
             addToast({
               theme: "modern",
               icon: "cross",
-              title: "พบข้อผิดพลาดของเซสชั่น",
+              title: "พบข้อผิดพลาดของเซสชัน",
               text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
               crossPage: true,
             })

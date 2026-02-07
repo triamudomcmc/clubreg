@@ -57,7 +57,7 @@ const fetchMemberData = async (
         setToast({
           theme: "modern",
           icon: "cross",
-          title: "พบข้อผิดพลาดของเซสชั่น",
+          title: "พบข้อผิดพลาดของเซสชัน",
           text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
           crossPage: true,
         })
@@ -68,7 +68,7 @@ const fetchMemberData = async (
           theme: "modern",
           icon: "cross",
           title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
-          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
+          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง หรือหากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
         })
         break
     }
@@ -138,9 +138,7 @@ const Page = () => {
       setDisplay(
         <div className="flex flex-col items-center">
           <h1 className="text-TUCMC-gray-800">พบข้อผิดพลาด</h1>
-          <p className="text-TUCMC-gray-600">
-            กรุณาติดต่อผู้ดูแลระบบหรือติดต่อ กช.
-          </p>
+          <p className="text-TUCMC-gray-600">กรุณาติดต่อผู้ดูแลระบบหรือติดต่อ กช.</p>
         </div>
       )
       return
@@ -154,21 +152,21 @@ const Page = () => {
     )
 
     fetch(`/api/printTable?path=${res.data.path}`)
-      .then(response => {
-        if (!response.ok) throw new Error('Network response was not ok');
-        return response.blob();
+      .then((response) => {
+        if (!response.ok) throw new Error("Network response was not ok")
+        return response.blob()
       })
-      .then(blob => {
-        const url = window.URL.createObjectURL(blob);
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob)
 
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `members-${current}.pdf`;
-        a.id = "download";
-        document.body.appendChild(a);
-        a.click();
+        const a = document.createElement("a")
+        a.href = url
+        a.download = `members-${current}.pdf`
+        a.id = "download"
+        document.body.appendChild(a)
+        a.click()
 
-        window.URL.revokeObjectURL(url);
+        window.URL.revokeObjectURL(url)
 
         setDisplay(
           <div className="flex flex-col items-center">
@@ -180,15 +178,13 @@ const Page = () => {
               </a>
             </p>
           </div>
-        );
+        )
       })
-      .catch(error => {
+      .catch((error) => {
         setDisplay(
           <div className="flex flex-col items-center">
             <h1 className="text-TUCMC-gray-800">พบข้อผิดพลาด</h1>
-            <p className="text-TUCMC-gray-600">
-              ไม่สามารถดาวน์โหลดไฟล์ได้ กรุณาลองใหม่อีกครั้ง หรือติดต่อ กช.
-            </p>
+            <p className="text-TUCMC-gray-600">ไม่สามารถดาวน์โหลดไฟล์ได้ กรุณาลองใหม่อีกครั้ง หรือติดต่อ กช.</p>
             <button
               onClick={downloadpdf}
               className="mt-4 rounded bg-TUCMC-pink-400 px-4 py-2 text-white hover:bg-TUCMC-pink-500"
@@ -196,8 +192,8 @@ const Page = () => {
               ลองอีกครั้ง
             </button>
           </div>
-        );
-      });
+        )
+      })
 
     // const a = document.createElement("a")
     // a.href = `/api/printTable?path=${res.data.path}`
@@ -218,7 +214,6 @@ const Page = () => {
     //   )
     //   return
     // }
-
   }
 
   useEffect(() => {
