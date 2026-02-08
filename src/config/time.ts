@@ -33,7 +33,7 @@ export const auditionTime = +new Date("2025-05-19T08:00:00.000+07:00")
 // end audition time
 export const endAuditionTime = +new Date("2025-05-23T20:00:00.000+07:00")
 // end of data editing time for updating positions and audition result.
-// ! Spare time for a day for checking and validation process. 
+// ! Spare time for a day for checking and validation process.
 export const editDataTime = +new Date("2025-05-25T23:59:00.000+07:00")
 // registration close 1st round.
 export const endRegClubTime = +new Date("2025-05-21T23:59:00.000+07:00")
@@ -69,12 +69,12 @@ export const endLastRound = +new Date("2025-05-29T23:59:59.000+07:00")
 export const firstClubPeroid = +new Date("2025-06-09")
 
 // attendance period
-export const startAttendance = +new Date("2025-06-09T00:00:00.000+07:00")
-export const endAttendance = +new Date("2025-09-08T23:59:59.000+07:00")
+export const startAttendance = +new Date("2025-11-03T00:00:00.000+07:00")
+export const endAttendance = +new Date("2026-02-09T23:59:59.000+07:00")
 
 // evaluation period)
-export const startEval = +new Date("2025-09-17T00:00:00.000+07:00")
-export const endEval = +new Date("2025-09-28T13:00:00.000+07:00")
+export const startEval = +new Date("2026-02-09T00:00:00.000+07:00")
+export const endEval = +new Date("2026-02-15T23:59:59.000+07:00")
 
 export const getUNIXTimeStamp = () => {
   return moment().unix() * 1000
@@ -97,26 +97,24 @@ export const getRecentMondays = () => {
   const lowest = startAttendance
   const highest = endAttendance
   let prev = getPrevMonday(),
-    round = 1;
-  let arr = [];
+    round = 1
+  let arr = []
 
   const ignored = new Set([
-    new Date("2025-07-21T00:00:00.000+07:00").getTime(),
-    new Date("2025-07-28T00:00:00.000+07:00").getTime(),
-    new Date("2025-08-11T00:00:00.000+07:00").getTime(),
-  ]);
+    new Date("2025-12-22T00:00:00.000+07:00").getTime(),
+    new Date("2025-12-29T00:00:00.000+07:00").getTime(),
+  ])
 
   while (prev >= lowest) {
     if (prev <= highest && !ignored.has(prev)) {
-      arr.push(prev);
+      arr.push(prev)
     }
-    prev = getPrevMonday(round * (7 * 24 * 60 * 60 * 1000));
-    round++;
+    prev = getPrevMonday(round * (7 * 24 * 60 * 60 * 1000))
+    round++
   }
 
-  return arr;
-};
-
+  return arr
+}
 
 // export const EXCEPT = ["ก30903-3_1", "ก30903-3_2", "ก30905-2_1","ก30905-2_2","ก30905-2_6","ก30905-2_7","ก30905-2_9","ก30915_1","ก30915_2","ก30915_4","ก30902","ก30921_1","ก30921_1","ก30952-2","ก30902"]
 
@@ -156,28 +154,28 @@ export const getFullDate = (date, showTime = true) => {
   return `${new Date(date).getDate()} ${THAI_MONTH_INITIALS[new Date(date).getMonth()]} ${
     new Date(date).getFullYear() + 543
   }${
-    showTime ?
-    " เวลา " +
-      `${new Date(date).getHours().toString().padStart(2, "0")}` +
-      "." +
-      `${new Date(date).getMinutes().toString().padStart(2, "0")}` +
-      " น.":""
+    showTime
+      ? " เวลา " +
+        `${new Date(date).getHours().toString().padStart(2, "0")}` +
+        "." +
+        `${new Date(date).getMinutes().toString().padStart(2, "0")}` +
+        " น."
+      : ""
   }`
 }
-
 
 export const setGMT = (_date: string) => {
   if (process.env.VERCEL_ENV !== "production") return _date
   const [date, time] = _date.split(" เวลา ")
 
   const [day, month, year] = date.split(" ")
-  const [hours, minutes] = time.split(".").map(part => parseInt(part, 10))
+  const [hours, minutes] = time.split(".").map((part) => parseInt(part, 10))
 
   let newHours = (hours + 7) % 24
   let newDay = Number(day)
 
   const fmtDate = `${newDay.toString().padStart(2, "0")} ${month} ${year}`
-  const fmtTime = `${newHours.toString().padStart(2, "0")}.${minutes.toString().padStart(2, '0')} น.`
+  const fmtTime = `${newHours.toString().padStart(2, "0")}.${minutes.toString().padStart(2, "0")} น.`
 
-  return `${fmtDate} เวลา ${fmtTime}`;
+  return `${fmtDate} เวลา ${fmtTime}`
 }

@@ -9,7 +9,16 @@ import { Loader } from "@components/common/Loader"
 import { useToast } from "@components/common/Toast/ToastContext"
 import { ExclamationIcon } from "@heroicons/react/solid"
 import { ForgotSection } from "@components/dummy/auth/ForgotSection"
-import { endLastRound, endOldClub, lastround, openTime, schoolYear, startOldClub, startOldClubCountdown, THAI_MONTH_INITIALS } from "@config/time"
+import {
+  endLastRound,
+  endOldClub,
+  lastround,
+  openTime,
+  schoolYear,
+  startOldClub,
+  startOldClubCountdown,
+  THAI_MONTH_INITIALS,
+} from "@config/time"
 import { useTimer } from "@utilities/timers"
 import { motion } from "framer-motion"
 import classnames from "classnames"
@@ -23,7 +32,7 @@ const Auth = ({ query }) => {
   const [hideA, setHideA] = useState(false)
   const [completeHide, setCompHide] = useState(false)
   const [showToast, setShowToast] = useState(false)
-  const year = (new Date(schoolYear).getFullYear()) + 543
+  const year = new Date(schoolYear).getFullYear() + 543
 
   onReady((logged, userData) => {
     // if (new Date().getTime() < openTime) {
@@ -32,22 +41,21 @@ const Auth = ({ query }) => {
   })
 
   const lastScrollY = useRef(0)
-  
-    useEffect(() => {
-      const handleScroll = () => {
-        const currentScrollY = window.scrollY
-        if (currentScrollY > lastScrollY.current && currentScrollY > 20) {
-          setShowToast(false)
-        } else {
-          setShowToast(true)
-        }
-        lastScrollY.current = currentScrollY
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      if (currentScrollY > lastScrollY.current && currentScrollY > 20) {
+        setShowToast(false)
+      } else {
+        setShowToast(true)
       }
-  
-      window.addEventListener("scroll", handleScroll)
-      return () => window.removeEventListener("scroll", handleScroll)
-    }, [])
-  
+      lastScrollY.current = currentScrollY
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   const goRegister = () => {
     Router.push(
@@ -90,7 +98,7 @@ const Auth = ({ query }) => {
         addToast({
           theme: "modern",
           icon: "cross",
-          title: "พบข้อผิดพลาดของเซสชั่น",
+          title: "พบข้อผิดพลาดของเซสชัน",
           text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
         })
         break
@@ -98,7 +106,7 @@ const Auth = ({ query }) => {
         addToast({
           theme: "modern",
           icon: "cross",
-          title: "เซสชั่นของเบราว์เซอร์นี้ถูกปฏิเสธ",
+          title: "เซสชันของเบราว์เซอร์นี้ถูกปฏิเสธ",
           text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง หากยังไม่สามารถเข้าสู่ระบบได้กรุณาติดต่อทาง กช. โดยเร็ว",
         })
         break
@@ -106,7 +114,7 @@ const Auth = ({ query }) => {
         addToast({
           theme: "modern",
           icon: "info",
-          title: "เซสชั่นก่อนหน้าได้หมดอายุไปแล้ว",
+          title: "เซสชันก่อนหน้าได้หมดอายุไปแล้ว",
           text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
         })
         break
@@ -114,7 +122,7 @@ const Auth = ({ query }) => {
         addToast({
           theme: "modern",
           icon: "info",
-          title: "ไม่พบข้อมูลเซสชั่นบนเบราว์เซอร์",
+          title: "ไม่พบข้อมูลเซสชันบนเบราว์เซอร์",
           text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
         })
         break
@@ -147,9 +155,9 @@ const Auth = ({ query }) => {
               }, 9000)
             setCompHide(hideA)
           }}
-          className="flex items-center py-2 pl-4 pr-6 space-x-2 rounded-md shadow-md cursor-pointer bg-TUCMC-orange-500"
+          className="flex cursor-pointer items-center space-x-2 rounded-md bg-TUCMC-orange-500 py-2 pl-4 pr-6 shadow-md"
         >
-          <ExclamationIcon className="w-10 h-10 mt-2 text-white animate-pulse" />
+          <ExclamationIcon className="mt-2 h-10 w-10 animate-pulse text-white" />
           <div>
             <div className="flex items-center space-x-2 font-medium text-white">
               <h1>คุณกำลังอยู่ในโหมดระบบจำลอง</h1>
@@ -161,7 +169,7 @@ const Auth = ({ query }) => {
         </motion.div>
       </div>
       <Loader display={loader} />
-      <div style={{ maxWidth: "26rem" }} className="min-h-screen mx-auto my-6 mb-16 space-y-8 md:my-10 md:mb-10">
+      <div style={{ maxWidth: "26rem" }} className="mx-auto my-6 mb-16 min-h-screen space-y-8 md:my-10 md:mb-10">
         {/* <DefaultCard>
           <p className="font-normal">
             นักเรียน ม.5 และ ม.6 จะไม่สามารถล็อกอินเข้าสู่ระบบด้วยบัญชีเดิมในปีการศึกษาที่ผ่านมาได้
@@ -177,7 +185,7 @@ const Auth = ({ query }) => {
           <LoginSection query={query} primaryAction={goRegister} secAction={() => {}} setLoader={setLoader} />
         )}
         {action == "waiting" && (
-          <div className="flex flex-col items-center pt-8 mt-6">
+          <div className="mt-6 flex flex-col items-center pt-8">
             <h1 className="text-4xl font-bold tracking-tight">เข้าสู่ระบบ</h1>
             <div className="mt-2 mb-6 text-center text-TUCMC-gray-600">
               <p>ระบบลงทะเบียนชมรม</p>
@@ -216,7 +224,7 @@ const Auth = ({ query }) => {
               {new Date(startOldClub).getHours().toString().padStart(2, "0")}.
               {new Date(startOldClub).getMinutes().toString().padStart(2, "0")} น.
             </p>
-            <div className="flex flex-row justify-center w-full mt-2">
+            <div className="mt-2 flex w-full flex-row justify-center">
               <span
                 onClick={() => {
                   setAction("forgot")

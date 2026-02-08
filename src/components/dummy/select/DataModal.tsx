@@ -6,7 +6,7 @@ import { isEmpty } from "@utilities/object"
 import { useToast } from "@components/common/Toast/ToastContext"
 import classnames from "classnames"
 import { Ellipsis } from "@vectors/Loaders/Ellipsis"
-import  Router  from "next/router"
+import Router from "next/router"
 
 const DataModal = ({ state, setLoader, TriggerDep, closeFunc, refetcher, mode = "default" }) => {
   const [phone, setPhone] = useState("")
@@ -32,13 +32,13 @@ const DataModal = ({ state, setLoader, TriggerDep, closeFunc, refetcher, mode = 
     try {
       let res
       if (action === "register") {
-        localStorage.setItem("dummyClub" , state.data.clubID)
-        res = {status: true, report: "success", data: {}}
+        localStorage.setItem("dummyClub", state.data.clubID)
+        res = { status: true, report: "success", data: {} }
         Router.push("/dummy/card")
       }
       if (action === "confirm") {
-        localStorage.setItem("dummyClub" , state.data.clubID)
-        res = {status: true, report: "success", data: {}}
+        localStorage.setItem("dummyClub", state.data.clubID)
+        res = { status: true, report: "success", data: {} }
         Router.push("/dummy/card")
       }
       if (action === "reject") {
@@ -46,7 +46,7 @@ const DataModal = ({ state, setLoader, TriggerDep, closeFunc, refetcher, mode = 
         it[state.data.clubID as string] = "rejected"
 
         localStorage.setItem("dummyExState", JSON.stringify(it))
-        res = {status: true, report: "success", data: {}}
+        res = { status: true, report: "success", data: {} }
       }
 
       if (res.status) {
@@ -88,7 +88,7 @@ const DataModal = ({ state, setLoader, TriggerDep, closeFunc, refetcher, mode = 
             addToast({
               theme: "modern",
               icon: "cross",
-              title: "พบข้อผิดพลาดของเซสชั่น",
+              title: "พบข้อผิดพลาดของเซสชัน",
               text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
               crossPage: true,
             })
@@ -183,7 +183,7 @@ const DataModal = ({ state, setLoader, TriggerDep, closeFunc, refetcher, mode = 
         !pending && submit("register")
       }}
       className={classnames(
-        "flex items-center justify-center space-x-2 rounded-md bg-TUCMC-green-400 text-lg text-white hover:bg-TUCMC-green-400/80 transition-colors duration-200", 
+        "flex items-center justify-center space-x-2 rounded-md bg-TUCMC-green-400 text-lg text-white transition-colors duration-200 hover:bg-TUCMC-green-400/80",
         pending ? "cursor-default py-[1px]" : "cursor-pointer py-2"
       )}
     >
@@ -319,7 +319,7 @@ const DataModal = ({ state, setLoader, TriggerDep, closeFunc, refetcher, mode = 
               {actionButt}
               <div
                 id="dataModalClose"
-                className="flex cursor-pointer justify-center rounded-md border bg-TUCMC-red-400 py-2 text-white hover:bg-TUCMC-red-400/80 transition-colors duration-200"
+                className="flex cursor-pointer justify-center rounded-md border bg-TUCMC-red-400 py-2 text-white transition-colors duration-200 hover:bg-TUCMC-red-400/80"
               >
                 <span>ยกเลิก</span>
               </div>
