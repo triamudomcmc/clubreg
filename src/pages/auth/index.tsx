@@ -27,7 +27,7 @@ const Auth = ({ query }) => {
   const [action, setAction] = useState("register" in query ? "register" : "forgot" in query ? "forgot" : "login")
   const [loader, setLoader] = useState(false)
   const timer = useTimer(startOldClub)
-  const year = (new Date(schoolYear).getFullYear()) + 543
+  const year = new Date(schoolYear).getFullYear() + 543
   const regTimer = useTimer(openRegisterTime)
 
   useEffect(() => {
@@ -143,7 +143,7 @@ const Auth = ({ query }) => {
         addToast({
           theme: "modern",
           icon: "cross",
-          title: "พบข้อผิดพลาดของเซสชั่น",
+          title: "พบข้อผิดพลาดของเซสชัน",
           text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
         })
         break
@@ -151,7 +151,7 @@ const Auth = ({ query }) => {
         addToast({
           theme: "modern",
           icon: "cross",
-          title: "เซสชั่นของเบราว์เซอร์นี้ถูกปฏิเสธ",
+          title: "เซสชันของเบราว์เซอร์นี้ถูกปฏิเสธ",
           text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง หากยังไม่สามารถเข้าสู่ระบบได้กรุณาติดต่อทาง กช. โดยเร็ว",
         })
         break
@@ -159,7 +159,7 @@ const Auth = ({ query }) => {
         addToast({
           theme: "modern",
           icon: "info",
-          title: "เซสชั่นก่อนหน้าได้หมดอายุไปแล้ว",
+          title: "เซสชันก่อนหน้าได้หมดอายุไปแล้ว",
           text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
         })
         break
@@ -167,7 +167,7 @@ const Auth = ({ query }) => {
         addToast({
           theme: "modern",
           icon: "info",
-          title: "ไม่พบข้อมูลเซสชั่นบนเบราว์เซอร์",
+          title: "ไม่พบข้อมูลเซสชันบนเบราว์เซอร์",
           text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
         })
         break
@@ -195,7 +195,7 @@ const Auth = ({ query }) => {
   return (
     <PageContainer footer={false}>
       <Loader display={loader} />
-      <div style={{ maxWidth: "26rem" }} className="min-h-screen mx-auto my-6 mb-16 space-y-4 md:my-10 md:mb-10">
+      <div style={{ maxWidth: "26rem" }} className="mx-auto my-6 mb-16 min-h-screen space-y-4 md:my-10 md:mb-10">
         {/* <DefaultCard>
           <p className="font-normal">
             นักเรียน ม.5 และ ม.6 จะไม่สามารถล็อกอินเข้าสู่ระบบด้วยบัญชีเดิมในปีการศึกษาที่ผ่านมาได้
@@ -211,7 +211,7 @@ const Auth = ({ query }) => {
           <LoginSection query={query} primaryAction={goRegister} secAction={goForgot} setLoader={setLoader} />
         )}
         {action == "waiting" && (
-          <div className="flex flex-col items-center pt-8 mt-6">
+          <div className="mt-6 flex flex-col items-center pt-8">
             <h1 className="text-4xl font-bold tracking-tight">เข้าสู่ระบบ</h1>
             <div className="mt-2 mb-6 text-center text-TUCMC-gray-600">
               <p>ระบบลงทะเบียนชมรม</p>
@@ -250,7 +250,7 @@ const Auth = ({ query }) => {
               {new Date(startOldClub).getHours().toString().padStart(2, "0")}.
               {new Date(startOldClub).getMinutes().toString().padStart(2, "0")} น.
             </p>
-            <div className="flex flex-row justify-center w-full mt-2">
+            <div className="mt-2 flex w-full flex-row justify-center">
               <span onClick={goForgot} className="cursor-pointer text-TUCMC-pink-400">
                 ลืมรหัสผ่าน
               </span>
@@ -258,7 +258,7 @@ const Auth = ({ query }) => {
           </div>
         )}
         {action == "r-waiting" && (
-          <div className="flex flex-col items-center pt-8 mt-6">
+          <div className="mt-6 flex flex-col items-center pt-8">
             <h1 className="text-4xl font-bold tracking-tight">สร้างบัญชี</h1>
             <div className="mt-2 mb-6 text-center text-TUCMC-gray-600">
               <p>ระบบลงทะเบียนชมรม</p>
@@ -297,7 +297,7 @@ const Auth = ({ query }) => {
               {new Date(openRegisterTime).getHours().toString().padStart(2, "0")}.
               {new Date(openRegisterTime).getMinutes().toString().padStart(2, "0")} น.
             </p>
-            <div className="flex flex-row justify-center w-full mt-2">
+            <div className="mt-2 flex w-full flex-row justify-center">
               <span onClick={goLogin} className="cursor-pointer text-TUCMC-pink-400">
                 เข้าสู่ระบบ
               </span>

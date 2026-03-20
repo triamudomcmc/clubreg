@@ -34,7 +34,7 @@ import { fetchChecks, submitChecks } from "@client/fetcher/checks"
 import { getPrevMonday, getRecentMondays } from "@config/time"
 import { convertMiliseconds } from "@utilities/timers"
 import { Listbox, Transition } from "@headlessui/react"
-import { convertToStaticFileUri } from "@utilities/files";
+import { convertToStaticFileUri } from "@utilities/files"
 
 const fetchFilesData = async (fileUpdate, panelID, addToast, reFetch, query, targetTime) => {
   const data = await fetchFiles(panelID, query.access || undefined, targetTime)
@@ -46,7 +46,7 @@ const fetchFilesData = async (fileUpdate, panelID, addToast, reFetch, query, tar
         addToast({
           theme: "modern",
           icon: "cross",
-          title: "พบข้อผิดพลาดของเซสชั่น",
+          title: "พบข้อผิดพลาดของเซสชัน",
           text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
           crossPage: true,
         })
@@ -57,7 +57,7 @@ const fetchFilesData = async (fileUpdate, panelID, addToast, reFetch, query, tar
           theme: "modern",
           icon: "cross",
           title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
-          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
+          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง หรือหากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
         })
         break
     }
@@ -84,7 +84,7 @@ const fetchMemberData = async (
         setToast({
           theme: "modern",
           icon: "cross",
-          title: "พบข้อผิดพลาดของเซสชั่น",
+          title: "พบข้อผิดพลาดของเซสชัน",
           text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
           crossPage: true,
         })
@@ -95,7 +95,7 @@ const fetchMemberData = async (
           theme: "modern",
           icon: "cross",
           title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
-          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
+          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง หรือหากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
         })
         break
     }
@@ -123,7 +123,7 @@ const fetchCheckData = async (
         addToast({
           theme: "modern",
           icon: "cross",
-          title: "พบข้อผิดพลาดของเซสชั่น",
+          title: "พบข้อผิดพลาดของเซสชัน",
           text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
           crossPage: true,
         })
@@ -134,7 +134,7 @@ const fetchCheckData = async (
           theme: "modern",
           icon: "cross",
           title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
-          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
+          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง หรือหากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
         })
         break
     }
@@ -337,7 +337,7 @@ const Attendance = ({ query }) => {
       addToast({
         theme: "modern",
         icon: "cross",
-        title: "ข้อมูลที่จะอัปเดทไม่ถูกต้อง",
+        title: "ข้อมูลที่จะอัปเดตไม่ถูกต้อง",
         text: "กรุณาเลือกสถานะให้สมาชิกทั้งหมดก่อนกดส่งข้อมูล",
       })
       setPending(false)
@@ -349,8 +349,8 @@ const Attendance = ({ query }) => {
       addToast({
         theme: "modern",
         icon: "tick",
-        title: "อัปเดทข้อมูลสำเร็จแล้ว",
-        text: "ข้อมูลที่ถูกส่งไป ได้รับการอัปเดทบนฐานข้อมูลแล้ว",
+        title: "อัปเดตข้อมูลสำเร็จแล้ว",
+        text: "ข้อมูลที่ถูกส่งไป ได้รับการอัปเดตบนฐานข้อมูลแล้ว",
       })
     } else {
       switch (res.report) {
@@ -358,7 +358,7 @@ const Attendance = ({ query }) => {
           addToast({
             theme: "modern",
             icon: "cross",
-            title: "พบข้อผิดพลาดของเซสชั่น",
+            title: "พบข้อผิดพลาดของเซสชัน",
             text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
             crossPage: true,
           })
@@ -369,7 +369,7 @@ const Attendance = ({ query }) => {
             theme: "modern",
             icon: "cross",
             title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
-            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
+            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง หรือหากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
           })
           break
       }
@@ -407,7 +407,7 @@ const Attendance = ({ query }) => {
           addToast({
             theme: "modern",
             icon: "cross",
-            title: "พบข้อผิดพลาดของเซสชั่น",
+            title: "พบข้อผิดพลาดของเซสชัน",
             text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
             crossPage: true,
           })
@@ -418,7 +418,7 @@ const Attendance = ({ query }) => {
             theme: "modern",
             icon: "cross",
             title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
-            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
+            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง หรือหากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
           })
           break
       }
@@ -517,13 +517,13 @@ const Attendance = ({ query }) => {
             </div>
           </Modal>
           <div className="relative bg-TUCMC-gray-100 pt-10 pb-14">
-            <div className="flex justify-center items-center relative">
+            <div className="relative flex items-center justify-center">
               <button
                 type="button"
                 onClick={() => Router.push("/panel")}
-                className="absolute hover:bg-TUCMC-gray-300 transition-colors left-10 rounded-lg border border-TUCMC-gray-600"
+                className="absolute left-10 rounded-lg border border-TUCMC-gray-600 transition-colors hover:bg-TUCMC-gray-300"
               >
-                <ArrowLeftIcon className="p-1 w-10 h-10 text-TUCMC-gray-600" />
+                <ArrowLeftIcon className="h-10 w-10 p-1 text-TUCMC-gray-600" />
               </button>
               <h1 className="text-center text-4xl text-TUCMC-gray-900">รายงาน</h1>
             </div>

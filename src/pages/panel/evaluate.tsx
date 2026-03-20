@@ -23,10 +23,10 @@ import { clubMap } from "@config/clubMap"
 import Modal from "@components/common/Modals"
 import { useWindowDimensions } from "@utilities/document"
 import { Loader } from "@components/common/Loader"
+import { endEval, startEval } from "@config/time"
 
 const Evaluate = () => {
   const { onReady, reFetch } = useAuth()
-
   const [checks, setChecks] = useState([])
   const [member, setMembers] = useState([])
   const [pendingUpdate, setPendingUpdate] = useState({})
@@ -43,16 +43,16 @@ const Evaluate = () => {
 
   const { addToast } = useToast()
 
+  // Redirect if not in eval period
   useEffect(() => {
-    // Router.push("/panel")
+    if (Date.now() < startEval || Date.now() > endEval) {
+      Router.push("/panel")
+    }
   }, [])
 
   const ignored = [
-    new Date("2024-11-04T00:00:00.00").getTime().toString(),
-    new Date("2024-12-16T00:00:00.00").getTime().toString(),
-    new Date("2024-12-23T00:00:00.00").getTime().toString(),
-    new Date("2024-12-30T00:00:00.00").getTime().toString(),
-    new Date("2025-01-27T00:00:00.00").getTime().toString(),
+    new Date("2025-12-22T00:00:00.000+07:00").getTime(),
+    new Date("2025-12-29T00:00:00.000+07:00").getTime(),
   ]
 
   const month = {
@@ -122,7 +122,7 @@ const Evaluate = () => {
       addToast({
         theme: "modern",
         icon: "cross",
-        title: "ข้อมูลที่จะอัปเดทไม่ถูกต้อง",
+        title: "ข้อมูลที่จะอัปเดตไม่ถูกต้อง",
         text: "กรุณาเลือกสถานะให้สมาชิกทั้งหมดก่อนกดส่งข้อมูล",
       })
       setPending(false)
@@ -136,8 +136,8 @@ const Evaluate = () => {
       addToast({
         theme: "modern",
         icon: "tick",
-        title: "อัปเดทข้อมูลสำเร็จแล้ว",
-        text: "ข้อมูลที่ถูกส่งไป ได้รับการอัปเดทบนฐานข้อมูลแล้ว",
+        title: "อัปเดตข้อมูลสำเร็จแล้ว",
+        text: "ข้อมูลที่ถูกส่งไป ได้รับการอัปเดตบนฐานข้อมูลแล้ว",
       })
     } else {
       switch (res.report) {
@@ -145,7 +145,7 @@ const Evaluate = () => {
           addToast({
             theme: "modern",
             icon: "cross",
-            title: "พบข้อผิดพลาดของเซสชั่น",
+            title: "พบข้อผิดพลาดของเซสชัน",
             text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
             crossPage: true,
           })
@@ -156,7 +156,7 @@ const Evaluate = () => {
             theme: "modern",
             icon: "cross",
             title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
-            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
+            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง หรือหากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
           })
           break
       }
@@ -171,7 +171,7 @@ const Evaluate = () => {
     const fingerPrint = await fp.get()
     const res = await getAllAttendanceData.call({ panelID: panelID, fp: fingerPrint.visitorId })
     const member = await fetchMembers(panelID, false)
-
+    console.log(res.data)
     res.data && setChecks(res.data.sort((a, b) => parseInt(a.date) - parseInt(b.date)))
     member.data &&
       setMembers(
@@ -204,7 +204,7 @@ const Evaluate = () => {
       <div className="flex min-h-screen w-full flex-col items-center py-10 px-6">
         <h1 className="mb-2 text-center text-4xl text-TUCMC-gray-900">ประเมินผล</h1>
         <p className="text-center text-TUCMC-gray-700">กรรมการชมรมจะต้องประเมินผลนักเรียนทุกคนให้เสร็จ</p>
-        <p className="mb-2 text-center text-TUCMC-gray-700">ภายในวันอังคาร ที่ 25 กุมภาพันธ์ 2568</p>
+        <p className="mb-2 text-center text-TUCMC-gray-700">ภายในวันอาทิตย์ ที่ 15 กุมภาพันธ์ 2569</p>
         <div className="mb-10 w-full max-w-[400px]">
           <div
             ref={box}
@@ -374,9 +374,7 @@ const Evaluate = () => {
               )
             })}
             <div className="flex flex-shrink-0 flex-col">
-              <h1 className="border-t border-b bg-gray-100 py-2 text-center font-medium ">
-                สรุป ({checks.length - ignored.length})
-              </h1>
+              <h1 className="border-t border-b bg-gray-100 py-2 text-center font-medium ">สรุป</h1>
               {member.map((people) => {
                 return (
                   <span className="flex h-10 items-center justify-center border-b">

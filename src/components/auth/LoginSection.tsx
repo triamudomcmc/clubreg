@@ -202,7 +202,7 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
           <div className={"max-w-[290px] rounded-md bg-white px-6 pt-4 pb-4"}>
             <h1 className={"text-lg font-bold text-TUCMC-gray-800"}>2FA Authentication</h1>
             <p className={"text-sm leading-5 text-gray-600"}>
-              กรุณากรอกรหัสจากแอพ Authenticator เพื่อเข้าสู่ระบบสำหรับเบราว์เซอร์นี้
+              กรุณากรอกรหัสจากแอป Authenticator เพื่อเข้าสู่ระบบสำหรับเบราว์เซอร์นี้
             </p>
             <div className="mt-4 flex w-full justify-center space-x-1">
               <div className="flex space-x-4">
@@ -400,12 +400,9 @@ const LoginSection = ({ primaryAction, setLoader, secAction, query }) => {
                   <span>ล็อกอิน</span>
                 </button>
                 {/* {openRegister && ( */}
-                  <a
-                    onClick={primaryAction}
-                    className="mt-2 cursor-pointer whitespace-nowrap font-normal text-gray-600"
-                  >
-                    สร้างบัญชีใหม่
-                  </a>
+                <a onClick={primaryAction} className="mt-2 cursor-pointer whitespace-nowrap font-normal text-gray-600">
+                  สร้างบัญชีใหม่
+                </a>
                 {/* )} */}
               </div>
             </div>

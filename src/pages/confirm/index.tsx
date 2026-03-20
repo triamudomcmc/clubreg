@@ -65,7 +65,7 @@ const ModalSection: FC<{
             addToast({
               theme: "modern",
               icon: "cross",
-              title: "พบข้อผิดพลาดของเซสชั่น",
+              title: "พบข้อผิดพลาดของเซสชัน",
               text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
               crossPage: true,
             })
@@ -159,7 +159,7 @@ const ModalSection: FC<{
         </div>
       </div>
       <div className="w-full space-y-6 rounded-b-lg bg-TUCMC-gray-100 px-4 py-4">
-      <Input stateUpdate={setPassword} type="password" className="h-10" placeholder="รหัสผ่าน" />
+        <Input stateUpdate={setPassword} type="password" className="h-10" placeholder="รหัสผ่าน" />
         <div className="space-y-2">
           <Button
             onClick={submitData}
