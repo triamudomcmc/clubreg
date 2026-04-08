@@ -7,9 +7,9 @@ import moment from "moment"
 
 export const schoolYear = +new Date("2025")
 // all club data update start
-export const editInitData = +new Date("2025-04-07T00:00:00.000+07:00")
+export const editInitData = +new Date("2026-04-12T00:00:00.000+07:00")
 // all club data update deadline
-export const endEditInitData = +new Date("2025-04-18T23:59:00.000+07:00")
+export const endEditInitData = +new Date("2026-04-25T23:59:00.000+07:00")
 
 // initiate the dialogue before old club confirmation starts
 export const beforeOldClub = +new Date("2025-05-02T00:00:00.000+07:00")
