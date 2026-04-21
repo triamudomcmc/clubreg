@@ -14,7 +14,7 @@ import { Button } from "@components/common/Inputs/Button"
 import classnames from "classnames"
 import { useAuth } from "@client/auth"
 import { DataBox } from "@components/admin/DataBox"
-import {fieldUpdate, getUserIDfromCardID, query as doQuery, rollback} from "@client/admin/query"
+import { fieldUpdate, getUserIDfromCardID, query as doQuery, rollback } from "@client/admin/query"
 import Router from "next/router"
 import { Input } from "@components/auth/Input"
 import { useToast } from "@components/common/Toast/ToastContext"
@@ -90,7 +90,7 @@ const Database = () => {
             setQuery({
               field: "student_id",
               operator: "==",
-              context: response.data.stdID
+              context: response.data.stdID,
             })
             performQuery()
           }
@@ -308,8 +308,8 @@ const Database = () => {
           <div className="max-w-[420px] space-y-2 rounded-md px-6 py-4 shadow-md">
             <h1 className="text-lg font-medium">แจ้งการปรับเปลี่ยนระบบความปลอดภัย</h1>
             <p className="text-TUCMC-gray-700">
-              เนื่องจากบัญชีนี้เป็นบัญชี่ที่สามารถใช้เข้าถึงฐานข้อมูลได้และเพื่อความปลอดภัยสูงสุดของฐานข้อมูล
-              ทางระบบจำเป็นจะต้องให้ผู้ใช้บัญชีนี้เปิดโหมดความปลอดภัยสูงเพื่อป้องกันการถูกเข้าถึงบัญชีจากบุคคลที่ไม่ได้รับอนุญาติ
+              เนื่องจากบัญชีนี้เป็นบัญชีที่สามารถใช้เข้าถึงฐานข้อมูลได้และเพื่อความปลอดภัยสูงสุดของฐานข้อมูล
+              ทางระบบจำเป็นจะต้องให้ผู้ใช้บัญชีนี้เปิดโหมดความปลอดภัยสูงเพื่อป้องกันการถูกเข้าถึงบัญชีจากบุคคลที่ไม่ได้รับอนุญาต
             </p>
             <div className="flex justify-center py-2">
               <Button

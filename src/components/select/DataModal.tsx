@@ -107,7 +107,7 @@ const DataModal = ({ state, setLoader, TriggerDep, closeFunc, refetcher, mode = 
               addToast({
                 theme: "modern",
                 icon: "cross",
-                title: "ขออภัยในขณะนี้โควต้าสมาชิกเก่าของชมรมนี้เต็มแล้ว",
+                title: "ขออภัยในขณะนี้โควตาสมาชิกเก่าของชมรมนี้เต็มแล้ว",
                 text: "กรุณาลองเลือกชมรมนี้ในฐานะสมาชิกใหม่หรือเลือกชมรมอื่นที่ยังว่างอยู่ในตอนนี้",
               })
             } else {

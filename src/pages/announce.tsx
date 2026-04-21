@@ -255,7 +255,7 @@ const Announce = () => {
                 <h1 className="text-xl">{getFullDate(announceTime)}</h1>
               </div>
               <div className="flex flex-row justify-center space-x-2 text-TUCMC-gray-700">
-              <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center">
                   <span className="h-[52px] w-[56px] rounded-lg bg-white p-2 text-center text-3xl font-bold shadow-md">
                     {openTimer.day}
                   </span>
@@ -314,7 +314,7 @@ const Announce = () => {
                 })
               ) : (
                 <div className="flex justify-center">
-                  <h1 className="mt-5 text-TUCMC-gray-700">ไม่มีชมรมที่ออดิชั่น</h1>
+                  <h1 className="mt-5 text-TUCMC-gray-700">ไม่มีชมรมที่ Audi</h1>
                 </div>
               )}
             </div>
