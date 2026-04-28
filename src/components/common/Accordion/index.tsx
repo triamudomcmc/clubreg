@@ -4,6 +4,7 @@ import { motion, Variants } from "framer-motion"
 import { useState } from "react"
 import Toggle from "@components/index/FAQ/Toggle"
 import { AccordionIcon, TAccordionIcon } from "./Icons"
+import DOMPurify from "isomorphic-dompurify"
 
 const DURATION = 0.2
 
@@ -65,7 +66,7 @@ export const Accordion: FC<{ defaultExpanded?: boolean; title: string; id?: stri
 const Answer: FC = ({ children }) => (
   <div
     className="accordion-text px-8 py-4 text-TUCMC-gray-600"
-    dangerouslySetInnerHTML={{ __html: String(children) }}
+    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(String(children)) }}
   ></div>
 )
 Answer.displayName = "Answer"

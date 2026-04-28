@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import Toggle from "@components/index/FAQ/Toggle"
 import { motion, Variants } from "framer-motion"
+import DOMPurify from "isomorphic-dompurify"
 
 const FAQElement = ({ children, title, revealed = true }) => {
   const [reveal, setReveal] = useState(false)
@@ -62,7 +63,7 @@ const FAQElement = ({ children, title, revealed = true }) => {
           variants={sidebar}
         >
           <p
-            dangerouslySetInnerHTML={{ __html: answer[0].props.children }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(String(answer[0].props.children)) }}
             className="mr-12 pt-4 text-TUCMC-gray-600"
           ></p>
         </motion.div>
