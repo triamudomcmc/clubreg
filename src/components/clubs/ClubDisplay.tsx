@@ -12,6 +12,7 @@ import { QuillEditor } from "@components/common/TextEdit/Quill"
 import { ForwardRefComponent } from "framer-motion"
 import { ClubCard } from "./ClubCard"
 import {convertToStaticFileUriC} from "@utilities/files";
+import DOMPurify from "isomorphic-dompurify"
 
 const ClubHeader: FC<{ clubID: string; clubDisplay: ClubDisplay; loaded: () => void; isStatic?: boolean }> = ({
   clubID,
@@ -204,7 +205,7 @@ export const ClubDisplaySection: FC<{
             ) : (
               <article
                 id="article"
-                dangerouslySetInnerHTML={{ __html: `${clubDisplay.description}` }}
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(`${clubDisplay.description}`) }}
                 className="club-article ql-container ql-editor space-y-4 font-texts text-[1.05rem] text-TUCMC-gray-700"
               ></article>
             )}
@@ -305,7 +306,7 @@ export const ClubDisplaySection: FC<{
                               />
                             ) : (
                               <article
-                                dangerouslySetInnerHTML={{ __html: `${revContent.context}` }}
+                                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(`${revContent.context}`) }}
                                 className="club-article ql-container ql-editor font-texts text-[1.05rem] text-gray-500"
                               ></article>
                             )}
