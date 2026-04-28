@@ -25,7 +25,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   } = req
 
   const file = await screenshot(
-    `${getProtocol(req)}://${req.headers.host}/renderer/card?id=${id}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/renderer/card?id=${id}`,
     990,
     1925
   )
@@ -38,4 +38,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
 export default allowCors(handler)
 
-const getProtocol = (req: NextApiRequest) => (req.headers.host?.includes("localhost") ? "http" : "https")
+// const getProtocol = (req: NextApiRequest) => (req.headers.host?.includes("localhost") ? "http" : "https")

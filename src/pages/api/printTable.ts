@@ -26,7 +26,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
 
   const file = await savePDF(
-    `${getProtocol(req)}://${req.headers.host}/panel/print/renderer?path=${path}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/panel/print/renderer?path=${path}`,
     {
       margin: {
         top: "25px"
@@ -43,4 +43,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
 export default allowCors(handler)
 
-const getProtocol = (req: NextApiRequest) => (req.headers.host?.includes("localhost") ? "http" : "https")
+// const getProtocol = (req: NextApiRequest) => (req.headers.host?.includes("localhost") ? "http" : "https")
