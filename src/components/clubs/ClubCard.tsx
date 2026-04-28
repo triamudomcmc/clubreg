@@ -3,7 +3,8 @@ import Image from "next/image"
 import LinesEllipsis from "react-lines-ellipsis"
 import { motion } from "framer-motion"
 import Link from "next/link"
-import {convertToStaticFileUri} from "@utilities/files";
+import { convertToStaticFileUri } from "@utilities/files"
+import { isASCII } from "@utilities/texts"
 
 export const ClubCard = ({ data, imageLoadAction = null }) => {
   return (
@@ -14,32 +15,32 @@ export const ClubCard = ({ data, imageLoadAction = null }) => {
         className="minClubs2:w-175px minClubs:w-185px my-[0.35rem] flex w-full max-w-[260px] cursor-pointer flex-col rounded-lg shadow-lg marg:mx-[0.35rem]"
       >
         {imageLoadAction ? (
-            <Image
-                priority={false}
+          <Image
+            priority={false}
             onLoad={imageLoadAction}
             className="w-full rounded-t-lg object-cover"
             width="260"
             height="143"
             placeholder="blur"
-                blurDataURL={convertToStaticFileUri(data.imageURL)}
+            blurDataURL={convertToStaticFileUri(data.imageURL)}
             src={convertToStaticFileUri(data.imageURL)}
           />
         ) : (
-            <Image
-                priority={false}
+          <Image
+            priority={false}
             className="w-full rounded-t-lg object-cover"
             width="185"
             height="102"
             onLoad={imageLoadAction}
             placeholder="blur"
-                blurDataURL={convertToStaticFileUri(data.imageURL)}
-                src={convertToStaticFileUri(data.imageURL)}
+            blurDataURL={convertToStaticFileUri(data.imageURL)}
+            src={convertToStaticFileUri(data.imageURL)}
           />
         )}
         <div className="space-y-2.5 rounded-b-lg bg-white px-2 py-2">
           <div className="h-[40px]">
             <LinesEllipsis
-              text={`ชมรม${data.name}`}
+              text={`ชมรม${isASCII(String(data.name)[0]) ? " " : ""}${data.name}`}
               maxLine="2"
               ellipsis="..."
               trimRight

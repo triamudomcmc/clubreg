@@ -13,12 +13,13 @@ import { ForwardRefComponent } from "framer-motion"
 import { ClubCard } from "./ClubCard"
 import {convertToStaticFileUriC} from "@utilities/files";
 import DOMPurify from "isomorphic-dompurify"
+import { isASCII } from "@utilities/texts"
 
 const ClubHeader: FC<{ clubID: string; clubDisplay: ClubDisplay; loaded: () => void; isStatic?: boolean }> = ({
   clubID,
   clubDisplay,
   loaded,
-    isStatic = true
+  isStatic = true,
 }) => {
   const contactRef = useRef(null)
 
@@ -28,9 +29,15 @@ const ClubHeader: FC<{ clubID: string; clubDisplay: ClubDisplay; loaded: () => v
         <div className="relative mb-[-6.5px] md:max-w-[512px]">
           <Image
             onLoad={loaded}
-            src={convertToStaticFileUriC(isStatic,clubDisplay?.images?.mainImage || `/assets/thumbnails/${clubID}.jpg`)}
+            src={convertToStaticFileUriC(
+              isStatic,
+              clubDisplay?.images?.mainImage || `/assets/thumbnails/${clubID}.jpg`
+            )}
             placeholder="blur"
-            blurDataURL={convertToStaticFileUriC(isStatic,clubDisplay?.images?.mainImage || `/assets/thumbnails/${clubID}.jpg`)}
+            blurDataURL={convertToStaticFileUriC(
+              isStatic,
+              clubDisplay?.images?.mainImage || `/assets/thumbnails/${clubID}.jpg`
+            )}
             width="768"
             height="432"
             className={classNames("object-cover md:rounded-l-2xl")}
@@ -44,7 +51,8 @@ const ClubHeader: FC<{ clubID: string; clubDisplay: ClubDisplay; loaded: () => v
           <div className="space-y-5">
             <div>
               <h1 id={clubDisplay.nameTH} className="min-w-[150px] text-xl">
-                ชมรม{clubDisplay.nameTH}
+                ชมรม{isASCII(String(clubDisplay.nameTH)[0]) ? " " : ""}
+                {clubDisplay.nameTH}
               </h1>
               <h1 className="text-TUCMC-gray-600">{clubDisplay.nameEN}</h1>
             </div>
@@ -64,11 +72,19 @@ const ClubHeader: FC<{ clubID: string; clubDisplay: ClubDisplay; loaded: () => v
                 <UserIcon className="h-6 w-6" />
                 <span>สมาชิก {clubDisplay.count} คน</span>
               </div>
-              <div className={classNames(
-                "flex space-x-2 text-TUCMC-gray-600",
-                // @ts-ignore
-                isEmpty(clubDisplay.contact) && isEmpty(clubDisplay.contact2) && isEmpty(clubDisplay.contact3) && "hidden"
-                )}>
+              <div
+                className={`${classNames(
+                  "flex space-x-2 text-TUCMC-gray-600",
+                  // @ts-ignore
+                  isEmpty(clubDisplay.contact) &&
+                    isEmpty(clubDisplay.contact2) &&
+                    isEmpty(clubDisplay.contact3) &&
+                    "hidden"
+                )}${classNames(
+                  // @ts-ignore
+                  clubDisplay.contact?.type === "ไม่มี" && "hidden"
+                )}`}
+              >
                 <GlobeAltIcon className="h-6 w-6" />
                 <div className="hidden md:block lg:hidden">
                   <a ref={contactRef} className="flex cursor-pointer items-center space-x-2">
@@ -105,9 +121,7 @@ const ClubHeader: FC<{ clubID: string; clubDisplay: ClubDisplay; loaded: () => v
                     </div>
                   </Modal>
                 </div>
-                <div className={classNames(
-                  "flex flex-col md:hidden lg:flex",
-                  )}>
+                <div className={classNames("flex flex-col md:hidden lg:flex")}>
                   {/* @ts-ignore */}
                   {!isEmpty(clubDisplay.contact) && clubDisplay?.contact?.type !== "ไม่มี" && (
                     <span>
@@ -152,7 +166,7 @@ export const ClubDisplaySection: FC<{
   imgLoading: boolean
   editable?: boolean
   onDataChange?: (data: { reviews: any[]; description: string }) => void
-  suggestions?: any[],
+  suggestions?: any[]
   isStatic?: boolean
 }> = ({ clubDisplay, clubID, imgLoading, editable, onDataChange, suggestions, isStatic = true }) => {
   const [loadingCount, setLoadingCount] = useState(1)
@@ -190,7 +204,7 @@ export const ClubDisplaySection: FC<{
       {zoomOverlay}
       <div className="mx-auto max-w-[1100px]">
         <div className={classNames(loadingCount > 0 && "absolute opacity-0")}>
-          <ClubHeader clubDisplay={clubDisplay} clubID={clubID} loaded={loaded} isStatic={isStatic}/>
+          <ClubHeader clubDisplay={clubDisplay} clubID={clubID} loaded={loaded} isStatic={isStatic} />
           <hr className="w-full border-b border-TUCMC-gray-300 md:hidden" />
 
           <main className="space-y-12 px-6 pb-24 pt-11 md:space-y-16 md:pt-12">
@@ -218,7 +232,10 @@ export const ClubDisplaySection: FC<{
                     priority={true}
                     onLoad={loaded}
                     className="rounded-lg object-cover"
-                    src={convertToStaticFileUriC(isStatic,clubDisplay?.images?.["picture-1"]) || convertToStaticFileUriC(true, clubDisplay?.images?.["picture-1"])}
+                    src={
+                      convertToStaticFileUriC(isStatic, clubDisplay?.images?.["picture-1"]) ||
+                      convertToStaticFileUriC(true, clubDisplay?.images?.["picture-1"])
+                    }
                     width={768}
                     height={432}
                     updateOverlay={setZoomOverlay}
@@ -232,7 +249,10 @@ export const ClubDisplaySection: FC<{
                     priority={true}
                     onLoad={loaded}
                     className="rounded-lg object-cover"
-                    src={convertToStaticFileUriC(isStatic, clubDisplay?.images?.["picture-2"]) || convertToStaticFileUriC(true, clubDisplay?.images?.["picture-2"])}
+                    src={
+                      convertToStaticFileUriC(isStatic, clubDisplay?.images?.["picture-2"]) ||
+                      convertToStaticFileUriC(true, clubDisplay?.images?.["picture-2"])
+                    }
                     width={768}
                     height={432}
                     updateOverlay={setZoomOverlay}
@@ -246,7 +266,10 @@ export const ClubDisplaySection: FC<{
                     priority={true}
                     onLoad={loaded}
                     className="rounded-lg object-cover"
-                    src={convertToStaticFileUriC(isStatic, clubDisplay?.images?.["picture-3"]) || convertToStaticFileUriC(true, clubDisplay?.images?.["picture-3"])}
+                    src={
+                      convertToStaticFileUriC(isStatic, clubDisplay?.images?.["picture-3"]) ||
+                      convertToStaticFileUriC(true, clubDisplay?.images?.["picture-3"])
+                    }
                     width={768}
                     height={432}
                     updateOverlay={setZoomOverlay}
@@ -266,13 +289,13 @@ export const ClubDisplaySection: FC<{
                 {reviews.map((revContent, index) => {
                   return (
                     <div key={`review-${index}`}>
-                      <div className="flex flex-wrap md:flex-row md:flex-nowrap shadow-xl rounded-xl">
+                      <div className="flex flex-wrap rounded-xl shadow-xl md:flex-row md:flex-nowrap">
                         <div className="mt-6 ml-4 flex flex-row md:mt-0 md:flex-col">
                           <div className="h-20 w-20 md:h-24 md:w-24">
                             <Image
                               onLoad={loaded}
-                              src={convertToStaticFileUriC(isStatic,clubDisplay.reviews[index]?.profile)}
-                              blurDataURL={convertToStaticFileUriC(isStatic,clubDisplay.reviews[index]?.profile)}
+                              src={convertToStaticFileUriC(isStatic, clubDisplay.reviews[index]?.profile)}
+                              blurDataURL={convertToStaticFileUriC(isStatic, clubDisplay.reviews[index]?.profile)}
                               placeholder="blur"
                               width="128"
                               height="128"
@@ -287,7 +310,7 @@ export const ClubDisplaySection: FC<{
                         </div>
                         <div className="flex flex-col md:ml-8">
                           <div className="relative">
-                            <span className="absolute top-2 left-2 md:left-10 md:top-6 text-7xl text-gray-300">“</span>
+                            <span className="absolute top-2 left-2 text-7xl text-gray-300 md:left-10 md:top-6">“</span>
                           </div>
                           <div className="bg-whtie px-6 py-10 md:px-16 md:pt-12 md:pb-16">
                             {/* <div className="h-12 pt-2 text-center text-6xl text-gray-300 md:hidden">
@@ -313,7 +336,9 @@ export const ClubDisplaySection: FC<{
                             {/* <p className="mt-4 h-14 w-full text-center text-6xl text-gray-300 md:hidden">”</p> */}
                           </div>
                           <div className="relative ">
-                            <span className="absolute right-2 md:right-16 -top-10 md:-top-16 text-7xl text-gray-300">”</span>
+                            <span className="absolute right-2 -top-10 text-7xl text-gray-300 md:right-16 md:-top-16">
+                              ”
+                            </span>
                           </div>
                         </div>
                       </div>

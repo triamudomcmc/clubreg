@@ -84,9 +84,13 @@ const ClubHeaderCard = ({
               <Image
                 priority={true}
                 onLoad={onLoad}
-                src={convertToStaticFileUri("mainImage" in newImages ? newImages["mainImage"] : `/assets/thumbnails/${clubID}.jpg`)}
+                src={convertToStaticFileUri(
+                  "mainImage" in newImages ? newImages["mainImage"] : `/assets/thumbnails/${clubID}.jpg`
+                )}
                 placeholder="blur"
-                blurDataURL={convertToStaticFileUri("mainImage" in newImages ? newImages["mainImage"] : `/assets/thumbnails/${clubID}.jpg`)}
+                blurDataURL={convertToStaticFileUri(
+                  "mainImage" in newImages ? newImages["mainImage"] : `/assets/thumbnails/${clubID}.jpg`
+                )}
                 width="768"
                 height="432"
                 quality={75}
@@ -458,8 +462,8 @@ const SummaryImages = ({ images, onLoad, clubID, setImageS, newImages }) => {
                   `picture-${index + 1}` in newImages
                     ? newImages[`picture-${index + 1}`]
                     : name.includes("picture-")
-                      ? `/assets/images/clubs/${clubID}/${name}`
-                      : `${name}`
+                    ? `/assets/images/clubs/${clubID}/${name}`
+                    : `${name}`
                 }
                 updateImage={(d) => {
                   setImageS((prev) => {
@@ -696,21 +700,19 @@ const uploadImage = async (uploadPoli: any, file: any) => {
 }
 
 function dataURLtoFile(dataurl, filename) {
-
   console.log(dataurl)
-  var arr = dataurl.split(','),
+  var arr = dataurl.split(","),
     mime = arr[0].match(/:(.*?);/)[1],
     bstr = atob(arr[1]),
     n = bstr.length,
-    u8arr = new Uint8Array(n);
+    u8arr = new Uint8Array(n)
 
   while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
+    u8arr[n] = bstr.charCodeAt(n)
   }
 
-  return new File([u8arr], filename, { type: mime });
+  return new File([u8arr], filename, { type: mime })
 }
-
 
 const Page = ({ data, clubID, images, clubData, newImages }) => {
   const { onReady } = useAuth()
@@ -763,7 +765,10 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
       }
     })
 
-    const formattedReview = reviews.map(d => ({ ...d, profile: d.profile.includes("data:image") ? { type: getMime(d.profile) } : d.profile }))
+    const formattedReview = reviews.map((d) => ({
+      ...d,
+      profile: d.profile.includes("data:image") ? { type: getMime(d.profile) } : d.profile,
+    }))
 
     const res = await request("database/editWeb", "submitChanges", {
       panelID: clubID,
@@ -784,7 +789,7 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
             theme: "modern",
             icon: "cross",
             title: "หมดเวลาการแก้ไขข้อมูล",
-            text: "ข้อมูลที่แก้ไขจะไม่ถูกบันทึก กรุณารอวันเปิดการแก้ไขข้อมูลอีกครั้ง"
+            text: "ข้อมูลที่แก้ไขจะไม่ถูกบันทึก กรุณารอวันเปิดการแก้ไขข้อมูลอีกครั้ง",
           })
           return false
         case "unexpected_error":
@@ -799,12 +804,11 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
     }
 
     if (res.status) {
-
       addToast({
         theme: "modern",
         icon: "tick",
         title: "ส่งการแก้ไขข้อมูลสำเร็จ",
-        text: "ระบบอาจะใช้เวลาถึง 2 นาทีในการประมวลผลข้อมูล หาก refresh หน้าจอแล้วการเปลี่ยนแปลงหายไปให้ลอง refresh ใหม่",
+        text: "ระบบอาจใช้เวลาถึง 2 นาทีในการประมวลผลข้อมูล หาก refresh หน้าจอแล้วการเปลี่ยนแปลงหายไปให้ลอง refresh ใหม่",
       })
 
       const policies = res.data.policies
@@ -814,53 +818,67 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
         const { key, content } = p
         switch (key) {
           case "mainImage":
-            uploadImage(content, dataURLtoFile(imageHead, "test")).catch((e) => {
-              setUploadErr(prev => ([...prev, `ไม่สามารถ upload รูปภาพหลัก กรุณาลองใหม่อีกครั้ง`]))
-            }).then(() => {
-              setUploadTask(prev => ({ ...prev, done: prev.done + 1 }))
-            })
+            uploadImage(content, dataURLtoFile(imageHead, "test"))
+              .catch((e) => {
+                setUploadErr((prev) => [...prev, `ไม่สามารถ upload รูปภาพหลัก กรุณาลองใหม่อีกครั้ง`])
+              })
+              .then(() => {
+                setUploadTask((prev) => ({ ...prev, done: prev.done + 1 }))
+              })
             break
           case "picture-1":
-            uploadImage(content, dataURLtoFile(imageS["picture-1"], "test")).catch((e) => {
-              setUploadErr(prev => ([...prev, `ไม่สามารถ upload รูปภาพรูปที่ 1 กรุณาลองใหม่อีกครั้ง`]))
-            }).then(() => {
-              setUploadTask(prev => ({ ...prev, done: prev.done + 1 }))
-            })
+            uploadImage(content, dataURLtoFile(imageS["picture-1"], "test"))
+              .catch((e) => {
+                setUploadErr((prev) => [...prev, `ไม่สามารถ upload รูปภาพรูปที่ 1 กรุณาลองใหม่อีกครั้ง`])
+              })
+              .then(() => {
+                setUploadTask((prev) => ({ ...prev, done: prev.done + 1 }))
+              })
             break
           case "picture-2":
-            uploadImage(content, dataURLtoFile(imageS["picture-2"], "test")).catch((e) => {
-              setUploadErr(prev => ([...prev, `ไม่สามารถ upload รูปภาพรูปที่ 2 กรุณาลองใหม่อีกครั้ง`]))
-            }).then(() => {
-              setUploadTask(prev => ({ ...prev, done: prev.done + 1 }))
-            })
+            uploadImage(content, dataURLtoFile(imageS["picture-2"], "test"))
+              .catch((e) => {
+                setUploadErr((prev) => [...prev, `ไม่สามารถ upload รูปภาพรูปที่ 2 กรุณาลองใหม่อีกครั้ง`])
+              })
+              .then(() => {
+                setUploadTask((prev) => ({ ...prev, done: prev.done + 1 }))
+              })
             break
           case "picture-3":
-            uploadImage(content, dataURLtoFile(imageS["picture-3"], "test")).catch((e) => {
-              setUploadErr(prev => ([...prev, `ไม่สามารถ upload รูปภาพรูปที่ 3 กรุณาลองใหม่อีกครั้ง`]))
-            }).then(() => {
-              setUploadTask(prev => ({ ...prev, done: prev.done + 1 }))
-            })
+            uploadImage(content, dataURLtoFile(imageS["picture-3"], "test"))
+              .catch((e) => {
+                setUploadErr((prev) => [...prev, `ไม่สามารถ upload รูปภาพรูปที่ 3 กรุณาลองใหม่อีกครั้ง`])
+              })
+              .then(() => {
+                setUploadTask((prev) => ({ ...prev, done: prev.done + 1 }))
+              })
             break
           case "review-0":
-            uploadImage(content, dataURLtoFile(reviews[0].profile, "test")).catch((e) => {
-              setUploadErr(prev => ([...prev, `ไม่สามารถ upload รูปโปรไฟล์รูปที่ 1 กรุณาลองใหม่อีกครั้ง`]))
-            }).then(() => {
-              setUploadTask(prev => ({ ...prev, done: prev.done + 1 }))
-            })
+            uploadImage(content, dataURLtoFile(reviews[0].profile, "test"))
+              .catch((e) => {
+                setUploadErr((prev) => [...prev, `ไม่สามารถ upload รูปโปรไฟล์รูปที่ 1 กรุณาลองใหม่อีกครั้ง`])
+              })
+              .then(() => {
+                setUploadTask((prev) => ({ ...prev, done: prev.done + 1 }))
+              })
             break
           case "review-1":
-            uploadImage(content, dataURLtoFile(reviews[1].profile, "test")).catch((e) => {
-              setUploadErr(prev => ([...prev, `ไม่สามารถ upload รูปโปรไฟล์รูปที่ 2 กรุณาลองใหม่อีกครั้ง`]))
-            }).then(() => {
-              setUploadTask(prev => ({ ...prev, done: prev.done + 1 }))
-            })
+            uploadImage(content, dataURLtoFile(reviews[1].profile, "test"))
+              .catch((e) => {
+                setUploadErr((prev) => [...prev, `ไม่สามารถ upload รูปโปรไฟล์รูปที่ 2 กรุณาลองใหม่อีกครั้ง`])
+              })
+              .then(() => {
+                setUploadTask((prev) => ({ ...prev, done: prev.done + 1 }))
+              })
             break
           case "review-2":
-            uploadImage(content, dataURLtoFile(reviews[2].profile, "test")).catch((e) => {
-              setUploadErr(prev => ([...prev, `ไม่สามารถ upload รูปโปรไฟล์รูปที่ 3 กรุณาลองใหม่อีกครั้ง`]))
-            }).then(() => {
-              setUploadTask(prev => ({ ...prev, done: prev.done + 1 }))
-            })
+            uploadImage(content, dataURLtoFile(reviews[2].profile, "test"))
+              .catch((e) => {
+                setUploadErr((prev) => [...prev, `ไม่สามารถ upload รูปโปรไฟล์รูปที่ 3 กรุณาลองใหม่อีกครั้ง`])
+              })
+              .then(() => {
+                setUploadTask((prev) => ({ ...prev, done: prev.done + 1 }))
+              })
             break
         }
       })
@@ -868,7 +886,6 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
       setTimeout(() => {
         setCancel(true)
       }, 1000 * 6)
-
     } else {
       addToast({
         theme: "modern",
@@ -912,21 +929,32 @@ const Page = ({ data, clubID, images, clubData, newImages }) => {
 
   return (
     <PageContainer>
-      {uploadTask.all > 0 && uploadTask.done - uploadTask.all !== 0 && <div className={"flex justify-center items-center min-h-screen w-full fixed top-0 left-0 z-[999] backdrop-blur-md"}>
-        <div className="flex flex-col items-center">
-          <CloudIcon className="w-16 h-16 animate-pulse text-gray-600" />
-          <h1 className="text-xl font-medium">กำลังประมวลผลรูปภาพ</h1>
-          <span className="font-semibold text-TUCMC-red-500">ห้ามออกจากหน้านี้ ในขณะนี้</span>
-          <span className="mt-2 text-sm">ทั้งหมด {uploadTask.all} เสร็จสิ้น {uploadTask.done}</span>
-          {
-            cancel && <a onClick={() => {
-              setUploadErr([])
-              setUploadTask({ all: 0, done: 0 })
-              setRerender(true)
-            }} className="text-sm mt-4 underline cursor-pointer hover:text-TUCMC-red-500 text-TUCMC-gray-600">ยกเลิกการประมวลผล</a>
-          }
+      {uploadTask.all > 0 && uploadTask.done - uploadTask.all !== 0 && (
+        <div
+          className={"fixed top-0 left-0 z-[999] flex min-h-screen w-full items-center justify-center backdrop-blur-md"}
+        >
+          <div className="flex flex-col items-center">
+            <CloudIcon className="h-16 w-16 animate-pulse text-gray-600" />
+            <h1 className="text-xl font-medium">กำลังประมวลผลรูปภาพ</h1>
+            <span className="font-semibold text-TUCMC-red-500">ห้ามออกจากหน้านี้ ในขณะนี้</span>
+            <span className="mt-2 text-sm">
+              ทั้งหมด {uploadTask.all} เสร็จสิ้น {uploadTask.done}
+            </span>
+            {cancel && (
+              <a
+                onClick={() => {
+                  setUploadErr([])
+                  setUploadTask({ all: 0, done: 0 })
+                  setRerender(true)
+                }}
+                className="mt-4 cursor-pointer text-sm text-TUCMC-gray-600 underline hover:text-TUCMC-red-500"
+              >
+                ยกเลิกการประมวลผล
+              </a>
+            )}
+          </div>
         </div>
-      </div>}
+      )}
       {rerender && <div className="hidden">s</div>}
       <div className={classnames(loadingCount > 0 && "absolute opacity-0")}>
         <div className="mx-auto max-w-[1100px]">

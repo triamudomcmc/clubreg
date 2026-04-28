@@ -99,7 +99,7 @@ const fetchMemberData = async (
         setToast({
           theme: "modern",
           icon: "cross",
-          title: "พบข้อผิดพลาดของเซสชั่น",
+          title: "พบข้อผิดพลาดของเซสชัน",
           text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
           crossPage: true,
         })
@@ -110,7 +110,7 @@ const fetchMemberData = async (
           theme: "modern",
           icon: "cross",
           title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
-          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
+          text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง หรือหากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
         })
         break
     }
@@ -159,7 +159,7 @@ const Audition = () => {
   const [pending, setPending] = useState(false)
 
   // const editable = false
-  const editable = (new Date().getTime() < editDataTime)
+  const editable = new Date().getTime() < editDataTime
 
   const timer = useTimer(editDataTime)
 
@@ -286,7 +286,7 @@ const Audition = () => {
       addToast({
         theme: "modern",
         icon: "cross",
-        title: "ไม่มีข้อมูลที่จะอัปเดท",
+        title: "ไม่มีข้อมูลที่จะอัปเดต",
         text: "กรุณาเลือกสถานะให้ผู้สมัครก่อนกดส่งข้อมูล",
       })
       setPending(false)
@@ -300,8 +300,8 @@ const Audition = () => {
       addToast({
         theme: "modern",
         icon: "tick",
-        title: "อัปเดทข้อมูลสำเร็จแล้ว",
-        text: "ข้อมูลที่ถูกส่งไป ได้รับการอัปเดทบนฐานข้อมูลแล้ว",
+        title: "อัปเดตข้อมูลสำเร็จแล้ว",
+        text: "ข้อมูลที่ถูกส่งไป ได้รับการอัปเดตบนฐานข้อมูลแล้ว",
       })
     } else {
       switch (res.report) {
@@ -309,7 +309,7 @@ const Audition = () => {
           addToast({
             theme: "modern",
             icon: "cross",
-            title: "พบข้อผิดพลาดของเซสชั่น",
+            title: "พบข้อผิดพลาดของเซสชัน",
             text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
             crossPage: true,
           })
@@ -320,7 +320,7 @@ const Audition = () => {
             theme: "modern",
             icon: "cross",
             title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
-            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือ หากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
+            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง หรือหากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
           })
           break
         case "quota_exceeded":
@@ -335,7 +335,7 @@ const Audition = () => {
           addToast({
             theme: "modern",
             icon: "cross",
-            title: "ไม่มีข้อมูลที่จะอัปเดท",
+            title: "ไม่มีข้อมูลที่จะอัปเดต",
             text: "กรุณาเลือกสถานะให้ผู้สมัครก่อนกดส่งข้อมูล",
           })
           break
@@ -431,15 +431,30 @@ const Audition = () => {
               <div className="mb-10 mt-5 flex flex-col items-center text-TUCMC-gray-700">
                 {editable ? (
                   <>
-                    <h1 className="text-4xl tracking-tight mb-6">ผลการ Audition</h1>{" "}
-                      {announce === "announce" &&<><p className="text-lg">สรุปผลการ Audition ให้เสร็จสิ้น</p> <p className="text-lg">ภายในวันที่ {getFullDate(editDataTime)}</p></>}
-                      {announce === "1round" && <><p className="text-lg">สรุปผลการเรียกสำรองรอบแรกให้เสร็จสิ้น</p> <p className="text-lg">ภายในวันที่ {getFullDate(endFirstRoundTime)}</p></>}
-                      {announce === "2round" && <><p className="text-lg">สรุปผลการเรียกสำรองรอบสองให้เสร็จสิ้น</p> <p className="text-lg">ภายในวันที่ {getFullDate(endSecondRoundTime)}</p></>}
+                    <h1 className="mb-6 text-4xl tracking-tight">ผลการ Audition</h1>{" "}
+                    {announce === "announce" && (
+                      <>
+                        <p className="text-lg">สรุปผลการ Audition ให้เสร็จสิ้น</p>{" "}
+                        <p className="text-lg">ภายในวันที่ {getFullDate(editDataTime)}</p>
+                      </>
+                    )}
+                    {announce === "1round" && (
+                      <>
+                        <p className="text-lg">สรุปผลการเรียกสำรองรอบแรกให้เสร็จสิ้น</p>{" "}
+                        <p className="text-lg">ภายในวันที่ {getFullDate(endFirstRoundTime)}</p>
+                      </>
+                    )}
+                    {announce === "2round" && (
+                      <>
+                        <p className="text-lg">สรุปผลการเรียกสำรองรอบสองให้เสร็จสิ้น</p>{" "}
+                        <p className="text-lg">ภายในวันที่ {getFullDate(endSecondRoundTime)}</p>
+                      </>
+                    )}
                     <div
                       onClick={() => {
                         setPage("pending")
                       }}
-                      className="flex cursor-pointer items-center space-x-1 rounded-full bg-TUCMC-pink-400 px-14 py-3.5 text-white shadow-md mt-8"
+                      className="mt-8 flex cursor-pointer items-center space-x-1 rounded-full bg-TUCMC-pink-400 px-14 py-3.5 text-white shadow-md"
                     >
                       <DocumentTextIcon className="h-5 w-5" />
                       <span>รอการตอบรับ</span>

@@ -5,42 +5,44 @@ import moment from "moment"
 // export const startOldClubTest = +new Date("2022-05-03T11:30:00.000+07:00")
 // export const endOldClubTest = +new Date("2022-05-05T00:00:00.000+07:00")
 
-export const schoolYear = +new Date("2025")
+// !!! ALL DATE SHOULD BE UPDATED BEFORE DEPLOYING THE CLUBS DATA EDIT !!!
+
+export const schoolYear = +new Date("2026")
 // all club data update start
-export const editInitData = +new Date("2025-04-07T00:00:00.000+07:00")
+export const editInitData = +new Date("2026-04-12T00:00:00.000+07:00")
 // all club data update deadline
-export const endEditInitData = +new Date("2025-04-18T23:59:00.000+07:00")
+export const endEditInitData = +new Date("2026-04-30T23:59:00.000+07:00")
 
 // initiate the dialogue before old club confirmation starts
-export const beforeOldClub = +new Date("2025-05-02T00:00:00.000+07:00")
+export const beforeOldClub = +new Date("2026-05-02T00:00:00.000+07:00")
 // starts old club confirmation
-export const startOldClub = +new Date("2025-05-06T08:00:00.000+07:00")
+export const startOldClub = +new Date("2026-05-06T08:00:00.000+07:00")
 // start counting down before old club confirmation
-export const startOldClubCountdown = +new Date("2025-05-06T00:00:00.000+07:00")
+export const startOldClubCountdown = +new Date("2026-05-06T00:00:00.000+07:00")
 // end old club confirmation
-export const endOldClub = +new Date("2025-05-06T20:00:00.000+07:00")
+export const endOldClub = +new Date("2026-05-06T20:00:00.000+07:00")
 
 // export const startOldClub = +new Date("2023-05-05T11:30:00.000+07:00")
 // export const startOldClubCountdown = +new Date("2023-05-05T10:30:00.000+07:00")
 // export const endOldClub = +new Date("2023-05-07T00:00:00.000+07:00")
 
 // start register time countdown (usually, this will be updated before PAE) *optional
-export const openRegisterTime = +new Date("2025-05-14T14:00:00.000+07:00")
+export const openRegisterTime = +new Date("2026-05-15T14:00:00.000+07:00") //edit later when it is close to PAE
 // registration open time
-export const openTime = +new Date("2025-05-16T12:00:00.000+07:00")
+export const openTime = +new Date("2026-05-18T12:00:00.000+07:00")
 // start audition time *optional
-export const auditionTime = +new Date("2025-05-19T08:00:00.000+07:00")
-// end audition time
-export const endAuditionTime = +new Date("2025-05-23T20:00:00.000+07:00")
+export const auditionTime = +new Date("2026-05-18T08:00:00.000+07:00")
+// end audition time [unused variable?]
+export const endAuditionTime = +new Date("2026-05-29T20:00:00.000+07:00")
 // end of data editing time for updating positions and audition result.
-// ! Spare time for a day for checking and validation process. 
-export const editDataTime = +new Date("2025-05-25T23:59:00.000+07:00")
+// ! Spare time for a day for checking and validation process.
+export const editDataTime = +new Date("2026-05-25T23:59:00.000+07:00")
 // registration close 1st round.
-export const endRegClubTime = +new Date("2025-05-21T23:59:00.000+07:00")
+export const endRegClubTime = +new Date("2026-05-22T23:59:00.000+07:00")
 // announce audition result. (user can select either to accept or reject)
-export const announceTime = +new Date("2025-05-26T07:30:00.000+07:00")
+export const announceTime = +new Date("2026-05-29T07:30:00.000+07:00")
 // end announce time. Dicisions are no longer accepted
-export const endAnnounceTime = +new Date("2025-05-26T23:59:00.000+07:00")
+export const endAnnounceTime = +new Date("2026-05-29T23:59:00.000+07:00")
 /*
 Checking Process (Day by Day)
 (usually, 00.00 - 08.00)
@@ -51,30 +53,30 @@ Checking Process (Day by Day)
 */
 
 // announce first round audition result. (user can select either to accept or reject)
-export const firstRoundTime = +new Date("2025-05-27T07:30:00.000+07:00")
+export const firstRoundTime = +new Date("2026-05-30T07:30:00.000+07:00")
 // end announce time. Dicisions are no longer accepted
 // ! Recommend to close confirmation time before 20:00 for our supervision.
-export const endFirstRoundTime = +new Date("2025-05-27T23:59:00.000+07:00")
+export const endFirstRoundTime = +new Date("2026-05-30T23:59:00.000+07:00")
 // announce second round audition result. (user can select either to accept or reject)
-export const secondRoundTime = +new Date("2025-05-28T07:30:00.000+07:00")
+export const secondRoundTime = +new Date("2026-06-01T07:30:00.000+07:00")
 // end announce time. Dicisions are no longer accepted
 // ! Recommend to close confirmation time before 20:00 for our supervision.
-export const endSecondRoundTime = +new Date("2025-05-28T23:59:00.000+07:00")
+export const endSecondRoundTime = +new Date("2026-06-01T23:59:00.000+07:00")
 
 // position update time (club admin might be able to update the position after exceeded editDataTime)
 export const positionUpdateTime = editDataTime
 
-export const lastround = +new Date("2025-05-29T07:30:00.000+07:00")
-export const endLastRound = +new Date("2025-05-29T23:59:59.000+07:00")
-export const firstClubPeroid = +new Date("2025-06-09")
+export const lastround = +new Date("2026-06-02T07:30:00.000+07:00")
+export const endLastRound = +new Date("2026-06-02T23:59:59.000+07:00")
+export const firstClubPeroid = +new Date("2026-06-08")
 
 // attendance period
-export const startAttendance = +new Date("2025-06-09T00:00:00.000+07:00")
-export const endAttendance = +new Date("2025-09-08T23:59:59.000+07:00")
+export const startAttendance = +new Date("2026-06-08T00:00:00.000+07:00")
+export const endAttendance = +new Date("2026-09-07T23:59:59.000+07:00")
 
-// evaluation period)
-export const startEval = +new Date("2025-09-17T00:00:00.000+07:00")
-export const endEval = +new Date("2025-09-28T13:00:00.000+07:00")
+// evaluation period
+export const startEval = +new Date("2026-02-09T00:00:00.000+07:00")
+export const endEval = +new Date("2026-02-15T23:59:59.000+07:00")
 
 export const getUNIXTimeStamp = () => {
   return moment().unix() * 1000
@@ -97,26 +99,25 @@ export const getRecentMondays = () => {
   const lowest = startAttendance
   const highest = endAttendance
   let prev = getPrevMonday(),
-    round = 1;
-  let arr = [];
+    round = 1
+  let arr = []
 
+  //exclusion of holiday and summative
   const ignored = new Set([
-    new Date("2025-07-21T00:00:00.000+07:00").getTime(),
-    new Date("2025-07-28T00:00:00.000+07:00").getTime(),
-    new Date("2025-08-11T00:00:00.000+07:00").getTime(),
-  ]);
+    new Date("2025-12-22T00:00:00.000+07:00").getTime(),
+    new Date("2025-12-29T00:00:00.000+07:00").getTime(),
+  ])
 
   while (prev >= lowest) {
     if (prev <= highest && !ignored.has(prev)) {
-      arr.push(prev);
+      arr.push(prev)
     }
-    prev = getPrevMonday(round * (7 * 24 * 60 * 60 * 1000));
-    round++;
+    prev = getPrevMonday(round * (7 * 24 * 60 * 60 * 1000))
+    round++
   }
 
-  return arr;
-};
-
+  return arr
+}
 
 // export const EXCEPT = ["ก30903-3_1", "ก30903-3_2", "ก30905-2_1","ก30905-2_2","ก30905-2_6","ก30905-2_7","ก30905-2_9","ก30915_1","ก30915_2","ก30915_4","ก30902","ก30921_1","ก30921_1","ก30952-2","ก30902"]
 
@@ -156,28 +157,28 @@ export const getFullDate = (date, showTime = true) => {
   return `${new Date(date).getDate()} ${THAI_MONTH_INITIALS[new Date(date).getMonth()]} ${
     new Date(date).getFullYear() + 543
   }${
-    showTime ?
-    " เวลา " +
-      `${new Date(date).getHours().toString().padStart(2, "0")}` +
-      "." +
-      `${new Date(date).getMinutes().toString().padStart(2, "0")}` +
-      " น.":""
+    showTime
+      ? " เวลา " +
+        `${new Date(date).getHours().toString().padStart(2, "0")}` +
+        "." +
+        `${new Date(date).getMinutes().toString().padStart(2, "0")}` +
+        " น."
+      : ""
   }`
 }
-
 
 export const setGMT = (_date: string) => {
   if (process.env.VERCEL_ENV !== "production") return _date
   const [date, time] = _date.split(" เวลา ")
 
   const [day, month, year] = date.split(" ")
-  const [hours, minutes] = time.split(".").map(part => parseInt(part, 10))
+  const [hours, minutes] = time.split(".").map((part) => parseInt(part, 10))
 
   let newHours = (hours + 7) % 24
   let newDay = Number(day)
 
   const fmtDate = `${newDay.toString().padStart(2, "0")} ${month} ${year}`
-  const fmtTime = `${newHours.toString().padStart(2, "0")}.${minutes.toString().padStart(2, '0')} น.`
+  const fmtTime = `${newHours.toString().padStart(2, "0")}.${minutes.toString().padStart(2, "0")} น.`
 
-  return `${fmtDate} เวลา ${fmtTime}`;
+  return `${fmtDate} เวลา ${fmtTime}`
 }

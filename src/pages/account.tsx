@@ -38,7 +38,7 @@ const Account = () => {
   const [closeDep, setCloseDep] = useState(false)
   const [reg2FA, setReg2FA] = useState(false)
   const [qrData, setQr] = useState("")
-  const [rawOTP, setRawOTP] = useState({0: "", 1: "", 2: "", 3: "", 4: "", 5: ""})
+  const [rawOTP, setRawOTP] = useState({ 0: "", 1: "", 2: "", 3: "", 4: "", 5: "" })
   const [qrModal, setQrModal] = useState(false)
   const [faStep, setFAStep] = useState(1)
   const [atDigit, setAtDigit] = useState(0)
@@ -58,7 +58,7 @@ const Account = () => {
         addToast({
           theme: "modern",
           icon: "cross",
-          title: "พบข้อผิดพลาดของเซสชั่น",
+          title: "พบข้อผิดพลาดของเซสชัน",
           text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง",
           crossPage: true,
         })
@@ -114,7 +114,7 @@ const Account = () => {
         theme: "modern",
         icon: "cross",
         title: "คุณไม่มีสิทธิ์ในการเลือกชมรมในรอบนี้",
-        text: "สำหรับผู้ที่ไม่ได้มีการลงชื่อออดิชั่นชมรมมาก่อนหน้าหรือไม่ได้เลือกชมรมใดเลยในรอบแรก จะต้องรอสุ่มชมรมเท่านั้น",
+        text: "สำหรับผู้ที่ไม่ได้มีการลงชื่อ Audition ชมรมมาก่อนหน้าหรือไม่ได้เลือกชมรมใดเลยในรอบแรก จะต้องรอสุ่มชมรมเท่านั้น",
         lifeSpan: 10000,
       })
       localStorage.setItem("alert", "")
@@ -172,7 +172,7 @@ const Account = () => {
         reFetchCred()
         setFAStep(1)
         setReg2FA(false)
-      }else{
+      } else {
         if (res.report === "invalidCode") {
           addToast({
             theme: "modern",
@@ -210,7 +210,7 @@ const Account = () => {
         theme: "modern",
         icon: "tick",
         title: "เปิดใช้งานส่วนความปลอดภัย (Beta) สำเร็จ",
-        text: "เปิดใช้ส่วนที่เป็นโหมดทดลองใช้เสร็จสิ้น การเปิดใช้งานถือเป็นการยอมรับความเสียหายที่อาจะเกิดขึ้นกับบัญชี",
+        text: "เปิดใช้ส่วนที่เป็นโหมดทดลองใช้เสร็จสิ้น การเปิดใช้งานถือเป็นการยอมรับความเสียหายที่อาจเกิดขึ้นกับบัญชี",
       })
       setCloseDep(true)
       rememberedCalls.call()
@@ -245,7 +245,7 @@ const Account = () => {
         </div>
         <p className="pt-2 text-TUCMC-gray-700">
           ฟีเจอร์นี้ยังอยู่ในขั้นทดลองใช้ ซึ่งการทำงานของระบบอาจจะไม่เสถียรและสามารถก่อให้เกิดปัญหาต่อบัญชีได้
-          หากผู้ใช้ต้องการที่จะใช้งานฟีเจอร์นี้ผู้ใช้จะต้องยอมรับความเสียหายที่อาจะเกิดขึ้นต่อบัญชี
+          หากผู้ใช้ต้องการที่จะใช้งานฟีเจอร์นี้ผู้ใช้จะต้องยอมรับความเสียหายที่อาจเกิดขึ้นต่อบัญชี
         </p>
         <div className="flex justify-end space-x-2 pt-1">
           <div
@@ -263,99 +263,238 @@ const Account = () => {
         </div>
       </Modal>
       <div className="relative bg-TUCMC-gray-100 pt-10 pb-14">
-        {<div className={classnames("flex justify-center items-center min-h-screen w-full top-0 left-0 z-[99] bg-gray-600 backdrop-blur bg-opacity-40", reg2FA ? "fixed" : "hidden")}>
-          <div className="bg-white shadow-md rounded-md p-6">
-            <h1 className="font-semibold text-TUCMC-gray-800 text-lg">ขั้นตอนการลงทะเบียน 2FA</h1>
-            {faStep === 1 && <div className="text-TUCMC-gray-700 mt-2 min-w-[300px]">
-              <div>
-              <p>1. ดาวน์โหลด Application บนอุปกรณ์</p>
-            <div className="flex flex-col space-x-2 items-center px-2 mt-2 mb-2">
-            <img className="w-16 h-16 mt-2" src="/assets/ga.svg"/>
-            <h1 className="font-semibold mt-2">Google Authenticator</h1>
-            </div>
+        {
+          <div
+            className={classnames(
+              "top-0 left-0 z-[99] flex min-h-screen w-full items-center justify-center bg-gray-600 bg-opacity-40 backdrop-blur",
+              reg2FA ? "fixed" : "hidden"
+            )}
+          >
+            <div className="rounded-md bg-white p-6 shadow-md">
+              <h1 className="text-lg font-semibold text-TUCMC-gray-800">ขั้นตอนการลงทะเบียน 2FA</h1>
+              {faStep === 1 && (
+                <div className="mt-2 min-w-[300px] text-TUCMC-gray-700">
+                  <div>
+                    <p>1. ดาวน์โหลด Application บนอุปกรณ์</p>
+                    <div className="mt-2 mb-2 flex flex-col items-center space-x-2 px-2">
+                      <img className="mt-2 h-16 w-16" src="/assets/ga.svg" />
+                      <h1 className="mt-2 font-semibold">Google Authenticator</h1>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div className="mt-3 flex h-14 w-48 items-center justify-center rounded-xl bg-black text-white">
+                      <div className="mr-3">
+                        <svg viewBox="0 0 384 512" width="30">
+                          <path
+                            fill="currentColor"
+                            d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <div className="text-xs">Download on the</div>
+                        <div className="-mt-1 font-sans text-2xl font-semibold">App Store</div>
+                      </div>
+                    </div>
+                    <div className="mt-3 flex h-14 w-48 items-center justify-center rounded-lg bg-black text-white">
+                      <div className="mr-3">
+                        <svg viewBox="30 336.7 120.9 129.2" width="30">
+                          <path
+                            fill="#FFD400"
+                            d="M119.2,421.2c15.3-8.4,27-14.8,28-15.3c3.2-1.7,6.5-6.2,0-9.7  c-2.1-1.1-13.4-7.3-28-15.3l-20.1,20.2L119.2,421.2z"
+                          />
+                          <path
+                            fill="#FF3333"
+                            d="M99.1,401.1l-64.2,64.7c1.5,0.2,3.2-0.2,5.2-1.3  c4.2-2.3,48.8-26.7,79.1-43.3L99.1,401.1L99.1,401.1z"
+                          />
+                          <path
+                            fill="#48FF48"
+                            d="M99.1,401.1l20.1-20.2c0,0-74.6-40.7-79.1-43.1  c-1.7-1-3.6-1.3-5.3-1L99.1,401.1z"
+                          />
+                          <path
+                            fill="#3BCCFF"
+                            d="M99.1,401.1l-64.3-64.3c-2.6,0.6-4.8,2.9-4.8,7.6  c0,7.5,0,107.5,0,113.8c0,4.3,1.7,7.4,4.9,7.7L99.1,401.1z"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <div className="text-xs">GET IT ON</div>
+                        <div className="-mt-1 font-sans text-xl font-semibold">Google Play</div>
+                      </div>
+                    </div>
+                  </div>
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      setFAStep(2)
+                    }}
+                    className="mt-4 flex w-full max-w-sm items-center justify-center space-x-2 rounded-lg bg-TUCMC-pink-400 px-5 py-2 text-white"
+                  >
+                    <span>ขั้นตอนต่อไป</span>
+                    <ArrowRightIcon className="h-4 w-4" />
+                  </Button>
                 </div>
-                <div className="flex flex-col items-center">
-                <div className="flex mt-3 w-48 h-14 bg-black text-white rounded-xl items-center justify-center">
-            <div className="mr-3">
-                <svg viewBox="0 0 384 512" width="30" >
-                    <path fill="currentColor" d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/>
-                </svg>
-            </div>
-            <div>
-                <div className="text-xs">Download on the</div>
-                <div className="text-2xl font-semibold font-sans -mt-1">App Store</div>
-            </div>
-        </div>
-        <div className="flex mt-3 w-48 h-14 bg-black text-white rounded-lg items-center justify-center">
-            <div className="mr-3">
-                <svg viewBox="30 336.7 120.9 129.2" width="30">
-                    <path fill="#FFD400" d="M119.2,421.2c15.3-8.4,27-14.8,28-15.3c3.2-1.7,6.5-6.2,0-9.7  c-2.1-1.1-13.4-7.3-28-15.3l-20.1,20.2L119.2,421.2z"/>
-                    <path fill="#FF3333" d="M99.1,401.1l-64.2,64.7c1.5,0.2,3.2-0.2,5.2-1.3  c4.2-2.3,48.8-26.7,79.1-43.3L99.1,401.1L99.1,401.1z"/>
-                    <path fill="#48FF48" d="M99.1,401.1l20.1-20.2c0,0-74.6-40.7-79.1-43.1  c-1.7-1-3.6-1.3-5.3-1L99.1,401.1z"/>
-                    <path fill="#3BCCFF" d="M99.1,401.1l-64.3-64.3c-2.6,0.6-4.8,2.9-4.8,7.6  c0,7.5,0,107.5,0,113.8c0,4.3,1.7,7.4,4.9,7.7L99.1,401.1z"/>
-                </svg>
-            </div>
-            <div>
-                <div className="text-xs">GET IT ON</div>
-                <div className="text-xl font-semibold font-sans -mt-1">Google Play</div>
-            </div>
-        </div>
+              )}
+              {
+                <div
+                  className={classnames("mt-2 min-w-[300px] text-TUCMC-gray-700", faStep === 2 ? "block" : "hidden")}
+                >
+                  <div>
+                    <p>2. สแกน QR Code บนอุปกรณ์ด้วย App</p>
+                    <div className="mt-2 mb-2 flex flex-col items-center space-x-2 px-2">
+                      <img className="mt-2 h-16 w-16" src="/assets/ga.svg" />
+                      <h1 className="mt-2 font-semibold">Google Authenticator</h1>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <div className="mt-4 flex justify-center">
+                      <canvas id="qrCode" ref={qrCodeRef} className={css.qrCode}></canvas>
+                    </div>
+                  </div>
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      setFAStep(3)
+                    }}
+                    className="mt-4 flex w-full max-w-sm items-center justify-center space-x-2 rounded-lg bg-TUCMC-pink-400 px-5 py-2 text-white"
+                  >
+                    <span>ขั้นตอนต่อไป</span>
+                    <ArrowRightIcon className="h-4 w-4" />
+                  </Button>
                 </div>
-                <Button type="button" onClick={() => {setFAStep(2)}} className="flex space-x-2 justify-center items-center max-w-sm w-full rounded-lg bg-TUCMC-pink-400 px-5 py-2 text-white mt-4">
-                  <span>ขั้นตอนต่อไป</span>
-                  <ArrowRightIcon className="w-4 h-4"/>
-                </Button>
-            </div>}
-            {<div className={classnames("text-TUCMC-gray-700 mt-2 min-w-[300px]", faStep === 2 ? "block" : "hidden")}>
-              <div>
-              <p>2. สแกน QR Code บนอุปกรณ์ด้วย App</p>
-            <div className="flex flex-col space-x-2 items-center px-2 mt-2 mb-2">
-            <img className="w-16 h-16 mt-2" src="/assets/ga.svg"/>
-            <h1 className="font-semibold mt-2">Google Authenticator</h1>
+              }
+              {
+                <div className={classnames("mt-2 w-[300px] text-TUCMC-gray-700", faStep === 3 ? "block" : "hidden")}>
+                  <div>
+                    <p>3. เช็กรหัสที่ปรากฏใน App Authenticator</p>
+                    <div className="mt-2 mb-2 flex flex-col items-center space-x-2 px-2">
+                      <img className="mt-2 w-[280px]" src="/assets/GA-Ex.jpg" />
+                      <h1 className="mt-2 text-sm text-TUCMC-gray-600">รูปตัวอย่างหน้าจอแอป Authenticator</h1>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <p>4. กรอกรหัสที่ปรากฏใน App Authenticator</p>
+                    <div className="mt-4 flex justify-center">
+                      <div className="flex space-x-4">
+                        <div className="space-x-1">
+                          <input
+                            type="number"
+                            value={rawOTP[0]}
+                            min={0}
+                            max={9}
+                            onChange={(e) => {
+                              e.target.value !== "" && setAtDigit((prev) => 1)
+                              e.target.value.length > 1
+                                ? () => {
+                                    setRawOTP((prev) => ({ ...prev, 1: e.target.value }))
+                                    setAtDigit(1)
+                                  }
+                                : setRawOTP((prev) => ({ ...prev, 0: e.target.value }))
+                            }}
+                            id="otp1"
+                            className="webkit-none h-10 w-8 rounded-md border border-TUCMC-gray-800 border-opacity-50 p-0 text-center text-2xl font-bold"
+                          />
+                          <input
+                            type="number"
+                            value={rawOTP[1]}
+                            min={0}
+                            max={9}
+                            onChange={(e) => {
+                              e.target.value === "" ? setAtDigit((prev) => 0) : setAtDigit(2)
+                              e.target.value.length > 1
+                                ? () => {
+                                    setRawOTP((prev) => ({ ...prev, 2: e.target.value }))
+                                    setAtDigit(2)
+                                  }
+                                : setRawOTP((prev) => ({ ...prev, 1: e.target.value }))
+                            }}
+                            id="otp2"
+                            className="webkit-none h-10 w-8 rounded-md border border-TUCMC-gray-800 border-opacity-50 p-0 text-center text-2xl font-bold"
+                          />
+                          <input
+                            type="number"
+                            value={rawOTP[2]}
+                            min={0}
+                            max={9}
+                            onChange={(e) => {
+                              e.target.value === "" ? setAtDigit((prev) => 1) : setAtDigit(3)
+                              e.target.value.length > 1
+                                ? () => {
+                                    setRawOTP((prev) => ({ ...prev, 3: e.target.value }))
+                                    setAtDigit(3)
+                                  }
+                                : setRawOTP((prev) => ({ ...prev, 2: e.target.value }))
+                            }}
+                            id="otp3"
+                            className="webkit-none h-10 w-8 rounded-md border border-TUCMC-gray-800 border-opacity-50 p-0 text-center text-2xl font-bold"
+                          />
+                        </div>
+                        <div className="space-x-1">
+                          <input
+                            type="number"
+                            value={rawOTP[3]}
+                            min={0}
+                            max={9}
+                            onChange={(e) => {
+                              e.target.value === "" ? setAtDigit((prev) => 2) : setAtDigit(4)
+                              e.target.value.length > 1
+                                ? () => {
+                                    setRawOTP((prev) => ({ ...prev, 4: e.target.value }))
+                                    setAtDigit(4)
+                                  }
+                                : setRawOTP((prev) => ({ ...prev, 3: e.target.value }))
+                            }}
+                            id="otp4"
+                            className="webkit-none h-10 w-8 rounded-md border border-TUCMC-gray-800 border-opacity-50 p-0 text-center text-2xl font-bold"
+                          />
+                          <input
+                            type="number"
+                            value={rawOTP[4]}
+                            min={0}
+                            max={9}
+                            onChange={(e) => {
+                              e.target.value === "" ? setAtDigit((prev) => 3) : setAtDigit(5)
+                              e.target.value.length > 1
+                                ? () => {
+                                    setRawOTP((prev) => ({ ...prev, 5: e.target.value }))
+                                    setAtDigit(5)
+                                  }
+                                : setRawOTP((prev) => ({ ...prev, 4: e.target.value }))
+                            }}
+                            id="otp5"
+                            className="webkit-none h-10 w-8 rounded-md border border-TUCMC-gray-800 border-opacity-50 p-0 text-center text-2xl font-bold"
+                          />
+                          <input
+                            type="number"
+                            value={rawOTP[5]}
+                            min={0}
+                            max={9}
+                            onChange={(e) => {
+                              e.target.value === "" && setAtDigit((prev) => 4)
+                              setRawOTP((prev) => ({ ...prev, 5: e.target.value }))
+                            }}
+                            id="otp6"
+                            className="webkit-none h-10 w-8 rounded-md border border-TUCMC-gray-800 border-opacity-50 p-0 text-center text-2xl font-bold"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      setFAStep(3)
+                    }}
+                    className="mt-4 flex w-full max-w-sm items-center justify-center space-x-2 rounded-lg bg-TUCMC-pink-400 px-5 py-2 text-white"
+                  >
+                    <span>ยืนยันการลงทะเบียน</span>
+                    <ArrowRightIcon className="h-4 w-4" />
+                  </Button>
+                </div>
+              }
             </div>
-                </div>
-                <div className="flex flex-col items-center">
-                <div className="flex justify-center mt-4">
-              <canvas id="qrCode" ref={qrCodeRef} className={css.qrCode}></canvas>
-            </div>
-                </div>
-                <Button type="button" onClick={() => {setFAStep(3)}} className="flex space-x-2 justify-center items-center max-w-sm w-full rounded-lg bg-TUCMC-pink-400 px-5 py-2 text-white mt-4">
-                  <span>ขั้นตอนต่อไป</span>
-                  <ArrowRightIcon className="w-4 h-4"/>
-                </Button>
-            </div>}
-            {<div className={classnames("text-TUCMC-gray-700 mt-2 w-[300px]", faStep === 3 ? "block" : "hidden")}>
-              <div>
-              <p>3. เช็กรหัสที่ปรากฏใน App Authenticator</p>
-            <div className="flex flex-col space-x-2 items-center px-2 mt-2 mb-2">
-            <img className="w-[280px] mt-2" src="/assets/GA-Ex.jpg"/>
-            <h1 className="mt-2 text-sm text-TUCMC-gray-600">รูปตัวอย่างหน้าจอแอพ Authenticator</h1>
-            </div>
-                </div>
-                <div className="flex flex-col items-center">
-                  <p>4. กรอกรหัสที่ปรากฏใน App Authenticator</p>
-                <div className="flex justify-center mt-4">
-              <div className="flex space-x-4">
-                <div className="space-x-1">
-                  <input type="number" value={rawOTP[0]} min={0} max={9} onChange={(e) => {e.target.value !== "" && setAtDigit(prev => (1));e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 1: e.target.value}));setAtDigit(1)} : setRawOTP(prev => ({...prev, 0: e.target.value}))}}id="otp1" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
-                  <input type="number" value={rawOTP[1]} min={0} max={9} onChange={(e) => {e.target.value === "" ? setAtDigit(prev => (0)) : setAtDigit(2);e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 2: e.target.value}));setAtDigit(2)} : setRawOTP(prev => ({...prev, 1: e.target.value}))}} id="otp2" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
-                  <input type="number" value={rawOTP[2]} min={0} max={9} onChange={(e) => {e.target.value === "" ? setAtDigit(prev => (1)) : setAtDigit(3);e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 3: e.target.value}));setAtDigit(3)} : setRawOTP(prev => ({...prev, 2: e.target.value}))}} id="otp3" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
-                </div>
-                <div className="space-x-1">
-                  <input type="number" value={rawOTP[3]} min={0} max={9}  onChange={(e) => {e.target.value === "" ? setAtDigit(prev => (2)) : setAtDigit(4);e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 4: e.target.value}));setAtDigit(4)} : setRawOTP(prev => ({...prev, 3: e.target.value}))}} id="otp4" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
-                  <input type="number" value={rawOTP[4]} min={0} max={9}  onChange={(e) => {e.target.value === "" ? setAtDigit(prev => (3)) : setAtDigit(5);e.target.value.length > 1 ? () => {setRawOTP(prev => ({...prev, 5: e.target.value}));setAtDigit(5)} : setRawOTP(prev => ({...prev, 4: e.target.value}))}} id="otp5" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
-                  <input type="number" value={rawOTP[5]} min={0} max={9}  onChange={(e) => {e.target.value === "" && setAtDigit(prev => (4));setRawOTP(prev => ({...prev, 5: e.target.value}))}} id="otp6" className="w-8 h-10 webkit-none p-0 rounded-md border border-TUCMC-gray-800 border-opacity-50 text-center font-bold text-2xl"/>
-                </div>
-              </div>
-            </div>
-                </div>
-                <Button type="button" onClick={() => {setFAStep(3)}} className="flex space-x-2 justify-center items-center max-w-sm w-full rounded-lg bg-TUCMC-pink-400 px-5 py-2 text-white mt-4">
-                  <span>ยืนยันการลงทะเบียน</span>
-                  <ArrowRightIcon className="w-4 h-4"/>
-                </Button>
-            </div>}
           </div>
-        </div>}
+        }
         <h1 className="text-center text-2xl font-medium">จัดการบัญชีผู้ใช้</h1>
         <div className="absolute -bottom-5 w-full px-4">
           <div className="mx-auto flex max-w-xl justify-center rounded-lg border border-gray-300 bg-white p-[0.54rem] shadow-sm">
@@ -369,8 +508,8 @@ const Account = () => {
         <div className="mt-14 flex flex-col space-y-14 px-2 md:px-4">
           <div>
             <h1 className="text-xl">ข้อมูลผู้ใช้งาน</h1>
-            <div className="flex items-center space-x-1 border-b border-gray-200 pb-4 text-TUCMC-red-500 font-medium">
-              <ExclamationIcon className="w-5 h-5"/>
+            <div className="flex items-center space-x-1 border-b border-gray-200 pb-4 font-medium text-TUCMC-red-500">
+              <ExclamationIcon className="h-5 w-5" />
               <span>หากข้อมูลไม่ถูกต้อง กรุณาติดต่อ กช. เพื่อแก้ไขข้อมูล</span>
             </div>
             <div className="space-y-1 border-b border-gray-200 py-4 md:flex md:items-center md:space-y-0 md:space-x-52 md:py-6">
@@ -394,7 +533,13 @@ const Account = () => {
               <div className="flex items-center space-x-48">
                 <h1 className="text-TUCMC-gray-500">ระดับชั้น / ห้อง</h1>
                 <h1>
-                  {userData.room ? <>ม.{userData.level} / {userData.room}</> : <>N/A</>}
+                  {userData.room ? (
+                    <>
+                      ม.{userData.level} / {userData.room}
+                    </>
+                  ) : (
+                    <>N/A</>
+                  )}
                 </h1>
               </div>
             </div>
@@ -450,13 +595,25 @@ const Account = () => {
               <div className="space-y-2 border-b border-gray-200 py-4 md:flex md:space-y-0 md:space-x-[9.3rem] md:py-6">
                 <h1 className="text-TUCMC-gray-900">เบราว์เซอร์ที่เชื่อถือได้</h1>
                 <div className="relative">
-                  {!allows && (<div className={classnames("absolute flex flex-col items-center justify-center w-full h-full bg-gray-900 bg-opacity-30 rounded-lg backdrop-blur z-[50]")}>
-                    <ExclamationCircleIcon className="text-white w-16 h-16"/>
-                    <h1 className="text-white font-semibold text-lg mt-1">เปิดใช้งานระบบ 2FA</h1>
-                    <Button type="button" onClick={() => {generate2FACred()}} className="max-w-sm rounded-lg bg-TUCMC-pink-400 px-5 py-2 text-white mt-1">
-                  เริ่มต้นการเปิดใช้งาน
-                </Button>
-                  </div>)}
+                  {!allows && (
+                    <div
+                      className={classnames(
+                        "absolute z-[50] flex h-full w-full flex-col items-center justify-center rounded-lg bg-gray-900 bg-opacity-30 backdrop-blur"
+                      )}
+                    >
+                      <ExclamationCircleIcon className="h-16 w-16 text-white" />
+                      <h1 className="mt-1 text-lg font-semibold text-white">เปิดใช้งานระบบ 2FA</h1>
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          generate2FACred()
+                        }}
+                        className="mt-1 max-w-sm rounded-lg bg-TUCMC-pink-400 px-5 py-2 text-white"
+                      >
+                        เริ่มต้นการเปิดใช้งาน
+                      </Button>
+                    </div>
+                  )}
                   <div className="space-y-2">
                     {userCred.authorised.length > 0 ? (
                       userCred.authorised.map((val, index) => (
