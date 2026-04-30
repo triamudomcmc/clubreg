@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs"
 import { update } from "@server/tracker"
 
 export const resetPassword = async (req, res) => {
-  if (req.password !== req.conPassword) return { status: false, report: "mismatch_password" }
+  if (req.body.password !== req.body.conPassword) return { status: false, report: "mismatch_password" }
   const doc = await initialisedDB.collection("tasks").doc(req.body.actionID).get()
   if (!doc.exists) return { status: false, report: "missing_email" }
 

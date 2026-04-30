@@ -23,9 +23,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           break
         }
         case "forgot": {
-          const output = await forgot(req, res)
-          res.json(output)
-          break
+          return await forgot(req, res)
+          // const output = await forgot(req, res)
+          // res.json(output)
+          // break
         }
         case "reset": {
           const output = await resetPassword(req, res)
