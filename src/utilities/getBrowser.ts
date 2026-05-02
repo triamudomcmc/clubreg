@@ -1,5 +1,3 @@
-const CHROMIUM_PATH = "https://github.com/Sparticuz/chromium/releases/download/v123.0.0/chromium-v123.0.0-pack.tar";
-
 export async function getBrowser() {
   if (
     process.env.VERCEL_ENV === "production" || 
