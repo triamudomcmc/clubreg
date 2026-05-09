@@ -314,7 +314,7 @@ const Announce = () => {
                 })
               ) : (
                 <div className="flex justify-center">
-                  <h1 className="mt-5 text-TUCMC-gray-700">ไม่มีชมรมที่ Audi</h1>
+                  <h1 className="mt-5 text-TUCMC-gray-700">ไม่มีชมรมที่ Audition</h1>
                 </div>
               )}
             </div>
