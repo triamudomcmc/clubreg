@@ -103,10 +103,7 @@ export const getRecentMondays = () => {
   let arr = []
 
   //exclusion of holiday and summative
-  const ignored = new Set([
-    new Date("2025-12-22T00:00:00.000+07:00").getTime(),
-    new Date("2025-12-29T00:00:00.000+07:00").getTime(),
-  ])
+  const ignored = new Set([new Date("2026-07-20T00:00:00.000+07:00").getTime()])
 
   while (prev >= lowest) {
     if (prev <= highest && !ignored.has(prev)) {

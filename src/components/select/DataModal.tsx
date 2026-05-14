@@ -46,7 +46,7 @@ const DataModal = ({ state, setLoader, TriggerDep, closeFunc, refetcher, mode = 
           addToast({
             theme: "modern",
             icon: "tick",
-            title: "ลงเบียนเสร็จสิ้น",
+            title: "ลงทะเบียนเสร็จสิ้น",
             text: "ขอให้มีความสุขกับกิจกรรมชมรม",
             lifeSpan: 30000,
           })
@@ -91,7 +91,7 @@ const DataModal = ({ state, setLoader, TriggerDep, closeFunc, refetcher, mode = 
               theme: "modern",
               icon: "cross",
               title: "รหัสผ่านไม่ถูกต้อง",
-              text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือ หากลืมรหัสผ่านสามารถติดต่อทาง กช. เพื่อขอเปลี่ยนรหัสผ่านได้",
+              text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง หรือหากลืมรหัสผ่านสามารถติดต่อทาง กช. เพื่อขอเปลี่ยนรหัสผ่านได้",
             })
             break
           case "invalid_phone":
@@ -99,7 +99,7 @@ const DataModal = ({ state, setLoader, TriggerDep, closeFunc, refetcher, mode = 
               theme: "modern",
               icon: "cross",
               title: "เบอร์โทรศัพท์ ที่ระบุไม่ถูกต้อง",
-              text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช.",
+              text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง หรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้ว ให้ติดต่อทาง กช.",
             })
             break
           case "club_full":
