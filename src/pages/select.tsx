@@ -155,7 +155,7 @@ const Select = ({ clubList }) => {
     const load = async () => {
       const value = await fetchClub()
       const filteredValue = Object.keys(value)
-        .filter((key) => value[key].report !== true && value[key].cooked !== true)
+        .filter((key) => value[key].report !== true && value[key].selectExcluded !== true)
         //.filter((key) => value[key].report !== true)
         .reduce((obj, key) => {
           obj[key] = value[key]
