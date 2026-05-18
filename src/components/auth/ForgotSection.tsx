@@ -1,18 +1,14 @@
-import { Input } from "@components/auth/Input"
 import { Button } from "@components/common/Inputs/Button"
 import React, { useState } from "react"
 import { ArrowLeftIcon } from "@heroicons/react/solid"
 import { forgot } from "@client/fetcher/user"
 import { useToast } from "@components/common/Toast/ToastContext"
 import classnames from "classnames"
-import { redirect } from "next/dist/server/api-utils"
-import { useRouter} from "next/router"
 
 export const ForgotSection = ({ swapFunction, setLoader }) => {
   const [email, setEmail] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { addToast } = useToast()
-  const router = useRouter()
 
   const submit = async (event) => {
     event.preventDefault()
@@ -49,8 +45,6 @@ export const ForgotSection = ({ swapFunction, setLoader }) => {
         text: "คำขอได้ถูกส่งแล้วกรุณาเช็คอีเมลที่ระบุเพื่อดำเนินการเปลี่ยนรหัสผ่านต่อไป หากยังไม่พบอีกเมลให้ลองส่งฟอร์มนี้ใหม่อีกรอบ",
       })
       setEmail("")
-      //@ts-ignore
-      router.push(res.url)
       setIsSubmitting(false)
 
     }

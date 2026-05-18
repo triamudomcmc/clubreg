@@ -1,8 +1,5 @@
 import initialisedDB from "@server/firebase-admin"
-import path from "path"
-import fs from "fs"
 import { update } from "@server/tracker"
-import { initSmtpAPIService, sendEmail } from "@server/utilities/smtpAPI";
 import { resend } from "@handlers/server/utilities/resend";
 
 export const forgot = async (req, res) => {
@@ -93,19 +90,19 @@ export const forgot = async (req, res) => {
 </html>
 `
 
-    // const { data, error } = await resend.emails.send({
-    //     from: "Triam Udom Clubs Registration System <no-reply@system.tucm.cc>",
-    //     to: [req.body.email],
-    //     subject: "มีการขอเปลี่ยนรหัสผ่าน",
-    //     html: htmlContent,
-    // })
+    const { data, error } = await resend.emails.send({
+        from: "Triam Udom Clubs Registration System <no-reply@system.tucm.cc>",
+        to: [req.body.email],
+        subject: "มีการขอเปลี่ยนรหัสผ่าน",
+        html: htmlContent,
+    })
 
-    // if (error) {
-    //     return { status: false, report: "mailServiceError" }
-    // }
+    if (error) {
+        return { status: false, report: "mailServiceError" }
+    }
 
     update("system", "forgot", req.body.fp, user.docs[0].id)
 
-    // return { status: true, report: "success" }
-    return res.json({ status: true, url })
+    return { status: true, report: "success" }
+    // return res.json({ status: true, url })
 }
