@@ -36,7 +36,7 @@ export const logout = async (): Promise<{ status: boolean }> => {
 //   return await request("database/auth", "forgot", { email: email })
 // }
 
-export const forgot = async (email): Promise<{ status: boolean; report: string; url?: string }> => {
+export const forgot = async (email): Promise<{ status: boolean; report: string; }> => {
   return await request("database/auth", "forgot", { email: email })
 }
 
