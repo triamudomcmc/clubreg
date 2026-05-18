@@ -19,7 +19,9 @@ export const getStaticProps: GetStaticProps = async (): Promise<
   GetStaticPropsResult<{ clubs: { name: string; audition: boolean; clubID: string; imageURL: string }[] }>
 > => {
   const clubDisplayDocs = await initialisedDB.collection("clubDisplay").get()
-  const clubs = clubDisplayDocs.docs.map((club) => {
+  const clubs = clubDisplayDocs.docs
+  .filter(club => club.id !== "ก30901")
+  .map((club) => {
     const data = club.data() as ClubDisplay
 
     return {
