@@ -20,21 +20,6 @@ export const forgot = async (req, res) => {
 
     const url = `https://register.clubs.triamudom.ac.th/auth/reset${action.id}`
 
-    // const smtpServ = initSmtpAPIService(process.env.SMTP_API_KEY)
-
-    // const htmlContent = `<!doctype html>${renderToStaticMarkup(
-    //     React.createElement(ForgotEmail, { url })
-    // )}`
-
-    // const err = await sendEmail(smtpServ, {
-    //     to,
-    //     from,
-    //     sender: "no-reply@clubs.triamudom.ac.th",
-    //     subject,
-    //     html_body: htmlContent,
-    //     plain_body: `มีการขอเปลี่ยนรหัสผ่านบนระบบ กรุณาใช้ลิงก์นี้ ${url}`
-    // })
-
     const htmlContent = `
 <!doctype html>
 <html lang="en-US">
@@ -108,19 +93,19 @@ export const forgot = async (req, res) => {
 </html>
 `
 
-    const { data, error } = await resend.emails.send({
-        from: "Triam Udom Clubs Registration System <no-reply@system.tucm.cc>",
-        to: [req.body.email],
-        subject: "มีการขอเปลี่ยนรหัสผ่าน",
-        html: htmlContent,
-    })
+    // const { data, error } = await resend.emails.send({
+    //     from: "Triam Udom Clubs Registration System <no-reply@system.tucm.cc>",
+    //     to: [req.body.email],
+    //     subject: "มีการขอเปลี่ยนรหัสผ่าน",
+    //     html: htmlContent,
+    // })
 
-    if (error) {
-        return { status: false, report: "mailServiceError" }
-    }
+    // if (error) {
+    //     return { status: false, report: "mailServiceError" }
+    // }
 
     update("system", "forgot", req.body.fp, user.docs[0].id)
 
-    return { status: true, report: "success" }
-    // return res.json({ status: true, url })
+    // return { status: true, report: "success" }
+    return res.json({ status: true, url })
 }
