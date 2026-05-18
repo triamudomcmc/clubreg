@@ -1,18 +1,19 @@
-import { Input } from "@components/auth/Input"
 import { Button } from "@components/common/Inputs/Button"
 import React, { useState } from "react"
 import { ArrowLeftIcon } from "@heroicons/react/solid"
 import { forgot } from "@client/fetcher/user"
 import { useToast } from "@components/common/Toast/ToastContext"
 import classnames from "classnames"
-import Router from "next/router"
 
 export const ForgotSection = ({ swapFunction, setLoader }) => {
   const [email, setEmail] = useState("")
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const { addToast } = useToast()
 
   const submit = async (event) => {
     event.preventDefault()
+    if (isSubmitting) return
+    setIsSubmitting(true)
 
     const res = await forgot(email)
     if (!res.status) {
@@ -24,6 +25,7 @@ export const ForgotSection = ({ swapFunction, setLoader }) => {
             title: "ไม่พบอีเมลนี้บนฐานข้อมูล",
             text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช. เพื่อขอตรวจสอบข้อมูล",
           })
+          setIsSubmitting(false)
           break
         case "mailServiceError":
           addToast({
@@ -32,6 +34,8 @@ export const ForgotSection = ({ swapFunction, setLoader }) => {
             title: "ไม่สามารถส่งอีเมลได้ในขณะนี้",
             text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช. เพื่อขอตรวจสอบข้อมูล",
           })
+          setIsSubmitting(false)
+          break
       }
     } else {
       addToast({
@@ -40,9 +44,9 @@ export const ForgotSection = ({ swapFunction, setLoader }) => {
         title: "ส่งคำขอเปลี่ยนรหัสผ่านแล้ว",
         text: "คำขอได้ถูกส่งแล้วกรุณาเช็คอีเมลที่ระบุเพื่อดำเนินการเปลี่ยนรหัสผ่านต่อไป หากยังไม่พบอีกเมลให้ลองส่งฟอร์มนี้ใหม่อีกรอบ",
       })
-
-      if (res.url && res.status) Router.push(res.url)
       setEmail("")
+      setIsSubmitting(false)
+
     }
   }
 
@@ -74,9 +78,10 @@ export const ForgotSection = ({ swapFunction, setLoader }) => {
           </div>
           <Button
             type="submit"
-            className="cursor-pointer rounded-md bg-TUCMC-pink-400 px-5 py-3 tracking-tight text-white shadow-md"
+            disabled={isSubmitting}
+            className={classnames("cursor-pointer rounded-md bg-TUCMC-pink-400 px-5 py-3 tracking-tight text-white shadow-md", isSubmitting ? "cursor-not-allowed bg-gray-400" : "")}
           >
-            <span>ยืนยัน</span>
+            <span>{isSubmitting ? "กำลังส่ง..." : "ยืนยัน"}</span>
           </Button>
         </div>
       </form>
