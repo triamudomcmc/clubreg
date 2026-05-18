@@ -10,7 +10,7 @@ export const forgot = async (req, res) => {
     const user = await initialisedDB.collection("users").where("email", "==", inputEmail.toLowerCase()).get()
 
     if (user.empty) {
-        return res.json({ status: false, report: "missing_email" })
+        return res.json({ status: false, report: "missingEmail" })
     }
 
     const action = await initialisedDB.collection("tasks").add({
