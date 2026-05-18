@@ -54,7 +54,7 @@ const DataModal = ({ state, setLoader, TriggerDep, closeFunc, refetcher, mode = 
           addToast({
             theme: "modern",
             icon: "tick",
-            title: "ลงเบียนเสร็จสิ้น",
+            title: "ลงทะเบียนเสร็จสิ้น",
             text: "ขอให้มีความสุขกับกิจกรรมชมรม",
             lifeSpan: 30000,
           })

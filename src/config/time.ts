@@ -36,7 +36,7 @@ export const auditionTime = +new Date("2026-05-18T08:00:00.000+07:00")
 export const endAuditionTime = +new Date("2026-05-29T20:00:00.000+07:00")
 // end of data editing time for updating positions and audition result.
 // ! Spare time for a day for checking and validation process.
-export const editDataTime = +new Date("2026-05-25T23:59:00.000+07:00")
+export const editDataTime = +new Date("2026-05-28T23:59:00.000+07:00")
 // registration close 1st round.
 export const endRegClubTime = +new Date("2026-05-22T23:59:00.000+07:00")
 // announce audition result. (user can select either to accept or reject)
@@ -103,10 +103,7 @@ export const getRecentMondays = () => {
   let arr = []
 
   //exclusion of holiday and summative
-  const ignored = new Set([
-    new Date("2025-12-22T00:00:00.000+07:00").getTime(),
-    new Date("2025-12-29T00:00:00.000+07:00").getTime(),
-  ])
+  const ignored = new Set([new Date("2026-07-20T00:00:00.000+07:00").getTime()])
 
   while (prev >= lowest) {
     if (prev <= highest && !ignored.has(prev)) {

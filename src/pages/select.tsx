@@ -56,7 +56,6 @@ export const getStaticProps: GetStaticProps = async () => {
       clubID: club.id,
       imageURL: data?.images?.mainImage || `/assets/thumbnails/${club.id}.jpg`,
     }
-
   })
 
   return {
@@ -100,7 +99,10 @@ const Select = ({ clubList }) => {
       if (userData.club !== "") {
         Router.push("/card")
       } else {
-        if ((Object.keys(userData.audition).length <= 0 || new Date().getTime() > endLastRound) && new Date().getTime() > endRegClubTime) {
+        if (
+          (Object.keys(userData.audition).length <= 0 || new Date().getTime() > endLastRound) &&
+          new Date().getTime() > endRegClubTime
+        ) {
           localStorage.setItem("alert", "denied")
           return Router.push("/account")
         }
@@ -153,7 +155,8 @@ const Select = ({ clubList }) => {
     const load = async () => {
       const value = await fetchClub()
       const filteredValue = Object.keys(value)
-        .filter(key => key !== "ก30901" && value[key].report !== true)
+        .filter((key) => value[key].report !== true && value[key].selectExcluded !== true)
+        //.filter((key) => value[key].report !== true)
         .reduce((obj, key) => {
           obj[key] = value[key]
           return obj
@@ -162,55 +165,53 @@ const Select = ({ clubList }) => {
       setClubData(filteredValue)
       setInitclub(true)
     }
-  
+
     load()
   }, [userData])
-  
 
   useEffect(() => {
     userData &&
       "audition" in userData &&
       Object.keys(clubData).length > 0 &&
-      setAuditionList(Object.keys(userData.audition).map((value) => {
-        console.log(value)
-        return value
-        
-      }))
-
+      setAuditionList(
+        Object.keys(userData.audition).map((value) => {
+          console.log(value)
+          return value
+        })
+      )
   }, [clubData, userData])
-
 
   useEffect(() => {
     apply()
   }, [sortMode, clubData, width])
 
   const splitIntoColumns = (arr, columns = 2) => {
-    const result = Array.from({ length: columns }, () => []);
+    const result = Array.from({ length: columns }, () => [])
     arr.forEach((item, idx) => {
-      result[idx % columns].push(item);
-    });
-    return result;
-  };
+      result[idx % columns].push(item)
+    })
+    return result
+  }
 
   useEffect(() => {
-    let filtered = rawSorted;
+    let filtered = rawSorted
     if (tab === "noAudition") {
-      filtered = rawSorted.filter((club) => !club.audition);
+      filtered = rawSorted.filter((club) => !club.audition)
     } else if (tab === "hasAudition") {
-      filtered = rawSorted.filter((club) => club.audition);
+      filtered = rawSorted.filter((club) => club.audition)
     }
 
-    const searchTerm = searchContext.replace("ชมรม", "").trim();
+    const searchTerm = searchContext.replace("ชมรม", "").trim()
     if (searchTerm !== "") {
-      filtered = searchKeyword(filtered, searchTerm, (obj) => obj.title);
+      filtered = searchKeyword(filtered, searchTerm, (obj) => obj.title)
     }
 
     if (width > 768) {
-      setSortedData(splitIntoColumns(filtered, 2));
+      setSortedData(splitIntoColumns(filtered, 2))
     } else {
-      setSortedData([filtered]);
+      setSortedData([filtered])
     }
-  }, [tab, searchContext, rawSorted, width]);
+  }, [tab, searchContext, rawSorted, width])
 
   const clearState = () => {
     setModalState({ open: false, data: {} })
@@ -227,7 +228,7 @@ const Select = ({ clubList }) => {
     })
     setSelect(true)
   }
-  
+
   return (
     new Date().getTime() < time && (
       <PageContainer hide={!initclub}>
@@ -272,7 +273,10 @@ const Select = ({ clubList }) => {
               <div className="md:max-w-xs">
                 <div className="flex flex-col items-center">
                   <h1 className="text-4xl font-medium">เลือกชมรม</h1>
-                  <span className="text-sm tracking-tight">ภายในวันที่ {getFullDate(new Date().getTime() > endRegClubTime ? endLastRound : endRegClubTime, false)}</span>
+                  <span className="text-sm tracking-tight">
+                    ภายในวันที่{" "}
+                    {getFullDate(new Date().getTime() > endRegClubTime ? endLastRound : endRegClubTime, false)}
+                  </span>
                 </div>
                 <div className="mt-6 w-full min-w-[300px] px-8">
                   <SelectSplash />
@@ -304,7 +308,7 @@ const Select = ({ clubList }) => {
                               return (
                                 <div
                                   key={clubID}
-                                  className="border-t py-4 px-4 cursor-pointer hover:bg-gray-100 transition-colors duration-100"
+                                  className="cursor-pointer border-t py-4 px-4 transition-colors duration-100 hover:bg-gray-100"
                                 >
                                   <div
                                     onClick={() => {
@@ -312,7 +316,7 @@ const Select = ({ clubList }) => {
                                         open: true,
                                         data: {
                                           ..._clubData,
-                                          clubID
+                                          clubID,
                                         },
                                       })
                                     }}
@@ -333,29 +337,29 @@ const Select = ({ clubList }) => {
                         <h1 className="mt-1">รายชื่อชมรมที่ลงชื่อ Audition ไว้</h1>
                       </div>
                       <div className="rounded-b-lg bg-white">
-                      {auditionList.map((clubID) => {
-                        const _clubData = clubData[clubID]
-                        return (
-                          <div
-                            key={clubID}
-                            className="border-t py-4 px-4 cursor-pointer hover:bg-gray-100 transition-colors duration-100"
-                          >
+                        {auditionList.map((clubID) => {
+                          const _clubData = clubData[clubID]
+                          return (
                             <div
-                              onClick={() => {
-                                setModalState({
-                                  open: true,
-                                  data: {
-                                    ..._clubData,
-                                    clubID
-                                  },
-                                })
-                              }}
+                              key={clubID}
+                              className="cursor-pointer border-t py-4 px-4 transition-colors duration-100 hover:bg-gray-100"
                             >
-                              ชมรม{_clubData.title}
+                              <div
+                                onClick={() => {
+                                  setModalState({
+                                    open: true,
+                                    data: {
+                                      ..._clubData,
+                                      clubID,
+                                    },
+                                  })
+                                }}
+                              >
+                                ชมรม{_clubData.title}
+                              </div>
                             </div>
-                          </div>
-                        )
-                      })}
+                          )
+                        })}
                       </div>
                     </div>
                   )}
@@ -400,11 +404,13 @@ const Select = ({ clubList }) => {
               </div>
               <div style={width > 768 ? { width: width - 376, maxWidth: 952 } : {}} className="mt-16 md:mt-0">
                 <div className="flex flex-col gap-y-6">
-                  <div className="grid grid-cols-3 text-center border-b">
+                  <div className="grid grid-cols-3 border-b text-center">
                     <div
                       className={classNames(
-                        "pb-3 transition-colors duration-200 cursor-pointer",
-                        tab === "all" ? "border-b-2 border-b-TUCMC-pink-400 font-semibold text-TUCMC-pink-400" : "text-gray-500"
+                        "cursor-pointer pb-3 transition-colors duration-200",
+                        tab === "all"
+                          ? "border-b-2 border-b-TUCMC-pink-400 font-semibold text-TUCMC-pink-400"
+                          : "text-gray-500"
                       )}
                       onClick={() => setTab("all")}
                     >
@@ -412,8 +418,10 @@ const Select = ({ clubList }) => {
                     </div>
                     <div
                       className={classNames(
-                        "pb-3 transition-colors duration-200 cursor-pointer",
-                        tab === "noAudition" ? "border-b-2 border-b-TUCMC-pink-400 font-semibold text-TUCMC-pink-400" : "text-gray-500"
+                        "cursor-pointer pb-3 transition-colors duration-200",
+                        tab === "noAudition"
+                          ? "border-b-2 border-b-TUCMC-pink-400 font-semibold text-TUCMC-pink-400"
+                          : "text-gray-500"
                       )}
                       onClick={() => setTab("noAudition")}
                     >
@@ -421,20 +429,27 @@ const Select = ({ clubList }) => {
                     </div>
                     <div
                       className={classNames(
-                        "pb-3 transition-colors duration-200 cursor-pointer",
-                        tab === "hasAudition" ? "border-b-2 border-b-TUCMC-pink-400 font-semibold text-TUCMC-pink-400" : "text-gray-500"
+                        "cursor-pointer pb-3 transition-colors duration-200",
+                        tab === "hasAudition"
+                          ? "border-b-2 border-b-TUCMC-pink-400 font-semibold text-TUCMC-pink-400"
+                          : "text-gray-500"
                       )}
                       onClick={() => setTab("hasAudition")}
                     >
                       มีการ Audition
                     </div>
                   </div>
-                  <FilterSearch setSearchContext={setSearchContext} sortMode={sortMode} setSortMode={setSortMode} disableNormal={true} />
+                  <FilterSearch
+                    setSearchContext={setSearchContext}
+                    sortMode={sortMode}
+                    setSortMode={setSortMode}
+                    disableNormal={true}
+                  />
                 </div>
-                <div className="space-y-2 w-full">
-                  <div className="grid grid-cols-1 mt-6 md:grid-cols-2 md:space-x-4">
+                <div className="w-full space-y-2">
+                  <div className="mt-6 grid grid-cols-1 md:grid-cols-2 md:space-x-4">
                     {[0, 1].map((colIdx) => (
-                      <div key={colIdx} className="space-y-2 w-full">
+                      <div key={colIdx} className="w-full space-y-2">
                         {sortedData[colIdx]?.map((club, idx) => (
                           <ClubList key={club.clubID || idx} data={club} action={setModalState} />
                         ))}
