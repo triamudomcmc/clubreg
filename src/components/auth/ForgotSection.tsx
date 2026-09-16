@@ -23,7 +23,7 @@ export const ForgotSection = ({ swapFunction, setLoader }) => {
             theme: "modern",
             icon: "cross",
             title: "ไม่พบอีเมลนี้บนฐานข้อมูล",
-            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช. เพื่อขอตรวจสอบข้อมูล",
+            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง หรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช. เพื่อขอตรวจสอบข้อมูล",
           })
           setIsSubmitting(false)
           break
@@ -32,7 +32,7 @@ export const ForgotSection = ({ swapFunction, setLoader }) => {
             theme: "modern",
             icon: "cross",
             title: "ไม่สามารถส่งอีเมลได้ในขณะนี้",
-            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้งหรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช. เพื่อขอตรวจสอบข้อมูล",
+            text: "กรุณาลองกรอกข้อมูลใหม่อีกครั้ง หรือหากยังพบการแจ้งเตือนนี้อีกในขณะที่ข้อมูลที่กรอกถูกต้องแล้วให้ติดต่อทาง กช. เพื่อขอตรวจสอบข้อมูล",
           })
           setIsSubmitting(false)
           break
@@ -42,11 +42,10 @@ export const ForgotSection = ({ swapFunction, setLoader }) => {
         theme: "modern",
         icon: "tick",
         title: "ส่งคำขอเปลี่ยนรหัสผ่านแล้ว",
-        text: "คำขอได้ถูกส่งแล้วกรุณาเช็คอีเมลที่ระบุเพื่อดำเนินการเปลี่ยนรหัสผ่านต่อไป หากยังไม่พบอีกเมลให้ลองส่งฟอร์มนี้ใหม่อีกรอบ",
+        text: "คำขอได้ถูกส่งแล้วกรุณาเช็กอีเมลที่ระบุเพื่อดำเนินการเปลี่ยนรหัสผ่านต่อไป หากยังไม่พบอีเมล ให้ลองส่งฟอร์มนี้ใหม่อีกรอบ",
       })
       setEmail("")
       setIsSubmitting(false)
-
     }
   }
 
@@ -79,7 +78,10 @@ export const ForgotSection = ({ swapFunction, setLoader }) => {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className={classnames("cursor-pointer rounded-md bg-TUCMC-pink-400 px-5 py-3 tracking-tight text-white shadow-md", isSubmitting ? "cursor-not-allowed bg-gray-400" : "")}
+            className={classnames(
+              "cursor-pointer rounded-md bg-TUCMC-pink-400 px-5 py-3 tracking-tight text-white shadow-md",
+              isSubmitting ? "cursor-not-allowed bg-gray-400" : ""
+            )}
           >
             <span>{isSubmitting ? "กำลังส่ง..." : "ยืนยัน"}</span>
           </Button>
