@@ -170,9 +170,8 @@ const DataModal = ({ state, setLoader, TriggerDep, closeFunc, refetcher, mode = 
     <div className="mx-10 pt-3 pb-5 md:mx-12">
       <h1 className="text-center text-[20px] font-medium">เข้าร่วมชมรม{data.title}</h1>
       <div className="mt-2 text-sm">
-        <p className="text-center text-gray-500">
-          หากเข้าร่วมแล้ว จะถือว่านักเรียนอยู่ชมรมนี้แล้ว จะไม่สามารถขอเปลี่ยนชมรม
-        </p>
+        <p className="text-center text-gray-500">หากเข้าร่วมแล้ว จะถือว่านักเรียนอยู่ชมรมนี้แล้ว </p>
+        <p className="text-center font-bold text-gray-500">จะไม่สามารถขอเปลี่ยนชมรม</p>
         <p className="text-center text-gray-500">หรือไป Audition ชมรมอื่นได้อีก</p>
       </div>
     </div>
