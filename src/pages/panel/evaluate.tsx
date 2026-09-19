@@ -156,7 +156,7 @@ const Evaluate = () => {
             theme: "modern",
             icon: "cross",
             title: "คุณไม่ได้รับอนุญาตในการกระทำนี้",
-            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้ง หรือหากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
+            text: "กรุณาลองเข้าสู่ระบบใหม่อีกครั้งหรือหากยังไม่สามารถแก้ไขได้ให้ติดต่อทาง กช.",
           })
           break
       }
@@ -204,7 +204,7 @@ const Evaluate = () => {
       <div className="flex min-h-screen w-full flex-col items-center py-10 px-6">
         <h1 className="mb-2 text-center text-4xl text-TUCMC-gray-900">ประเมินผล</h1>
         <p className="text-center text-TUCMC-gray-700">กรรมการชมรมจะต้องประเมินผลนักเรียนทุกคนให้เสร็จ</p>
-        <p className="mb-2 text-center text-TUCMC-gray-700">ภายในวันอังคารที่ 22 กันยายน 2569</p>
+        {/* <p className="mb-2 text-center text-TUCMC-gray-700">ภายในวันอังคารที่ 22 กันยายน 2569</p> */}
         <div className="mb-10 w-full max-w-[400px]">
           <div
             ref={box}
