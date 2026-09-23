@@ -76,7 +76,7 @@ export const endAttendance = +new Date("2026-09-07T23:59:59.000+07:00")
 
 // evaluation period
 export const startEval = +new Date("2026-09-17T00:00:00.000+07:00")
-export const endEval = +new Date("2026-09-22T23:59:59.000+07:00")
+export const endEval = +new Date("2026-09-27T23:59:59.000+07:00")
 
 export const getUNIXTimeStamp = () => {
   return moment().unix() * 1000
