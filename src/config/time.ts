@@ -71,8 +71,8 @@ export const endLastRound = +new Date("2026-06-02T23:59:59.000+07:00")
 export const firstClubPeroid = +new Date("2026-06-08")
 
 // attendance period
-export const startAttendance = +new Date("2026-06-08T00:00:00.000+07:00")
-export const endAttendance = +new Date("2026-09-07T23:59:59.000+07:00")
+export const startAttendance = +new Date("2026-10-02T00:00:00.000+07:00")
+export const endAttendance = +new Date("2027-02-15T23:59:59.000+07:00")
 
 // evaluation period
 export const startEval = +new Date("2026-09-17T00:00:00.000+07:00")
